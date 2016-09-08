@@ -1,0 +1,40 @@
+.user_bar {
+	margin-bottom: 10px;
+	h3 {
+		height: 32px;background: darken($red,5%);line-height: 32px;
+		border-radius: 5px 5px 0 0;text-indent: 15px;font-size: 14px;
+		@include jb(lighten($red,10%),darken($red,10%));color: $cff;
+		box-shadow:0 0 0 1px darken($red,10%) inset,0 0 0 2px rgba($cff,.5) inset;
+	}
+	ul {
+		border: 1px solid $cdd;border-top: none;border-radius: 0 0 5px 5px;
+		padding:5px 10px;
+		li {
+			height: 32px;line-height: 32px;border-bottom: 1px dotted $cdd;position: relative;
+			a {
+				padding-left: 20px;display: block;border-radius: 5px;
+				&:hover {
+					background: $cfa;
+				}
+			}
+			&:before {
+				content: "";position: absolute;display: block;width: 3px;height: 3px;background: $cf60;left: 10px;top: 15px;
+			}
+			&:last-child{border: none;}
+
+			&.current {
+				border: none;
+				&:before {display: none;}
+				a {
+					color: $cff;text-decoration: none;font-weight: bold;
+					background: darken($red,5%);
+					@include jb(lighten($red,20%),lighten($red,10%));
+					box-shadow: 1px 1px 2px 1px rgba($c00,.2) inset;
+				}
+				// a {
+				// 	color: darken($red,5%);font-weight: bold;font-size: 15px;
+				// }
+			}
+		}
+	}
+}

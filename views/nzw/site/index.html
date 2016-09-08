@@ -1,0 +1,189 @@
+<!-- 焦点图和选项卡插件 -->
+<script src="{theme:javascript/FengFocus.js}"></script>
+<script src="{theme:javascript/FengTab.js}"></script>
+<section class="home_1">
+	<!-- 通栏焦点图 -->
+	<section id="home_fouse" class="home_fouse">
+		{if:$this->index_slide}
+		<ul>
+			{foreach:items=$this->index_slide}
+			<li><a href="{url:$item[url]}"><img src="{url:/pic/thumb/img/$item['img']}"></a></li>
+			{/foreach}
+		</ul>
+		{/if}
+	</section>
+	<section class="promise">
+		<ul>
+			<li><i class="icon-truck"></i><strong>15天退货</strong></li>
+			<li><i class="icon-gift"></i><strong>满99包邮</strong></li>
+			<li><i class="icon-time"></i><strong>长株潭次日达</strong></li>
+		</ul>
+	</section>
+	<section class="promotion">
+		<h3>限时抢购</h3>
+		{foreach:items=Api::run('getPromotionList',1)} {set:$free_time = ITime::getDiffSec($item['end_time'])} {set:$countNumsItem[] = $item['p_id'];}
+		<div class="times">
+			<span>剩余</span>
+			<em id="cd_hour_{$item['p_id']}">{echo:floor($free_time/3600);}</em>
+			<em id='cd_minute_{$item['p_id']}'>{echo:floor(($free_time%3600)/60);}</em>
+			<i id='cd_second_{$item['p_id']}'>{echo:$free_time%60;}</i>
+			<span>结束</span>
+		</div>
+		<a title="{$item['name']}" href="{url:/site/products/id/$item['goods_id']/promo/time/active_id/$item['p_id']}">
+			<img src="{url:/pic/thumb/img/$item['img']/w/200/h/200}">
+		</a>
+		{/foreach}
+	</section>
+	<section class="home_1_show">
+		<ul>
+			<li>{echo:Ad::show("首页导航下方广告1_240*160(bubugao)")}</li>
+			<li>{echo:Ad::show("首页导航下方广告2_240*160(bubugao)")}</li>
+			<li>{echo:Ad::show("首页导航下方广告3_240*160(bubugao)")}</li>
+			<li>{echo:Ad::show("首页导航下方广告4_240*160(bubugao)")}</li>
+		</ul>
+	</section>
+</section>
+
+<section class="home_2">
+	<div id="hot_goods" class="hot_goods">
+		<ul class="tab">
+			<li>热卖商品</li>
+			<li>新品上架</li>
+			<li>特价商品</li>
+			<li>推荐商品</li>
+		</ul>
+		<div class="con">
+			<ul class="hot_goods_list">
+				{foreach:items=Api::run('getCommendHot',5)}
+				<li>
+					<a href="{url:/site/products/id/$item['id']}">
+						<img src="{url:/pic/thumb/img/$item['img']/w/170/h/170}">
+						<h4>{$item['name']}</h4>
+						<em>￥{$item['sell_price']}</em>
+						<del>￥{$item['market_price']}</del>
+					</a>
+				</li>
+				{/foreach}
+			</ul>
+			<ul class="hot_goods_list">
+				{foreach:items=Api::run('getCommendNew',5)}
+				<li>
+					<a href="{url:/site/products/id/$item['id']}">
+						<img src="{url:/pic/thumb/img/$item['img']/w/170/h/170}">
+						<h4>{$item['name']}</h4>
+						<em>￥{$item['sell_price']}</em>
+						<del>￥{$item['market_price']}</del>
+					</a>
+				</li>
+				{/foreach}
+			</ul>
+			<ul class="hot_goods_list">
+				{foreach:items=Api::run('getCommendPrice',5)}
+				<li>
+					<a href="{url:/site/products/id/$item['id']}">
+						<img src="{url:/pic/thumb/img/$item['img']/w/170/h/170}">
+						<h4>{$item['name']}</h4>
+						<em>￥{$item['sell_price']}</em>
+						<del>￥{$item['market_price']}</del>
+					</a>
+				</li>
+				{/foreach}
+			</ul>
+			<ul class="hot_goods_list">
+				{foreach:items=Api::run('getCommendRecom',5)}
+				<li>
+					<a href="{url:/site/products/id/$item['id']}">
+						<img src="{url:/pic/thumb/img/$item['img']/w/170/h/170}">
+						<h4>{$item['name']}</h4>
+						<em>￥{$item['sell_price']}</em>
+						<del>￥{$item['market_price']}</del>
+					</a>
+				</li>
+				{/foreach}
+			</ul>
+		</div>
+	</div>
+	<div id="home_article" class="home_article">
+		<ul class="tab">
+			<li><a href="{url:/site/notice}">商城公告</a></li>
+			<li><a href="{url:/site/article}">新闻动态</a></li>
+		</ul>
+		<div class="con">
+			<ul>
+				{foreach:items=Api::run('getAnnouncementList',4)}
+				<li><a href="{url:/site/notice_detail/id/$item['id']}">{$item['title']}</a></li>
+				{/foreach}
+			</ul>
+			<ul>
+				<ul class="news-list">
+					{foreach:items=Api::run('getArtList',4)}
+					<li><a href="{url:/site/article_detail/id/$item['id']}">{echo:Article::showTitle($item['title'],$item['color'],$item['style'])}</a></li>
+					{/foreach}
+				</ul>
+			</ul>
+		</div>
+		<div class="show">
+			{echo:Ad::show("首页商城公告下方广告_240*140(bubugao)")}
+		</div>
+	</div>
+</section>
+
+<section class="home_show">
+	{echo:Ad::show("首页热卖商品下方通栏广告_1200*120(bubugao)")}
+</section>
+
+<!-- 开始循环楼层 -->
+{foreach:items=Api::run('getCategoryListTop') item=$first }
+<section class="home_floor home_floor_{echo:($key%6)+1}">
+	<header class="floor_head">
+		<h2>{$first['name']}</h2>
+		<nav class="floor_nav">
+			<ul>
+				{foreach:items=Api::run('getCategoryByParentid',array('#parent_id#',$first['id'])) item=$second}
+				<li><a href="{url:/site/pro_list/cat/$second[id]}">{$second['name']}</a></li>
+				{/foreach}
+				<li><a href="{url:/site/pro_list/cat/$first[id]}">更多</a></li>
+			</ul>
+		</nav>
+	</header>
+	<section class="floor_body">
+		<div class="floor_show">
+			{echo:Ad::show("首页分类广告230*474(bubugao)",$first['id'])}
+		</div>
+		<div class="floor_goods">
+			<ul>
+				{foreach:items=Api::run('getCategoryExtendList',array('#categroy_id#',$first['id']),10)}
+				<li>
+					<a href="{url:/site/products/id/$item['id']}">
+						<img src="{url:/pic/thumb/img/$item['img']/w/170/h/170}">
+						<h4>{$item['name']}</h4>
+						<em>￥{$item['sell_price']}</em>
+						<del>￥{$item['market_price']}</del>
+					</a>
+				</li>
+				{/foreach}
+			</ul>
+		</div>
+	</section>
+</section>
+{/foreach}
+
+
+<script>
+//dom载入完毕执行
+$(function(){
+	// 调用焦点图
+	$("#home_fouse").FengFocus({trigger : "mouseover"});
+	// 热门商品等选项卡
+	$("#hot_goods").FengTab();
+	// 通知选项卡
+	$("#home_article").FengTab();
+	//显示抢购倒计时
+	var cd_timer = new countdown();
+	{if:isset($countNumsItem) && $countNumsItem}
+	{foreach:items = $countNumsItem}
+		cd_timer.add({$item});
+	{/foreach}
+	{/if}
+});
+</script>

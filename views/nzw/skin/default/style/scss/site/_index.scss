@@ -1,0 +1,185 @@
+.home_fouse {
+	@extend .web_;height: 380px;position: relative;
+	// img {display: block;width: 1200px;height: 562px;}
+	img {display: none;}
+	strong {display: none;}
+	.FocusPic {
+		li {
+			height: 380px;background-size: cover;
+			background-position: center;
+		}
+		a {
+			display: block;width: 100%;height: 380px;
+		}
+	}
+	.FocusNum {
+		width: 100%;height: 25px;position: absolute;bottom: 0;left: 0;text-align: center;
+		li {
+			display: inline-block;margin: 0 4px;width: 10px;height: 10px;background: $c99;
+			text-indent: -9999px;border-radius: 50%;box-shadow: 0 0 0 1px rgba($cff,.5);cursor: pointer;
+			&.on {
+				background: $cf60;
+			}
+		}
+	}
+	.FocusLeft,.FocusRight {
+		position: absolute;width: 41px;height: 100%;top: 0;
+		background-image: url("../image/icon_slides.png");
+		background-repeat: no-repeat;
+		@include dz();cursor: pointer;
+	}
+	.FocusLeft {
+		left: 0;
+		background-position: -41px center;
+		&:hover {background-position: 0 center;}
+	}
+	.FocusRight {
+		right: 0;
+		background-position: -82px center;
+		&:hover {background-position: right center;}
+	}
+}
+
+.home_1 {
+	position: relative;
+	.promise {
+		position: absolute;left: 50%;top: 10px;margin-left: 600-231px;width: 231px;
+		ul {overflow: hidden;}
+		li {
+			height: 60px;width: 77px;float: left;outline: 1px solid $cff;background:$yellow;text-align: center;color: $cff;
+			text-shadow: 1px 1px 2px darken($orange,10%);
+			&:nth-child(2){background: $orange;}
+			i {display: block;font-size: 28px;padding-top: 8px;}
+			strong {font-weight: normal;padding-top: 3px;display: block;}
+		}
+	}
+
+	.promotion {
+		position: absolute;left: 50%;top: 80px;margin-left: 600-231px;width: 231px;background: $cff;box-shadow: 0 0 5px $c99;
+		h3 {font-size: 15px;text-align: center;padding: 10px;}
+		.times {
+			text-align: center;
+			span {color: $c99;}
+			span,em,i {display: inline-block;height: 30px;line-height: 30px;}
+			em {
+				position: relative;margin-right: 6px;
+				&:after {
+					content: ":";display: block;position: absolute;color: $c99;right: -7px;top: 0;
+				}
+			}
+			em ,i {
+				border-radius: 4px;background: $pink;color: $cff;padding: 0 5px;font-size: 14px;
+				@include jb(lighten($pink,10%),darken($pink2,10%));
+				box-shadow:0 0 0 1px $pink inset, 0 0 0 2px rgba($cff,.3) inset;
+			}
+		}
+		img {
+			display: block;width: 200px;height: 200px;margin: 15px;margin-top: 10px;
+		}
+	}
+	.home_1_show {
+		@extend .web;margin-top: 10px;
+		ul {@extend .cf;padding-left: 200px;}
+		li {
+			width: 240px;float: left;margin-left: 10px;background: $cfa;height: 160px;
+		}
+	}
+}
+
+
+%tab {
+	@extend .cf;
+	li {
+		float: left;height: 38px;line-height: 38px;border-bottom: 2px solid $cdd;
+		text-align: center;font-size: 14px;font-weight: bold;cursor: pointer;
+		&.on {border-color: $red;color: $red;}
+	}
+}
+
+.home_2 {
+	@extend .web;margin-top: 20px;
+	.hot_goods {
+		width: 940px;float: left;
+		.tab{
+			@extend %tab;
+			li {width: 235px;}
+		}
+	}
+	.hot_goods_list {
+		@extend .cf;
+		li {
+			width: 188px;float: left;padding: 15px 0 0;
+			a {width: 170px;margin: 0 auto;display: block;text-decoration: none;}
+			h4 {display: block;height: 40px;line-height: 20px;margin: 5px auto;font-weight: normal;overflow: hidden;}
+			em {font-size: 16px;font-weight: bold;color: $red;}
+			del {float: right;text-decoration: line-through;color: $c99;}
+		}
+	}
+	.home_article {
+		width: 1200 - 960px;float: right;
+		.tab{
+			@extend %tab;
+			li {width:120px;}
+			a {text-decoration: none;color: $c55;display: block;}
+		}
+		.con {
+			padding:5px 10px;height: 24*4px;
+			li {
+				width: 210px;
+				display: block;
+				height: 24px;
+				line-height: 24px;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+				overflow: hidden;
+			}
+		}
+		.show {background: $cfa;height: 140px;}
+	}
+}
+
+.home_show {
+	margin: 20px auto;width: 1200px;height: 120px;overflow: hidden;background: $cfa;
+}
+
+.home_floor {
+	@extend .web;margin-bottom: 20px;
+	.floor_head {
+		@extend .cf;height: 40px;
+		border-bottom: 1px solid;position: relative;
+		h2 {font-size: 18px;line-height: 40px;padding: 0 5px;}
+		.floor_nav {
+			position: absolute;right: 0;bottom: 0;height: 26px;line-height: 26px;padding: 0 5px;
+			li {float: left;padding: 0 5px;}
+			a {color: $cff;}
+		}
+	}
+	.floor_body {
+		@extend .cf;
+		.floor_show {float: left;width: 230px;height: 474px;}
+		.floor_goods {
+			float: right;width: 1200px - 230px;
+			ul{@extend .cf;}
+			li {
+				width: 193px;float: left;padding: 10px 0;background: $cff;
+				border: solid $cdd;border-width: 0 1px 1px 0;
+				a {width: 170px;margin: 0 auto;display: block;text-decoration: none;}
+				img {display: block;width: 170px;height: 170px;}
+				h4 {display: block;;margin: 5px auto;font-weight: normal;@include oneline(20px);}
+				em {font-size: 16px;font-weight: bold;color: $red;}
+				del {float: right;text-decoration: line-through;color: $c99;}
+			}
+		}
+	}
+	$color-data: (1,$red),(2,$orange),(3,$cyan),(4,$blue),(5,$green),(6,$pink);
+	@each $id, $color in $color-data {
+		&.home_floor_#{$id} {
+			.floor_head {
+				border-color: $color;
+				h2 {color: $color;}
+				.floor_nav {background: lighten($color,20%);}
+			}
+			.floor_show {background: $color;}
+		}
+	}
+}

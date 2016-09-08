@@ -1,0 +1,130 @@
+
+<section class="breadcrumb">
+	<span>您当前的位置：</span> <a href="{url:}">首页</a> » 商品品牌
+</section>
+
+
+
+<section class="web">
+	<section class="main">
+		<section class="about_brand">
+			<h2 class="main_head">
+				关于<mark>{$brandRow['name']}</mark>品牌 
+				{if:$brandRow['url']}<a class="barnd_web" href="{$brandRow['url']}"><i class="icon-home"></i></a>{/if}
+			</h2>
+			<div class="barnd_info">
+				<img class="brand_logo" src="{url:/pic/thumb/img/$brandRow[logo]/w/215/h/120}">
+				{$brandRow['description']}
+			</div>
+		</section>
+		<div class="gehang"></div>
+		<section class="goods_sort">
+			<strong>排序：</strong>
+			<ul>
+				{foreach:items=search_goods::getOrderType()}
+				<li id="order_{$key}">
+					<a href="{echo:search_goods::searchUrl(array('order','by'),array($key,search_goods::getOrderBy($key)))}">{$item}</a>
+				</li>
+				{/foreach}
+			</ul>
+		</section>
+		<section class="goods_list">
+			{set:$goodsObj = search_goods::find(' go.brand_id = '.$brandId,20);$resultData = $goodsObj->find();}
+			{if:$resultData}
+			<ul>
+				{foreach:items=$resultData}
+				<li>
+					<a target="_blank" href="{url:/site/products/id/$item[id]}">
+						<img alt="{$item['name']}" src="{url:/pic/thumb/img/$item[img]/w/205/h/205}">
+						<h5>{$item['name']}</h5>
+						<em>￥{$item['sell_price']}</em>
+						<del>￥{$item['market_price']}</del>
+					</a>
+				</li>
+				{/foreach}
+			</ul>
+			{$goodsObj->getPageBar()}
+
+			{else:}
+			<p class="no_tip">
+				对不起，没有找到相关商品
+			</p>
+			{/if}
+		</section>
+	</section>
+	<aside class="bar">
+
+		<div class="bar_box">
+			<h3 class="bar_box_head">销售排行榜</h3>
+			<ul class="bar_goods ranking">
+				{foreach:items=Api::run('getGoodsListBrandSum',array('#brandid#',$brandId),10)}
+				<li>
+					<a href="{url:/site/products/id/$item[id]}">
+						<img src="{url:/pic/thumb/img/$item[img]/w/60/h/60}" alt="{$item['name']}">
+						<strong>{$item['name']}</strong>
+						<em>￥{$item['sell_price']}</em>
+					</a>
+				</li>
+				{/foreach}
+			</ul>
+		</div>
+
+		<div class="bar_box">
+			<h3 class="bar_box_head">热卖商品</h3>
+			<ul class="bar_goods">
+				{foreach:items=Api::run('getCommendHotBrand',array('#brandid#',$brandId),10)}
+				<li>
+					<a href="{url:/site/products/id/$item[id]}">
+						<img src="{url:/pic/thumb/img/$item[img]/w/60/h/60}" alt="{$item['name']}">
+						<strong>{$item['name']}</strong>
+						<em>￥{$item['sell_price']}</em>
+					</a>
+				</li>
+				{/foreach}
+			</ul>
+		</div>
+
+		<nav class="bar_box">
+			<h3 class="bar_box_head">更多品牌</h3>
+			<ul class="bar_nav">
+				{foreach:items=Api::run('getBrandList',10)}
+				<li><a href="{url:/site/brand_zone/id/$item[id]}">{$item['name']}</a></li>
+				{/foreach}
+			</ul>
+		</nav>
+	</aside>
+</section>
+
+
+
+
+<script>
+//筛选条件按钮高亮
+$(function(){
+	//排序字段
+	{set:$orderValue = IFilter::act(IReq::get('order'))}
+	{if:$orderValue}
+	$('#order_{$orderValue}').addClass('current');
+	{/if}
+
+	//顺序
+	{set:$byValue = IReq::get('by')}
+	{if:$byValue == "desc"}
+	$('#order_{$orderValue}').addClass('desc');
+	{else:}
+	$('#order_{$orderValue}').addClass('asc');
+	{/if}
+
+	//显示方式
+	{set:$showType = IReq::get('show_type');}
+	{if:$showType == "win"}
+	$('[name="goodsItems"]').attr({"class":"clearfix win"});
+	$('[name="goodsImage"]').css({"width":200,"height":200});
+	$('#winButton').addClass('active');
+	{elseif:$showType == "list"}
+	$('[name="goodsItems"]').attr({"class":"clearfix list"});
+	$('[name="goodsImage"]').css({"width":115,"height":115});
+	$('#listButton').addClass('active');
+	{/if}
+});
+</script>

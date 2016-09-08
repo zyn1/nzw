@@ -1,0 +1,254 @@
+.header {
+	position: relative;z-index: 999;
+	&,a {color: $cff;@include dz();}
+	%line {
+		display: inline-block;
+		&:after {
+			content: "";width: 1px;height: 11px;display: inline-block;margin: 0 10px 0 15px;
+			box-shadow: -1px 2px $red,-2px 2px darken($red,30%);
+		}
+	}
+	.top_line {
+		height: 26px;line-height: 26px;@extend .cf;
+		.welcome {
+			float: left;
+			a:first-child {@extend %line;margin-left: 15px;}
+		}
+		.top_tool {
+			float: right;@extend .cf;
+			li {
+				float: left;position: relative;
+				&:not(:last-child){@extend %line;}
+				dl {display: none;}
+				&:first-child {
+					& > a {
+						margin-right: 5px;
+						&:after {
+							content: "";display: block;position: absolute;width: 0;height: 0;right: 18px;top: 11px;
+							border-style: solid;border-width: 4px 4px 0 4px ;border-color: $cff transparent transparent transparent;
+						}
+					}
+					&:hover {
+						dl {
+							display: block;position: absolute;top: 26px;right: 10px;z-index: 2;background: darken($red,10%);padding: 5px 10px;width: 80px;
+							box-shadow: 0 0 0 2px rgba($cff,.3);
+						}
+						& > a:after {
+							border-width: 0 4px 4px 4px;border-color: transparent transparent $cff transparent;
+						}
+					}
+				}
+				&:last-child em {font-size: 15px;font-weight: bold;}
+			}
+		}
+	}
+	.header_main {
+		@extend .cf;
+		.logo {
+			width: 400px;height: 90px;position: relative;float: left;
+			&:before {
+				content: "";display: inline-block;height: 100%;vertical-align: middle;width: 0;
+			}
+			img {max-width: 400px;max-height: 90px;vertical-align: middle;}
+		}
+		.header_search {
+			width: 460px;float: left;margin-left: 40px;padding-top: 20px;
+			.search_box {
+				box-shadow: 0 0 0 4px $red2 inset, 1px 1px 4px rgba($c00,.3);@extend .cf;border-radius: 4px;padding: 5px;
+				.input_keywords {
+					padding: 5px;width: 380px;height: 16px;line-height: 16px;display: block;border: none;float: left;outline: none;
+					&:focus {background: $cff;}
+				}
+				.input_submit {
+					float: left;display: block;border: none;height: 26px;width: 60px;
+					background: $red2;color: $cff;font-size: 14px;cursor: pointer;
+					box-shadow: 0 0 0 4px  $red2;
+				}
+			}
+			.hot_words {
+				padding-top: 5px;height: 18px;line-height: 18px;overflow: hidden;
+				a {display: inline-block;margin-right: 10px;}
+			}
+		}
+		.header_cart {
+			float: right;width: 135px;height: 32px;position: relative;margin-top: 24px;
+			.count {
+				position: absolute;padding:3px 5px;background: $cff;border-radius: 50% 50% 50% 0;color: $red;
+				box-shadow: 0 0 0 1px $red, 1px 1px 3px rgba($c00,.5);left: 25px;z-index: 1;top: -8px;
+			}
+			i {
+				position: absolute;font-size: 20px;text-shadow:1px 1px 2px rgba($c00,.5);left: 10px;top: 4px;
+			}
+			.go_cart {
+				width: 135px;height: 32px;text-indent: 40px;display: block;line-height: 32px;font-size: 14px;
+				background: $red2;border-radius: 4px;
+				box-shadow:0 0 0 1px rgba($cff,.3) inset, 1px 1px 4px rgba($c00,.3);
+			}
+			.cart_simple {
+				position: relative;
+				.cart_panel {
+					width: 280px;padding: 10px;background: $cff;top: 0px;right: 0;position: absolute;z-index: 2;
+					box-shadow: 0 0 0 1px $red inset, 1px 1px 4px rgba($c00,.3);
+					.cart_list {
+						li {
+							position: relative;margin-bottom: 10px;
+							em,h5,span,del {display: block;position: absolute;}
+							em {position: absolute;color: $cff;background: $red;left: 0;top: 0;padding: 2px 5px;}
+							img {display: block;width: 58px;height: 58px;border: 1px solid $cdd;}
+							h5 {
+								width: 210px;line-height: 20px;height: 40px;overflow: hidden;color: $blue;
+								font-weight: normal;font-size: 12px;right: 0;top: -3px;
+							}
+							span {
+								bottom: 0;left: 70px;color: $red;font-size: 16px;font-weight: bold;
+							}
+							del {
+								bottom: 0;right: 0;color: $blue;cursor: pointer;
+							}
+						}
+					}
+					.cart_total {
+						font-size: 12px;color: $c55;text-align: right;line-height: 1.6;padding: 5px 0;
+						em,span {color: $red;}
+						a {
+							display: inline-block;font-size: 12px;padding:5px 10px;margin-top: 3px;
+							background: $red2;border-radius: 4px;
+							box-shadow:0 0 0 2px rgba($cff,.3) inset, 0 0 0 1px darken($red,10%) inset, 1px 1px 4px rgba($c00,.3);
+						}
+					}
+				}
+				.cart_no {color: $c55;font-size: 14px;line-height: 3;text-align: center;}
+			}
+		}
+	}
+	.header_nav {
+		@extend .cf;height: 31px;
+		.goods_nav {
+			float: left;width: 200px;height: 31px;
+			h2 {
+				background:darken($red,5%);border: solid rgba($cff,.3);border-width: 0 1px;height: 31px;line-height: 31px;
+				font-size: 14px;text-indent: 10px;position: relative;
+				&:after {
+					content: "";width: 8px;height: 8px;display: block;position: absolute;right: 10px;top: 7px;
+					box-shadow: 2px 2px $cff;@include xz(45)
+				}
+			}
+			&:hover {
+				.cat_list{display: block;}
+			}
+			.cat_list {
+				&,a {color: $c55;}
+				width: 200px;box-shadow: 2px 2px 5px rgba($c00,.3);background: $cff;background: rgba($cff,.95);
+				h3 {
+					height: 20px;line-height: 20px;text-indent: 30px;position: relative;
+					&:before {
+						position: absolute;left: 1px;top: 1px;display: block;width: 18px;height: 18px;content: "";
+						background-repeat: no-repeat;background-image: url("../image/ico_cat.png");
+						@include dz();
+					}
+					@for $i from 1 through 20 {
+						&.cat_type_#{$i}:before { background-position:0 (-$i*20+20) + px; }
+					}
+				}
+				.cat_second {padding: 10px 0 0;}
+				& > li {
+					padding: 10px;position: relative;
+					&:hover {
+						background: $red2;
+						h3,.cat_second {&,a{color: $cff;}}
+						@for $i from 1 through 20 {
+							h3.cat_type_#{$i}:before { background-position:-20px (-$i*20+20) + px; }
+						}
+						.cat_more {display: block;}
+					}
+				}
+				.cat_more {
+					display: none;
+					position: absolute;left: 200px;top: 0;width: 720px;background: $cff;padding: 20px;padding-right: 0;
+					box-shadow:0 0 0 1px $red inset, 2px 2px 4px rgba($c00,.3);
+					dl {
+						width: 220px;float: left;margin-right: 20px;
+						dt {padding-bottom: 8px;border-bottom: 2px solid $c55;}
+						dd {
+							@extend .cf;
+							a {
+								display: block;float: left; margin:8px 15px 8px 0;position: relative;
+								&:after {
+									content: "";width: 1px;height: 10px;background: $cdd;right: -7px;top: 2px;display: block;position: absolute;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		.site_nav {
+			float: left;width: 1000px;@extend .cf;line-height: 31px;
+			li {
+				float: left;position: relative;
+				a {
+					display: block;padding: 0 35px;font-size: 14px;position: relative;z-index: 1;text-decoration: none;
+					&:hover {
+						background: darken($red,25%);box-shadow: 1px 0 darken($red,25%);
+					}
+				}
+				&:not(:first-child):before{
+					content: "";position: absolute;left: 0;height: 12px;width: 1px;background: $cff;top: 9px;opacity: .5;
+				}
+			}
+		}
+	}
+}
+
+
+.foot {
+	@extend .web_;margin-top: 20px;
+	background: $cf2;box-shadow: 0 -1px $cff , 0 -2px $cdd;
+	.help {
+		@extend .web;
+		dl {
+			float: left;width: 150px;position: relative;padding: 25px 0 25px 30px;
+			dt {font-size: 14px;font-weight: bold;}
+			.icon {
+				width: 18px;height: 18px;position: absolute;left: 0;top: 22px;font-size: 18px;color: darken($red,10%);
+				&{}
+			}
+			&.help_1 .icon {@extend .icon-heart;}
+			&.help_2 .icon {@extend .icon-credit-card;}
+			&.help_3 .icon {@extend .icon-truck;}
+			&.help_4 .icon {@extend .icon-wrench;}
+			&.help_5 .icon {@extend .icon-book;}
+			dd {
+				margin-top: 10px;
+			}
+		}
+		.contact {
+			float: right;padding: 25px;
+			box-shadow: -1px 0 $cff , -2px 0 $cdd;
+			span {display: block;}
+			i {margin-right: 10px;}
+			.tel {
+				color: darken($red,10%);font-size: 24px;
+			}
+			.mail {
+				color: $c99;font-size: 18px;margin-top: 10px;
+			}
+		}
+	}
+	.service {
+		@extend .web;padding: 30px;
+		box-shadow: 0 -1px $cff , 0 -2px $cdd;
+		ul {
+			@extend .cf;
+			li {
+				width: 228-45px;float: left;padding-left: 45px;position: relative;
+				i {display: block;position: absolute;left: 0;top: 0;font-size: 30px;color: rgba($c99,.5);}
+				strong {display: block;font-size: 14px;margin-bottom: 5px;}
+			}
+		}
+	}
+	.copy {
+		line-height: 2;color: $c99;
+		a {margin: 0 5px;}
+	}
+}

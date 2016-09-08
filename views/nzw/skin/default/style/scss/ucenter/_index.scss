@@ -1,0 +1,130 @@
+
+.uc_head_red {
+	height: 32px;background: darken($red,5%);line-height: 32px;
+	border-radius: 5px 5px 0 0;
+	@include jb(lighten($red,10%),darken($red,10%));color: $cff;
+	box-shadow:0 0 0 1px darken($red,10%) inset,0 0 0 2px rgba($cff,.5) inset;
+	time {float: right;padding: 0 10px;}
+	h3 {padding:0 10px;font-size: 14px;}
+}
+
+.uc_info {
+	padding: 20px;border: 1px solid $cdd;
+	@extend .cf;
+
+
+	.user_info {
+		width: 780px;float: right;@extend .cf;
+		li {float: left;width: 390px;margin-bottom: 13px;}
+		strong {color: $red;}
+	}
+	.user_stat {
+		width: 760px;float: right;padding: 9px;border:1px solid $cdd;background: $cfa;@extend .cf;
+		li {float: left;height: 13px;margin-right: 20px;}
+		strong {color: $blue;}
+	}
+}
+.user_ico {
+	float: left;width: 108px;position: relative;
+	img {display: block;width: 100px;height: 100px;padding: 3px;border: 1px solid $cdd;}
+	span {
+		position: absolute;display: block;left: 0;right: 0;bottom: 0;height: 24px;line-height: 24px;text-align: center;color: $cff;
+		background: rgba($c00,.8);@include dz();opacity: 0;cursor: pointer;
+	}
+	&:hover {
+		span {opacity: 1;}
+	}
+}
+.uc_head {
+	height: 32px;line-height: 32px;text-indent: 15px;color: $c22;
+	background: $cfa;@include jb($cff,$cf0);
+	border: 1px solid $cdd;
+	border-bottom: 1px solid $orange;
+	box-shadow: 0 0 0 1px $cff inset;
+	&.mt10 {margin-top: 10px;}
+	h3 {
+		float: left;font-size: 15px;
+		a {font-size: 14px;font-weight: normal;}
+		&.current a {
+			font-size: 15px;color: $c22;text-decoration: none;
+		}
+	}
+	.more {
+		float: right;margin-right: 15px;@include dz();
+	}
+	.money {
+		float: right;margin-right: 15px;
+		em {font-weight: bold;color: $red;}
+	}
+	.select {
+		float: right;margin-right: 15px;
+		font-size: 12px;
+		select {
+			border: 1px solid $cdd;height: 22px;border-radius: 5px;
+		}
+	}
+}
+
+.uc_head_tab {
+	height: 32px;border-bottom: 1px solid $orange;line-height: 32px;
+	@include jb($cff,$cfa);
+	h3,a {
+		height: 32px;float: left;padding: 0 15px;border-radius: 5px 5px 0 0;margin-right: 5px;
+		@include jb(lighten($red,10%),darken($red,10%));color: $cff;font-size: 14px;font-weight: bold;cursor: pointer;
+		box-shadow:0 0 0 1px darken($red,10%) inset,0 0 0 2px rgba($cff,.5) inset;
+	}
+	a {
+		color: $c22;
+		background: $cfa;@include jb($cff,$cf0);
+		box-shadow:0 0 0 1px $cdd inset, 0 0 0 2px $cff inset;
+		&:hover {
+			text-decoration: none;color: $red;
+		}
+	}
+	.money {
+		float: right;margin-right: 15px;
+		em {font-weight: bold;color: $red;}
+	}
+}
+
+.uc_table {
+	@extend .cf;margin-bottom: 10px;
+	border: 1px solid $cdd;border-top: none;border-bottom: none;
+	table {
+		width: 100%;text-align: center;
+		thead {
+			th {border-bottom: 1px solid $cdd;height: 36px;color: $c22;background: $cfa;font-size: 14px;}
+		}
+		tbody {
+			th,td {padding:8px 5px;line-height: 1.6;border-bottom: 1px solid $cdd;}
+			tr:nth-child(2n){background: lighten($yellow,37%);}
+			h4 {
+				text-align: left;color: $blue;font-size: 14px;text-indent: 10px;position: relative;
+				&:before {
+					content: "";display: block;position: absolute;background: $cf60;width: 3px;height: 3px;left: 3px;top: 10px;
+				}
+			}
+		}
+	}
+}
+
+.col_table {
+	@extend .cf;margin-bottom: 10px;
+	table {
+		width: 100%;
+		&,td,th {border: 1px solid $cdd;}
+		th,td {padding: 8px;line-height: 1.8;}
+		th {background: $cfa;text-align: right;width: 130px;}
+	}
+}
+
+.input_sbtn {
+	display: inline-block;padding: 0 10px;cursor: pointer;background: $cfa;border: 1px solid $cdd;
+	@include jb($cff,$cf0);height: 22px;border-radius: 5px;@include dz();line-height: 22px;
+		box-shadow: 0 0 0 1px rgba($cff,.5) inset;
+	&:hover {
+		background: $blue;color: $cff;
+		border: 1px solid darken($blue,10%);
+		@include jb(lighten($blue,10%),darken($blue,10%));
+	}
+}

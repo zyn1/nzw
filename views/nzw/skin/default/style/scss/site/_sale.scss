@@ -1,0 +1,14 @@
+.sale_list {
+	border: 1px solid $cdd;padding: 21px 0 0 21px;
+	@extend .cf;
+	li {
+		float: left;width: 274px;margin:0 20px 20px 0;position: relative;
+		a {display: block;border: 1px solid $cdd;&:hover{border-color: $red;}}
+		img {width: 250px;height: 250px;display: block;margin: 14px;}
+		strong,em,del {display: block;padding: 0 14px;}
+		strong {@include oneline(28px);margin-bottom: 30px;}
+		em,del {position: absolute;bottom: 15px;}
+		em {left: 0;color: darken($red,10%);font-size: 15px;font-weight: bold;}
+		del {text-decoration: line-through;color: $c99;right: 0;}
+	}
+}

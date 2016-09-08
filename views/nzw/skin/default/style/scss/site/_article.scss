@@ -1,0 +1,184 @@
+.breadcrumb {
+	@extend .web;padding: 15px 0;
+}
+
+.bar {
+	width: 230px;float: left;
+	.bar_box {
+		border: 1px solid $cdd;margin-bottom: 10px;
+		.bar_box_head {
+			height: 30px;line-height: 30px;text-indent: 15px;color: darken($orange,20%);
+			background: $cfa;@include jb($cff,$cf0);border-bottom: 1px solid $cdd;
+			box-shadow: 0 0 0 1px $cff inset;font-size: 14px;
+			.more {float: right;font-size: 12px;padding-right: 10px;font-weight: normal;color: $c55;}
+		}
+		.bar_goods {
+			li {
+				padding: 5px;border-bottom: 1px solid $cdd;
+				&:last-child {border: none;}
+				a {display: block;@extend .cf;text-decoration: none;}
+				img {width: 60px;height: 60px;float: left;margin-right: 10px;}
+				strong {display: block;max-height: 36px;line-height: 18px;overflow: hidden;font-weight: normal;}
+				em {display: block;margin-top: 5px;font-size: 14px;color: darken($red,10%);font-weight: bold;}
+			}
+			&.ranking {
+				counter-reset: num;
+				li {
+					position: relative;
+					&:before {
+						content: counter(num);counter-increment: num;
+						display: block;position: absolute;right: 5px;bottom: 3px;font-size: 14px;
+						font-style: italic;z-index: 1;color: $cff;
+					}
+					&:after {
+						content: "";position: absolute;right: 0;bottom: 0;width: 0;height: 0;display: block;
+						border-style: solid;border-width: 14px;border-color: transparent $red $red transparent;
+					}
+					&:nth-child(n+4):after {
+						border-color: transparent $c99 $c99 transparent;
+					}
+				}
+			}
+		}
+		.bar_nav {
+			li {
+				height: 28px;line-height: 28px;overflow: hidden;padding-left: 20px;
+				border-bottom: 1px solid $cdd;position: relative;
+				&:before {
+					content: "";width: 3px;height: 3px;background: $cf60;display: block;
+					position: absolute;left: 10px;top: 12px;
+				}
+				&:nth-child(2n){background: $cfa;}
+				&:last-child {border: none;}
+			}
+		}
+	}
+	.bar_goods_nav {
+		dl {
+			@extend .cf;
+			border-bottom: 1px dashed $cdd;padding: 10px;
+			&:last-child {border: none;}
+			dt {
+				height: 24px;line-height: 24px;font-weight: bold;
+				a {color: $c99;}
+			}
+			dd {
+				width: 50%;float: left;text-indent: 10px;position: relative;
+				@include oneline(20px);
+				&:after {
+					content: "";width: 3px;height: 3px;background: $cf60;display: block;
+					position: absolute;left: 0;top: 8px;
+				}
+			}
+		}
+	}
+}
+
+.main {
+	width: 1200-240px;float: right;
+}
+
+.main_head {
+	height: 30px;line-height: 30px;text-indent: 15px;color: $c22;
+	background: $cfa;@include jb($cff,$cf0);
+	border: 1px solid $cdd;
+	border-bottom: 1px solid $orange;
+	box-shadow: 0 0 0 1px $cff inset;font-size: 14px;
+	mark {padding: 0 5px;background: none;color: $pink;}
+	.barnd_web {
+		float: right;margin-right: 15px;text-decoration: none;@include dz();
+	}
+}
+.article_list {
+	padding: 10px;border: 1px solid $cdd;
+	li {
+		padding-left: 10px;position: relative;
+		border-bottom: 1px solid $cdd;height: 36px;line-height: 36px;
+		time {float: right;color: $c99;}
+		&:before {
+			content: "";width: 3px;height: 3px;background: $cf60;display: block;
+			position: absolute;left: 0;top: 17px;
+		}
+	}
+}
+
+.pages_bar {
+	margin: 20px;text-align:center;color:$c55;
+	a,span {
+		display:inline-block;border:1px solid $cdd;margin:0 3px;padding:5px 8px;
+		text-align:center;color:$blue;
+	}
+	a.current_page {border:1px solid darken($red,10%);background:darken($red,10%);color:$cff}
+	span{color:$c99}
+}
+
+
+/* article read page style */
+$artWidth:938px;
+$artLineColor:#ddd;
+$artTitleColor:#f60;
+$artBgColor:#fafafa;
+$artAColor:#555;
+.article {width: $artWidth;overflow: hidden;line-height: 2;padding: 10px;border: 1px solid $cdd;border-top: none;}
+.article_title{text-align:center; color:$artTitleColor; font-size: 16px;}
+.article_date{height:28px; line-height:28px;text-align: right;color: $c99;border-bottom: 1px solid $cdd;display: block;}
+.article_content {
+	padding: 10px;
+	font-size:13px;width:938px; overflow:hidden;
+	p { padding:5px 0;text-indent: 2em;}
+	a,span,em,i,u,strong,b {padding: 0 5px;}
+	u {text-decoration: none;border-bottom: 1px solid $c55;}
+	img {
+		max-width: 938px;
+		text-align:center; display:block; margin:5px auto;
+	}
+	a:link,a:visited,a:active{color: $blue;} 
+	a:hover{color:$cf60;} 
+	h1,h2,h3,h4,h5,h6{
+		color: $c22;font-weight: bold;
+	}
+	embed {width:510px; height:400px; display:block; margin:10px auto;}
+	table {
+		width:100%; border:1px solid $cdd;font-size:12px;background: $cff;margin: 5px auto;
+		th {color:$cff;font-size:14px;background: $c55;}
+		th,td {border:1px solid $cdd;padding:3px 8px;}
+		h1,
+		h2,
+		h3,
+		h4,
+		h5,
+		h6 { line-height:150%; overflow:hidden; font-size:12px; background:none; border:none;}
+		tr:hover { background:$cff;}
+		img {display:inline; border:none}
+		tr td a:link,tr td a:visited,tr td a:active,tr td a:hover{ font-size:12px;}
+	}
+	
+	h1 {font-size:20px;}
+	h2 {font-size:18px;}
+	h3 {font-size:16px;}
+	h4 {font-size:14px;}
+	h5 {font-size:14px;}
+	h6 {font-size:14px;}
+	h1 a:link,h1 a:visited,h1 a:active,h1 a:hover{font-size:20px;}
+	h2 a:link,h2 a:visited,h2 a:active,h2 a:hover{font-size:18px;}
+	h3 a:link,h3 a:visited,h3 a:active,h3 a:hover{font-size:16px;}
+	h4 a:link,h4 a:visited,h4 a:active,h4 a:hover{font-size:14px;}
+	h5 a:link,h5 a:visited,h5 a:active,h5 a:hover{font-size:14px;}
+	h6 a:link,h6 a:visited,h6 a:active,h6 a:hover{font-size:14px;}
+}
+
+.artice_goods {
+	margin-top: 10px; border: 1px solid $cdd;
+	h3 {
+		height: 30px;line-height: 30px;text-indent: 15px;color: darken($orange,20%);
+		background: $cfa;@include jb($cff,$cf0);border-bottom: 1px solid $cdd;
+		box-shadow: 0 0 0 1px $cff inset;font-size: 14px;
+	}
+	ul{@extend .cf;width: 940px;margin: 0 auto;}
+	li {
+		width: 235px;float: left;padding: 10px 0;background: $cff;
+		a {width:220px;margin:10px auto;display: block;text-decoration: none;}
+		strong {display: block;;margin: 5px auto;font-weight: normal;@include oneline(20px);}
+		em {font-size: 16px;font-weight: bold;color: $red;}
+	}
+}
