@@ -212,46 +212,18 @@
 		{set:$catIco = array('help-new','help-delivery','help-pay','help-user','help-service')}
 		{foreach:items=Api::run('getHelpCategoryFoot') item=$helpCat}
 		<dl class="help_{echo:$key+1}">
-			<dt><i class="icon"></i>{$helpCat['name']}</dt>
+			<dt></i>{$helpCat['name']}</dt>
 			{foreach:items=Api::run('getHelpListByCatidAll',array('#cat_id#',$helpCat['id']))}
 			<dd><a href="{url:/site/help/id/$item[id]}">{$item['name']}</a></dd>
 			{/foreach}
 		</dl>
 		{/foreach}
 		<div class="contact">
-			<span class="tel"><i class="icon-phone"></i>4008-669-889</span>
-			<span class="mail"><i class="icon-envelope-alt"></i>cs@bubugao.com</span>
+			<div class="tel">扫码关注耐装网</div>
+			<div class="mail"><img src="{skin:/image/index/code.png}" alt=""></div>
 		</div>
 	</section>
-	<section class="service">
-		<ul>
-			<li class="item1">
-				<i class="icon-star"></i>
-				<strong>正品优选</strong>
-				<span>共享集团供应链</span>
-			</li>
-			<li class="item2">
-				<i class="icon-globe"></i>
-				<strong>上市公司</strong>
-				<span>诚信服务 品质保证</span>
-			</li>
-			<li class="item3">
-				<i class="icon-group"></i>
-				<strong>300家连锁门店</strong>
-				<span>门店体验 网上下单</span>
-			</li>
-			<li class="item4">
-				<i class="icon-plane"></i>
-				<strong>长株潭次日达</strong>
-				<span>专业物流 及时送达</span>
-			</li>
-			<li class="item5">
-				<i class="icon-gift"></i>
-				<strong>满99包邮</strong>
-				<span>轻松购物，超值贴心</span>
-			</li>
-		</ul>
-	</section>
+	
 	<section class="copy">
 		{echo:IFilter::stripSlash($this->_siteConfig->site_footer_code)}
 	</section>
