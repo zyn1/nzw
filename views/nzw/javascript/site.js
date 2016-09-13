@@ -111,3 +111,25 @@ function joinCart_list(id)
 		}
 	});
 }
+
+
+// 分类小图标图片切换
+(function($){
+	$(function(){
+		var iconImg = $(".header .header_nav .goods_nav .cat_list > li");
+		var pcImgRed = $("#icon_list h3 .pc_show_red");
+	    var pcImgWhi = $("#icon_list h3 .pc_hide_white")
+			$(iconImg).each(function(){
+				var index = $(iconImg).index(this);	 
+				$(this).hover(function() {
+		        	 	    $(pcImgWhi).eq(index).show();
+				            $(pcImgRed).eq(index).hide();
+				            
+				        }, function() {
+				        	$(pcImgRed).eq(index).show();
+				            $(pcImgWhi).eq(index).hide();
+				        });
+			})
+	})
+}) (jQuery);
+

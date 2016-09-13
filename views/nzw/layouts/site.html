@@ -39,15 +39,18 @@
 				<a href="{url:ucenter/index}">个人中心</a>
 				<dl>
 					<dd><a href="{url:ucenter/order}">我的订单</a></dd>
-					<dd><a href="{url:ucenter/address}">我的收货地址</a></dd>
+					<dd><a href="{url:ucenter/address}">收货地址</a></dd>
 					<dd><a href="{url:ucenter/integral}">我的积分</a></dd>
 					<dd><a href="{url:ucenter/account_log}">我的资金</a></dd>
 				</dl>
 			</li>
+			<li class="message"><a href="">消息</a></li>
 			<li><a href="{url:/simple/seller}">申请开店</a></li>
-			<li><a href="{url:/seller/index}">商家管理</a></li>
+			<!--<li><a href="{url:/seller/index}">商家管理</a></li>
 			<li><a href="{url:/site/help_list}">使用帮助</a></li>
-			<li>客服电话：<em>4008-669-889</em></li>
+			<li>客服电话：<em>4008-669-889</em></li>-->
+			<li><a href="{url:/}">在线客服</a></li>
+			<li><a href="{url:/}">关于我们</a></li>
 		</ul>
 	</div>
 	<div class="header_main">
@@ -63,8 +66,53 @@
 				<input type='hidden' name='action' value='search_list'>
 				<div class="search_box">
 					<input class="input_keywords" type="text" name='word' autocomplete="off" placeholder="输入关键词">
-					<input class="input_submit" type="submit" value="搜索">
+					<input class="input_submit" type="submit" value="">
 				</div>
+
+				<div class="search_xz">
+					<input type="button" class="search_select" value="商品">
+					<input type="hidden" name="type" value="qiu"/>
+
+					<input type="button" class="search_select" style="display:none;" value="商家">
+					<input type="hidden" name="type" value="gong"/>
+					<ul id="search_list">
+						<li js_data="gong">商家</li>
+						<li js_data="qiu">商品</li>
+					</ul>
+				</div>
+				<!--搜索框下拉JS-->
+				<script>
+					$(function(){
+						$(".search_select").click(function(){
+							if($("#search_list").is(":hidden")){
+								$("#search_list").show()
+								$(".search_select").addClass('down');
+							}else{
+								$("#search_list").show()
+								$(".search_select").addClass('down');
+							}
+						})
+						$("#search_list li").each(function(){
+							$(this).hover(function(){
+								$(this).css('background','#f7f7f7');
+							},function(){
+								$(this).css('background','#FFF');
+							})
+
+						})
+						$("#search_list li").each(function(){
+							var _t = $(this)
+									,_v = _t.attr('js_data');
+							_t.click(function(){
+								$('.search_select').val(_t.text());
+								$('input[name=type]').val(_v);
+								$('#search_list').hide();
+								$(".search_select").removeClass('down');
+							})
+						})
+					});
+				</script>
+
 			</form>
 			<div class="hot_words">
 				{foreach:items=Api::run('getKeywordList') }
@@ -73,11 +121,15 @@
 				{/foreach}
 			</div>
 		</div>
-		<div class="header_cart" name="mycart">
-			<em class="count" name="mycart_count"]>0</em>
-			<i class="icon-shopping-cart"></i>
-			<a href="{url:/simple/cart}" class="go_cart">去购物车结算</a>
-			<div class="cart_simple" id="div_mycart"></div>
+		<!--<div class="header_cart" name="mycart">-->
+			<!--<em class="count" name="mycart_count"]>0</em>-->
+			<!--<i class="icon-shopping-cart"></i>-->
+			<!--<a href="{url:/simple/cart}" class="go_cart">去购物车结算</a>-->
+			<!--<div class="cart_simple" id="div_mycart"></div>-->
+		<!--</div>-->
+		<div class="servicetel">
+			<img src="{skin:image/index/iphone.png}" alt="">
+			<span>客服热线：<i>400-880-2600</i></span>
 		</div>
 		<!--购物车模板 开始-->
 		<script type='text/html' id='cartTemplete'>
@@ -113,13 +165,17 @@
 			<h2>全部商品分类</h2>
 			<ul class="cat_list none">
 				{foreach:items=Api::run('getCategoryListTop')  item=$first}
-				<li>
+				<li id="icon_list">
 					<!--
 						这里使用了CSS雪碧图的设计来制作导航的小图标.因为每个商城的图标是不一样的,因此这些小图标需要自己制作.
 						我提供了小图标的 PSD文件 位于 skin/default/image/ico_cat.psd 文件
 						请仿照 PSD源文件制作属于你的小图标 图标尺寸为 18*18 以20px为区间 靠左上角作图
 					 -->
-					<h3 class="cat_type_{echo:$key+1}"><a href="{url:/site/pro_list/cat/$first[id]}">{$first['name']}</a></h3>
+					<h3 class="cat_type_{echo:$key+1}">
+						<img class="pc_show_red" src="{skin:image/index/icon_o_1.png}" alt="">
+						<img class="pc_hide_white" style="display:none;" src="{skin:image/index/icon_o_2.png}" alt="">
+						<a href="{url:/site/pro_list/cat/$first[id]}">{$first['name']}</a>
+					</h3>
 					<div class="cat_second">
 						{foreach:items=Api::run('getCategoryByParentid',array('#parent_id#',$first['id']))  item=$second}
 						<a href="{url:/site/pro_list/cat/$second[id]}">{$second['name']}</a>
