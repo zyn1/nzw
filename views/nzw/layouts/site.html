@@ -71,13 +71,10 @@
 
 				<div class="search_xz">
 					<input type="button" class="search_select" value="商品">
-					<input type="hidden" name="type" value="qiu"/>
-
-					<input type="button" class="search_select" style="display:none;" value="商家">
-					<input type="hidden" name="type" value="gong"/>
+					<input type="hidden" name="type"/>
 					<ul id="search_list">
-						<li js_data="gong">商家</li>
-						<li js_data="qiu">商品</li>
+                        <li js_data="1">商品</li>
+						<li js_data="2">商家</li>
 					</ul>
 				</div>
 				<!--搜索框下拉JS-->
@@ -88,8 +85,8 @@
 								$("#search_list").show()
 								$(".search_select").addClass('down');
 							}else{
-								$("#search_list").show()
-								$(".search_select").addClass('down');
+								$("#search_list").hide()
+								$(".search_select").removeClass('down');
 							}
 						})
 						$("#search_list li").each(function(){
@@ -172,8 +169,8 @@
 						请仿照 PSD源文件制作属于你的小图标 图标尺寸为 18*18 以20px为区间 靠左上角作图
 					 -->
 					<h3 class="cat_type_{echo:$key+1}">
-						<img class="pc_show_red" src="{skin:image/index/icon_o_1.png}" alt="">
-						<img class="pc_hide_white" style="display:none;" src="{skin:image/index/icon_o_2.png}" alt="">
+						<img class="pc_show_red" src="{webroot:}{$first['img']}" alt="">
+						<img class="pc_hide_white" style="display:none;" src="{webroot:}{$first['imghover']}" alt="">
 						<a href="{url:/site/pro_list/cat/$first[id]}">{$first['name']}</a>
 					</h3>
 					<div class="cat_second">
@@ -270,5 +267,11 @@ $('.cat_list').removeClass('none');
 
 $(function(){
 	$('input:text[name="word"]').val("{$this->word}");
+    var _type = '{$this->type}';
+    if(_type == 2)
+    {
+        $('.search_select').val('商家');
+        $('input[name=type]').val(_type);
+    }
 });
 </script>
