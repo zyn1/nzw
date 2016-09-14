@@ -1,0 +1,147 @@
+body, ul, ol, dl, dd, h1, h2, h3, h4, h5, h6, pre, form, fieldset, legend, input, button, textarea, p, blockquote, table, th, td, menu { margin: 0; padding: 0; resize: none; }
+
+table { border-collapse: collapse; border-spacing: 0; }
+
+ul, ol, menu { list-style: none; text-align: left; }
+
+fieldset, img { border: none; }
+
+img, object, select, input, textarea, button { vertical-align: middle; box-sizing: content-box; }
+
+input, textarea, select, address, caption, cite, code, dfn, em, i, b, strong, small, th, var, abbr, button, u, s, del { font-style: normal; text-decoration: none; }
+
+article, aside, footer, header, hgroup, nav, section, figure, figcaption { display: block; }
+
+code, kbd, pre, samp, tt { font-family: Consolas,"Courier New", Courier, monospace; }
+
+address, cite, dfn, em, var, i { font-style: normal; }
+
+blockquote, q { quotes: none; }
+
+blockquote:before, blockquote:after, q:before, q:after { content: ""; content: none; }
+
+a { text-decoration: none; cursor: pointer; color: #2d64b3; }
+a:hover, a:focus { outline: none; color: #FF8225; text-decoration: underline; }
+a, a * { cursor: pointer; }
+
+
+
+
+.header{
+	height: 80px;
+	background: #ffffff;
+	width: 100%;
+	overflow: hidden;
+	border-bottom: 1px #d9d9d9 solid;
+}
+.header .head_main{width: 1200px; height: 80px; margin:0 auto;}
+.head_main .head_left{
+	text-align: center;
+	line-height: 80px;
+	float: left;
+	width: 500px;
+}
+.head_main .head_left .logo_img{
+	width: 200px;
+	height: 50px;
+	border-right: 1px solid #cdcdcd;
+	margin: 15px 0;
+	line-height: 50px;
+	float: left;
+}
+.head_main .head_left .logo_img img{
+	width: 150px;
+	height: 36px;
+}
+.head_main .head_left .word_img{
+	float: left;
+	margin-left: 20px;
+}
+.head_main .head_left .word_img{
+	width: 212px; height: 26px;
+}
+.head_main .head_right{
+	text-align: center;
+	line-height: 80px;
+	float: right;
+}
+.head_main .head_right ul li{
+	float: right;
+	margin-left: 30px;
+}
+.head_main .head_right ul li a{
+	color: #3c3c3c; font-size: 14px;
+}
+.head_main .head_right ul li a:hover{ text-decoration: none;}
+.containt{
+	background: #f9f9f9  url("../../../image/index/reg_bg.png") no-repeat center;
+	width: 100%;
+	height: 750px;
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: -1;
+}
+.footer_bot {
+    font-size: 14px;
+    color: #929292;
+    text-align: center;
+    width: 100%;
+    margin-top: 55px;
+}
+.tab_reg{
+	width: 900px;
+	height: auto;
+	overflow: hidden;
+	margin: 25px auto 0 auto;
+	box-shadow:0px 0px 5px #f0f0f0;
+	border: 1px solid #f0f0f0;
+	background: #fff;
+}
+.tab_reg .reg_top{width: 900px; height: 100px; line-height: 100px;border-bottom: 1px solid #dadada;}
+.reg_top .tab_btn{width: 500px;}
+.tab_btn h3{
+    float: left;
+    margin-left: 30px;
+    color: #5d5d5d;
+    padding: 0 60px;
+    height: 60px;
+    margin: 20px 0;
+    line-height: 60px;
+}
+.tab_btn h3.reg_mob{border-right: 1px solid #dadada;}
+.tab_btn h3.color{color: #ee5d1e;}
+.tab_btn h3:hover{cursor: pointer;}
+.reg_top .tab_right{float: right; padding-right: 50px;}
+.reg_top .tab_right a{color: #3c3c3c;}
+
+.conten{
+	padding: 35px 35px 35px 85px;
+}
+.conten .reg_content{
+	width: 360px;float: left;
+}
+.conten .ad_box{float: right;width: 420px;margin-bottom: 20px;}
+.conten .ad_box img{
+	width: 420px;
+}
+.reg_content div{height: 42px; width: 300px;border: 1px solid #dbdbdb;margin-bottom: 18px;}
+.reg_content div input{height: 42px; width: 220px; border: none; vertical-align: middle;outline: none;box-shadow: none;}
+.reg_content div label{color: #848484; font-size: 14px; margin-left: 8px;}
+.reg_content .auth_code{width: 190px;float: left; }
+.reg_content .auth_code input{width: 120px;}
+.reg_content div.verfy{border: none;}
+.verfy .box_auth{
+    float: left;
+    width: 100px;
+    margin-left: 6px;
+    height: 42px;
+}
+.verfy .box_auth img{width: 100px; height: 42px;}
+.box_auth .gain{width: 100px; color: #8b8b8b; background: #ebebeb;}
+.reg_content span.agreement{font-size: 14px; color: #a5a5a5;    position: relative;
+    top: -12px; display: block;clear: both;}
+.reg_content .mob_btn {border: none;margin-top: 10px;}
+.reg_content .mob_btn a{display: block; background: #ee5d1e; height: 42px; cursor: pointer; line-height: 42px;
+						text-align: center; color: #fff}
+.reg_content .mob_btn a:hover{text-decoration: none;}
