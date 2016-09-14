@@ -113,7 +113,7 @@ a, a * { cursor: pointer; }
 .tab_btn h3.color{color: #ee5d1e;}
 .tab_btn h3:hover{cursor: pointer;}
 .reg_top .tab_right{float: right; padding-right: 50px;}
-.reg_top .tab_right a{color: #3c3c3c;}
+.reg_top .tab_right a{color: #6b6b6b;}
 
 .conten{
 	padding: 35px 35px 35px 85px;
@@ -145,3 +145,8 @@ a, a * { cursor: pointer; }
 .reg_content .mob_btn a{display: block; background: #ee5d1e; height: 42px; cursor: pointer; line-height: 42px;
 						text-align: center; color: #fff}
 .reg_content .mob_btn a:hover{text-decoration: none;}
+.reg_content .user label img,.reg_content .pass label img{width: 20px; height: 20px;}
+.reg_content .user input,.reg_content .pass input{padding-left: 20px;}
+.reg_content div.sava_pass{border: none;position: relative;top: -10px;}
+.reg_content div.sava_pass input{width: 16px; height: 16px;}
+.reg_content div.sava_pass a{float: right; color: #848484;font-size: 14px;}
