@@ -1,0 +1,43 @@
+.screen{width: 1200px; background: #fff; margin:0 auto;height: 50px; border: 1px solid #e4e4e4;margin-top: 15px;}
+.screen li{float: left;line-height: 50px; text-align: center; padding: 0 30px; font-size: 14px;}
+.screen li.color{color: #fff; background: #ff4400;}
+.screen li:hover{cursor: pointer;}
+.merch_list{height: auto;overflow: hidden;margin: 0 auto;margin-top: 8px;background: #fff; border: 1px solid #e4e4e4;}
+.merch_list li{border-bottom: 1px solid #e4e4e4;padding: 18px 30px;width: 1200px;overflow: hidden;}
+.merch_list .merch_left{float: left;}
+.merch_list .merch_left img{width: 120px; height: 120px;border:1px solid #d8d8d8;}
+.merch_list .merch_right{float: left;margin-left: 20px;}
+.merch_list .merch_right dl{font-size: 14px;}
+.merch_list .merch_right dl dt{font-size: 16px; color: #ea3b13; font-weight: bold; line-height: 28px;}
+.merch_list .merch_right dl dd{line-height: 24px;}
+.merch_list .bottom_word{clear: both; padding: 3px 0;}
+.merch_list .bottom_word span{line-height: 26px;}
+.merch_list li:last-child{border-bottom: none;}
+
+/*翻页*/
+.turn_page {
+    font-size: 14px;
+    border: 1px solid #e4e4e4;
+    height: auto;
+    overflow: hidden;
+    text-align: center;
+    padding: 15px;
+    background: #fff;
+    margin: 6px auto;
+}
+.turn_page input {
+	cursor:pointer;
+    padding: 8px 12px;
+    margin: 0 3px;
+    background: #f5f5f5;
+    border: 1px #e5e5e5 solid;
+	color: #8c8a8b;
+}
+.turn_page .turn_red{
+	cursor:default;
+    background: #c91224;
+    color: #fff;
+}
+.turn_page .turu_white{ background:#fff; color:#292218;}
+.turn_page span{ cursor:default;}
+.turn_page span input{cursor: auto;}
