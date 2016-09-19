@@ -1484,19 +1484,19 @@ a .icon-rotate-90:before, a .icon-rotate-180:before, a .icon-rotate-270:before, 
 .breadcrumb { padding: 15px 0; }
 
 .bar { width: 230px; float: left; }
-.bar .bar_box { border: 1px solid #ddd; margin-bottom: 10px; }
-.bar .bar_box .bar_box_head { height: 30px; line-height: 30px; text-indent: 15px; color: #9b5d09; background: #fafafa; background-image: -webkit-linear-gradient(0deg, #f0f0f0, #fff); background-image: linear-gradient(0deg, #f0f0f0, #fff); border-bottom: 1px solid #ddd; box-shadow: 0 0 0 1px #fff inset; font-size: 14px; }
+.bar .bar_box { border: 1px solid #e4e4e4; margin-bottom: 10px;background: #fff; }
+.bar .bar_box .bar_box_head { text-align: center; height: 38px; line-height: 38px; text-indent: 15px; color: #bd4327; background-image: -webkit-linear-gradient(0deg, #fff, #fff); background-image: linear-gradient(0deg, #fff, #fff); border-bottom: 1px solid #e4e4e4; box-shadow: 0 0 0 1px #fff inset; font-size: 15px;}
 .bar .bar_box .bar_box_head .more { float: right; font-size: 12px; padding-right: 10px; font-weight: normal; color: #555; }
 .bar .bar_box .bar_goods li { padding: 5px; border-bottom: 1px solid #ddd; }
 .bar .bar_box .bar_goods li:last-child { border: none; }
 .bar .bar_box .bar_goods li a { display: block; text-decoration: none; }
 .bar .bar_box .bar_goods li img { width: 60px; height: 60px; float: left; margin-right: 10px; }
-.bar .bar_box .bar_goods li strong { display: block; max-height: 36px; line-height: 18px; overflow: hidden; font-weight: normal; }
-.bar .bar_box .bar_goods li em { display: block; margin-top: 5px; font-size: 14px; color: #ba1813; font-weight: bold; }
+.bar .bar_box .bar_goods li strong {color: #555; display: block; max-height: 36px; line-height: 18px; overflow: hidden; font-weight: normal; }
+.bar .bar_box .bar_goods li em { display: block; margin-top: 5px; font-size: 14px; color: #ee5d1e; font-weight: bold; }
 .bar .bar_box .bar_goods.ranking { counter-reset: num; }
 .bar .bar_box .bar_goods.ranking li { position: relative; }
 .bar .bar_box .bar_goods.ranking li:before { content: counter(num); counter-increment: num; display: block; position: absolute; right: 5px; bottom: 3px; font-size: 14px; font-style: italic; z-index: 1; color: #fff; }
-.bar .bar_box .bar_goods.ranking li:after { content: ""; position: absolute; right: 0; bottom: 0; width: 0; height: 0; display: block; border-style: solid; border-width: 14px; border-color: transparent #e71f19 #e71f19 transparent; }
+.bar .bar_box .bar_goods.ranking li:after { content: ""; position: absolute; right: 0; bottom: 0; width: 0; height: 0; display: block; border-style: solid; border-width: 14px; border-color: transparent #ee5d1e #ee5d1e transparent; }
 .bar .bar_box .bar_goods.ranking li:nth-child(n+4):after { border-color: transparent #999 #999 transparent; }
 .bar .bar_box .bar_nav li { height: 28px; line-height: 28px; overflow: hidden; padding-left: 20px; border-bottom: 1px solid #ddd; position: relative; }
 .bar .bar_box .bar_nav li:before { content: ""; width: 3px; height: 3px; background: #FF8225; display: block; position: absolute; left: 10px; top: 12px; }
@@ -1521,8 +1521,8 @@ a .icon-rotate-90:before, a .icon-rotate-180:before, a .icon-rotate-270:before, 
 .article_list li:before { content: ""; width: 3px; height: 3px; background: #FF8225; display: block; position: absolute; left: 0; top: 17px; }
 
 .pages_bar { margin: 20px; text-align: center; color: #555; }
-.pages_bar a, .pages_bar span { display: inline-block; border: 1px solid #ddd; margin: 0 3px; padding: 5px 8px; text-align: center; color: #2d64b3; }
-.pages_bar a.current_page { border: 1px solid #ba1813; background: #ba1813; color: #fff; }
+.pages_bar a, .pages_bar span {color: #8c8a8b; background: #f5f5f5; display: inline-block; border: 1px #e5e5e5 solid; margin: 0 3px; padding: 5px 8px; text-align: center;}
+.pages_bar a.current_page { border: 1px solid #ff4400; background: #ff4400; color: #fff; }
 .pages_bar span { color: #999; }
 
 /* article read page style */
@@ -1581,7 +1581,7 @@ a .icon-rotate-90:before, a .icon-rotate-180:before, a .icon-rotate-270:before, 
 .goods_tag dl dd p input { width: 50px; border: 1px solid #ddd; padding: 0 5px; height: 22px; border-radius: 4px; }
 .goods_tag dl dd p button { height: 22px; border: 1px solid #ddd; background: #fafafa; background-image: -webkit-linear-gradient(0deg, #f0f0f0, #fafafa); background-image: linear-gradient(0deg, #f0f0f0, #fafafa); border-radius: 4px; width: 40px; box-shadow: 0 0 0 1px #fff inset; cursor: pointer; margin-left: 5px; }
 
-.goods_sort { padding: 0 10px; background: #f9f9f9; border: 1px solid #ddd; height: 38px; line-height: 38px; font-size: 13px; }
+.goods_sort { padding: 0 10px; background: #ffffff; border: 1px solid #e4e4e4; height: 38px; line-height: 38px; font-size: 13px; }
 .goods_sort strong { display: block; float: left; width: 50px; text-align: center; font-weight: normal; }
 .goods_sort ul { float: left; }
 .goods_sort li { float: left; position: relative; margin-right: 10px; }
@@ -1596,16 +1596,16 @@ a .icon-rotate-90:before, a .icon-rotate-180:before, a .icon-rotate-270:before, 
 .goods_sort li.current:before { border-color: #fafafa transparent transparent transparent; }
 .goods_sort li.current.asc:before { border-color: transparent transparent #fafafa transparent; }
 
-.goods_list { width: 960px; overflow: hidden; }
+.goods_list { width: 958px; overflow: hidden; background: #fff;    border: 1px solid #e4e4e4;border-top: none;}
 .goods_list ul { width: 1000px; }
-.goods_list ul li { width: 232px; float: left; margin: 10px 10.5px 0 0; }
+.goods_list ul li { width: 220px; float: left; margin: 16px 0 0 16px; }
 .goods_list ul li a { display: block; border: 1px solid #ddd; text-decoration: none; height: 300px; position: relative; }
 .goods_list ul li a:hover { border: 1px solid #e71f19; }
-.goods_list ul li img { display: block; width: 205px; height: 205px; margin: 10px auto; }
-.goods_list ul li h5 { font-weight: normal; font-size: 13px; padding: 0 10px; line-height: 20px; height: 40px; overflow: hidden; }
+.goods_list ul li img { display: block; width: 205px; height: 205px; margin: 6px auto; }
+.goods_list ul li h5 {color: #555; font-weight: normal; font-size: 13px; padding: 0 10px; line-height: 20px; height: 40px; overflow: hidden; }
 .goods_list ul li span { height: 20px; line-height: 20px; text-align: center; display: block; }
 .goods_list ul li em, .goods_list ul li del { position: absolute; bottom: 10px; }
-.goods_list ul li em { left: 10px; font-size: 15px; color: #ba1813; font-weight: bold; }
+.goods_list ul li em { left: 10px; font-size: 15px; color: #ee5d1e; font-weight: bold; }
 .goods_list ul li del { right: 10px; text-decoration: line-through; color: #999; }
 .goods_list ul li .goods_list_btn { text-align: center; }
 .goods_list ul li .goods_list_btn .add_cart, .goods_list ul li .goods_list_btn .del_fav { float: left; height: 36px; line-height: 36px; color: #fff; cursor: pointer; -webkit-transition: all 0.25s ease-in-out; transition: all 0.25s ease-in-out; overflow: hidden; }
@@ -1648,7 +1648,7 @@ a .icon-rotate-90:before, a .icon-rotate-180:before, a .icon-rotate-270:before, 
 
 .star_box { padding: 5px 0; }
 .star_box.fl { display: block; float: left; margin-right: 10px; }
-.star_box .item { display: block; float: left; width: 40px; height: 15px; line-height: 15px; color: #555; }
+.star_box .item { display: block; float: left; width: 40px; height: 15px; line-height: 15px; color: #555;font-weight: normal; }
 .star_box input { display: block; float: left; }
 .star_box .star, .star_box .star:before { display: block; height: 13px; width: 70px; float: left; background: url("../image/star.gif") 0 bottom no-repeat; }
 .star_box .star:before { content: ""; background-position: 0 0; }
@@ -1660,7 +1660,7 @@ a .icon-rotate-90:before, a .icon-rotate-180:before, a .icon-rotate-270:before, 
 .star_box .star.star_0:before { width: 0; }
 
 .bar_seller { padding: 5px 10px; line-height: 2; font-size: 13px; }
-.bar_seller h1 { color: #222; font-size: 15px; }
+.bar_seller h1 { color: #555; font-size: 15px;font-weight: normal; }
 
 .sitemap { position: relative; }
 .sitemap .sitemap_header { height: 40px; line-height: 40px; text-indent: 15px; color: #fff; background: #555; background-image: -webkit-linear-gradient(0deg, #3b3b3b, #6e6e6e); background-image: linear-gradient(0deg, #3b3b3b, #6e6e6e); border: 1px solid #ddd; }
