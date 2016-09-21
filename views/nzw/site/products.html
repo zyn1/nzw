@@ -54,8 +54,7 @@
 
 			<li>市场价：￥<del id="data_marketPrice">{$market_price}</del></li>
 
-			<li>
-				库存：现货 <span id="data_storeNums">{$store_nums} </span>
+			<li class="collect">
 				<span class="favorite" onclick="favorite_add_ajax({$id},this);">
 					<i class="icon-heart"></i>
 					收藏此商品
@@ -91,7 +90,8 @@
 			<!--商家信息 开始-->
 			{if:isset($seller)}
 			<li>商家：<a class="orange" href="{url:/site/home/id/$seller_id}">{$seller['true_name']}</a></li>
-			<li>联系电话：{$seller['phone']}</li>
+			<!-- <li>联系电话：{$seller['phone']}</li> -->
+			<li class="qq_service">店铺客服：<a href=""><img src="{skin:image/index/qq.png}" alt=""><span>点我咨询</span></a>       </li>
 			<li>所在地：{echo:join(' ',area::name($seller['province'],$seller['city'],$seller['area']))}</li>
 			<li>{set:plugin::trigger("onServiceButton",$seller['id'])}</li>
 			{/if}
@@ -135,16 +135,15 @@
 						<span class="reduce" id="buyReduceButton">─</span>
 						<input class="input" type="text" id="buyNums" value="1" maxlength="5" />
 						<span class="add" id="buyAddButton">+</span>
+						<p class="invent">库存：现货 <span id="data_storeNums">{$store_nums} </span></p>
 					</div>
 				</dd>
 			</dl>
 
 			<div class="btn_submit_buy" id="buyNowButton">
-				<i class="icon-shopping-cart"></i>
 				<span>立即购买</span>
 			</div>
 			<div class="btn_add_cart" id="joinCarButton">
-				<i class="icon-shopping-cart"></i>
 				<span>加入购物车</span>
 			</div>
 		{/if}
@@ -333,9 +332,12 @@
 				{foreach:items=Api::run('getCommendHot')}
 				<li>
 					<a href="{url:/site/products/id/$item[id]}">
-						<img src="{url:/pic/thumb/img/$item['img']/w/205/h/205}" alt="{$item['name']}">
-						<span>{$item['name']}</span>
-						<em>￥{$item['sell_price']}</em>
+						<img class="hot_img" src="{url:/pic/thumb/img/$item['img']/w/205/h/205}" alt="{$item['name']}">
+						<div>
+							<span class="hot_deta">{$item['name']}</span>
+							<em class="hot_price">￥{$item['sell_price']}</em>
+							<i class="sorting">1</i>
+						</div>
 					</a>
 				</li>
 				{/foreach}
