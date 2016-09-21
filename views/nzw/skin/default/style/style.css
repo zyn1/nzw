@@ -1570,7 +1570,7 @@ a .icon-rotate-90:before, a .icon-rotate-180:before, a .icon-rotate-270:before, 
 .artice_goods li em { font-size: 16px; font-weight: bold; color: #e71f19; }
 
 .goods_tag { border: 1px solid #ddd; margin-bottom: 10px; }
-.goods_tag .tag_head { height: 30px; line-height: 30px; text-indent: 15px; color: #9b5d09; background: #fafafa; background-image: -webkit-linear-gradient(0deg, #f0f0f0, #fff); background-image: linear-gradient(0deg, #f0f0f0, #fff); border-bottom: 1px solid #ddd; box-shadow: 0 0 0 1px #fff inset; font-size: 14px; }
+.goods_tag .tag_head { height: 38px; line-height: 38px; text-indent: 15px; color: #9b5d09; background: #fafafa; background-image: -webkit-linear-gradient(0deg, #f0f0f0, #fff); background-image: linear-gradient(0deg, #f0f0f0, #fff); border-bottom: 1px solid #ddd; box-shadow: 0 0 0 1px #fff inset; font-size: 14px; }
 .goods_tag dl { border-bottom: 1px dotted #ddd; margin: 10px; padding: 5px 0; line-height: 24px; }
 .goods_tag dl:last-child { border: none; }
 .goods_tag dl dt { width: 80px; float: left; }
@@ -1781,17 +1781,17 @@ a .icon-rotate-90:before, a .icon-rotate-180:before, a .icon-rotate-270:before, 
 .goods_info { width: 700px; float: right; margin: 20px; margin-left: 0; }
 .goods_info .goods_info_title { border-bottom: 1px dashed #ddd; padding: 5px 0; color: #606060; font-size: 16px; line-height: 24px; }
 .goods_info .goods_info_num { font-size: 12px; color: #999; float: right; margin-top: 15px; }
-.goods_info .goods_ul { line-height: 2; margin-top: 10px; }
+.goods_info .goods_ul { line-height: 2; margin-top: 10px; position: relative;}
 .goods_info li { position: relative; }
 .goods_info li.collect{
-    float: right;
-    position: relative;
-    top: -60px;
+    position: absolute;
+    top: 30px;
+    right: 0;
 }
 .goods_info li.qq_service{
-    float: right;
-    position: relative;
-    top: -140px;
+    position: absolute;
+    top: 60px;
+    right: 0;
 }
 .goods_info li.qq_service img{width: 16px;}
 .goods_info li.qq_service span{color: #555; margin-left: 6px;}
