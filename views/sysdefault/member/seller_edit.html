@@ -31,6 +31,15 @@
 						<th>商户真实全称：</th>
 						<td><input class="normal" name="true_name" type="text" value="" pattern="required" /></td>
 					</tr>
+                    <tr>
+                        <th>商户logo：</th>
+                        <td>
+                            <input type='file' name='seller_logo' />
+                            {if:isset($this->sellerRow['seller_logo']) && $this->sellerRow['seller_logo']}
+                            <p><a target="_blank" href="{webroot:}{$this->sellerRow['seller_logo']}"><img src='{webroot:}{$this->sellerRow['seller_logo']}' style='width:180px;border:1px solid #ccc' /></a></p>
+                            {/if}
+                        </td>
+                    </tr>
 					<tr>
 						<th>商户资质材料：</th>
 						<td>
@@ -91,11 +100,18 @@
 							<label>锁定后商户无法登陆进行管理</label>
 						</td>
 					</tr>
+                    <tr>
+                        <th>是否VIP：</th>
+                        <td>
+                            <label class='attr'><input type='radio' name='is_vip' value='0' checked='checked' />否</label>
+                            <label class='attr'><input type='radio' name='is_vip' value='1' />是</label>
+                        </td>
+                    </tr>
 					<tr>
-						<th>是否VIP：</th>
+						<th>是否推荐：</th>
 						<td>
-							<label class='attr'><input type='radio' name='is_vip' value='0' checked='checked' />否</label>
-							<label class='attr'><input type='radio' name='is_vip' value='1' />是</label>
+							<label class='attr'><input type='radio' name='is_recomm' value='0' checked='checked' />否</label>
+							<label class='attr'><input type='radio' name='is_recomm' value='1' />是</label>
 						</td>
 					</tr>
 					<tr>

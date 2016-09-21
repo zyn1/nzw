@@ -203,12 +203,25 @@
 			</table>
 		</form>
 
-		<form action='{url:/system/save_conf/form_index/site_footer_conf}' method='post' name='site_footer_conf'>
+		<form action='{url:/system/save_conf/form_index/site_footer_conf}' method='post' name='site_footer_conf' enctype='multipart/form-data'>
+            {if:isset($this->confRow['site_help_code'])}
+            <input type='hidden' name='content' value='{$this->confRow['site_help_code']}' />
+            {/if}
 			<table class='form_table'>
 				<colgroup>
 					<col width="150px" />
 					<col />
 				</colgroup>
+                <tr>
+                    <th>站点底部友情链接上方图片：</th>
+                    <td>
+                        <input type="file" name="img" class="file" />
+                        {if: isset($this->confRow['site_help_code']) && $this->confRow['site_help_code']}
+                        <br>
+                        <img src='{webroot:}{echo:IFilter::addSlash($this->confRow['site_help_code'])}' />
+                        {/if}
+                    </td>
+                </tr>
 				<tr>
 					<th>站点底部信息：</th>
 					<td>

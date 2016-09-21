@@ -644,7 +644,8 @@ class Member extends IController implements adminAuthorization
 		$area        = IFilter::act(IReq::get('area'),'int');
 		$cash        = IFilter::act(IReq::get('cash'),'float');
 		$is_vip      = IFilter::act(IReq::get('is_vip'),'int');
-		$is_lock     = IFilter::act(IReq::get('is_lock'),'int');
+        $is_lock     = IFilter::act(IReq::get('is_lock'),'int');
+		$is_recomm   = IFilter::act(IReq::get('is_recomm'),'int');
 		$address     = IFilter::act(IReq::get('address'));
 		$account     = IFilter::act(IReq::get('account'));
 		$server_num  = IFilter::act(IReq::get('server_num'));
@@ -690,7 +691,8 @@ class Member extends IController implements adminAuthorization
 			'email'     => $email,
 			'address'   => $address,
 			'is_vip'    => $is_vip,
-			'is_lock'   => $is_lock,
+            'is_lock'   => $is_lock,
+			'is_recomm' => $is_recomm,
 			'cash'      => $cash,
 			'province'  => $province,
 			'city'      => $city,
@@ -701,17 +703,20 @@ class Member extends IController implements adminAuthorization
 		);
 
 		//商户资质上传
-		if(isset($_FILES['paper_img']['name']) && $_FILES['paper_img']['name'])
+		if((isset($_FILES['paper_img']['name']) && $_FILES['paper_img']['name']) || (isset($_FILES['seller_logo']['name']) && $_FILES['seller_logo']['name']))
 		{
 			$uploadObj = new PhotoUpload();
 			$uploadObj->setIterance(false);
 			$photoInfo = $uploadObj->run();
-			if(isset($photoInfo['paper_img']['img']) && file_exists($photoInfo['paper_img']['img']))
-			{
-				$sellerRow['paper_img'] = $photoInfo['paper_img']['img'];
-			}
 		}
-
+        if(isset($photoInfo['paper_img']['img']) && file_exists($photoInfo['paper_img']['img']))
+        {
+            $sellerRow['paper_img'] = $photoInfo['paper_img']['img'];
+        }
+        if(isset($photoInfo['seller_logo']['img']) && file_exists($photoInfo['seller_logo']['img']))
+        {
+            $sellerRow['seller_logo'] = $photoInfo['seller_logo']['img'];
+        }
 		//添加新会员
 		if(!$seller_id)
 		{

@@ -153,9 +153,14 @@ class Menu
    				'/tools/help_list'=> '帮助列表'
    			),
 
-   			'广告管理'=>array(
-   				'/tools/ad_position_list'=> '广告位列表',
-   				'/tools/ad_list'=> '广告列表'
+               '广告管理'=>array(
+                   '/tools/ad_position_list'=> '广告位列表',
+                   '/tools/ad_list'=> '广告列表'
+               ),
+
+   			'友情链接'=>array(
+   				'/tools/link_list'=> '友情链接',
+   				'/tools/link_edit'=> '添加友情链接'
    			),
 
    			'公告管理'=>array(

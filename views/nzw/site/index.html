@@ -3,280 +3,261 @@
 <link rel="stylesheet" href="{skin:style/css/scroll_index/scroll_index.css}">
   <!-- <div id="header">头部</div> -->
 <div id="main">
-	<div class="louceng">
-		<section class="home_1">
-			<!-- 通栏焦点图 -->
-			<section id="home_fouse" class="home_fouse">
-				{if:$this->index_slide}
-				<ul>
-					{foreach:items=$this->index_slide}
-					<li><a href="{url:$item[url]}"><img src="{url:/pic/thumb/img/$item['img']}"></a></li>
-					{/foreach}
-				</ul>
-				{/if}
-			</section>
-			
-		 	<section class="promise" id="header">
-			 <div id="home_article" class="home_article">
-				<ul class="tab">
-					<li><a href="{url:/site/notice}">商城公告</a></li>
-					<li><a href="{url:/site/article}">新闻动态</a></li>
-				</ul>
-				<div class="con">
-					<ul>
-						{foreach:items=Api::run('getAnnouncementList',7)}
-						<li><a href="{url:/site/notice_detail/id/$item['id']}">{$item['title']}</a></li>
-						{/foreach}
-					</ul>
-					<ul>
-						<ul class="news-list">
-							{foreach:items=Api::run('getArtList',7)}
-							<li><a href="{url:/site/article_detail/id/$item['id']}">{echo:Article::showTitle($item['title'],$item['color'],$item['style'])}</a></li>
-							{/foreach}
-						</ul>
-					</ul>
-				</div>
-				<div class="show">
-					{echo:Ad::show("首页商城公告下方广告_240*140")}
-				</div>
-			</div> 
-			</section>
+    <div class="louceng">
+        <section class="home_1">
+            <!-- 通栏焦点图 -->
+            <section id="home_fouse" class="home_fouse">
+                {if:$this->index_slide}
+                <ul>
+                    {foreach:items=$this->index_slide}
+                    <li><a href="{url:$item[url]}"><img src="{url:/pic/thumb/img/$item['img']}"></a></li>
+                    {/foreach}
+                </ul>
+                {/if}
+            </section>
+            
+             <section class="promise" id="header">
+             <div id="home_article" class="home_article">
+                <ul class="tab">
+                    <li><a href="{url:/site/notice}">商城公告</a></li>
+                    <li><a href="{url:/site/article}">新闻动态</a></li>
+                </ul>
+                <div class="con">
+                    <ul>
+                        {foreach:items=Api::run('getAnnouncementList',7)}
+                        <li><a href="{url:/site/notice_detail/id/$item['id']}">{$item['title']}</a></li>
+                        {/foreach}
+                    </ul>
+                    <ul>
+                        <ul class="news-list">
+                            {foreach:items=Api::run('getArtList',7)}
+                            <li><a href="{url:/site/article_detail/id/$item['id']}">{echo:Article::showTitle($item['title'],$item['color'],$item['style'])}</a></li>
+                            {/foreach}
+                        </ul>
+                    </ul>
+                </div>
+                <div class="show">
+                    {echo:Ad::show("首页商城公告下方广告_240*140")}
+                </div>
+            </div> 
+            </section>
 
-			<section class="home_1_show">
-				<header class="floor_head">
-				<h2>商家推荐</h2>
-				<nav class="floor_nav">
-					<a href="{url:/}">更多</a></li>
-				</nav>
-			  </header>
-				<ul>
-					<li>{echo:Ad::show("首页导航下方广告1_240*160(bubugao)")}</li>
-					<li>{echo:Ad::show("首页导航下方广告2_240*160(bubugao)")}</li>
-					<li>{echo:Ad::show("首页导航下方广告3_240*160(bubugao)")}</li>
-					<li>{echo:Ad::show("首页导航下方广告4_240*160(bubugao)")}</li>
-					<li>{echo:Ad::show("首页导航下方广告4_240*160(bubugao)")}</li>
-					<li>{echo:Ad::show("首页导航下方广告4_240*160(bubugao)")}</li>
-				</ul>
-			</section> 
-		</section>
-	</div>
-	<div class="louceng">
-		<section class="home_2">
-		<div id="hot_goods" class="hot_goods">
-			<ul class="special">
-				<li>
-					<h2>特价商品</h2>
-					<nav class="floor_more">
-					 <a href="/.php">更多</a>
-					</nav>	
-				</li>
-			</ul>
-			<div class="sale_price">
-				<ul class="hot_goods_list">
-					{foreach:items=Api::run('getCommendPrice',6)}
-					<li>
-						<a href="{url:/site/products/id/$item['id']}">
-							<img src="{url:/pic/thumb/img/$item['img']/w/170/h/170}">
-							<h4>{$item['name']}</h4>
-							<em>￥{$item['sell_price']}</em>
-							<del>￥{$item['market_price']}</del>
-						</a>
-					</li>
-					{/foreach}
-				</ul>
-				<ul class="hot_goods_list">
-					{foreach:items=Api::run('getCommendRecom',6)}
-					<li>
-						<a href="{url:/site/products/id/$item['id']}">
-							<img src="{url:/pic/thumb/img/$item['img']/w/170/h/170}">
-							<h4>{$item['name']}</h4>
-							<em>￥{$item['sell_price']}</em>
-							<del>￥{$item['market_price']}</del>
-						</a>
-					</li>
-					{/foreach}
-				</ul>
-			</div>
-		</div>
+            <section class="home_1_show">
+                <header class="floor_head">
+                <h2>商家推荐</h2>
+                <nav class="floor_nav">
+                    <a href="{url:/site/search_list_seller}">更多</a></li>
+                </nav>
+              </header>
+                <ul>
+                    {foreach:items=Api::run('getRecommendSeller',6)}
+                    <li>
+                        <a href="{url:/site/home/id/$item['id']}">
+                            <img src="{webroot:}{$item['seller_logo']}">
+                        </a>
+                    </li>
+                    {/foreach}
+                </ul>
+            </section> 
+        </section>
+    </div>
+    <div class="louceng">
+        <section class="home_2">
+        <div id="hot_goods" class="hot_goods">
+            <ul class="special">
+                <li>
+                    <h2>特价商品</h2>
+                    <nav class="floor_more">
+                     <!--<a href="/.php">更多</a>-->
+                    </nav>    
+                </li>
+            </ul>
+            <div class="sale_price">
+                <ul class="hot_goods_list">
+                    {foreach:items=Api::run('getCommendPrice',6)}
+                    <li>
+                        <a href="{url:/site/products/id/$item['id']}">
+                            <img src="{url:/pic/thumb/img/$item['img']/w/170/h/170}">
+                            <h4>{$item['name']}</h4>
+                            <em>￥{$item['sell_price']}</em>
+                            <del>￥{$item['market_price']}</del>
+                        </a>
+                    </li>
+                    {/foreach}
+                </ul>
+                <ul class="hot_goods_list">
+                    {foreach:items=Api::run('getCommendRecom',6)}
+                    <li>
+                        <a href="{url:/site/products/id/$item['id']}">
+                            <img src="{url:/pic/thumb/img/$item['img']/w/170/h/170}">
+                            <h4>{$item['name']}</h4>
+                            <em>￥{$item['sell_price']}</em>
+                            <del>￥{$item['market_price']}</del>
+                        </a>
+                    </li>
+                    {/foreach}
+                </ul>
+            </div>
+        </div>
 
-	</section>
-	<!-- <section class="home_show">
-		{echo:Ad::show("首页热卖商品下方通栏广告_1200*120(bubugao)")}
-	</section> -->
-	</div>
-	<div class="louceng">
-		<!-- 开始循环楼层 -->
-		{foreach:items=Api::run('getCategoryListTop') item=$first }
-	<section class="home_floor home_floor_{echo:($key%6)+1}">
-		<header class="floor_head">
-			<h2>{$first['name']}</h2>
-			<nav class="floor_nav">
-				<ul>
-					<li><a href="{url:/site/pro_list/cat/$first[id]}">更多</a></li>
-				</ul>
-			</nav>
-		</header>
-		<section class="floor_body">
-			
-			<div class="floor_show">
-				<div class="classify">
-					<ul>
-						{foreach:items=Api::run('getCategoryByParentid',array('#parent_id#',$first['id'])) item=$second}
-						<li><a href="{url:/site/pro_list/cat/$second[id]}">{$second['name']}</a></li>
-						{/foreach}
-					</ul>
-			    </div>
-				<div class="ad_classify">
-					    {echo:Ad::show("首页分类广告230*474(bubugao)",$first['id'])}
-				</div>
-			</div>
-			<div class="floor_goods">
-				<ul>
-					{foreach:items=Api::run('getCategoryExtendList',array('#categroy_id#',$first['id']),10)}
-					<li>
-						<a href="{url:/site/products/id/$item['id']}">
-							<img src="{url:/pic/thumb/img/$item['img']/w/170/h/170}">
-							<h4>{$item['name']}</h4>
-							<em>￥{$item['sell_price']}</em>
-							<del>￥{$item['market_price']}</del>
-						</a>
-					</li>
-					{/foreach}
-				</ul>
-			</div>
-		</section>
-	</section>
-	{/foreach}
-	</div>
-	<div class="louceng">
-		<section class="service">
-		<div class="serve_list">
-			<div>
-				<img class="pc_show_red" src="{skin:image/index/serve_b.png}" alt="">
-				<span>购物保障</span>
-			</div>
-			<div>
-				<img class="pc_show_red" src="{skin:image/index/serve_b.png}" alt="">
-				<span>装修服务</span>
-			</div>
-			<div>
-				<img class="pc_show_red" src="{skin:image/index/serve_b.png}" alt="">
-				<span>购物指南</span>
-			</div>
-			<div>
-				<img class="pc_show_red" src="{skin:image/index/serve_b.png}" alt="">
-				<span>定制服务</span>
-			</div>
-		</div>
-		</section>
-	</div>	
-		
-</div>	
+    </section>
+    <!-- <section class="home_show">
+        {echo:Ad::show("首页热卖商品下方通栏广告_1200*120(bubugao)")}
+    </section> -->
+    </div>
+    <div class="louceng">
+        <!-- 开始循环楼层 -->
+        {foreach:items=Api::run('getCategoryListTop') item=$first }
+    <section class="home_floor home_floor_{echo:($key%6)+1}">
+        <header class="floor_head">
+            <h2>{$first['name']}</h2>
+            <nav class="floor_nav">
+                <ul>
+                    <li><a href="{url:/site/pro_list/cat/$first[id]}">更多</a></li>
+                </ul>
+            </nav>
+        </header>
+        <section class="floor_body">
+            
+            <div class="floor_show">
+                <div class="classify">
+                    <ul>
+                        {foreach:items=Api::run('getCategoryByParentid',array('#parent_id#',$first['id'])) item=$second}
+                        <li><a href="{url:/site/pro_list/cat/$second[id]}">{$second['name']}</a></li>
+                        {/foreach}
+                    </ul>
+                </div>
+                <div class="ad_classify">
+                        {echo:Ad::show("首页分类广告228*300",$first['id'])}
+                </div>
+            </div>
+            <div class="floor_goods">
+                <ul>
+                    {foreach:items=Api::run('getCategoryExtendList',array('#categroy_id#',$first['id']),10)}
+                    <li>
+                        <a href="{url:/site/products/id/$item['id']}">
+                            <img src="{url:/pic/thumb/img/$item['img']/w/170/h/170}">
+                            <h4>{$item['name']}</h4>
+                            <em>￥{$item['sell_price']}</em>
+                            <del>￥{$item['market_price']}</del>
+                        </a>
+                    </li>
+                    {/foreach}
+                </ul>
+            </div>
+        </section>
+    </section>
+    {/foreach}
+    </div>
+    <div class="louceng">
+        <section class="service">
+        <div class="serve_list">
+            <img src="{webroot:}{echo:IFilter::addSlash($this->_siteConfig->site_help_code)}" alt="" style="width: 1200px;">
+        </div>
+        </section>
+    </div>    
+        
+</div>    
 
 
 
 <section class="friend_link">
-	<h2>友情链接</h2>
-	<ul>
-		<li><a href="">耐耐网耐耐网</a></li>
-		<li><a href="">耐耐网耐耐网</a></li>
-		<li><a href="">耐耐网耐耐网</a></li>
-		<li><a href="">耐耐网耐耐网</a></li>
-		<li><a href="">耐耐网耐耐网</a></li>
-		<li><a href="">耐耐网耐耐网</a></li>
-		<li><a href="">耐耐网耐耐网</a></li>
-		<li><a href="">耐耐网耐耐网</a></li>
-		<li><a href="">耐耐网耐耐网</a></li>
-		<li><a href="">耐耐网耐耐网</a></li>
-	</ul>
+    <h2>友情链接</h2>
+    <ul>
+        {foreach:items=Api::run('getLinkList') item=$link}
+            <li>
+            <a href="{$link['link']}" target="_blank" rel="nofollow">{$link['name']}</a>
+            </li>
+        {/foreach}
+    </ul>
 </section>
 
 <script>
 //dom载入完毕执行
 $(function(){
-	// 调用焦点图
-	$("#home_fouse").FengFocus({trigger : "mouseover"});
-	// 热门商品等选项卡
-	$("#hot_goods").FengTab();
-	// 通知选项卡
-	$("#home_article").FengTab();
-	//显示抢购倒计时
-	var cd_timer = new countdown();
-	{if:isset($countNumsItem) && $countNumsItem}
-	{foreach:items = $countNumsItem}
-		cd_timer.add({$item});
-	{/foreach}
-	{/if}
+    // 调用焦点图
+    $("#home_fouse").FengFocus({trigger : "mouseover"});
+    // 热门商品等选项卡
+    $("#hot_goods").FengTab();
+    // 通知选项卡
+    $("#home_article").FengTab();
+    //显示抢购倒计时
+    var cd_timer = new countdown();
+    {if:isset($countNumsItem) && $countNumsItem}
+    {foreach:items = $countNumsItem}
+        cd_timer.add({$item});
+    {/foreach}
+    {/if}
 });
 </script>
 
 
 <!-- 楼层滚动开始 -->
-		<ul id="LoutiNav">
-			<li class="active">
-			<img src="{skin:/image/index/slide_sj_h.png}" js_data_src="{skin:/image/index/slide_sj_h.png}" js_data="{skin:/image/index/slide_sj_b.png}" alt=""><p>商家推荐</p></li>			
-			<li><img src="{skin:/image/index/slide_sj_h1.png}" js_data_src="{skin:/image/index/slide_tj_h.png}" js_data="{skin:/image/index/slide_tj_b.png}" alt=""><p>特价商品</p></li>
-			<li><img src="{skin:/image/index/slide_sj_h2.png}" js_data_src="{skin:/image/index/slide_zx_h.png}" js_data="{skin:/image/index/slide_zx_b.png}" alt=""><p>装修主材</p></li>
-			<li><img src="{skin:/image/index/slide_sj_h3.png}" js_data_src="{skin:/image/index/slide_jj_h.png}" js_data="{skin:/image/index/slide_jj_b.png}" alt=""><p>家具软装</p></li>
-			<li><img src="{skin:/image/index/slide_sj_h3.png}" js_data_src="{skin:/image/index/slide_jc_h.png}" js_data="{skin:/image/index/slide_jc_b.png}" alt=""><p>家具软装</p></li>
-		</ul>
+        <ul id="LoutiNav">
+            <li class="active">
+            <img src="{skin:/image/index/slide_sj_h.png}" js_data_src="{skin:/image/index/slide_sj_h.png}" js_data="{skin:/image/index/slide_sj_b.png}" alt=""><p>商家推荐</p></li>            
+            <li><img src="{skin:/image/index/slide_sj_h1.png}" js_data_src="{skin:/image/index/slide_tj_h.png}" js_data="{skin:/image/index/slide_tj_b.png}" alt=""><p>特价商品</p></li>
+            {foreach:items=Api::run('getCategoryListTop')  item=$first}
+            <li><img src="{webroot:}{$first['img']}" js_data_src="{webroot:}{$first['img']}" js_data="{webroot:}{$first['imghover']}" alt="{$first['name']}"><p>{$first['name']}</p></li>
+            {/foreach}
+        </ul>
 
-		<!-- <div id="goTop">
-			<span id="erweima">返回顶部</span>
-			Top
-		</div> -->
+        <!-- <div id="goTop">
+            <span id="erweima">返回顶部</span>
+            Top
+        </div> -->
 <!-- 楼层滚动结束 -->
 
 <!-- 右侧栏 -->
 <div class="floor_left_box" id="floornav" data-tpa="YHD_HOMEPAGE_FLOORNAV" style="display: block;">
     <div class="show_div">
-        <a href="#floor-1" data="#floor-1" rel="floor-1" class="fhdb_a">
+        <a href="{url:/ucenter/index}" class="fhdb_a">
             <i class="left_iconfont " display="block"><img src="{skin:/image/index/floor_01.png}">个人中心</i>
             <em class="two_line" display="none"><img src="{skin:/image/index/floor_cur_01.png}">个人中心</em>
         </a>
         <div class="hover_div">
             <em></em>
-            <a href="" data="#toTop" rel="toTop" class="hove_a">个人中心</a>
+            <a href="{url:/ucenter/index}" class="hove_a">个人中心</a>
         </div>
     </div>
      <div class="show_div">
-        <a href="#floor-2" data="#floor-2" rel="floor-2" class="fhdb_a">
+        <a href="{url:/ucenter/favorite}" class="fhdb_a">
             <i class="left_iconfont " display="none"><img src="{skin:/image/index/floor_02.png}">我的收藏</i>
             <em class="two_line" display="black"><img src="{skin:/image/index/floor_cur_02.png}">我的收藏</em>
         </a>
         <div class="hover_div">
             <em></em>
-            <a href="" data="#toTop" rel="toTop" class="hove_a">我的收藏</a>
+            <a href="{url:/ucenter/favorite}" class="hove_a">我的收藏</a>
         </div>
     </div>
      <div class="show_div">
-        <a href="#floor-3" data="#floor-3" rel="floor-3" class="fhdb_a">
+        <a href="" class="fhdb_a">
             <i class="left_iconfont " display="none"><img src="{skin:/image/index/floor_03.png}">我的足迹</i>
             <em class="two_line" display="black"><img src="{skin:/image/index/floor_cur_03.png}">我的足迹</em>
         </a>
         <div class="hover_div">
             <em></em>
-            <a href="" data="#toTop" rel="toTop" class="hove_a">我的足迹</a>
+            <a href="" class="hove_a">我的足迹</a>
         </div>
     </div>
     <div class="show_div">
-        <a href="" class="fhdb_a" data="#toTop" rel="floor-4">
+        <a href="javascript:;" class="fhdb_a" data="#toTop" rel="floor-4">
             <i class="left_iconfont " display="none"><img src="{skin:/image/index/floor_04.png}">客服</i>
             <em class="two_line" display="black"><img src="{skin:/image/index/floor_cur_04.png}">客服</em>
         </a>
         <div class="hover_div">
             <em></em>
-            <a href="" data="#toTop" rel="toTop" class="hove_a">客服</a>
+            <a href="javascript:;" class="hove_a">客服</a>
         </div>
     </div>
     <div class="show_div">
-        <a href="" class="fhdb_a" data="#toTop" rel="toTop">
+        <a href="#" class="fhdb_a" data="#toTop" rel="toTop">
             <i class="left_iconfont " display="none"><img src="{skin:/image/index/floor_05.png}">返回顶部</i>
             <em class="two_line" display="black"><img src="{skin:/image/index/floor_cur_05.png}">返回顶部</em>
         </a>
         <div class="hover_div">
             <em></em>
-            <a href="" data="#toTop" rel="toTop" class="hove_a">返回顶部</a>
+            <a href="#" data="#toTop" rel="toTop" class="hove_a">返回顶部</a>
         </div>
     </div>
 

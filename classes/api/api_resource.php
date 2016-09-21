@@ -83,17 +83,36 @@ return array(
 			'order'=>'sort asc'
 		)
 	),
-	//特价商品列表
-	'getCommendPrice' => array(
+    //特价商品列表
+    'getCommendPrice' => array(
+        'query' => array(
+            'name' => 'commend_goods as co',
+            'join' => 'left join goods as go on co.goods_id = go.id',
+            'where' => 'co.commend_id = 2 and go.is_del = 0 AND go.id is not null',
+            'fields' => 'go.img,go.sell_price,go.name,go.id,go.market_price',
+            'limit'=>'10',
+            'order'=>'sort asc'
+        )
+    ),
+	//推荐商家列表
+	'getRecommendSeller' => array(
 		'query' => array(
-			'name' => 'commend_goods as co',
-			'join' => 'left join goods as go on co.goods_id = go.id',
-			'where' => 'co.commend_id = 2 and go.is_del = 0 AND go.id is not null',
-			'fields' => 'go.img,go.sell_price,go.name,go.id,go.market_price',
-			'limit'=>'10',
-			'order'=>'sort asc'
+			'name' => 'seller',
+			'where' => 'is_del = 0 AND is_lock = 0 AND is_recomm = 1',
+			'fields' => 'id,true_name,seller_logo',
+			'limit'=>'6',
+			'order'=>'is_vip DESC, sort asc'
 		)
 	),
+    
+    //友情链接列表
+    'getLinkList'=>array(
+          'query'=>array(
+            'name'  => 'link',
+            'where' => ' status = 1',
+            'order' => 'sort ASC,id desc'
+        )
+    ),
 	//热卖商品列表
 	'getCommendHot' => array(
 		'query' => array(

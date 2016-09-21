@@ -703,6 +703,114 @@ class Tools extends IController implements adminAuthorization
 		}
 		$this->redirect("ad_list");
 	}
+    
+    
+    
+    //[友情链接] 删除
+    function link_del()
+    {
+        $id = IFilter::act( IReq::get('id') , 'int' );
+        if(!empty($id))
+        {
+            $obj = new IModel('link');
+            if(is_array($id) && isset($id[0]) && $id[0]!='')
+            {
+                $id_str = join(',',$id);
+                $where = ' id in ('.$id_str.')';
+            }
+            else
+            {
+                $where = 'id = '.$id;
+            }
+            $obj->del($where);
+            $this->redirect('link_list');
+        }
+        else
+        {
+            $this->redirect('link_list',false);
+            Util::showMessage('请选择要删除的友情链接');
+        }
+    }
+
+    //[友情链接] 添加修改 (单页)
+    function link_edit()
+    {
+        $id = IFilter::act( IReq::get('id'),'int' );
+        if($id)
+        {
+            $obj = new IModel('link');
+            $where = 'id = '.$id;
+            $this->linkRow = $obj->getObj($where);
+        }
+        $this->redirect('link_edit',false);
+    }
+
+    //[友情链接] 添加和修改动作
+    function link_edit_act()
+    {
+        $id    = IFilter::act( IReq::get('id'),'int' );
+        $linkObj = new IModel('link');
+        $error_message = null;                 
+        
+        /*$image = IReq::get('image','post');
+        $upObj  = new IUpload();
+        $attach = 'img';
+        
+        $dir = IWeb::$app->config['upload'].'/'.date('Y')."/".date('m')."/".date('d');
+        $upObj->setDir($dir);
+        $upState = $upObj->execute();
+        if(!isset($upState[$attach]))
+        {
+            if($image == '')
+            {
+                $error_message = '没有上传文件';
+            }
+        }
+        else
+        {
+            if($upState[$attach][0]['flag']== 1)
+            {
+                $image = $dir.'/'.$upState[$attach][0]['name'];
+            }
+            else
+            {
+                $error_message = IUpload::errorMessage($upState[$attach][0]['flag']);
+            }
+        }*/
+        $dataArray = array(
+            //'image'     => IFilter::addSlash($image),
+            'name'        => IFilter::act(IReq::get('name')), 
+            'link'        => IFilter::addSlash(IReq::get('link')),          
+            'sort'       => IFilter::act(IReq::get('sort'),'int'),
+            'status'       => IFilter::act( IReq::get('status'),'int' )
+        );
+
+        //上传错误
+        if($error_message != null)
+        {
+            if($id)
+            {
+                $dataArray['id'] = $id;
+            }
+            $this->linkObj = $dataArray;
+            $this->redirect('link_edit',false);
+            Util::showMessage($error_message);
+        }
+
+        $linkObj->setData($dataArray);
+
+        if($id)
+        {
+            $where = 'id = '.$id;
+            $linkObj->update($where);
+        }
+        else
+        {
+            $linkObj->add();
+        }
+
+        $this->redirect("link_list");
+    }
 
 	function help_list()
 	{

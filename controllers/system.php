@@ -356,6 +356,31 @@ class System extends IController implements adminAuthorization
 			case "site_footer_conf":
 			{
 				$_POST['site_footer_code']=preg_replace('![\\r\\n]+!',"",$_POST['site_footer_code']);
+                $content = IReq::get('content','post');
+                $upObj  = new IUpload();
+                $attach = 'img';
+                $dir = IWeb::$app->config['upload'].'/'.date('Y')."/".date('m')."/".date('d');
+                $upObj->setDir($dir);
+                $upState = $upObj->execute();
+                if(!isset($upState[$attach]))
+                {
+                    if($content == '')
+                    {
+                        $error_message = '没有上传文件';
+                    }
+                }
+                else
+                {
+                    if($upState[$attach][0]['flag']== 1)
+                    {
+                        $content = $dir.'/'.$upState[$attach][0]['name'];
+                    }
+                    else
+                    {
+                        $error_message = IUpload::errorMessage($upState[$attach][0]['flag']);
+                    }
+                }   
+                $_POST['site_help_code'] = $content;
 			}
 			break;
 

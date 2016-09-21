@@ -30,6 +30,16 @@
 				<input name="true_name" type="text" value="" pattern="required" disabled="disabled" />
 			</fieldset>
 
+            <fieldset>
+                <label>商户logo：</label>
+                <div class="box">
+                    {if:isset($this->sellerRow['seller_logo']) && $this->sellerRow['seller_logo']}
+                    <p><a target="_blank" href="{webroot:}{$this->sellerRow['seller_logo']}"><img src='{webroot:}{$this->sellerRow['seller_logo']}' style='width:180px;border:1px solid #ccc' /></a></p>
+                    {else:}
+                    暂无商户logo
+                    {/if}
+                </div>
+            </fieldset>
 			<fieldset>
 				<label>商户资质材料：</label>
 				<div class="box">

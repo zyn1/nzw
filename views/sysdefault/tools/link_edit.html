@@ -1,0 +1,60 @@
+<div class="headbar">
+	<div class="position"><span>工具</span><span>></span><span>友情链接管理</span><span>></span><span>{if:isset($this->linkRow['id'])}编辑{else:}添加{/if}友情链接</span></div>
+</div>
+<div class="content_box">
+	<div class="content form_content">
+		<form action='{url:/tools/link_edit_act}' method='post' name='link' enctype='multipart/form-data'>
+			<input type='hidden' name='id' value='{$this->linkRow['id']}' />
+			<input type='hidden' name='image' value='{$this->linkRow['image']}' />
+			<table class="form_table">
+				<col width="150px" />
+				<col />
+				<tr>
+					<th>名称：</th>
+					<td>
+						<input type='text' class='normal' name='name' pattern='required' alt="填写名称" />
+						<label>*友情链接名称（必填）</label>
+					</td>
+				</tr>
+				<!--<tr>
+					<th>链接图片：</th>
+					<td>
+						<input type="file" name="img" class="file" /><br />
+					</td>
+				</tr>-->
+				<tr>
+					<th>链接地址：</th>
+					<td>
+						<input type='text' class='normal' name='link' empty pattern='url' alt='请填写正确URL地址' />
+						<label>*友情链接地址（必填）</label>
+					</td>
+				</tr>
+				<tr>
+					<th>排序：</th>
+					<td>
+						<input type='text' class='small' name='sort' pattern='^\d+$' alt='填写正确的数字' />
+						<label>数字越小，排列越靠前</label>
+					</td>
+				</tr>
+                <tr>
+                    <th>是否开启：</th>
+                    <td>
+                        <label class='attr'><input type='radio' name='status' value='1' checked=checked />是 </label>
+                        <label class='attr'><input type='radio' name='status' value='0' />否 </label>
+                    </td>
+                </tr>				
+				<tr>
+					<th></th><td><button class='submit' type='submit'><span>确 定</span></button></td>
+				</tr>
+			</table>
+		</form>
+	</div>
+</div>
+
+<script type='text/javascript'>
+
+//表单回显
+var FromObj = new Form('link');
+FromObj.init({echo:JSON::encode($this->linkRow)});
+
+</script>
