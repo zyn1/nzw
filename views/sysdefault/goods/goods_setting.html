@@ -42,7 +42,7 @@
 						<td>
 							<select class="auto" name="sellerid">
 								<option value="-1" selected="selected">保持不变 </option>
-                                <option value="0">商城平台自营 </option>
+                                <!--<option value="0">商城平台自营 </option>-->
 								{query:name=seller where=is_del eq 0}
 								<option value="{$item['id']}">{$item['true_name']}-{$item['seller_name']}</option>
 								{/query}

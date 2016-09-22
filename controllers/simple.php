@@ -15,7 +15,7 @@
  */
 class Simple extends IController
 {
-    public $layout='site_mini';
+    public $layout='site';
 
 	function init()
 	{
@@ -31,6 +31,7 @@ class Simple extends IController
 		}
 		else
 		{
+            $this->layout = "site_log";
 			$this->redirect('login');
 		}
 	}
@@ -40,6 +41,12 @@ class Simple extends IController
     {
     	plugin::trigger('clearUser');
     	$this->redirect('login');
+    }
+    
+    function reg()
+    {
+        $this->layout = 'site_log';
+        $this->redirect('reg');
     }
 
     //用户注册

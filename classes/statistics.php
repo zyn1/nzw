@@ -236,6 +236,18 @@ class statistics
 		return isset($data['num']) ? $data['num'] : 0;
 	}
 
+    /**
+     * @brief 商户的商品总量
+     * @param int $seller_id 商家ID
+     * @return int
+     */
+    public static function goodsCountSeller($seller_id)
+    {
+        $goodsDB = new IModel('goods');
+        $dataRow = $goodsDB->getObj("seller_id = {$seller_id}",'count(id) as num');
+        return isset($dataRow['num']) ? intval($dataRow['num']) : 0;
+    }
+
 	/**
 	 * @brief 商户的商品销售量
 	 * @param int $seller_id 商家ID
