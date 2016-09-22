@@ -34,15 +34,18 @@
 				<a href="{url:ucenter/index}">个人中心</a>
 				<dl>
 					<dd><a href="{url:ucenter/order}">我的订单</a></dd>
-					<dd><a href="{url:ucenter/address}">我的收货地址</a></dd>
+					<dd><a href="{url:ucenter/address}">收货地址</a></dd>
 					<dd><a href="{url:ucenter/integral}">我的积分</a></dd>
 					<dd><a href="{url:ucenter/account_log}">我的资金</a></dd>
 				</dl>
 			</li>
+			<li class="message"><a href="">消息</a></li>
 			<li><a href="{url:/simple/seller}">申请开店</a></li>
-			<li><a href="{url:/seller/index}">商家管理</a></li>
-			<li><a href="{url:/site/help_list}">使用帮助</a></li>
-			<li>客服电话：<em>4008-669-889</em></li>
+			<!-- <li><a href="{url:/seller/index}">商家管理</a></li>
+			<li><a href="{url:/site/help_list}">使用帮助</a></li> -->
+			<li><a href="{url:/}">在线客服</a></li>
+			<li><a href="{url:/}">关于我们</a></li>
+			<li>客服热线：<em>400-880-2600</em></li>
 		</ul>
 	</div>
 	<div class="header_main">
@@ -58,8 +61,50 @@
 				<input type='hidden' name='action' value='search_list'>
 				<div class="search_box">
 					<input class="input_keywords" type="text" name='word' autocomplete="off" placeholder="输入关键词">
-					<input class="input_submit" type="submit" value="搜索">
+					<input class="input_submit" type="submit" value="">
 				</div>
+
+				<div class="search_xz">
+					<input type="button" class="search_select" value="商品">
+					<input type="hidden" name="type"/>
+					<ul id="search_list">
+                        <li js_data="1">商品</li>
+						<li js_data="2">商家</li>
+					</ul>
+				</div>
+				<!--搜索框下拉JS-->
+				<script>
+					$(function(){
+						$(".search_select").click(function(){
+							if($("#search_list").is(":hidden")){
+								$("#search_list").show()
+								$(".search_select").addClass('down');
+							}else{
+								$("#search_list").hide()
+								$(".search_select").removeClass('down');
+							}
+						})
+						$("#search_list li").each(function(){
+							$(this).hover(function(){
+								$(this).css('background','#f7f7f7');
+							},function(){
+								$(this).css('background','#FFF');
+							})
+
+						})
+						$("#search_list li").each(function(){
+							var _t = $(this)
+									,_v = _t.attr('js_data');
+							_t.click(function(){
+								$('.search_select').val(_t.text());
+								$('input[name=type]').val(_v);
+								$('#search_list').hide();
+								$(".search_select").removeClass('down');
+							})
+						})
+					});
+				</script>
+
 			</form>
 			<div class="hot_words">
 				{foreach:items=Api::run('getKeywordList') }
@@ -72,7 +117,7 @@
 			<em class="count" name="mycart_count"]>0</em>
 			<i class="icon-shopping-cart"></i>
 			<a href="{url:/simple/cart}" class="go_cart">去购物车结算</a>
-			<div class="cart_simple" id="div_mycart"></div>
+			<!-- <div class="cart_simple" id="div_mycart"></div> -->
 		</div>
 		<!--购物车模板 开始-->
 		<script type='text/html' id='cartTemplete'>
@@ -176,46 +221,18 @@
 		{set:$catIco = array('help-new','help-delivery','help-pay','help-user','help-service')}
 		{foreach:items=Api::run('getHelpCategoryFoot') item=$helpCat}
 		<dl class="help_{echo:$key+1}">
-			<dt><i class="icon"></i>{$helpCat['name']}</dt>
+			<dt></i>{$helpCat['name']}</dt>
 			{foreach:items=Api::run('getHelpListByCatidAll',array('#cat_id#',$helpCat['id']))}
 			<dd><a href="{url:/site/help/id/$item[id]}">{$item['name']}</a></dd>
 			{/foreach}
 		</dl>
 		{/foreach}
 		<div class="contact">
-			<span class="tel"><i class="icon-phone"></i>4008-669-889</span>
-			<span class="mail"><i class="icon-envelope-alt"></i>cs@bubugao.com</span>
+			<div class="tel">扫码关注耐装网</div>
+			<div class="mail"><img src="{skin:/image/index/code.png}" alt=""></div>
 		</div>
 	</section>
-	<section class="service">
-		<ul>
-			<li class="item1">
-				<i class="icon-star"></i>
-				<strong>正品优选</strong>
-				<span>共享集团供应链</span>
-			</li>
-			<li class="item2">
-				<i class="icon-globe"></i>
-				<strong>上市公司</strong>
-				<span>诚信服务 品质保证</span>
-			</li>
-			<li class="item3">
-				<i class="icon-group"></i>
-				<strong>300家连锁门店</strong>
-				<span>门店体验 网上下单</span>
-			</li>
-			<li class="item4">
-				<i class="icon-plane"></i>
-				<strong>长株潭次日达</strong>
-				<span>专业物流 及时送达</span>
-			</li>
-			<li class="item5">
-				<i class="icon-gift"></i>
-				<strong>满99包邮</strong>
-				<span>轻松购物，超值贴心</span>
-			</li>
-		</ul>
-	</section>
+	
 	<section class="copy">
 		{echo:IFilter::stripSlash($this->_siteConfig->site_footer_code)}
 	</section>
