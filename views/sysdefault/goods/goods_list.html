@@ -3,7 +3,7 @@
 <div class="headbar">
 	<div class="position"><span>商品</span><span>></span><span>商品管理</span><span>></span><span>商品列表</span></div>
 	<div class="operating">
-		<a href="javascript:void(0);"><button class="operating_btn" type="button" onclick="window.location.href='{url:/goods/goods_edit}'"><span class="addition">添加商品</span></button></a>
+		<!--<a href="javascript:void(0);"><button class="operating_btn" type="button" onclick="window.location.href='{url:/goods/goods_edit}'"><span class="addition">添加商品</span></button></a>-->
 		<a href="javascript:void(0);"><button class="operating_btn" type="button" onclick="selectAll('id[]')"><span class="sel_all">全选</span></button></a>
 		<a href="javascript:void(0);"><button class="operating_btn" type="button" onclick="goods_del()"><span class="delete">删除</span></button></a>
 		<a href="javascript:void(0);"><button class="operating_btn" type="button" onclick="goods_stats('up')"><span class="import">上架</span></button></a>
@@ -11,7 +11,7 @@
 		<a href="javascript:void(0);"><button class="operating_btn" type="button" onclick="goods_stats('check')"><span class="stop">待审</span></button></a>
 		<a href="javascript:void(0);"><button class="operating_btn" type="button" onclick="window.location.href='{url:/goods/goods_recycle_list}'"><span class="recycle">回收站</span></button></a>
 		<a href="javascript:void(0);"><button class="operating_btn" type="button" onclick="goodsCommend();"><span class="grade">商品推荐</span></button></a>
-		<a href="javascript:void(0);"><button class="operating_btn" type="button" onclick="goodsShare();" title="开启/取消商品共享" alt="开启/取消商品共享"><span class="filter">商品共享</span></button></a>
+		<!--<a href="javascript:void(0);"><button class="operating_btn" type="button" onclick="goodsShare();" title="开启/取消商品共享" alt="开启/取消商品共享"><span class="filter">商品共享</span></button></a>-->
         <a href="javascript:void(0);"><button class="operating_btn" type="button" onclick="goodsSetting();" title="批量设置" alt="批量设置"><span class="remove">批量设置</span></button></a>
 	</div>
 
@@ -19,11 +19,11 @@
 		<form action="{url:/}" method="get" name="searchListForm">
 			<input type='hidden' name='controller' value='goods' />
 			<input type='hidden' name='action' value='goods_list' />
-			<select class="auto" name="search[seller_id]">
+			<!--<select class="auto" name="search[seller_id]">
 				<option value="">选择商品所属</option>
 				<option value="=0">平台商品</option>
 				<option value="!=0">商户商品</option>
-			</select>
+			</select>-->
 			<select class="auto" name="search[is_del]">
 				<option value="">选择上下架</option>
 				<option value="0">上架</option>

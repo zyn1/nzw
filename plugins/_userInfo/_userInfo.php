@@ -100,9 +100,16 @@ class _userInfo extends pluginBase
 	public function userLoginAct()
 	{
     	$login_info = IFilter::act(IReq::get('login_info','post'));
-    	$password   = IReq::get('password','post');
-    	$remember   = IFilter::act(IReq::get('remember','post'));
+        $password   = IReq::get('password','post');
+    	$captcha    = IFilter::act(IReq::get('captcha','post'));
+        $_captcha   = ISafe::get('captcha');
+    	$is_auto   = IFilter::act(IReq::get('is_auto','post'));
 
+        if(!$_captcha || !$captcha || $captcha != $_captcha)
+        {
+            return "图形验证码输入不正确";
+        }
+        
     	if($login_info == '')
     	{
     		return '请填写用户名，邮箱，手机号';
@@ -119,13 +126,14 @@ class _userInfo extends pluginBase
 			$this->userLoginCallback($userRow);
 
 			//记住帐号
-			if($remember == 1)
+			if($is_auto == 1)
 			{
-				ICookie::set('loginName',$login_info);
+                ICookie::set('loginName',$login_info);
+				ICookie::set('loginNamePassword',$password);
 			}
 			return $userRow;
 		}
-		return "未找到用户信息";
+		return "用户名或密码错误";
 	}
 
 	//用户注册

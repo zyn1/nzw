@@ -449,7 +449,8 @@ class Seller extends IController implements sellerAuthorization
 		$address     = IFilter::act(IReq::get('address'));
 		$account     = IFilter::act(IReq::get('account'));
 		$server_num  = IFilter::act(IReq::get('server_num'));
-		$home_url    = IFilter::act(IReq::get('home_url'));
+        $home_url    = IFilter::act(IReq::get('home_url'));
+		$sales       = IFilter::act(IReq::get('sales'));
 		$tax         = IFilter::act(IReq::get('tax'),'float');
 
 		if(!$seller_id && $password == '')
@@ -481,8 +482,9 @@ class Seller extends IController implements sellerAuthorization
 			'city'      => $city,
 			'area'      => $area,
 			'server_num'=> $server_num,
-			'home_url'  => $home_url,
-			'tax'      => $tax,
+            'home_url'  => $home_url,
+			'sales'     => $sales,
+			'tax'       => $tax,
 		);
 
 		//创建商家操作类

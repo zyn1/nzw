@@ -1,0 +1,77 @@
+{js:areaSelect}
+<link rel="stylesheet" href="{skin:style/css/seller/seller.css}">
+<script src="{theme:javascript/turn_page.js}"></script>
+<script type='text/javascript'>
+$(function(){
+    //排序字段
+    {set:$orderValue = IReq::get('order') ?  IFilter::act(IReq::get('order')) : 'default'}
+    {if:$orderValue}
+    $('#order_{$orderValue}').addClass('color').find('a').css('color', '#FFF');
+    {/if}
+})
+</script>
+<div style="background:#f6f6f6;padding-bottom:50px;">
+<section class="web">
+	<div class="screen">
+		<ul>
+            {foreach:items=search_seller::getOrderType()}
+            <li id="order_{$key}">
+                <a href="{echo:search_goods::searchUrl(array('order','by'),array($key,search_goods::getOrderBy($key)))}">{$item}</a>
+            </li>
+            {/foreach}
+			<!--<li class="color">默认排序</li>
+			<li>销量</li>
+			<li>信用</li>-->
+		</ul>
+	</div>
+	<div class="merch_list">
+        {if:$this->word}
+        {set:$defaultWhere = array('search' => $this->word)}
+        {set:$queryObj = search_seller::find($defaultWhere,20);$resultData = $queryObj->find();}
+        {else:}
+        {set:$queryObj=Api::run('getSellerList');$resultData=$queryObj->find()}
+        {/if}
+        {if:$resultData}
+        <ul>
+            {foreach:items=$resultData}
+            <li>
+                <div class="merch_left">
+                    <a href="{url:/site/home/id/$item['id']}"><img src="{webroot:}{$item['seller_logo']}" alt="{$item['true_name']}"></a>
+                </div>
+                <div class="merch_right">
+                    <dl>
+                        <dt>{$item['true_name']}</dt>
+                        <!--<dd>主营：林业家具</dd>-->
+                        <dd>{echo:join(' ',area::name($item['province'],$item['city'],$item['area']))}</dd>
+                        <dd>主营商品：{$item['sales']}</dd>
+                    </dl>
+                </div>
+                <div class="bottom_word">
+                    <span>销量{$item['sale']}</span>   
+                    <span>共{echo:statistics::goodsCountSeller($item['id'])}件宝贝</span>
+                    <p class="star_box"><strong class="item">评分：</strong><span class="star stat_{echo:Common::gradeWidth(statistics::gradeSeller($item['id']))}"></span></p>
+                    
+                </div>
+            </li>
+
+
+            {/foreach}
+        </ul>
+        {else:}
+        <p class="no_tip">
+            对不起，当前系统没有商家
+        </p>
+        {/if}
+	</div>
+    {if:$resultData}
+	<div class="turn_page"> 
+    {$queryObj->getPageBar()}
+    </div>
+    {/if} 
+            
+
+</section>
+</div>
+
+
+

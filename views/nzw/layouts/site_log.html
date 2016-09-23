@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    
+</head>
+<link rel="stylesheet" href="{skin:style/css/simple/register.css}">
+{js:jquery}
+{js:form}
+{js:validate}
+<body>
+    <header>
+        <div class="header">
+            <div class="head_main">
+                <div class="head_left">
+                    <div class="logo_img"><a href="{url:/}"><img src="{if:$this->_siteConfig->logo}{webroot:$this->_siteConfig->logo}{else:}{skin:image/logo.png}{/if}" alt=""></a></div>
+                    <div class="word_img"><img src="{skin:/image/index/word.png}" alt=""></div>
+                </div>
+                <div class="head_right">
+                    <ul>
+                        <li>客服热线：400-611-6880</li>
+                        <li><a href="{url:/site/help/id/45}">帮助中心</a></li>
+                        <li><a href="{url:/}">首页</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </header >
+    {viewcontent}
+    <div class="footer_bot">Copyright 2008-2015 vip.com，All Rights Reserved ICP证：粤 B2-20080</div>
+</body>
+</html>
