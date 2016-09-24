@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>注册</title>
+</head>
+<link rel="stylesheet" href="../skin/default/style/css/simple/register.css">
+<script src="../javascript/jquery_1.6.2.main.js"></script>
+<body>
+	<header>
+		<div class="header">
+			<div class="head_main">
+				<div class="head_left">
+					<div class="logo_img"><a href=""><img src="../skin/default/image/index/logo.png" alt=""></a></div>
+					<div class="word_img"><img src="../skin/default/image/index/word.png" alt=""></div>
+				</div>
+				<div class="head_right">
+					<ul>
+						<li>客服热线：400-611-6880</li>
+						<li><a href="">帮助中心</a></li>
+						<li><a href="">首页</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</header >
+	<main>	
+			<div class="tab_reg">
+				<div class="reg_top">
+					<div class="tab_btn">
+						<h3 class="reg_mob color">手机注册</h3>
+						<h3 class="reg_mail">邮箱注册</h3>
+					</div>
+					<div class="tab_right"><a href="">登录</a></div>
+				</div>
+
+
+				<div class="conten">
+				<form action="">
+			<!--手机号注册  -->
+					<div class="reg_content mobile">	
+							<div>
+								<label for="">手机号：</label><input type="text" name="" id="" class="text" maxlength="20" placeholder="请输入手机号">
+							</div>
+							<div class="verfy">
+								<div class="auth_code">
+									<label for="">验证码：</label><input type="text" name="" id="" class="text" maxlength="20" placeholder="请输入验证码">
+								</div>
+								<div class="box_auth">
+									<img src="../skin/default/image/index/getcaptcha.jpg" alt="">
+								</div>
+							</div>
+							<div class="verfy">
+								<div class="auth_code">
+									<label for="">验证码：</label><input type="text" name="" id="" class="text" maxlength="20" placeholder="">
+								</div>
+								<div class="box_auth">
+									<input class="gain" type="button" value="获取验证码">
+								</div>
+							</div>
+							<div>
+								<label for="">设置密码：</label><input class="setpas" style="margin-top: -3px;" type="text" name="" id="" class="text" maxlength="20" placeholder="60-20个大小写英文字母、符号或数字">
+							</div>
+							<div>
+								<label for="">确认密码：</label><input type="text" name="" id="" class="text" maxlength="20" placeholder="请再次输入密码">
+							</div>
+							<span class="agreement">点击注册，表示您同意山城速购<a href=""> 《服务协议》</a></span>	
+							<div class="mob_btn">
+								<input type="submit" value="注册">
+							</div>
+					</div> 
+
+<!-- 邮箱注册 -->
+					<div class="reg_content email" style="display:none;">
+							
+							<div>
+								<label for="">邮箱：</label><input type="text" name="" id="" class="text" maxlength="20" placeholder="请输入邮箱地址">
+							</div>
+							<div>
+								<label for="">设置密码：</label><input class="setpas" type="text" name="" id="" class="text" maxlength="20" placeholder="60-20个大小写英文字母、符号或数字">
+							</div>
+							<div>
+								<label for="">确认密码：</label><input type="text" name="" id="" class="text" maxlength="20" placeholder="请再次输入密码">
+							</div>
+							<div>
+								<label for="">手机号：</label><input type="text" name="" id="" class="text" maxlength="20" placeholder="请输入手机号">
+							</div>
+							<div class="verfy">
+								<div class="auth_code">
+									<label for="">验证码：</label><input type="text" name="" id="" class="text" maxlength="20" placeholder="请输入验证码">
+								</div>
+								<div class="box_auth">
+									<img src="../skin/default/image/index/getcaptcha.jpg" alt="">
+								</div>
+							</div>
+							<div class="verfy">
+								<div class="auth_code">
+									<label for="">验证码：</label><input type="text" name="" id="" class="text" maxlength="20" placeholder="">
+								</div>
+								<div class="box_auth">
+									<input class="gain" type="button" value="获取验证码">
+								</div>
+							</div>
+							
+							<span class="agreement">点击注册，表示您同意山城速购<a href=""> 《服务协议》</a></span>	
+							<div class="mob_btn">
+								<input type="submit" value="注册">
+							</div>
+					</div>
+			<script>
+				$(function(){
+					var tabmob = $(".tab_btn .reg_mob");
+					var tabmail = $(".tab_btn .reg_mail");
+					var mob = $(".reg_content.mobile");
+					var email = $(".reg_content.email");
+					tabmail.click(function(){
+						tabmail.addClass("color");
+						tabmob.removeClass("color");
+						email.show();
+						mob.hide();
+					})
+					tabmob.click(function(){
+						tabmail.removeClass("color");
+						tabmob.addClass("color");
+						email.hide();
+						mob.show();
+					})
+				})
+			</script>
+				
+					<div class="ad_box">
+						<img src="../skin/default/image/index/reg_r.png" alt="">
+					</div>
+				</form>
+				</div>
+
+
+
+			</div>
+		    <div class="containt"></div>		
+	</main>
+	<div class="footer_bot">Copyright 2008-2015 vip.com，All Rights Reserved ICP证：粤 B2-20080</div>
+</body>
+</html>

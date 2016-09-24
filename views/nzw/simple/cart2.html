@@ -94,9 +94,9 @@ $(function(){
 
 						<!--配送信息-->
 						<script type='text/html' id='deliveryTemplate'>
-							<span style="color:#e4393c">运费：￥<%=item['price']%></span>
+							<span style="color:#ee5d1e">运费：￥<%=item['price']%></span>
 							<%if(item['protect_price'] > 0){%>
-							<span style="color:#e4393c">保价：￥<%=item['protect_price']%></span>
+							<span style="color:#ee5d1e">保价：￥<%=item['protect_price']%></span>
 							<%}%>
 						</script>
 
@@ -130,6 +130,7 @@ $(function(){
 									<input class="radio" name="payment" alt="{$paymentPrice}" onclick='orderFormInstance.paymentSelected({$item['id']});' title="{$item['name']}" type="radio" value="{$item['id']}" />
 									{$item['name']}
 								</label>
+								<img class="ali_type" src="{skin:/image/index/alipay.png}" alt="">
 							</th>
 							<td>{$item['note']} {if:$paymentPrice}支付手续费：￥{$paymentPrice}{/if}</td>
 						</tr>
@@ -186,7 +187,7 @@ $(function(){
 							<tr>
 								<td><img src="{url:/pic/thumb/img/$item[img]/w/66/h/66}" width="66px" height="66px" alt="{$item['name']}"></td>
 								<td>
-									<a href="{url:/site/products/id/$item['goods_id']}" class="blue">{$item['name']}</a>
+									<a href="{url:/site/products/id/$item['goods_id']}" class="gray_cart">{$item['name']}</a>
 									{if:isset($item['spec_array'])}
 									<p>
 									{set:$spec_array=Block::show_spec($item['spec_array']);}
@@ -210,19 +211,19 @@ $(function(){
 			</section>
 			<section class="cart_item">
 				<h3>结算信息</h3>
-				<div class="cart_item_count">
+				<div class="cart_item_count last">
 					<div class="count">
-						{if:$this->final_sum != $this->sum}优惠后总金额{else:}商品总金额{/if}：<strong>{$this->final_sum}</strong> - 
-						代金券：<strong name='ticket_value'>0</strong> + 
-						税金：<strong id='tax_fee'>0</strong> + 
-						运费总计：<strong id='delivery_fee_show'>0</strong> + 
-						保价：<strong id='protect_price_value'>0</strong> + 
+						<p>{if:$this->final_sum != $this->sum}优惠后总金额{else:}商品总金额{/if}：<strong>{$this->final_sum}</strong></p>  
+						<!-- 代金券：<strong name='ticket_value'>0</strong>  
+						税金：<strong id='tax_fee'>0</strong>  -->
+						<p>运费总计：<strong id='delivery_fee_show'>0</strong></p>  
+						<p>保价：<strong id='protect_price_value'>0</strong> </p> 
 						支付手续费：<strong id='payment_value'>0</strong>
 						<br>
-						<div class="use_ticket_btn" onclick="orderFormInstance.ticketShow()">
+						<!-- <div class="use_ticket_btn" onclick="orderFormInstance.ticketShow()">
 							<i class="icon-tag"></i>
 							<span>使用代金卷</span>
-						</div>
+						</div> -->
 					</div>
 					<table>
 						<col width="220">
