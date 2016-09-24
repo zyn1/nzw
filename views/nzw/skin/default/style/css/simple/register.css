@@ -127,9 +127,10 @@ a, a * { cursor: pointer; }
 }
 .reg_content div{height: 42px; width: 300px;border: 1px solid #dbdbdb;margin-bottom: 30px;}
 .reg_content div input{height: 42px; width: 220px; border: none; vertical-align: middle;outline: none;box-shadow: none;}
+.reg_content div.setPass input{width: 207px;}
 .reg_content div label{color: #848484; font-size: 15px;line-height: 30px; margin-left: 8px;}
 .reg_content .auth_code{width: 190px;float: left; }
-.reg_content .auth_code input{width: 120px;}
+.reg_content .auth_code input{width: 100px;}
 .reg_content div.verfy{border: none;}
 .verfy .box_auth{
     float: left;

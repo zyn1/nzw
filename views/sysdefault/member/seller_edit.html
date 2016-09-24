@@ -31,6 +31,12 @@
 						<th>商户真实全称：</th>
 						<td><input class="normal" name="true_name" type="text" value="" pattern="required" /></td>
 					</tr>
+                    {if:$this->sellerRow['type'] == 2}
+                    <tr>
+                        <th>合同编号：</th>
+                        <td><input class="normal" name="con_num" readonly="readonly" type="text" value="" alt="" /></td>
+                    </tr>
+                    {/if}
                     <tr>
                         <th>商户logo：</th>
                         <td>
@@ -86,7 +92,7 @@
 					</tr>
 					<tr>
 						<th>企业官网：</th>
-						<td><input class="normal" name="home_url" type="text" pattern="url" empty value="" alt="请填写完整的URL地址，比如：http://www.aircheng.com" /><label>填写完整的网址，如：http://www.aircheng.com</label></td>
+						<td><input class="normal" name="home_url" type="text" pattern="url" empty value="" alt="请填写完整的URL地址，比如：http://www.aircheng.com" /><label>填写完整的网址</label></td>
 					</tr>
 					<tr>
 						<th>排序：</th>

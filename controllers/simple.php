@@ -1226,7 +1226,9 @@ class Simple extends IController
 		$province    = IFilter::act(IReq::get('province'),'int');
 		$city        = IFilter::act(IReq::get('city'),'int');
 		$area        = IFilter::act(IReq::get('area'),'int');
-		$address     = IFilter::act(IReq::get('address'));
+        $address     = IFilter::act(IReq::get('address'));
+        $con_num     = IFilter::act(IReq::get('con_num'));
+		$type        = IFilter::act(IReq::get('type'));
 
 		if($password == '')
 		{
@@ -1277,22 +1279,29 @@ class Simple extends IController
 			'province'  => $province,
 			'city'      => $city,
 			'area'      => $area,
-			'home_url'  => $home_url,
+            'home_url'  => $home_url,
+            'con_num'   => $con_num,
+			'type'      => $type,
 			'is_lock'   => 1,
 		);
 
-		//商户资质上传
-		if(isset($_FILES['paper_img']['name']) && $_FILES['paper_img']['name'])
+		//商户资质、logo上传
+		if((isset($_FILES['paper_img']['name']) && $_FILES['paper_img']['name']) || (isset($_FILES['seller_logo']['name']) && $_FILES['seller_logo']['name']))
 		{
 			$uploadObj = new PhotoUpload();
 			$uploadObj->setIterance(false);
 			$photoInfo = $uploadObj->run();
-			if(isset($photoInfo['paper_img']['img']) && file_exists($photoInfo['paper_img']['img']))
-			{
-				$sellerRow['paper_img'] = $photoInfo['paper_img']['img'];
-			}
 		}
 
+        if(isset($photoInfo['paper_img']['img']) && file_exists($photoInfo['paper_img']['img']))
+        {
+            $sellerRow['paper_img'] = $photoInfo['paper_img']['img'];
+        }
+            
+        if(isset($photoInfo['seller_logo']['img']) && file_exists($photoInfo['seller_logo']['img']))
+        {
+            $sellerRow['seller_logo'] = $photoInfo['seller_logo']['img'];
+        }
 		$sellerRow['seller_name'] = $seller_name;
 		$sellerRow['password']    = md5($password);
 		$sellerRow['create_time'] = ITime::getDateTime();

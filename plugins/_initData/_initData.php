@@ -114,9 +114,16 @@ function creatUrl(param)
 }
 
 //切换验证码
-function changeCaptcha()
+function changeCaptcha(obj)
 {
-	$('#captchaImg').prop('src',creatUrl("site/getCaptcha/random/"+Math.random()));
+    if(obj)
+    {
+        $(obj).prop('src',creatUrl("site/getCaptcha/random/"+Math.random()));
+    }
+    else
+    {
+	    $('#captchaImg').prop('src',creatUrl("site/getCaptcha/random/"+Math.random()));
+    }
 }
 </script>
 EOF;

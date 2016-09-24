@@ -4,7 +4,13 @@ function _sendMobileCode(_self)
 {
 	$(_self).prop("disabled",true);
 	var mobile = $('[name="mobile"]').val();
-	var captcha = $('[name="captcha"]').val();
+    var captcha = '';
+    $('[name="captcha"]').each(function(){
+        if($(this).is(':visible'))
+        {
+            captcha = $(this).val();
+        }
+    })
 	$.get("{url:/simple/_sendMobileCode}",{"captcha":captcha,"mobile":mobile},function(content)
 	{
 		if(content)

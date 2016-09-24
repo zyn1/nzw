@@ -38,7 +38,8 @@ $where = $conditon ? " and ".$conditon : "";
 				<col width="140px" />
 				<col width="100px" />
 				<col width="110px" />
-				<col width="70px" />
+                <col width="70px" />
+				<col width="100px" />
 				<col width="80px" />
 				<col width="80px" />
 				<col width="80px" />
@@ -53,7 +54,8 @@ $where = $conditon ? " and ".$conditon : "";
 					<th>真实名称</th>
 					<th>座机</th>
 					<th>移动电话</th>
-					<th>VIP</th>
+                    <th>VIP</th>
+					<th>申请类型</th>
 					<th>销量</th>
 					<th>评分</th>
 					<th>状态</th>
@@ -71,7 +73,8 @@ $where = $conditon ? " and ".$conditon : "";
 					<td title="{echo:htmlspecialchars($item['true_name'])}">{$item['true_name']}</td>
 					<td title="{echo:htmlspecialchars($item['phone'])}">{$item['phone']}</td>
 					<td title="{echo:htmlspecialchars($item['mobile'])}">{$item['mobile']}</td>
-					<td>{echo:$item['is_vip'] == 0 ? '否':'是'}</td>
+                    <td>{echo:$item['is_vip'] == 0 ? '否':'是'}</td>
+					<td>{echo:$item['type'] == 1 ? '线上申请':'线下申请'}</td>
 					<td>{echo:statistics::sellCountSeller($item['id'])} 件</td>
 					<td>{echo:statistics::gradeSeller($item['id'])} 分</td>
 					<td>
