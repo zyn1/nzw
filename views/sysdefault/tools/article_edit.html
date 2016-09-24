@@ -11,7 +11,7 @@
 					<col width="150px" />
 					<col />
 				</colgroup>
-				<tr>
+				<!--<tr>
 					<th>分类：</th>
 					<td>
 						<select class="auto" name="category_id" pattern="required" alt="请选择分类值">
@@ -22,10 +22,13 @@
 						</select>
 						<label>*选择文章所属分类（必填）</label>
 					</td>
-				</tr>
+				</tr>-->
 				<tr>
 					<th>标题：</th>
-					<td><input type='text' name='title' class='normal' value='' pattern='required' alt='标题不能为空' /></td>
+					<td>
+                    <input type="hidden" name="category_id" value="1">
+                    <input type='text' name='title' class='normal' value='' pattern='required' alt='标题不能为空' />
+                    </td>
 				</tr>
 				<tr>
 					<th>是否发布：</th>

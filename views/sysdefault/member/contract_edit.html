@@ -1,0 +1,54 @@
+{js:artTemplate}
+
+<div class="headbar">
+	<div class="position"><span>会员</span><span>></span><span>合同管理</span><span>></span><span>编辑合同</span></div>
+</div>
+
+<div class="content_box">
+	<div class="content form_content">
+		<form action="{url:/member/contract_add}" method="post" name="contractForm" enctype='multipart/form-data'>
+			<input name="id" value="" type="hidden" />
+            <input type='hidden' name='con_file' value='{$this->contractRow['con_file']}' />
+			<table class="form_table">
+				<colgroup>
+					<col width="150px" />
+					<col />
+				</colgroup>
+
+				<tbody>
+					<tr>
+						<th>合同名称：</th>
+						<td><input class="normal" name="name" type="text" value="" pattern="required" alt="合同名不能为空" /><label>* 合同名称（必填）</label></td>
+					</tr>
+					<tr>
+						<th>合同编号：</th><td><input class="normal" name="con_num" type="text"/><label>* 合同编号</label></td>
+					</tr>
+                    <tr>
+                        <th>合同文档：</th>
+                        <td>
+                            <input type='file' name='con_file' />
+                            {if:isset($this->contractRow['con_file']) && $this->contractRow['con_file']}
+                            <p><a target="_blank" href="{webroot:}{$this->contractRow['con_file']}">{$this->contractRow['con_file']}</a></p>
+                            {/if}
+                        </td>
+                    </tr>
+					<tr>
+						<td></td><td><button class="submit" type="submit"><span>确 定</span></button></td>
+					</tr>
+				</tbody>
+			</table>
+		</form>
+	</div>
+</div>
+
+<script language="javascript">
+//DOM加载完毕
+$(function()
+{
+//修改模式
+{if:$this->contractRow}
+var formObj = new Form('contractForm');
+formObj.init({echo:JSON::encode($this->contractRow)});
+{/if}
+})
+</script>

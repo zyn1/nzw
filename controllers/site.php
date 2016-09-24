@@ -447,7 +447,8 @@ class Site extends IController
 			$visit = $visit === null ? $checkStr : $visit.$checkStr;
 			ISafe::set('visit',$visit);
 		}
-
+        $user_id = $this->user ? $this->user['user_id'] : 0;
+        user_history::set_user_history($goods_id,$user_id);
 		$this->setRenderData($goods_info);
 		$this->redirect('products');
 	}
@@ -826,4 +827,13 @@ class Site extends IController
 		$this->setRenderData(array('sellerRow' => $sellerRow,'seller_id' => $seller_id));
 		$this->redirect('home');
 	}
+    
+    //商品详情页商家详情
+    function seller_info_ajax()
+    {
+        $seller_id = IFilter::act(IReq::get('seller_id'),'int');
+        $sellerDB = new IModel('seller');
+        $info = $sellerDB->getObj('id = '.$seller_id);
+        echo $info ? JSON::encode($info) : '';
+    }
 }

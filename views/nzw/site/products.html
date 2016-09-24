@@ -156,9 +156,10 @@
 		<div class="goods_tab" name="showButton">
 			<label class="current">商品详情</label>
 			<label>顾客评价({$comments})</label>
-			<label>购买记录({$buy_num})</label>
-			<label>购买前咨询({$refer})</label>
-			<label>网友讨论圈({$discussion})</label>
+            <label>购买记录({$buy_num})</label>
+			<label>商家介绍</label>
+			<!--<label>购买前咨询({$refer})</label>
+			<label>网友讨论圈({$discussion})</label>-->
 		</div>
 		<div class="goods_con" name="showBox">
 			<!-- 商品详情 start -->
@@ -174,8 +175,12 @@
 					<li>商品毛重：<label id="data_weight">{$weight}</label></li>
 					{/if}
 
-					{if:isset($unit) && $unit}
-					<li>单位：{$unit}</li>
+                    {if:isset($maker) && $maker}
+                    <li>制造商：{$maker}</li>
+                    {/if}
+                    
+					{if:isset($local_place) && $local_place}
+					<li>产地：{$local_place}</li>
 					{/if}
 
 					{if:isset($up_time) && $up_time}
@@ -249,6 +254,20 @@
 				</script>
 			</div>
 			<!-- 购买记录 end -->
+            
+            <!-- 商家详情 start -->
+            <div class="none seller_info">
+            <div id='sellerInfoBox'></div>
+            </div>
+            <script type='text/html' id='sellerInfoTemplate'>
+                <div class="">
+                    <ul class="goods_infos">
+                    <li>商家logo：<img src="{webroot:}<%=seller_logo%>"/></li>
+                    <li>商家名称: <strong><%=true_name%></strong></li>
+                    </ul>
+                </div>
+            </script>
+            <!-- 商家详情 end -->
 
 			<!-- 购买前咨询 start -->
 			<div class="none ask_list ">
@@ -330,13 +349,14 @@
 			<h3 class="bar_box_head">热卖排行</h3>
 			<ul class="bar_goods_big">
 				{foreach:items=Api::run('getCommendHot')}
+                {set:$k = $key +1}
 				<li>
 					<a href="{url:/site/products/id/$item[id]}">
 						<img class="hot_img" src="{url:/pic/thumb/img/$item['img']/w/205/h/205}" alt="{$item['name']}">
 						<div>
 							<span class="hot_deta">{$item['name']}</span>
 							<em class="hot_price">￥{$item['sell_price']}</em>
-							<i class="sorting">1</i>
+							<i class="sorting">{$k}</i>
 						</div>
 					</a>
 				</li>
@@ -349,7 +369,7 @@
 <script>
 $(function(){
 	//初始化商品详情对象
-	var productInstance = new productClass("{$id}","{$this->user['user_id']}","{$promo}","{$active_id}");
+	var productInstance = new productClass("{$id}","{$this->user['user_id']}","{$promo}","{$active_id}", "{$seller_id}");
 
 	//初始化商品轮换图
 	$('#goodsPhotoList').bxSlider({
@@ -402,12 +422,18 @@ $(function(){
 			}
 			break;
 
-			case 2:
+            case 2:
+            {
+                productInstance.history_ajax();
+            }
+            break;
+            
+			case 3:
 			{
-				productInstance.history_ajax();
+				productInstance.seller_info_ajax();
 			}
 			break;
-
+/*
 			case 3:
 			{
 				productInstance.refer_ajax();
@@ -418,7 +444,7 @@ $(function(){
 			{
 				productInstance.discuss_ajax();
 			}
-			break;
+			break;*/
 		}
 	});
 });

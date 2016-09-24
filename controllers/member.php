@@ -671,7 +671,7 @@ class Member extends IController implements adminAuthorization
 		}
 		else if($sellerDB->getObj("true_name = '{$truename}' and id != {$seller_id}"))
 		{
-			$errorMsg = "商户真实全程重复";
+			$errorMsg = "商户真实全称重复";
 		}
 
 		//操作失败表单回填
@@ -822,4 +822,101 @@ class Member extends IController implements adminAuthorization
 			$result = Hsms::send($sellerRow['mobile'],$content,0);
 		}
 	}
+
+    /**
+     * @brief 合同修改页面
+     */
+    public function contract_edit()
+    {
+        $contract_id = IFilter::act(IReq::get('id'),'int');
+
+        //修改页面
+        if($contract_id)
+        {
+            $contractDB        = new IModel('contract');
+            $this->contractRow = $contractDB->getObj('id = '.$contract_id);
+        }
+        $this->redirect('contract_edit');
+    }
+
+    /**
+     * @brief 合同的增加动作
+     */
+    public function contract_add()
+    {
+        $contract_id = IFilter::act(IReq::get('id'),'int');
+        $name        = IFilter::act(IReq::get('name'));
+        $con_num     = IFilter::act(IReq::get('con_num'));
+        $con_file    = IFilter::act(IReq::get('con_file'));
+
+        $contractDB = new IModel("contract");
+        
+        //待更新的数据
+        $contractRow = array(
+            'name'      => $name,
+            'con_num'   => $con_num,
+        );
+
+        //合同文件上传        
+        $upObj  = new IUpload();
+        $attach = 'con_file';
+        $dir = IWeb::$app->config['upload'].'/file/'.date('Y')."/".date('m')."/".date('d');
+        $upObj->setDir($dir);
+        $upState = $upObj->execute();
+        if(!isset($upState[$attach]))
+        {
+            if($con_file == '')
+            {
+                $error_message = '没有上传文件';
+            }
+        }
+        else
+        {
+            if($upState[$attach][0]['flag']== 1)
+            {
+                $con_file = $dir.'/'.$upState[$attach][0]['name'];
+            }
+            else
+            {
+                $error_message = IUpload::errorMessage($upState[$attach][0]['flag']);
+            }
+        }
+        $contractRow['con_file'] = $con_file;
+        
+        //添加新合同
+        if(!$contract_id)
+        {
+            $contractRow['create_time'] = ITime::getDateTime();
+
+            $contractDB->setData($contractRow);
+            $contractDB->add();
+        }
+        //编辑合同
+        else
+        {
+            $contractDB->setData($contractRow);
+            $contractDB->update("id = ".$contract_id);
+        }
+        $this->redirect('contract_list');
+    }
+    /**
+     * @brief 合同的删除动作
+     */
+    public function contract_del()
+    {
+        $id = IFilter::act(IReq::get('id'),'int');
+        $contractDB = new IModel('contract');
+        $data = array('is_del' => 1);
+        $contractDB->setData($data);
+
+        if(is_array($id))
+        {
+            $contractDB->update('id in ('.join(",",$id).')');
+        }
+        else
+        {
+            $contractDB->update('id = '.$id);
+        }
+        $this->redirect('contract_list');
+    }
 }

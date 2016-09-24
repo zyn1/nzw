@@ -46,9 +46,14 @@
 				<input name="sort" type="text" pattern="int" value="99" />
 			</fieldset>
 
+            <fieldset>
+                <label>制造商</label>
+                <input name="maker" type="text" value=""/>
+            </fieldset>
+
 			<fieldset>
-				<label>计量单位显示</label>
-				<input name="unit" type="text" value="千克"/>
+				<label>产地</label>
+				<input name="local_place" type="text" value=""/>
 			</fieldset>
 
 			<fieldset>
@@ -117,7 +122,7 @@
 				</table>
 			</fieldset>
 
-			<fieldset>
+			<!--<fieldset>
 				<label>商品模型</label>
 				<select name="model_id" onchange="create_attr(this.value)">
 					<option value="0">通用类型 </option>
@@ -125,7 +130,7 @@
 					<option value="{$item['id']}">{$item['name']}</option>
 					{/query}
 				</select>
-			</fieldset>
+			</fieldset>-->
 
 			<fieldset id="properties" style="display:none">
 				<label>扩展属性</label>

@@ -1,0 +1,64 @@
+{set:
+$num = IFilter::act(IReq::get('num'));
+$where = $num ? " and con_num = '".$num."'" : "";
+}
+<div class="headbar">
+	<div class="position">
+		<span>会员</span><span>></span><span>合同管理</span><span>></span><span>合同列表</span>
+	</div>
+	<div class="operating">
+		<div class="search f_r">
+			<form name="searchContract" action="{url:/}" method="get">
+				<input type='hidden' name='controller' value='member' />
+				<input type='hidden' name='action' value='contract_list' />
+				合同编号：
+				<input class="small" name="num" type="text" value="{$num}" />
+				<button class="btn" type="submit"><span class="sch">搜 索</span></button>
+			</form>
+		</div>
+		<a href="javascript:void(0);"><button class="operating_btn" type="button" onclick="window.location='{url:/member/contract_edit}'"><span class="addition">添加合同</span></button></a>
+		<a href="javascript:void(0);" onclick="selectAll('id[]')"><button class="operating_btn" type="button"><span class="sel_all">全选</span></button></a>
+		<a href="javascript:void(0);" onclick="delModel({form:'contract_list',msg:'确定要删除所选中的商户吗？'})"><button class="operating_btn" type="button"><span class="delete">批量删除</span></button></a>
+	</div>
+</div>
+
+<form action="{url:/member/contract_del}" method="post" name="contract_list" onsubmit="return checkboxCheck('id[]','尚未选中任何记录！')">
+	<div class="content">
+		<table class="list_table">
+			<colgroup>
+				<col width="40px" />
+				<col width="200px" />
+                <col width="150px" />
+				<col width="150px" />
+				<col width="100px" />
+			</colgroup>
+
+			<thead>
+				<tr>
+					<th>选择</th>
+					<th>合同名称</th>
+                    <th>合同编号</th>
+					<th>添加时间</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				{set:$page=(isset($_GET['page'])&&(intval($_GET['page'])>0))?intval($_GET['page']):1;}
+				{query:name=contract where=is_del eq 0 $where order=id desc page=$page pagesize=20}
+				<tr>
+					<td><input name="id[]" type="checkbox" value="{$item['id']}" /></td>
+					<td>{$item['name']}</td>
+					<td>{$item['con_num']}</td>
+					<td>{$item['create_time']}</td>
+					<td>
+						<a href="{url:/member/contract_edit/id/$item[id]}"><img class="operator" src="{skin:images/admin/icon_edit.gif}" alt="修改" /></a>
+						<a href="javascript:void(0)" onclick="delModel({link:'{url:/member/contract_del/id/$item[id]}'})"><img class="operator" src="{skin:images/admin/icon_del.gif}" alt="删除" /></a>
+					</td>
+				</tr>
+				{/query}
+			</tbody>
+		</table>
+	</div>
+	{$query->getPageBar()}
+</form>

@@ -24,11 +24,11 @@ class Menu
 				'/brand/category_list'  =>	'品牌分类',
 				'/brand/brand_list'		=>	'品牌列表'
 			),
-			'模型'=>array(
+			/*'模型'=>array(
 				'/goods/model_list'=>'模型列表',
 				'/goods/spec_list'=>'规格列表',
 				'/goods/spec_photo'=>'规格图库'
-			),
+			),*/
 			'搜索'=>array(
 				'/tools/keyword_list' => '关键词列表',
 				'/tools/search_list' => '搜索统计'
@@ -42,15 +42,19 @@ class Menu
 	     		'/member/withdraw_list' =>'会员提现管理',
 				'/comment/message_list'	=> '会员消息',
 			),
-			'商户管理' => array(
-				'/member/seller_list' => '商户列表',
-				'/member/seller_edit' => '添加商户',
-				'/comment/seller_message_list' => '商户消息'
+            '商户管理' => array(
+                '/member/seller_list' => '商户列表',
+                '/member/seller_edit' => '添加商户',
+                '/comment/seller_message_list' => '商户消息'
+            ),
+			'合同管理' => array(
+				'/member/contract_list' => '合同列表',
+				'/member/contract_edit' => '添加合同'
 			),
 			'信息处理' => array(
-				'/comment/suggestion_list'  => '建议管理',
+				/*'/comment/suggestion_list'  => '建议管理',
 				'/comment/refer_list'		=> '咨询管理',
-				'/comment/discussion_list'	=> '讨论管理',
+				'/comment/discussion_list'	=> '讨论管理',*/
 				'/comment/comment_list'		=> '评价管理',
 				'/message/notify_list'      => '到货通知',
 				'/message/registry_list'    => '邮件订阅',
@@ -143,10 +147,6 @@ class Menu
 				'/tools/db_bak' => '数据库备份',
 				'/tools/db_res' => '数据库还原',
 			),
-			'文章管理'=>array(
-				'/tools/article_cat_list'=> '文章分类',
-				'/tools/article_list'=> '文章列表'
-			),
 
 			'帮助管理'=>array(
    				'/tools/help_cat_list'=> '帮助分类',
@@ -167,6 +167,10 @@ class Menu
    				'/tools/notice_list'=> '公告列表',
    				'/tools/notice_edit'=> '公告发布'
    			),
+            '家装知识管理'=>array(
+                '/tools/article_list'=> '家装知识列表',
+                '/tools/article_edit'=> '家装知识发布'
+            ),
      		'网站地图'=>array(
             	'/tools/seo_sitemaps' => '网站搜索地图',
 			)

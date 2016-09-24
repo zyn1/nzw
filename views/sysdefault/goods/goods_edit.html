@@ -81,14 +81,15 @@
 								<table class="border_table">
 									<thead>
 										<tr>
-											<th>购买成功增加积分</th><th>排序</th><th>计量单位显示</th><th>购买成功增加经验值</th>
+											<th>购买成功增加积分</th><th>排序</th><th>制造商</th><th>产地</th><th>购买成功增加经验值</th>
 										</tr>
 									</thead>
 									<tbody>
 										<tr>
 											<td><input class="small" name="point" type="text" pattern="int" value="0"/></td>
 											<td><input class="small" name="sort" type="text" pattern="int" value="99"/></td>
-											<td><input class="small" name="unit" type="text" value="千克"/></td>
+                                            <td><input class="small" name="maker" type="text" value=""/></td>
+											<td><input class="small" name="local_place" type="text" value=""/></td>
 											<td><input class="small" name="exp" type="text" pattern="int" value="0"/></td>
 										</tr>
 									</tbody>
@@ -166,7 +167,7 @@
 							</div>
 						</td>
 					</tr>
-					<tr>
+					<!--<tr>
 						<th>商品模型：</th>
 						<td>
 							<select class="auto" name="model_id" onchange="create_attr(this.value)">
@@ -177,7 +178,7 @@
 							</select>
 							<label>可以加入商品扩展属性，比如：型号，年代，款式...</label>
 						</td>
-					</tr>
+					</tr>-->
 					<tr id="properties" style="display:none">
 						<th>扩展属性：</th>
 						<td>

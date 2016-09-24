@@ -15,7 +15,7 @@
 class IUpload
 {
 	//允许上传附件类型
-	private $allowType = array('jpg','gif','png','zip','rar','docx','doc');
+	private $allowType = array('jpg','gif','png','zip','rar','docx','doc','pdf');
 
 	//需要检测木马的文件类型
 	private $checkType = array('jpg','gif','png');

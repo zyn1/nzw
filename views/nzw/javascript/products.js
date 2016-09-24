@@ -5,11 +5,12 @@
  * @param string promo 活动类型参数
  * @param int active_id 活动ID参数
  */
-function productClass(goods_id,user_id,promo,active_id)
+function productClass(goods_id,user_id,promo,active_id,seller_id)
 {
 	_self         = this;
 	this.goods_id = goods_id; //商品ID
-	this.user_id  = user_id;  //用户ID
+    this.user_id  = user_id;  //用户ID
+	this.seller_id  = seller_id;  //商家ID
 	this.province_id;         //收货地址省份ID
 	this.province_name;       //收货地址省份名字
 
@@ -93,29 +94,43 @@ function productClass(goods_id,user_id,promo,active_id)
 		});
 	}
 
-	/**
-	 * 获取购买记录数据
-	 * @page 分页数
-	 */
-	this.discuss_ajax = function(page)
-	{
-		if(!page && $.trim($('#discussBox').text()))
-		{
-			return;
-		}
-		page = page ? page : 1;
-		$.getJSON(creatUrl("site/discuss_ajax/page/"+page+"/goods_id/"+this.goods_id),function(json)
-		{
-			//清空购买历史记录
-			$('#discussBox').empty();
-			$('#discussBox').parent().parent().find('.pages_bar').remove();
+    /**
+     * 获取购买记录数据
+     * @page 分页数
+     */
+    this.discuss_ajax = function(page)
+    {
+        if(!page && $.trim($('#discussBox').text()))
+        {
+            return;
+        }
+        page = page ? page : 1;
+        $.getJSON(creatUrl("site/discuss_ajax/page/"+page+"/goods_id/"+this.goods_id),function(json)
+        {
+            //清空购买历史记录
+            $('#discussBox').empty();
+            $('#discussBox').parent().parent().find('.pages_bar').remove();
 
-			for(var item in json.data)
-			{
-				var historyHtml = template.render('discussRowTemplate',json.data[item]);
-				$('#discussBox').append(historyHtml);
-			}
-			$('#discussBox').parent().after(json.pageHtml);
+            for(var item in json.data)
+            {
+                var historyHtml = template.render('discussRowTemplate',json.data[item]);
+                $('#discussBox').append(historyHtml);
+            }
+            $('#discussBox').parent().after(json.pageHtml);
+        });
+    }
+
+	/**
+	 * 获取商家详情
+	 */
+	this.seller_info_ajax = function()
+	{
+        console.info(this.seller_id)
+		$.getJSON(creatUrl("site/seller_info_ajax/seller_id/"+this.seller_id),function(json)
+		{
+            console.info(json);
+            var sellerInfoHtml = template.render('sellerInfoTemplate',json);
+			$("#sellerInfoBox").html(sellerInfoHtml);
 		});
 	}
 

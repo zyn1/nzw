@@ -934,4 +934,53 @@ class Ucenter extends IController implements userAuthorization
 		$this->setRenderData(array('propId' => $propIds));
 		$this->redirect('redpacket');
     }
+    
+    
+    //获取历史浏览数据
+    function get_history(&$historyObj)
+    {
+        $page = (isset($_GET['page'])&&(intval($_GET['page'])>0))?intval($_GET['page']):1;
+    
+        $historyObj = new IQuery("user_history");
+        $cat_id = intval(IReq::get('cat_id'));
+        $where = '';
+        if($cat_id != 0)
+        {
+            $where = ' and cat_id = '.$cat_id;
+        }
+        $historyObj->where = "user_id = ".$this->user['user_id'].$where;
+        $historyObj->page  = $page;
+        $historyObj->order = "id DESC";
+        $items = $historyObj->find();
+    
+        $goodsIdArray   = array();
+        foreach($items as $val)
+        {
+            $goodsIdArray[] = $val['goods_id'];
+        }
+    
+        //商品数据
+        if(!empty($goodsIdArray))
+        {
+            $goodsIdStr = join(',',$goodsIdArray);
+            $goodsObj   = new IModel('goods');
+            $goodsList  = $goodsObj->query('id in ('.$goodsIdStr.')','id,name,sell_price,store_nums,img,seller_id');
+        }
+    
+        foreach($items as $key => $val)
+        {
+            foreach($goodsList as $gkey => $goods)
+            {
+                if($goods['id'] == $val['goods_id'])
+                {
+                    $items[$key]['data'] = $goods;
+    
+                }
+            }
+        }
+        foreach($items as $k=>$v){
+            if(!isset($v['data']))unset($items[$k]);
+        }
+        return $items;
+    }
 }
