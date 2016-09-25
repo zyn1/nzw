@@ -6,7 +6,7 @@
 
 <div class="content_box">
 	<div class="content form_content">
-		<form action="{url:/system/payment_update}" method="post">
+		<form action="{url:/system/payment_update}" method="post" enctype="multipart/form-data">
 			<input type='hidden' name='id' value='' />
 			<table class="form_table" cellpadding="0" cellspacing="0">
 				<col width="150px" />
@@ -31,6 +31,16 @@
 					<th valign="top">简述：</th>
 					<td>{$this->paymentRow['description']}</td>
 				</tr>
+                <tr>
+                    <th>前台显示图标：</th>
+                    <td>
+                    <input type="file" name="f_sign" class="file" />
+                    {if:$this->paymentRow['f_sign']}
+                    <input type="hidden" name="image" value="{$this->paymentRow['f_sign']}">
+                    <img src="{webroot:$this->paymentRow['f_sign']}" style="height: 24px;" alt="">
+                    {/if}
+                    </td>
+                </tr>
 				<tr>
 					<th>手续费设置：</th>
 					<td>

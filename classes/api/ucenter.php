@@ -48,7 +48,7 @@ class APIUcenter
 		$page = IReq::get('page') ? IFilter::act(IReq::get('page'),'int') : 1;
 		$query = new IQuery('comment as c');
 		$query->join   = "left join goods as go on c.goods_id = go.id ";
-		$query->where  = ($status === '') ? "c.user_id = ".$userid : "c.user_id = ".$userid." and c.status = ".$status;
+		$query->where  = ($status === '') ? "c.user_id = ".$userid :  "c.user_id = ".$userid." and c.status ".$status;
 		$query->fields = "go.name,c.*";
 		$query->page   = $page;
 		$query->order = 'c.id desc';

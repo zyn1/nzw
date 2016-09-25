@@ -20,7 +20,7 @@ class menuUcenter
 		"服务中心" => array(
 			"/ucenter/refunds" => "退款申请",
 			"/ucenter/complain" => "站点建议",
-			"/ucenter/consult" => "商品咨询",
+			/*"/ucenter/consult" => "商品咨询",*/
 			"/ucenter/evaluation" => "商品评价",
 		),
 

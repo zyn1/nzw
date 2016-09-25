@@ -288,7 +288,8 @@ class System extends IController implements adminAuthorization
     {
     	//获取Post数据
     	$payment_id    = IFilter::act(IReq::get("id"),'int');
-    	$name          = IFilter::act(IReq::get("name"));
+        $name          = IFilter::act(IReq::get("name"));
+    	$image         = IFilter::act(IReq::get("image"));
     	$poundage_type = IFilter::act(IReq::get("poundage_type"),'int');
     	$poundage      = IFilter::act(IReq::get("poundage"),'float');
         $order         = IFilter::act(IReq::get("order"),'int');
@@ -316,6 +317,18 @@ class System extends IController implements adminAuthorization
         	'client_type'   => $client_type,
         );
 
+        //处理上传图片
+        if(isset($_FILES['f_sign']['name']) && $_FILES['f_sign']['name'] != '')
+        {
+            $uploadObj = new PhotoUpload();
+            $photoInfo = $uploadObj->run();
+            $updateData['f_sign'] = $photoInfo['f_sign']['img'];
+        }
+        else
+        {
+            $updateData['f_sign'] = $image;
+        }
+        
         $paymentDB = new IModel('payment');
         $paymentDB->setData($updateData);
         $paymentDB->update('id = '.$payment_id);

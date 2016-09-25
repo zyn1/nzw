@@ -44,7 +44,7 @@ class Menu
 			),
             '商户管理' => array(
                 '/member/seller_list' => '商户列表',
-                '/member/seller_edit' => '添加商户',
+                /*'/member/seller_edit' => '添加商户',*/
                 '/comment/seller_message_list' => '商户消息'
             ),
 			'合同管理' => array(

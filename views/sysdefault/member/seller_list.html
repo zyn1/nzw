@@ -22,7 +22,7 @@ $where = $conditon ? " and ".$conditon : "";
 				<button class="btn" type="submit"><span class="sch">搜 索</span></button>
 			</form>
 		</div>
-		<a href="javascript:void(0);"><button class="operating_btn" type="button" onclick="window.location='{url:/member/seller_edit}'"><span class="addition">添加商户</span></button></a>
+		<!--<a href="javascript:void(0);"><button class="operating_btn" type="button" onclick="window.location='{url:/member/seller_edit}'"><span class="addition">添加商户</span></button></a>-->
 		<a href="javascript:void(0);" onclick="selectAll('id[]')"><button class="operating_btn" type="button"><span class="sel_all">全选</span></button></a>
 		<a href="javascript:void(0);" onclick="delModel({form:'seller_list',msg:'确定要删除所选中的商户吗？<br />删除的商户可以从回收站找回。'})"><button class="operating_btn" type="button"><span class="delete">批量删除</span></button></a>
 		<a href="javascript:void(0);"><button class="operating_btn" type="button" onclick="window.location='{url:/member/seller_recycle_list}'"><span class="recycle">回收站</span></button></a>

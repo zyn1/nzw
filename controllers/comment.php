@@ -98,7 +98,7 @@ class Comment extends IController implements adminAuthorization
 	{
 		$search = IFilter::act(IReq::get('search'),'strict');
 		$appendString = Util::search($search);
-		$where  = 'c.status = 1';
+		$where  = 'c.status <> 0';
 		$where .= $appendString ? " and ".$appendString : "";
 		$this->data['where'] = $where;
 		$this->data['search']= $search;

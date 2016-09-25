@@ -14,7 +14,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			{set:$queryEvaluationList = Api::run('getUcenterEvaluation',$this->user['user_id'],0)}
+			{set:$queryEvaluationList = Api::run('getUcenterEvaluation',$this->user['user_id'],"= 0")}
 			{foreach:items = $queryEvaluationList->find()}
 			<tr>
 				<td>{$item['order_no']}</td>

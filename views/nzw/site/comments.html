@@ -10,6 +10,24 @@
 		<section class="user_form">
 			<form method="post" action="{url:/site/comment_add}">
 				<input type="hidden" name="id" value="{$this->comment['id']}" />
+                {if:$this->comment['status'] == 1}
+                <dl>
+                    <dt>评价：</dt>
+                    <dd>{if:$this->comment['point']==5}好评！{elseif:$this->comment['point']>1 && $this->comment['point']<5}中评！{else:}差评！{/if}[{$this->comment['comment_time']}]</dd> 
+                </dl>
+                <dl>
+                    <dt>评分：</dt>
+                    <dd class="star_box"><span class="star star_{echo:Common::gradeWidth($this->comment['point'])}"></span></dd>
+                </dl>
+                <dl>
+                    <dt>评语：</dt><dd>{$this->comment['contents']}</dd>      
+                </dl>
+                
+                <dl>
+                    <dt>追评内容：</dt>
+                    <dd><input type="hidden" name="is_reply" value="1"><textarea class="input_textarea" name='second_contents' pattern='required' alt=''></textarea></dd>
+                </dl>
+                {else:}
 				<dl>
 					<dt>评论等级：</dt>
 					<dd>
@@ -39,6 +57,7 @@
 					<dt>评论内容：</dt>
 					<dd><textarea class="input_textarea" name='contents' pattern='required' alt=''></textarea></dd>
 				</dl>
+                {/if}
 				<dl>
 					<dt></dt>
 					<dd><input class="input_submit" type="submit" value="我要评价" /></dd>

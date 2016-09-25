@@ -10,14 +10,19 @@
 			</tr>
 		</thead>
 		<tbody>
-			{set:$queryIevaluationList = Api::run('getUcenterEvaluation',$this->user['user_id'],1)}
+			{set:$queryIevaluationList = Api::run('getUcenterEvaluation',$this->user['user_id'],"<> 0")}
 			{foreach:items = $queryIevaluationList->find()}
 			<tr>
 				<td><a href="{url:/site/comments_list/id/$item[goods_id]}" target="_block">{$item['name']}</a></td>
 				<td>{$item['order_no']}</td>
 				<td>{$item['comment_time']}</td>
 				<td>{$item['point']}</td>
-				<td><span class="green bold">已评价</span></td>
+				<td>
+                    <span class="green bold">已评价</span>
+                    {if:$item['status'] == 1}
+                    <span><a href="{url:/site/comments/id/$item[id]}">去追评</a></span>
+                    {/if}
+                </td>
 			</tr>
 			{/query}
 		</tbody>

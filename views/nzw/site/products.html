@@ -219,6 +219,9 @@
 							<span class="star star_<%=point%>"></span>
 						</div>
 						<p class="contents"><strong>评价：</strong><span><%=contents%></span></p>
+                        <%if(second_contents){%>
+                        <p class="contents"><strong>追评：</strong><span><%=second_contents%></span>&nbsp;&nbsp;&nbsp;&nbsp;<span><%=second_content_time%></span></p>
+                        <%}%>
 						<%if(recontents){%>
 						<p class="recontents"><strong>回复：</strong><span><%=recontents%></span></p>
 						<%}%>

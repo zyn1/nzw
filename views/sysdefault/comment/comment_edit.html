@@ -20,7 +20,7 @@
 					<td><a href="{url:/member/member_edit/uid/$items[user_id]}">{$items['username']}</a></td>
 				</tr>
 				<tr>
-					<th>评价时间：</th><td>{$items['time']}</td>
+					<th>评价时间：</th><td>{$items['comment_time']}</td>
 				</tr>
 				<tr>
 					<th>评价商品：</th><td><a href="{url:/goods/products/id/$items['goods_id']}" target="_blank">{$items['name']}</a></td>
@@ -28,9 +28,17 @@
 				<tr>
 					<th>评价内容：</th><td>{$items['contents']}</td>
 				</tr>
+                <tr>
+                    <th>评价分数：</th><td>{$items['point']}分</td>
+                </tr>
+                {if:$items['second_contents']}
+                <tr>
+                    <th>追评内容：</th><td>{$items['second_contents']}</td>
+                </tr>
 				<tr>
-					<th>评价分数：</th><td>{$items['point']}分</td>
+					<th>追评时间：</th><td>{$items['second_content_time']}</td>
 				</tr>
+                {/if}
 				{if:$items['seller_id']}
 				<tr><th>商家：</th><td><a href="{url:/site/home/id/$items['seller_id']}" target="_blank">商家主页</a></td></tr>
 				{/if}

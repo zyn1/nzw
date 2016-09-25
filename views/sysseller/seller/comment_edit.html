@@ -31,7 +31,14 @@
 				<label>评价分数：</label>
 				<div class="box">{$items['point']}分</div>
 			</fieldset>
-
+            {if:$items['second_contents']}
+            <fieldset>
+                <label>追评内容：</label><div class="box">{$items['second_contents']}</div>
+            </fieldset>
+            <fieldset>
+                <label>追评时间：</label><div class="box">{$items['second_content_time']}</div>
+            </fieldset>
+            {/if}
 			<fieldset>
 				<label>回复评价：</label>
 				<textarea name='recontents' style='height:100px;'>{$items['recontents']}</textarea>

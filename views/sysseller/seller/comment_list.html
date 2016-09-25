@@ -32,7 +32,7 @@
 
 		<tbody>
 			{set:$page= (isset($_GET['page'])&&(intval($_GET['page'])>0))?intval($_GET['page']):1;}
-			{query: name=comment as c join=left join goods as goods on c.goods_id eq goods.id left join user as u on c.user_id eq u.id fields=c.*,u.username,goods.id as goods_id,goods.name as goods_name page=$page where=c.status eq 1 and goods.seller_id eq $seller_id $where order = c.id desc}
+			{query: name=comment as c join=left join goods as goods on c.goods_id eq goods.id left join user as u on c.user_id eq u.id fields=c.*,u.username,goods.id as goods_id,goods.name as goods_name page=$page where=c.status neq 0 and goods.seller_id eq $seller_id $where order = c.id desc}
 			<tr>
 				<td>{$item['username']}</td>
 				<td><a href="{url:/site/products/id/$item['goods_id']}" target="_blank">{$item['goods_name']}</a></td>

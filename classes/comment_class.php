@@ -27,7 +27,7 @@ class Comment_Class
 			return "没有这条数据";
 		}
 
-		if($comment['status'] != 0)
+		if($comment['status'] == 2)
 		{
 			return "不能重复评论";
 		}

@@ -130,7 +130,7 @@ $(function(){
 									<input class="radio" name="payment" alt="{$paymentPrice}" onclick='orderFormInstance.paymentSelected({$item['id']});' title="{$item['name']}" type="radio" value="{$item['id']}" />
 									{$item['name']}
 								</label>
-								<img class="ali_type" src="{skin:/image/index/alipay.png}" alt="">
+								<img class="ali_type" src="{webroot:$item['f_sign']}" alt="">
 							</th>
 							<td>{$item['note']} {if:$paymentPrice}支付手续费：￥{$paymentPrice}{/if}</td>
 						</tr>
