@@ -25,7 +25,7 @@
 	</ol>
 	<ol class="user_info_right">
 		<li>账户余额<p>￥{$user['balance']}</p></li>
-		<li><a class="withdraw" href="">提现</a></li>
+		<li><a class="withdraw" href="{url:/ucenter/withdraw}">提现</a></li>
 	</ol>	
 	<ol class="user_stat index">
 		<li>待评价商品：(<strong>{echo:statistics::countUserWaitComment($this->user['user_id'])}</strong>)</li>
@@ -73,6 +73,7 @@
 				<img src="{url:/pic/thumb/img/$item[img]/w/220/h/220}" alt="{$item['name']}">
 				<strong>{$item['name']}</strong>
 				<em>￥{$item['sell_price']}</em>
+				<del>￥120.00</del>
 			</a>
 		</li>
 		{/foreach}

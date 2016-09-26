@@ -31,7 +31,9 @@
 				<td>{echo:AccountLog::getWithdrawStatus($item['status'])}</td>
 				<td>
 					{if:$item['status']==0}
-					<a href="javascript:delModel({link:'{url:/ucenter/withdraw_del/id/$item[id]}'});">取消</a>
+					<a href="javascript:delModel({link:'{url:/ucenter/withdraw_del/id/$item[id]}','msg':'确定要取消吗？'});">取消</a>
+					{else:}
+					<a href="javascript:;">删除</a>
 					{/if}
 				</td>
 			</tr>
@@ -62,10 +64,24 @@
 			</dd>
 		</dl>
 		<dl>
+			<dt>开户银行：</dt>
+			<dd>
+				<input type="text" class="input_text" name='amount' pattern='float' alt='填写体现金额' />
+				<span><i class='red'>*</i> 填写开户银行</span>
+			</dd>
+		</dl>
+		<dl>
+			<dt>账号：</dt>
+			<dd>
+				<input type="text" class="input_text" name='amount' pattern='float' alt='填写体现金额' />
+				<span><i class='red'>*</i> 填写银行账号</span>
+			</dd>
+		</dl>
+		<dl>
 			<dt>备注：</dt>
 			<dd>
 				<textarea name='note' class="input_textarea" pattern='required' alt='填写一些必要的提现信息'></textarea><br />
-				<span><i class='red'>*</i> 填写必要的提现信息，如开户银行，帐号等</span>
+				<span class="filinfo"><!-- <i class='red'>*</i> 填写必要的提现信息，如开户银行，帐号等 -->请填写备注信息</span>
 			</dd>
 		</dl>
 		<dl>
