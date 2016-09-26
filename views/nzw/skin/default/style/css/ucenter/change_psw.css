@@ -1,0 +1,30 @@
+.prog_bar{width: 700px; text-align: center; margin: 0 auto; height: 36px; overflow: hidden;position: relative;}
+.prog_bar div{float: left;}
+.prog_bar div span{text-align: center;line-height: 36px;color: #fff; font-size: 15px;}
+.prog_bar .pro_one{background: url("../../../image/ucenter/phone_1.png") no-repeat center;height: 36px; width: 226px;position: relative;left: 12px;}
+.prog_bar .pro_one_one{background: url("../../../image/ucenter/phone_1_1.png") no-repeat center;height: 36px; width: 226px;position: relative;left: 12px;}
+
+.prog_bar .pro_two{background: url("../../../image/ucenter/phone_2.png") no-repeat center;height: 36px; width: 226px;}
+.prog_bar .pro_two_two{background: url("../../../image/ucenter/phone_2_2.png") no-repeat center;height: 36px; width: 226px;}
+
+.prog_bar .pro_three{background: url("../../../image/ucenter/phone_3.png") no-repeat center;height: 36px; width: 226px;position: relative;right: 12px;}
+.prog_bar .pro_three_three{background: url("../../../image/ucenter/phone_3_3.png") no-repeat center;height: 36px; width: 226px;position: relative;right: 12px;}
+
+.prog_info{width: 672px; margin: 0 auto; height: auto;position: relative;padding: 50px;}
+.prog_info p i{color: #ea5413;font-size: 14px;}
+.prog_info p {line-height: 52px;}
+.prog_info p label{cursor: default;}
+.prog_info p label:hover{color: #555;}
+.prog_info p.form_t input{height: 28px;padding: 2px 5px;color: #8b8b8b;border: 1px solid #dadada;border-radius: 3px;font-size: 14px;cursor: pointer;}
+.prog_info p.form_t input.toobn{background: #eeeeee;}
+.prog_info p.form_t input.new_infil{width: 230px;}
+.prog_info .next_steb{margin: 30px 0 0 66px;display: block; line-height: 38px; height: 38px;background: #ea5413; text-align: center;color: #fff;border-radius: 3px;width: 100px;}
+.prog_info .next_steb.ema {margin-left: 52px;}
+.prog_info a.next_steb:hover{text-decoration: none;}
+.prog_info p.form_t .word_warn{display: block;line-height: 24px;  margin-left: 65px;}
+.prog_info p.form_t input.toobn_again{    margin: 30px 0 20px 65px;background: #eeeeee;border: 1px solid #dadada;padding: 2px 5px }
+.prog_info p.form_t.forin{position: relative;left: -52px;}
+.prog_info p.form_t.forema{position: relative;left: -65px;}
+.done_img{height: 72px; width: 72px;}
+.done_box{text-align: center;}
+.done_box span{font-size: 16px;color: #5b5b5b;font-weight: bold;margin-left: 12px;}
