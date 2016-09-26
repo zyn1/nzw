@@ -26,8 +26,8 @@ class menuUcenter
 			"/ucenter/address" => "收获地址管理",
 			"/ucenter/info" => "完善个人资料",
 			"/ucenter/password" => "修改登录密码",
-			"/ucenter/ " => "修改绑定手机",
-			"/ucenter/" => "修改绑定邮箱",
+			"/ucenter/changePhone" => "修改绑定手机",
+			"/ucenter/changeEmail" => "修改绑定邮箱",
 		),
 
 		"服务中心" => array(
@@ -40,7 +40,7 @@ class menuUcenter
 		"应用中心" => array(
 			"/ucenter/message" => "我的消息",
 			"/ucenter/favorite" => "我的收藏",
-			"/ucenter/" => "我的足迹",
+			"/ucenter/history" => "我的足迹",
 		),
 
 	);

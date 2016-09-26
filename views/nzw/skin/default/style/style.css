@@ -1653,9 +1653,9 @@ a .icon-rotate-90:before, a .icon-rotate-180:before, a .icon-rotate-270:before, 
 
 .prompt_page { width: 600px; margin: 150px auto; padding: 50px; }
 .prompt_page .ico { width: 140px; height: 140px; display: block; float: left; margin-right: 50px; }
-.prompt_page.error { box-shadow: 0 0 5px #e71f19; }
+.prompt_page.error { box-shadow: 0 0 5px #e71f19;background: #fefefe; }
 .prompt_page.error .ico { background: url("../image/cry.gif") center no-repeat; }
-.prompt_page.error strong { color: #e71f19; font-size: 16px; }
+.prompt_page.error strong { color: #ea5413; font-size: 16px; }
 .prompt_page.success { box-shadow: 0 0 5px #379339; }
 .prompt_page.success .ico { background: url("../image/right.gif") center no-repeat; }
 .prompt_page.success strong { color: #379339; font-size: 16px; }
@@ -1954,7 +1954,7 @@ a .icon-rotate-90:before, a .icon-rotate-180:before, a .icon-rotate-270:before, 
 .user_ico span { position: absolute; display: block; left: 0; right: 0; bottom: 0; height: 24px; line-height: 24px; text-align: center; color: #fff; background: rgba(0, 0, 0, 0.8); -webkit-transition: all 0.25s ease-in-out; transition: all 0.25s ease-in-out; opacity: 0; cursor: pointer; }
 .user_ico:hover span { opacity: 1; }
 
-.uc_head { height: 36px; line-height: 36px; text-indent: 15px; color: #555; background: #fafafa; background-image: -webkit-linear-gradient(0deg, #f0f0f0, #fff); background-image: linear-gradient(0deg, #f0f0f0, #fff); border: 1px solid #e4e4e4; }
+.uc_head { border-radius: 5px 5px 0 0;height: 34px; line-height: 34px; text-indent: 15px; color: #555; background: #eeeeee; background-image: -webkit-linear-gradient(0deg, #eeeeee, #eeeeee); background-image: linear-gradient(0deg, #eeeeee, #eeeeee); border: 1px solid #e4e4e4; }
 .uc_head.mt10 { margin-top: 10px; }
 .uc_head h3 { float: left; font-size: 15px;color: #6d6d6d; }
 .uc_head h3 a { font-size: 14px; font-weight: normal; }
@@ -1999,7 +1999,9 @@ a .icon-rotate-90:before, a .icon-rotate-180:before, a .icon-rotate-270:before, 
 .user_form dl dt, .user_form dl dd { display: table-cell; vertical-align: middle; }
 .user_form dl dd .filinfo{margin-left: 3px;}
 .user_form dl dt { width: 140px; text-align: right; font-size: 14px; }
+.user_form dl dt.vertical{vertical-align: top;}
 .user_form label { cursor: pointer; }
+.user_form label.attr{vertical-align: super;}
 .user_form label:hover { color: #FF8225; }
 .user_form input:checked + * { color: #e71f19; }
 
