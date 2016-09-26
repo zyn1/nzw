@@ -10,20 +10,24 @@
 	<h3>您好，{$this->user['username']} 欢迎回来!</h3>
 </header>
 
-<section class="uc_info">
+<section class="uc_info no_top">
 	{set:$user_ico = $this->user['head_ico']}
 	<div class="user_ico">
 		<img id="user_ico_img" src="{webroot:$user_ico}" onerror="this.src='{skin:image/user_ico.gif}'">
 		<span onclick="select_ico()">修改头像</span>
 	</div>
-	<ol class="user_info">
-		<li>你的账户目前总积分：<strong>{$user['point']} 分</strong>　　<a href="{url:/ucenter/integral}">查看积分历史</a></li>
+	<ol class="user_info index">
+		<li>您的账户总消费额：<strong>￥{$statistics['amount']}</strong></li>
+		<!-- <li>你的账户目前总积分：<strong>{$user['point']} 分</strong>　　<a href="{url:/ucenter/integral}">查看积分历史</a></li> -->
 		<li>你的订单交易总数量：<strong>{$statistics['num']} 笔</strong>　　<a href="{url:/ucenter/order}">进入订单列表</a></li>
-		<li>总消费额：<strong>￥{$statistics['amount']}</strong></li>
-		<li>预存款余额：<strong>￥{$user['balance']}</strong></li>
-		<li>代金券：<strong>{$propData['prop_num']} 张</strong></li>
+		<!-- <li>预存款余额：<strong>￥{$user['balance']}</strong></li> -->
+		<!-- <li>代金券：<strong>{$propData['prop_num']} 张</strong></li> -->
 	</ol>
-	<ol class="user_stat">
+	<ol class="user_info_right">
+		<li>账户余额<p>￥{$user['balance']}</p></li>
+		<li><a class="withdraw" href="">提现</a></li>
+	</ol>	
+	<ol class="user_stat index">
 		<li>待评价商品：(<strong>{echo:statistics::countUserWaitComment($this->user['user_id'])}</strong>)</li>
 		<li>待付款订单：(<strong>{echo:statistics::countUserWaitPay($this->user['user_id'])}</strong>)</li>
 		<li>待确认收货：(<strong><a href="{url:/ucenter/order}">{echo:statistics::countUserWaitCommit($this->user['user_id'])}</a></strong>)</li>
@@ -61,7 +65,7 @@
 	
 
 <section class="artice_goods">
-	<h3>也许你会对下列商品感兴趣</h3>
+	<h3 class="guess_like">猜你喜欢</h3>
 	<ul>
 		{foreach:items=Api::run('getGoodsByCommendgoods',8)}
 		<li>
