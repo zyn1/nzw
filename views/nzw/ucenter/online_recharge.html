@@ -12,7 +12,7 @@
 		</dl>
 
 		<dl>
-			<dt>选择充值方式：</dt>
+			<dt class="vertical">选择充值方式：</dt>
 			{set:$paymentList=Api::run('getPaymentListByOnline')}
 			<dd>
 				{if:!empty($paymentList)}
