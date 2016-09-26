@@ -17,8 +17,8 @@
 			</dd>
 		</dl>
 		<dl>
-			<dt>姓名：</dt>
-			<dd><input class="input_text" type="text" name="true_name" alt='请填写真实姓名' /></dd>
+			<dt><span style="color: red;">*</span> 姓名：</dt>
+			<dd><input class="input_text" type="text" name="true_name" pattern="required" alt='请填写真实姓名' /></dd>
 		</dl>
 		<dl>
 			<dt>性别：</dt>
@@ -28,9 +28,9 @@
 			</dd>
 		</dl>
 		<dl>
-			<dt>出生日期：</dt>
+			<dt><span style="color: red;">*</span> 出生日期：</dt>
 			<dd>
-				<input type="text" name="birthday" class="input_text Wdate" pattern='date' empty onFocus="WdatePicker()" />
+				<input type="text" name="birthday" class="input_text Wdate" pattern='date' onFocus="WdatePicker()" />
 			</dd>
 		</dl>
 		<dl>
@@ -46,13 +46,13 @@
 			<dd><input type='text' class='input_text' name='contact_addr' alt='请填写联系地址' /></dd>
 		</dl>
 		<dl>
-			<dt>手机号码：</dt>
-			<dd><input class="input_text" type="text" name='mobile' pattern='mobi' empty alt='请填写正确的手机号码' /></dd>
+			<dt><span style="color: red;">*</span> 手机号码：</dt>
+			<dd><input class="input_text" type="text" name='mobile' pattern='mobi' alt='请填写正确的手机号码' /></dd>
 		</dl>
 		<dl>
-			<dt>邮箱：</dt>
+			<dt><span style="color: red;">*</span> 邮箱：</dt>
 			<dd>
-				<input type='text' class='input_text' name='email' pattern='email' empty alt='请填写正确的邮箱地址' />
+				<input type='text' class='input_text' name='email' pattern='email' alt='请填写正确的邮箱地址' />
 			</dd>
 		</dl>
 		<dl>
@@ -63,9 +63,13 @@
 			<dt>固定电话：</dt>
 			<dd><input class="input_text" type="text" name='telephone' pattern='phone' empty alt='请填写正确的固定电话' /></dd>
 		</dl>
+        <dl>
+            <dt>QQ：</dt>
+            <dd><input class="input_text" type="text" name='qq' pattern='qq' empty alt='请填写正确的QQ号' /></dd>
+        </dl>
 		<dl>
-			<dt>QQ：</dt>
-			<dd><input class="input_text" type="text" name='qq' pattern='qq' empty alt='请填写正确的QQ号' /></dd>
+			<dt><span style="color: red;">*</span> 家饰风格/装修风格说明：</dt>
+			<dd><textarea class="input_textarea" type="text" name='desc_info' pattern="required" alt='' /></textarea></dd>
 		</dl>
 		<dl>
 			<dt></dt>

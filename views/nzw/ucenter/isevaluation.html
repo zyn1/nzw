@@ -18,9 +18,12 @@
 				<td>{$item['comment_time']}</td>
 				<td>{$item['point']}</td>
 				<td>
-                    <span class="green bold">已评价</span>
                     {if:$item['status'] == 1}
-                    <span><a href="{url:/site/comments/id/$item[id]}">去追评</a></span>
+                    <span class="green bold" style="display: inline-block; width: 50px;">已评价</span>
+                    <span><a href="{url:/site/comments/id/$item[id]}">追加评价</a></span>
+                    {else:}
+                    <span style="display: inline-block;width: 50px;"></span>
+                    <span class="bold">已追评</span>
                     {/if}
                 </td>
 			</tr>

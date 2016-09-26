@@ -607,8 +607,13 @@ return array(
 		'file' => 'comment.php','class' => 'APIComment'
 	),
 
-	//用户中心-收藏夹信息
-	'getFavorite' => array(
+    //用户中心-收藏夹信息
+    'getFavorite' => array(
+        'file' => 'ucenter.php','class' => 'APIUcenter'
+    ),
+
+	//用户中心-浏览记录
+	'getHistory' => array(
 		'file' => 'ucenter.php','class' => 'APIUcenter'
 	),
 );
