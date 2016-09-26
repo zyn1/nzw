@@ -30,7 +30,9 @@ class menuSeller
 		),
 
 		"订单模块" => array(
-			"seller/order_list" => "订单列表",
+            "seller/order_list" => "订单列表",
+            "seller/fapiao_list/status/1" => "已开发票列表",
+			"seller/fapiao_list/status/0" => "未开发票列表",
 		),
 
 		"营销模块" => array(

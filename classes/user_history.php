@@ -6,7 +6,7 @@
      */
     public static function set_user_history($goods_id,$user_id=false){
         if(!$user_id){
-            ISession::add('user_history',array('goods_id'=>$goods_id,'time'=>ITime::getDateTime('Y-m-d')));
+            ISession::set('user_history',array('goods_id'=>$goods_id,'time'=>ITime::getDateTime('Y-m-d')));
         }else{
             $history = new IQuery('category_extend as ca');
             $time = ITime::getDateTime('Y-m-d');

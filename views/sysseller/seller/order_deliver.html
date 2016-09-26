@@ -73,14 +73,36 @@
 					</tr>
 					<tr>
 						<th>保价费用:</th><td align="left">￥{$insured}</td>
+                        <th>收货人姓名:</th><td align="left"><input type="text" class="small" name="name" value="{$accept_name}" pattern="required"/></td>
 					</tr>
 					<tr>
-						<th>收货人姓名:</th><td align="left"><input type="text" class="small" name="name" value="{$accept_name}" pattern="required"/></td>
 						<th>电话:</th><td align="left"><input type="text" class="small" name="telphone" value="{$telphone}" pattern="phone" empty /></td>
+                        <th>手机:</th><td align="left"><input type="text" class="small" name="mobile" value="{$mobile}" pattern="mobi"/></td>
 					</tr>
+                    <tr>
+                        <th>地区:</th>
+                        <td align="left" colspan="3">
+                            <select name="province" child="city,area" class="auto"></select>
+                            <select name="city" child="area" class="auto"></select>
+                            <select name="area" pattern="required" class="auto"></select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>地址:</th><td align="left"><input type="text" class="normal" name="address" value="{$address}" size="50" pattern="required"/></td>
+                        {if:$fapiao_id && $fapiao_status == 1}
+                        <th>发票信息:</th><td>已开票</td>
+                        {else:}
+                        <th>开发票:</th>
+                        <td>
+                        <input type="hidden" name="fapiao_money" value="{$real_amount}">
+                        <input type="hidden" name="fapiao_id" value="{$fapiao_id}"><input type="checkbox" value="1" name="fapiao_status" checked="checked"></td>
+                        {/if}
+                    </tr>
 					<tr>
-						<th>手机:</th><td align="left"><input type="text" class="small" name="mobile" value="{$mobile}" pattern="mobi"/></td>
 						<th>邮政编码:</th><td align="left"><input type="text" name="postcode" class="small" value="{$postcode}" pattern="zip" empty /></td>
+                        {if:$fapiao_id}
+                        <th>发票抬头:</th><td>{$fapiao_taitou}</td>
+                        {/if}
 					</tr>
 					<tr>
 						<th>物流公司：</th>
@@ -94,17 +116,6 @@
 							<label class="tip">选择物流公司</label>
 						</td>
 						<th>配送单号:</th><td align="left"><input type="text" class="normal" name="delivery_code" pattern="required"/></td>
-					</tr>
-					<tr>
-						<th>地区:</th>
-						<td align="left" colspan="3">
-							<select name="province" child="city,area" class="auto"></select>
-							<select name="city" child="area" class="auto"></select>
-							<select name="area" pattern="required" class="auto"></select>
-						</td>
-					</tr>
-					<tr>
-						<th>地址:</th><td align="left" colspan="3"><input type="text" class="normal" name="address" value="{$address}" size="50" pattern="required"/></td>
 					</tr>
 					<tr>
 						<th>发货单备注:</th><td align="left" colspan="3"><textarea name="note" class="normal"></textarea></td>

@@ -2,7 +2,7 @@
 <div class="headbar">
 	<div class="position">订单<span>></span><span>订单管理</span><span>></span><span>订单列表</span></div>
 	<div class="operating">
-		<a href="javascript:void(0);"><button class="operating_btn" type="button" onclick="window.location='{url:/order/order_edit}'"><span class="addition">添加订单</span></button></a>
+		<!--<a href="javascript:void(0);"><button class="operating_btn" type="button" onclick="window.location='{url:/order/order_edit}'"><span class="addition">添加订单</span></button></a>-->
 		<a href="javascript:void(0);" onclick="selectAll('id[]')"><button class="operating_btn" type="button"><span class="sel_all">全选</span></button></a>
 		<a href="javascript:void(0);" onclick="delModel({form:'orderForm',name:'id[]'})"><button class="operating_btn" type="button"><span class="delete">批量删除</span></button></a>
 		<a href="javascript:void(0);" onclick="$('#orderForm').attr('action','{url:/order/expresswaybill_template}');$('#orderForm').submit();"><button class="operating_btn"><span class="export">批量打印快递单</span></button></a>
@@ -13,11 +13,11 @@
 		<form action="{url:/}" method="get" name="order_list">
 			<input type='hidden' name='controller' value='order' />
 			<input type='hidden' name='action' value='order_list' />
-			<select name="search[is_seller]" class="auto">
+			<!--<select name="search[is_seller]" class="auto">
 				<option value="">选择类型</option>
 				<option value="self">平台自营</option>
 				<option value="seller">商家订单</option>
-			</select>
+			</select>-->
 
 			<select name="search[pay_status]" class="auto">
 				<option value="">选择支付状态</option>
@@ -134,7 +134,7 @@
 					<td>
 						<a href="{url:/order/order_show/id/$item[id]}"><img class="operator" src="{skin:images/admin/icon_check.gif}" title="查看" /></a>
 						{if:Order_class::getOrderStatus($item) < 3}
-						<a href="{url:/order/order_edit/id/$item[id]}"><img class="operator" src="{skin:images/admin/icon_edit.gif}" title="编辑"/></a>
+						<!--<a href="{url:/order/order_edit/id/$item[id]}"><img class="operator" src="{skin:images/admin/icon_edit.gif}" title="编辑"/></a>-->
 						{/if}
 						<a href="javascript:void(0)" onclick="delModel({link:'{url:/order/order_del/id/$item[id]}'})" ><img class="operator" src="{skin:images/admin/icon_del.gif}" title="删除"/></a>
 

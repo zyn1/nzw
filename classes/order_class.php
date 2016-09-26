@@ -451,6 +451,19 @@ class Order_Class
 	 			$data['contact_addr'] = $user_info['contact_addr'];
 	 			$data['true_name']    = $user_info['true_name'];
 	 		}
+            
+            //获取发票信息
+            if($data['invoice'])
+            {
+                $fapiao = new IModel('order_fapiao');
+                $fapiao_info = $fapiao->getObj('order_id = '.$order_id, 'id,taitou,status');
+                if($fapiao_info)
+                {
+                    $data['fapiao_id'] = $fapiao_info['id'];
+                    $data['fapiao_taitou'] = $fapiao_info['taitou'];
+                    $data['fapiao_status'] = $fapiao_info['status'];
+                }
+            }
  		}
  		return $data;
 	}
@@ -1621,4 +1634,23 @@ class Order_Class
 		$result = array('balance' => '余额退款','other' => '其他方式','origin' => '原路退款');
 		return isset($result[$code]) ? $result[$code] : "未知";
 	}
+    
+    /**
+     * 获取发票状态0:申请发票，1：审核通过
+     * @$status int 总状态参数0：未开，1：已开
+     */
+    public static function getFapiaoStatus($status){
+        $statusText = '';
+        switch($status){
+            case 0 : {
+                $statusText = '提交申请';
+                break;
+            }
+            case 1 : {
+                $statusText = '已开票';
+                break;
+            }
+        }
+        return $statusText;
+    }
 }

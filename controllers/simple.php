@@ -394,7 +394,6 @@ class Simple extends IController
     	$order_message = IFilter::act(IReq::get('message'));
     	$ticket_id     = IFilter::act(IReq::get('ticket_id'),'int');
     	$taxes         = IFilter::act(IReq::get('taxes'),'float');
-    	$tax_title     = IFilter::act(IReq::get('tax_title'));
     	$gid           = IFilter::act(IReq::get('direct_gid'),'int');
     	$num           = IFilter::act(IReq::get('direct_num'),'int');
     	$type          = IFilter::act(IReq::get('direct_type'));//商品或者货品
@@ -404,6 +403,7 @@ class Simple extends IController
     	$order_type    = 0;
     	$dataArray     = array();
     	$user_id       = ($this->user['user_id'] == null) ? 0 : $this->user['user_id'];
+        $invoice       = isset($_POST['taxes']) ? 1 : 0;
 
 		//获取商品数据信息
     	$countSumObj = new CountSum($user_id);
@@ -438,7 +438,8 @@ class Simple extends IController
     	$mobile        = IFilter::act($addressRow['mobile'],'mobile');
     	$telphone      = IFilter::act($addressRow['telphone'],'phone');
     	$zip           = IFilter::act($addressRow['zip'],'zip');
-
+        
+        $tax_title     = IReq::get('tax_title') ? IFilter::act(IReq::get('tax_title')) : $accept_name;
 		//检查订单重复
     	$checkData = array(
     		"accept_name" => $accept_name,
@@ -451,7 +452,7 @@ class Simple extends IController
     	{
 			IError::show(403,$result);
     	}
-
+        
 		//配送方式,判断是否为货到付款
 		$deliveryObj = new IModel('delivery');
 		$deliveryRow = $deliveryObj->getObj('id = '.$delivery_id);
@@ -559,7 +560,7 @@ class Simple extends IController
 				'pay_fee'             => $goodsResult['paymentPrice'],
 
 				//税金
-				'invoice'             => $tax_title ? 1 : 0,
+				'invoice'             => $invoice,
 				'invoice_title'       => $tax_title,
 				'taxes'               => $goodsResult['taxPrice'],
 
@@ -657,6 +658,31 @@ class Simple extends IController
 				$orderNumArray[] = $dataArray['order_no'];
 				$final_sum      += $dataArray['order_amount'];
 			}
+            
+            if($invoice){
+                $db_fapiao = new IModel('order_fapiao');
+                $fapiao_data = array(
+                        'order_id'=> $order_id,
+                        'user_id' => $user_id,
+                        'type'    => 0,
+                        'create_time'=> ITime::getDateTime(),
+                        'taitou' => $tax_title,
+                        'seller_id' => $seller_id
+                );
+                /*if($fapiao_data['type']==0){
+                    $fapiao_data['taitou'] = IFilter::act(IReq::get('tax_title'));
+                        
+                }else{
+                    $fapiao_data['com'] = IFilter::act(IReq::get('tax_com'));
+                    $fapiao_data['tax_no']= IFilter::act(IReq::get('tax_no'));
+                    $fapiao_data['address'] = IFilter::act(IReq::get('tax_address'));
+                    $fapiao_data['telphone'] = IFilter::act(IReq::get('tax_telphone'));
+                    $fapiao_data['bank'] = IFilter::act(IReq::get('tax_bank'));
+                    $fapiao_data['account'] = IFilter::act(IReq::get('tax_account'));
+                }*/
+                $db_fapiao->setData($fapiao_data);
+                $db_fapiao->add();
+            }
 		}
 
 		//记录用户默认习惯的数据

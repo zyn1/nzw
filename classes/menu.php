@@ -24,11 +24,11 @@ class Menu
 				'/brand/category_list'  =>	'品牌分类',
 				'/brand/brand_list'		=>	'品牌列表'
 			),
-			/*'模型'=>array(
+			'模型'=>array(
 				'/goods/model_list'=>'模型列表',
 				'/goods/spec_list'=>'规格列表',
 				'/goods/spec_photo'=>'规格图库'
-			),*/
+			),
 			'搜索'=>array(
 				'/tools/keyword_list' => '关键词列表',
 				'/tools/search_list' => '搜索统计'
@@ -65,7 +65,7 @@ class Menu
 	   '订单'=>array(
         	'订单管理'=>array(
                 '/order/order_list' => '订单列表',
-                '/order/order_edit' => '添加订单'
+                /*'/order/order_edit' => '添加订单'*/
         	),
         	'单据管理'=>array(
              	'/order/order_collection_list'  => '收款单',
