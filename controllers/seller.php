@@ -784,8 +784,6 @@ class Seller extends IController implements sellerAuthorization
                 $comment['reply_photo'] = $photo->query('comment_id = '.$comment['id'].' and is_reply = 1', 'img');
             }
             $this->comment = $comment;
-            $this->redirect('comment_edit');
-            
 			$this->redirect('comment_edit');
 		}
 		else
