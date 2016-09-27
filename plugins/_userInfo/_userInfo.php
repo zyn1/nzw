@@ -151,6 +151,7 @@ class _userInfo extends pluginBase
     	//获取注册配置参数
 		$siteConfig = new Config('site_config');
 		$reg_option = $siteConfig->reg_option;
+        $reg_type = IReq::get('reg_type') ? IFilter::act(IReq::get('reg_type'), 'int') : 3;
 
 		/*注册信息校验*/
 		if($reg_option == 2)
@@ -174,7 +175,7 @@ class _userInfo extends pluginBase
     	}
 
 		//邮箱验证
-		if($reg_option == 1)
+		if($reg_type == 1)
 		{
 			if(IValidate::email($email) == false)
 			{
@@ -197,7 +198,7 @@ class _userInfo extends pluginBase
 			}
 		}
 		//手机验证
-		else if($reg_option == 3)
+		else if($reg_type == 3)
 		{
 			if(IValidate::mobi($mobile) == false)
 			{
@@ -249,7 +250,7 @@ class _userInfo extends pluginBase
 		$memberArray = array(
 			'user_id' => $user_id,
 			'time'    => ITime::getDateTime(),
-			'status'  => $reg_option == 1 ? 3 : 1,
+			'status'  => $reg_type == 1 ? 3 : 1,
 			'mobile'  => $mobile,
 			'email'   => $email,
 		);
@@ -258,7 +259,7 @@ class _userInfo extends pluginBase
 		$memberObj->add();
 
 		//邮箱激活帐号
-		if($reg_option == 1)
+		if($reg_type == 1)
 		{
 			$this->send_check_mail($email);
 			return;
