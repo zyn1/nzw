@@ -6,7 +6,7 @@
 <section class="web">
 	<section class="main">
 		<h2 class="main_head lgl">我要评论</h2>
-		<section class="user_form" id="review">
+		<section class="user_form">
 			<form method="post" action="{url:/site/comment_add}">
 				<input type="hidden" name="id" value="{$this->comment['id']}" />
                 {if:$this->comment['status'] == 1}
@@ -53,7 +53,7 @@
 					</dd>
 				</dl> -->
 				<h3 class="level_pl">评论等级：</h3>	
-					<div class="grade_fl">
+					<div class="grade_fl" id="review">
 						<dl>
 							<dt>商品质量：</dt>
 							<dd>
@@ -91,6 +91,37 @@
 							</dd>
 						</dl>
 					</div>
+<script>
+$(function(){
+	{
+	function score(oUl){
+		var aLi = oUl.getElementsByTagName('li');
+		for(var i = 0; i < aLi.length; i++){
+			aLi[i].index = i;
+			aLi[i].onclick = function(){
+				// this.index
+				for(var j=0; j<aLi.length; j++){
+					//j->0 1 2 3 4
+					if(j <= this.index){
+						aLi[j].className = 'on';
+					}else{
+						aLi[j].className = '';
+					}
+				}
+			}
+			// aLi[i].onclick = function(){
+			// 	alert(this.index+1+'分');
+			// }
+			}
+		}
+	var rEview = document.getElementById('review');
+	var oReVi = rEview.getElementsByTagName('ul'); 
+	for(var i=0; i<oReVi.length; i++){
+		score(oReVi[i])
+	}	
+}
+})
+</script>				
 				<h3 class="level_sc">上传图片：</h3>	
 				<dl class="upload_pic">
 					<label for=""><input class="chooice_btn" type="button" name="" value="浏览">
@@ -160,32 +191,3 @@
 		</div>
 	</aside>
 </section>
-	<script>
-window.onload = function(){
-	function score(oUl){
-		var aLi = oUl.getElementsByTagName('li');
-		for(var i = 0; i < aLi.length; i++){
-			aLi[i].index = i;
-			aLi[i].onclick = function(){
-				// this.index
-				for(var j=0; j<aLi.length; j++){
-					//j->0 1 2 3 4
-					if(j <= this.index){
-						aLi[j].className = 'on';
-					}else{
-						aLi[j].className = '';
-					}
-				}
-			}
-			// aLi[i].onclick = function(){
-			// 	alert(this.index+1+'分');
-			// }
-			}
-		}
-	var rEview = document.getElementById('review');
-	var oReVi = rEview.getElementsByTagName('ul'); 
-	for(var i=0; i<oReVi.length; i++){
-		score(oReVi[i])
-	}	
-}
-</script>
