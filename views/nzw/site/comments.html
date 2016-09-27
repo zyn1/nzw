@@ -1,4 +1,3 @@
-
 <section class="breadcrumb">
 	<span>您当前的位置：</span> <a href="{url:}">首页</a> » <a href="{url:/site/products/id/$this->goods['goods_id']}">{$this->goods['name']}</a>
 </section>
@@ -6,8 +5,8 @@
 
 <section class="web">
 	<section class="main">
-		<h2 class="main_head">我要评论</h2>
-		<section class="user_form">
+		<h2 class="main_head lgl">我要评论</h2>
+		<section class="user_form" id="review">
 			<form method="post" action="{url:/site/comment_add}">
 				<input type="hidden" name="id" value="{$this->comment['id']}" />
                 {if:$this->comment['status'] == 1}
@@ -28,7 +27,7 @@
                     <dd><input type="hidden" name="is_reply" value="1"><textarea class="input_textarea" name='second_contents' pattern='required' alt=''></textarea></dd>
                 </dl>
                 {else:}
-				<dl>
+				<!-- <dl>
 					<dt>评论等级：</dt>
 					<dd>
 						<label class="star_box fl">
@@ -52,15 +51,77 @@
 							<span class="star star_1"></span>
 						</label>
 					</dd>
+				</dl> -->
+				<h3 class="level_pl">评论等级：</h3>	
+					<div class="grade_fl">
+						<dl>
+							<dt>商品质量：</dt>
+							<dd>
+								<ul class="review_ul">
+									<li></li>
+									<li></li>
+									<li></li>
+									<li></li>
+									<li></li>
+								</ul>
+							</dd>
+						</dl>
+						<dl>
+							<dt>物流配送：</dt>
+							<dd>
+								<ul class="review_ul">
+									<li></li>
+									<li></li>
+									<li></li>
+									<li></li>
+									<li></li>
+								</ul>
+							</dd>
+						</dl>
+						<dl>
+							<dt>卖家服务：</dt>
+							<dd>
+								<ul class="review_ul">
+									<li></li>
+									<li></li>
+									<li></li>
+									<li></li>
+									<li></li>
+								</ul>
+							</dd>
+						</dl>
+					</div>
+				<h3 class="level_sc">上传图片：</h3>	
+				<dl class="upload_pic">
+					<label for=""><input class="chooice_btn" type="button" name="" value="浏览">
+						<span class="warn_wd">可以上传多张图片，分辨率3000px以下，大小不得超过4M</span>
+					</label>
+					<div class="picturer_box">
+						<ul>
+							<li><img src="{skin:/image/warn.png}" alt=""></li>
+							<li><img src="{skin:/image/warn.png}" alt=""></li>
+							<li><img src="{skin:/image/warn.png}" alt=""></li>
+							<li><img src="{skin:/image/warn.png}" alt=""></li>
+							<li><img src="{skin:/image/warn.png}" alt=""></li>
+							<li><img src="{skin:/image/warn.png}" alt=""></li>
+							<li><img src="{skin:/image/warn.png}" alt=""></li>
+							<li><img src="{skin:/image/warn.png}" alt=""></li>
+							<li><img src="{skin:/image/warn.png}" alt=""></li>
+							<li><img src="{skin:/image/warn.png}" alt=""></li>
+							<li><img src="{skin:/image/warn.png}" alt=""></li>
+							<li><img src="{skin:/image/warn.png}" alt=""></li>
+						</ul>
+					</div>
 				</dl>
-				<dl>
-					<dt>评论内容：</dt>
+
+				<h3 class="level_nr">评论内容：</h3>	
+				<dl class="comm_content">
 					<dd><textarea class="input_textarea" name='contents' pattern='required' alt=''></textarea></dd>
 				</dl>
                 {/if}
 				<dl>
 					<dt></dt>
-					<dd><input class="input_submit" type="submit" value="我要评价" /></dd>
+					<dd><input class="input_submit" type="submit" value="立即评价" /></dd>
 				</dl>
 			</form>
 		</section>
@@ -68,17 +129,63 @@
 	<aside class="bar">
 		<div class="bar_box">
 			<h3 class="bar_box_head">商品信息</h3>
-			<div class="bar_goods_big">
+			<div class="bar_goods_big infoma">
 				<a target="_blank" href="{url:/site/products/id/$this->goods['goods_id']}">
 					<img alt="{$this->goods['name']}" src="{url:/pic/thumb/img/$this->goods['img']/w/180/h/180}">
-					<h5>{$this->goods['name']}</h5>
-					<em>￥{$this->goods['sell_price']}</em>
-					<label class="star_box">
-						<span class="item">评分</span>
-						<span class="star star_{echo:Common::gradeWidth($this->commentCount['average_point'])}"></span>
-					</label>
+					<dl>
+						<dt><h5><b>商品名称：</b>{$this->goods['name']}</h5></dt>
+						<dd><i>优惠价：</i><em>￥{$this->goods['sell_price']}</em></dd>
+						
+						<dd><label class="star_box">
+								<span class="item">评价得分：</span>
+								<span class="star star_{echo:Common::gradeWidth($this->commentCount['average_point'])}"></span>
+							</label>
+						</dd>
+						<dd>
+							评论数：<i>1</i>条
+						</dd>	
+					</dl>
 				</a>
 			</div>
 		</div>
+
+		<div class="bar_box">
+			<h3 class="bar_box_head">促销活动</h3>
+			<ul class="bar_nav">
+				<!-- {foreach:items=Api::run('getProrule',$seller_id)}
+				<li>{$item['info']}</li>
+				{/foreach} -->
+				<li>哈哈哈哈哈</li>
+			</ul>
+		</div>
 	</aside>
 </section>
+	<script>
+window.onload = function(){
+	function score(oUl){
+		var aLi = oUl.getElementsByTagName('li');
+		for(var i = 0; i < aLi.length; i++){
+			aLi[i].index = i;
+			aLi[i].onclick = function(){
+				// this.index
+				for(var j=0; j<aLi.length; j++){
+					//j->0 1 2 3 4
+					if(j <= this.index){
+						aLi[j].className = 'on';
+					}else{
+						aLi[j].className = '';
+					}
+				}
+			}
+			// aLi[i].onclick = function(){
+			// 	alert(this.index+1+'分');
+			// }
+			}
+		}
+	var rEview = document.getElementById('review');
+	var oReVi = rEview.getElementsByTagName('ul'); 
+	for(var i=0; i<oReVi.length; i++){
+		score(oReVi[i])
+	}	
+}
+</script>
