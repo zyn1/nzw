@@ -15,19 +15,33 @@
 		</header>
 		<div class="comment_list">
 
-			{foreach:items=$this->commentQuery->find()}
+			{foreach:items=$this->commentQuery->find() item=$comment}
 			<div class="comment_item">
 				<div class="user">
-					<img src="{webroot:$item[head_ico]}" width="70px" height="70px" onerror="this.src='{skin:image/user_ico.gif}'" />
-					<span>{$item['username']}</span>
+					<img src="{webroot:$comment[head_ico]}" width="70px" height="70px" onerror="this.src='{skin:image/user_ico.gif}'" />
+					<span>{$comment['username']}</span>
 				</div>
 				<div class="desc">
-					<time>{$item['time']}</time>
+					<time>{$comment['time']}</time>
 					<div class="star_box">
 						<strong class="item">评分：</strong>
-						<span class="star star_{echo:Common::gradeWidth($item['point'])}"></span>
+						<span class="star star_{echo:Common::gradeWidth($comment['point'])}"></span>
 					</div>
-					<p class="contents"><strong>评价：</strong><span>{$item['contents']}</span></p>
+					<p class="contents"><strong>评价：</strong><span>{$comment['contents']}</span></p>
+                    <p class="contents">
+                    <strong>晒图：</strong>
+                    {query:name=comment_photo where=comment_id eq $comment[id] and is_reply eq 0}
+                    <img src="{webroot:$item['img']}" style="width: 100px;">
+                    {/query}
+                    {if:$comment['second_contents']}
+                    <p class="contents"><strong>追评：</strong><span>{$comment['second_contents']}</span></p>
+                    <p class="contents">
+                    <strong>图片：</strong>
+                    {query:name=comment_photo where=comment_id eq $comment[id] and is_reply eq 1}
+                    <img src="{webroot:$item['img']}" style="width: 100px;">
+                    {/query}
+                    {/if}
+                    </p>
 				</div>
 			</div>
 			{/foreach}

@@ -219,8 +219,21 @@
 							<span class="star star_<%=point%>"></span>
 						</div>
 						<p class="contents"><strong>评价：</strong><span><%=contents%></span></p>
+                        <%if(photo){%>
+                        <p class="contents"><strong>晒图：</strong>
+                        <%for(var i = 0; i < photo.length; i++){%>
+                        <img src="{webroot:}<%=photo[i]['img']%>" style="width: 100px;">
+                        <%}%>
+                        </p>
+                        <%}%>
                         <%if(second_contents){%>
                         <p class="contents"><strong>追评：</strong><span><%=second_contents%></span>&nbsp;&nbsp;&nbsp;&nbsp;<span><%=second_content_time%></span></p>
+                        <%if(reply_photo){%>
+                        <p class="contents"><strong>图片：</strong>
+                        <%for(var i = 0; i < reply_photo.length; i++){%>
+                        <img src="{webroot:}<%=reply_photo[i]['img']%>" style="width: 100px;">
+                        <%}%>
+                        <%}%>
                         <%}%>
 						<%if(recontents){%>
 						<p class="recontents"><strong>回复：</strong><span><%=recontents%></span></p>

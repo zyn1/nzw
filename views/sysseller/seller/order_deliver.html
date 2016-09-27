@@ -89,9 +89,9 @@
                     </tr>
                     <tr>
                         <th>地址:</th><td align="left"><input type="text" class="normal" name="address" value="{$address}" size="50" pattern="required"/></td>
-                        {if:$fapiao_id && $fapiao_status == 1}
+                        {if:isset($fapiao_id) && $fapiao_id && $fapiao_status == 1}
                         <th>发票信息:</th><td>已开票</td>
-                        {else:}
+                        {elseif:isset($fapiao_id) && $fapiao_id}
                         <th>开发票:</th>
                         <td>
                         <input type="hidden" name="fapiao_money" value="{$real_amount}">
@@ -100,7 +100,7 @@
                     </tr>
 					<tr>
 						<th>邮政编码:</th><td align="left"><input type="text" name="postcode" class="small" value="{$postcode}" pattern="zip" empty /></td>
-                        {if:$fapiao_id}
+                        {if:isset($fapiao_id) && $fapiao_id}
                         <th>发票抬头:</th><td>{$fapiao_taitou}</td>
                         {/if}
 					</tr>
