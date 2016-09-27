@@ -1514,6 +1514,7 @@ a .icon-rotate-90:before, a .icon-rotate-180:before, a .icon-rotate-270:before, 
 .bar .bar_box .bar_goods.ranking li:after { content: ""; position: absolute; right: 0; bottom: 0; width: 0; height: 0; display: block; border-style: solid; border-width: 14px; border-color: transparent #ee5d1e #ee5d1e transparent; }
 .bar .bar_box .bar_goods.ranking li:nth-child(n+4):after { border-color: transparent #999 #999 transparent; }
 .bar .bar_box .bar_nav li { height: 28px; line-height: 28px; overflow: hidden; padding-left: 20px; border-bottom: 1px solid #ddd; position: relative; }
+.bar .bar_box .bar_nav li a{color: #555;}
 .bar .bar_box .bar_nav li:before { content: ""; width: 3px; height: 3px; background: #FF8225; display: block; position: absolute; left: 10px; top: 12px; }
 .bar .bar_box .bar_nav li:nth-child(2n) { background: #fafafa; }
 .bar .bar_box .bar_nav li:last-child { border: none; }
@@ -1526,7 +1527,7 @@ a .icon-rotate-90:before, a .icon-rotate-180:before, a .icon-rotate-270:before, 
 
 .main { width: 960px; float: right; }
 
-.main_head { height: 30px; line-height: 30px; text-indent: 15px; color: #222; background: #fafafa; background-image: -webkit-linear-gradient(0deg, #f0f0f0, #fff); background-image: linear-gradient(0deg, #f0f0f0, #fff); border: 1px solid #e4e4e4;   font-size: 14px; }
+.main_head { height: 37px; line-height: 37px; text-indent: 15px; color: #bd4327;text-align: center; background: #fafafa; background-image: -webkit-linear-gradient(0deg, #f0f0f0, #fff); background-image: linear-gradient(0deg, #f0f0f0, #fff); border: 1px solid #e4e4e4;   font-size: 14px; }
 .main_head.lgl{height: 38px;line-height: 38px;text-align: center;color: #bd4327;font-size: 15px;}
 .main_head mark { padding: 0 5px; background: none; color: #F85D92; }
 .main_head .barnd_web { float: right; margin-right: 15px; text-decoration: none; -webkit-transition: all 0.25s ease-in-out; transition: all 0.25s ease-in-out; }
@@ -2062,4 +2063,10 @@ a .icon-rotate-90:before, a .icon-rotate-180:before, a .icon-rotate-270:before, 
 .message_info_each{border: 1px solid #E6E6E6;}
 .message_info_each .message_info_each_title{height: 40px;line-height: 40px; background: #EEEEEE; padding-left: 20px;}
 .message_info_each .message_info_each_title span{display: inline-block;float: right;margin-right: 15px;cursor: pointer;width: 25px;background: url('../image/message_del.png') center no-repeat;}
-.message_info_each .message_info_each_p{padding: 30px 50px;}
+.message_info_each .message_info_each_p{padding: 38px 50px;}
+
+.error_page{width: 800px; height: auto;overflow: hidden;margin: 50px auto;}
+.wrong_path{margin: 0 auto;position: relative;color: #6c6c6c;}
+.wrong_path img{width: 584px;height: 378px;}
+.wrong_path span{font-size: 30px;display: block;position: absolute; left: 340px;bottom: 100px;}
+.wrong_path b{font-size: 16px;font-weight: normal;}
