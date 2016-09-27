@@ -15,7 +15,11 @@
 			<td>{$item['time']}</td>
 			<td>{echo:Order_Class::refundmentText($item['pay_status'])}</td>
 			<td>
-				{if:$item['pay_status']==0}<a href='javascript:delModel({link:"{url:/ucenter/refunds_del/id/$item[id]}"})'>取消</a>|{/if}
+				{if:$item['pay_status']==0}
+                <a href='javascript:delModel({link:"{url:/ucenter/refunds_del/id/$item[id]}"})'>取消</a>|
+                {else:}
+                <a href='javascript:delModel({link:"{url:/ucenter/refunds_del/id/$item[id]}"})'>删除</a>|
+                {/if}
 				<a href="{url:/ucenter/refunds_detail/id/$item[id]}">查看</a>
 			</td>
 		</tr>

@@ -1,13 +1,13 @@
 
 <header class="uc_head">
-	<h3>我的收藏</h3>
+	<h3>我的足迹</h3>
 </header>
-{set:$favoriteObj = Api::run('getFavorite',$this->user['user_id'],IReq::get('cat_id'))}
+{set:$historyObj = Api::run('getHistory',$this->user['user_id'])}
 
 <section class="goods_list">
-	{if:$favoriteObj}
+	{if:$historyObj}
 	<ul>
-		{foreach:items=$favoriteObj->find()}
+		{foreach:items=$historyObj->find()}
 		<li>
 			<a target="_blank" href="{url:/site/products/id/$item['goods_id']}">
 				<img alt="{$item['name']}" src="{url:/pic/thumb/img/$item['img']/w/205/h/205}">
@@ -16,13 +16,12 @@
 				<del>￥{$item['market_price']}</del>
 			</a>
 			<div class="goods_list_btn">
-				<div class="add_cart" onclick="joinCart_list({$item['goods_id']});">加入购物车</div>
-				<div class="del_fav" onclick="delModel({link:'{url:/ucenter/favorite_del/id/$item[id]}',msg:'是否取消收藏？'});">取消收藏</div>
+				<div class="del_fav del_history" onclick="delModel({link:'{url:/ucenter/history_del/id/$item[goods_id]}',msg:'确定删除浏览记录？'});">删除记录</div>
 			</div>
 		</li>
 		{/foreach}
 	</ul>
-	{$favoriteObj->getPageBar()}
+	{$historyObj->getPageBar()}
 
 	{else:}
 	<p class="no_tip">

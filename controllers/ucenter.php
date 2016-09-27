@@ -493,7 +493,8 @@ class Ucenter extends IController implements userAuthorization
     function info_edit_act()
     {
 		$email     = IFilter::act( IReq::get('email'),'string');
-		$mobile    = IFilter::act( IReq::get('mobile'),'string');
+        $mobile    = IFilter::act( IReq::get('mobile'),'string');
+		$desc_info = IFilter::act( IReq::get('desc_info'),'string');
 
     	$user_id   = $this->user['user_id'];
     	$memberObj = new IModel('member');
@@ -534,6 +535,7 @@ class Ucenter extends IController implements userAuthorization
     		'mobile'       => $mobile,
     		'telephone'    => IFilter::act( IReq::get('telephone'),'string'),
     		'area'         => $areaArr ? ",".join(",",$areaArr)."," : "",
+            'desc_info'    => $desc_info
     	);
 
     	$memberObj->setData($dataArray);
@@ -935,52 +937,35 @@ class Ucenter extends IController implements userAuthorization
 		$this->redirect('redpacket');
     }
     
-    
-    //获取历史浏览数据
-    function get_history(&$historyObj)
+    //[我的足迹]删除
+    function history_del()
     {
-        $page = (isset($_GET['page'])&&(intval($_GET['page'])>0))?intval($_GET['page']):1;
-    
-        $historyObj = new IQuery("user_history");
-        $cat_id = intval(IReq::get('cat_id'));
-        $where = '';
-        if($cat_id != 0)
+        $user_id = $this->user['user_id'];
+        $id      = IReq::get('id');
+
+        if(!empty($id))
         {
-            $where = ' and cat_id = '.$cat_id;
-        }
-        $historyObj->where = "user_id = ".$this->user['user_id'].$where;
-        $historyObj->page  = $page;
-        $historyObj->order = "id DESC";
-        $items = $historyObj->find();
-    
-        $goodsIdArray   = array();
-        foreach($items as $val)
-        {
-            $goodsIdArray[] = $val['goods_id'];
-        }
-    
-        //商品数据
-        if(!empty($goodsIdArray))
-        {
-            $goodsIdStr = join(',',$goodsIdArray);
-            $goodsObj   = new IModel('goods');
-            $goodsList  = $goodsObj->query('id in ('.$goodsIdStr.')','id,name,sell_price,store_nums,img,seller_id');
-        }
-    
-        foreach($items as $key => $val)
-        {
-            foreach($goodsList as $gkey => $goods)
+            $id = IFilter::act($id,'int');
+
+            $historyObj = new IModel('user_history');
+
+            if(is_array($id))
             {
-                if($goods['id'] == $val['goods_id'])
-                {
-                    $items[$key]['data'] = $goods;
-    
-                }
+                $idStr = join(',',$id);
+                $where = 'user_id = '.$user_id.' and goods_id in ('.$idStr.')';
             }
+            else
+            {
+                $where = 'user_id = '.$user_id.' and goods_id = '.$id;
+            }
+
+            $historyObj->del($where);
+            $this->redirect('history');
         }
-        foreach($items as $k=>$v){
-            if(!isset($v['data']))unset($items[$k]);
+        else
+        {
+            $this->redirect('history',false);
+            Util::showMessage('请选择要删除的数据');
         }
-        return $items;
     }
 }

@@ -149,21 +149,40 @@ class APIUcenter
 	}
 
     //[收藏夹]获取收藏夹数据
-	public function getFavorite($userid,$cat = '')
+    public function getFavorite($userid,$cat = '')
+    {
+        //获取收藏夹信息
+        $page   = IReq::get('page') ? IFilter::act(IReq::get('page'),'int') : 1;
+        $cat_id = IFilter::act($cat,'int');
+
+        $favoriteObj = new IQuery("favorite as f");
+        $favoriteObj->join  = "left join goods as go on go.id = f.rid";
+        $favoriteObj->fields= " f.*,go.name,go.id as goods_id,go.img,go.store_nums,go.sell_price,go.market_price";
+
+        $where = 'user_id = '.$userid;
+        $where.= $cat_id ? ' and cat_id = '.$cat_id : "";
+
+        $favoriteObj->where = $where;
+        $favoriteObj->page  = $page;
+        return $favoriteObj;
+    }
+
+    //[我的足迹]获取浏览记录数据
+	public function getHistory($userid)
     {
 		//获取收藏夹信息
 	    $page   = IReq::get('page') ? IFilter::act(IReq::get('page'),'int') : 1;
-	    $cat_id = IFilter::act($cat,'int');
 
-		$favoriteObj = new IQuery("favorite as f");
-		$favoriteObj->join  = "left join goods as go on go.id = f.rid";
-		$favoriteObj->fields= " f.*,go.name,go.id as goods_id,go.img,go.store_nums,go.sell_price,go.market_price";
+		$historyObj = new IQuery("user_history as h");
+		$historyObj->join  = "left join goods as go on go.id = h.goods_id";
+		$historyObj->fields= " h.*,go.name,go.id as goods_id,go.img,go.store_nums,go.sell_price,go.market_price";
+        $historyObj->order="h.time DESC";
+        $historyObj->group="go.id";
 
-		$where = 'user_id = '.$userid;
-		$where.= $cat_id ? ' and cat_id = '.$cat_id : "";
+		$where = 'h.user_id = '.$userid;
 
-		$favoriteObj->where = $where;
-		$favoriteObj->page  = $page;
-		return $favoriteObj;
+		$historyObj->where = $where;
+		$historyObj->page  = $page;
+		return $historyObj;
     }
 }

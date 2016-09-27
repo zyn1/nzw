@@ -1632,11 +1632,9 @@ a .icon-rotate-90:before, a .icon-rotate-180:before, a .icon-rotate-270:before, 
 .goods_list ul li em { left: 10px; font-size: 15px; color: #ee5d1e; font-weight: bold; }
 .goods_list ul li del { right: 10px; text-decoration: line-through; color: #999; }
 .goods_list ul li .goods_list_btn { text-align: center; }
-.goods_list ul li .goods_list_btn .add_cart, .goods_list ul li .goods_list_btn .del_fav { float: left; height: 36px; line-height: 36px; color: #fff; cursor: pointer; -webkit-transition: all 0.25s ease-in-out; transition: all 0.25s ease-in-out; overflow: hidden; }
-.goods_list ul li .goods_list_btn .add_cart { width: 100%; background: #ec4c47; }
-.goods_list ul li .goods_list_btn .del_fav { width: 0%; background: #437dd0; float: right; }
-.goods_list ul li .goods_list_btn:hover .add_cart { width: 75%; }
-.goods_list ul li .goods_list_btn:hover .del_fav { width: 25%; }
+.goods_list ul li .goods_list_btn .add_cart{ float: left; height: 36px; line-height: 36px; color: #EE5D1E; cursor: pointer; -webkit-transition: all 0.25s ease-in-out; transition: all 0.25s ease-in-out; overflow: hidden; margin-left: 3px;}
+.goods_list ul li .goods_list_btn .del_fav { float: right; height: 36px; line-height: 36px; color: #ccc; cursor: pointer; -webkit-transition: all 0.25s ease-in-out; transition: all 0.25s ease-in-out; overflow: hidden; margin-right: 3px;}
+.goods_list ul li .goods_list_btn .del_history {float: left;}
 
 .no_tip { font-size: 32px; line-height: 5; text-align: center; color: #999; }
 
@@ -1977,8 +1975,8 @@ a .icon-rotate-90:before, a .icon-rotate-180:before, a .icon-rotate-270:before, 
 .uc_table table thead th { border-bottom: 1px solid #e4e4e4; height: 36px; color: #6d6d6d; background: #fafafa; font-size: 14px; }
 .uc_table table tbody th, .uc_table table tbody td { padding: 8px 5px; line-height: 1.6; border-bottom: 1px solid #e4e4e4;    color: #6d6d6d; }
 .uc_table table tbody tr:nth-child(2n) { background: #fcfcfc; }
-.uc_table table tbody h4 { text-align: left; color: #2d64b3; font-size: 14px; text-indent: 10px; position: relative; }
-.uc_table table tbody h4:before { content: ""; display: block; position: absolute; background: #FF8225; width: 3px; height: 3px; left: 3px; top: 10px; }
+.uc_table table tbody h4 { text-align: left; color: #2d64b3; font-size: 14px; text-indent: 10px; position: relative;}
+/*.uc_table table tbody h4:before { content: ""; display: block; position: absolute; background: #FF8225; width: 3px; height: 3px; left: 3px; top: 10px; }*/
 .uc_table table tbody td .orange{font-weight: normal; cursor: pointer;}
 
 .col_table { margin-bottom: 10px; }
@@ -1998,7 +1996,7 @@ a .icon-rotate-90:before, a .icon-rotate-180:before, a .icon-rotate-270:before, 
 .user_form dl { display: table; margin-bottom: 20px; width: 100%; line-height: 1.6; }
 .user_form dl dt, .user_form dl dd { display: table-cell; vertical-align: middle; }
 .user_form dl dd .filinfo{margin-left: 3px;}
-.user_form dl dt { width: 140px; text-align: right; font-size: 14px; }
+.user_form dl dt { width: 171px; text-align: right; font-size: 14px; }
 .user_form dl dt.vertical{vertical-align: top;}
 .user_form label { cursor: pointer; }
 .user_form label.attr{vertical-align: super;}
@@ -2016,3 +2014,8 @@ a .icon-rotate-90:before, a .icon-rotate-180:before, a .icon-rotate-270:before, 
 .order_schedule .btn.btn_green input:hover { border-color: #296e2b; background: #379339; }
 .order_schedule .btn.btn_orange input { border-color: #f29518; background: #f5ab48; }
 .order_schedule .btn.btn_orange input:hover { border-color: #cc7a0b; background: #f29518; }
+
+.message_info_each{border: 1px solid #E6E6E6;}
+.message_info_each .message_info_each_title{height: 40px;line-height: 40px; background: #EEEEEE; padding-left: 20px;}
+.message_info_each .message_info_each_title span{display: inline-block;float: right;margin-right: 15px;cursor: pointer;width: 25px;background: url('../image/message_del.png') center no-repeat;}
+.message_info_each .message_info_each_p{padding: 30px 50px;}
