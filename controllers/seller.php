@@ -776,7 +776,14 @@ class Seller extends IController implements sellerAuthorization
 
 		if($items)
 		{
-			$this->comment = current($items);
+            $comment = current($items);
+            $photo = new IModel('comment_photo');
+            $comment['photo'] = $photo->query('comment_id = '.$comment['id'].' and is_reply = 0', 'img');
+            if($comment['second_contents'])
+            {
+                $comment['reply_photo'] = $photo->query('comment_id = '.$comment['id'].' and is_reply = 1', 'img');
+            }
+            $this->comment = $comment;
 			$this->redirect('comment_edit');
 		}
 		else

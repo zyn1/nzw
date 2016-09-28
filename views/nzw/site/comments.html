@@ -1,7 +1,8 @@
 <section class="breadcrumb">
 	<span>您当前的位置：</span> <a href="{url:}">首页</a> » <a href="{url:/site/products/id/$this->goods['goods_id']}">{$this->goods['name']}</a>
 </section>
-
+{js:kindeditor}
+{set:$swfloadObject = new Swfupload('site/comment_img_upload');$swfloadObject->show();}
 
 <section class="web">
 	<section class="main">
@@ -10,83 +11,47 @@
 			<form method="post" action="{url:/site/comment_add}">
 				<input type="hidden" name="id" value="{$this->comment['id']}" />
                 {if:$this->comment['status'] == 1}
-                <dl>
-                    <dt>评价：</dt>
-                    <dd>{if:$this->comment['point']==5}好评！{elseif:$this->comment['point']>1 && $this->comment['point']<5}中评！{else:}差评！{/if}[{$this->comment['comment_time']}]</dd> 
+                <h3 class="level_nr">评价：</h3>
+                <dl class="comm_content">
+                    <dd>{if:$this->comment['point']==5}好评！{elseif:$this->comment['point']>1 && $this->comment['point']<5}中评！{else:}差评！{/if}[{$this->comment['comment_time']}]</dd>
                 </dl>
-                <dl>
-                    <dt>评分：</dt>
+                <h3 class="level_nr">评分：</h3>
+                <dl class="comm_content">
                     <dd class="star_box"><span class="star star_{echo:Common::gradeWidth($this->comment['point'])}"></span></dd>
                 </dl>
-                <dl>
-                    <dt>评语：</dt><dd>{$this->comment['contents']}</dd>      
+                <h3 class="level_nr">评语：</h3>
+                <dl class="comm_content">
+                    <dd>{$this->comment['contents']}</dd>      
                 </dl>
-                
-                <dl>
-                    <dt>追评内容：</dt>
+                <h3 class="level_nr">追评内容：</h3>
+                <dl class="comm_content">
                     <dd><input type="hidden" name="is_reply" value="1"><textarea class="input_textarea" name='second_contents' pattern='required' alt=''></textarea></dd>
                 </dl>
+                
+                <h3 class="level_sc">上传图片：</h3>    
+                <dl class="upload_pic">
+                    <div class="chooice_btn">
+                        <span id='uploadButton'></span>
+                    </div>
+                    <span class="warn_wd">可以上传多张图片，分辨率3000px以下，大小不得超过{echo:IUpload::getMaxSize()}</span>
+                    <div class="picturer_box">
+                    <p id="divFileProgressContainer"></p>
+                        <ul id="thumbnails">
+                        </ul>
+                    </div>
+                </dl>
                 {else:}
-				<!-- <dl>
-					<dt>评论等级：</dt>
-					<dd>
-						<label class="star_box fl">
-							<input name="point" class="radio" type="radio" value="5" checked="checked" />
-							<span class="star star_5"></span>
-						</label>
-						<label class="star_box fl">
-							<input name="point" class="radio" type="radio" value="4" />
-							<span class="star star_4"></span>
-						</label>
-						<label class="star_box fl">
-							<input name="point" class="radio" type="radio" value="3" />
-							<span class="star star_3"></span>
-						</label>
-						<label class="star_box fl">
-							<input name="point" class="radio" type="radio" value="2" />
-							<span class="star star_2"></span>
-						</label>
-						<label class="star_box fl">
-							<input name="point" class="radio" type="radio" value="1" />
-							<span class="star star_1"></span>
-						</label>
-					</dd>
-				</dl> -->
 				<h3 class="level_pl">评论等级：</h3>	
 					<div class="grade_fl" id="review">
+                    <input type="hidden" name="point" value="5">
 						<dl>
-							<dt>商品质量：</dt>
 							<dd>
 								<ul class="review_ul">
-									<li></li>
-									<li></li>
-									<li></li>
-									<li></li>
-									<li></li>
-								</ul>
-							</dd>
-						</dl>
-						<dl>
-							<dt>物流配送：</dt>
-							<dd>
-								<ul class="review_ul">
-									<li></li>
-									<li></li>
-									<li></li>
-									<li></li>
-									<li></li>
-								</ul>
-							</dd>
-						</dl>
-						<dl>
-							<dt>卖家服务：</dt>
-							<dd>
-								<ul class="review_ul">
-									<li></li>
-									<li></li>
-									<li></li>
-									<li></li>
-									<li></li>
+									<li class="on"></li>
+									<li class="on"></li>
+									<li class="on"></li>
+									<li class="on"></li>
+									<li class="on"></li>
 								</ul>
 							</dd>
 						</dl>
@@ -108,10 +73,8 @@ $(function(){
 						aLi[j].className = '';
 					}
 				}
+                $('input[name=point]').val(this.index+1);
 			}
-			// aLi[i].onclick = function(){
-			// 	alert(this.index+1+'分');
-			// }
 			}
 		}
 	var rEview = document.getElementById('review');
@@ -121,30 +84,20 @@ $(function(){
 	}	
 }
 })
+
 </script>				
 				<h3 class="level_sc">上传图片：</h3>	
 				<dl class="upload_pic">
-					<label for=""><input class="chooice_btn" type="button" name="" value="浏览">
-						<span class="warn_wd">可以上传多张图片，分辨率3000px以下，大小不得超过4M</span>
-					</label>
+                    <div class="chooice_btn">
+                        <span id='uploadButton'></span>
+                    </div>
+					<span class="warn_wd">可以上传多张图片，分辨率3000px以下，大小不得超过{echo:IUpload::getMaxSize()}</span>
 					<div class="picturer_box">
-						<ul>
-							<li><img src="{skin:/image/warn.png}" alt=""></li>
-							<li><img src="{skin:/image/warn.png}" alt=""></li>
-							<li><img src="{skin:/image/warn.png}" alt=""></li>
-							<li><img src="{skin:/image/warn.png}" alt=""></li>
-							<li><img src="{skin:/image/warn.png}" alt=""></li>
-							<li><img src="{skin:/image/warn.png}" alt=""></li>
-							<li><img src="{skin:/image/warn.png}" alt=""></li>
-							<li><img src="{skin:/image/warn.png}" alt=""></li>
-							<li><img src="{skin:/image/warn.png}" alt=""></li>
-							<li><img src="{skin:/image/warn.png}" alt=""></li>
-							<li><img src="{skin:/image/warn.png}" alt=""></li>
-							<li><img src="{skin:/image/warn.png}" alt=""></li>
+                    <p id="divFileProgressContainer"></p>
+						<ul id="thumbnails">
 						</ul>
 					</div>
 				</dl>
-
 				<h3 class="level_nr">评论内容：</h3>	
 				<dl class="comm_content">
 					<dd><textarea class="input_textarea" name='contents' pattern='required' alt=''></textarea></dd>
@@ -155,6 +108,25 @@ $(function(){
 					<dd><input class="input_submit" type="submit" value="立即评价" /></dd>
 				</dl>
 			</form>
+            <!--图片模板-->
+            <script type='text/html' id='picTemplate'>
+            <li>
+                <img src="{webroot:<%=picRoot%>}" alt="<%=picRoot%>" />
+                <p><a href='javascript:void(0)' onclick="$(this).closest('li').remove();">删除</a></p>
+                <input type="hidden" name="_imgList[]" value="<%=picRoot%>"/>
+            </li>
+            </script>
+            <script type="text/javascript">
+            /**
+             * 图片上传回调,handers.js回调
+             * @param picJson => {'flag','img','list','show'}
+             */
+            function uploadPicCallback(picJson)
+            {
+                var picHtml = template.render('picTemplate',{'picRoot':picJson.img});
+                $('#thumbnails').append(picHtml);
+            }
+            </script>
 		</section>
 	</section>
 	<aside class="bar">

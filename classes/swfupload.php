@@ -34,7 +34,7 @@ OEF;
 	 * @param string $name 用户名
 	 * @param string $pwd  密码
 	 */
-	public function show($name,$pwd)
+	public function show($name='',$pwd='')
 	{
 		$sessionName = ISafe::name();
 		$sessionId   = ISafe::id();

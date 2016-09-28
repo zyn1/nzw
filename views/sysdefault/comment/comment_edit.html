@@ -25,9 +25,19 @@
 				<tr>
 					<th>评价商品：</th><td><a href="{url:/goods/products/id/$items['goods_id']}" target="_blank">{$items['name']}</a></td>
 				</tr>
+                <tr>
+                    <th>评价内容：</th><td>{$items['contents']}</td>
+                </tr>
+                {if:$items['photo']}
 				<tr>
-					<th>评价内容：</th><td>{$items['contents']}</td>
+					<th>晒图：</th>
+                    <td>
+                    {foreach:items=$items['photo']}
+                    <img src="{webroot:$item['img']}" style="width: 100px;" alt="">
+                    {/foreach}
+                    </td>
 				</tr>
+                {/if}
                 <tr>
                     <th>评价分数：</th><td>{$items['point']}分</td>
                 </tr>
@@ -38,19 +48,29 @@
 				<tr>
 					<th>追评时间：</th><td>{$items['second_content_time']}</td>
 				</tr>
+                {if:$items['reply_photo']}
+                <tr>
+                    <th>追评图片：</th>
+                    <td>
+                    {foreach:items=$items['reply_photo']}
+                    <img src="{webroot:$item['img']}" style="width: 100px;" alt="">
+                    {/foreach}
+                    </td>
+                </tr>
+                {/if}
                 {/if}
 				{if:$items['seller_id']}
 				<tr><th>商家：</th><td><a href="{url:/site/home/id/$items['seller_id']}" target="_blank">商家主页</a></td></tr>
 				{/if}
 				<tr>
-					<th>回复评价：</th>
-					<td><textarea class='normal' name='recontents'>{$items['recontents']}</textarea><label>卖家对买家评论的回复</label></td>
+					<th>商家回复：</th>
+					<td><!--<textarea class='normal' name='recontents' readonly="readonly">-->{$items['recontents']}<!--</textarea><label>卖家对买家评论的回复</label>--></td>
 				</tr>
 				<tr>
 					<th></th>
 					<td>
-						<button type='submit' class='submit'><span>确定</span></button>
-						<button type='reset' class='submit'><span>重置</span></button>
+						<!--<button type='submit' class='submit'><span>确定</span></button>
+						<button type='reset' class='submit'><span>重置</span></button>-->
 					</td>
 				</tr>
 			</table>

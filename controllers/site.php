@@ -543,6 +543,15 @@ class Site extends IController
 		$commentDB->order  = 'c.id desc';
 		$commentDB->page   = $page;
 		$data     = $commentDB->find();
+        $photo = new IModel('comment_photo');
+        foreach($data as $k => $v)
+        {
+             $data[$k]['photo'] = $photo->query('comment_id = '.$v['id'].' and is_reply = 0', 'img');
+             if($v['second_contents'])
+             {
+                 $data[$k]['reply_photo'] = $photo->query('comment_id = '.$v['id'].' and is_reply = 1', 'img');
+             }
+        }
 		$pageHtml = $commentDB->getPageBar("javascript:void(0);",'onclick="comment_ajax([page])"');
 
 		echo JSON::encode(array('data' => $data,'pageHtml' => $pageHtml));
@@ -623,6 +632,34 @@ class Site extends IController
 
 		$this->redirect('comments_list');
 	}
+    
+    
+    
+    /**
+     * @brief 评论图片上传的方法
+     */
+    public function comment_img_upload()
+    {
+        //获得配置文件中的数据
+        $config = new Config("site_config");
+
+         //调用文件上传类
+        $photoObj = new PhotoUpload();
+        $photo    = current($photoObj->run());  
+        //判断上传是否成功，如果float=1则成功
+        if($photo['flag'] == 1)
+        {
+            $result = array(
+                'flag'=> 1,
+                'img' => $photo['img']
+            );
+        }
+        else
+        {
+            $result = array('flag'=> $photo['flag']);
+        }                
+        echo JSON::encode($result);
+    }
 
 	//提交评论页
 	function comments()
@@ -658,8 +695,9 @@ class Site extends IController
 	{
 		$id      = IFilter::act(IReq::get('id'),'int');
         $content = IFilter::act(IReq::get("contents"));
-        $is_reply = IFilter::act(IReq::get('is_reply'), 'int');
+        $is_reply = IReq::get('is_reply') ? IFilter::act(IReq::get('is_reply'), 'int') : 0;
 		$second_content = IFilter::act(IReq::get("second_contents"));
+        $imgList = IFilter::act(IReq::get('_imgList'),'string');
 		if((!$id || !$content) && (!$id || !$is_reply || !$second_content))
 		{
 			IError::show(403,"填写完整的评论内容");
@@ -728,6 +766,20 @@ class Site extends IController
 				    'grade'    => 'grade + '.$commentRow['point'],
 			    ));
 			    $sellerDB->update('id = '.$commentRow['seller_id'],array('grade','comments'));
+            }
+            //处理评论图片
+            if($imgList)
+            {
+                $photo = new IModel('comment_photo');
+                foreach($imgList as $k => $v)
+                {
+                    $para['comment_id'] = $id;
+                    $para['img'] = $v;
+                    $para['sort'] = $k;
+                    $para['is_reply'] = $is_reply;
+                    $photo->setData($para);
+                    $photo->add();
+                }
             }
 			$this->redirect("/site/comments_list/id/".$commentRow['goods_id']);
 		}

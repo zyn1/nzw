@@ -21,7 +21,7 @@ class APIComment
 		$query = new IQuery("comment AS c");
 		$query->fields = "c.*,u.username,u.head_ico";
 		$query->join   = "left join user AS u ON c.user_id = u.id";
-		$where         = "c.goods_id = {$goods_id} and c.status = 1";
+		$where         = "c.goods_id = {$goods_id} and c.status <> 0";
 		$where        .= $point ? " and c.point in (".$point.") " : "";
 		$query->where  = $where;
 		$query->order    = "c.id DESC";
