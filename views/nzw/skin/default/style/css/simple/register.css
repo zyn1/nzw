@@ -127,7 +127,7 @@ a, a * { cursor: pointer; }
 }
 textarea.invalid-text, input[type="text"].invalid-text, input[type="password"].invalid-text{margin-top: -1px;}
 .reg_content div{height: 42px; width: 304px;border: 1px solid #dbdbdb;margin-bottom: 30px;}
-.reg_content div input{height: 42px;line-height: 42px;border: 0 none; margin-top: 0px; width: 246px; border: none; vertical-align: middle;outline: none;box-shadow: none;}
+.reg_content div input{height: 41px;line-height: 42px;border: 0 none; margin-top: 0px; width: 246px; border: none; vertical-align: middle;outline: none;box-shadow: none;}
 .reg_content div.setPass input{width: 207px;}
 .reg_content div input.first{width: 226px;}
 .reg_content div input.two{width: 112px;}
