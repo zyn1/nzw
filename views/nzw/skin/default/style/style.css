@@ -1911,7 +1911,8 @@ a .icon-rotate-90:before, a .icon-rotate-180:before, a .icon-rotate-270:before, 
 .goods_con { border: 1px solid #ddd; border-top: none; }
 
 .goods_infos { background: #fafafa; padding: 10px; line-height: 2; border-bottom: 1px solid #ddd; }
-.goods_infos.seller{line-height: 50px;}
+.goods_infos.seller{line-height: 50px;border-bottom: none;}
+.goods_infos.none_bor{border-bottom: none;}
 .goods_infos li { width: 50%; float: left;}
 .goods_infos li.sell_logo img{height: 42px; }
 .goods_infos li.height_sell{line-height: 30px;}
