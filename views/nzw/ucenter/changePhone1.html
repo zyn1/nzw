@@ -1,0 +1,61 @@
+<link rel="stylesheet" href="{skin:style/css/ucenter/change_psw.css}">
+<header class="uc_head">
+	<h3>修改绑定手机</h3>
+</header>
+
+<section class="user_form">
+	<div class="prog_bar">
+		<div class="pro_one_one"><span>1.验证身份</span></div>
+		<div class="pro_two_two"><span>2.新手机验证</span></div>
+		<div class="pro_three"><span>3.修改手机成功</span></div>
+	</div>
+ <form action="{url:/ucenter/changePhone2}" method="post">
+	<div class="prog_info">
+		<p class="form_t">
+			<label for="phone">新手机号：</label><input class="new_infil" type="text" name="phone"  pattern="mobi" alt="填写正确的手机格式">
+			<span class="word_warn">请填写正确的手机号码，我们将验证码发送到你的手机</span>
+		</p>
+		<p class="form_t forin">
+			<label for="phone_code">请填写短信验证码：</label>
+            <input type="text" class="new_infil" name="phone_code" pattern='^\w{4,6}$'>
+            <input class="toobn_again" type="button" value="获取短信验证码" onclick="sendMessage(this);">
+		</p>
+		<input type="submit" class="next_steb" value="下一步">
+	</div>
+ </form>		
+</section>
+
+<script type="text/javascript">
+//发送短信码
+function sendMessage(_self)
+{
+    var phone = $('[name="phone"]').val();
+    $.get("{url:/ucenter/_sendMobileCode}",{"phone":phone},function(content)
+    {
+        if(content != 'success')
+        {
+            alert(content);
+            $(_self).prop("disabled",false);
+        }
+        else
+        {
+            alert('发送成功')
+            times = 60;
+            timerHandle = setInterval(function(){
+                times--;
+                $(_self).val(times + "秒后再次发送");
+                $(_self).prop("disabled",true);
+                if(times <= 0)
+                {
+                    $(_self).prop("disabled",false);
+                    $(_self).val("获取短信验证码");
+                    clearInterval(timerHandle);
+                    times = 60;
+                }
+            },1000);
+        }
+    });
+}
+</script>
+
+
