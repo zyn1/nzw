@@ -33,6 +33,17 @@ class mailTemplate
 		return strtr($templateString,$param);
 	}
 
+    /**
+     * @brief 到换绑邮箱邮件模板
+     * @param array $param 模版参数
+     * @return string
+     */
+    public static function changeEmail($param)
+    {
+        $templateString = "您的验证码为:{email_code},请注意保管!";
+        return strtr($templateString,$param);
+    }
+
 	/**
 	 * @brief 到货通知邮件模板
 	 * @param array $param 模版参数

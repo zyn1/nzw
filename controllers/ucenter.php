@@ -968,4 +968,236 @@ class Ucenter extends IController implements userAuthorization
             Util::showMessage('请选择要删除的数据');
         }
     }
+    
+    //修改绑定邮箱
+    function changeEmail()
+    {
+        $user_id = $this->user['user_id'];
+        $member = new IModel('member');
+        $email = $member->getObj('user_id = '.$user_id, 'email');
+        if(empty($email['email']))
+        {
+            $this->redirect('index');
+        }
+        else
+        {
+            $this->email = $email['email'];
+            $this->redirect('changeEmail');
+        }
+    }
+    
+    //修改绑定邮箱发送验证邮件
+    function _sendChangeEmailCode()
+    {
+        $_email = IFilter::act(IReq::get('email'));
+        $member = new IModel('member');
+        if(!$_email)
+        {
+            $user_id = $this->user['user_id'];
+            $email = $member->getObj('user_id = '.$user_id, 'email');
+            if(empty($email['email']))
+            {
+                die("参数错误");
+            }
+            $_email = $email['email'];
+            $captcha = IFilter::act(IReq::get('captcha'));
+            $_captcha = ISafe::get('captcha');
+            if(!$captcha || !$_captcha || $captcha != $_captcha)
+            {
+                die("请填写正确的图形验证码");
+            }
+        }
+        else
+        {
+            if(!IValidate::email($_email)){
+                die('邮箱格式错误');
+            }
+            if($member->getObj('email = "'.$_email.'"', 'user_id'))
+            {
+                die('该邮箱已注册');
+            }
+        }
+        $email_code = rand(100000,999999);
+        ISafe::set('emailValidate',array('code'=>$email_code,'email'=>$_email,'time'=>time()));
+        $content = mailTemplate::changeEmail(array("{email_code}" => $email_code));
+
+        $smtp   = new SendMail();
+        $result = $smtp->send($_email,"耐装网用户修改邮箱验证",$content);
+
+        if($result===false)
+        {
+            die("发信失败,请重试！或者联系管理员查看邮件服务是否开启");
+        }
+    }
+    
+    //绑定新邮箱
+    function changeEmail1()
+    {
+        $code = IReq::get('email_code');
+        $captcha = IFilter::act(IReq::get('captcha'));
+        $_captcha = ISafe::get('captcha');
+        if(!$captcha || !$_captcha || $captcha != $_captcha)
+        {
+            die("请填写正确的图形验证码");
+        }
+        $user_id = $this->user['user_id'];
+        $member = new IModel('member');
+        $email = $member->getObj('user_id = '.$user_id, 'email');
+        $checkRes = ISafe::get('emailValidate');
+        if($checkRes && $email['email']==$checkRes['email'] &&time()- $checkRes['time']<1800 && $code == $checkRes['code']){
+            $this->redirect('changeEmail1');
+        }else{
+            IError::show(403,"邮箱验证码不正确或已过期");
+        }
+    }
+    
+    //绑定新邮箱
+    function changeEmail2()
+    {
+        $newEmail = IFilter::act(IReq::get('email','post'));
+        $code =IFilter::act(IReq::get('email_code','post'));
+        $member = new IModel('member');
+        if($member->getObj('email="'.$newEmail.'"', 'user_id')){
+            IError::show(403,"该邮箱已注册");
+        }
+        if(!IValidate::email($newEmail)){
+            IError::show(403,"邮箱格式错误");
+        }
+        if(!$code){
+            IError::show(403,"请填写验证码");
+        }
+        $checkRes = ISafe::get('emailValidate');
+        if($checkRes && $newEmail==$checkRes['email'] &&time()- $checkRes['time']<1800 && $code == $checkRes['code']){
+                $user_id = $this->user['user_id'];
+                $where         = 'user_id = '.$user_id;
+                $member->setData(array('email'=>$newEmail));
+                if($member->update($where)){
+                    ISafe::set('email',$newEmail);
+                    $this->redirect('changeEmail2');
+                }else{
+                    IError::show(403,"邮箱更新失败");
+                }
+        }else{
+            IError::show(403,"邮箱验证码不正确或已过期");
+        }
+    }
+    
+    //修改绑定手机号
+    function changePhone()
+    {
+        $user_id = $this->user['user_id'];
+        $member = new IModel('member');
+        $mobile = $member->getObj('user_id = '.$user_id, 'mobile');
+        if(empty($mobile['mobile']))
+        {
+            $this->redirect('index');
+        }
+        else
+        {
+            $this->mobile = $this->resetCode($mobile['mobile']);
+            $this->redirect('changePhone');
+        }
+    }
+    
+    private function resetCode($phone)
+    {
+        if($phone)
+            return substr_replace($phone,'****',3,4);
+        return false;
+    }
+    
+    //换绑手机号发送手机验证码短信
+    function _sendMobileCode()
+    {
+        $_mobile = IFilter::act(IReq::get('phone'));
+        $captcha = IFilter::act(IReq::get('captcha'));
+        $_captcha = ISafe::get('captcha');
+        $member = new IModel('member');
+        if(!$_mobile)
+        {
+            $user_id = $this->user['user_id'];
+            $mobile = $member->getObj('user_id = '.$user_id, 'mobile');
+            if(empty($mobile['mobile']))
+            {
+                die("参数错误");
+            }
+            $_mobile = $mobile['mobile'];
+            $captcha = IFilter::act(IReq::get('captcha'));
+            $_captcha = ISafe::get('captcha');
+            if(!$captcha || !$_captcha || $captcha != $_captcha)
+            {
+                die("请填写正确的图形验证码");
+            }
+        }
+        else
+        {
+            if($_mobile === null || !IValidate::mobi($_mobile))
+            {
+                die("请输入正确的手机号码");
+            }
+            if($member->getObj('mobile = "'.$_mobile.'"', 'user_id'))
+            {
+                die('该手机号已注册');
+            }
+        }
+        
+        $mobile_code = rand(100000,999999);
+        ISafe::set('phoneValidate',array('code'=>$mobile_code,'mobile'=>$_mobile,'time'=>time()));
+        $content = smsTemplate::findPassword(array('{mobile_code}' => $mobile_code));
+
+        $result = Hsms::send($_mobile,$content);
+        die($result);
+    }
+    
+    //绑定新手机号
+    function changePhone1()
+    {
+        $code = IReq::get('phone_code');
+        $captcha = IFilter::act(IReq::get('captcha'));
+        $_captcha = ISafe::get('captcha');
+        if(!$captcha || !$_captcha || $captcha != $_captcha)
+        {
+            IError::show(403,"请填写正确的图形验证码");
+        }
+        $user_id = $this->user['user_id'];
+        $member = new IModel('member');
+        $mobile = $member->getObj('user_id = '.$user_id, 'mobile');
+        $checkRes = ISafe::get('phoneValidate');
+        if($checkRes && $mobile['mobile']==$checkRes['mobile'] &&time()- $checkRes['time']<1800 && $code == $checkRes['code']){
+            $this->redirect('changePhone1');
+        }else{
+            IError::show(403,"手机验证码不正确或已过期");
+        }
+    }
+    
+    //绑定新手机号
+    function changePhone2()
+    {
+        $newPhone = IFilter::act(IReq::get('phone','post'));
+        $code =IFilter::act(IReq::get('phone_code','post'));
+        $member = new IModel('member');
+        if($member->getObj('mobile="'.$newPhone.'"', 'user_id')){
+            IError::show(403,"该手机号已注册");
+        }
+        if(!IValidate::mobi($newPhone)){
+            IError::show(403,"手机格式错误");
+        }
+        if(!$code){
+            IError::show(403,"请填写验证码");
+        }
+        $checkRes = ISafe::get('phoneValidate');
+        if($checkRes && $newPhone==$checkRes['mobile'] &&time()- $checkRes['time']<1800 && $code == $checkRes['code']){
+                $user_id = $this->user['user_id'];
+                $where         = 'user_id = '.$user_id;
+                $member->setData(array('mobile'=>$newPhone));
+                if($member->update($where)){
+                    ISafe::set('phone',$newPhone);
+                    $this->redirect('changePhone2');
+                }else{
+                    IError::show(403,"手机号更新失败");
+                }
+        }else{
+            IError::show(403,"验证码不正确或已过期");
+        }
+    }
 }

@@ -45,8 +45,15 @@ class Simple extends IController
     
     function reg()
     {
-        $this->layout = 'site_log';
-        $this->redirect('reg');
+        if($this->user)
+        {
+            $this->redirect("/ucenter/index");
+        }
+        else{
+            $this->layout = 'site_log';
+            $this->redirect('reg');
+        }
+        
     }
 
     //用户注册
@@ -767,6 +774,20 @@ class Simple extends IController
 		}
 		$this->redirect('/site/success',true);
 	}
+    
+    
+    //找回密码
+    function find_password()
+    {
+        if($this->user)
+        {
+            $this->redirect("/ucenter/index");
+        }
+        else{
+            $this->layout = 'site_log';
+            $this->redirect('find_password');
+        }
+    }
 
 	/**
 	 * @brief 邮箱找回密码进行
@@ -785,6 +806,13 @@ class Simple extends IController
 			IError::show(403,"请输入正确的邮箱地址");
 		}
 
+        $captcha  = IReq::get('captcha');
+        $_captcha = ISafe::get('captcha');
+        if(!$captcha || !$_captcha || $captcha != $_captcha)
+        {
+            IError::show("请填写正确的图形验证码");
+        }
+        
 		$tb_user  = new IModel("user as u,member as m");
 		$username = IFilter::act($username);
 		$email    = IFilter::act($email);
@@ -875,7 +903,9 @@ class Simple extends IController
 	function send_message_mobile()
 	{
 		$username = IFilter::act(IReq::get('username'));
-		$mobile = IFilter::act(IReq::get('mobile'));
+        $mobile = IFilter::act(IReq::get('mobile'));
+		$captcha = IFilter::act(IReq::get('captcha'));
+        $_captcha = ISafe::get('captcha');
 
 		if($username === null || !IValidate::name($username))
 		{
@@ -886,6 +916,10 @@ class Simple extends IController
 		{
 			die("请输入正确的手机号码");
 		}
+        if(!$captcha || !$_captcha || $captcha != $_captcha)
+        {
+            die("请填写正确的图形验证码");
+        }
 
 		$userDB = new IModel('user as u , member as m');
 		$userRow = $userDB->getObj('u.username = "'.$username.'" and m.mobile = "'.$mobile.'" and u.id = m.user_id');
@@ -901,7 +935,7 @@ class Simple extends IController
 			{
 				die("申请验证码的时间间隔过短，请稍候再试");
 			}
-			$mobile_code = rand(10000,99999);
+			$mobile_code = rand(100000,999999);
 			$findPasswordDB->setData(array(
 				'user_id' => $userRow['user_id'],
 				'hash'    => $mobile_code,
@@ -929,6 +963,7 @@ class Simple extends IController
 	 */
 	function restore_password()
 	{
+        $this->layout = 'site_log';
 		$hash = IFilter::act(IReq::get("hash"));
 		$user_id = IFilter::act(IReq::get("user_id"),'int');
 

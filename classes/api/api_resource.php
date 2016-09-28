@@ -342,6 +342,16 @@ return array(
 	    	'limit'  => 10,
 	    )
 	),
+    //获取销量排名列表
+    'getGoodsListSales'=>array(
+        'query'=>array(
+            'name'   => 'goods',
+            'fields' => 'id,name,img,sell_price',
+            'where'  => "is_del = 0",
+            'order'  => 'sale desc',
+            'limit'  => 10,
+        )
+    ),
 	//根据商家销量排名列表
 	'getGoodsListBySellerid'=>array(
 	    'query'=>array(

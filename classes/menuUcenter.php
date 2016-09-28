@@ -50,10 +50,21 @@ class menuUcenter
      * @param int $roleId 角色ID
      * @return array 菜单数组
      */
-    public static function init($roleId = "")
+    public static function init($userId = "")
     {
 		//菜单创建事件触发
 		plugin::trigger("onUcenterMenuCreate");
+        if($userId)
+        {
+            $member  = new IModel("member");
+            $_user   = $member->getObj("user_id='{$userId}'", 'mobile,email');
+            if(empty($_user['mobile'])){
+                unset(self::$menu['个人设置']['/ucenter/changePhone']);
+            }
+            if(empty($_user['email'])){
+                unset(self::$menu['个人设置']['/ucenter/changeEmail']);
+            }
+        }
 		return self::$menu;
     }
 }

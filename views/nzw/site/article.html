@@ -1,12 +1,13 @@
 
 <section class="breadcrumb">
-	<span>您当前的位置：</span> <a href="{url:}">首页</a> » {if:$catRow}{$catRow['name']}{else:}最新资讯{/if}
+	<span>您当前的位置：</span> <a href="{url:}">首页</a> » <!--{if:$catRow}{$catRow['name']}{else:}最新资讯{/if}-->家装知识
 </section>
 
 
 <section class="web">
 	<section class="main">
-		<h2 class="main_head">{if:$catRow}{$catRow['name']}{else:}最新资讯{/if}</h2>
+        <!--<h2 class="main_head">{if:$catRow}{$catRow['name']}{else:}最新资讯{/if}</h2>-->
+		<h2 class="main_head">家装知识</h2>
 		<div class="article_list">
 			<ul>
 				{foreach:items = $queryArticle->find()}
@@ -17,6 +18,20 @@
 		</div>
 	</section>
 	<aside class="bar">
+        <div class="bar_box">
+            <h3 class="bar_box_head">销售排行榜</h3>
+            <ul class="bar_goods ranking">
+                {foreach:items=Api::run('getGoodsListSales')}
+                <li>
+                    <a href="{url:/site/products/id/$item[id]}">
+                        <img src="{url:/pic/thumb/img/$item[img]/w/60/h/60}" alt="{$item['name']}">
+                        <strong>{$item['name']}</strong>
+                        <em>￥{$item['sell_price']}</em>
+                    </a>
+                </li>
+                {/foreach}
+            </ul>
+        </div>
 		<div class="bar_box">
 			<h3 class="bar_box_head">热卖商品</h3>
 			<ul class="bar_goods">
@@ -31,13 +46,13 @@
 				{/foreach}
 			</ul>
 		</div>
-		<nav class="bar_box">
+		<!--<nav class="bar_box">
 			<h3 class="bar_box_head">资讯分类</h3>
 			<ul class="bar_nav">
 				{foreach:items=Api::run('getArticleCategoryList',10)}
 				<li><a title="{$item['name']}" href="{url:/site/article/id/$item[id]}">{$item['name']}</a></li>
 				{/foreach}
 			</ul>
-		</nav>
+		</nav>-->
 	</aside>
 </section>

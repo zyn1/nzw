@@ -1,38 +1,39 @@
 <link rel="stylesheet" href="{skin:style/css/ucenter/change_psw.css}">
 <header class="uc_head">
-	<h3>修改绑定邮箱</h3>
+	<h3>修改绑定手机</h3>
 </header>
 
 <section class="user_form">
 	<div class="prog_bar">
-		<div class="pro_one"><span>1.邮箱验证</span></div>
-		<div class="pro_two"><span>2.新邮箱验证</span></div>
-		<div class="pro_three"><span>3.修改邮箱成功</span></div>
+		<div class="pro_one"><span>1.验证身份</span></div>
+		<div class="pro_two"><span>2.新手机验证</span></div>
+		<div class="pro_three"><span>3.修改手机成功</span></div>
 	</div>
- <form action="{url:/ucenter/changeEmail1}" method="post">
+ <form action="{url:/ucenter/changePhone1}" method="post">
 	<div class="prog_info">
-		<p>您当前绑定的邮箱：<i>{$this->email}</i></p>
+		<p>您当前绑定的手机号码：<i>{$this->mobile}</i></p>
         <p class="form_t">
             <label for="captcha">验证码：</label>
             <input type="text" name="captcha" pattern='^\w{5,10}$' alt='填写图片所示的字符'>
             <img src='{url:/simple/getCaptcha}' id='captchaImg' onclick="changeCaptcha();">
         </p>
 		<p class="form_t">
-			<label for="email_code">验证码：</label>
-            <input type="text" name="email_code" pattern='^\w{4,6}$'>
-			<input class="toobn" type="button" value="发送邮件验证码" onclick="sendChangeMail(this);">
+			<label for="phone_code">验证码：</label>
+            <input type="text" name="phone_code" pattern='^\w{4,6}$'>
+			<input class="toobn" type="button" value="获取短信验证码" onclick="sendMessage(this);">
 		</p>
 		<input class="next_steb" type="submit" value="下一步" style="border: 0;" />
 	</div>
  </form>		
 </section>
 <script type="text/javascript">
-function sendChangeMail(_self)
+//发送短信码
+function sendMessage(_self)
 {
     var captcha = $('[name="captcha"]').val();
-    $.get("{url:/ucenter/_sendChangeEmailCode}",{"captcha":captcha},function(content)
+    $.get("{url:/ucenter/_sendMobileCode}",{"captcha":captcha},function(content)
     {
-        if(content)
+        if(content != 'success')
         {
             alert(content);
             $(_self).prop("disabled",false);
@@ -48,7 +49,7 @@ function sendChangeMail(_self)
                 if(times <= 0)
                 {
                     $(_self).prop("disabled",false);
-                    $(_self).val("发送邮件验证码");
+                    $(_self).val("获取短信验证码");
                     clearInterval(timerHandle);
                     times = 60;
                 }

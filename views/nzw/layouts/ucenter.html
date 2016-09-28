@@ -203,7 +203,7 @@
 	</section>
 	<aside class="bar">
 		{set:$index=0;}
-		{foreach:items=menuUcenter::init()}
+		{foreach:items=menuUcenter::init($this->user['user_id'])}
 		{set:$index++;}
 		<nav class="user_bar">
 			<h3>{$key}</h3>

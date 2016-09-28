@@ -5,24 +5,20 @@
 
 <section class="user_form">
 	<div class="prog_bar">
-		<div class="pro_one"><span>1.邮箱验证</span></div>
-		<div class="pro_two"><span>2.新邮箱验证</span></div>
+		<div class="pro_one_one"><span>1.邮箱验证</span></div>
+		<div class="pro_two_two"><span>2.新邮箱验证</span></div>
 		<div class="pro_three"><span>3.修改邮箱成功</span></div>
 	</div>
- <form action="{url:/ucenter/changeEmail1}" method="post">
+ <form action="{url:/ucenter/changeEmail2}" method="post">
 	<div class="prog_info">
-		<p>您当前绑定的邮箱：<i>{$this->email}</i></p>
-        <p class="form_t">
-            <label for="captcha">验证码：</label>
-            <input type="text" name="captcha" pattern='^\w{5,10}$' alt='填写图片所示的字符'>
-            <img src='{url:/simple/getCaptcha}' id='captchaImg' onclick="changeCaptcha();">
-        </p>
 		<p class="form_t">
-			<label for="email_code">验证码：</label>
-            <input type="text" name="email_code" pattern='^\w{4,6}$'>
-			<input class="toobn" type="button" value="发送邮件验证码" onclick="sendChangeMail(this);">
+			<label for="email">新邮箱：</label><input class="new_infil" type="text" name="email">
+			<input class="toobn" type="button" value="发送邮箱验证码" onclick="sendChangeMail(this);">
 		</p>
-		<input class="next_steb" type="submit" value="下一步" style="border: 0;" />
+		<p class="form_t forema">
+			<label for="email_code">请填写邮箱验证码：</label><input class="new_infil" type="text" name="email_code" id="">
+		</p>
+		<input type="submit" class="next_steb ema" value="完成" style="border: 0;"/>
 	</div>
  </form>		
 </section>
@@ -30,7 +26,8 @@
 function sendChangeMail(_self)
 {
     var captcha = $('[name="captcha"]').val();
-    $.get("{url:/ucenter/_sendChangeEmailCode}",{"captcha":captcha},function(content)
+    var email = $('[name="email"]').val();
+    $.get("{url:/ucenter/_sendChangeEmailCode}",{"captcha":captcha,"email":email},function(content)
     {
         if(content)
         {
@@ -57,4 +54,3 @@ function sendChangeMail(_self)
     });
 }
 </script>
-

@@ -293,7 +293,7 @@ class _userInfo extends pluginBase
 			die("手机号已经被注册");
 		}
 
-		$mobile_code = rand(1000,9999);
+		$mobile_code = rand(100000,999999);
 		$content = smsTemplate::checkCode(array('{mobile_code}' => $mobile_code));
 		$result = Hsms::send($mobile,$content);
 		if($result == 'success')
