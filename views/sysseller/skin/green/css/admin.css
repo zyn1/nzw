@@ -944,3 +944,39 @@ button span{display:block;height:20px;line-height:20px;height:18px\9;padding:0 5
 
 /* attr_list style start*/
 .attr_list li{float:left; width:220px; white-space:nowrap}
+
+
+/*对账单*/
+fieldset.statements {position: relative;padding-bottom: 20px;}
+fieldset.statements .sta_tit h5 {text-align: center;font-size: 15px;margin: 0;line-height: 42px;width: 96%;}
+fieldset.statements .sta_tit img{float: right;height: 24px;position: relative;top: -30px;right: 4%;}
+fieldset.statements .sta_ul{padding: 20px 0; border-radius: 5px 5px 0 0;border: 1px solid #ccc;display: block;float: left;width: 96%; margin: 0 10px;}
+fieldset.statements .sta_ul li label{font-weight: normal;}
+fieldset.statements .sta_ul li label input{width: 40%;border: none;border-bottom: 1px solid #999;height: 16px; border-radius: 0;box-shadow: none;background: #F8F8F8}
+fieldset.statements .sta_ul li {float: left;width: 48%;height: 40px;}
+fieldset.statements .sta_ul li.next_line{clear: both;}
+fieldset.statements .sta_ul li.next_line span.cycle{margin-right: 20%;}
+fieldset.statements table  {	
+	border-collapse: collapse; 
+    border-radius: 0 0 5px 5px;
+    border: 1px solid #ccc;
+    display: block;
+    float: left;
+    width: 96%;
+    margin: 0 10px;
+    border-top: none;
+    padding: 0;
+}  
+fieldset.statements table tbody{padding: 0;margin: 0;width: 100%;}
+fieldset.statements table tr{width: 100%;padding: 0;margin: 0;} 
+fieldset.statements td {  
+	border: 1px solid #ccc;  
+	padding: 0.2em; 
+	line-height: 36px;
+	text-align: center;
+} 
+fieldset.statements td.sett_tit{width:130%;border-top:none;background: #ebebeb;font-weight: bold;border-left: none;border-right: none;}
+fieldset.statements td.first{border-left: none;}
+fieldset.statements td.last{border-left: none;border-bottom: none;padding-left: 12px;}
+fieldset.statements td.last,fieldset.statements td.specil{text-align: left;}
+fieldset.statements td.specil p{margin-left: 12px; line-height: 14px;}
