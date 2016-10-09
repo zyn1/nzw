@@ -1099,7 +1099,7 @@ a .icon-rotate-90:before, a .icon-rotate-180:before, a .icon-rotate-270:before, 
 .header .header_main .header_search .search_box { border: solid 1px #d64d12;   border-radius: 4px; padding: 4px; }
 .header .header_main .header_search .search_box .input_keywords { margin-left: 60px; padding: 5px; width: 320px; height: 16px; line-height: 16px; display: block; border: none; float: left; outline: none; }
 .header .header_main .header_search .search_box .input_keywords:focus { background: #fff; }
-.header .header_main .header_search .search_box .input_submit {  outline: none;border-radius: initial; display: block; height: 26px; width: 60px; background: #d64d12 url("../image/index/search.png") no-repeat center; color: #fff; font-size: 14px; cursor: pointer; border: 4px #d64d12 solid;position: absolute;right: 1px; top: 21px;}
+.header .header_main .header_search .search_box .input_submit {  outline: none;border-radius: 0; display: block; height: 26px; width: 60px; background: #d64d12 url("../image/index/search.png") no-repeat center; color: #fff; font-size: 14px; cursor: pointer; border: 4px #d64d12 solid;position: absolute;right: 1px; top: 21px;}
 .header .header_main .header_search .hot_words { padding-top: 5px; height: 18px; line-height: 18px; overflow: hidden; }
 .header .header_main .header_search .hot_words a { display: inline-block; margin-right: 10px; color: #555;}
 .header .header_main .header_cart { float: right; width: 135px; height: 32px; position: relative; margin-top: 24px; }
