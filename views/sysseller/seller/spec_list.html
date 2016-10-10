@@ -72,6 +72,7 @@ function addNewSpec(spec_id)
 		id:'addSpecWin',
 	    title:'规格设置',
 	    okVal:'确定',
+        width:'600px',
 	    ok:function(iframeWin, topWin){
 	    	var formObject = iframeWin.document.forms['specForm'];
 			$.post(formObject.action,$(formObject).serialize(),function(json){

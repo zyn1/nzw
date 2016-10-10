@@ -739,6 +739,14 @@ class Member extends IController implements adminAuthorization
 			$sellerDB->setData($sellerRow);
 			$sellerDB->update("id = ".$seller_id);
 		}
+        $content = $is_lock ? '未通过审核' : '审核通过';
+
+        $smtp   = new SendMail();
+        $result = $smtp->send($email,"耐装网申请开店审核结果",$content);
+        if($result===false)
+        {
+            Util::showMessage("发信失败,请重试！或者联系管理员查看邮件服务是否开启");
+        }
 		$this->redirect('seller_list');
 	}
 	/**

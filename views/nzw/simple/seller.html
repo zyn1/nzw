@@ -228,11 +228,11 @@ $(function(){
     $('input[name=is_agree]').change(function(){
         if($(this)[0].checked)
         {
-            $(this).closest('.agreen').next('dl').find('input').removeAttr('disabled');
+            $(this).closest('.agreen').next('dl').find('input').removeAttr('disabled').removeClass('gray');
         }
         else
         {
-            $(this).closest('.agreen').next('dl').find('input').attr('disabled','disabled');
+            $(this).closest('.agreen').next('dl').find('input').attr('disabled','disabled').addClass('gray');
         }
     })
 })
