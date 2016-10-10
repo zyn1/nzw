@@ -3,9 +3,9 @@
     <div class="louceng">
         <section class="home_1">
             <!-- 通栏焦点图 -->
-            <section id="home_fouse" class="home_fouse">
+            <section id="home_fouse" class="home_fouse" style="background:#ccc;">
                 {if:$this->index_slide}
-                <ul>
+                <ul style="width:1200px;margin:0 auto;">
                     {foreach:items=$this->index_slide}
                     <li><a href="{url:$item[url]}"><img src="{url:/pic/thumb/img/$item['img']}"></a></li>
                     {/foreach}

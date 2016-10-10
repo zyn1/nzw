@@ -1368,12 +1368,12 @@ a .icon-rotate-90:before, a .icon-rotate-180:before, a .icon-rotate-270:before, 
 .home_fouse .FocusNum li.on { background: #FF8225; }
 .home_fouse .FocusLeft, .home_fouse .FocusRight { position: absolute; width: 41px; height: 100%; top: 0; background-image: url("../image/icon_slides.png"); background-repeat: no-repeat; -webkit-transition: all 0.25s ease-in-out; transition: all 0.25s ease-in-out; cursor: pointer; }
 .home_fouse .FocusLeft { left: 0; background-position: -41px center; }
-.home_fouse .FocusLeft:hover { background-position: 0 center; }
+.home_fouse .FocusLeft:hover { background-position: 0 center; opacity: 0.3;}
 .home_fouse .FocusRight { right: 0; background-position: -82px center; }
 .home_fouse .FocusRight:hover { background-position: right center; }
 
 .home_1 { position: relative; }
-.home_1 .promise { position: absolute; left: 50%; top: 0; margin-left: 369px;}
+.home_1 .promise { position: absolute; left: 50%; top: 0; margin-left: 360px;}
 .home_1 .promise ul { overflow: hidden; }
 .home_1 .promise li i { display: block; font-size: 28px; padding-top: 8px; }
 .home_1 .promise li strong { font-weight: normal; padding-top: 3px; display: block; }
