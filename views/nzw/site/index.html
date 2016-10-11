@@ -90,10 +90,10 @@
         {echo:Ad::show("首页热卖商品下方通栏广告_1200*120(bubugao)")}
     </section> -->
     </div>
+    {foreach:items=Api::run('getCategoryListTop') item=$first }
     <div class="louceng">
         <!-- 开始循环楼层 -->
-        {foreach:items=Api::run('getCategoryListTop') item=$first }
-    <section class="home_floor home_floor_{echo:($key%6)+1}">
+    <section class="home_floor">
         <header class="floor_head">
             <h2>{$first['name']}</h2>
             <nav class="floor_nav">
@@ -132,8 +132,8 @@
             </div>
         </section>
     </section>
-    {/foreach}
     </div>
+    {/foreach}
     <div class="louceng">
         <section class="service">
         <div class="serve_list">
