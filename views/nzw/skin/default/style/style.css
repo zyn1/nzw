@@ -1215,6 +1215,10 @@ a .icon-rotate-90:before, a .icon-rotate-180:before, a .icon-rotate-270:before, 
 	margin-top: 20px;
 }
 
+.aui_inner .aui_content{color: red;background: #fff;}
+.aui_outer .aui_inner{border: 1px solid red;}
+
+
 .login_box { padding: 50px; border: 1px solid #ddd; margin-top: 10px; position: relative; }
 .login_box dl { display: table; margin-bottom: 20px; }
 .login_box dl dt, .login_box dl dd { display: table-cell; vertical-align: middle; }
