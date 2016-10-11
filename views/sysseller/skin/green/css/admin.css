@@ -349,7 +349,33 @@ background: url(../images/main/icn_security.png) no-repeat center left;
 #sidebar li.icn_jump_back a {
 background: url(../images/main/icn_jump_back.png) no-repeat center left;
 }
-
+#sidebar li.goods a{
+background: url(../images/main/sell_goods.png) no-repeat center left;
+}
+#sidebar li.eva a{
+background: url(../images/main/sell_eva.png) no-repeat center left;
+}
+#sidebar li.refund a{
+background: url(../images/main/sell_refund.png) no-repeat center left;
+}
+#sidebar li.spe a{
+background: url(../images/main/sell_spe.png) no-repeat center left;
+}
+#sidebar li.order a{
+background: url(../images/main/sell_order.png) no-repeat center left;
+}
+#sidebar li.sale a{
+background: url(../images/main/sell_sale.png) no-repeat center left;
+}
+#sidebar li.have a{
+background: url(../images/main/sell_have.png) no-repeat center left;
+}
+#sidebar li.notinv a{
+background: url(../images/main/sell_notinv.png) no-repeat center left;
+}
+#sidebar li.alert a{
+background: url(../images/main/sell_alert.png) no-repeat center left;
+}
 #sidebar p {
 color: #666666;
 padding-left: 6%;
