@@ -604,9 +604,13 @@ class Order_Class
 		{
 			$refundDB  = new IModel('refundment_doc');
 			$refundRow = $refundDB->getObj('order_no = "'.$orderRow['order_no'].'" and if_del = 0 and pay_status = 0');
-			if($refundRow)
+			if($refundRow && $refundRow['type'] == 1)
+            {
+                return 12;
+            }
+            if($refundRow && $refundRow['type'] == 2)
 			{
-				return 12;
+				return 15;
 			}
 
 			if($orderRow['distribution_status'] == 0)
@@ -630,27 +634,36 @@ class Order_Class
 		//4,完成订单
 		else if($orderRow['status'] == 5)
 		{
-			return 6;
+            $refundDB  = new IModel('refundment_doc');
+            $refundRow = $refundDB->getObj('order_no = "'.$orderRow['order_no'].'" and if_del = 0 and pay_status = 0 and type = 2');
+            if($refundRow)
+            {
+                return 15;
+            }
+            else
+            {
+                return 6;
+            }
 		}
-		//5,退款
-		else if($orderRow['status'] == 6)
-		{
-			return 7;
-		}
-		//6,部分退款
-		else if($orderRow['status'] == 7)
-		{
-			//发货
-			if($orderRow['distribution_status'] == 1)
-			{
-				return 10;
-			}
-			//未发货
-			else
-			{
-				return 9;
-			}
-		}
+        //5,退款
+        else if($orderRow['status'] == 6)
+        {
+            return 7;
+        }
+        //6,部分退款
+        else if($orderRow['status'] == 7)
+        {
+            //发货
+            if($orderRow['distribution_status'] == 1)
+            {
+                return 10;
+            }
+            //未发货
+            else
+            {
+                return 9;
+            }
+        }
 		return 0;
 	}
 
@@ -739,12 +752,13 @@ class Order_Class
 			4 => '等待发货',
 			5 => '已取消',
 			6 => '已完成',
-			7 => '已退款',
+			7 => '已退换',
 			8 => '部分发货',
-			9 => '部分退款',
+			9 => '部分退换',
 			10=> '部分退款',
 			11=> '已发货',
-			12=> '申请退款',
+            12=> '申请退款',
+			15=> '申请换货',
 		);
 		return isset($result[$statusCode]) ? $result[$statusCode] : '';
 	}
@@ -1189,17 +1203,87 @@ class Order_Class
 		return $results;
 	}
 
+    /**
+     * @brief 是否允许退换申请
+     * @param array $orderRow 订单表的数据结构
+     * @param array $orderGoodsIds 订单与商品关系表ID数组
+     * @return boolean true or false
+     */
+    public static function isRefundmentChangeApply($orderRow)
+    {
+        //已经付款,并且未全部退款，未正在发货中
+        if($orderRow['pay_status'] == 1 && $orderRow['status'] != 6)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * @brief 是否允许退款申请
+     * @param array $orderRow 订单表的数据结构
+     * @param array $orderGoodsIds 订单与商品关系表ID数组
+     * @return boolean true or false
+     */
+    public static function isRefundmentApply($orderRow,$orderGoodsIds = array())
+    {
+        if(!is_array($orderGoodsIds))
+        {
+            return "退款商品ID数据类型错误";
+        }
+
+        //要退款的orderGoodsId关联信息
+        if($orderGoodsIds)
+        {
+            $order_id     = $orderRow['id'];
+            $goodsOrderDB = new IModel('order_goods');
+            $refundsDB    = new IModel('refundment_doc');
+
+            foreach($orderGoodsIds as $key => $val)
+            {
+                $goodsOrderRow = $goodsOrderDB->getObj('id = '.$val.' and order_id = '.$order_id);
+                if($goodsOrderRow && $goodsOrderRow['is_send'] == 2)
+                {
+                    return "该商品已经做了退换处理";
+                }
+
+                if( $refundsDB->getObj('if_del = 0 and pay_status = 0 and FIND_IN_SET('.$val.',order_goods_id)') )
+                {
+                    return "您已经对此商品提交了退换申请，请耐心等待";
+                }
+            }
+
+            //判断是否已经生成了结算申请或者已经结算了
+            $billObj = new IModel('bill');
+            $billRow = $billObj->getObj('FIND_IN_SET('.$order_id.',order_ids)');
+            if($billRow)
+            {
+                return '此订单金额已被商家结算完毕，请直接与商家联系退款';
+            }
+            return true;
+        }
+        else
+        {
+            //已经付款,并且未全部退款，未正在发货中
+            if($orderRow['pay_status'] == 1 && $orderRow['status'] != 6 && $orderRow['status'] != 5)
+            {
+                return true;
+            }
+            return false;
+        }
+    }
+
 	/**
-	 * @brief 是否允许退款申请
+	 * @brief 是否允许换货申请
 	 * @param array $orderRow 订单表的数据结构
 	 * @param array $orderGoodsIds 订单与商品关系表ID数组
 	 * @return boolean true or false
 	 */
-	public static function isRefundmentApply($orderRow,$orderGoodsIds = array())
+	public static function isChangeApply($orderRow,$orderGoodsIds = array())
 	{
 		if(!is_array($orderGoodsIds))
 		{
-			return "退款商品ID数据类型错误";
+			return "换货商品ID数据类型错误";
 		}
 
 		//要退款的orderGoodsId关联信息
@@ -1214,28 +1298,20 @@ class Order_Class
 				$goodsOrderRow = $goodsOrderDB->getObj('id = '.$val.' and order_id = '.$order_id);
 				if($goodsOrderRow && $goodsOrderRow['is_send'] == 2)
 				{
-					return "有商品已经做了退款处理";
+					return "该商品已经做了退换处理";
 				}
 
 				if( $refundsDB->getObj('if_del = 0 and pay_status = 0 and FIND_IN_SET('.$val.',order_goods_id)') )
 				{
-					return "您已经对此商品提交了退款申请，请耐心等待";
+					return "您已经对此商品提交了退换申请，请耐心等待";
 				}
 			}
-
-    		//判断是否已经生成了结算申请或者已经结算了
-    		$billObj = new IModel('bill');
-    		$billRow = $billObj->getObj('FIND_IN_SET('.$order_id.',order_ids)');
-    		if($billRow)
-    		{
-    			return '此订单金额已被商家结算完毕，请直接与商家联系退款';
-    		}
     		return true;
 		}
 		else
 		{
-			//已经付款,并且未全部退款，未正在发货中
-			if($orderRow['pay_status'] == 1 && $orderRow['status'] != 6 && self::getOrderStatus($orderRow) != 3)
+			//已付款、已发货并未全部退款订单
+			if($orderRow['pay_status'] == 1 && $orderRow['status'] != 6 && in_array(self::getOrderStatus($orderRow), array(3,6,8,10,15)))
 			{
 				return true;
 			}
@@ -1248,9 +1324,16 @@ class Order_Class
 	 * @param int $pay_status 退款单状态数值
 	 * @return string 状态描述
 	 */
-	public static function refundmentText($pay_status)
+	public static function refundmentText($pay_status,$type=1)
 	{
-		$result = array('0' => '申请退款', '1' => '退款失败', '2' => '退款成功');
+        if($type == 1)
+        {
+            $result = array('0' => '申请退款', '1' => '退款失败', '2' => '退款成功');
+        }
+		else
+        {
+            $result = array('0' => '申请换货', '1' => '换货失败', '2' => '换货成功');
+        }
 		return isset($result[$pay_status]) ? $result[$pay_status] : '';
 	}
 

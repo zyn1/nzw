@@ -1,10 +1,12 @@
 <div class="headbar clearfix">
-	<div class="position"><span>订单</span><span>></span><span>单据管理</span><span>></span><span>退款单申请信息</span></div>
+	<div class="position"><span>订单</span><span>></span><span>单据管理</span><span>></span><span>{if:$type == 1}退款单申请信息{else:}换货单申请信息{/if}</span></div>
 </div>
 
 <div class="content">
 	<form method="post" action="{url:/order/refundment_doc_show_save}">
-		<input type="hidden" name="id" value="{$id}"/>
+        <input type="hidden" name="id" value="{$id}"/>
+        <input type="hidden" name="type" value="{$type}"/>
+		<input type="hidden" name="order_id" value="{$order_id}"/>
 		<table class="border_table" width="100%" style="margin:10px auto">
 			<colgroup>
 				<col width="200px" />
@@ -16,7 +18,11 @@
 					<th>订单号：</th><td align="left">{$order_no}</td>
 				</tr>
 				<tr>
+                    {if:$type == 1}
 					<th>退款商品：</th>
+                    {else:}
+                    <th>换货商品：</th>
+                    {/if}
 					<td align="left">
 						{query:name=order_goods where=id in ($order_goods_id)}
 						{set:$goods = JSON::decode($item['goods_array'])}
@@ -41,7 +47,7 @@
 					<th>申请时间：</th><td align="left">{$time}</td>
 				</tr>
 				<tr>
-					<th>退款原因：</th><td align="left">{$content}</td>
+					<th>{if:$type == 1}退款原因：{else:}换货原因：{/if}</th><td align="left">{$content}</td>
 				</tr>
 				<tr>
 					<th>处理：</th>
@@ -99,8 +105,9 @@ function actionCallback(msg)
 //表单提交
 function checkForm()
 {
-	var payValue = $('[name="pay_status"]:checked').val();
-	if(payValue == 2)
+    var payValue = $('[name="pay_status"]:checked').val();
+	var _type = $('[name="type"]').val();
+	if(_type == 1 && payValue == 2)
 	{
 		refundment({$order_id},{$id});
 		return false;

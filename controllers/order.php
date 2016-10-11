@@ -115,11 +115,12 @@ class Order extends IController implements adminAuthorization
 
 	 	$this->redirect('refundment_list');
 	}
-	//删除申请退款单
+	//删除申请退款/换货单
 	public function refundment_doc_del()
 	{
 		//获得post传来的申请退款单id值
 		$refundment_id = IFilter::act(IReq::get('id'),'int');
+        $type = IFilter::act(IReq::get('type'),'int');
 		if(is_array($refundment_id))
 		{
 			$refundment_id = implode(",",$refundment_id);
@@ -132,18 +133,26 @@ class Order extends IController implements adminAuthorization
 		}
 
 		$logObj = new log('db');
-		$logObj->write('operation',array("管理员:".ISafe::get('admin_name'),"退款单移除到回收站",'移除的ID：'.$refundment_id));
-
+        if($type == 2)
+        {
+            $logObj->write('operation',array("管理员:".ISafe::get('admin_name'),"换货申请单移除到回收站",'移除的ID：'.$refundment_id));
+        }
+        else
+        {
+		    $logObj->write('operation',array("管理员:".ISafe::get('admin_name'),"退款申请单移除到回收站",'移除的ID：'.$refundment_id));
+        }
 		$this->redirect('refundment_list');
 	}
 
 	/**
-	 * @brief更新申请退款单
+	 * @brief更新申请退款/换货单
 	 */
 	public function refundment_doc_show_save()
 	{
-		//获得post传来的退款单id值
-		$refundment_id = IFilter::act(IReq::get('id'),'int');
+		//获得post传来的单id值
+        $refundment_id = IFilter::act(IReq::get('id'),'int');
+        $type = IFilter::act(IReq::get('type'),'int');
+		$order_id = IFilter::act(IReq::get('order_id'),'int');
 		$pay_status = IFilter::act(IReq::get('pay_status'),'int');
 		$dispose_idea = IFilter::act(IReq::get('dispose_idea'),'text');
 
@@ -159,11 +168,94 @@ class Order extends IController implements adminAuthorization
 		if($refundment_id)
 		{
 			$tb_refundment_doc->update('id='.$refundment_id);
+            if($type == 2 && $pay_status == 2)
+            {
+                $order = new IModel('order');
+                $orderInfo = $order->getObj('id = '.$order_id);
+                
+                //新订单数据
+                $orderInfo['id'] = '';
+                $orderInfo['order_no'] = Order_Class::createOrderNum();
+                $orderInfo['status'] = 2;
+                $orderInfo['create_time'] = ITime::getDateTime();
+                $orderInfo['distribution_status'] = 0;
+                $orderInfo['postscript'] = '';
+                $orderInfo['exp'] = 0;
+                $orderInfo['point'] = 0;
 
+                //商品价格
+                $orderInfo['payable_amount'] = 0;
+                $orderInfo['real_amount'] = 0;
+
+                //运费价格
+                $orderInfo['payable_freight'] = 0;
+                $orderInfo['real_freight'] = 0;
+
+                //手续费
+                $orderInfo['pay_fee'] = 0;
+
+                //税金
+                $orderInfo['invoice'] = 0;
+                $orderInfo['invoice_title'] = '';
+                $orderInfo['taxes'] = 0;
+
+                //优惠价格
+                $orderInfo['promotions'] = 0;
+
+                //订单应付总额
+                $orderInfo['order_amount'] = 0;
+
+                //订单保价
+                $orderInfo['insured'] = 0;
+
+                //促销活动ID
+                $orderInfo['active_id'] = 0;
+                $orderInfo['prop'] = 0;
+                $orderInfo['promotions'] = 0;
+                $orderInfo['order_amount'] = 0;
+                $orderInfo['if_del'] = 0;
+                $orderInfo['note'] = '换货订单';
+                
+                $order->setData($orderInfo);
+                $new_order_id = $order->add();
+                if($new_order_id == false)
+                {
+                    IError::show(403,'新订单生成错误');
+                }
+                $goods_id = $tb_refundment_doc->getObj('id='.$refundment_id, 'order_goods_id');
+                $orderGoods = new IModel('order_goods');
+                $orderGoodsInfo = $orderGoods->query('id in ('.$goods_id['order_goods_id'].')');
+                foreach($orderGoodsInfo as $k => $v)
+                {
+                    $orderGoodsInfo[$k]['id'] = '';
+                    $orderGoodsInfo[$k]['order_id'] = $new_order_id;
+                    $orderGoodsInfo[$k]['real_price'] = 0;
+                    $orderGoodsInfo[$k]['is_send'] = 0;
+                    $orderGoodsInfo[$k]['delivery_id'] = 0;
+                    $orderGoods->setData($orderGoodsInfo[$k]);
+                    $orderGoods->add();
+                }
+                //更新order表状态,查询是否订单中还有未退换的商品，判断是订单退换状态
+                $isSendData = $orderGoods->getObj('order_id = '.$order_id.' and is_send != 2');
+                $orderStatus = 6;//全部退换
+                if($isSendData)
+                {
+                    $orderStatus = 7;//部分退换
+                }
+                $order->setData(array('status' => $orderStatus));
+                $order->update('id='.$order_id);
+            }
 			$logObj = new log('db');
 			$logObj->write('operation',array("管理员:".ISafe::get('admin_name'),"修改了退款单",'修改的ID：'.$refundment_id));
 		}
-		$this->redirect('refundment_list');
+        if($type == 2)
+        {
+            $this->redirect('changeGoods_list');
+        }
+        else
+        {
+		    $this->redirect('refundment_list');
+        }
 	}
 	/**
 	 * @brief查看发货单
@@ -805,7 +897,8 @@ class Order extends IController implements adminAuthorization
     public function refundment_del()
     {
     	//post数据
-    	$id = IFilter::act(IReq::get('id'),'int');
+        $id = IFilter::act(IReq::get('id'),'int');
+    	$type = IFilter::act(IReq::get('type'),'int');
     	//生成order对象
     	$tb_order = new IModel('refundment_doc');
     	$tb_order->setData(array('if_del'=>1));
@@ -814,13 +907,27 @@ class Order extends IController implements adminAuthorization
 			$tb_order->update(Util::joinStr($id));
 
 			$logObj = new log('db');
-			$logObj->write('operation',array("管理员:".ISafe::get('admin_name'),"退款单移除到回收站内",'退款单ID：'.join(',',$id)));
-
-			$this->redirect('order_refundment_list');
+            if($type == 2)
+            {
+                $logObj->write('operation',array("管理员:".ISafe::get('admin_name'),"换货单移除到回收站内",'换货单ID：'.join(',',$id)));
+                $this->redirect('order_change_list');
+            }
+            else
+            {
+			    $logObj->write('operation',array("管理员:".ISafe::get('admin_name'),"退款单移除到回收站内",'退款单ID：'.join(',',$id)));
+                $this->redirect('order_refundment_list');
+            }
 		}
 		else
 		{
-			$this->redirect('order_refundment_list',false);
+            if($type == 2)
+            {
+                $this->redirect('order_change_list',false);
+            }
+            else
+            {
+			    $this->redirect('order_refundment_list',false);
+            }
 			Util::showMessage('请选择要删除的数据');
 		}
     }
@@ -830,7 +937,8 @@ class Order extends IController implements adminAuthorization
     public function refundment_recycle_del()
     {
     	//post数据
-    	$id = IFilter::act(IReq::get('id'),'int');
+        $id = IFilter::act(IReq::get('id'),'int');
+    	$type = IFilter::act(IReq::get('type'),'int');
     	//生成order对象
     	$tb_order = new IModel('refundment_doc');
     	if(!empty($id))
@@ -838,13 +946,19 @@ class Order extends IController implements adminAuthorization
 			$tb_order->del(Util::joinStr($id));
 
 			$logObj = new log('db');
-			$logObj->write('operation',array("管理员:".ISafe::get('admin_name'),"删除了回收站内的退款单",'退款单ID：'.join(',',$id)));
-
-			$this->redirect('refundment_recycle_list');
+            if($type == 2)
+            {
+                $logObj->write('operation',array("管理员:".ISafe::get('admin_name'),"删除了回收站内的换货单",'换货单ID：'.join(',',$id)));
+            }
+            else
+            {
+                $logObj->write('operation',array("管理员:".ISafe::get('admin_name'),"删除了回收站内的退款单",'退款单ID：'.join(',',$id)));
+            }
+            $this->redirect('refundment_recycle_list/type'.$type);
 		}
 		else
 		{
-			$this->redirect('refundment_recycle_list',false);
+			$this->redirect('refundment_recycle_list/type/'.$type,false);
 			Util::showMessage('请选择要删除的数据');
 		}
     }
@@ -854,7 +968,8 @@ class Order extends IController implements adminAuthorization
     public function refundment_recycle_restore()
     {
     	//post数据
-    	$id = IFilter::act(IReq::get('id'),'int');
+        $id = IFilter::act(IReq::get('id'),'int');
+    	$type = IFilter::act(IReq::get('type'),'int');
     	//生成order对象
     	$tb_order = new IModel('refundment_doc');
     	$tb_order->setData(array('if_del'=>0));
@@ -862,14 +977,20 @@ class Order extends IController implements adminAuthorization
 		{
 			$tb_order->update(Util::joinStr($id));
 
-			$logObj = new log('db');
-			$logObj->write('operation',array("管理员:".ISafe::get('admin_name'),"还原了回收站内的还款单",'还款单ID：'.join(',',$id)));
-
-			$this->redirect('refundment_recycle_list');
+            $logObj = new log('db');
+            if($type == 2)
+            {
+                $logObj->write('operation',array("管理员:".ISafe::get('admin_name'),"还原了回收站内的换货单",'换货单ID：'.join(',',$id)));
+            }
+            else
+            {
+			    $logObj->write('operation',array("管理员:".ISafe::get('admin_name'),"还原了回收站内的还款单",'还款单ID：'.join(',',$id)));
+            }
+            $this->redirect('refundment_recycle_list/type'.$type);
 		}
 		else
 		{
-			$this->redirect('refundment_recycle_list',false);
+			$this->redirect('refundment_recycle_list/type/'.$type,false);
 			Util::showMessage('请选择要还原的数据');
 		}
     }

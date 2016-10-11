@@ -13,7 +13,8 @@ class menuUcenter
 	public static $menu = array(
 		"账户资金" => array(
 			"/ucenter/account_log" => "帐户余额",
-			"/ucenter/online_recharge" => "在线充值",
+            "/ucenter/online_recharge" => "在线充值",
+			"/ucenter/payPass_edit" => "管理支付密码",
 		),
 
 		"交易记录" => array(
@@ -31,7 +32,8 @@ class menuUcenter
 		),
 
 		"服务中心" => array(
-			"/ucenter/refunds" => "退款申请",
+            "/ucenter/refunds" => "退款申请",
+			"/ucenter/changeRefunds" => "换货申请",
 			// "/ucenter/complain" => "站点建议",
 			/*"/ucenter/consult" => "商品咨询",*/
 			"/ucenter/evaluation" => "商品评价",

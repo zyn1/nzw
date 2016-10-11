@@ -1,6 +1,6 @@
 
 <header class="uc_head">
-	<h3>退款申请</h3>
+	<h3>退换货申请</h3>
 </header>
 <section class="user_form">
 	<form action="{url:/ucenter/refunds_update}" method="post" callback="checkForm();">
@@ -9,9 +9,19 @@
 			<dt>订单号：</dt>
 			<dd>{$this->orderRow['order_no']}</dd>
 			</dl>
-
+            <dl>
+            <dt>类型：</dt>
+            <dd>
+                {if:Order_Class::isRefundmentApply($this->orderRow)}
+                <input type="radio" name="type"  class="radio" value="1" checked/>退货
+                {/if}
+                {if:Order_Class::isChangeApply($this->orderRow)}
+                <input type="radio" name="type"  class="radio" value="2" checked/>换货
+                {/if}
+            </dd>
+            </dl>
 			<dl>
-			<dt>退款商品：</dt>
+			<dt>退换商品：</dt>
 			<dd>
 				{foreach:items=Api::run('getOrderGoodsListByGoodsid',array('#order_id#',$this->orderRow['id'])) item=$good}
 				{set:$good_info = JSON::decode($good['goods_array'])}
@@ -26,18 +36,17 @@
 				{/foreach}
 			</dd>
 			</dl>
-
 			<dl>
-			<dt>退款理由：</dt>
+			<dt>退换理由：</dt>
 			<dd>
 				<textarea class="input_textarea" name="content" id="content" pattern="required"></textarea>
-				<label>请写明退款理由，上传问题商品图片</label>
+				<label>请写明退换理由</label>
 			</dd>
 			</dl>
 		<dl>
 			<dt></dt>
 			<dd>
-				<input class="input_submit" type="submit" value="提交退款" />
+				<input class="input_submit" type="submit" value="提交申请" />
 			</dd>
 		</dl>
 	</form>

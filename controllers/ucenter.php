@@ -273,10 +273,17 @@ class Ucenter extends IController implements userAuthorization
     {
         $order_goods_id = IFilter::act( IReq::get('order_goods_id'),'int' );
         $order_id       = IFilter::act( IReq::get('order_id'),'int' );
+        $type           = IFilter::act( IReq::get('type'),'int' );
         $user_id        = $this->user['user_id'];
         $content        = IFilter::act(IReq::get('content'),'text');
         $message        = '';
 
+        if(!$type)
+        {
+            $message = "请选择退换类型";
+            $this->redirect('refunds',false);
+            Util::showMessage($message);
+        }
         if(!$content || !$order_goods_id)
         {
         	$message = "请填写退款理由和选择要退款的商品";
@@ -286,15 +293,23 @@ class Ucenter extends IController implements userAuthorization
 
         $orderDB      = new IModel('order');
         $orderRow     = $orderDB->getObj("id = ".$order_id." and user_id = ".$user_id);
-        $refundResult = Order_Class::isRefundmentApply($orderRow,$order_goods_id);
-
+        if($type == 1)
+        {
+            $refundResult = Order_Class::isRefundmentApply($orderRow,$order_goods_id);
+        }
+        if($type == 2)
+        {
+            $refundResult = Order_Class::isChangeApply($orderRow,$order_goods_id);
+        }
+            
         //判断退款申请是否有效
         if($refundResult === true)
         {
 			//退款单数据
     		$updateData = array(
 				'order_no'       => $orderRow['order_no'],
-				'order_id'       => $order_id,
+                'order_id'       => $order_id,
+				'type'           => $type,
 				'user_id'        => $user_id,
 				'time'           => ITime::getDateTime(),
 				'content'        => $content,
@@ -1199,5 +1214,16 @@ class Ucenter extends IController implements userAuthorization
         }else{
             IError::show(403,"验证码不正确或已过期");
         }
+    }
+    
+    //修改支付密码
+    public function payPass_edit()
+    {
+        $user_id = $this->user['user_id'];
+        $memberObj       = new IModel('member');
+        $where           = 'user_id = '.$user_id;
+        $pay_pass = $memberObj->getObj($where, 'pay_password');
+        $this->pay_pass = $pay_pass['pay_password'];
+        $this->redirect('payPass_edit');
     }
 }

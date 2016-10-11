@@ -82,18 +82,6 @@
                     </li>
                     {/foreach}
                 </ul>
-                <ul class="hot_goods_list">
-                    {foreach:items=Api::run('getCommendRecom',6)}
-                    <li>
-                        <a href="{url:/site/products/id/$item['id']}">
-                            <img src="{url:/pic/thumb/img/$item['img']/w/170/h/170}">
-                            <h4>{$item['name']}</h4>
-                            <em>￥{$item['sell_price']}</em>
-                            <del>￥{$item['market_price']}</del>
-                        </a>
-                    </li>
-                    {/foreach}
-                </ul>
             </div>
         </div>
 

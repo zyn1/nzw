@@ -69,9 +69,11 @@ class Menu
         	),
         	'单据管理'=>array(
              	'/order/order_collection_list'  => '收款单',
-             	'/order/order_refundment_list'  => '退款单',
+                 '/order/order_refundment_list'  => '退款单',
+             	'/order/order_change_list'  => '换货单',
         		'/order/order_delivery_list'    => '发货单',
-        		'/order/refundment_list'        => '退款申请列表',
+                '/order/refundment_list'        => '退款申请列表',
+        		'/order/changeGoods_list'        => '换货申请列表',
         	),
         	'发货地址'=>array(
         		'/order/ship_info_list'         => '发货地址管理',

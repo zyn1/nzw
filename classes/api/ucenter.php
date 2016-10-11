@@ -130,10 +130,10 @@ class APIUcenter
 		return $query;
 	}
 	//用户中心-退款记录
-	public function getRefundmentDocList($userid){
+	public function getRefundmentDocList($userid,$type){
 		$page = IReq::get('page') ? IFilter::act(IReq::get('page'),'int') : 1;
 		$query = new IQuery('refundment_doc');
-		$query->where = "user_id = ".$userid;
+		$query->where = "user_id = ".$userid." and type = ".$type;
 		$query->order = "id desc";
 		$query->page  = $page;
 		return $query;

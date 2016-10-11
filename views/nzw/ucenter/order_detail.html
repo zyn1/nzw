@@ -30,16 +30,16 @@
 		{/if}
 
 		{if:in_array($orderStatus,array(11,3))}
-		<label class="btn btn_green">
-			<input type="button" value="确认收货" onclick="window.location.href='{url:/ucenter/order_status/order_id/$this->order_info['order_id']/op/confirm}';" />
-		</label>
+        <label class="btn btn_green">
+            <input type="button" value="确认收货" onclick="window.location.href='{url:/ucenter/order_status/order_id/$this->order_info['order_id']/op/confirm}';" />
+        </label>
 		{/if}
 
-		{if:Order_Class::isRefundmentApply($this->order_info)}
-		<label class="btn btn_orange">
-			<input type="button" value="申请退款" onclick='window.location.href="{url:/ucenter/refunds_edit/order_id/$this->order_info['order_id']}"' />
-		</label>
-		{/if}
+        {if:Order_Class::isRefundmentChangeApply($this->order_info)}
+        <label class="btn btn_orange">
+            <input type="button" value="申请退换货" onclick='window.location.href="{url:/ucenter/refunds_edit/order_id/$this->order_info['order_id']}"' />
+        </label>
+        {/if}
 	</p>
 </section>
 <header class="uc_head">

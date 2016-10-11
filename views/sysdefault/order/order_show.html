@@ -317,7 +317,7 @@
 					<th>申请时间：</th><td>{$item['time']}</td>
 				</tr>
 				<tr>
-					<th>状态：</th><td>{echo:Order_Class::refundmentText($item['pay_status'])}</td>
+					<th>状态：</th><td>{echo:Order_Class::refundmentText($item['pay_status'],$item['type'])}</td>
 				</tr>
 				<tr>
 					<th>退款理由：</th><td>{$item['content']}</td>

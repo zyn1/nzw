@@ -1,13 +1,13 @@
 <div class="headbar">
-	<div class="position">订单<span>></span><span>单据管理</span><span>></span><span>退款单列表</span></div>
+	<div class="position">订单<span>></span><span>单据管理</span><span>></span><span>换货单列表</span></div>
 	<div class="operating">
 		<a href="javascript:void(0)" onclick="selectAll('id[]')"><button class="operating_btn" type="button"><span class="sel_all">全选</span></button></a>
 		<a href="javascript:void(0)" onclick="delModel()"><button class="operating_btn" type="button"><span class="delete">批量删除</span></button></a>
-		<a href="javascript:void(0)"><button class="operating_btn" type="button" onclick="location.href='{url:/order/refundment_recycle_list/type/1}'"><span class="recycle">回收站</span></button></a>
+		<a href="javascript:void(0)"><button class="operating_btn" type="button" onclick="location.href='{url:/order/refundment_recycle_list/type/2}'"><span class="recycle">回收站</span></button></a>
 	</div>
 </div>
 <form name="orderForm" action="{url:/order/refundment_del}" method="post">
-<input type="hidden" name="type" value="1">
+<input type="hidden" name="type" value="2">
 <div class="content">
 	<table class="list_table">
 		<colgroup>
@@ -32,7 +32,7 @@
 
 		<tbody>
 			{set:$page= (isset($_GET['page'])&&(intval($_GET['page'])>0))?intval($_GET['page']):1;}
-			{query: name=refundment_doc as c join=left join user as u on u.id eq c.user_id fields=c.*,u.username where=c.if_del eq 0 and c.pay_status neq 0 and c.type eq 1 page=$page order=c.id desc}
+			{query: name=refundment_doc as c join=left join user as u on u.id eq c.user_id fields=c.*,u.username where=c.if_del eq 0 and c.pay_status neq 0 and c.type eq 2 page=$page order=c.id desc}
 			<tr>
 				<td><input name="id[]" type="checkbox" value="{$item['id']}" /></td>
 				<td><a href="{url:/order/refundment_show/id/$item[id]}"><img class="operator" src="{skin:images/admin/icon_check.gif}" title="查看" /></a></td>
