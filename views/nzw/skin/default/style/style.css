@@ -1131,7 +1131,8 @@ a .icon-rotate-90:before, a .icon-rotate-180:before, a .icon-rotate-270:before, 
 .header .header_nav .goods_nav .cat_list h3:before { position: absolute; left: 1px; top: 1px; display: block; width: 18px; height: 18px; content: "";  -webkit-transition: all 0.25s ease-in-out; transition: all 0.25s ease-in-out; }
 
 .header .header_nav .goods_nav .cat_list .cat_second { padding: 10px 0 0; }
-.header .header_nav .goods_nav .cat_list > li { padding: 10px; }
+.header .header_nav .goods_nav .cat_list .cat_second a{display: block;float: left; margin: 5px 0px 0 5px;}
+.header .header_nav .goods_nav .cat_list > li { padding: 5px 10px; clear: both;overflow: hidden;}
 .header .header_nav .goods_nav .cat_list > li:hover { background: #d64d12; }
 .header .header_nav .goods_nav .cat_list > li:hover h3, .header .header_nav .goods_nav .cat_list > li:hover h3 a, .header .header_nav .goods_nav .cat_list > li:hover .cat_second, .header .header_nav .goods_nav .cat_list > li:hover .cat_second a { color: #fff; }
 
