@@ -1362,13 +1362,17 @@ class Order_Class
 	 * @param int $seller_id 商家ID
 	 * @return int 退款权限状态, 0:无权查看；1:只读；2：可读可写
 	 */
-	public static function isSellerRefund($refundId,$seller_id)
+	public static function isSellerRefund($refundId,$type,$seller_id)
 	{
 		$refundDB = new IModel('refundment_doc');
 		$refundRow= $refundDB->getObj('id = '.$refundId.' and seller_id = '.$seller_id);
 
 		if($refundRow)
 		{
+            if($type == 2)
+            {
+                return 2;
+            }
 			$orderDB = new IModel('order');
 			$orderRow= $orderDB->getObj('id = '.$refundRow['order_id']);
 			if($orderRow['is_checkout'] == 1)
@@ -1615,6 +1619,92 @@ class Order_Class
 		}
 		return $refundResult;
 	}
+    
+    /**
+     * @brief 订单换货操作
+     * @param int    $order_id 订单ID
+     * @param int    $refundment_id 换货单ID
+     * @return boolean
+     */
+    public static function changeGoods($order_id,$refundment_id)
+    {
+        $order = new IModel('order');
+        $tb_refundment_doc = new IModel('refundment_doc');
+        $orderInfo = $order->getObj('id = '.$order_id);
+        
+        //新订单数据
+        $orderInfo['id'] = '';
+        $orderInfo['order_no'] = Order_Class::createOrderNum();
+        $orderInfo['status'] = 2;
+        $orderInfo['create_time'] = ITime::getDateTime();
+        $orderInfo['distribution_status'] = 0;
+        $orderInfo['postscript'] = '';
+        $orderInfo['exp'] = 0;
+        $orderInfo['point'] = 0;
+
+        //商品价格
+        $orderInfo['payable_amount'] = 0;
+        $orderInfo['real_amount'] = 0;
+
+        //运费价格
+        $orderInfo['payable_freight'] = 0;
+        $orderInfo['real_freight'] = 0;
+
+        //手续费
+        $orderInfo['pay_fee'] = 0;
+
+        //税金
+        $orderInfo['invoice'] = 0;
+        $orderInfo['invoice_title'] = '';
+        $orderInfo['taxes'] = 0;
+
+        //优惠价格
+        $orderInfo['promotions'] = 0;
+
+        //订单应付总额
+        $orderInfo['order_amount'] = 0;
+
+        //订单保价
+        $orderInfo['insured'] = 0;
+
+        //促销活动ID
+        $orderInfo['active_id'] = 0;
+        $orderInfo['prop'] = 0;
+        $orderInfo['promotions'] = 0;
+        $orderInfo['order_amount'] = 0;
+        $orderInfo['if_del'] = 0;
+        $orderInfo['note'] = '换货订单';
+        
+        $order->setData($orderInfo);
+        $new_order_id = $order->add();
+        if($new_order_id == false)
+        {
+            return '新订单生成错误';
+        }
+        $goods_id = $tb_refundment_doc->getObj('id='.$refundment_id, 'order_goods_id');
+        $orderGoods = new IModel('order_goods');
+        $orderGoodsInfo = $orderGoods->query('id in ('.$goods_id['order_goods_id'].')');
+        foreach($orderGoodsInfo as $k => $v)
+        {
+            $orderGoodsInfo[$k]['id'] = '';
+            $orderGoodsInfo[$k]['order_id'] = $new_order_id;
+            $orderGoodsInfo[$k]['real_price'] = 0;
+            $orderGoodsInfo[$k]['is_send'] = 0;
+            $orderGoodsInfo[$k]['delivery_id'] = 0;
+            $orderGoods->setData($orderGoodsInfo[$k]);
+            $orderGoods->add();
+        }
+        //更新order表状态,查询是否订单中还有未退换的商品，判断是订单退换状态
+        $isSendData = $orderGoods->getObj('order_id = '.$order_id.' and is_send != 2');
+        $orderStatus = 6;//全部退换
+        if($isSendData)
+        {
+            $orderStatus = 7;//部分退换
+        }
+        $order->setData(array('status' => $orderStatus));
+        $result = $order->update('id='.$order_id);
+        return $result ? true : false;
+    }
 
 	/**
 	 * @brief 检查订单是否重复

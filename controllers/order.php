@@ -170,83 +170,22 @@ class Order extends IController implements adminAuthorization
 			$tb_refundment_doc->update('id='.$refundment_id);
             if($type == 2 && $pay_status == 2)
             {
-                $order = new IModel('order');
-                $orderInfo = $order->getObj('id = '.$order_id);
-                
-                //新订单数据
-                $orderInfo['id'] = '';
-                $orderInfo['order_no'] = Order_Class::createOrderNum();
-                $orderInfo['status'] = 2;
-                $orderInfo['create_time'] = ITime::getDateTime();
-                $orderInfo['distribution_status'] = 0;
-                $orderInfo['postscript'] = '';
-                $orderInfo['exp'] = 0;
-                $orderInfo['point'] = 0;
-
-                //商品价格
-                $orderInfo['payable_amount'] = 0;
-                $orderInfo['real_amount'] = 0;
-
-                //运费价格
-                $orderInfo['payable_freight'] = 0;
-                $orderInfo['real_freight'] = 0;
-
-                //手续费
-                $orderInfo['pay_fee'] = 0;
-
-                //税金
-                $orderInfo['invoice'] = 0;
-                $orderInfo['invoice_title'] = '';
-                $orderInfo['taxes'] = 0;
-
-                //优惠价格
-                $orderInfo['promotions'] = 0;
-
-                //订单应付总额
-                $orderInfo['order_amount'] = 0;
-
-                //订单保价
-                $orderInfo['insured'] = 0;
-
-                //促销活动ID
-                $orderInfo['active_id'] = 0;
-                $orderInfo['prop'] = 0;
-                $orderInfo['promotions'] = 0;
-                $orderInfo['order_amount'] = 0;
-                $orderInfo['if_del'] = 0;
-                $orderInfo['note'] = '换货订单';
-                
-                $order->setData($orderInfo);
-                $new_order_id = $order->add();
-                if($new_order_id == false)
+                $result = Order_Class::changeGoods($order_id,$refundment_id);
+                if(is_string($result))
                 {
-                    IError::show(403,'新订单生成错误');
+                    $tb_refundment_doc->rollback();
                 }
-                $goods_id = $tb_refundment_doc->getObj('id='.$refundment_id, 'order_goods_id');
-                $orderGoods = new IModel('order_goods');
-                $orderGoodsInfo = $orderGoods->query('id in ('.$goods_id['order_goods_id'].')');
-                foreach($orderGoodsInfo as $k => $v)
+                else
                 {
-                    $orderGoodsInfo[$k]['id'] = '';
-                    $orderGoodsInfo[$k]['order_id'] = $new_order_id;
-                    $orderGoodsInfo[$k]['real_price'] = 0;
-                    $orderGoodsInfo[$k]['is_send'] = 0;
-                    $orderGoodsInfo[$k]['delivery_id'] = 0;
-                    $orderGoods->setData($orderGoodsInfo[$k]);
-                    $orderGoods->add();
+                    $logObj = new log('db');
+                    $logObj->write('operation',array("管理员:".ISafe::get('admin_name'),"修改了退款单",'修改的ID：'.$refundment_id));
                 }
-                //更新order表状态,查询是否订单中还有未退换的商品，判断是订单退换状态
-                $isSendData = $orderGoods->getObj('order_id = '.$order_id.' and is_send != 2');
-                $orderStatus = 6;//全部退换
-                if($isSendData)
-                {
-                    $orderStatus = 7;//部分退换
-                }
-                $order->setData(array('status' => $orderStatus));
-                $order->update('id='.$order_id);
             }
-			$logObj = new log('db');
-			$logObj->write('operation',array("管理员:".ISafe::get('admin_name'),"修改了退款单",'修改的ID：'.$refundment_id));
+            else
+            {
+			    $logObj = new log('db');
+			    $logObj->write('operation',array("管理员:".ISafe::get('admin_name'),"修改了退款单",'修改的ID：'.$refundment_id));
+            }
 		}
         if($type == 2)
         {

@@ -30,7 +30,7 @@
 		<tbody>
 			{set:$seller_id = $this->seller['seller_id']}
 			{set:$page=(isset($_GET['page'])&&(intval($_GET['page'])>0))?intval($_GET['page']):1;}
-			{query: name=refundment_doc as rd where=rd.if_del eq 0 and rd.type eq 1 and rd.seller_id eq $seller_id $where order=id desc page=$page id=$refundDB}
+			{query: name=refundment_doc as rd where=rd.if_del eq 0 and rd.type eq 2 and rd.seller_id eq $seller_id $where order=id desc page=$page id=$refundDB}
 			<tr>
 				<td>{$item['order_no']}</td>
 				<td>{$item['time']}</td>
@@ -66,9 +66,9 @@
 			<label>回复状态：</label>
 			<select name="search[rd.pay_status=]">
 				<option value="">不限</option>
-				<option value="0">申请退换</option>
-				<option value="1">退换失败</option>
-				<option value="2">退换成功</option>
+				<option value="0">申请退款</option>
+				<option value="1">退款失败</option>
+				<option value="2">退款成功</option>
 			</select>
 		</fieldset>
     </div>

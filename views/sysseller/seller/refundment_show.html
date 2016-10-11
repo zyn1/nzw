@@ -1,10 +1,12 @@
-{set:$isWrite = ($pay_status == 0 && Order_Class::isSellerRefund($id,$this->seller['seller_id']) == 2) ? true : false}
+{set:$isWrite = ($pay_status == 0 && Order_Class::isSellerRefund($id,$type,$this->seller['seller_id']) == 2) ? true : false}
 <article class="module width_full">
 	<header>
 		<h3 class="tabs_involved">商品退款详情</h3>
 	</header>
 
 	<form action="{url:/seller/refundment_update}" name="refundForm" method="post">
+        <input type="hidden" name="type" value="{$type}">
+        <input type="hidden" name="order_id" value="{$order_id}">
 		<div class="module_content">
 			<fieldset>
 				<label>订单号:</label>
@@ -70,7 +72,7 @@
 			</fieldset>
 
 			<fieldset>
-				<label>退款商品:</label>
+				<label>{if:$type == 1}退款商品:{else:}换货商品{/if}</label>
 				<div class="box">
 					{query:name=order_goods where=id in ($order_goods_id)}
 					{set:$goods = JSON::decode($item['goods_array'])}
@@ -89,7 +91,7 @@
 			</fieldset>
 
 			<fieldset>
-				<label>退款原因:</label>
+				<label>{if:$type == 1}退款原因:{else:}换货原因{/if}</label>
 				<div class="box">{$content}</div>
 			</fieldset>
 
@@ -102,7 +104,7 @@
 					<label><input type='radio' name='pay_status' value='1' />拒绝</label>
 				</div>
 			</fieldset>
-
+            {if:$type == 1}
 			<fieldset>
 				<label>退款金额</label>
 				<div class="box">
@@ -113,19 +115,19 @@
 					</label>
 				</div>
 			</fieldset>
-
+            {/if}
 			<fieldset>
 				<label>处理回复:</label>
 				<div class="box"><textarea class="textarea" name="dispose_idea"></textarea></div>
 			</fieldset>
 
 			{else:}
-
+            {if:$type == 1}
 			<fieldset>
 				<label>退款方式</label>
 				<div class="box">{echo:Order_Class::refundWay($way)}</div>
 			</fieldset>
-
+            {/if}
 			<fieldset>
 				<label>处理状态</label>
 				<div class="box">{echo:Order_Class::refundmentText($pay_status,$type)}</div>

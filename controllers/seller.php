@@ -854,7 +854,9 @@ class Seller extends IController implements sellerAuthorization
 	//商品退款操作
 	function refundment_update()
 	{
-		$id           = IFilter::act(IReq::get('id'),'int');
+        $id           = IFilter::act(IReq::get('id'),'int');
+		$type         = IFilter::act(IReq::get('type'),'int');
+        $order_id     = IFilter::act(IReq::get('order_id'),'int');
 		$pay_status   = IFilter::act(IReq::get('pay_status'),'int');
 		$dispose_idea = IFilter::act(IReq::get('dispose_idea'));
 		$amount       = IFilter::act(IReq::get('amount'),'float');
@@ -864,8 +866,8 @@ class Seller extends IController implements sellerAuthorization
 			die('选择处理状态');
 		}
 
-		//商户处理退款
-		if($id && Order_Class::isSellerRefund($id,$this->seller['seller_id']) == 2)
+		//商户处理退换货
+		if($id && Order_Class::isSellerRefund($id,$type,$this->seller['seller_id']) == 2)
 		{
 			$updateData = array(
 				'dispose_time' => ITime::getDateTime(),
@@ -879,15 +881,34 @@ class Seller extends IController implements sellerAuthorization
 
 			if($pay_status == 2)
 			{
-				$result = Order_Class::refund($id,$this->seller['seller_id'],'seller');
-				if(is_string($result))
-				{
-					$tb_refundment_doc->rollback();
-					die($result);
-				}
+                if($type == 1)
+                {
+				    $result = Order_Class::refund($id,$this->seller['seller_id'],'seller');
+				    if(is_string($result))
+				    {
+					    $tb_refundment_doc->rollback();
+					    die($result);
+				    }
+                }
+                else
+                {
+                    $result = Order_Class::changeGoods($order_id,$id);
+                    if(is_string($result))
+                    {
+                        $tb_refundment_doc->rollback();
+                        die($result);
+                    }
+                }
 			}
 		}
-		$this->redirect('refundment_list');
+        if($type == 1)
+        {
+            $this->redirect('refundment_list');
+        }
+        else
+        {
+		    $this->redirect('change_list');
+        }
 	}
 
 	//商品复制
