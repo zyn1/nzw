@@ -794,12 +794,6 @@ class Simple extends IController
 	 */
     function find_password_email()
 	{
-		$username = IReq::get('username');
-		if($username === null || !IValidate::name($username)  )
-		{
-			IError::show(403,"请输入正确的用户名");
-		}
-
 		$email = IReq::get("email");
 		if($email === null || !IValidate::email($email ))
 		{
@@ -814,9 +808,8 @@ class Simple extends IController
         }
         
 		$tb_user  = new IModel("user as u,member as m");
-		$username = IFilter::act($username);
 		$email    = IFilter::act($email);
-		$user     = $tb_user->getObj(" u.id = m.user_id and u.username='{$username}' AND m.email='{$email}' ");
+		$user     = $tb_user->getObj(" u.id = m.user_id AND m.email='{$email}' ");
 		if(!$user)
 		{
 			IError::show(403,"对不起，用户不存在");
@@ -851,12 +844,6 @@ class Simple extends IController
 	//手机短信找回密码
 	function find_password_mobile()
 	{
-		$username = IReq::get('username');
-		if($username === null || !IValidate::name($username))
-		{
-			IError::show(403,"请输入正确的用户名");
-		}
-
 		$mobile = IReq::get("mobile");
 		if($mobile === null || !IValidate::mobi($mobile))
 		{
@@ -870,7 +857,7 @@ class Simple extends IController
 		}
 
 		$userDB = new IModel('user as u , member as m');
-		$userRow = $userDB->getObj('u.username = "'.$username.'" and m.mobile = "'.$mobile.'" and u.id = m.user_id');
+		$userRow = $userDB->getObj('m.mobile = "'.$mobile.'" and u.id = m.user_id');
 		if($userRow)
 		{
 			$findPasswordDB = new IModel('find_password');
