@@ -52,6 +52,7 @@ function orderFormClass()
 		{
 			"id":"addressWindow",
 			"title":"修改收货地址",
+            "width":472,
 			"ok":function(iframeWin, topWin){
 				var formObject = iframeWin.document.forms[0];
 				if(formObject.onsubmit() === false)
@@ -96,6 +97,7 @@ function orderFormClass()
 		{
 			"id":"addressWindow",
 			"title":"添加收货地址",
+            "width":472,
 			"ok":function(iframeWin, topWin){
 				var formObject = iframeWin.document.forms[0];
 				if(formObject.onsubmit() === false)

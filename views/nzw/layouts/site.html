@@ -270,7 +270,7 @@
 		{set:$catIco = array('help-new','help-delivery','help-pay','help-user','help-service')}
 		{foreach:items=Api::run('getHelpCategoryFoot') item=$helpCat}
 		<dl class="help_{echo:$key+1}">
-			<dt></i>{$helpCat['name']}</dt>
+			<dt>{$helpCat['name']}</dt>
 			{foreach:items=Api::run('getHelpListByCatidAll',array('#cat_id#',$helpCat['id']))}
 			<dd><a href="{url:/site/help/id/$item[id]}">{$item['name']}</a></dd>
 			{/foreach}
