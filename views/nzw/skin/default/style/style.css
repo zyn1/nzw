@@ -1216,7 +1216,7 @@ a .icon-rotate-90:before, a .icon-rotate-180:before, a .icon-rotate-270:before, 
 }
 
 .aui_inner .aui_content{color: red;background: #fff;}
-.aui_outer .aui_inner{border: 1px solid red;}
+.aui_outer .aui_inner{border-color:red;}
 
 
 .login_box { padding: 50px; border: 1px solid #ddd; margin-top: 10px; position: relative; }
