@@ -3,7 +3,7 @@
     <div class="louceng">
         <section class="home_1">
             <!-- 通栏焦点图 -->
-            <section id="home_fouse" class="home_fouse" style="background:#ccc;">
+            <!-- <section id="home_fouse" class="home_fouse" style="background:#ccc;">
                 {if:$this->index_slide}
                 <ul style="width:1200px;margin:0 auto;">
                     {foreach:items=$this->index_slide}
@@ -11,7 +11,93 @@
                     {/foreach}
                 </ul>
                 {/if}
-            </section>
+            </section> -->
+<!--bn-->
+<div class="home_fouse" id="home_fouse" style="background:#ccc;height:380px;">
+        <!--轮播开始-->
+            <script type='text/javascript' >
+                var tId;
+                startScroll();
+                $(function(){
+                    $('#ad_index li').each(function(){
+                        $(this).click(function(){
+                            slideHere($(this));
+                        }).mouseover(function(){
+                            stopHere($(this));
+                        }).mouseout(function(){
+                            startScroll();
+                        });
+                    });
+                });
+                function startScroll(){
+                    tId = setInterval(function(){
+                        var nextImg = $('#ad_index .nonce').next('.initial');
+                        if(nextImg.length==0){
+                            nextImg = $($('#ad_index li')[0]);
+                        }
+                        slideHere($(nextImg));
+                    }, 3000);
+                }
+                function stopScroll(){
+                    clearInterval(tId);
+                }
+                function slideHere(imgObj){
+                    $('#ad_index li').removeClass('nonce');
+                    $('#ad_index li').addClass('initial');
+                    imgObj.removeClass('initial');
+                    imgObj.addClass('nonce');
+                    if($('#ad_index img').length)
+                    {
+                        $('#ad_index .pic img')
+                            .attr('src', imgObj.attr('target_src'))
+                            .css('display', 'none')
+                            .fadeIn('normal')
+                            .parent().attr('href', imgObj.attr('target_link'))
+                            .attr('target', '_blank');
+                        $('#scroll').css('background-color','#'+imgObj.attr('target_color'))
+                   }
+                }
+                function stopHere(imgObj){
+                    slideHere(imgObj);
+                    stopScroll();
+                }
+            </script>
+        {if:$this->index_slide}
+        <div id='scroll' style="background-color:#{$this->index_slide[0]['color']}" >
+            
+            <div class="ad_cycle ad_index" id='ad_index'>
+                <div class="number" >
+                    <ul style=''>
+                        {foreach:$items=$this->index_slide }
+                            {set:$key=$key+1}
+                            {if:strstr($item['url'], 'http://')}
+                            {set:$linkUrl = $item['url']}
+                            {else:}
+                            {set:unset($linkUrl)}
+                            {/if}
+                            {if:$key==1}
+                            {set:$fUrl=$item['url'];$fImg=$item['img'];}
+                                <li class="nonce" alt="{$key}" target_color="{$item['color']}" {if:isset($linkUrl)} target_link="{$linkUrl}" {else:} target_link="{webroot:$item['url']}" {/if} target_src="{webroot:$item['img']}"></li>
+                            {else:}
+                                <li class="initial" alt="1" target_color="{$item['color']}" {if:isset($linkUrl)} target_link="{$linkUrl}" {else:} target_link="{webroot:$item['url']}" {/if} target_src="{webroot:$item['img']}"></li>
+                            {/if}
+                        {/foreach}
+                    </ul>
+                    
+                </div>
+                <div style="width:200px;float:left;height:10px;display:inline-block;"></div>
+                <div class='pic'>
+                    <a href="{webroot:$fUrl}" target="_blank">
+                        <img src="{webroot:$fImg}" style="width:100%;height:380px;">
+                    </a>
+                </div>
+                <div style="width: 231px;float:right;height:10px;display:inline-block;"></div>
+            </div>
+            
+        </div>
+        {/if}
+        <!--轮播结束-->
+</div>
             
              <section class="promise" id="header">
              <div id="home_article" class="home_article">
