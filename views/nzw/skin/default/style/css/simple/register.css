@@ -126,16 +126,16 @@ a, a * { cursor: pointer; }
 	width: 420px;
 }
 textarea.invalid-text, input[type="text"].invalid-text, input[type="password"].invalid-text{margin-top: -1px;}
-.reg_content div{position: relative; height: 42px; width: 304px;border: 1px solid #dbdbdb;margin-bottom: 30px;}
-.reg_content div input{height: 41px;line-height: 42px;border: 0 none; margin-top: 0px; width: 246px; border: none; vertical-align: middle;outline: none;box-shadow: none;}
+.reg_content div{position: relative; height: 42px;line-height: 42px; width: 304px;border: 1px solid #dbdbdb;margin-bottom: 30px;}
+.reg_content div input{text-indent: 1em; position: absolute;right: 0; height: 41px;line-height: 42px;border: 0 none; margin-top: 0px; width: 244px; border: none; vertical-align: middle;outline: none;box-shadow: none;}
 .reg_content div.setPass input{width: 207px;}
-.reg_content div input.first{width: 226px;}
-.reg_content div input.two{width: 112px;}
-.reg_content div input.three{width: 211px;}
-.reg_content div input.four{width: 241px;}
-.reg_content div label{color: #848484; font-size: 15px;line-height: 30px; margin-left: 8px;}
+.reg_content div input.first{width: 212px;}
+.reg_content div input.two{width: 100px;}
+.reg_content div input.three{width: 212px;}
+.reg_content div input.four{width: 212px;}
+.reg_content div label{color: #848484; font-size: 15px;line-height: 26px; margin-left: 8px;}
 .reg_content .auth_code{width: 190px;float: left; }
-.reg_content .auth_code input{width: 120px;}
+.reg_content .auth_code input{width: 100px;}
 .reg_content div.verfy{border: none;}
 .verfy .box_auth{
     float: left;
@@ -154,10 +154,10 @@ textarea.invalid-text, input[type="text"].invalid-text, input[type="password"].i
     
 }
 .reg_content .user_val label.user_nm{
-	line-height: 38px;width: 60px;
+	line-height: 38px;width: 60px;position: relative; top: -3px;
 }
-.verfy .box_auth img{width: 104px; height: 42px;}
-.box_auth .gain{width: 104px; color: #8b8b8b; background: #ebebeb;cursor: pointer;padding: 0; margin: 0;position: absolute;left: 0;}
+.verfy .box_auth img{width: 104px; height: 38px;}
+.box_auth .gain{text-indent: 0; width: 104px;height: 42px; color: #8b8b8b; background: #ebebeb;cursor: pointer;padding: 0; margin: 0;position: absolute;left: 0;}
 .reg_content span.agreement{font-size: 14px; color: #a5a5a5;    position: relative;
      display: block;clear: both;line-height: 24px;}
 .reg_content .mob_btn {border: none;margin-top: 10px;}
@@ -165,7 +165,8 @@ textarea.invalid-text, input[type="text"].invalid-text, input[type="password"].i
 						text-align: center; color: #fff;width: 300px;font-size: 16px;}
 .reg_content .user label img,.reg_content .pass label img{width: 20px; height: 20px;}
 .reg_content .user input,.reg_content .pass input{padding-left: 20px;position: absolute;right: 0;}
-.reg_content .user input+.invalid-msg,.reg_content .pass input+.invalid-msg{display: block;margin-top: 8px;}
+.reg_content div input+.invalid-msg,.reg_content div input+.invalid-msg{display: block;height: 23px;}
+.reg_content div input+.valid-msg,.reg_content div input+.valid-msg{display: block;height: 23px;}
 .reg_content div.sava_pass{border: none;position: relative;top: -10px;line-height: 42px;}
-.reg_content div.sava_pass input{width: 16px; height: 16px;}
+.reg_content div.sava_pass input{width: 16px; height: 16px;position: relative;}
 .reg_content div.sava_pass a{float: right; color: #848484;font-size: 14px;}
