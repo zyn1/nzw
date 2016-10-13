@@ -404,9 +404,10 @@ class System extends IController implements adminAuthorization
 				{
 					foreach($_POST['slide_name'] as $key => $value)
 					{
-						$config_slide[$key]['name'] = $value;
-						$config_slide[$key]['url']  = $_POST['slide_url'][$key];
-						$config_slide[$key]['img']  = $_POST['slide_img'][$key];
+						$config_slide[$key]['name']     = $value;
+                        $config_slide[$key]['url']      = $_POST['slide_url'][$key];
+						$config_slide[$key]['bgColor']  = $_POST['bgColor'][$key];
+						$config_slide[$key]['img']      = $_POST['slide_img'][$key];
 					}
 				}
 

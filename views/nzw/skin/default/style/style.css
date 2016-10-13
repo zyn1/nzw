@@ -1467,7 +1467,7 @@ background-image: url("../image/icon_slides.png"); background-repeat: no-repeat;
 #scroll {
     z-index: 0;
     width: 100%;
-    height: 380px;
+    height: 390px;
     overflow: visible;
     position: absolute;
     top: -10px;
