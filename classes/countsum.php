@@ -523,13 +523,19 @@ class CountSum
 			'commissionPer'    => 0,
 			'orderNum'         => count($orderList),
 			'order_ids'        => array(),
-			'orderNoList'      => array(),
+            'orderNoList'      => array(),
+            
+            //zyn  新增
+            'orderRealAmount'  => 0,
+            'orderRealFreight' => 0,
+            'refundGoodsPrice' => 0,
+			'refundDeliveryPrice' => 0,
     	);
-
     	if($orderList && is_array($orderList))
     	{
     		$refundObj = new IModel("refundment_doc");
     		$propObj   = new IModel("prop");
+            $orderGoodsObj = new IModel('order_goods');
     		foreach($orderList as $key => $item)
     		{
     			//检查平台促销活动
@@ -545,14 +551,26 @@ class CountSum
     			}
 
     			$result['orderAmountPrice'] += $item['order_amount'] - $item['pay_fee'];
+                
+                //zyn  新增  分开计算结算商品价格及运费
+                $result['orderRealAmount'] += $item['real_amount'] - $item['pay_fee'];
+                $result['orderRealFreight'] += $item['real_freight'];
+                //end
+                
     			$result['order_ids'][]       = $item['id'];
     			$result['orderNoList'][]     = $item['order_no'];
 
     			//是否存在退款
-    			$refundList = $refundObj->query("order_id = ".$item['id'].' and pay_status = 2');
+    			$refundList = $refundObj->query("order_id = ".$item['id'].' and pay_status = 2 and type = 1');
     			foreach($refundList as $k => $val)
-    			{
+    			{                    
     				$result['refundFee'] += $val['amount'];
+                    
+                    //zyn  新增  分开计算结算订单退款商品价格及运费
+                    $goodsPrice = $orderGoodsObj->getObj('id in ('.$val['order_goods_id'].')', 'sum(real_price) as price');
+                    $result['refundGoodsPrice'] += $goodsPrice['price'];
+                    $result['refundDeliveryPrice'] += $val['amount'] - $goodsPrice['price'];
+                    //end
     			}
     		}
     	}
@@ -563,7 +581,13 @@ class CountSum
 		//获取结算手续费
 		$siteConfigData = new Config('site_config');
 		$result['commissionPer'] = $siteConfigData->commission ? $siteConfigData->commission : 0;
-		$result['commission']    = round($result['orgCountFee'] * $result['commissionPer']/100,2);
+		//$result['commission']    = round($result['orgCountFee'] * $result['commissionPer']/100,2);
+        
+        //zyn  修改  运费不扣手续费
+        $result['orgRealFee'] = $result['orderRealAmount'] - $result['refundGoodsPrice'] + $result['platformFee'];
+        $result['orgDeliveryFee'] = $result['orderRealFreight'] - $result['refundDeliveryPrice'];
+        $result['commission']    = round($result['orgRealFee'] * $result['commissionPer']/100,2);
+        //end
 
 		//最终结算金额
 		$result['countFee'] = $result['orgCountFee'] - $result['commission'];

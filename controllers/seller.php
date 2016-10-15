@@ -673,7 +673,8 @@ class Seller extends IController implements sellerAuthorization
 	//结算单更新
 	public function bill_update()
 	{
-		$id            = IFilter::act(IReq::get('id'),'int');
+        $id            = IFilter::act(IReq::get('id'),'int');
+		$is_agree      = IFilter::act(IReq::get('is_agree'),'int');
 		$start_time    = IFilter::act(IReq::get('start_time'));
 		$end_time      = IFilter::act(IReq::get('end_time'));
 		$apply_content = IFilter::act(IReq::get('apply_content'));
@@ -685,7 +686,7 @@ class Seller extends IController implements sellerAuthorization
 			$billRow = $billDB->getObj('id = '.$id);
 			if($billRow['is_pay'] == 0)
 			{
-				$billDB->setData(array('apply_content' => $apply_content));
+				$billDB->setData(array('apply_content' => $apply_content, 'is_agree' => $is_agree));
 				$billDB->update('id = '.$id.' and seller_id = '.$this->seller['seller_id']);
 			}
 		}
@@ -708,7 +709,7 @@ class Seller extends IController implements sellerAuthorization
 				$countData['start_time'] = $start_time;
 				$countData['end_time']   = $end_time;
 
-				$billString = AccountLog::sellerBillTemplate($countData);
+				$billString = AccountLog::sellerNewBillTemplate($countData);
 				$data = array(
 					'seller_id'  => $this->seller['seller_id'],
 					'apply_time' => ITime::getDateTime(),
@@ -717,6 +718,7 @@ class Seller extends IController implements sellerAuthorization
 					'end_time' => $end_time,
 					'log' => $billString,
 					'order_ids' => join(",",$countData['order_ids']),
+                    'is_agree' => $is_agree
 				);
 				$billDB->setData($data);
 				$billDB->add();
@@ -742,11 +744,12 @@ class Seller extends IController implements sellerAuthorization
 
 		if($countData['countFee'] > 0)
 		{
-			$countData['start_time'] = $start_time;
-			$countData['end_time']   = $end_time;
+			$countData['start_time'] = date('Y/m/d', strtotime($start_time));
+            $countData['end_time']   = date('Y/m/d', strtotime($end_time));
+			$countData['new_time']   = date('Y/m/d', strtotime($end_time)+24*3600);
 
-			$billString = AccountLog::sellerBillTemplate($countData);
-			$result     = array('result' => 'success','data' => $billString);
+			//$billString = AccountLog::sellerBillTemplate($countData);
+			$result     = array('result' => 'success',/*'data' => $billString, */'countData' => $countData);
 		}
 		else
 		{
@@ -833,7 +836,7 @@ class Seller extends IController implements sellerAuthorization
 	 	{
 	 		$tb_refundment = new IQuery('refundment_doc as c');
 	 		$tb_refundment->join=' left join order as o on c.order_id=o.id left join user as u on u.id = c.user_id';
-	 		$tb_refundment->fields = 'u.username,c.*,o.*,c.id as id,c.pay_status as pay_status';
+	 		$tb_refundment->fields = 'u.username,c.*,o.*,c.id as id,c.pay_status as pay_status,c.type as type';
 	 		$tb_refundment->where = 'c.id='.$refundment_id.' and c.seller_id = '.$this->seller['seller_id'];
 	 		$refundment_info = $tb_refundment->find();
 	 		if($refundment_info)

@@ -277,16 +277,40 @@ class AccountLog
 		return $note;
 	}
 
+    /**
+     * @brief 商户结算单模板
+     * @param array $countData 替换的数据
+     */
+    public static function sellerBillTemplate($countData = null)
+    {
+        $replaceData = array(
+            '{startTime}'        => $countData['start_time'],
+            '{endTime}'          => $countData['end_time'],
+            '{orderAmountPrice}' => $countData['orderAmountPrice'],
+            '{refundFee}'        => $countData['refundFee'],
+            '{countFee}'         => $countData['countFee'],
+            '{orgCountFee}'      => $countData['orgCountFee'],
+            '{orderNum}'         => $countData['orderNum'],
+            '{platformFee}'      => $countData['platformFee'],
+            '{orderNoList}'      => join(",",$countData['orderNoList']),
+            '{commissionPer}'    => $countData['commissionPer'],
+            '{commission}'       => $countData['commission'],
+        );
+
+        $templateString = "结算起止时间：【{startTime}】到【{endTime}】，订单号：【{orderNoList}】，订单数量共计：【{orderNum}单】，商家实际结算金额：【￥{countFee}】，结算金额计算明细：【订单总金额：￥{orderAmountPrice}】-【退款总金额：￥{refundFee}】+【平台促销活动金额：￥{platformFee}】-【结算手续费：￥{commission}】";
+        return strtr($templateString,$replaceData);
+    }
+
 	/**
+     *   zyn  新增 
 	 * @brief 商户结算单模板
 	 * @param array $countData 替换的数据
 	 */
-	public static function sellerBillTemplate($countData = null)
+	public static function sellerNewBillTemplate($countData = null)
 	{
 		$replaceData = array(
 			'{startTime}'        => $countData['start_time'],
 			'{endTime}'          => $countData['end_time'],
-			'{orderAmountPrice}' => $countData['orderAmountPrice'],
 			'{refundFee}'        => $countData['refundFee'],
 			'{countFee}'         => $countData['countFee'],
 			'{orgCountFee}'      => $countData['orgCountFee'],
@@ -295,9 +319,11 @@ class AccountLog
 			'{orderNoList}'      => join(",",$countData['orderNoList']),
 			'{commissionPer}'    => $countData['commissionPer'],
 			'{commission}'       => $countData['commission'],
+            '{orgRealFee}'       => $countData['orgRealFee'],
+            '{orgDeliveryFee}'   => $countData['orgDeliveryFee'],
 		);
 
-		$templateString = "结算起止时间：【{startTime}】到【{endTime}】，订单号：【{orderNoList}】，订单数量共计：【{orderNum}单】，商家实际结算金额：【￥{countFee}】，结算金额计算明细：【订单总金额：￥{orderAmountPrice}】-【退款总金额：￥{refundFee}】+【平台促销活动金额：￥{platformFee}】-【结算手续费：￥{commission}】";
+		$templateString = "结算起止时间：【{startTime}】到【{endTime}】，订单号：【{orderNoList}】，订单数量共计：【{orderNum}单】，商家实际结算金额：【￥{countFee}】，结算金额计算明细：【销售金额：￥{orgRealFee}】+ 【运输物流费：￥{orgDeliveryFee}】+【平台促销活动金额：￥{platformFee}】-【退款总金额：￥{refundFee}】-【结算手续费：￥{commission}】";
 		return strtr($templateString,$replaceData);
 	}
 
