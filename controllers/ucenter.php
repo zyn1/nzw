@@ -321,13 +321,26 @@ class Ucenter extends IController implements userAuthorization
     		$refundsDB = new IModel('refundment_doc');
     		$refundsDB->setData($updateData);
     		$refundsDB->add();
-
-    		$this->redirect('refunds');
+            if($type == 1)
+            {
+                $this->redirect('refunds');
+            }
+    		else
+            {
+                $this->redirect('changeRefunds');
+            }
         }
         else
         {
         	$message = $refundResult;
-	        $this->redirect('refunds',false);
+	        if($type == 1)
+            {
+                $this->redirect('refunds',false);
+            }
+            else
+            {
+                $this->redirect('changeRefunds',false);
+            }
 	        Util::showMessage($message);
         }
     }

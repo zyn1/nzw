@@ -1686,6 +1686,10 @@ class Order_Class
         $orderGoodsInfo = $orderGoods->query('id in ('.$goods_id['order_goods_id'].')');
         foreach($orderGoodsInfo as $k => $v)
         {
+            //更新发货状态
+            $orderGoods->setData(array('is_send' => 2));
+            $orderGoods->update('id = '.$v['id']);
+            
             $orderGoodsInfo[$k]['id'] = '';
             $orderGoodsInfo[$k]['order_id'] = $new_order_id;
             $orderGoodsInfo[$k]['real_price'] = 0;
@@ -1694,6 +1698,7 @@ class Order_Class
             $orderGoods->setData($orderGoodsInfo[$k]);
             $orderGoods->add();
         }
+        
         //更新order表状态,查询是否订单中还有未退换的商品，判断是订单退换状态
         $isSendData = $orderGoods->getObj('order_id = '.$order_id.' and is_send != 2');
         $orderStatus = 6;//全部退换

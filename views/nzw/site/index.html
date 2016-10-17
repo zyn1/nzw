@@ -54,7 +54,7 @@
                             .fadeIn('normal')
                             .parent().attr('href', imgObj.attr('target_link'))
                             .attr('target', '_blank');
-                        $('#scroll').css('background-color','#'+imgObj.attr('target_color'))
+                        $('#scroll').css('background-color',imgObj.attr('target_color'))
                    }
                 }
                 function stopHere(imgObj){
@@ -63,7 +63,7 @@
                 }
             </script>
         {if:$this->index_slide}
-        <div id='scroll' style="background-color:#{$this->index_slide[0]['color']}" >
+        <div id='scroll' style="background-color:{$this->index_slide[0]['bgColor']}" >
             
             <div class="ad_cycle ad_index" id='ad_index'>
                 <div class="number" >
@@ -77,9 +77,9 @@
                             {/if}
                             {if:$key==1}
                             {set:$fUrl=$item['url'];$fImg=$item['img'];}
-                                <li class="nonce" alt="{$key}" target_color="{$item['color']}" {if:isset($linkUrl)} target_link="{$linkUrl}" {else:} target_link="{webroot:$item['url']}" {/if} target_src="{webroot:$item['img']}"></li>
+                                <li class="nonce" alt="{$key}" target_color="{$item['bgColor']}" {if:isset($linkUrl)} target_link="{$linkUrl}" {else:} target_link="{webroot:$item['url']}" {/if} target_src="{webroot:$item['img']}"></li>
                             {else:}
-                                <li class="initial" alt="1" target_color="{$item['color']}" {if:isset($linkUrl)} target_link="{$linkUrl}" {else:} target_link="{webroot:$item['url']}" {/if} target_src="{webroot:$item['img']}"></li>
+                                <li class="initial" alt="1" target_color="{$item['bgColor']}" {if:isset($linkUrl)} target_link="{$linkUrl}" {else:} target_link="{webroot:$item['url']}" {/if} target_src="{webroot:$item['img']}"></li>
                             {/if}
                         {/foreach}
                     </ul>
@@ -129,7 +129,7 @@
                 <header class="floor_head">
                 <h2>商家推荐</h2>
                 <nav class="floor_nav">
-                    <a href="{url:/site/search_list_seller}">更多</a></li>
+                    <a href="{url:/site/search_list_seller}">更多</a>
                 </nav>
               </header>
                 <ul>
@@ -246,8 +246,6 @@
 <script>
 //dom载入完毕执行
 $(function(){
-    // 调用焦点图
-    $("#home_fouse").FengFocus({trigger : "mouseover"});
     // 热门商品等选项卡
     $("#hot_goods").FengTab();
     // 通知选项卡

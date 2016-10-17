@@ -153,13 +153,15 @@
 						<table class='border_table' id='slide_box'>
 							<col width="150px" />
 							<col width="250px" />
-							<col width="250px" />
+                            <col width="250px" />
+							<col width="80px" />
 							<col width="120px" />
 							<thead>
 							<tr>
 								<th>名称</th>
 								<th>链接地址</th>
-								<th>图片文件</th>
+                                <th>图片文件</th>
+								<th>背景颜色</th>
 								<th>操作</th>
 							</tr>
 							</thead>
@@ -168,7 +170,7 @@
 
 							<tfoot>
 								<tr>
-									<td colspan='4'>
+									<td colspan='5'>
 										<button type='button' class='btn' onclick="add_slide();"><span>添加幻灯</span></button>
 									</td>
 								</tr>
@@ -185,6 +187,9 @@
 									<input type='file' name='slide_pic[]' class='middle' />
 									<input type="hidden" value="<%=img%>" name="slide_img[]" />
 								</td>
+                                <td>
+                                    <input type="text" name="bgColor[]" value="<%=bgColor%>" class='small' />
+                                </td>
 								<td>
 									<img class='operator' src='{skin:images/admin/icon_asc.gif}' alt='向上' title='向上' />
 									<img class='operator' src='{skin:images/admin/icon_desc.gif}' alt='向下' title='向下' />

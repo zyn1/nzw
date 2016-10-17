@@ -1,5 +1,6 @@
 {js:my97date}
 {set:$seller_id = $this->seller['seller_id']}
+{set:$siteConfigData = new Config('site_config');$commissionPer = $siteConfigData->commission ? $siteConfigData->commission : 0;}
 
 <article class="module width_full">
 	<header>
@@ -15,12 +16,8 @@
 					<input type='text' class="normal" name='start_time' readonly="readonly" pattern='date' onFocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" alt='请填写开始日期' title="请填写开始日期" />
 					<input type='text' class="normal" name='end_time' readonly="readonly" pattern='date' onFocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" alt='请填写结束日期' title="请填写结束日期" />
 					<input class="btn" type="button" value="点击计算结算明细" id="checkButton" onclick="checkoutFee();" />
-				</div>
-
-				<div class="box" style="padding-top:15px;">
-					<textarea name="log" disabled="disabled"></textarea>
-					<label class="tip">根据选择的日期系统会自动生成结算详情报告，商家必须发货且用户必须收货后才会有统计数据</label>
-				</div>
+				    <label class="tip">根据选择的日期系统会自动生成结算详情报告，商家必须发货且用户必须收货后才会有统计数据</label>
+                </div>
 			</fieldset>
 
 			<fieldset class="statements">
@@ -30,17 +27,17 @@
 				</div>
 				<ul class="sta_ul">
 					<li>
-						<label for="">尊敬的：<input type="text" name="" id="" value=""></label>
+						<label for="">尊敬的：{$this->seller['seller_name']}</label>
 					</li>
 					<li>
-						<label for="">会员编号：<input type="text" name="" id="" value=""></label>
+						<label for="">会员编号：{$seller_id}</label>
 					</li>
 					<li>
 						<label for="">首先感谢贵公司对我司平台的大力支持，现就双方结算周期内账务确认如下：</label>
 					</li>
 					<li class="next_line">
-						<label for=""><span class="cycle">结算周期：2015/09/01—2015/09/15 </span></label>                       
-						<label for=""> <span> 账单日：2015/09/16</span></label>
+						<label for=""><span class="cycle">结算周期： </span></label>                       
+						<label for=""> <span class="js_date_bill"> 账单日：</span></label>
 					</li>
 				</ul>
 				<table border="1">
@@ -56,13 +53,13 @@
 					  <tr>
 					    <td class="first">销售额</td>
 					    <td>运输物流费</td>
-					    <td>服务费（销售额 x待定％）</td>
+					    <td>服务费（销售额 x {$commissionPer}％）</td>
 					  </tr>
 					  <tr>
-					    <td class="first">&nbsp;</td>
-					    <td>&nbsp;</td>
-					    <td>&nbsp;</td>
-					    <td>&nbsp;</td>
+					    <td class="first js_date_sales">&nbsp;</td>
+					    <td class="js_date_delivery">&nbsp;</td>
+					    <td class="js_date_percent">&nbsp;</td>
+					    <td class="js_date_total">&nbsp;</td>
 					  </tr>
 					  <tr>
 					    <td class="first specil" colspan="4"><label>特别说明：</label>
@@ -71,8 +68,8 @@
 					  </tr>
 					  <tr>
 					    <td class="last" colspan="4">同意结算：  
-					    	<input type="radio" name="1" id="">是        
-					    	<input type="radio" name="1" id="">   否</td>
+					    	<input type="radio" name="is_agree" value="1" checked="checked">是        
+					    	<input type="radio" name="is_agree" value="0">否</td>
 					  </tr>
 					  </tbody>	
 				</table>
@@ -108,6 +105,7 @@ formObj.init({echo:JSON::encode($this->billRow)});
 $("[name='start_time']").prop("disabled",true);
 $("[name='end_time']").prop("disabled",true);
 $("#checkButton").hide();
+checkoutFee();
 {/if}
 
 //计算结算款明细
@@ -120,12 +118,17 @@ function checkoutFee()
 		alert("请填写完整的时间段");
 		return;
 	}
-
 	$.getJSON("{url:/seller/countGoodsFee}",{"start_time":startTime,"end_time":endTime}, function(json)
 	{
 		if(json.result == 'success')
 		{
-			$("[name='log']").val(json.data);
+            $('.next_line span.cycle').html('结算周期：'+json.countData.start_time+'-'+json.countData.end_time);
+            $('.next_line span.js_date_bill').html('账单日：'+json.countData.new_time);
+            $('.js_date_sales').html(json.countData.orgRealFee);
+            $('.js_date_delivery').html(json.countData.orgDeliveryFee);
+            $('.js_date_percent').html(json.countData.commission);
+            $('.js_date_total').html(json.countData.countFee);
+			/*$("[name='log']").val(json.data);*/
 		}
 		else
 		{
