@@ -1907,6 +1907,20 @@ background-image: url("../image/icon_slides.png"); background-repeat: no-repeat;
     top: 60px;
     right: 0;
 }
+.goods_info li.courier{position: relative;}
+.goods_info li.courier strong{
+	font-weight: normal;
+    display: inline-block;
+    background: url(../../../skin/default/image/index/up_down.png) no-repeat 64px -23px;
+    padding-left: 6px;
+    width: 70px;
+    cursor: pointer;
+}
+.goods_info li.courier strong.down {
+    background: url(../../../skin/default/image/index/up_down.png) no-repeat 64px 10px;
+}
+.goods_info li.courier .hide_cou{display: none;padding: 6px 10px 10px 10px;}
+.goods_info li.courier .hide_cou span{border: 1px solid #f2f2f2;display: block;padding: 6px;}
 .goods_info li.qq_service img{width: 16px;}
 .goods_info li.qq_service span{color: #555; margin-left: 6px;}
 .goods_info li.qq_service a:hover{text-decoration: none;}

@@ -73,10 +73,14 @@
 			<li>送积分：单件送{$point}分</li>
 			{/if}
 
-			<li>
+			<li class="courier">
 				至
 				<a class="sel_area blue" href="javascript:;" name="localArea">当前地区</a>：
-				<span id="deliveInfo"></span>
+				<strong class="choice_cou">配送方式</strong>
+				<div class="hide_cou">
+					<span id="deliveInfo"><p></p></span>
+				</div>
+				
 				<div class="area_box">
 					<ul>
 						<li><a data-code="1" href="#J_PostageTableCont"><strong>全部</strong></a></li>
@@ -86,7 +90,20 @@
 					</ul>
 				</div>
 			</li>
-
+<script>
+  $(function(){
+    var oShow = $('.goods_info li.courier strong');
+    var oHide = $('.goods_info li.courier .hide_cou');
+    var oAup = $('.goods_info li.courier strong');
+    oShow.hover(function(){
+        oHide.show();
+        oAup.addClass('down');
+    },function(){
+        oHide.hide();
+        oAup.removeClass('down');
+    })
+  })
+ </script>
 			<!--商家信息 开始-->
 			{if:isset($seller)}
 			<li>商家：<a class="orange" href="{url:/site/home/id/$seller_id}">{$seller['true_name']}</a></li>
