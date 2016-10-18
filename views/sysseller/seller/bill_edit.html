@@ -68,8 +68,8 @@
 					  </tr>
 					  <tr>
 					    <td class="last" colspan="4">同意结算：  
-					    	<input type="radio" name="is_agree" value="1" checked="checked" {if:$this->billRow['is_pay']}disabled="disabled" {/if}>是        
-					    	<input type="radio" name="is_agree" value="0" {if:$this->billRow['is_pay']}disabled="disabled" {/if}>否</td>
+					    	<input type="radio" name="is_agree" value="1" checked="checked" {if:isset($this->billRow['is_pay'])}disabled="disabled" {/if}>是        
+					    	<input type="radio" name="is_agree" value="0" {if:isset($this->billRow['is_pay'])}disabled="disabled" {/if}>否</td>
 					  </tr>
 					  </tbody>	
 				</table>
