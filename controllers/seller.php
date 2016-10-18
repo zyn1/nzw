@@ -650,8 +650,18 @@ class Seller extends IController implements sellerAuthorization
 		{
 			$billDB  = new IModel('bill');
 			$billRow = $billDB->getObj('id = '.$id.' and seller_id = '.$this->seller['seller_id']);
+            if($billRow)
+            {
+                $tmp = JSON::decode($billRow['para']);
+                $billRow['start'] = date('Y/m/d', strtotime($billRow['start_time']));
+                $billRow['end'] = date('Y/m/d', strtotime($billRow['end_time']));
+                $billRow['new_time']   = date('Y/m/d', strtotime($billRow['end_time'])+24*3600);
+                $billRow['orgRealFee']   = $tmp['orgRealFee'];
+                $billRow['orgDeliveryFee']   = $tmp['orgDeliveryFee'];
+                $billRow['commission']   = $tmp['commission'];
+                $billRow['countFee']   = $tmp['countFee'];
+            }
 		}
-
 		$this->billRow = $billRow;
 		$this->redirect('bill_edit');
 	}
@@ -703,12 +713,11 @@ class Seller extends IController implements sellerAuthorization
 			//获取未结算的订单
 			$queryObject = CountSum::getSellerGoodsFeeQuery($this->seller['seller_id'],$start_time,$end_time,0);
 			$countData   = CountSum::countSellerOrderFee($queryObject->find());
-
 			if($countData['countFee'] > 0)
 			{
+                
 				$countData['start_time'] = $start_time;
 				$countData['end_time']   = $end_time;
-
 				$billString = AccountLog::sellerNewBillTemplate($countData);
 				$data = array(
 					'seller_id'  => $this->seller['seller_id'],
@@ -718,7 +727,8 @@ class Seller extends IController implements sellerAuthorization
 					'end_time' => $end_time,
 					'log' => $billString,
 					'order_ids' => join(",",$countData['order_ids']),
-                    'is_agree' => $is_agree
+                    'is_agree' => $is_agree,
+                    'para' => JSON::encode(array('countFee' => $countData['countFee'], 'orgRealFee' => $countData['orgRealFee'], 'orgDeliveryFee' => $countData['orgDeliveryFee'], 'refundFee' => $countData['refundFee'], 'commission' => $countData['commission']))
 				);
 				$billDB->setData($data);
 				$billDB->add();

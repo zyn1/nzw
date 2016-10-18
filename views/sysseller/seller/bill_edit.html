@@ -36,8 +36,8 @@
 						<label for="">首先感谢贵公司对我司平台的大力支持，现就双方结算周期内账务确认如下：</label>
 					</li>
 					<li class="next_line">
-						<label for=""><span class="cycle">结算周期： </span></label>                       
-						<label for=""> <span class="js_date_bill"> 账单日：</span></label>
+						<label for=""><span class="cycle">结算周期：{if:isset($this->billRow['start'])}{$this->billRow['start']}-{$this->billRow['end']} {/if}</span></label>                       
+						<label for=""> <span class="js_date_bill"> 账单日：{if:isset($this->billRow['new_time'])}{$this->billRow['new_time']} {/if}</span></label>
 					</li>
 				</ul>
 				<table border="1">
@@ -56,10 +56,10 @@
 					    <td>服务费（销售额 x {$commissionPer}％）</td>
 					  </tr>
 					  <tr>
-					    <td class="first js_date_sales">&nbsp;</td>
-					    <td class="js_date_delivery">&nbsp;</td>
-					    <td class="js_date_percent">&nbsp;</td>
-					    <td class="js_date_total">&nbsp;</td>
+					    <td class="first js_date_sales">{if:isset($this->billRow['orgRealFee'])}{$this->billRow['orgRealFee']}{/if}&nbsp;</td>
+					    <td class="js_date_delivery">{if:isset($this->billRow['orgDeliveryFee'])}{$this->billRow['orgDeliveryFee']}{/if}&nbsp;</td>
+					    <td class="js_date_percent">{if:isset($this->billRow['commission'])}{$this->billRow['commission']}{/if}&nbsp;</td>
+					    <td class="js_date_total">{if:isset($this->billRow['countFee'])}{$this->billRow['countFee']}{/if}&nbsp;</td>
 					  </tr>
 					  <tr>
 					    <td class="first specil" colspan="4"><label>特别说明：</label>
@@ -68,8 +68,8 @@
 					  </tr>
 					  <tr>
 					    <td class="last" colspan="4">同意结算：  
-					    	<input type="radio" name="is_agree" value="1" checked="checked">是        
-					    	<input type="radio" name="is_agree" value="0">否</td>
+					    	<input type="radio" name="is_agree" value="1" checked="checked" {if:$this->billRow['is_pay']}disabled="disabled" {/if}>是        
+					    	<input type="radio" name="is_agree" value="0" {if:$this->billRow['is_pay']}disabled="disabled" {/if}>否</td>
 					  </tr>
 					  </tbody>	
 				</table>
@@ -105,7 +105,6 @@ formObj.init({echo:JSON::encode($this->billRow)});
 $("[name='start_time']").prop("disabled",true);
 $("[name='end_time']").prop("disabled",true);
 $("#checkButton").hide();
-checkoutFee();
 {/if}
 
 //计算结算款明细
