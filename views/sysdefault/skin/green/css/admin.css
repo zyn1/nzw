@@ -388,4 +388,4 @@ fieldset.statements td.specil p{margin-left: 12px; line-height: 14px;}
 fieldset.statements td.first.specil{padding-left: 8px;}
 fieldset.statements td.first.specil label{font-weight: bold;}
 fieldset.statements td.first.specil p{margin-left: 12px;margin-bottom: 5px;}
-fieldset.statements td.last input{vertical-align: middle;margin-left: 5px;}
+fieldset.statements td.last input{vertical-align: middle;margin-left: 8px;margin-right: 5px;}
