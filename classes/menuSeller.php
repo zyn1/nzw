@@ -16,7 +16,9 @@ class menuSeller
 			"/seller/index" => "管理首页",
 			"/seller/account" => "销售额统计",
 			"/seller/order_goods_list" => "货款明细列表",
-			"/seller/bill_list" => "货款结算申请",
+            "/seller/bill_list" => "货款结算申请",
+            "/seller/bill_fapiao_list" => "申请发票列表",
+			"/seller/bill_fapiao" => "申请发票",
 		),
 
 		"商品模块" => array(

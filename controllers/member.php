@@ -645,7 +645,8 @@ class Member extends IController implements adminAuthorization
 		$cash        = IFilter::act(IReq::get('cash'),'float');
 		$is_vip      = IFilter::act(IReq::get('is_vip'),'int');
         $is_lock     = IFilter::act(IReq::get('is_lock'),'int');
-		$is_recomm   = IFilter::act(IReq::get('is_recomm'),'int');
+        $is_recomm   = IFilter::act(IReq::get('is_recomm'),'int');
+		$is_checkout   = IFilter::act(IReq::get('is_checkout'),'int');
 		$address     = IFilter::act(IReq::get('address'));
 		$account     = IFilter::act(IReq::get('account'));
 		$server_num  = IFilter::act(IReq::get('server_num'));
@@ -692,7 +693,8 @@ class Member extends IController implements adminAuthorization
 			'address'   => $address,
 			'is_vip'    => $is_vip,
             'is_lock'   => $is_lock,
-			'is_recomm' => $is_recomm,
+            'is_recomm' => $is_recomm,
+			'is_checkout' => $is_checkout,
 			'cash'      => $cash,
 			'province'  => $province,
 			'city'      => $city,
