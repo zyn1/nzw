@@ -650,8 +650,18 @@ class Seller extends IController implements sellerAuthorization
 		{
 			$billDB  = new IModel('bill');
 			$billRow = $billDB->getObj('id = '.$id.' and seller_id = '.$this->seller['seller_id']);
+            if($billRow)
+            {
+                $tmp = JSON::decode($billRow['para']);
+                $billRow['start'] = date('Y/m/d', strtotime($billRow['start_time']));
+                $billRow['end'] = date('Y/m/d', strtotime($billRow['end_time']));
+                $billRow['new_time']   = date('Y/m/d', strtotime($billRow['end_time'])+24*3600);
+                $billRow['orgRealFee']   = $tmp['orgRealFee'];
+                $billRow['orgDeliveryFee']   = $tmp['orgDeliveryFee'];
+                $billRow['commission']   = $tmp['commission'];
+                $billRow['countFee']   = $tmp['countFee'];
+            }
 		}
-
 		$this->billRow = $billRow;
 		$this->redirect('bill_edit');
 	}
@@ -703,12 +713,11 @@ class Seller extends IController implements sellerAuthorization
 			//获取未结算的订单
 			$queryObject = CountSum::getSellerGoodsFeeQuery($this->seller['seller_id'],$start_time,$end_time,0);
 			$countData   = CountSum::countSellerOrderFee($queryObject->find());
-
 			if($countData['countFee'] > 0)
 			{
+                
 				$countData['start_time'] = $start_time;
 				$countData['end_time']   = $end_time;
-
 				$billString = AccountLog::sellerNewBillTemplate($countData);
 				$data = array(
 					'seller_id'  => $this->seller['seller_id'],
@@ -718,7 +727,8 @@ class Seller extends IController implements sellerAuthorization
 					'end_time' => $end_time,
 					'log' => $billString,
 					'order_ids' => join(",",$countData['order_ids']),
-                    'is_agree' => $is_agree
+                    'is_agree' => $is_agree,
+                    'para' => JSON::encode(array('countFee' => $countData['countFee'], 'orgRealFee' => $countData['orgRealFee'], 'orgDeliveryFee' => $countData['orgDeliveryFee'], 'refundFee' => $countData['refundFee'], 'commission' => $countData['commission']))
 				);
 				$billDB->setData($data);
 				$billDB->add();
@@ -1471,5 +1481,83 @@ class Seller extends IController implements sellerAuthorization
         $db_fa->setData($data);
         $db_fa->update('id='.$id);
         $this->redirect('fapiao_list/status/1');
+    }
+    
+    //商家申请服务费发票列表
+    public function bill_fapiao_list(){
+        $search = Util::search(IReq::get('search'));$whereAdd = $search ? " and ".$search : "";
+        $seller_id = $this->seller['seller_id'];
+        $page=(isset($_GET['page'])&&(intval($_GET['page'])>0))?intval($_GET['page']):1;
+        $fapiao_db = new IQuery('bill_fapiao');
+        $fapiao_db->where = 'seller_id ='. $seller_id.$whereAdd;
+        
+        $fapiao_db->order = 'id DESC';
+        $fapiao_db->page = $page;
+        $this->fapiaoData = $fapiao_db->find();
+    
+        $this->db = $fapiao_db;
+        $this->redirect('bill_fapiao_list');
+    }
+    
+    //商家申请发票页面
+    public function bill_fapiao()
+    {
+        $sellerDB = new IQuery('seller as s');
+        $sellerDB->join = 'left join bill_fapiao as b on s.id = b.seller_id';
+        $sellerDB->where = 's.id = '.$this->seller['seller_id'].' and (b.bill_id = -1 or s.is_checkout = 1)';
+        $sellerDB->fields = 'b.id, b.status';
+        $this->data = $sellerDB->find();
+        
+        $billDB = new IModel('bill');
+        $billRow = $billDB->query('seller_id = '.$this->seller['seller_id'].' and  is_pay = 1 and is_agree = 1 and is_invoice = 0', 'id,apply_content,para');
+        $fapiaoDB = new IModel('bill_fapiao');
+        foreach($billRow as $k => $v)
+        {
+            if($fapiaoDB->getObj('bill_id = '.$v['id'], 'id'))
+            {
+                unset($billRow[$k]);
+            }
+        }
+        $this->billRow = $billRow;
+        if($this->data && count($this->billRow) == 0)
+        {
+            die('没有需要申请的发票');
+        }
+        $this->redirect('bill_fapiao');
+    }
+    
+    //商家申请发票提交
+    public function bill_fapiao_save()
+    {
+        $bill_id = IReq::get('bill_id') ? IFilter::act(IReq::get('bill_id'), 'int') : 0;
+        if($bill_id == 0)
+        {
+            die('请选择结算单');
+        }
+        $type = IReq::get('type') ? IFilter::act(IReq::get('type'), 'int') : 0;
+        $data = array();
+        $data['bill_id'] = $bill_id;
+        $data['money'] = IReq::get('money');
+        if($type == 1)
+        {
+            $data['com'] = IReq::get('com') ? IFilter::act(IReq::get('com')) : '';
+            $data['tax_no'] = IReq::get('tax_no') ? IFilter::act(IReq::get('tax_no')) : '';
+            $data['address'] = IReq::get('address') ? IFilter::act(IReq::get('address')) : '';
+            $data['telphone'] = IReq::get('telphone') ? IFilter::act(IReq::get('telphone')) : '';
+            $data['bank'] = IReq::get('bank') ? IFilter::act(IReq::get('bank')) : '';
+            $data['account'] = IReq::get('account') ? IFilter::act(IReq::get('account')) : '';
+        }
+        else
+        {
+            $data['taitou'] = IReq::get('taitou') ? IFilter::act(IReq::get('taitou')) : '';
+        }
+        $data['type'] = $type;
+        $data['status'] = 0;
+        $data['seller_id'] = $this->seller['seller_id'];
+        $data['create_time'] = ITime::getNow('Y-m-d H:i:s');
+        $fapiao = new IModel('bill_fapiao');
+        $fapiao->setData($data);
+        $fapiao->add();
+        $this->redirect('bill_fapiao_list');
     }
 }

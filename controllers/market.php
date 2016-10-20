@@ -728,7 +728,26 @@ class Market extends IController implements adminAuthorization
 	{
 		$id = IFilter::act(IReq::get('id'),'int');
 		$billDB = new IModel('bill');
-		$this->billRow = $billDB->getObj('id = '.$id);
+		$billRow = $billDB->getObj('id = '.$id);
+        if($billRow)
+        {
+            $tmp = JSON::decode($billRow['para']);
+            $billRow['start'] = date('Y/m/d', strtotime($billRow['start_time']));
+            $billRow['end'] = date('Y/m/d', strtotime($billRow['end_time']));
+            $billRow['new_time']   = date('Y/m/d', strtotime($billRow['end_time'])+24*3600);
+            $billRow['orgRealFee']   = $tmp['orgRealFee'];
+            $billRow['orgDeliveryFee']   = $tmp['orgDeliveryFee'];
+            $billRow['commission']   = $tmp['commission'];
+            $billRow['countFee']   = $tmp['countFee'];
+        }
+        else
+        {
+            $this->redirect('bill_list');
+        }
+        $sellerDB = new IModel('seller');
+        $sellerName = $sellerDB->getObj('id = '.$billRow['seller_id'], 'seller_name');
+        $billRow['seller_name'] = $sellerName['seller_name'];
+        $this->billRow = $billRow;
 		$this->redirect('bill_edit');
 	}
 
