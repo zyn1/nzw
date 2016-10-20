@@ -1,0 +1,91 @@
+{set:$id = IReq::get('id');$fapiaoDB=new IQuery('bill_fapiao as b');$fapiaoDB->join = 'left join seller as s on s.id = b.seller_id';$fapiaoDB->where = 'b.id = '.$id;$fapiaoDB->fields='b.*,s.seller_name';$fapiaoList=$fapiaoDB->find();$row=$fapiaoList[0]}
+<div class="headbar">
+	<div class="position"><span>统计</span><span>></span><span>商户数据统计</span><span>></span><span>商家申请发票</span></div>
+</div>
+
+<div class="content_box">
+	<div class="content form_content">
+		<form action="{url:/market/bill_fapiao_update}" method="post" name="bill_fapiao_edit">
+			<input type='hidden' name='id' />
+            <input type="hidden" name="bill_id">
+            <input type="hidden" name="seller_id">
+			<table class="form_table">
+				<colgroup>
+					<col width="150px" />
+					<col />
+				</colgroup>
+				<tr>
+					<th>商家名称：</th>
+					<td>{$row['seller_name']}</td>
+				</tr>
+                <tr>
+                    <th>申请原因：</th>
+                    <td>
+                        {if:$row['bill_id'] == -1}开店服务费发票{else:}<a href='{url:/market/bill_edit/id/$row[bill_id]}'>结算单 {$row['bill_id']} </a>{/if}
+                    </td>
+                </tr>
+				<tr>
+					<th>申请时间：</th>
+					<td>
+						{$row['create_time']}
+					</td>
+				</tr>
+				<tr>
+					<th>申请发票类型：</th>
+					<td>
+						{if:$row['type']==0}普通{else:}增值税{/if}
+					</td>
+				</tr>
+                {if:$row['type']==0}
+                <tr>
+                    <th>发票抬头:</th>
+                    <td>{$row['taitou']}</td>
+                </tr>
+                {else:}
+                <tr>
+                    <th>公司名称:</th>
+                    <td>{$row['com']}</td>
+                </tr>
+                <tr>
+                    <th>纳税人识别号:</th>
+                    <td>{$row['tax_no']}</td>
+                </tr>
+                <tr>
+                    <th>注册地址:</th>
+                    <td>{$row['address']}</td>
+                </tr>
+                <tr>
+                    <th>联系电话:</th>
+                    <td>{$row['telphone']}</td>
+                </tr>
+                <tr>
+                    <th>开户银行:</th>
+                    <td>{$row['bank']}</td>
+                </tr>
+                <tr>
+                    <th>银行账户:</th>
+                    <td>{$row['account']}</td>
+                </tr>
+                {/if}
+				<tr>
+                    <th>开票金额:</th>
+                    <td>{$row['money']}</td>
+                </tr>
+				<!--<tr>
+					<th>开票：</th>
+					<td>
+						<label class="attr"><input type="radio" name="status" value="1" />是</label>
+						<label class="attr"><input type="radio" name="status" value="0" />否</label>
+					</td>
+				</tr>-->
+				<tr><th></th><td><button class="submit" type='submit'><span>确 定</span></button></td></tr>
+			</table>
+		</form>
+	</div>
+</div>
+
+<script type="text/javascript">
+//表单回填
+var formObj = new Form('bill_fapiao_edit');
+formObj.init({echo:JSON::encode($row)});
+</script>

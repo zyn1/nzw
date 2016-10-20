@@ -106,7 +106,8 @@ class Menu
 			),
 			'商户数据统计'=>array(
 				'/market/order_goods_list' => '货款明细列表',
-				'/market/bill_list' => '货款结算申请',
+                '/market/bill_list' => '货款结算申请',
+				'/market/bill_fapiao_list' => '商户发票申请',
 			)
 		),
 

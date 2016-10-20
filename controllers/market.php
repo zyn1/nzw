@@ -1174,4 +1174,28 @@ class Market extends IController implements adminAuthorization
 			Util::showMessage('请选择要删除的id值');
 		}
 	}
+    
+    //商家申请发票处理
+    public function bill_fapiao_update()
+    {
+        $id = IReq::get('id');
+        $bill_id = IReq::get('bill_id');
+        $seller_id = IReq::get('seller_id');
+        $fapiaoDB = new IModel('bill_fapiao');
+        if($bill_id == -1)
+        {
+            $sellerDB = new IModel('seller');
+            $sellerDB->setData(array('is_checkout' => 1));
+            $sellerDB->update('id = '.$seller_id);
+        }
+        else
+        {
+            $billDB = new IModel('bill');
+            $billDB->setData(array('is_invoice' => 1));
+            $billDB->update('id = '.$bill_id.' and seller_id = '.$seller_id);
+        }
+        $fapiaoDB->setData(array('status' => 1));
+        $fapiaoDB->update('id = '.$id);
+        $this->redirect('bill_fapiao_list');
+    }
 }
