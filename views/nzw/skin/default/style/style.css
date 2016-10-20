@@ -1339,6 +1339,14 @@ a .icon-rotate-90:before, a .icon-rotate-180:before, a .icon-rotate-270:before, 
 .cart_item_count table td { padding-top: 20px; }
 .cart_item_count table .all_count { text-align: right; }
 .cart_item_count table .all_count em { font-size: 16px; color: #ee6b4d; }
+.cart_item_count.last .inv_type{clear: both;height: auto;overflow: hidden;}
+.cart_item_count.last .inv_type td{padding-top: 8px;}
+.cart_item_count.last .inv_type td .none{width: 600px;padding-left: 12px;}
+.cart_item_count.last .inv_type td .none h5{margin: 12px 0;font-weight: normal;font-size: 14px;}
+.cart_item_count.last .inv_type td .none h5 input{margin-right: 5px;}
+.inv_type td .none div{padding:0 0 3px 18px;display: none;}
+.inv_type td .none div label{display: inline-block;width: 100px;}
+.inv_type td .none div ul li{margin: 8px 0;}
 
 .use_ticket_btn { cursor: pointer; margin-top: 10px; display: inline-block; font-size: 13px; color: #e71f19; }
 .use_ticket_btn i { color: #FF8225; }
