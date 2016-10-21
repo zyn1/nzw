@@ -1,0 +1,82 @@
+{set:$queryEvaluationList = Api::run('getUcenterEvaluation',$this->user['user_id'])}
+{set:$items = $queryEvaluationList->find()}
+<div id="pageInfo" data-title="商品评价"></div>
+{if:$items}
+
+<section class="evaluation_list">
+    <ul>
+        {foreach:items = $items}
+        {set:$goods = Api::run('getGoodsInfo',array('#id#',$item['goods_id']))}
+        <li>
+            <img src="{url:/pic/thumb/img/$goods[img]/w/300/h/300}" alt="{$item['name']}">
+            <h3>{$item['name']}</h3>
+            {if:$item['status'] == 0}
+            <div class="btn btn_s btn_fa" onclick="gourl('{url:/site/comments/id/$item[id]}')">
+                发表评价
+            </div>
+            {else:}
+            <p>
+                <strong>我的评论：</strong>{$item['contents']}
+            </p>
+            {/if}
+        </li>
+        {/foreach}
+    </ul>
+</section>
+{$queryEvaluationList->getPageBar()}
+{else:}
+<section class="nodata">您当前没有评价信息~</section>
+{/if}
+
+<script>
+$(function(){
+    // 隐藏底部导航
+    hideNav();
+    // 自己写的瀑布流(基于我写的PC版修改的,参考完整版http://blog.csdn.net/fungleo/article/details/49247665)
+    var Obj = $(".evaluation_list"),
+        Ul = Obj.children('ul'),
+        Li = Ul.children('li');
+    $(window).load(function(event) {
+        waterfall();
+    });
+    $(window).resize(function(event) {
+        waterfall();
+    });
+    function waterfall(){
+        var WinW = $(window).width();
+        var Blank = 0,                     // 每个图片之间的间隔留白
+            LiW = WinW/2,                // 一个图片距离上一个图片的宽度距离
+            LiCol = 2,                  // 计算在当前窗口下，有几列
+            UlW = WinW;          // 根据有几列，设定总的宽度（减掉最后一个留白）
+
+
+        var AllLi = [];                     // 建立一个空数组变量
+        Li.each(function(index, e){
+            var T = $(this);
+            var pageMarTop = 0;
+            if (index<LiCol) {                      // 第一行的处理
+                AllLi[index] = T.outerHeight();     // 给数组添加内容，为当前元素的高度值
+                T.css({
+                    top: 0,
+                    left: LiW*index+'px'
+                });
+                pageMarTop = T.outerHeight()+15;
+            } else{
+                var MinH = Math.min.apply(null,AllLi);      // 找到数组中，最小的那个值（也就是留白最大的）
+                var MinI = $.inArray(MinH,AllLi);           // 通过 $.inArray 查找数值在数组中的索引
+                var ThisH = T.outerHeight()+Blank;          // 自身的高度加上留白
+
+                AllLi[MinI] = parseInt(MinH+ThisH);         // 将被占位的数组重新赋值
+
+                T.css({
+                    top: MinH+Blank+'px',
+                    left: LiW*MinI+'px'
+                });
+                pageMarTop = MinH+ThisH+15;
+            };
+            // 这是控制分页的,如果换成其他分页,也要做相应的调整,修改class
+            $(".pages_bar").css('margin-top', pageMarTop+'px');
+        });
+    }
+})
+</script>

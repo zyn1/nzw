@@ -1,0 +1,170 @@
+
+// 商品列表页
+.goods_select {
+	.goods_select_box {
+		width: 90%;position: fixed;top: 0;right: 0;z-index: 11;height: 100%;
+		header {
+			position: relative;height: 4rem*0.1;
+			%po {position: absolute;height: 4rem*0.1;width: 4rem*0.1;top: 0;}
+			.goods_select_close {@extend %po;left: 0;}
+			.so {@extend %po;right: 0;}
+			h2 {height: 4rem*0.1;}
+		}
+		section {
+			margin-top: 1rem*0.1;
+			@include calc("height","100% - 7rem*0.1");overflow-y: auto;
+		}
+		footer {
+			position: absolute;bottom: 0;left: 0;height: 4rem*0.1;width: 100%;
+			.cancel,.enter {
+				width: 50%;float: left;height: 4rem*0.1;line-height: 4rem*0.1;
+			}
+		}
+		.goods_select_son {
+			position: absolute;z-index: 12;left: 0;top: 0;width: 100%;height: 100%;
+		}
+	}
+}
+
+.goods_sort {
+	@extend .cf;
+	.sort_btn {
+		display: block;float: left;height: 4.8rem*0.1;line-height: 4.8rem*0.1;
+		width: 25%;
+		&.on {height: 4.5rem*0.1;}
+		i {padding-left: .5rem*0.1;}
+	}
+}
+
+
+// 商品列表页
+.goods_select {
+	display: none;background:$cff;
+	.goods_select_box,.goods_select_son {
+		background: $cee;
+		header {
+			border-bottom: 1px solid $cdd;background:$cff;
+			.goods_select_close {
+				text-indent: -9999px;
+				background:url("../image/icon_goto.png") center no-repeat;background-size: auto 1rem*0.1*1.6;
+				@include xz(180);
+			}
+			h2 {
+				@extend .fzsb;font-weight: normal;color:$c00;
+				line-height: 4rem*0.1;text-align: center;
+			}
+			.so {
+				text-indent: -9999px;
+				background:url("../image/icon_search.png") center no-repeat;background-size: auto 1rem*0.1*1.6;
+			}
+		}
+		section {
+			border-top: 1px solid $cdd;
+			dl {
+				background: $cff;border-bottom: 1px solid $cdd;
+				dt {
+					padding: 1rem*0.1*1.6;@extend .fzss;
+					strong {font-weight: normal;color:$c00;}
+					span {
+						float: right;position: relative;padding-right: 1rem*0.1*1.6;
+						&:after {
+							position: absolute;content: "";display: block;width: 0.5rem*0.1*1.6;height: 0.5rem*0.1*1.6;
+							right: 0;top: 0.15rem*0.1*1.6;
+							border-style: solid;
+							border-color: $c99;
+							border-width:1px 1px 0 0;
+							@include xz(45);
+						}
+					}
+				}
+			}
+			li {
+				background: $cff;border-bottom: 1px solid $cdd;padding:1.6rem*0.1;@extend .fzss;
+				&.on {
+					background:url("../image/icon_select.png") 95% center no-repeat $cff;
+					background-size: 1.6rem*0.1;color:$pink;
+				}
+			}
+		}
+		footer {
+			.cancel,.enter {
+				text-align: center;color: $cff;@extend .fzsb;
+			}
+			.cancel {background:rgba($c00,0.8);}
+			.enter {background:$pink;}
+		}
+	}
+	.goods_select_son {display: none;}
+}
+.goods_sort {
+	background:$cff;margin-top: -1.5rem*0.1;
+	.sort_btn {
+		text-align: center;background:$cff;
+		font-size: 1.4rem*0.1;
+		&.on {
+			border-bottom: 0.3rem*0.1 solid $yellow;color:$yellow;
+		}
+	}
+}
+
+.goods_list {
+	background:$cff;
+	ul {
+		@extend .cf;
+		li {
+			outline: 1px solid $cdd;background:$cff;overflow: hidden;
+			float: left;position: relative;width: 50%;
+			a {display: block;padding: 1rem*0.1;}
+			.photo {
+				position: relative;padding-bottom: 100%;display: block;width: 100%;
+				img {
+					position: absolute;max-height: 100%;max-width: 100%;display: block;left: 50%;top: 50%;
+					@include yd(-50%,-50%);
+				}
+			}
+			.name {
+				height: 3.2rem*0.1;line-height: 1.6rem*0.1;font-size: 1.1rem*0.1;color: #000;overflow: hidden;margin:1rem*0.1 0;
+				strong {margin: 0 auto;display: table;font-weight: normal;}
+			}
+			.price {
+				font-size: 1.4rem*0.1;font-weight: bold;color: $red;line-height: 1;
+			}
+			.old_price {text-decoration: line-through;color: #999;font-size: 1rem*0.1;float: right;line-height: 1.4rem*0.1;}
+			.del {
+				margin:-1rem*0.1 1rem*0.1 1rem*0.1;
+				border: 1px solid #ddd;background: #fafafa;text-align: center;display: block;height: 2.8rem*0.1;line-height: 2.8rem*0.1;
+			}
+		}
+	}
+}
+
+.del_fav {
+	width: 4rem*0.1*1.6;padding: 0.8rem*0.1;text-align: center;border: 1px solid $cdd;display: block;margin: 0.8rem*0.1 auto 0;
+	border-radius: 0.3rem*0.1*1.6;text-decoration: none;
+	@extend .fzss;
+}
+
+.pages_bar {
+	text-align: center;margin-top: 1.5rem*0.1;
+	span {display: none;}
+	a {
+		display: inline-block;padding: .8rem*0.1;margin: .3rem*0.1;outline: 1px solid #eee;
+		&.current_page {
+			background: $blue;outline: 1px solid $blue;color: #fff;
+		}
+	}
+}
+
+.nothing {
+	text-align: center;color: $green;font-size: 1.4rem*0.1;
+	i {font-size: 10rem*0.1;line-height: 2;}
+	p {line-height: 1.4;}
+	.tips {
+		text-align: center;margin-top: 2rem*0.1;
+		a {
+			display: inline-block;height: 3.2rem*0.1;line-height: 3.2rem*0.1;padding: 0 1.5rem*0.1;
+			background: $blue;color: #fff;
+			&:first-child {margin-right: 1rem*0.1;}
+		}
+	}
+}

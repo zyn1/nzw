@@ -1,0 +1,45 @@
+<div id="pageInfo" data-title="个人中心"></div>
+<section class="user_main_info">
+    <ol>
+        <li>用户名：{$this->user['username']}</li>
+        <li>余额：<em>￥{$user['balance']}</em></li>
+        <li>积分：<em>{$user['point']}</em></li>
+        <li>代金券：<em>{$propData['prop_num']} 张</em></li>
+    </ol>
+</section>
+{set:$icoConfig = array(
+    "我的订单"   => "icon-pencil",
+    "我的积分"   => "icon-github-alt",
+    "我的代金券" => "icon-tag",
+    "退款申请"   => "icon-file",
+    "站点建议"   => "icon-book",
+    "商品咨询"   => "icon-comment",
+    "商品评价"   => "icon-thumbs-up",
+    "短信息"     => "icon-file",
+    "收藏夹"     => "icon-flag",
+    "帐户余额"   => "icon-jpy",
+    "在线充值"   => "icon-money",
+    "地址管理"   => "icon-map-marker",
+    "个人资料"   => "icon-file-alt",
+    "修改密码"   => "icon-lock",
+)}
+<nav class="user_main_nav">
+    <h3>
+        <i class="icon-user"></i>
+        个人中心
+    </h3>
+    <ul>
+        {foreach:items=menuUcenter::init()}
+        {foreach:items=$item key=$moreKey item=$moreValue}
+        <li><a href="{url:$moreKey}"><i class="{echo:$icoConfig[$moreValue]}"></i>{$moreValue}<u class="icon-chevron-right"></u></a></li>
+        {/foreach}
+        {/foreach}
+    </ul>
+</nav>
+<a href="{url:/simple/logout}" class="home_main_logout">退出登录</a>
+<script>
+$(function() {
+    // 设置首页导航为当前
+    $(".nav_user").addClass('on');
+})
+</script>

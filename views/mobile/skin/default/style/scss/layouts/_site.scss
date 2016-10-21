@@ -1,0 +1,68 @@
+
+.header_box {
+    height: 6rem*0.1;
+    .header {
+        position: fixed;left: 0;top: 0;right: 0;height: 4.5rem*0.1;z-index: 2;
+        background: $yellow;color: $cff;text-align: center;line-height: 4.5rem*0.1;
+        .header_home,.header_back,.header_so_btn {
+            width: 5rem*0.1;height: 4.5rem*0.1;font-size: 1.8rem*0.1;position: absolute;left: 0;top: 0;
+        }
+        .page_title {
+            font-size: 1.6rem*0.1;height: 4.5rem*0.1;line-height: 4.5rem*0.1;
+        }
+        .header_so_btn {
+            left: auto;right: 0;
+        }
+    }
+}
+
+.header_search {
+    height: 3rem*0.1;position: fixed;top: 4.5rem*0.1;left: 0;right: 0;z-index: 2;padding: 1rem*0.1 1.5rem*0.1;background: $cfa;border-bottom: 1px solid $cdd;
+    display: none;
+    .keywords {
+        display: block;height: 2rem*0.1;padding: .5rem*0.1;width: 26rem*0.1;background: $cff;border: none;
+        box-shadow: 0 0 0 1px $cdd;line-height: 2rem*0.1;font-size: 1.2rem*0.1;
+        border-radius: .5rem*0.1 0 0 .5rem*0.1;float: left;
+    }
+    .submit {
+        display: block;width: 6rem*0.1;height: 3rem*0.1;background: $blue;color: $cff;border: none;float: left;
+        border-radius: 0 .5rem*0.1 .5rem*0.1 0;box-shadow: 0 0 0 1px darken($blue,10%);
+    }
+}
+
+.footer_user {
+    @extend .cf;padding:1rem*0.1 1.5rem*0.1;
+    line-height: 2;
+    span {color: $c99;}
+    a {
+        display:inline-block;height: 2rem*0.1;line-height: 2rem*0.1;padding: 0 .5rem*0.1;background: $blue;color: $cff;
+        border-radius: .5rem*0.1;
+    }
+}
+.footer_login {
+    display: table;width: 100%;
+    a {
+        display: table-cell;width: 50%;height: 4rem*0.1;line-height: 4rem*0.1;text-align: center;font-size: 1.5rem*0.1;font-weight: bold;
+        color: $cff;
+        &.login {background: $blue;}
+        &.reg {background: $yellow;}
+    }
+}
+.footer_nav {
+    height: 7rem*0.1;
+    ul {
+        position: fixed;bottom: 0;left: 0;right: 0;height: 5.5rem*0.1;z-index: 2;
+        li {width: 25%;float: left;height: 5.5rem*0.1;outline: 1px solid $cdd;background: $cfa;position: relative;z-index: 2;}
+        a {display: block;height: 5.5rem*0.1;}
+        i {
+            display: block;margin: 1rem*0.1 auto .3rem*0.1;width: 2.4rem*0.1;height: 2.4rem*0.1;font-size: 1.5rem*0.1;color: $cff;background: $yellow;
+            border-radius: 50%;text-align: center;line-height: 2.4rem*0.1;
+        }
+        span {display: block;text-align: center;font-size: 1.1rem*0.1;}
+        .on {
+            background: $cff;outline: 1px solid $cff;z-index: 1;
+            i {background: $red;}
+            span {color: $red;}
+        }
+    }
+}

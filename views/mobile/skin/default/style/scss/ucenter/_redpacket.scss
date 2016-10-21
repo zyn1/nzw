@@ -1,0 +1,17 @@
+.coupon_list {
+	ul {}
+	li {
+		border-bottom: 1px solid #eee;height: 1.6rem*0.1;line-height: 1.6rem*0.1;
+		padding:1rem*0.1 1.5rem*0.1;
+		time {float: right;color: #999;font-size: 1.1rem*0.1;}
+		strong {font-weight: normal;}
+		em {color: $yellow;}
+		i {
+			display: inline-block;background: $blue;color: #fff;
+			padding: 0 .5rem*0.1;
+		}
+		&:nth-child(2n){
+			background: #fafafa;
+		}
+	}
+}

@@ -1,0 +1,63 @@
+.evaluation_list {
+	@extend .cf;position: relative;
+	ul {}
+	li {
+		width: 50%;
+		position: absolute;background: #fff;
+		box-shadow: 0 0 0 1px #eee inset;
+		&:nth-child(2n){
+			box-shadow:  0 0 0 1px #eee;
+		}
+		img {
+			display: block;width: 90%;margin: 1.5rem*0.1 auto;
+			@include calc("width","100% - 0.3rem");
+		}
+		h3 {
+			font-weight: normal;color: #555;font-size: 1.3rem*0.1;@include online(3.2rem*0.1);
+			padding: 0 1.5rem*0.1;
+		}
+		.btn {
+			border-top: 1px solid #eee;
+		}
+		p {
+			padding: .5rem*0.1 1.5rem*0.1;color: #999;line-height: 1.6;border-top: 1px solid #eee;
+			background: #fafafa;
+			strong {color: #555;}
+		}
+	}
+}
+
+.comment_goods {
+	margin: 1.5rem*0.1;
+	h3 {
+		color: $blue;line-height: 1.6;font-size: 1.4rem*0.1;margin-bottom: 1rem*0.1;font-weight: normal;
+	}
+	.point_star {
+		@extend .cf;line-height: 4rem*0.1;
+		strong {font-weight: normal;color: #555;display: block;float: left;padding-right: 1rem*0.1;}
+		label {
+			display: block;float: left;color: #999;
+			i {
+				display: inline-block;font-size: 2.4rem*0.1;padding-left: .5rem*0.1;
+				&.on {color: $yellow}
+			}
+		}
+	}
+	.input_li {
+		padding: 0;position: relative;margin-top: 1.5rem*0.1;
+		strong {
+			font-weight: normal;
+		}
+	}
+}
+
+.comments_list {
+	margin: 1.5rem*0.1;
+	ul {border-top: 1px solid #eee;}
+	li {
+		border-bottom: 1px solid #eee;padding: .5rem*0.1 0;line-height: 1.6;
+		&:nth-child(2n){background: #fafafa;}
+		strong {color: $blue}
+		em {color: $pink}
+	}
+}

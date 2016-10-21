@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <title>{echo:$this->_siteConfig->name}</title>
+    <link type="image/x-icon" href="{webroot:favicon.ico}" rel="icon">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="apple-touch-icon-precomposed" href="{skin:image/logo.gif}">
+    {js:jquery} {js:form} {js:validate} {js:dialog} {js:artTemplate}
+    <script src="{theme:javascript/common.js}"></script>
+    <script src='{theme:javascript/site.js}'></script>
+    <script src='{theme:javascript/mobile.js}'></script>
+    <link rel="stylesheet" href="{skin:style/style.css}">
+</head>
+
+<body>
+    <!-- 顶部通栏 -->
+    <header class="header_box">
+        <div class="header">
+            {if:IWeb::$app->getController()->getId() == 'site' && IWeb::$app->getController()->getAction()->getId() == 'index'}
+            <div class="header_home"><i class="icon-home"></i></div>
+            {else:}
+            <div class="header_back" onclick="window.history.back();"><i class="icon-chevron-left"></i></div>
+            {/if}
+            <h1 id="page_title" class="page_title">{echo:$this->_siteConfig->name}</h1>
+            <div class="header_so_btn" onclick="$('.header_search').toggle();"><i class="icon-search"></i></div>
+        </div>
+    </header>
+    <!-- 顶部搜索 -->
+    <section class="header_search">
+        <form method='get' action="{url:/}">
+            <input type='hidden' name='controller' value='site'>
+            <input type='hidden' name='action' value='search_list'>
+            <input class="keywords" type="text" name='word' autocomplete="off" placeholder="请输入关键词...">
+            <input class="submit" type="submit" value="搜索">
+        </form>
+    </section>
+    <!-- 引入内页 -->
+    {viewcontent}
+    <!-- 会员登陆与否显示不同内容 -->
+    {if:$this->user}
+    {else:}
+    <section class="footer_login">
+        <a class="login" href="{url:simple/login}">登录</a>
+        <a class="reg" href="{url:simple/reg}">注册</a>
+    </section>
+    {/if}
+    <!--底部菜单-->
+    <nav class="footer_nav">
+        <ul>
+            <li class="nav_home"><a href="{url:/}"><i class="icon-home"></i><span>首页</span></a></li>
+            <li class="nav_cart"><a href="{url:simple/cart}"><i class="icon-shopping-cart"></i><span>购物车</span></a></li>
+            <li class="nav_user"><a href="{url:/ucenter/index}"><i class="icon-user"></i><span>个人中心</span></a></li>
+            <li class="nav_map"><a href="{url:site/sitemap}"><i class="icon-reorder"></i><span>分类</span></a></li>
+        </ul>
+    </nav>
+</body>
+
+</html>
