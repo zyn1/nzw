@@ -1185,7 +1185,7 @@ class Market extends IController implements adminAuthorization
         if($bill_id == -1)
         {
             $sellerDB = new IModel('seller');
-            $sellerDB->setData(array('is_checkout' => 1));
+            $sellerDB->setData(array('is_invoice' => 1));
             $sellerDB->update('id = '.$seller_id);
         }
         else

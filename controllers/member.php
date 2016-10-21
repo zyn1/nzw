@@ -646,7 +646,7 @@ class Member extends IController implements adminAuthorization
 		$is_vip      = IFilter::act(IReq::get('is_vip'),'int');
         $is_lock     = IFilter::act(IReq::get('is_lock'),'int');
         $is_recomm   = IFilter::act(IReq::get('is_recomm'),'int');
-		$is_checkout   = IFilter::act(IReq::get('is_checkout'),'int');
+		$is_invoice   = IFilter::act(IReq::get('is_invoice'),'int');
 		$address     = IFilter::act(IReq::get('address'));
 		$account     = IFilter::act(IReq::get('account'));
 		$server_num  = IFilter::act(IReq::get('server_num'));
@@ -694,7 +694,7 @@ class Member extends IController implements adminAuthorization
 			'is_vip'    => $is_vip,
             'is_lock'   => $is_lock,
             'is_recomm' => $is_recomm,
-			'is_checkout' => $is_checkout,
+			'is_invoice' => $is_invoice,
 			'cash'      => $cash,
 			'province'  => $province,
 			'city'      => $city,

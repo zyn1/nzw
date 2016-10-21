@@ -1504,7 +1504,7 @@ class Seller extends IController implements sellerAuthorization
     {
         $sellerDB = new IQuery('seller as s');
         $sellerDB->join = 'left join bill_fapiao as b on s.id = b.seller_id';
-        $sellerDB->where = 's.id = '.$this->seller['seller_id'].' and (b.bill_id = -1 or s.is_checkout = 1)';
+        $sellerDB->where = 's.id = '.$this->seller['seller_id'].' and (b.bill_id = -1 or s.is_invoice = 1)';
         $sellerDB->fields = 'b.id, b.status';
         $this->data = $sellerDB->find();
         
