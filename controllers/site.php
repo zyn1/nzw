@@ -506,6 +506,7 @@ class Site extends IController
 			exit;
 		}
 
+        $specJSON[0]['value'] = urldecode($specJSON[0]['value']);
 		//获取货品数据
 		$tb_products = new IModel('products');
 		$procducts_info = $tb_products->getObj("goods_id = ".$goods_id." and spec_array = '".JSON::encode($specJSON)."'");

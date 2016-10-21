@@ -73,6 +73,30 @@ class Simple extends IController
     		Util::showMessage($result);
     	}
     }
+    
+    //用户注册验证数据可用性
+    function verifyAbled()
+    {
+        $tableName = IReq::get('tableName');
+        $fields = IReq::get('fields');
+        $value = IReq::get('value');
+        $DB = new IModel($tableName);
+        if($value && $row = $DB->getObj($fields." = '".$value."'"))
+        {
+            if(($fields == 'email' && $row['status'] <> 3) || $fields <> 'email')
+            {
+                echo 0;
+            }
+            else
+            {
+                echo 1;
+            }
+        }
+        else
+        {
+            echo 1;
+        }
+    }
 
     //用户登录
     function login_act()
