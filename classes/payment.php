@@ -170,33 +170,51 @@ class Payment
 			//订单批量结算缓存机制
 			Order_Class::setBatch($payment['M_OrderNO'],$M_OrderNO);
 		}
-		else if($type == 'recharge')
+        else if($type == 'recharge')
+        {
+            if(IWeb::$app->getController()->user['user_id'] == null)
+            {
+                IError::show(403,'请登录系统');
+            }
+
+            if(!isset($argument['account']) || $argument['account'] <= 0)
+            {
+                IError::show(403,'请填入正确的充值金额');
+            }
+
+            $rechargeObj = new IModel('online_recharge');
+            $reData      = array(
+                'user_id'     => IWeb::$app->getController()->user['user_id'],
+                'recharge_no' => Order_Class::createOrderNum(),
+                'account'     => $argument['account'],
+                'time'        => ITime::getDateTime(),
+                'payment_name'=> $argument['paymentName'],
+                'type'        => 1
+            );
+            $rechargeObj->setData($reData);
+            $r_id = $rechargeObj->add();
+
+            //充值时用户id跟随交易号一起发送
+            $payment['M_OrderNO'] = 'recharge'.$reData['recharge_no'];
+            $payment['M_OrderId'] = $r_id;
+            $payment['M_Amount']  = $reData['account'];
+        }
+		else if($type == 'service')
 		{
-			if(IWeb::$app->getController()->user['user_id'] == null)
-			{
-				IError::show(403,'请登录系统');
-			}
-
-			if(!isset($argument['account']) || $argument['account'] <= 0)
-			{
-				IError::show(403,'请填入正确的充值金额');
-			}
-
-			$rechargeObj = new IModel('online_recharge');
-			$reData      = array(
-				'user_id'     => IWeb::$app->getController()->user['user_id'],
-				'recharge_no' => Order_Class::createOrderNum(),
-				'account'     => $argument['account'],
-				'time'        => ITime::getDateTime(),
-				'payment_name'=> $argument['paymentName'],
-			);
-			$rechargeObj->setData($reData);
-			$r_id = $rechargeObj->add();
-
-			//充值时用户id跟随交易号一起发送
-			$payment['M_OrderNO'] = 'recharge'.$reData['recharge_no'];
+            $rechargeObj = new IModel('online_recharge');
+            $reData      = array(
+                'user_id'     => $argument['seller_id'],
+                'recharge_no' => Order_Class::createOrderNum(),
+                'account'     => $argument['account'],
+                'time'        => ITime::getDateTime(),
+                'payment_name'=> $argument['paymentName'],
+                'type'        => 2
+            );
+            $rechargeObj->setData($reData);
+            $r_id = $rechargeObj->add();
+			$payment['M_OrderNO'] = 'service'.$reData['recharge_no'];
 			$payment['M_OrderId'] = $r_id;
-			$payment['M_Amount']  = $reData['account'];
+            $payment['M_Amount']  = $reData['account'];
 		}
 
 		$siteConfigObj = new Config("site_config");
@@ -215,7 +233,7 @@ class Payment
 		return $payment;
 	}
 
-	//更新在线充值
+	//更新在线充值/开店服务费在线支付
 	public static function updateRecharge($recharge_no)
 	{
 		$rechargeObj = new IModel('online_recharge');
@@ -224,7 +242,6 @@ class Payment
 		{
 			return false;
 		}
-
 		if($rechargeRow['status'] == 1)
 		{
 			return true;
@@ -242,16 +259,34 @@ class Payment
 			return false;
 		}
 
-		$money   = $rechargeRow['account'];
-		$user_id = $rechargeRow['user_id'];
+        if($rechargeRow['type'] == 1)
+        {
+		    $money   = $rechargeRow['account'];
+		    $user_id = $rechargeRow['user_id'];
 
-		$log = new AccountLog();
-		$config=array(
-			'user_id'  => $user_id,
-			'event'    => 'recharge',
-			'note'     => '用户['.$user_id.']在线充值',
-			'num'      => $money,
-		);
-		return $log->write($config);
+		    $log = new AccountLog();
+		    $config=array(
+			    'user_id'  => $user_id,
+			    'event'    => 'recharge',
+			    'note'     => '用户['.$user_id.']在线充值',
+			    'num'      => $money,
+		    );
+		    return $log->write($config);
+        }
+        else
+        {
+            $sellerObj = new IModel('seller');
+            $data = array('is_pay' =>1);
+            $sellerObj->setData($data);
+            $result = $sellerObj->update('id = "'.$rechargeRow['user_id'].'"');
+            if($result == '')
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
 	}
 }

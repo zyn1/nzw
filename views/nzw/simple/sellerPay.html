@@ -1,0 +1,21 @@
+{set:$seller_id = $this->seller_id;}
+<section class="prompt_page success">
+	<i class="ico"></i>
+	<article>
+        <form action='{url:/block/doPay}' method='post'>
+            <input type="hidden" name="sId" value="{$seller_id}">
+            选择付款方式：
+		    <select name="payment_id">
+                {foreach:items = Api::run('getPaymentListByOnline')}
+                {set:$paymentPrice = CountSum::getGoodsPaymentPrice($item['id'],770);}
+                <option value="{$item['id']}">{$item['name']}，手续费：{if:$item['poundage_type']==2}￥{$item['poundage']}{else:}{$item['poundage']}%{/if}</option>
+                {/foreach}
+            </select>
+            <label class="gobank_pay_btn">
+                <input type="submit">
+                <span>立即支付</span>
+            </label>
+        </form>
+	</article>
+</section>
+
