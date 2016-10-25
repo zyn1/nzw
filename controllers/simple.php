@@ -270,12 +270,12 @@ class Simple extends IController
     	//返回值
     	$this->final_sum = $result['final_sum'];
     	$this->promotion = $result['promotion'];
-    	$this->proReduce = $result['proReduce'];
+    	//$this->proReduce = $result['proReduce'];
     	$this->sum       = $result['sum'];
     	$this->goodsList = $result['goodsList'];
     	$this->count     = $result['count'];
-    	$this->reduce    = $result['reduce'];
-    	$this->weight    = $result['weight'];
+    	//$this->reduce    = $result['reduce'];
+    	//$this->weight    = $result['weight'];
 
 		//渲染视图
     	$this->redirect('cart',$redirect);
@@ -342,13 +342,38 @@ class Simple extends IController
     			$this->redirect($url);
     		}
     	}
+        
+        //游客的user_id默认为0
+        $user_id = ($this->user['user_id'] == null) ? 0 : $this->user['user_id'];
+        $checked = IReq::get('sub');
+        $cartData = array();
+        //计算商品
+        $countSumObj = new CountSum($user_id);
+        if($id && $type)
+        {
+            $result = $countSumObj->cart_count($id,$type,$buy_num,$promo,$active_id);
+        }
+        else if(empty($checked))
+        {
+            $this->redirect('cart');
+        }
+        else
+        {
+            $goodsdata = $_POST;
+            foreach($checked as $key=>$val){//转换成购物车的数据结构
+                $tem = explode('-',$val);
+                if(isset($goodsdata[$val]))
+                {
+                    $cartData[$tem[0]]['id'][] = intval($tem[1]);
+                    $cartData[$tem[0]]['data'][intval($tem[1])] = array('count' => intval($goodsdata[$val]));
+                    $cartData[$tem[0]]['data']['count'] = intval($goodsdata[$val]);
+                }
+            }
+            $result = $countSumObj->cart_count($id,$type,$buy_num,$promo,$active_id,$cartData);   
+        }     
+        //计算购物车中的商品价格
+        //$result = $countSumObj->cart_count($cartData);
 
-		//游客的user_id默认为0
-    	$user_id = ($this->user['user_id'] == null) ? 0 : $this->user['user_id'];
-
-		//计算商品
-		$countSumObj = new CountSum($user_id);
-		$result = $countSumObj->cart_count($id,$type,$buy_num,$promo,$active_id);
 
 		if($countSumObj->error)
 		{
