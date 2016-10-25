@@ -305,7 +305,7 @@ class CountSum
 	}
 
 	//购物车计算
-	public function cart_count($id = '',$type = '',$buy_num = 1,$promo='',$active_id='')
+	public function cart_count($id = '',$type = '',$buy_num = 1,$promo='',$active_id='', $buyInfo = array())
 	{
 		//单品购买
 		if($id && $type)
@@ -327,7 +327,7 @@ class CountSum
     			$type => array('id' => array($id),'data' => array($id => array('count' => $buy_num)),'count' => $buy_num)
     		);
 		}
-		else
+		else if(empty($buyInfo))
 		{
 			//获取购物车中的商品和货品信息
 	    	$cartObj = new Cart();
