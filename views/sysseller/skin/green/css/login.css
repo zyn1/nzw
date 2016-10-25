@@ -126,3 +126,19 @@ footer{
 .btn.btn-block.btn-info {
 	height: 37px;
 }
+
+
+
+/* 商家密码找回 */
+.form-control.smsver{
+	width: 165px;
+	float: left;
+}
+.form-control.getcode{
+	width: 100px;
+	text-align: center;
+	position: relative;
+	left: 5px;
+	background: #ececec;
+	cursor: pointer;
+}
