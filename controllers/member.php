@@ -642,7 +642,7 @@ class Member extends IController implements adminAuthorization
 		$province    = IFilter::act(IReq::get('province'),'int');
 		$city        = IFilter::act(IReq::get('city'),'int');
 		$area        = IFilter::act(IReq::get('area'),'int');
-		$cash        = IFilter::act(IReq::get('cash'),'float');
+		//$cash        = IFilter::act(IReq::get('cash'),'float');
 		$is_vip      = IFilter::act(IReq::get('is_vip'),'int');
         $is_lock     = IFilter::act(IReq::get('is_lock'),'int');
         $is_recomm   = IFilter::act(IReq::get('is_recomm'),'int');
@@ -651,7 +651,8 @@ class Member extends IController implements adminAuthorization
 		$account     = IFilter::act(IReq::get('account'));
 		$server_num  = IFilter::act(IReq::get('server_num'));
 		$home_url    = IFilter::act(IReq::get('home_url'));
-		$sort        = IFilter::act(IReq::get('sort'),'int');
+        $sort        = IFilter::act(IReq::get('sort'),'int');
+		$is_pay      = IFilter::act(IReq::get('is_pay'),'int');
 
 		if(!$seller_id && $password == '')
 		{
@@ -695,13 +696,14 @@ class Member extends IController implements adminAuthorization
             'is_lock'   => $is_lock,
             'is_recomm' => $is_recomm,
 			'is_invoice' => $is_invoice,
-			'cash'      => $cash,
+			//'cash'      => $cash,
 			'province'  => $province,
 			'city'      => $city,
 			'area'      => $area,
 			'server_num'=> $server_num,
 			'home_url'  => $home_url,
 			'sort'      => $sort,
+            'is_pay'    => $is_pay
 		);
 
 		//商户资质上传

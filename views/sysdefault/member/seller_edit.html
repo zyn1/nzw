@@ -55,10 +55,10 @@
 							{/if}
 						</td>
 					</tr>
-					<tr>
+					<!--<tr>
 						<th>保证金数额：</th>
 						<td><input type="text" class="normal" name="cash" pattern="float" empty /><label>人民币（元）</label></td>
-					</tr>
+					</tr>-->
 					<tr>
 						<th>收款账号：</th>
 						<td><textarea class="normal" name="account" empty></textarea><label>标明开户行，卡号，账户名称等</label></td>
@@ -120,11 +120,18 @@
                             <label class='attr'><input type='radio' name='is_recomm' value='1' />是</label>
                         </td>
                     </tr>
+                    <tr>
+                        <th>是否已开发票：</th>
+                        <td>
+                            <label class='attr'><input type='radio' name='is_invoice' value='0' checked='checked' />否</label>
+                            <label class='attr'><input type='radio' name='is_invoice' value='1' />是</label>
+                        </td>
+                    </tr>
 					<tr>
-						<th>是否已开发票：</th>
+						<th>是否已支付：</th>
 						<td>
-							<label class='attr'><input type='radio' name='is_invoice' value='0' checked='checked' />否</label>
-							<label class='attr'><input type='radio' name='is_invoice' value='1' />是</label>
+							<label class='attr'><input type='radio' name='is_pay' value='0' checked='checked' />否</label>
+							<label class='attr'><input type='radio' name='is_pay' value='1' />是</label>
 						</td>
 					</tr>
 					<tr>

@@ -591,7 +591,9 @@ class Ucenter extends IController implements userAuthorization
 
     	$dataArray = array(
     		'name'   => IFilter::act( IReq::get('name','post') ,'string'),
-    		'note'   => IFilter::act( IReq::get('note','post'), 'string'),
+            'note'   => IFilter::act( IReq::get('note','post'), 'string'),
+            'bank'   => IFilter::act( IReq::get('bank','post'), 'string'),
+    		'account'=> IFilter::act( IReq::get('account','post'), 'string'),
 			'amount' => $amount,
 			'user_id'=> $user_id,
 			'time'   => ITime::getDateTime(),
@@ -861,9 +863,13 @@ class Ucenter extends IController implements userAuthorization
     	$return['order_no']   = IReq::get('order_no');
     	$return['return_url'] = IReq::get('return_url');
     	$sign                 = IReq::get('sign');
-    	if(stripos($return['order_no'],'recharge') !== false)
+        if(stripos($return['order_no'],'recharge') !== false)
+        {
+            IError::show(403,'余额支付方式不能用于在线充值');
+        }
+    	if(stripos($return['order_no'],'service') !== false)
     	{
-    		IError::show(403,'余额支付方式不能用于在线充值');
+    		IError::show(403,'余额不能用于支付开店服务费');
     	}
 
     	if(floatval($return['total_fee']) < 0 || $return['order_no'] == '' || $return['return_url'] == '' || $return['attach'] == '')

@@ -50,50 +50,43 @@
 <section class="user_form">
 	<form action='{url:/ucenter/withdraw_act}' method='post' name='withdraw'>
 		<dl>
-			<dt>收款人姓名：</dt>
+			<dt>持卡人姓名：</dt>
 			<dd>
-				<input type="text" class="input_text" name='name' pattern='required' alt='请填写真实的收款人姓名' />
-				<span><i class='red'>*</i> 填写收款人真实的姓名</span>
+				<input type="text" class="input_text" name='name' pattern='required' alt='请填写真实的持卡人姓名' />
+				<span><i class='red'>*</i> 填写持卡人真实的姓名</span>
 			</dd>
 		</dl>
 		<dl>
 			<dt>提现金额：</dt>
 			<dd>
-				<input type="text" class="input_text" name='amount' pattern='float' alt='填写体现金额' />
+				<input type="text" class="input_text" name='amount' pattern='float' max-value="{$this->memberRow['balance']}" alt='填写体现金额' />
 				<span><i class='red'>*</i> 要提现的金额，此数值不得大于当前的账户余额</span>
 			</dd>
 		</dl>
 		<dl>
 			<dt>开户银行：</dt>
 			<dd>
-				<input type="text" class="input_text" name='amount' pattern='float' alt='填写体现金额' />
+				<input type="text" class="input_text" name='bank' pattern='required' alt='填写开户银行' />
 				<span><i class='red'>*</i> 填写开户银行</span>
-			</dd>
-		</dl>
-		<dl>
-			<dt>持卡人姓名：</dt>
-			<dd>
-				<input type="text" class="input_text" name='amount' pattern='float' alt='填写体现金额' />
-				<span><i class='red'>*</i> 填写持卡人姓名</span>
 			</dd>
 		</dl>
 		<dl>
 			<dt>账号：</dt>
 			<dd>
-				<input type="text" class="input_text" name='amount' pattern='float' alt='填写体现金额' />
+				<input type="text" class="input_text" name='account' pattern='required' alt='填写银行账号' />
 				<span><i class='red'>*</i> 填写银行账号</span>
 			</dd>
 		</dl>
 		<dl>
 			<dt>备注：</dt>
 			<dd>
-				<textarea name='note' class="input_textarea" pattern='required' alt='填写一些必要的提现信息'></textarea><br />
+				<textarea name='note' class="input_textarea" alt='填写一些必要的提现信息'></textarea><br />
 				<span class="filinfo"><!-- <i class='red'>*</i> 填写必要的提现信息，如开户银行，帐号等 -->请填写备注信息</span>
 			</dd>
 		</dl>
 		<dl>
 			<dt></dt>
-			<dd><input class="input_submit" type="submit" value="确定提交" /></dd>
+			<dd><input class="input_submit" type="submit" value="确定提交" onclick='return checkForm()'/></dd>
 		</dl>
 	</form>
 </section>
@@ -104,6 +97,22 @@
 	formObj.init({
 		'name':'{$this->withdrawRow['name']}',
 		'note':'{$this->withdrawRow['note']}',
-		'amount':'{$this->withdrawRow['amount']}'
+        'amount':'{$this->withdrawRow['amount']}',
+        'bank':'{$this->withdrawRow['bank']}',
+        'account':'{$this->withdrawRow['account']}'
 	});
+    function checkForm(){
+        var amount = $('input[name=amount]').val();
+        var max = parseFloat($('input[name=amount]').attr('max-value'));
+        if(amount>max){
+            alert('要提现的金额不能大于当前的账户余额');
+            return false;
+        }
+        else if(amount < 0)
+        {
+            alert('要提现的金额必须大于零');
+            return false;
+        }
+        else return true;
+    }
 </script>

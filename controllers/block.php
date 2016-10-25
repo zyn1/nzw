@@ -181,9 +181,9 @@ class Block extends IController
 	{
 		//获得相关参数
 		$order_id   = IReq::get('order_id');
-		$recharge   = IReq::get('recharge');
+        $recharge   = IReq::get('recharge');
+		$seller_id   = IReq::get('sId');
 		$payment_id = IFilter::act(IReq::get('payment_id'),'int');
-
 		if($order_id)
 		{
 			$order_id = explode("_",IReq::get('order_id'));
@@ -218,6 +218,16 @@ class Block extends IController
 		{
 			$sendData = $paymentInstance->getSendData(Payment::getPaymentInfo($payment_id,'order',$order_id));
 		}
+        else if($seller_id)
+        {
+            $paymentRow = Payment::getPaymentById($payment_id);
+            
+            //account:服务费金额; seller_id:商家id; paymentName:支付方式名字
+            $siteConfigObj = new Config("site_config");
+            $site_config   = $siteConfigObj->getInfo();
+            $reData   = array('account' => isset($site_config['serviceAccount']) ? $site_config['serviceAccount'] : 770,'seller_id' => $seller_id , 'paymentName' => $paymentRow['name']);
+            $sendData = $paymentInstance->getSendData(Payment::getPaymentInfo($payment_id,'service',$reData));
+        }
 		else
 		{
 			IError::show(403,'发生支付错误');
@@ -256,16 +266,28 @@ class Block extends IController
 		if($return == 1)
 		{
 			//充值方式
-			if(stripos($orderNo,'recharge') !== false)
+            if(stripos($orderNo,'recharge') !== false)
+            {
+                $tradenoArray = explode('recharge',$orderNo);
+                $recharge_no  = isset($tradenoArray[1]) ? $tradenoArray[1] : 0;
+                if(payment::updateRecharge($recharge_no))
+                {
+                    $this->redirect('/site/success/message/'.urlencode("充值成功").'/?callback=/ucenter/account_log');
+                    return;
+                }
+                IError::show(403,'充值失败');
+            }
+            //商家服务费
+			else if(stripos($orderNo,'service') !== false)
 			{
-				$tradenoArray = explode('recharge',$orderNo);
+				$tradenoArray = explode('service',$orderNo);
 				$recharge_no  = isset($tradenoArray[1]) ? $tradenoArray[1] : 0;
 				if(payment::updateRecharge($recharge_no))
 				{
-					$this->redirect('/site/success/message/'.urlencode("充值成功").'/?callback=/ucenter/account_log');
+					$this->redirect('/site/success?message='.urlencode("申请成功！请耐心等待管理员的审核"));
 					return;
 				}
-				IError::show(403,'充值失败');
+				IError::show(403,'支付失败');
 			}
 			else
 			{
@@ -331,6 +353,16 @@ class Block extends IController
 					$paymentInstance->notifyStop();
 				}
 			}
+            //商家服务费
+            else if(stripos($orderNo,'service') !== false)
+            {
+                $tradenoArray = explode('service',$orderNo);
+                $recharge_no  = isset($tradenoArray[1]) ? $tradenoArray[1] : 0;
+                if(payment::updateRecharge($recharge_no))
+                {
+                    $paymentInstance->notifyStop();
+                }
+            }
 			else
 			{
 				//订单批量结算缓存机制

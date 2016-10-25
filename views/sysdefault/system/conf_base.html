@@ -264,9 +264,13 @@
 					<th>发票税率：</th>
 					<td><input type='text' name='tax' class='small' empty pattern='float' alt='请输入正确的整数或者浮点数' />% <label>当买家需要发票的时候就要增加<商品金额>*<税率>的费用</label></td>
 				</tr>
+                <tr>
+                    <th>商家结算手续费：</th>
+                    <td><input type='text' name='commission' class='small' empty pattern='float' alt='请输入正确的整数或者浮点数' />% <label>商家结算时，扣除<应结算总额>的百分比，最终商家结算金额为：<应结算总额> - <应结算总额> * <商家结算手续费></label></td>
+                </tr>
 				<tr>
-					<th>商家结算手续费：</th>
-					<td><input type='text' name='commission' class='small' empty pattern='float' alt='请输入正确的整数或者浮点数' />% <label>商家结算时，扣除<应结算总额>的百分比，最终商家结算金额为：<应结算总额> - <应结算总额> * <商家结算手续费></label></td>
+					<th>商家开店服务费：</th>
+					<td><input type='text' name='serviceAccount' class='small' empty pattern='float' alt='请输入正确的整数或者浮点数' /> <label>商家开店需要交纳的服务费</label></td>
 				</tr>
 				<tr>
 					<th>默认备货时间：</th>

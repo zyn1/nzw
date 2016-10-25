@@ -1356,6 +1356,10 @@ class Simple extends IController
 			'type'      => $type,
 			'is_lock'   => 1,
 		);
+        if($type == 2)
+        {
+            $sellerRow['is_pay'] = 1;
+        }
 
 		//商户资质、logo上传
 		if((isset($_FILES['paper_img']['name']) && $_FILES['paper_img']['name']) || (isset($_FILES['seller_logo']['name']) && $_FILES['seller_logo']['name']))
@@ -1379,7 +1383,7 @@ class Simple extends IController
 		$sellerRow['create_time'] = ITime::getDateTime();
 
 		$sellerDB->setData($sellerRow);
-		$sellerDB->add();
+		$seller_id = $sellerDB->add();
 
 		//短信通知商城平台
 		if($this->_siteConfig->mobile)
@@ -1388,9 +1392,35 @@ class Simple extends IController
 			$result = Hsms::send($this->_siteConfig->mobile,$content);
 		}
 
-		$this->redirect('/site/success?message='.urlencode("申请成功！请耐心等待管理员的审核"));
+        if($type == 1)
+        {
+            $this->redirect('/simple/sellerPay/sId/'.$seller_id);
+        }
+        else
+        {
+		    $this->redirect('/site/success?message='.urlencode("申请成功！请耐心等待管理员的审核"));
+        }
 	}
-
+    
+    //申请开店支付页面
+    function sellerPay()
+    {
+        $seller_id = IReq::get('sId');
+        $sellerDB = new IModel('seller');
+        if(!$sellerDB->getObj('id = '.$seller_id, 'id'))
+        {
+            IError::show(403,'没有此商家');
+        }
+        else if($sellerDB->getObj('id = '.$seller_id.' and is_pay = 1 and is_lock = 1', 'id'))
+        {
+            IError::show(403,'已支付服务费,请耐心等待管理员的审核');
+        }
+        else if($sellerDB->getObj('id = '.$seller_id.' and is_pay = 1 and is_lock = 0', 'id'))
+        {
+            $this->redirect('/site/home/id/'.$seller_id);
+        }
+        $this->redirect('sellerPay');
+    }
 	//添加地址ajax
 	function address_add()
 	{
