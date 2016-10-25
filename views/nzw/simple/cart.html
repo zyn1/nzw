@@ -16,7 +16,7 @@
 		<section class="cart_table addbor">
 			<h3 class="look_cart"><i class="icon-shopping-cart"></i>查看购物车</h3>
 			<table class="cart_deta">
-				<col width="115">
+				<col width="180">
 				<col>
 				<col width="120">
 				<col width="120">
@@ -34,7 +34,7 @@
                     {set:$item['type']=$type}
                     {set:$item_json = JSON::encode($item)}
 					<tr>
-						<td>
+						<td class="goods_img">
                         <input type='checkbox' name='sub[]' data-json='{$item_json}' value="{$type}-{$item['id']}" />
                         <img src="{url:/pic/thumb/img/$item['img']/w/66/h/66}" alt="{$item['name']}">
                         </td>
@@ -80,7 +80,7 @@
 				</tbody>
 			</table>
 			<div class="cart_btn">
-                <div><input id="ckAll" class="checks" type="checkbox"/>全部</div>
+                <div class="check_total"><input id="ckAll" class="checks" type="checkbox"/>全部</div>
 				<div class="clear_cart_btn" onclick="delModel({msg:'确定要清空购物车么？',link:'{url:/simple/clearCart}'});">
 					<span>清空购物车</span>
 				</div>
