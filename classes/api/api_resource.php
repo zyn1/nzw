@@ -178,8 +178,8 @@ return array(
 	    	'name'  => 'category_extend as ca',
 	    	'join'  => 'left join goods as go on go.id = ca.goods_id',
 	    	'where' => 'ca.category_id in(#categroy_id#) and go.is_del = 0',
-	    	'order' => 'go.sort asc',
-	    	'fields'=> 'go.id,go.name,go.img,go.sell_price,go.market_price',
+	    	'order' => 'go.sort asc,go.id desc',
+	    	'fields'=> 'distinct go.id,go.name,go.img,go.sell_price,go.market_price',
 	    	'limit' => 10,
 	    )
 	),
