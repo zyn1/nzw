@@ -371,9 +371,6 @@ class Simple extends IController
             }
             $result = $countSumObj->cart_count($id,$type,$buy_num,$promo,$active_id,$cartData);   
         }     
-        //计算购物车中的商品价格
-        //$result = $countSumObj->cart_count($cartData);
-
 
 		if($countSumObj->error)
 		{
@@ -463,7 +460,26 @@ class Simple extends IController
 
 		//获取商品数据信息
     	$countSumObj = new CountSum($user_id);
-		$goodsResult = $countSumObj->cart_count($gid,$type,$num,$promo,$active_id);
+        if($gid)
+        {
+            $goodsResult = $countSumObj->cart_count($gid,$type,$num,$promo,$active_id);
+        }
+		else
+        {
+            $goodsData     = IFilter::act(IReq::get('goods'));
+            if(count($goodsData)==0){$this->redirect('cart');return false;}
+            $cartData = array();
+            $delCart = array();
+            foreach($goodsData as $val){
+                $tem =explode('-',$val);
+                $cartData[$tem[0]]['id'][] = intval($tem[1]);
+                $cartData[$tem[0]]['data'][intval($tem[1])] = array('count' => intval($tem[2]));
+                $cartData[$tem[0]]['data']['count'] = intval($tem[2]);
+                $delCart[$tem[1]][] = $tem[0];
+            }
+            //计算购物车中的商品价格$goodsResult
+            $goodsResult = $countSumObj->cart_count($gid,$type,$num,$promo,$active_id,$cartData);
+        }
 
 		if($countSumObj->error)
 		{
@@ -541,10 +557,13 @@ class Simple extends IController
 			$takeself = 0;
 		}
 
-		if(!$gid)
+		if(!empty($delCart))
 		{
-			//清空购物车
-			IInterceptor::reg("cart@onFinishAction");
+            $cart = new Cart();
+            foreach($delCart as $k => $v)
+            {
+                $cart->del($k, $v);
+            }
 		}
 
     	//判断商品是否存在
