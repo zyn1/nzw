@@ -1,0 +1,67 @@
+{js:kindeditor}
+<article class="module width_full">
+    <header>
+        <h3 class="tabs_involved">{if:isset($brand['id'])}编辑{else:}添加{/if}品牌</h3>
+    </header>
+	<form action="{url:/seller/brand_save}" method="post" enctype='multipart/form-data'>
+		<div class="module_content">
+			<fieldset>
+				<label>品牌名称：</label>
+				<div class="box">
+                <input class="normal" name="name" type="text" value="{$name}" pattern="required" alt="品牌名称不能为空" />
+					<label>*</label>
+					<input name="brand_id" value="{$id}" type="hidden" />
+				</div>
+			</fieldset>
+			<fieldset>
+				<label>排序：</label>
+                <div class="box"><input class="normal" name="sort" type="text" value="{$sort}" pattern='int' empty alt='必需为整形数值'/></div>
+			</fieldset>
+			<fieldset>
+				<label>网址：</label>
+                <div class="box">
+                <input class="normal" name="url" type="text" value="{$url}" pattern='url' empty alt='网址格式不正确，比如：http://www.nz826.com' /><label>完整的URL链接地址，如：http://www.nz826.com</label></div>
+			</fieldset>
+			<fieldset>
+				<label>LOGO：</label>
+                <div class="box">{if:isset($logo) && $logo}<img src="{webroot:$logo}" height="60px"/><br />{/if}<input type='file' class='normal' name='logo'/></div>
+			</fieldset>
+			<fieldset>
+				<label>所属分类：</label>
+				<div class="box">
+					{query:name=brand_category}{/query}
+					{if:$items}
+					<ul class="select">
+						{foreach:items=$items}
+						<li><label><input type="checkbox" value="{$item['id']}" name="category[]" {if:isset($category_ids) && stripos(','.$category_ids.',',','.$item['id'].',') !== false}checked="checked"{/if} />{$item['name']}</label></li>
+						{/foreach}
+					</ul>
+					{else:}
+					系统暂无品牌分类，<a href='{url:/seller/category_list}' class='orange'>请点击添加</a>
+					{/if}
+				</div>
+			</fieldset>
+			<fieldset>
+				<label>描述：</label>
+                <td><textarea name="description" id="description" style="width:700px;height:400px;">{$description}</textarea></td>
+			</fieldset>
+		</div>
+        
+        <footer>
+            <div class="submit_link">
+                <input type="submit" class="alt_btn" value="确 定" />
+                <input type="reset" value="重 置" />
+            </div>
+        </footer>
+	</form>
+</article>
+
+<script type="text/javascript">
+$(function()
+{
+	//编辑器载入
+	KindEditor.ready(function(K){
+		K.create('#description');
+	});
+})
+</script>

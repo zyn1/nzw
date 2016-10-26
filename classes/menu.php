@@ -20,10 +20,10 @@ class Menu
 				'/goods/category_list'	=>	'分类列表',
 				'/goods/category_edit'	=>	'添加分类'
 			),
-			'品牌'=>array(
+			/*'品牌'=>array(
 				'/brand/category_list'  =>	'品牌分类',
 				'/brand/brand_list'		=>	'品牌列表'
-			),
+			),*/
 			'模型'=>array(
 				'/goods/model_list'=>'模型列表',
 				'/goods/spec_list'=>'规格列表',
