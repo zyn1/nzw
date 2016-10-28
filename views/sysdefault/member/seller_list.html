@@ -80,7 +80,8 @@ $where = $conditon ? " and ".$conditon : "";
 					<td>
 						<select onchange="changeStatus({$item['id']},this)">
 							<option value="0" {if:$item['is_lock'] == 0}selected="selected"{/if}>正常</option>
-							<option value="1" {if:$item['is_lock'] == 1}selected="selected"{/if}>待审核</option>
+                            <option value="1" {if:$item['is_lock'] == 1}selected="selected"{/if}>锁定</option>
+							 {if:$item['is_lock'] == 2}<option value="2" selected="selected">待审核</option>{/if}
 						</select>
 					</td>
 					<td title="{$item['create_time']}">{$item['create_time']}</td>
@@ -110,6 +111,9 @@ $(function(){
 function changeStatus(sid,obj)
 {
 	var lockVal = obj.value;
-	$.getJSON("{url:/member/ajax_seller_lock}",{"id":sid,"lock":lockVal});
+    if(lockVal != 2)
+    {
+	    $.getJSON("{url:/member/ajax_seller_lock}",{"id":sid,"lock":lockVal});
+    }
 }
 </script>

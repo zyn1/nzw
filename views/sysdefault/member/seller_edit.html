@@ -9,7 +9,9 @@
 	<div class="content form_content">
 		<form action="{url:/member/seller_add}" method="post" name="sellerForm" enctype='multipart/form-data'>
 			<input name="id" value="" type="hidden" />
-
+            {if:$this->sellerRow['is_lock'] == 2}
+            <input type="hidden" name="is_lock" value="2">
+            {/if}
 			<table class="form_table">
 				<colgroup>
 					<col width="150px" />
@@ -102,10 +104,17 @@
 						<th>是否开通：</th>
 						<td>
 							<label class='attr'><input type='radio' name='is_lock' value='0' checked='checked' />开通</label>
-							<label class='attr'><input type='radio' name='is_lock' value='1' />锁定</label>
+                            <label class='attr'><input type='radio' name='is_lock' value='1' />锁定</label>
+							<label class='attr'><input type='radio' name='is_lock' value='2' disabled="disabled" />新申请</label>
 							<label>锁定后商户无法登陆进行管理</label>
 						</td>
 					</tr>
+                    <tr>
+                        <th>审核意见：</th>
+                        <td>
+                            <textarea class="normal" name="suggest" empty maxlength="255"></textarea><label>不超过255个字符</label>
+                        </td>
+                    </tr>
                     <tr>
                         <th>是否VIP：</th>
                         <td>
