@@ -3,7 +3,7 @@ html {
     padding: 0;
 }
 body {
-    background: url("../images/login/bg.jpg") repeat scroll 0 0 rgba(0, 0, 0, 0);
+    background: url("../images/login/bg.jpg") repeat scroll 0 0 ;
     font-family: Arial,"Microsoft Yahei";
     margin: 0;
     padding: 0;
@@ -141,4 +141,18 @@ footer{
 	left: 5px;
 	background: #ececec;
 	cursor: pointer;
+}
+.form-horizontal .form-group .chanimg{
+    width: 100px;
+    margin: 1px 0 0 5px;
+    height: 33px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+.form-horizontal .form-group .verification{
+	margin: 15px 0 0 15px;
+}
+.form-horizontal .form-group .col-sm-12 .width {
+    margin-left: 15px;
+    width: 270px;
 }
