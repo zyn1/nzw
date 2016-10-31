@@ -1245,4 +1245,51 @@ class Ucenter extends IController implements userAuthorization
         $this->pay_pass = $pay_pass['pay_password'];
         $this->redirect('payPass_edit');
     }
+    
+    //修改支付密码--动作
+    public function payPass_update()
+    {
+        $user_id = $this->user['user_id'];
+        $memberObj       = new IModel('member');
+        $where           = 'user_id = '.$user_id;
+        $pay_pass = $memberObj->getObj($where, 'pay_password');
+        $this->pay_pass = $pay_pass['pay_password'];
+        $fpassword = IReq::get('fpassword');
+        $password = IReq::get('password');
+        $repassword = IReq::get('repassword');
+        if(!preg_match('|\w{6,32}|',$password))
+        {
+            $message = '密码格式不正确，请重新输入';
+        }
+        else if($password != $repassword)
+        {
+            $message  = '二次密码输入的不一致，请重新输入';
+        }
+        else if($pay_pass['pay_password'] && md5($fpassword) != $pay_pass['pay_password'])
+        {
+            $message  = '原始密码输入错误';
+        }
+        else
+        {
+            $passwordMd5 = md5($password);
+            $dataArray = array(
+                'pay_password' => $passwordMd5,
+            );
+
+            $memberObj->setData($dataArray);
+            $result  = $memberObj->update($where);
+            if($result)
+            {
+                $message = '支付密码设置成功';
+            }
+            else
+            {
+                $message = '支付密码设置失败';
+            }
+            $this->pay_pass = $passwordMd5;
+        }
+
+        $this->redirect('payPass_edit',false);
+        Util::showMessage($message);
+    }
 }
