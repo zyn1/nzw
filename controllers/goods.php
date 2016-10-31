@@ -222,7 +222,6 @@ class Goods extends IController implements adminAuthorization
 		{
 			die("没有找到相关商品！");
 		}
-
 		$this->setRenderData($data);
 		$this->redirect('goods_edit');
 	}

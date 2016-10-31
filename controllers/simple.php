@@ -1398,7 +1398,7 @@ class Simple extends IController
             'home_url'  => $home_url,
             'con_num'   => $con_num,
 			'type'      => $type,
-			'is_lock'   => 1,
+			'is_lock'   => 2,
 		);
         if($type == 2)
         {
@@ -1455,9 +1455,13 @@ class Simple extends IController
         {
             IError::show(403,'没有此商家');
         }
-        else if($sellerDB->getObj('id = '.$seller_id.' and is_pay = 1 and is_lock = 1', 'id'))
+        else if($sellerDB->getObj('id = '.$seller_id.' and is_pay = 1 and is_lock = 2', 'id'))
         {
             IError::show(403,'已支付服务费,请耐心等待管理员的审核');
+        }
+        else if($sellerDB->getObj('id = '.$seller_id.' and is_pay = 1 and is_lock = 1', 'id'))
+        {
+            IError::show(403,'已支付服务费,管理员审核未通过,请与管理员联系');
         }
         else if($sellerDB->getObj('id = '.$seller_id.' and is_pay = 1 and is_lock = 0', 'id'))
         {

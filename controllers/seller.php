@@ -1560,4 +1560,248 @@ class Seller extends IController implements sellerAuthorization
         $fapiao->add();
         $this->redirect('bill_fapiao_list');
     }
+    
+    /**
+     * @brief 品牌分类添加、修改
+     */
+    function category_edit()
+    {
+        $this->layout = '';
+        
+        $id        = IFilter::act(IReq::get('id'),'int');
+        $seller_id = $this->seller['seller_id'];
+        $category_info = array(
+            'id'                => '',
+            'name'              => '',
+            'goods_category_id' => '',
+            'seller_id'         => $seller_id,
+        );
+        //编辑品牌分类 读取品牌分类信息
+        
+        if($id)
+        {
+            $obj_brand_category = new IModel('brand_category');
+            $category_info = $obj_brand_category->getObj('id='.$id.' and seller_id = '.$seller_id);
+
+        }
+        $this->cateRow = $category_info;
+        $this->redirect('category_edit');
+    }
+
+    /**
+     * @brief 保存品牌分类
+     */
+    function category_save()
+    {
+        $id                = IFilter::act(IReq::get('id'),'int');
+        $goods_category_id = IFilter::act(IReq::get('goods_category_id'),'int');
+        $name              = IFilter::act(IReq::get('name'));
+        $seller_id         = $this->seller['seller_id'];
+
+        $category_info = array(
+            'name' => $name,
+            'goods_category_id' => $goods_category_id,
+            'seller_id' => $seller_id
+        );
+        $tb_brand_category = new IModel('brand_category');
+        $tb_brand_category->setData($category_info);
+
+        //更新品牌分类
+        if($id)
+        {
+            $where = "id=".$id;
+            $result = $tb_brand_category->update($where);
+        }
+        //添加品牌分类
+        else
+        {
+            $result = $tb_brand_category->add();
+        }
+        
+        //执行状态
+        if($result===false)
+        {
+            die( JSON::encode(array('flag' => 'fail','message' => '分类添加失败')) );
+        }
+        else
+        {
+            //获取自动增加ID
+            $editData['id'] = $id ? $id : $result;
+            die( JSON::encode(array('flag' => 'success','data' => $editData)) );
+        }
+    }
+
+    /**
+     * @brief 删除品牌分类
+     */
+    function category_del()
+    {
+        $category_id = IFilter::act(IReq::get('id'), 'int');
+        if($category_id)
+        {
+            $brand_category = new IModel('brand_category');
+            $brand = new IModel('brand');
+            if(is_array($category_id))
+            {
+                foreach($category_id as $k => $v)
+                {
+                    if($brand->query('FIND_IN_SET('.$v.',category_ids)', 'id'))
+                    {
+                        $message = "要删除的分类下还有品牌，请先处理相关品牌！";
+                        unset($category_id[$k]);
+                        break;
+                    }
+                }
+                if($category_id)
+                {
+                    $tem = implode(',', $category_id);
+                    $where = "id in (".$tem.") and seller_id = ".$this->seller['seller_id'];
+                }
+                else
+                {
+                    IError::show("要删除的分类下还有品牌，请先处理相关品牌！", 403);
+                }
+            }
+            else
+            {
+                if($brand->query('FIND_IN_SET('.$category_id.',category_ids)', 'id'))
+                {
+                    IError::show("要删除的分类下还有品牌，请先处理相关品牌！", 403);
+                }
+                $where = "id=".$category_id.' and seller_id = '.$this->seller['seller_id'];
+            }
+            if($brand_category->del($where))
+            {
+                if(isset($message))
+                {
+                    IError::show("要删除的分类下还有品牌，请先处理相关品牌！", 403);
+                }
+                $this->redirect('category_list');
+            }
+            else
+            {
+                $this->redirect('category_list');
+                IError::show("没有找到相关分类记录！", 403);
+            }
+        }
+        else
+        {
+            $this->redirect('category_list');
+            IError::show("没有找到相关分类记录！", 403);
+        }
+    }
+
+    /**
+     * @brief 修改品牌
+     */
+    function brand_edit()
+    {
+        $brand_id = (int)IReq::get('id');
+        $seller_id = $this->seller['seller_id'];
+        $brand_info = array();
+        //编辑品牌 读取品牌信息
+        if($brand_id)
+        {
+            $obj_brand = new IModel('brand');
+            $brand_info = $obj_brand->getObj('id='.$brand_id.' and seller_id = '.$seller_id);
+            if(!$brand_info)
+            {
+                $this->redirect('brand_list');
+                IError::show("没有找到相关品牌！", 403);
+            }
+        }
+        $this->setRenderData($brand_info);
+        $this->redirect('brand_edit',false);
+    }
+
+    /**
+     * @brief 保存品牌
+     */
+    function brand_save()
+    {
+        $brand_id = IFilter::act(IReq::get('brand_id'),'int');
+        $name = IFilter::act(IReq::get('name'));
+        $sort = IFilter::act(IReq::get('sort'),'int');
+        $url = IFilter::act(IReq::get('url'));
+        $category = IFilter::act(IReq::get('category'),'int');
+        $description = IFilter::act(IReq::get('description'),'text');
+        $seller_id = $this->seller['seller_id'];
+
+        $tb_brand = new IModel('brand');
+        $brand = array(
+            'name'=>$name,
+            'sort'=>$sort,
+            'url'=>$url,
+            'description' => $description,
+            'seller_id' => $seller_id
+        );
+
+        if($category && is_array($category))
+        {
+            $categorys = join(',',$category);
+            $brand['category_ids'] = $categorys;
+        }
+        else
+        {
+            $brand['category_ids'] = '';
+        }
+        if(isset($_FILES['logo']['name']) && $_FILES['logo']['name']!='')
+        {
+            $uploadObj = new PhotoUpload();
+            $uploadObj->setIterance(false);
+            $photoInfo = $uploadObj->run();
+            if(isset($photoInfo['logo']['img']) && file_exists($photoInfo['logo']['img']))
+            {
+                $brand['logo'] = $photoInfo['logo']['img'];
+            }
+        }
+        $tb_brand->setData($brand);
+        if($brand_id)
+        {
+            //保存修改分类信息
+            $where = "id=".$brand_id;
+            $tb_brand->update($where);
+        }
+        else
+        {
+            //添加新品牌
+            $tb_brand->add();
+        }
+        $this->redirect('brand_list');
+    }
+
+    /**
+     * @brief 删除品牌
+     */
+    function brand_del()
+    {
+        $brand_id = IFilter::act(IReq::get('id'), 'int');
+        if($brand_id)
+        {
+            $tb_brand = new IModel('brand');
+            if(is_array($brand_id))
+            {
+                $tem = implode(',',$brand_id);
+                $where = "id in (".$tem.') and seller_id = '.$this->seller['seller_id'];
+            }
+            else
+            {
+                $where = "id=".$brand_id.' and seller_id = '.$this->seller['seller_id'];
+            }
+            if($tb_brand->del($where))
+            {
+                $this->redirect('brand_list');
+            }
+            else
+            {
+                $this->redirect('brand_list');
+                IError::show("没有找到相关品牌！", 403);
+            }
+        }
+        else
+        {
+            $this->brand_list();
+            IError::show("没有找到相关品牌记录！", 403);
+        }
+    }
 }

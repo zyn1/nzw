@@ -15,7 +15,7 @@
 
 		<tbody>
 			{set:$page= (isset($_GET['page'])&&(intval($_GET['page'])>0))?intval($_GET['page']):1;}
-			{query: name=brand_category}
+			{query: name=brand_category where=seller_id eq 0}
 			<tr>
 				<td>{$item['name']}</td>
 				<td><a href="{url:/brand/category_edit/cid/$item[id]}"><img class="operator" src="{skin:images/admin/icon_edit.gif}" alt="修改" /></a>

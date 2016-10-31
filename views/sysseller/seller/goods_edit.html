@@ -175,7 +175,7 @@
 			<fieldset>
 				<label>规格</label>
 				<div class="box">
-					<input type="button" onclick="selSpec()" value="添加规格" />
+					<input class="alt_btn" type="button" onclick="selSpec()" value="添加规格" />
 				</div>
 			</fieldset>
 
@@ -183,7 +183,7 @@
 				<label>商品品牌</label>
 				<select name="brand_id">
 					<option value="0">请选择</option>
-					{query:name=brand}
+					{query:name=brand where=seller_id eq $seller_id}
 					<option value="{$item['id']}">{$item['name']}</option>
 					{/query}
 				</select>

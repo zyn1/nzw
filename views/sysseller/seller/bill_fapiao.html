@@ -28,7 +28,7 @@
                     <option value="0">请选择结算单</option>
                     {foreach:items=$this->billRow}
                     {set:$para = JSON::decode($item['para']);$commission = $para['commission']}
-                    <option value="{$item['id']}" js_data="{$commission}">{$item['apply_content']}</option>
+                    <option value="{$item['id']}" js_data="{$commission}">{$item['start_time']}~{$item['end_time']}</option>
                     {/foreach}
                     </select>
                 </div>

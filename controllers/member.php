@@ -652,7 +652,8 @@ class Member extends IController implements adminAuthorization
 		$server_num  = IFilter::act(IReq::get('server_num'));
 		$home_url    = IFilter::act(IReq::get('home_url'));
         $sort        = IFilter::act(IReq::get('sort'),'int');
-		$is_pay      = IFilter::act(IReq::get('is_pay'),'int');
+        $is_pay      = IFilter::act(IReq::get('is_pay'),'int');
+		$suggest      = IFilter::act(IReq::get('suggest'));
 
 		if(!$seller_id && $password == '')
 		{
@@ -739,18 +740,42 @@ class Member extends IController implements adminAuthorization
 			{
 				$sellerRow['password'] = md5($password);
 			}
+        
+            //查询商户原始开通状态
+            $data = $sellerDB->getObj('id = '.$seller_id, 'is_lock');
 
 			$sellerDB->setData($sellerRow);
 			$sellerDB->update("id = ".$seller_id);
+            $content = '';
+            if($data['is_lock'] == 2)
+            {
+                $title = "耐装网申请开店审核结果";
+                $content = $is_lock == 1 ? '未通过审核' : ($is_lock == 0 ? '审核通过' : '');
+            }
+            elseif($data['is_lock'] <> $is_lock)
+            {
+                $title = "耐装网";
+                $content = $is_lock == 1 ? '您的店铺被锁定' : '您的店铺已解锁';
+            }
+            if($content)
+            {
+                if($suggest)
+                {
+                    $msg = $content.',原因是：'.$suggest;
+                }
+                else
+                {
+                    $msg = $content;
+                }
+                $smtp   = new SendMail();
+                $result = $smtp->send($email,$title,$msg);
+                if($result===false)
+                {
+                    Util::showMessage("发信失败,请重试！或者联系管理员查看邮件服务是否开启");
+                }
+            }
+            
 		}
-        $content = $is_lock ? '未通过审核' : '审核通过';
-
-        $smtp   = new SendMail();
-        $result = $smtp->send($email,"耐装网申请开店审核结果",$content);
-        if($result===false)
-        {
-            Util::showMessage("发信失败,请重试！或者联系管理员查看邮件服务是否开启");
-        }
 		$this->redirect('seller_list');
 	}
 	/**

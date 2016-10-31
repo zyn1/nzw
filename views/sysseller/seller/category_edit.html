@@ -1,0 +1,40 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>品牌分类修改</title>
+<link rel="stylesheet" href="{skin:css/admin.css}" />
+{js:jquery}
+{js:dialog}
+{js:form}
+{js:validate}
+{js:artTemplate}
+</head>
+<body>
+<div class="content_box">
+	<div class="content form_content">
+		<form action="{url:/seller/category_save}" method="post" name="cateForm">
+            <input name="id" type="hidden" value="{$this->cateRow['id']}" />
+			<table class="form_table">
+				<col width="150px" />
+				<col />
+				<tr>
+					<th>分类名称：</th>
+					<td>
+						<input class="normal" name="name" type="text" value="{$this->cateRow['name']}" pattern="required" alt="分类名称不能为空" /><label>*</label>
+					</td>
+				</tr>
+				<tr>
+					<th>所属商品分类：</th>
+					<td>
+						<span id="__categoryBox" style="margin-bottom:8px"></span>
+						<button class="btn" type="button" name="_goodsCategoryButton"><span class="add">设置分类</span></button>
+						{set:plugin::trigger('goodsCategoryWidget',array("name" => "goods_category_id","value" => isset($this->cateRow['goods_category_id']) ? $this->cateRow['goods_category_id'] : ""))}
+					</td>
+				</tr>
+			</table>
+		</form>
+	</div>
+</div>
+</body>
+</html>

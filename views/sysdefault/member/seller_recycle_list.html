@@ -52,7 +52,7 @@
 					<td title="{$item['mobile']}">{$item['mobile']}</td>
 					<td title="{$item['sale']}">{$item['sale']}</td>
 					<td>{echo:$item['is_vip'] == 0 ? '否':'是'}</td>
-					<td>{echo:$item['is_lock'] == 0 ? '正常':'锁定'}</td>
+					<td>{echo:$item['is_lock'] == 0 ? '正常':($item['is_lock'] == 1 ? '锁定' : '待审核')}</td>
 					<td title="{$item['create_time']}">{$item['create_time']}</td>
 					<td>
 						<a href="{url:/member/seller_recycle_restore/id/$item[id]}"><img class="operator" src="{skin:images/admin/icon_recover.gif}" alt="恢复" /></a>

@@ -28,8 +28,10 @@ class menuSeller
 			"/seller/refer_list" => "商品咨询",*/
 			"/seller/comment_list" => "商品评价",
             "/seller/refundment_list" => "商品退款",
-			"/seller/change_list" => "换货列表",
-			"/seller/spec_list" => "规格列表",
+            "/seller/change_list" => "换货列表",
+            "/seller/spec_list" => "规格列表",
+			"/seller/category_list" => "品牌分类",
+			"/seller/brand_list" => "品牌列表",
 		),
 
 		"订单模块" => array(

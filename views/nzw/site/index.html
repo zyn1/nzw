@@ -204,7 +204,8 @@
             </div>
             <div class="floor_goods">
                 <ul>
-                    {foreach:items=Api::run('getCategoryExtendList',array('#categroy_id#',$first['id']),10)}
+                {set:$cateId=goods_class::catChild($first['id'])}
+                    {foreach:items=Api::run('getCategoryExtendList',array('#categroy_id#',$cateId),10)}
                     <li>
                         <a href="{url:/site/products/id/$item['id']}">
                             <img src="{url:/pic/thumb/img/$item['img']/w/170/h/170}">
