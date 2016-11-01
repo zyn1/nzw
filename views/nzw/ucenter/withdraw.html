@@ -48,7 +48,7 @@
 	<h3>申请提现</h3>
 </header>
 <section class="user_form">
-	<form action='{url:/ucenter/withdraw_act}' method='post' name='withdraw'>
+	<form action='#' method='post' name='withdraw' noComplate="true" class="js_validate_form">
 		<dl>
 			<dt>持卡人姓名：</dt>
 			<dd>
@@ -59,7 +59,7 @@
 		<dl>
 			<dt>提现金额：</dt>
 			<dd>
-				<input type="text" class="input_text" name='amount' pattern='float' max-value="{$this->memberRow['balance']}" alt='填写体现金额' />
+				<input type="text" class="input_text" name='amount' pattern='float' max_value="{$this->memberRow['balance']}" alt='填写提现金额' maxalt="提现金额不能大于账户余额"/>
 				<span><i class='red'>*</i> 要提现的金额，此数值不得大于当前的账户余额</span>
 			</dd>
 		</dl>
@@ -86,33 +86,44 @@
 		</dl>
 		<dl>
 			<dt></dt>
-			<dd><input class="input_submit" type="submit" value="确定提交" onclick='return checkForm()'/></dd>
+			<dd><input class="input_submit" type="submit" onclick="setTimeout(payPass, 1000)" value="确定提交"/></dd>
 		</dl>
 	</form>
 </section>
 
 
 <script type='text/javascript'>
-	var formObj = new Form('withdraw');
-	formObj.init({
-		'name':'{$this->withdrawRow['name']}',
-		'note':'{$this->withdrawRow['note']}',
-        'amount':'{$this->withdrawRow['amount']}',
-        'bank':'{$this->withdrawRow['bank']}',
-        'account':'{$this->withdrawRow['account']}'
-	});
-    function checkForm(){
+    //输入支付密码
+    function payPass()
+    {
+        var name = encodeURIComponent($('input[name=name]').val());
         var amount = $('input[name=amount]').val();
-        var max = parseFloat($('input[name=amount]').attr('max-value'));
-        if(amount>max){
-            alert('要提现的金额不能大于当前的账户余额');
-            return false;
-        }
-        else if(amount < 0)
+        var bank = encodeURIComponent($('input[name=bank]').val());
+        var account = encodeURIComponent($('input[name=account]').val());
+        var note = encodeURIComponent($('textarea[name=note]').val());
+        if($('.invalid-text').length == 0)
         {
-            alert('要提现的金额必须大于零');
-            return false;
+            art.dialog.open(creatUrl("block/payPass/name/"+name+"/amount/"+amount+'/bank/'+bank+'/account/'+account+'/note/'+note),
+            {
+                "id":"payPassWindow",
+                "title":"支付密码",
+                "width":380,
+                "ok":function(iframeWin, topWin){
+                    var formObject = iframeWin.document.forms[0];
+                    $.getJSON("{url:/ucenter/withdraw_act}",$(formObject).serialize(),function(content){
+                        if(content.result == false)
+                        {
+                            alert(content.msg);
+                            return;
+                        }
+                        window.location.reload();
+                    });
+                    return false;
+                },
+                "okVal":"确定",
+                "cancel":true,
+                "cancelVal":"取消",
+            });
         }
-        else return true;
     }
 </script>

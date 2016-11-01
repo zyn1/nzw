@@ -586,48 +586,61 @@ class Ucenter extends IController implements userAuthorization
     function withdraw_act()
     {
     	$user_id = $this->user['user_id'];
-    	$amount  = IFilter::act( IReq::get('amount','post') ,'float' );
+    	$amount  = IReq::get('amount');
     	$message = '';
 
     	$dataArray = array(
-    		'name'   => IFilter::act( IReq::get('name','post') ,'string'),
-            'note'   => IFilter::act( IReq::get('note','post'), 'string'),
-            'bank'   => IFilter::act( IReq::get('bank','post'), 'string'),
-    		'account'=> IFilter::act( IReq::get('account','post'), 'string'),
+    		'name'   => urldecode(IReq::get('name')),
+            'note'   => urldecode(IReq::get('note')),
+            'bank'   => urldecode(IReq::get('bank')),
+    		'account'=> urldecode(IReq::get('account')),
 			'amount' => $amount,
 			'user_id'=> $user_id,
 			'time'   => ITime::getDateTime(),
     	);
-
 		$mixAmount = 0;
 		$memberObj = new IModel('member');
 		$where     = 'user_id = '.$user_id;
-		$memberRow = $memberObj->getObj($where,'balance');
+		$memberRow = $memberObj->getObj($where,'balance,pay_password');
+        $result = array(
+                        'result' => false,
+                        'msg' => ''
+                    );
+        //验证支付密码
+        $pay_pwd = IReq::get('pay_pwd');
+        if(!$pay_pwd)
+        {
+            $result['msg'] = '请输入支付密码';
+        }
+        elseif(md5($pay_pwd) != $memberRow['pay_password'])
+        {
+            $result['msg'] = '支付密码输入错误';
+        }
 
 		//提现金额范围
-		if($amount <= $mixAmount)
+		elseif($amount <= $mixAmount)
 		{
-			$message = '提现的金额必须大于'.$mixAmount.'元';
+			$result['msg'] = '提现的金额必须大于'.$mixAmount.'元';
 		}
 		else if($amount > $memberRow['balance'])
 		{
-			$message = '提现的金额不能大于您的帐户余额';
+			$result['msg'] = '提现的金额不能大于您的帐户余额';
 		}
 		else
 		{
 	    	$obj = new IModel('withdraw');
 	    	$obj->setData($dataArray);
-	    	$obj->add();
-	    	$this->redirect('withdraw');
+	    	$res = $obj->add();
+            if($res)
+            {
+                $result['result'] = true;
+            }
+	    	else
+            {
+                $result['msg'] = '申请提现失败，请稍后再试';
+            }
 		}
-
-		if($message != '')
-		{
-			$this->memberRow = array('balance' => $memberRow['balance']);
-			$this->withdrawRow = $dataArray;
-			$this->redirect('withdraw',false);
-			Util::showMessage($message);
-		}
+        echo JSON::encode($result);
     }
 
     //[账户余额] 提现详情

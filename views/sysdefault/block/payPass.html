@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>输入支付密码</title>
+	<link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css">
+	{js:form}
+	{js:jquery}
+	{js:dialog}
+	{js:artTemplate}
+	{js:validate}
+</head>
+
+<body>
+<div class="container-fluid">
+	<form action="#" method="post" name="payPassForm" class="form-horizontal">
+        <input type="hidden" name="name" value="{echo:IReq::get('name')}">
+        <input type="hidden" name="amount" value="{echo:IReq::get('amount')}">
+        <input type="hidden" name="bank" value="{echo:IReq::get('bank')}">
+        <input type="hidden" name="account" value="{echo:IReq::get('account')}">
+        <input type="hidden" name="note" value="{echo:IReq::get('note')}">
+		<div class="form-group form-group-sm">
+			<label for="pay_pwd" class="control-label col-xs-4">支付密码：</label>
+			<div class="col-xs-8">
+				<input type='password' class='form-control' id='pay_pwd' placeholder="支付密码" name="pay_pwd" />
+			</div>
+		</div>
+        {if:!$this->payPass}
+        <div class="form-group form-group-sm">
+            <label for="pay_pwd" class="control-label col-xs-2"></label>
+            <div class="col-xs-9">
+                <a target="_parent" href="{url:/ucenter/payPass_edit}">为了您的账户安全，前先设置支付密码</a>
+            </div>    
+        </div>
+        {/if}
+	</form>
+</div>
+</body>
+</html>
