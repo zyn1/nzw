@@ -1376,6 +1376,7 @@ a .icon-rotate-90:before, a .icon-rotate-180:before, a .icon-rotate-270:before, 
 .cart_topay_btn:hover, .gobank_pay_btn:hover {  color: #fff; text-decoration: none; }
 
 .gobank_pay_btn { width: 120px; margin-top: 20px; }
+.gobank_pay_btn.sty{float: left; margin-top: 50px;}
 
 .cart_3_con { width: 1140px; margin: 20px auto; }
 .cart_3_con h3 { font-size: 14px; padding: 10px;border: 1px solid #e4e4e4;border-bottom: none; }
@@ -1762,9 +1763,14 @@ background-image: url("../image/icon_slides.png"); background-repeat: no-repeat;
 .prompt_page.error .ico { background: url("../image/cry.gif") center no-repeat; }
 .prompt_page.error strong { color: #ea5413; font-size: 16px; }
 .prompt_page.success { box-shadow: 0 0 5px #379339; }
+.prompt_page.bor{box-shadow: 0 0 5px #bfbfbf;border: 1px solid #E4E4E4;}
 .prompt_page.success .ico { background: url("../image/right.gif") center no-repeat; }
+.prompt_page.success .ico.pay { background: url("../image/ucenter/done.png") center no-repeat; }
 .prompt_page.success strong { color: #379339; font-size: 16px; }
 .prompt_page article { line-height: 2; display: table-cell; vertical-align: middle; height: 140px; }
+.prompt_page article.padtop{padding-top: 30px;}
+.prompt_page article .font_siz{font-size: 14px;font-weight: normal;}
+.select_pay{height: 30px;color: #555;line-height: 30px;text-align: center;}
 
 .seller_list { border: 1px solid #ddd; }
 .seller_list ul { padding-bottom: 18px; }
