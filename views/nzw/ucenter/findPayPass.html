@@ -1,0 +1,61 @@
+<link rel="stylesheet" href="{skin:style/css/ucenter/change_psw.css}">
+<header class="uc_head">
+	<h3>找回支付密码</h3>
+</header>
+
+<section class="user_form">
+ {set:$user_id = $this->user['user_id'];$member = new IModel('member');$mobile = $member->getObj('user_id = '.$user_id, 'mobile');}
+ <form action="{url:/ucenter/findPayPass2}" method="post">
+	<div class="prog_info">
+        {if:empty($mobile['mobile'])}
+        <p><a href="{url:/ucenter/info}">为了您的账户安全，请先完善手机号</a></p>
+        {else:}
+		<p>您当前绑定的手机号码：<i>{echo:substr_replace($mobile['mobile'],'****',3,4)}</i>&nbsp;&nbsp;&nbsp;<a href="{url:/ucenter/changePhone}">换绑手机号</a></p>
+        {/if}
+        <p class="form_t">
+            <label for="captcha">验证码：</label>
+            <input type="text" name="captcha" pattern='^\w{5,10}$' alt='填写图片所示的字符'>
+            <img src='{url:/simple/getCaptcha}' id='captchaImg' onclick="changeCaptcha();">
+        </p>
+		<p class="form_t">
+			<label for="phone_code">验证码：</label>
+            <input type="text" name="phone_code" pattern='^\w{4,6}$'>
+			<input class="toobn" type="button" value="获取短信验证码" onclick="sendMessage(this);">
+		</p>
+		<input class="next_steb" type="submit" value="下一步" style="border: 0;" />
+	</div>
+ </form>		
+</section>
+<script type="text/javascript">
+//发送短信码
+function sendMessage(_self)
+{
+    var captcha = $('[name="captcha"]').val();
+    $.get("{url:/ucenter/_sendMobileCode}",{"captcha":captcha, 'name':'findPassPhoneValidate'},function(content)
+    {
+        if(content != 'success')
+        {
+            alert(content);
+            $(_self).prop("disabled",false);
+        }
+        else
+        {
+            alert('发送成功')
+            times = 60;
+            timerHandle = setInterval(function(){
+                times--;
+                $(_self).val(times + "秒后再次发送");
+                $(_self).prop("disabled",true);
+                if(times <= 0)
+                {
+                    $(_self).prop("disabled",false);
+                    $(_self).val("获取短信验证码");
+                    clearInterval(timerHandle);
+                    times = 60;
+                }
+            },1000);
+        }
+    });
+}
+</script>
+

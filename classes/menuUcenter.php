@@ -14,7 +14,7 @@ class menuUcenter
 		"账户资金" => array(
 			"/ucenter/account_log" => "帐户余额",
             "/ucenter/online_recharge" => "在线充值",
-			/*"/ucenter/payPass_edit" => "管理支付密码",*/
+			"/ucenter/payPass_edit" => "管理支付密码",
 		),
 
 		"交易记录" => array(

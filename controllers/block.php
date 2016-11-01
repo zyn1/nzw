@@ -729,22 +729,61 @@ class Block extends IController
     //代金券弹出框
     public function ticket()
     {
-		$this->prop       = array();
-		$this->sellerInfo = IFilter::act(IReq::get('sellerString'));
-		$user_id          = $this->user['user_id'];
+        $this->prop       = array();
+        $this->sellerInfo = IFilter::act(IReq::get('sellerString'));
+        $user_id          = $this->user['user_id'];
 
-		//获取代金券
-		if($user_id)
-		{
-			$memberObj = new IModel('member');
-			$memberRow = $memberObj->getObj('user_id = '.$user_id,'prop');
+        //获取代金券
+        if($user_id)
+        {
+            $memberObj = new IModel('member');
+            $memberRow = $memberObj->getObj('user_id = '.$user_id,'prop');
 
-			if(isset($memberRow['prop']) && ($propId = trim($memberRow['prop'],',')))
-			{
-				$porpObj = new IModel('prop');
-				$this->prop = $porpObj->query('id in ('.$propId.') and NOW() between start_time and end_time and type = 0 and is_close = 0 and is_userd = 0 and is_send = 1');
-			}
-		}
-		$this->redirect('ticket');
+            if(isset($memberRow['prop']) && ($propId = trim($memberRow['prop'],',')))
+            {
+                $porpObj = new IModel('prop');
+                $this->prop = $porpObj->query('id in ('.$propId.') and NOW() between start_time and end_time and type = 0 and is_close = 0 and is_userd = 0 and is_send = 1');
+            }
+        }
+        $this->redirect('ticket');
+    }
+    
+    //输入支付密码弹框
+    public function payPass()
+    {
+        $user_id = $this->user['user_id'];
+        $memberObj       = new IModel('member');
+        $where           = 'user_id = '.$user_id;
+        $pay_pass = $memberObj->getObj($where, 'pay_password');
+        $this->payPass = $pay_pass['pay_password'];
+        $this->redirect('payPass');
+    }
+    
+    //验证支付密码
+    public function validatePayPass()
+    {
+        $user_id = $this->user['user_id'];
+        $memberObj       = new IModel('member');
+        $where           = 'user_id = '.$user_id;
+        $memberRow = $memberObj->getObj($where, 'pay_password');
+        $result = array(
+                        'result' => false,
+                        'msg' => ''
+                    );
+        //验证支付密码
+        $pay_pwd = IReq::get('pay_pwd');
+        if(!$pay_pwd)
+        {
+            $result['msg'] = '请输入支付密码';
+        }
+        elseif(md5($pay_pwd) != $memberRow['pay_password'])
+        {
+            $result['msg'] = '支付密码输入错误';
+        }
+        else
+        {
+            $result['result'] = true;
+        }
+        echo JSON::encode($result);
     }
 }

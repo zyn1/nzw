@@ -1,6 +1,6 @@
 
 <header class="uc_head">
-	<h3>密码管理</h3>
+	<h3>支付密码管理</h3>
 </header>
 <section class="user_form">
 	<form action='{url:/ucenter/payPass_update}' method='post'>
@@ -8,53 +8,51 @@
         <dl>
             <dt>原支付密码：</dt>
             <dd>
-                <input class="input_text" name='fpassword' type="password" pattern="required" alt="请输入原支付密码">
+                <input class="input_text" name='fpassword' type="password" pattern="required" alt="请输入原支付密码" autocomplete="off">
                 <span>原支付密码</span>
             </dd>
         </dl>
 		<dl>
-			<dt>账号登录密码：</dt>
-			<dd>
-				<input class="input_text" name='fpassword' type="password" pattern="required" alt="请输入账号登录密码">
-				<span>账号登录密码</span>
-			</dd>
-		</dl>
-		<dl>
 			<dt>新支付密码：</dt>
 			<dd>
-				<input class="input_text" type="password" name='password' pattern="^\S{6,32}$" bind='repassword' alt='密码由英文字母、数字组成，长度6-32位'>
+				<input class="input_text" type="password" name='password' pattern="^\S{6,32}$" bind='repassword' alt='密码由英文字母、数字组成，长度6-32位' autocomplete="off">
 				<span>密码由英文字母、数字组成，长度6-32位</span>
 			</dd>
 		</dl>
 		<dl>
 			<dt>确认支付密码：</dt>
 			<dd>
-				<input class="input_text" type="password" name='repassword' pattern="^\S{6,32}$" bind='password' alt='重复上面所填写的密码'>
+				<input class="input_text" type="password" name='repassword' pattern="^\S{6,32}$" bind='password' alt='重复上面所填写的密码' autocomplete="off">
 				<span>重复上面所填写的密码</span>
 			</dd>
 		</dl>
 		<dl>
 			<dt></dt>
-			<dd><input class="input_submit" type="submit" value="修改密码" /></dd>
+			<dd>
+                <input class="input_submit" type="submit" value="修改密码" />
+                <a href="{url:/ucenter/findPayPass}">找回支付密码</a>
+            </dd>
 		</dl>
         {else:}
         <dl>
             <dt>设置支付密码：</dt>
             <dd>
-                <input class="input_text" type="password" name='password' pattern="^\S{6,32}$" bind='repassword' alt='密码由英文字母、数字组成，长度6-32位'>
+                <input class="input_text" type="password" name='password' pattern="^\S{6,32}$" bind='repassword' alt='密码由英文字母、数字组成，长度6-32位' autocomplete="off">
                 <span>密码由英文字母、数字组成，长度6-32位</span>
             </dd>
         </dl>
         <dl>
             <dt>确认支付密码：</dt>
             <dd>
-                <input class="input_text" type="password" name='repassword' pattern="^\S{6,32}$" bind='password' alt='重复上面所填写的密码'>
+                <input class="input_text" type="password" name='repassword' pattern="^\S{6,32}$" bind='password' alt='重复上面所填写的密码' autocomplete="off">
                 <span>重复上面所填写的密码</span>
             </dd>
         </dl>
         <dl>
             <dt></dt>
-            <dd><input class="input_submit" type="submit" value="设置密码" /></dd>
+            <dd>
+                <input class="input_submit" type="submit" value="设置密码" /> 
+            </dd>
         </dl>
         {/if}
 	</form>
