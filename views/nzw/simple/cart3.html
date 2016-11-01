@@ -36,12 +36,21 @@
 		<!--不是货到付款并且支付方式为线上支付-->
 		{if:$this->deliveryType != 1  && $this->paymentType == 1}
 		{set:$tmpId=$this->order_id;}
+        {if:$pay_type == 1}
+        <form action='' method='post' target='_blank' onsubmit="return false;">
+            <label class="gobank_pay_btn" onclick="payPass();" >
+                <input type="submit">
+                <span>立即支付</span>
+            </label>
+        </form>
+        {else:}
 		<form action='{url:/block/doPay/order_id/$tmpId}' method='post' target='_blank'>
 			<label class="gobank_pay_btn" onclick="return dopay();" >
 				<input type="submit">
 				<span>立即支付</span>
 			</label>
 		</form>
+        {/if}
 		{/if}
 	</div>
 </section>
@@ -57,6 +66,28 @@ $(function(){
 	});
 });
 function dopay(){
-	confirm('支付是否成功',"window.location.href='{url:/ucenter/order}';");
+    confirm('支付是否成功',"window.location.href='{url:/ucenter/order}';");
+}
+function payPass(){
+	art.dialog.open(creatUrl("block/payPass"),
+    {
+        "id":"payPassWindow",
+        "title":"支付密码",
+        "width":380,
+        "ok":function(iframeWin, topWin){
+            var formObject = iframeWin.document.forms[0];
+            $.getJSON("{url:/block/validatePayPass}",$(formObject).serialize(),function(content){
+                if(content.result == false)
+                {
+                    alert(content.msg);
+                    return;
+                }
+                window.location.href="{url:/block/doPay/order_id/$tmpId}";
+            });
+        },
+        "okVal":"确定",
+        "cancel":true,
+        "cancelVal":"取消",
+    });
 }
 </script>

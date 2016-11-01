@@ -25,7 +25,7 @@
 
 		{if:$orderStatus == 2}
 		<label class="btn btn_green">
-			<input type="button" value="立即付款" onclick="window.location.href='{url:/block/doPay/order_id/$this->order_info['order_id']}'" />
+			<input type="button" value="立即付款" {if:$this->order_info['pay_type'] == 1} onclick="payPass();" {else:} onclick="window.location.href='{url:/block/doPay/order_id/$this->order_info['order_id']}'" {/if} />
 		</label>
 		{/if}
 
@@ -221,5 +221,27 @@ function freightLine(doc_id){
 	var urlVal = "{url:/block/freight/id/@id@}";
 	urlVal = urlVal.replace("@id@",doc_id);
 	art.dialog.open(urlVal,{'title':'轨迹查询',width:'600px',height:'500px'});
+}
+function payPass(){
+    art.dialog.open(creatUrl("block/payPass"),
+    {
+        "id":"payPassWindow",
+        "title":"支付密码",
+        "width":380,
+        "ok":function(iframeWin, topWin){
+            var formObject = iframeWin.document.forms[0];
+            $.getJSON("{url:/block/validatePayPass}",$(formObject).serialize(),function(content){
+                if(content.result == false)
+                {
+                    alert(content.msg);
+                    return;
+                }
+                window.location.href="{url:/block/doPay/order_id/$this->order_info['order_id']}";
+            });
+        },
+        "okVal":"确定",
+        "cancel":true,
+        "cancelVal":"取消",
+    });
 }
 </script>
