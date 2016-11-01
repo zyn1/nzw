@@ -1467,6 +1467,7 @@ class Simple extends IController
         {
             $this->redirect('/site/home/id/'.$seller_id);
         }
+        $this->seller_id = $seller_id;
         $this->redirect('sellerPay');
     }
 	//添加地址ajax
