@@ -1,7 +1,6 @@
 {js:my97date}
 {set:$seller_id = $this->seller['seller_id']}
-{set:$siteConfigData = new Config('site_config');$commissionPer = $siteConfigData->commission ? $siteConfigData->commission : 0;}
-
+{set:$siteConfigData = new Config('site_config');$commissionPer = $siteConfigData->commission ? $siteConfigData->commission : 0;$date=date('Y-m-d');}
 <article class="module width_full">
 	<header>
 		<h3 class="tabs_involved">货款结算单编辑</h3>
@@ -13,8 +12,8 @@
 			<fieldset>
 				<label>结算货款起止时间：</label>
 				<div class="box">
-					<input type='text' class="normal" name='start_time' readonly="readonly" pattern='date' onFocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" alt='请填写开始日期' title="请填写开始日期" />
-					<input type='text' class="normal" name='end_time' readonly="readonly" pattern='date' onFocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" alt='请填写结束日期' title="请填写结束日期" />
+					<input type='text' class="normal" name='start_time' readonly="readonly" pattern='date' onFocus="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'{$date}',disabledDates:['0[2-9]$','1[0-5]$','1[7-9]$','2[0-9]$','3[0-1]$']})" alt='请填写开始日期' title="请填写开始日期" />
+					<input type='text' class="normal" name='end_time' readonly="readonly" pattern='date' onFocus="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'{$date}',disabledDates:['0[1-9]$','1[0-4]$','1[6-9]$','2[0-9]$']})" alt='请填写结束日期' title="请填写结束日期" />
 					<input class="btn" type="button" value="点击计算结算明细" id="checkButton" onclick="checkoutFee();" />
 				    <label class="tip">根据选择的日期系统会自动生成结算详情报告，商家必须发货且用户必须收货后才会有统计数据</label>
                 </div>
@@ -112,21 +111,33 @@ function checkoutFee()
 {
 	var startTime = $("[name='start_time']").val();
 	var endTime   = $("[name='end_time']").val();
-	if(!startTime || !endTime)
+    if(!startTime || !endTime)
+    {
+        alert("请填写完整的时间段");
+        return;
+    }
+	if(startTime >= endTime)
 	{
-		alert("请填写完整的时间段");
+		alert("请选择正确的结算周期");
 		return;
 	}
+    var start = new Date(startTime);
+    var end = new Date(endTime);
+    if(end.getMonth()-start.getMonth() > 0)
+    {
+        alert("只能结算同一个月的订单");
+        return;
+    }
 	$.getJSON("{url:/seller/countGoodsFee}",{"start_time":startTime,"end_time":endTime}, function(json)
 	{
 		if(json.result == 'success')
 		{
-            $('.next_line span.cycle').html('结算周期：'+json.countData.start_time+'-'+json.countData.end_time);
+            /*$('.next_line span.cycle').html('结算周期：'+json.countData.start_time+'-'+json.countData.end_time);
             $('.next_line span.js_date_bill').html('账单日：'+json.countData.new_time);
             $('.js_date_sales').html(json.countData.orgRealFee);
             $('.js_date_delivery').html(json.countData.orgDeliveryFee);
             $('.js_date_percent').html(json.countData.commission);
-            $('.js_date_total').html(json.countData.countFee);
+            $('.js_date_total').html(json.countData.countFee);*/
 			/*$("[name='log']").val(json.data);*/
 		}
 		else
