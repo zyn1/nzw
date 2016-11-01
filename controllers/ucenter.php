@@ -1145,6 +1145,7 @@ class Ucenter extends IController implements userAuthorization
     {
         $_mobile = IFilter::act(IReq::get('phone'));
         $captcha = IFilter::act(IReq::get('captcha'));
+        $_safeName = IReq::get('name') ? IReq::get('name') : 'phoneValidate';
         $_captcha = ISafe::get('captcha');
         $member = new IModel('member');
         if(!$_mobile)
@@ -1176,7 +1177,7 @@ class Ucenter extends IController implements userAuthorization
         }
         
         $mobile_code = rand(100000,999999);
-        ISafe::set('phoneValidate',array('code'=>$mobile_code,'mobile'=>$_mobile,'time'=>time()));
+        ISafe::set($_safeName,array('code'=>$mobile_code,'mobile'=>$_mobile,'time'=>time()));
         $content = smsTemplate::findPassword(array('{mobile_code}' => $mobile_code));
 
         $result = Hsms::send($_mobile,$content);
@@ -1291,5 +1292,90 @@ class Ucenter extends IController implements userAuthorization
 
         $this->redirect('payPass_edit',false);
         Util::showMessage($message);
+    }
+    
+    //找回支付密码
+    public function findPayPass2()
+    {
+        $code = IReq::get('phone_code');
+        $captcha = IFilter::act(IReq::get('captcha'));
+        $_captcha = ISafe::get('captcha');
+        if(!$captcha || !$_captcha || $captcha != $_captcha)
+        {
+            IError::show(403,"请填写正确的图形验证码");
+        }
+        $user_id = $this->user['user_id'];
+        $member = new IModel('member');
+        $mobile = $member->getObj('user_id = '.$user_id, 'mobile');
+        $checkRes = ISafe::get('findPassPhoneValidate');
+        if($checkRes && $mobile['mobile']==$checkRes['mobile'] &&time()- $checkRes['time']<1800 && $code == $checkRes['code']){
+            $this->code = $code;
+            $this->redirect('findPayPass2');
+        }else{
+            IError::show(403,"手机验证码不正确或已过期");
+        }
+    }
+    
+    //找回重置支付密码--动作
+    public function findPayPassUpdate()
+    {
+        $user_id = $this->user['user_id'];
+        $memberObj       = new IModel('member');
+        $where           = 'user_id = '.$user_id;
+        $member = $memberObj->getObj('user_id = '.$user_id, 'mobile, pay_password');
+        $password = IReq::get('password');
+        $repassword = IReq::get('repassword');
+        $code = IReq::get('code');
+        $checkRes = ISafe::get('findPassPhoneValidate');
+        if(!$checkRes || $member['mobile']!=$checkRes['mobile'] || time()- $checkRes['time']>=1800 || $code != $checkRes['code']){
+            $message = '验证错误或手机验证码已过期';
+        }
+        else if(!preg_match('|\w{6,32}|',$password))
+        {
+            $message = '密码格式不正确，请重新输入';
+        }
+        else if($password != $repassword)
+        {
+            $message  = '二次密码输入的不一致，请重新输入';
+        }
+        else
+        {
+            $passwordMd5 = md5($password);
+            if($passwordMd5 == $member['pay_password'])
+            {
+                $message = '新密码不能跟原始密码一样';
+            }
+            else
+            {
+                $dataArray = array(
+                    'pay_password' => $passwordMd5,
+                );
+
+                $memberObj->setData($dataArray);
+                $result  = $memberObj->update($where);
+                if($result)
+                {
+                    $res = 1;
+                    $message = '支付密码重置成功';
+                    $this->pay_pass = $passwordMd5;
+                }
+                else
+                {
+                    $message = '支付密码重置失败';
+                }
+            }
+        }
+        if(isset($res))
+        {
+            $this->redirect('payPass_edit',false);
+            Util::showMessage($message);
+        }
+        else
+        {
+            $this->code = $checkRes['code'];
+            $this->redirect('findPayPass2',false);
+            Util::showMessage($message);
+        }
+        
     }
 }
