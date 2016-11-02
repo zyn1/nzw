@@ -457,6 +457,9 @@ class Simple extends IController
     	$dataArray     = array();
     	$user_id       = ($this->user['user_id'] == null) ? 0 : $this->user['user_id'];
         $invoice       = isset($_POST['taxes']) ? 1 : 0;
+        
+        //是否保价
+        $if_protected = IFilter::act(IReq::get('if_protected'),'int');
 
 		//获取商品数据信息
     	$countSumObj = new CountSum($user_id);
@@ -509,7 +512,7 @@ class Simple extends IController
     	$address       = IFilter::act($addressRow['address']);
     	$mobile        = IFilter::act($addressRow['mobile'],'mobile');
     	$telphone      = IFilter::act($addressRow['telphone'],'phone');
-    	$zip           = IFilter::act($addressRow['zip'],'zip');
+        $zip           = IFilter::act($addressRow['zip'],'zip');
         
         $tax_title     = IReq::get('tax_title') ? IFilter::act(IReq::get('tax_title')) : $accept_name;
 		//检查订单重复
@@ -589,13 +592,12 @@ class Simple extends IController
 		$paymentType= $paymentRow['type'];
 
 		//最终订单金额计算
-		$orderData = $countSumObj->countOrderFee($goodsResult,$province,$delivery_id,$payment,$taxes,0,$promo,$active_id);
+		$orderData = $countSumObj->countOrderFee($goodsResult,$province,$delivery_id,$payment,$taxes,0,$promo,$active_id,$if_protected);
 		if(is_string($orderData))
 		{
 			IError::show(403,$orderData);
 			exit;
 		}
-
 		//根据商品所属商家不同批量生成订单
 		$orderIdArray  = array();
 		$orderNumArray = array();
