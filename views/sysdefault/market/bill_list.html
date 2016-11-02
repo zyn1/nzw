@@ -15,10 +15,16 @@
 					<input type="text" name='search[apply_time<=]' value='' class="Wdate" pattern='date' onFocus="WdatePicker()" empty title='选择终止时间' />
 				</span>
 
-				<select class="auto" name="search[is_pay=]">
-					<option value="" selected="selected">结算状态</option>
-					<option value="0">未结算</option>
-					<option value="1">已结算</option>
+                <select class="auto" name="search[is_pay=]">
+                    <option value="" selected="selected">结算状态</option>
+                    <option value="0">未结算</option>
+                    <option value="1">已结算</option>
+                </select>
+
+				<select class="auto" name="search[is_account=]">
+					<option value="" selected="selected">对账单状态</option>
+					<option value="0">未生成</option>
+					<option value="1">已生成</option>
 				</select>
 
 				<button class="btn" type="submit"><span class="sch">搜 索</span></button>
@@ -31,12 +37,12 @@
 	<table class="list_table">
 		<colgroup>
 			<col width="180px" />
-			<col width="100px" />
-			<col width="155px" />
 			<col width="80px" />
 			<col width="155px" />
+			<col width="150px" />
 			<col width="155px" />
-			<col width="100px" />
+			<col width="155px" />
+			<col width="50px" />
 		</colgroup>
 
 		<thead>
@@ -66,7 +72,11 @@
 					{if:$item['is_pay'] == 1}
 					<label class="green">已结算</label>
 					{else:}
-					<label class="orange">未结算</label>
+                    {if:$item['is_account'] == 1}
+					<label class="orange">已生成对账单，未结算</label>
+                    {else:}
+                    <label class="orange">未生成对账单，未结算</label>
+                    {/if}
 					{/if}
 				</td>
 				<td>{$item['pay_time']}</td>

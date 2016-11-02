@@ -18,7 +18,8 @@
 				    <label class="tip">根据选择的日期系统会自动生成结算详情报告，商家必须发货且用户必须收货后才会有统计数据</label>
                 </div>
 			</fieldset>
-
+            {if:$this->billRow}
+            {if:$this->billRow['is_account'] == 1}
 			<fieldset class="statements">
 				<div class="sta_tit">
 					<h5>对账单</h5>
@@ -42,38 +43,51 @@
 				<table border="1">
 					<tbody>
 					  <tr>
-					    <td colspan="4" class="sett_tit">应结贵公司贷款</td>
+					    <td colspan="6" class="sett_tit">应结贵公司贷款</td>
 					  </tr>
 					  <tr>
-					    <td class="first" colspan="2">交易总额（元）</td>
-					    <td>扣除费用项（元）</td>
-					    <td rowspan="2">应结算金额（元）</td>
+					    <td class="first" colspan="2" width="200">交易总额（元）</td>
+                        <td colspan="2">扣除费用项（元）</td>
+                        <td rowspan="2">应结算金额（元）</td>
+                        <td rowspan="2">其他说明</td>
 					  </tr>
 					  <tr>
 					    <td class="first">销售额</td>
-					    <td>运输物流费</td>
-					    <td>服务费（销售额 x {$commissionPer}％）</td>
+                        <td>运输物流费</td>
+                        <td>服务费（销售额 x {$commissionPer}％）</td>
+                        <td>其他款项</td>
 					  </tr>
 					  <tr>
 					    <td class="first js_date_sales">{if:isset($this->billRow['orgRealFee'])}{$this->billRow['orgRealFee']}{/if}&nbsp;</td>
 					    <td class="js_date_delivery">{if:isset($this->billRow['orgDeliveryFee'])}{$this->billRow['orgDeliveryFee']}{/if}&nbsp;</td>
 					    <td class="js_date_percent">{if:isset($this->billRow['commission'])}{$this->billRow['commission']}{/if}&nbsp;</td>
+                        <td>{if:isset($this->billRow['otherFee'])} {$this->billRow['otherFee']}{else:}0{/if}</td>
 					    <td class="js_date_total">{if:isset($this->billRow['countFee'])}{$this->billRow['countFee']}{/if}&nbsp;</td>
+                        <td>{if:isset($this->billRow['otherInfo'])}{$this->billRow['otherInfo']}{/if}</td>
 					  </tr>
 					  <tr>
-					    <td class="first specil" colspan="4"><label>特别说明：</label>
+					    <td class="first specil" colspan="6"><label>特别说明：</label>
 					    	<p>1.《对账单》确认应结贷款无误后，点击确认对账，若有误请点击拒绝，并留言原因 </p><p>2.客服电话：400-659-9591；查询请报交易商名称、会员号</p>
 					 	</td>
 					  </tr>
 					  <tr>
-					    <td class="last" colspan="4">同意结算：  
-					    	<input type="radio" name="is_agree" value="1" checked="checked" {if:isset($this->billRow['is_pay'])}disabled="disabled" {/if}>是        
-					    	<input type="radio" name="is_agree" value="0" {if:isset($this->billRow['is_pay'])}disabled="disabled" {/if}>否</td>
+					    <td class="last" colspan="6">同意结算：  
+					    	<input type="radio" name="is_agree" value="1" checked="checked" {if:$this->billRow['is_pay'] == 1}disabled="disabled" {/if}>是        
+					    	<input type="radio" name="is_agree" value="0" {if:$this->billRow['is_pay'] == 1}disabled="disabled" {/if}>否</td>
 					  </tr>
 					  </tbody>	
 				</table>
 			</fieldset>
-
+            {else:}
+            <fieldset>
+                <label>尚未生成对账单，请耐心等待~~~</label>
+            </fieldset>
+            {/if}
+            {else:}
+            <fieldset>
+                <label class="js_show_tip"></label>
+            </fieldset>
+            {/if}
 			<fieldset>
 				<label>申请结算附言：</label>
 				<textarea name="apply_content"></textarea>
@@ -138,7 +152,7 @@ function checkoutFee()
             $('.js_date_delivery').html(json.countData.orgDeliveryFee);
             $('.js_date_percent').html(json.countData.commission);
             $('.js_date_total').html(json.countData.countFee);*/
-			/*$("[name='log']").val(json.data);*/
+            $(".js_show_tip").html('系统会尽快生成对账单，请耐心等待');
 		}
 		else
 		{
