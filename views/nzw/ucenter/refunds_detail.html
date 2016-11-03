@@ -9,8 +9,31 @@
         </tr>
         <tr>
             <th>处理结果：</th>
-            <td>{echo:Order_Class::refundmentText($this->data['pay_status'],$this->data['type'])}</td>
+            <td>
+                {echo:Order_Class::refundmentText($this->data['pay_status'],$this->data['type'])}
+                {if:$this->data['pay_status'] == 3}&nbsp;&nbsp;&nbsp;<a href="javascript:;" onclick="jsOpenRefundsInfo()">填写退货单</a>{/if}   
+            </td>
         </tr>
+        {if:$this->data['pay_status'] == 4}
+        {query:name=refundment_extend where=refund_id eq $this->data['id']}
+        <tr>
+            <th>快递公司：</th>
+            <td>{$item['company']}</td>
+        </tr>
+        <tr>
+            <th>快递单号：</th>
+            <td>{$item['delivery_code']}</td>
+        </tr>
+        <tr>
+            <th>退货地址：</th>
+            <td>{$item['address']}</td>
+        </tr>
+        <tr>
+            <th>其他说明：</th>
+            <td>{$item['info']}</td>
+        </tr>
+        {/query}
+        {/if}
         <tr>
             <th>退款商品：</th>
             <td>
@@ -59,3 +82,36 @@
         </tr>
     </table>
 </section>
+<section class="user_form none js_delivery_info">
+    <form action="{url:/ucenter/refunds_update2}" method="post" name='delivery_info'>
+        <input type="hidden" name="id" value="{$this->data['id']}">
+        <input type="hidden" name="num" value="{$this->data['order_no']}">
+        <input type="hidden" name="type" value="{$this->data['type']}">
+        <dl>
+            <dt>快递公司：</dt>
+            <dd><input class="input_text" type="text" name="company" pattern="required" value="" alt="请填写快递公司"></dd>
+        </dl>
+        <dl>
+            <dt>快递单号：</dt>
+            <dd><input class="input_text" type="text" name="delivery_code" pattern="required" value="" alt="请填写快递单号"></dd>
+        </dl>
+        <dl>
+            <dt>退货地址：</dt>
+            <dd><input class="input_text" type="text" name="address" pattern="required" value="" alt="请填写退货地址"></dd>
+        </dl>
+        <dl>
+            <dt>其他说明：</dt>
+            <dd><textarea class="input_textarea" name="info" alt="请填写退货地址"></textarea></dd>
+        </dl>
+        <dl>
+            <dt></dt>
+            <dd><input class="input_submit" type="submit" value="提交申请" /></dd>
+        </dl>
+    </form>
+</section>
+
+<script type="text/javascript">
+function jsOpenRefundsInfo(){
+    $('.js_delivery_info').show();
+}
+</script>

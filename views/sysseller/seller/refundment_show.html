@@ -1,4 +1,4 @@
-{set:$isWrite = ($pay_status == 0 && Order_Class::isSellerRefund($id,$type,$this->seller['seller_id']) == 2) ? true : false}
+{set:$isWrite = (($pay_status == 0 || $pay_status == 4) && Order_Class::isSellerRefund($id,$type,$this->seller['seller_id']) == 2) ? true : false}
 <article class="module width_full">
 	<header>
 		<h3 class="tabs_involved">商品退款详情</h3>
@@ -76,6 +76,9 @@
 				<div class="box">
 					{query:name=order_goods where=id in ($order_goods_id)}
 					{set:$goods = JSON::decode($item['goods_array'])}
+                    {if:$item['is_send'] == 1}
+                    {set:$step = 1}
+                    {/if}
 					<p>
 					{$goods['name']} X {$item['goods_nums']}
 					<span class="green">【{echo:Order_Class::goodsSendStatus($item['is_send'])}】</span>
@@ -94,17 +97,40 @@
 				<label>{if:$type == 1}退款原因:{else:}换货原因{/if}</label>
 				<div class="box">{$content}</div>
 			</fieldset>
-
+            {if:$pay_status == 4}
+            {query:name=refundment_extend where=refund_id eq $id}
+            <fieldset>
+                <label>快递公司：</label>
+                <div class="box">{$item['company']}</div>
+            </fieldset>
+            <fieldset>
+                <label>快递单号：</label>
+                <div class="box">{$item['delivery_code']}</div>
+            </fieldset>
+            <fieldset>
+                <label>退货地址：</label>
+                <div class="box">{$item['address']}</div>
+            </fieldset>
+            <fieldset>
+                <label>其他说明：</label>
+                <div class="box">{$item['info']}</div>
+            </fieldset>
+            {/query}
+            {/if}
 			{if:$isWrite == true}
 			<input type="hidden" name="id" value="{$id}" />
 			<fieldset>
 				<label>处理状态</label>
 				<div class="box">
+                    {if:$pay_status == 0 && isset($step)}
+                    <label><input type='radio' name='pay_status' value='3' />同意</label>
+                    {else:}
 					<label><input type='radio' name='pay_status' value='2' />同意</label>
+                    {/if}
 					<label><input type='radio' name='pay_status' value='1' />拒绝</label>
 				</div>
 			</fieldset>
-            {if:$type == 1}
+            {if:$type == 1 && !isset($step)}
 			<fieldset>
 				<label>退款金额</label>
 				<div class="box">

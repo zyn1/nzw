@@ -267,6 +267,65 @@ class Ucenter extends IController implements userAuthorization
         $this->redirect('address');
     }
     /**
+     * @brief 提交退货单号
+     */
+    public function refunds_update2()
+    {
+        $id            = IFilter::act( IReq::get('id'),'int' );
+        $type          = IFilter::act( IReq::get('type'),'int' );
+        $order_no      = IFilter::act( IReq::get('num') );
+        $company       = IFilter::act(IReq::get('company'));
+        $delivery_code = IFilter::act(IReq::get('delivery_code'));
+        $address       = IFilter::act(IReq::get('address'));
+        $info          = IFilter::act(IReq::get('info'), 'text');
+        
+        if($type == 1)
+        {
+            $redirectUrl = 'refunds';
+        }
+        else
+        {
+            $redirectUrl = 'changeRefunds';
+        }
+        if(!$id || !$order_no)
+        {
+            $this->redirect($redirectUrl,false);
+            Util::showMessage('缺少参数！');
+        }
+        $refundmentDB = new IModel('refundment_doc');
+        if(!$refundmentDB->getObj('id = '.$id.' and order_no = "'.$order_no.'" and if_del = 0 and pay_status = 3', 'id'))
+        {
+            $this->redirect($redirectUrl,false);
+            Util::showMessage('参数错误！');
+        }
+        
+        //退款单数据
+        $updateData = array(
+            'refund_id'     => $id,
+            'company'       => $company,
+            'delivery_code' => $delivery_code,
+            'address'       => $address,
+            'info'          => $info
+        );
+
+        //写入数据库
+        $refundsExtendDB = new IModel('refundment_extend');
+        $refundsExtendDB->setData($updateData);
+        $result = $refundsExtendDB->add();
+        if($result)
+        {
+            $refundmentDB->setData(array('pay_status' => 4));
+            $refundmentDB->update('id = '.$id);
+            $message = "提交成功，请耐心等待";
+        }
+        else
+        {
+            $message = "系统错误";
+        }
+        $this->redirect($redirectUrl,false);
+        Util::showMessage($message);
+    }
+    /**
      * @brief 退款申请页面
      */
     public function refunds_update()

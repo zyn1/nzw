@@ -8,8 +8,8 @@
 		<dl>
 			<dt>订单号：</dt>
 			<dd>{$this->orderRow['order_no']}</dd>
-			</dl>
-            <dl>
+		</dl>
+        <dl>
             <dt>类型：</dt>
             <dd>
                 {if:Order_Class::isRefundmentApply($this->orderRow)}
@@ -19,8 +19,8 @@
                 <input type="radio" name="type"  class="radio" value="2" checked/>换货
                 {/if}
             </dd>
-            </dl>
-			<dl>
+        </dl>
+		<dl>
 			<dt>退换商品：</dt>
 			<dd>
 				{foreach:items=Api::run('getOrderGoodsListByGoodsid',array('#order_id#',$this->orderRow['id'])) item=$good}
@@ -35,14 +35,14 @@
 				{/if}
 				{/foreach}
 			</dd>
-			</dl>
-			<dl>
+		</dl>
+		<dl>
 			<dt>退换理由：</dt>
 			<dd>
 				<textarea class="input_textarea" name="content" id="content" pattern="required"></textarea>
 				<label>请写明退换理由</label>
 			</dd>
-			</dl>
+		</dl>
 		<dl>
 			<dt></dt>
 			<dd>
