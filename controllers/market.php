@@ -739,6 +739,8 @@ class Market extends IController implements adminAuthorization
             $billRow['orgDeliveryFee']   = $tmp['orgDeliveryFee'];
             $billRow['commission']   = $tmp['commission'];
             $billRow['countFee']   = $tmp['countFee'];
+            $billRow['otherFee']   = isset($tmp['otherFee']) ? $tmp['otherFee'] : 0;
+            $billRow['otherInfo']   = isset($tmp['otherInfo']) ? $tmp['otherInfo'] : '';
         }
         else
         {
@@ -756,18 +758,29 @@ class Market extends IController implements adminAuthorization
 	{
 		$id = IFilter::act(IReq::get('id'),'int');
 		$pay_content = IFilter::act(IReq::get('pay_content'));
-		$is_pay = IFilter::act(IReq::get('is_pay'),'int');
+        $is_pay = IFilter::act(IReq::get('is_pay'),'int');
+        $is_account = IFilter::act(IReq::get('is_account'),'int');
+        $otherFee = IFilter::act(IReq::get('otherFee'));
+		$otherInfo = IFilter::act(IReq::get('otherInfo'));
 
 		if($id)
 		{
 			$data = array(
 				'admin_id' => $this->admin['admin_id'],
 				'pay_content' => $pay_content,
-				'is_pay' => $is_pay,
+                'is_pay' => $is_pay,
+				'is_account' => $is_account,
 			);
 
 			$billDB = new IModel('bill');
-
+            
+            $billRow = $billDB->getObj('id = '.$id, 'para');
+            $tmp = JSON::decode($billRow['para']);
+            $tmp['otherInfo'] = $otherInfo;
+            $tmp['countFee'] = $tmp['countFee'] + $tmp['otherFee'] - round($otherFee,2);
+            $tmp['otherFee'] = $otherFee;
+            $data['para'] = JSON::encode($tmp);
+            
 			$data['pay_time'] = ($is_pay == 1) ? ITime::getDateTime() : "";
 
 			$billRow= $billDB->getObj('id = '.$id);
@@ -788,6 +801,21 @@ class Market extends IController implements adminAuthorization
 		}
 		$this->redirect('bill_list');
 	}
+    
+    //动态修改对账单
+    public function changeBill()
+    {
+        $other = IReq::get('other');
+        $id = IReq::get('id');
+        
+        /*$siteConfigData = new Config('site_config');
+        $commissionPer = $siteConfigData->commission ? $siteConfigData->commission : 0;*/
+        $billDB = new IModel('bill');    
+        $billRow = $billDB->getObj('id = '.$id, 'para');
+        $tmp = JSON::decode($billRow['para']);
+        //echo $tmp['countFee'] - round($other * $commissionPer/100,2);
+        echo $tmp['countFee'] + $tmp['otherFee'] - round($other,2);
+    }
 
 	//结算单删除
 	public function bill_del()

@@ -660,6 +660,8 @@ class Seller extends IController implements sellerAuthorization
                 $billRow['orgDeliveryFee']   = $tmp['orgDeliveryFee'];
                 $billRow['commission']   = $tmp['commission'];
                 $billRow['countFee']   = $tmp['countFee'];
+                $billRow['otherFee']   = isset($tmp['otherFee']) ? $tmp['otherFee'] : 0;
+                $billRow['otherInfo']   = isset($tmp['otherInfo']) ? $tmp['otherInfo'] : '';
             }
 		}
 		$this->billRow = $billRow;
@@ -702,6 +704,22 @@ class Seller extends IController implements sellerAuthorization
 		}
 		else
 		{
+            if(!$start_time || !$end_time)
+            {
+                $this->redirect('bill_edit',false);
+                Util::showMessage('请填写完整的时间段');
+            }
+            if($start_time >= $end_time)
+            {
+                $this->redirect('bill_edit',false);
+                Util::showMessage('请选择正确的结算周期');
+            }
+            if(date('m', strtotime($end_time))-date('m', strtotime($start_time)) > 0)
+            {
+                $this->redirect('bill_edit',false);
+                Util::showMessage('只能结算同一个月的订单');
+            }
+            
 			//判断是否存在未处理的申请
 			$isSubmitBill = $billDB->getObj(" seller_id = ".$this->seller['seller_id']." and is_pay = 0");
 			if($isSubmitBill)
@@ -709,9 +727,9 @@ class Seller extends IController implements sellerAuthorization
 				$this->redirect('bill_list',false);
 				Util::showMessage('请耐心等待管理员结算后才能再次提交申请');
 			}
-
+            $endTime = date('Y-m-d', strtotime($end_time)+24*3600);
 			//获取未结算的订单
-			$queryObject = CountSum::getSellerGoodsFeeQuery($this->seller['seller_id'],$start_time,$end_time,0);
+			$queryObject = CountSum::getSellerGoodsFeeQuery($this->seller['seller_id'],$start_time,$endTime,0);
 			$countData   = CountSum::countSellerOrderFee($queryObject->find());
 			if($countData['countFee'] > 0)
 			{
@@ -727,8 +745,7 @@ class Seller extends IController implements sellerAuthorization
 					'end_time' => $end_time,
 					'log' => $billString,
 					'order_ids' => join(",",$countData['order_ids']),
-                    'is_agree' => $is_agree,
-                    'para' => JSON::encode(array('countFee' => $countData['countFee'], 'orgRealFee' => $countData['orgRealFee'], 'orgDeliveryFee' => $countData['orgDeliveryFee'], 'refundFee' => $countData['refundFee'], 'commission' => $countData['commission']))
+                    'para' => JSON::encode(array('countFee' => $countData['countFee'], 'otherFee' => 0, 'orgRealFee' => $countData['orgRealFee'], 'orgDeliveryFee' => $countData['orgDeliveryFee'], 'refundFee' => $countData['refundFee'], 'commission' => $countData['commission'], 'otherFee' => 0, 'otherInfo' => ''))
 				);
 				$billDB->setData($data);
 				$billDB->add();
@@ -754,12 +771,12 @@ class Seller extends IController implements sellerAuthorization
 
 		if($countData['countFee'] > 0)
 		{
-			$countData['start_time'] = date('Y/m/d', strtotime($start_time));
+			/*$countData['start_time'] = date('Y/m/d', strtotime($start_time));
             $countData['end_time']   = date('Y/m/d', strtotime($end_time));
 			$countData['new_time']   = date('Y/m/d', strtotime($end_time)+24*3600);
 
-			//$billString = AccountLog::sellerBillTemplate($countData);
-			$result     = array('result' => 'success',/*'data' => $billString, */'countData' => $countData);
+			$billString = AccountLog::sellerNewBillTemplate($countData);*/
+			$result     = array('result' => 'success'/*,'data' => $billString, 'countData' => $countData*/);
 		}
 		else
 		{

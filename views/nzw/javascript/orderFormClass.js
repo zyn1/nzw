@@ -30,7 +30,8 @@ function orderFormClass()
 	this.doAccount = function()
 	{
 		//税金
-		this.taxPrice = $('input:checkbox[name="taxes"]:checked').length > 0 ? $('input:checkbox[name="taxes"]:checked').val() : 0;
+        this.taxPrice = $('input:checkbox[name="taxes"]:checked').length > 0 ? $('input:checkbox[name="taxes"]:checked').val() : 0;
+		this.protectPrice = $('input:checkbox[name="if_protected"]:checked').length > 0 ? $('input:checkbox[name="if_protected"]:checked').attr('js_data') : 0;
 		//最终金额
 		this.orderAmount = parseFloat(this.goodsSum) - parseFloat(this.ticketPrice) + parseFloat(this.deliveryPrice) + parseFloat(this.paymentPrice) + parseFloat(this.taxPrice) + parseFloat(this.protectPrice);
 
@@ -208,7 +209,8 @@ function orderFormClass()
 	this.deliverySelected = function(deliveryId)
 	{
 		var deliveryObj = $('input[type="radio"][name="delivery_id"][value="'+deliveryId+'"]');
-		this.protectPrice  = deliveryObj.data("protectPrice") > 0 ? deliveryObj.data("protectPrice") : 0;
+        $('input[name=if_protected]').attr('js_data', deliveryObj.data("protectPrice") > 0 ? deliveryObj.data("protectPrice") : 0)
+		this.protectPrice  = deliveryObj.data("protectPrice") > 0 ? ($('input[name=if_protected]').prop("checked") ? deliveryObj.data("protectPrice") : 0) : 0;
 		this.deliveryPrice = deliveryObj.data("deliveryPrice")> 0 ? deliveryObj.data("deliveryPrice"): 0;
 
 		//先发货后付款

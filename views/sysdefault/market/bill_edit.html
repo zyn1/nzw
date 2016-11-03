@@ -1,4 +1,4 @@
-{set:$seller_id = isset($this->billRow['seller_id']) ? $this->billRow['seller_id'] : 0}
+{set:$seller_id = isset($this->billRow['seller_id']) ? $this->billRow['seller_id'] : 0;$siteConfigData = new Config('site_config');$commissionPer = $siteConfigData->commission ? $siteConfigData->commission : 0;}
 <div class="headbar">
 	<div class="position"><span>统计</span><span>></span><span>商户数据统计</span><span>></span><span>货款结算单修改</span></div>
 </div>
@@ -7,6 +7,8 @@
 	<div class="content form_content">
 		<form action="{url:/market/bill_update}"  method="post" name="bill_edit">
 			<input type='hidden' name='id' />
+            <input type="hidden" name="is_account">
+            <input type="hidden" name="is_pay">
 			<table class="form_table">
 				<colgroup>
 					<col width="150px" />
@@ -49,33 +51,40 @@
 							<table border="1">
 								<tbody>
 								  <tr>
-								    <td colspan="4" class="sett_tit">应结贵公司贷款</td>
+								    <td colspan="6" class="sett_tit">应结贵公司贷款</td>
 								  </tr>
 								  <tr>
-								    <td class="first" colspan="2">交易总额（元）</td>
-								    <td>扣除费用项（元）</td>
-								    <td rowspan="2">应结算金额（元）</td>
+								    <td class="first" colspan="2" width="200">交易总额（元）</td>
+                                    <td colspan="2">扣除费用项（元）</td>
+                                    <td rowspan="2">应结算金额（元）</td>
+								    <td rowspan="2">其他说明</td>
 								  </tr>
 								  <tr>
 								    <td class="first">销售额</td>
 								    <td>运输物流费</td>
-								    <td>服务费（销售额 x {$commissionPer}％）</td>
+                                    <td>服务费（销售额 x {$commissionPer}％）</td>
+								    <td>其他款项</td>
 								  </tr>
 								  <tr>
 								    <td class="first">{$this->billRow['orgRealFee']}</td>
                                     <td>{$this->billRow['orgDeliveryFee']}</td>
                                     <td>{$this->billRow['commission']}</td>
-                                    <td>{$this->billRow['countFee']}</td>
+                                    <td><input class="js_no_border" type="text" name="otherFee" value="{$this->billRow['otherFee']}" {if:$this->billRow['is_pay'] == 1 || $this->billRow['is_agree'] == 1} readonly="readonly" {/if}/></td>
+                                    <td class="js_change_countFee">{$this->billRow['countFee']}</td>
+                                    <td><input class="js_no_border" type="text" name="otherInfo" value="{$this->billRow['otherInfo']}" {if:$this->billRow['is_pay'] == 1 || $this->billRow['is_agree'] == 1} readonly="readonly" {/if}/></td>
 								  </tr>
 								  <tr>
-								    <td class="first specil" colspan="4"><label>特别说明：</label>
+								    <td class="first specil" colspan="6"><label>特别说明：</label>
 								    	<p>1.《对账单》确认应结贷款无误后，点击确认对账，若有误请点击拒绝，并留言原因 </p><p>2.客服电话：400-659-9591；查询请报交易商名称、会员号</p>
 								 	</td>
 								  </tr>
+                                  {if:$this->billRow['is_agree'] <> 2}
 								  <tr>
 								    <td class="last" colspan="4">商家是否有异议：  
-								    	{if:$this->billRow['is_agree']} 否 {else:} 是 {/if}
+								    	{if:$this->billRow['is_agree'] == 1} 否 {else:} 是 {/if}
+                                    </td>
 								  </tr>
+                                  {/if}
 								  </tbody>	
 							</table>
 						</fieldset>
@@ -93,6 +102,7 @@
 						<textarea name="pay_content"></textarea>
 					</td>
 				</tr>
+                {if:$this->billRow['is_account'] == 1 && $this->billRow['is_agree'] <> 2}
 				<tr>
 					<th>是否同意结算：</th>
 					<td>
@@ -100,6 +110,15 @@
 						<label class="attr"><input type="radio" name="is_pay" value="0" />否</label>
 					</td>
 				</tr>
+                {elseif:$this->billRow['is_account'] == 0}
+                <tr>
+                    <th>是否生成对账单：</th>
+                    <td>
+                        <label class="attr"><input type="radio" name="is_account" value="1" />是</label>
+                        <label class="attr"><input type="radio" name="is_account" value="0" />否</label>
+                    </td>
+                </tr>
+                {/if}
 				<tr><th></th><td><button class="submit" type='submit'><span>确 定</span></button></td></tr>
 			</table>
 		</form>
@@ -110,4 +129,17 @@
 //表单回填
 var formObj = new Form('bill_edit');
 formObj.init({echo:JSON::encode($this->billRow)});
+
+$(function(){
+    $('input[name=otherFee]').blur(function(){
+        var _o = $(this).val()
+            ,_i = {$this->billRow['id']};
+        $.getJSON("{url:/market/changeBill}",{other:_o,id:_i},function(content){
+            $('.js_change_countFee').html(content);
+        });
+    })
+})
 </script>
+<style type="text/css">
+.js_no_border{border: 0; height: 36px;line-height: 36px;}
+</style>

@@ -348,7 +348,7 @@ class CountSum
      * @param $active_id int 促销活动ID
      * @return $result 最终的返回数组
      */
-    public function countOrderFee($goodsResult,$province_id,$delivery_id,$payment_id,$is_invoice,$discount = 0,$promo = '',$active_id = '')
+    public function countOrderFee($goodsResult,$province_id,$delivery_id,$payment_id,$is_invoice,$discount = 0,$promo = '',$active_id = '',$if_protected = 1)
     {
     	//根据商家进行商品分组
     	$sellerGoods = array();
@@ -411,7 +411,7 @@ class CountSum
 	    	$extendArray = array(
 	    		'deliveryOrigPrice' => $deliveryList['org_price'],
 	    		'deliveryPrice'     => $deliveryList['price'],
-	    		'insuredPrice'      => $deliveryList['protect_price'],
+	    		'insuredPrice'      => $if_protected ? $deliveryList['protect_price'] : 0,
 	    		'taxPrice'          => $is_invoice == true ? $sellerData['tax'] : 0,
 	    		'paymentPrice'      => $payment_id != 0 ? self::getGoodsPaymentPrice($payment_id,$sellerData['final_sum']) : 0,
 	    		'goodsResult'       => $sellerData,
@@ -420,7 +420,7 @@ class CountSum
 	    	$orderAmountPrice = array_sum(array(
 		    	$sellerData['final_sum'],
 		    	$deliveryList['price'],
-		    	$deliveryList['protect_price'],
+		    	$extendArray['insuredPrice'],
 		    	$extendArray['taxPrice'],
 		    	$extendArray['paymentPrice'],
 		    	$discount,
