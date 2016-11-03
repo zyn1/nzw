@@ -69,9 +69,9 @@
 								    <td class="first">{$this->billRow['orgRealFee']}</td>
                                     <td>{$this->billRow['orgDeliveryFee']}</td>
                                     <td>{$this->billRow['commission']}</td>
-                                    <td><input class="js_no_border" type="text" name="otherFee" value="{$this->billRow['otherFee']}" {if:$this->billRow['is_pay'] == 1 || $this->billRow['is_agree'] == 1} readonly="readonly" {/if}/></td>
+                                    <td><input class="js_no_border add" type="text" name="otherFee" value="{$this->billRow['otherFee']}" {if:$this->billRow['is_pay'] == 1 || $this->billRow['is_agree'] == 1} readonly="readonly" {/if}/></td>
                                     <td class="js_change_countFee">{$this->billRow['countFee']}</td>
-                                    <td><input class="js_no_border" type="text" name="otherInfo" value="{$this->billRow['otherInfo']}" {if:$this->billRow['is_pay'] == 1 || $this->billRow['is_agree'] == 1} readonly="readonly" {/if}/></td>
+                                    <td><input class="js_no_border add" type="text" name="otherInfo" value="{$this->billRow['otherInfo']}" {if:$this->billRow['is_pay'] == 1 || $this->billRow['is_agree'] == 1} readonly="readonly" {/if}/></td>
 								  </tr>
 								  <tr>
 								    <td class="first specil" colspan="6"><label>特别说明：</label>

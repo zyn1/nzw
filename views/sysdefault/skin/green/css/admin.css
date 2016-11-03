@@ -380,6 +380,7 @@ fieldset.statements td {
 	line-height: 36px;
 	text-align: center;
 } 
+fieldset.statements td .js_no_border.add{border: 1px solid #DEDEDE;height: 28px;line-height: 28px;margin: 0 8px;padding: 0 5px;border-radius: 3px;}
 fieldset.statements td.sett_tit{width:130%;border-top:none;background: #ebebeb;font-weight: bold;border-left: none;border-right: none;}
 fieldset.statements td.first{border-left: none;}
 fieldset.statements td.last{border-left: none;border-bottom: none;padding-left: 12px;}
