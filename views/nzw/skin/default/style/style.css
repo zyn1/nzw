@@ -1137,7 +1137,7 @@ a .icon-rotate-90:before, a .icon-rotate-180:before, a .icon-rotate-270:before, 
 .header .header_nav .goods_nav .cat_list > li:hover h3, .header .header_nav .goods_nav .cat_list > li:hover h3 a, .header .header_nav .goods_nav .cat_list > li:hover .cat_second, .header .header_nav .goods_nav .cat_list > li:hover .cat_second a { color: #fff; }
 
 .header .header_nav .goods_nav .cat_list > li:hover .cat_more { display: block; }
-.header .header_nav .goods_nav .cat_list .cat_more { height: 340px; overflow: hidden; display: none; position: absolute; left: 200px; top: 0; width: 749px; background: #fff; padding: 20px; padding-right: 0; box-shadow: 0 0 0 1px #ee5d1e, 2px 2px 4px rgba(0, 0, 0, 0.3); }
+.header .header_nav .goods_nav .cat_list .cat_more { height: 350px; overflow: hidden; display: none; position: absolute; left: 200px; top: 0; width: 749px; background: #fff; padding: 20px; padding-right: 0; box-shadow: 0 0 0 1px #ee5d1e, 2px 2px 4px rgba(0, 0, 0, 0.3); }
 .header .header_nav .goods_nav .cat_list .cat_more dl { width: 220px; float: left; margin-right: 20px; }
 .header .header_nav .goods_nav .cat_list .cat_more dl dt { padding-bottom: 8px; }
 .header .header_nav .goods_nav .cat_list .cat_more dl dd a { display: block; float: left; margin: 8px 15px 8px 0; position: relative; }
@@ -1497,7 +1497,7 @@ background-image: url("../image/icon_slides.png"); background-repeat: no-repeat;
     height: 390px;
     overflow: visible;
     position: absolute;
-    top: -10px;
+    top: 0px;
     visibility: visible;
     display: block;
 }
