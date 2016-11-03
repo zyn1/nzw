@@ -554,7 +554,9 @@ class CountSum
                 
                 //zyn  新增  分开计算结算商品价格及运费
                 $result['orderRealAmount'] += $item['real_amount'] - $item['pay_fee'];
-                $result['orderRealFreight'] += $item['real_freight'];
+                
+                //运费加保价费用
+                $result['orderRealFreight'] += $item['real_freight']+$item['insured'];
                 //end
                 
     			$result['order_ids'][]       = $item['id'];
