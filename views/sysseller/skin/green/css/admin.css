@@ -1000,6 +1000,7 @@ fieldset.statements td {
 	padding: 0.2em; 
 	line-height: 36px;
 	text-align: center;
+	width: 10%;
 } 
 fieldset.statements td.sett_tit{width:130%;border-top:none;background: #ebebeb;font-weight: bold;border-left: none;border-right: none;}
 fieldset.statements td.first{border-left: none;}
