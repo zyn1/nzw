@@ -75,7 +75,8 @@ class Delivery
 			'if_delivery'          => 0,
 			'org_price'            => 0,
 			'price'                => 0,
-			'protect_price'        => 0,
+            'protect_price'        => 0,
+			'is_save_price'        => 0,
 			'seller_org_price'     => array(),
 			'seller_price'         => array(),
 			'seller_protect_price' => array(),
@@ -212,7 +213,8 @@ class Delivery
 			//更新最终数据
 			$result['org_price']         += $deliveryRow['org_price'];
 	 		$result['price']             += $deliveryRow['price'];
-	 		$result['protect_price']     += $deliveryRow['protect_price'];
+             $result['protect_price']     += $deliveryRow['protect_price'];
+	 		$result['is_save_price']     = $deliveryRow['is_save_price'];
 
 			$result['seller_org_price'][$seller_id]     = $deliveryRow['org_price'];
 	 		$result['seller_price'][$seller_id]         = $deliveryRow['price'];

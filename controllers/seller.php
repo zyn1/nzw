@@ -1526,7 +1526,7 @@ class Seller extends IController implements sellerAuthorization
         $this->data = $sellerDB->find();
         
         $billDB = new IModel('bill');
-        $billRow = $billDB->query('seller_id = '.$this->seller['seller_id'].' and  is_pay = 1 and is_agree = 1 and is_invoice = 0', 'id,apply_content,para');
+        $billRow = $billDB->query('seller_id = '.$this->seller['seller_id'].' and  is_pay = 1 and is_agree = 1 and is_invoice = 0', 'id,apply_content,para,start_time,end_time');
         $fapiaoDB = new IModel('bill_fapiao');
         foreach($billRow as $k => $v)
         {

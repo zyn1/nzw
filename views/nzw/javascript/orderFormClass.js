@@ -157,7 +157,8 @@ function orderFormClass()
 						content.price = parseFloat(content.price) - parseFloat(content.seller_price[sellerId]);
 					}
 					$('input[type="radio"][name="delivery_id"][value="'+content.id+'"]').data("protectPrice",parseFloat(content.protect_price));
-					$('input[type="radio"][name="delivery_id"][value="'+content.id+'"]').data("deliveryPrice",parseFloat(content.price));
+                    $('input[type="radio"][name="delivery_id"][value="'+content.id+'"]').data("deliveryPrice",parseFloat(content.price));
+					$('input[type="radio"][name="delivery_id"][value="'+content.id+'"]').data("is_save_price",parseFloat(content.is_save_price));
 					var deliveryHtml = template.render("deliveryTemplate",{"item":content});
 					$("#deliveryShow"+content.id).html(deliveryHtml);
 					$('input[type="radio"][name="delivery_id"][value="'+content.id+'"]').prop("disabled",false);
@@ -213,6 +214,14 @@ function orderFormClass()
 		this.protectPrice  = deliveryObj.data("protectPrice") > 0 ? ($('input[name=if_protected]').prop("checked") ? deliveryObj.data("protectPrice") : 0) : 0;
 		this.deliveryPrice = deliveryObj.data("deliveryPrice")> 0 ? deliveryObj.data("deliveryPrice"): 0;
 
+        if(deliveryObj.data("is_save_price") == 0)
+        {
+            $('.js_if_protected').hide();
+        }
+        else
+        {
+            $('.js_if_protected').show();
+        }
 		//先发货后付款
 		if(deliveryObj.attr('paytype') == '1')
 		{
