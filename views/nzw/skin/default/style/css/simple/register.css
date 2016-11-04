@@ -110,7 +110,7 @@ a, a * { cursor: pointer; }
     line-height: 60px;
 }
 .tab_btn h3.reg_mob{border-right: 1px solid #dadada;}
-.tab_btn h3.color{color: #ee5d1e;}
+.tab_btn h3.color{color: #6bb945;}
 .tab_btn h3:hover{cursor: pointer;}
 .reg_top .tab_right{float: right; padding-right: 50px;}
 .reg_top .tab_right a{color: #6b6b6b;}
@@ -161,7 +161,7 @@ textarea.invalid-text, input[type="text"].invalid-text, input[type="password"].i
 .reg_content span.agreement{font-size: 14px; color: #a5a5a5;    position: relative;
      display: block;clear: both;line-height: 24px;}
 .reg_content .mob_btn {border: none;margin-top: 10px;}
-.reg_content .mob_btn input{display: block; background: #ee5d1e; height: 42px; cursor: pointer; line-height: 42px;
+.reg_content .mob_btn input{display: block; background: #6bb945; height: 42px; cursor: pointer; line-height: 42px;
 						text-align: center; color: #fff;width: 300px;font-size: 16px;text-indent: 0;}
 .reg_content .user label img,.reg_content .pass label img{width: 20px; height: 20px;}
 .reg_content .user input,.reg_content .pass input{padding-left: 20px;position: absolute;right: 0;}

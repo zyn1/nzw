@@ -3,7 +3,7 @@
 #LoutiNav span{display: none;}
 #LoutiNav li img{width: 26px; height: 26px;margin: 6px 0;}
 #LoutiNav li p{line-height: 15px;font-size: 12px;}
-#LoutiNav .active{background: white; color: #fff;background: #ee5d1e  url("../../../image/index/slide_sj.png") no-repeat center bottom;}
+#LoutiNav .active{background: white; color: #fff;background: #6bb945  url("../../../image/index/slide_sj.png") no-repeat center bottom;}
 #goTop{width: 40px;height: 40px; line-height: 40px;text-align: center; background: gray; position: fixed;bottom: 30px; right: 30px; cursor: pointer;border-radius: 5px; display: none; }
 #goTop:hover{background: darkred; color: white;}
 #goTop:hover span{display: block;}
