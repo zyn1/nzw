@@ -178,7 +178,7 @@ class Order extends IController implements adminAuthorization
                 else
                 {
                     $logObj = new log('db');
-                    $logObj->write('operation',array("管理员:".ISafe::get('admin_name'),"修改了退款单",'修改的ID：'.$refundment_id));
+                    $logObj->write('operation',array("管理员:".ISafe::get('admin_name'),"修改了换货单",'修改的ID：'.$refundment_id));
                 }
             }
             else

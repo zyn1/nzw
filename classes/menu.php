@@ -178,11 +178,11 @@ class Menu
             	'/tools/seo_sitemaps' => '网站搜索地图',
 			)
 		),
-		/*'插件' => array(
-       		'插件管理' => array(
-       			'/plugins/plugin_list' => '插件列表',
+		'其他' => array(
+       		'其他管理' => array(
+       			'/plugins/plugin_list' => '列表',
        		),
-		),*/
+		),
 	);
 
 	//非菜单连接映射关系,array(视图名称 => menu数组中已存在的菜单连接)
