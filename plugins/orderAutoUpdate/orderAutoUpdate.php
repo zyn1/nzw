@@ -47,7 +47,7 @@ class orderAutoUpdate extends pluginBase
                     //oerder表的对象
                     $tb_order = new IModel('order');
                     $tb_order->setData(array(
-                        'status'          => $type,
+                        'status'          => 5,
                         'completion_time' => ITime::getDateTime(),
                     ));
                     $tb_order->update('id='.$order_id);

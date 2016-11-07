@@ -959,15 +959,9 @@ class Simple extends IController
 	//找回密码发送手机验证码短信
 	function send_message_mobile()
 	{
-		$username = IFilter::act(IReq::get('username'));
         $mobile = IFilter::act(IReq::get('mobile'));
 		$captcha = IFilter::act(IReq::get('captcha'));
         $_captcha = ISafe::get('captcha');
-
-		if($username === null || !IValidate::name($username))
-		{
-			die("请输入正确的用户名");
-		}
 
 		if($mobile === null || !IValidate::mobi($mobile))
 		{
@@ -979,7 +973,7 @@ class Simple extends IController
         }
 
 		$userDB = new IModel('user as u , member as m');
-		$userRow = $userDB->getObj('u.username = "'.$username.'" and m.mobile = "'.$mobile.'" and u.id = m.user_id');
+		$userRow = $userDB->getObj('m.mobile = "'.$mobile.'" and u.id = m.user_id');
 
 		if($userRow)
 		{
