@@ -4,7 +4,7 @@ body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,textarea,p,
 label input{vertical-align:middle}
 a:link,a:visited{text-decoration:none;color:#438eb9;}
 a:hover,a:active{text-decoration:none}
-body{font:12px/1.5 arial,verdana;color:black;background-color:#fcfcfc;text-align:center;overflow:hidden;}
+body{font:12px/1.5 "Microsoft YaHei",verdana;color:black;background-color:#fcfcfc;text-align:center;overflow:hidden;}
 img{border:0;vertical-align: middle;}
 table{border-collapse:collapse;}
 ul li{list-style:none}
@@ -109,7 +109,7 @@ img.operator{width:12px;height:12px;margin:0 6px;cursor:pointer; vertical-align:
 /* admin_right style start */
 #admin_right{margin:4px 0 0 180px}
 .position{line-height:30px;text-align:left;color:#999;margin-left:15px}
-	.position a,.position span{color:#999;padding-left:5px;font-family:'宋体'}
+	.position a,.position span{color:#999;padding-left:5px;font-family:"Microsoft YaHei";}
 /* operating style start */
 .operating{height:45px;margin-bottom:5px;border-top:1px solid #e1e1e1;border-bottom:1px solid #e1e1e1;padding-left:8px;background:url(../images/admin/admin_bg.gif) repeat-x 0 -110px;overflow:hidden}
 	.operating .search{margin:12px 10px 0 0;}

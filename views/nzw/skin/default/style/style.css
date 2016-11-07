@@ -3,7 +3,7 @@ html { font-size: 13px; background: url("../image/web_bg.png") 0 0 repeat-x #fff
 
 body { color: #555; line-height: 1; }
 
-body, button, input, select, textarea { font-family: tahoma,Helvetica, Arial,"\5FAE\8F6F\96C5\9ED1"; *font-family: "\5FAE\8F6F\96C5\9ED1"; }
+body, button, input, select, textarea { font-family: "Microsoft YaHei"; *font-family: "Microsoft YaHei"; }
 
 .gehang { width: 10px; height: 10px; overflow: hidden; text-indent: -9999px; clear: both; display: block; }
 
@@ -169,7 +169,7 @@ input, textarea, select, address, caption, cite, code, dfn, em, i, b, strong, sm
 
 article, aside, footer, header, hgroup, nav, section, figure, figcaption { display: block; }
 
-code, kbd, pre, samp, tt { font-family: Consolas,"Courier New", Courier, monospace; }
+code, kbd, pre, samp, tt { font-family: "Microsoft YaHei"; }
 
 address, cite, dfn, em, var, i { font-style: normal; }
 
@@ -183,8 +183,8 @@ a, a * { cursor: pointer; }
 
 abbr[title], acronym[title] { border-bottom: 1px dotted; cursor: help; }
 
-@font-face { font-family: 'FontAwesome'; src: url("../font/fontawesome-webfont.eot?v=3.2.1"); src: url("../font/fontawesome-webfont.eot?#iefix&v=3.2.1") format("embedded-opentype"), url("../font/fontawesome-webfont.woff?v=3.2.1") format("woff"), url("../font/fontawesome-webfont.ttf?v=3.2.1") format("truetype"), url("../font/fontawesome-webfont.svg#fontawesomeregular?v=3.2.1") format("svg"); font-weight: normal; font-style: normal; }
-[class^="icon-"], [class*=" icon-"], .icon { font-family: FontAwesome; font-weight: normal; font-style: normal; text-decoration: inherit; -webkit-font-smoothing: antialiased; *margin-right: .3em; }
+@font-face { font-family: "Microsoft YaHei"; src: url("../font/fontawesome-webfont.eot?v=3.2.1"); src: url("../font/fontawesome-webfont.eot?#iefix&v=3.2.1") format("embedded-opentype"), url("../font/fontawesome-webfont.woff?v=3.2.1") format("woff"), url("../font/fontawesome-webfont.ttf?v=3.2.1") format("truetype"), url("../font/fontawesome-webfont.svg#fontawesomeregular?v=3.2.1") format("svg"); font-weight: normal; font-style: normal; }
+[class^="icon-"], [class*=" icon-"], .icon { font-family: "Microsoft YaHei"; font-weight: normal; font-style: normal; text-decoration: inherit; -webkit-font-smoothing: antialiased; *margin-right: .3em; }
 [class^="icon-"]:before, [class*=" icon-"]:before, .icon:before { text-decoration: inherit; display: inline-block; speak: none; }
 
 .icon-large:before { vertical-align: -10%; font-size: 1.3333333333333333em; }
