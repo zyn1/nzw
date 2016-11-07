@@ -11,7 +11,7 @@
 .prog_bar .pro_three_three{background: url("../../../image/ucenter/phone_3_3.png") no-repeat center;height: 36px; width: 226px;position: relative;right: 12px;}
 
 .prog_info{width: 672px; margin: 0 auto; height: auto;position: relative;padding: 50px;}
-.prog_info p i{color: #6bb945;font-size: 14px;}
+.prog_info p i{color: #FF8225;font-size: 14px;}
 .prog_info p {line-height: 52px;}
 .prog_info p label{cursor: default;}
 .prog_info p label:hover{color: #555;}

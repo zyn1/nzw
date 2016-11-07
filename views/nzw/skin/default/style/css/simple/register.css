@@ -21,7 +21,7 @@ blockquote, q { quotes: none; }
 blockquote:before, blockquote:after, q:before, q:after { content: ""; content: none; }
 
 a { text-decoration: none; cursor: pointer; color: #2d64b3; }
-a:hover, a:focus { outline: none; color: #FF8225; text-decoration: underline; }
+a:hover, a:focus { outline: none; color: #6bb945; text-decoration: underline; }
 a, a * { cursor: pointer; }
 
 
