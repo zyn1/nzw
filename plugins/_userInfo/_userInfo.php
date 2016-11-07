@@ -78,7 +78,7 @@ class _userInfo extends pluginBase
 			IError::show("网站当前已经关闭注册");
 		}
 
-		if($siteObj->reg_option == 3)
+		else
 		{
 			plugin::reg("onFinishView",function(){
 				$this->view("mobileCheck");
