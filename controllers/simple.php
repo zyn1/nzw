@@ -1537,4 +1537,11 @@ class Simple extends IController
 		$result = array('data' => $sqlData);
 		die(JSON::encode($result));
 	}
+    
+    //注册服务协议页面
+    function regSevice()
+    {
+        $this->layout = '';
+        $this->redirect('regSevice');
+    }
 }
