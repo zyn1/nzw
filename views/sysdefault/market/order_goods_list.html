@@ -1,5 +1,5 @@
 {js:my97date}
-{set:$search = IReq::get('search') ? IFilter::act(IReq::get('search'),'strict') : array();}
+{set:$start = IReq::get('start') ? IFilter::act(IReq::get('start')) : '';$end = IReq::get('end') ? IFilter::act(IReq::get('end')) : '';$is_checkout = IFilter::act(IReq::get('is_checkout'));}
 
 <div class="headbar">
 	<div class="position"><span>统计</span><span>></span><span>商户数据统计</span><span>></span><span>商户订单结算</span></div>
@@ -8,12 +8,12 @@
 			<form name="searchOrderGoods" action="{url:/}" method="get">
 				<input type='hidden' name='controller' value='market' />
 				<input type='hidden' name='action' value='order_goods_list' />
-				从 <input type="text" name='search[create_time>=]' value='' class="Wdate" pattern='date' alt='' onFocus="WdatePicker()" empty /> 到 <input type="text" name='search[create_time<=]' value='' empty pattern='date' class="Wdate" onFocus="WdatePicker()" />
+				从 <input type="text" name='start' value='{$start}' class="Wdate" pattern='date' alt='' onFocus="WdatePicker()" empty/> 到 <input type="text" name='end' value='{$end}' empty pattern='date' class="Wdate" onFocus="WdatePicker()" />
 
-				<select class="auto" name="search[is_checkout=]">
+				<select class="auto" name="is_checkout">
 					<option value="" selected="selected">结算状态</option>
-					<option value="0">未结算</option>
-					<option value="1">已结算</option>
+					<option value="0" {if:$is_checkout === '0'} selected="selected" {/if}>未结算</option>
+					<option value="1" {if:$is_checkout == 1} selected="selected" {/if}>已结算</option>
 				</select>
 				<button class="btn" type="submit"><span class="sch">搜 索</span></button>
 			</form>
@@ -48,17 +48,17 @@
 
 		<tbody>
 			{set:$where = ''}
-			{foreach:items=$search}
-				{if:$item !== ""}{set:$where .= " and ".$key."'".$item."'"}{/if}
-			{/foreach}
+            {if:$start !== ""}{set:$where .= " and create_time >= '".$start."'"}{/if}
+            {if:$end !== ""}{set:$where .= " and create_time <= '".$end." 23:59:59'"}{/if}
+			{if:$is_checkout !== ""}{set:$where .= " and is_checkout = ".$is_checkout}{/if}
 
 			{set:
 				$page = (isset($_GET['page'])&&(intval($_GET['page'])>0))?intval($_GET['page']):1;
 				$orderGoodsQuery = CountSum::getSellerGoodsFeeQuery();
 				$orderGoodsQuery->page  = $page;
 				$orderGoodsQuery->where = $orderGoodsQuery->getWhere().$where;
+                
 			}
-
 			{foreach:items  = $orderGoodsQuery->find()}
 			{set:$countData = CountSum::countSellerOrderFee(array($item))}
 			<tr>
@@ -86,11 +86,3 @@
 	</table>
 </div>
 {$orderGoodsQuery->getPageBar()}
-
-<script type="text/javascript">
-//表单回填
-var formObj = new Form('searchOrderGoods');
-{foreach:items=$search}
-formObj.setValue("search[{$key}]","{$item}");
-{/foreach}
-</script>

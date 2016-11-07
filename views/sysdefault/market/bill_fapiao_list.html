@@ -1,5 +1,5 @@
 {js:my97date}
-{set:$search = IReq::get('search') ? IFilter::act(IReq::get('search'),'strict') : array();}
+{set:$start = IReq::get('start') ? IFilter::act(IReq::get('start')) : '';$end = IReq::get('end') ? IFilter::act(IReq::get('end')) : '';$status = IFilter::act(IReq::get('status'));$type = IFilter::act(IReq::get('type'));}
 
 <div class="headbar">
 	<div class="position"><span>统计</span><span>></span><span>商户数据统计</span><span>></span><span>申请发票列表</span></div>
@@ -11,19 +11,19 @@
 
 				<span>
 					申请时间
-					<input type="text" name='search[create_time>=]' value='' class="Wdate" pattern='date' onFocus="WdatePicker()" empty title='选择起始时间' /> 到
-					<input type="text" name='search[create_time<=]' value='' class="Wdate" pattern='date' onFocus="WdatePicker()" empty title='选择终止时间' />
+					<input type="text" name='start' value='{$start}' class="Wdate" pattern='date' onFocus="WdatePicker()" empty title='选择起始时间' /> 到
+					<input type="text" name='end' value='{$end}' class="Wdate" pattern='date' onFocus="WdatePicker()" empty title='选择终止时间' />
 				</span>
 
-                <select class="auto" name="search[status=]">
+                <select class="auto" name="status">
                     <option value="" selected="selected">状态</option>
-                    <option value="0">未开</option>
-                    <option value="1">已开</option>
+                    <option value="0"{if:$status === '0'} selected="selected" {/if}>未开</option>
+                    <option value="1"{if:$status == 1} selected="selected" {/if}>已开</option>
                 </select>
-				<select class="auto" name="search[type=]">
+				<select class="auto" name="type">
 					<option value="" selected="selected">申请类型</option>
-					<option value="0">普通</option>
-					<option value="1">增值税</option>
+					<option value="0"{if:$type === '0'} selected="selected" {/if}>普通</option>
+					<option value="1"{if:$type == 1} selected="selected" {/if}>增值税</option>
 				</select>
 
 				<button class="btn" type="submit"><span class="sch">搜 索</span></button>
@@ -56,9 +56,10 @@
 
 		<tbody>
 			{set:$where = 1}
-			{foreach:items=$search}
-			{if:$item !== ""}{set:$where .= " and ".$key."'".$item."'"}{/if}
-			{/foreach}
+			{if:$start !== ""}{set:$where .= " and b.create_time >= '".$start."'"}{/if}
+            {if:$end !== ""}{set:$where .= " and b.create_time <= '".$end." 23:59:59'"}{/if}
+            {if:$status !== ""}{set:$where .= " and b.status = ".$status}{/if}
+            {if:$type !== ""}{set:$where .= " and b.type = ".$type}{/if}
 			{set:$page= (isset($_GET['page'])&&(intval($_GET['page'])>0))?intval($_GET['page']):1;}
 			{query: name=bill_fapiao as b join=left join seller as s on b.seller_id eq s.id fields=b.*,s.seller_name where=$where page=$page}
 			<tr>
