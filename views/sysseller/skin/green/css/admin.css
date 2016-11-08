@@ -975,7 +975,7 @@ button span{display:block;height:20px;line-height:20px;height:18px\9;padding:0 5
 /*对账单*/
 fieldset.statements {position: relative;padding-bottom: 20px;}
 fieldset.statements .sta_tit h5 {text-align: center;font-size: 15px;margin: 0;line-height: 42px;width: 96%;}
-fieldset.statements .sta_tit img{float: right;height: 24px;position: relative;top: -30px;right: 4%;}
+fieldset.statements .sta_tit img{float: right;height: 36px;position: relative;top: -30px;right: 4%;}
 fieldset.statements .sta_ul{padding: 10px 0; border-radius: 5px 5px 0 0;border: 1px solid #ccc;display: block;float: left;width: 96%; margin: 0 10px;}
 fieldset.statements .sta_ul li label{font-weight: normal;}
 fieldset.statements .sta_ul li label input{width: 40%;border: none;border-bottom: 1px solid #999;height: 16px; border-radius: 0;box-shadow: none;background: #F8F8F8}
