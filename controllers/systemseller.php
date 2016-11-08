@@ -40,9 +40,9 @@ class SystemSeller extends IController
                 $sellerObj->update($where);
 
                 //存入私密数据
-                ISafe::set('seller_id',$sellerRow['id']);
-                ISafe::set('seller_name',$sellerRow['seller_name']);
-                ISafe::set('seller_pwd',$sellerRow['password']);
+                ISafe::set('seller_id',$sellerRow['id'],'session');
+                ISafe::set('seller_name',$sellerRow['seller_name'],'session');
+                ISafe::set('seller_pwd',$sellerRow['password'],'session');
 
                 $this->redirect('/seller/index');
             }

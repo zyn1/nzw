@@ -55,9 +55,9 @@ class SystemAdmin extends IController
 					$roleRow = $roleObj->getObj($where);
 					ISafe::set('admin_role_name',$roleRow['name']);
 				}
-				ISafe::set('admin_id',$adminRow['id']);
+				ISafe::set('admin_id',$adminRow['id'],'session');
 				ISafe::set('admin_name',$adminRow['admin_name']);
-				ISafe::set('admin_pwd',$adminRow['password']);
+				ISafe::set('admin_pwd',$adminRow['password'],'session');
 				$this->redirect('/system/default');
 			}
 			else

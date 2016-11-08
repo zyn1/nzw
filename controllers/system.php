@@ -635,7 +635,7 @@ class System extends IController implements adminAuthorization
 				ISafe::set('admin_name',$dataArray['admin_name']);
 				if(isset($dataArray['password']))
 				{
-					ISafe::set('admin_pwd',$dataArray['password']);
+					ISafe::set('admin_pwd',$dataArray['password'],'session');
 				}
 			}
 		}
@@ -1454,7 +1454,7 @@ class System extends IController implements adminAuthorization
 			$adminObj->update('id = '.$this->admin['admin_id']);
 
 			//同步更新safe
-			ISafe::set('admin_pwd',$passwordMd5);
+			ISafe::set('admin_pwd',$passwordMd5,'session');
 
 			$this->redirect('default');
 		}

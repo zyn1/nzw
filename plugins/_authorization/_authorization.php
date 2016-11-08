@@ -79,10 +79,12 @@ class _authorization extends pluginBase
 	//清除用户权限
 	public function clearUser()
 	{
-		ISafe::clear('user_id');
-		ISafe::clear('username');
+		ISafe::clear('user_id','session');
+        ISafe::clear('username','session');
+        ISafe::clear('loginName');
+		ISafe::clear('loginPassword');
 		ISafe::clear('head_ico');
-		ISafe::clear('user_pwd');
+		ISafe::clear('user_pwd','session');
 	}
 
 	//清除管理员权限
@@ -91,15 +93,15 @@ class _authorization extends pluginBase
     	ISafe::clear('admin_id');
     	ISafe::clear('admin_right');
     	ISafe::clear('admin_name');
-    	ISafe::clear('admin_pwd');
+    	ISafe::clear('admin_pwd','session');
 	}
 
 	//清除商家权限
 	public function clearSeller()
 	{
-    	ISafe::clear('seller_id');
-    	ISafe::clear('seller_name');
-    	ISafe::clear('seller_pwd');
+    	ISafe::clear('seller_id','session');
+    	ISafe::clear('seller_name','session');
+    	ISafe::clear('seller_pwd','session');
 	}
 
 	/**
@@ -135,7 +137,7 @@ class _authorization extends pluginBase
 	{
 		$admin = array(
 			'admin_name'      => ISafe::get('admin_name'),
-			'admin_pwd'       => ISafe::get('admin_pwd'),
+			'admin_pwd'       => ISafe::get('admin_pwd','session'),
 			'admin_role_name' => ISafe::get('admin_role_name'),
 		);
 
@@ -159,8 +161,8 @@ class _authorization extends pluginBase
 	public static function getSeller()
 	{
 		$seller = array(
-			'seller_name' => ISafe::get('seller_name'),
-			'seller_pwd'  => ISafe::get('seller_pwd'),
+			'seller_name' => ISafe::get('seller_name','session'),
+			'seller_pwd'  => ISafe::get('seller_pwd','session'),
 		);
 
 		if($sellerRow = self::isValidSeller($seller['seller_name'],$seller['seller_pwd']))

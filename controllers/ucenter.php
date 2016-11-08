@@ -548,7 +548,7 @@ class Ucenter extends IController implements userAuthorization
 	    	$result  = $userObj->update($where);
 	    	if($result)
 	    	{
-	    		ISafe::set('user_pwd',$passwordMd5);
+	    		ISafe::set('user_pwd',$passwordMd5,'session');
 	    		$message = '密码修改成功';
 	    	}
 	    	else

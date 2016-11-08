@@ -129,7 +129,7 @@ class _userInfo extends pluginBase
 			if($is_auto == 1)
 			{
                 ICookie::set('loginName',$login_info);
-				ICookie::set('loginNamePassword',$password);
+				ICookie::set('loginPassword',md5($password.'nz826.com'));
 			}
 			return $userRow;
 		}
@@ -321,15 +321,29 @@ class _userInfo extends pluginBase
 	 */
 	public static function getUser()
 	{
-		$user = array(
-			'username' => ISafe::get('username'),
-			'user_pwd' => ISafe::get('user_pwd'),
-		);
+        if(ISafe::get('loginName'))
+        {
+            //自动登录
+            $user = array(
+                'username' => ISafe::get('loginName'),
+                'user_pwd' => ISafe::get('loginPassword'),
+                'type'     => 1
+            );
+        }
+        else
+        {
+		    $user = array(
+			    'username' => ISafe::get('username','session'),
+			    'user_pwd' => ISafe::get('user_pwd','session'),
+                'type'     => 2
+		    );
+        }
 
-		if($userRow = self::isValidUser($user['username'],$user['user_pwd']))
+		if($userRow = self::isValidUser($user['username'],$user['user_pwd'],$user['type']))
 		{
 			$user['user_id'] = $userRow['id'];
 			$user['head_ico']= $userRow['head_ico'];
+            unset($user['type']);
 			return $user;
 		}
 		else
@@ -345,7 +359,7 @@ class _userInfo extends pluginBase
 	 * @param  string $password   用户名的md5密码
 	 * @return array or false 如果合法则返回用户数据;不合法返回false
 	 */
-	public static function isValidUser($login_info,$password)
+	public static function isValidUser($login_info,$password,$type = 2)
 	{
 		$login_info = IFilter::addSlash($login_info);
 		$password   = IFilter::addSlash($password);
@@ -353,10 +367,17 @@ class _userInfo extends pluginBase
 		$userObj = new IModel('user as u,member as m');
 		$where   = "(u.username = '{$login_info}' or m.email = '{$login_info}' or m.mobile='{$login_info}') and m.status = 1 and u.id = m.user_id";
 		$userRow = $userObj->getObj($where);
-
-		if($userRow && ($userRow['password'] == $password))
+        
+		if($userRow)
 		{
-			return $userRow;
+            if(($type == 1 && (md5($userRow['password'].'nz826.com') == $password)) || ($type == 2 && ($userRow['password'] == $password)))
+            {
+                return $userRow;   
+            }
+            else
+            {
+                return false;
+            }
 		}
 		return false;
 	}
@@ -368,9 +389,9 @@ class _userInfo extends pluginBase
 	public function userLoginCallback($userRow)
 	{
 		//用户私密数据
-		ISafe::set('user_id',$userRow['id']);
-		ISafe::set('username',$userRow['username']);
-		ISafe::set('user_pwd',$userRow['password']);
+		ISafe::set('user_id',$userRow['id'],'session');
+		ISafe::set('username',$userRow['username'],'session');
+		ISafe::set('user_pwd',$userRow['password'],'session');
 		ISafe::set('head_ico',isset($userRow['head_ico']) ? $userRow['head_ico'] : '');
 		ISafe::set('last_login',isset($userRow['last_login']) ? $userRow['last_login'] : '');
 
