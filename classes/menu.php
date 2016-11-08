@@ -300,7 +300,7 @@ class Menu
 		}
 
 		//配置菜单映射
-		if(self::$innerPathUrl)
+		/*if(self::$innerPathUrl)
 		{
 			foreach(self::$innerPathUrl as $key => $val)
 			{
@@ -309,7 +309,7 @@ class Menu
 					return self::menuValue($menu,$val);
 				}
 			}
-		}
+		}*/
 		return null;
     }
 

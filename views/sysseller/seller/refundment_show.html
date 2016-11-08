@@ -1,7 +1,7 @@
 {set:$isWrite = (($pay_status == 0 || $pay_status == 4) && Order_Class::isSellerRefund($id,$type,$this->seller['seller_id']) == 2) ? true : false}
 <article class="module width_full">
 	<header>
-		<h3 class="tabs_involved">商品退款详情</h3>
+		<h3 class="tabs_involved">{if:$type == 1}商品退款详情{else:}商品换货详情{/if}</h3>
 	</header>
 
 	<form action="{url:/seller/refundment_update}" name="refundForm" method="post">
