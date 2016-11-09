@@ -128,6 +128,21 @@ class Ucenter extends IController implements userAuthorization
         }
         $orderStatus = Order_Class::getOrderStatus($this->order_info);
         $this->setRenderData(array('orderStatus' => $orderStatus));
+        
+        //自动完成订单倒计时
+        if(in_array($orderStatus,array(11,3)))
+        {
+            $pluginDB    = new IModel('plugin');
+            if($dataRow = $pluginDB->getObj("class_name = 'orderAutoUpdate' and is_open = 1", 'config_param'))
+            {
+                $configData = JSON::decode($dataRow['config_param']);
+                $order_finish_time = isset($configData['order_finish_time']) ? intval($configData['order_finish_time']) : 0;
+                $send_time = $this->order_info['send_time'];
+                $finish_time = strtotime("$send_time + $order_finish_time days");
+                $this->time = $finish_time-ITime::getNow();
+            }
+        }
+        
         $this->redirect('order_detail',false);
     }
 
@@ -436,6 +451,20 @@ class Ucenter extends IController implements userAuthorization
 	        	$this->redirect('refunds',false);
 	        	Util::showMessage("没有找到要退款的商品");
         	}
+            
+            //自动同意倒计时
+            if($refundRow['pay_status'] == 0)
+            {
+                $pluginDB    = new IModel('plugin');
+                if($dataRow = $pluginDB->getObj("class_name = 'orderAutoUpdate' and is_open = 1", 'config_param'))
+                {
+                    $configData = JSON::decode($dataRow['config_param']);
+                    $order_agree_time = isset($configData['order_agree_time']) ? intval($configData['order_agree_time']) : 0;
+                    $time = $refundRow['time'];
+                    $agree_time = strtotime("$time + $order_agree_time days");
+                    $this->time = $agree_time-ITime::getNow();
+                }
+            }
         	$this->redirect('refunds_detail');
         }
         else

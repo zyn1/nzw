@@ -11,7 +11,20 @@
             <th>处理结果：</th>
             <td>
                 {echo:Order_Class::refundmentText($this->data['pay_status'],$this->data['type'])}
-                {if:$this->data['pay_status'] == 3}&nbsp;&nbsp;&nbsp;<a href="javascript:;" onclick="jsOpenRefundsInfo()">填写退货单</a>{/if}   
+                {if:$this->data['pay_status'] == 3}&nbsp;&nbsp;&nbsp;<a href="javascript:;" onclick="jsOpenRefundsInfo()">填写退货单</a>{/if} 
+                
+                {if:$this->data['pay_status'] == 0}
+                    &nbsp;&nbsp;&nbsp;
+                    {if:$this->time > 0}
+                    <strong>商家自动处理倒计时：</strong>
+                    {set:$free_time=$this->time;}
+                    <time id="cd_hour_{$this->data['id']}">{echo:floor($free_time/3600);}</time><span>小时</span>
+                    <time id="cd_minute_{$this->data['id']}">{echo:floor( ($free_time%3600)/60 );}</time><span>分钟</span>
+                    <time id="cd_second_{$this->data['id']}">{echo:$free_time%60}</time><span>秒</span>
+                    {else:}
+                    <strong>此订单金额已被商家结算完毕，请直接与商家客服联系</strong>
+                    {/if}
+                {/if}  
             </td>
         </tr>
         {if:$this->data['pay_status'] == 4}
@@ -114,4 +127,9 @@
 function jsOpenRefundsInfo(){
     $('.js_delivery_info').show();
 }
+$(function(){
+    //倒计时
+    var cd_timer = new countdown();
+    cd_timer.add({$this->data['id']});
+});
 </script>

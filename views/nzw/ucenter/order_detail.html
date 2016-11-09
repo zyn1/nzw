@@ -42,6 +42,15 @@
         {/if}
 	</p>
 </section>
+{if:in_array($orderStatus,array(11,3))}
+<section>
+    <strong>确认收货倒计时：</strong>
+    {set:$free_time=$this->time;}
+    <time id="cd_hour_{$this->order_info['order_id']}">{echo:floor($free_time/3600);}</time><span>小时</span>
+    <time id="cd_minute_{$this->order_info['order_id']}">{echo:floor( ($free_time%3600)/60 );}</time><span>分钟</span>
+    <time id="cd_second_{$this->order_info['order_id']}">{echo:$free_time%60}</time><span>秒</span>
+</section>
+{/if}
 <header class="uc_head">
 	<h3>收件人信息</h3>
 </header>
@@ -244,4 +253,11 @@ function payPass(){
         "cancelVal":"取消",
     });
 }
+
+$(function(){
+    //倒计时
+    var cd_timer = new countdown();
+    cd_timer.add({$this->order_info['order_id']});
+});
+
 </script>

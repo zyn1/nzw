@@ -28,8 +28,8 @@ class orderAutoUpdate extends pluginBase
         $configData = $this->config();
 
         //按照分钟计算
-        $order_finish_time = (isset($configData['order_finish_time']) && $configData['order_finish_time']) ? intval($configData['order_finish_time']) : 20*24*60;
-        $order_agree_time = (isset($configData['order_agree_time']) && $configData['order_agree_time']) ? intval($configData['order_agree_time']) : 3*24*60;
+        $order_finish_time = (isset($configData['order_finish_time']) && $configData['order_finish_time']) ? intval($configData['order_finish_time'])*24*60 : 20*24*60;
+        $order_agree_time = (isset($configData['order_agree_time']) && $configData['order_agree_time']) ? intval($configData['order_agree_time'])*24*60 : 3*24*60;
 
         $orderModel = new IModel('order');
         $orderCreateData  = $order_finish_time > 0 ? $orderModel->query(" if_del = 0 and distribution_status = 1 and status in(1,2) and timestampdiff(minute,send_time,NOW()) >= {$order_finish_time} ","id,order_no") : array();
@@ -98,7 +98,7 @@ class orderAutoUpdate extends pluginBase
         $configData = $this->config();
 
         //按照分钟计算
-        $order_agree_time = (isset($configData['order_agree_time']) && $configData['order_agree_time']) ? intval($configData['order_agree_time']) : 3*24*60;
+        $order_agree_time = (isset($configData['order_agree_time']) && $configData['order_agree_time']) ? intval($configData['order_agree_time'])*24*60 : 3*24*60;
         
         $refundmentDB = new IModel('refundment_doc');
         $refundsList = $order_agree_time > 0 ? $refundmentDB->query("if_del = 0 and pay_status = 0 and timestampdiff(minute,time,NOW()) >= {$order_agree_time}", 'id,order_id,type,amount,order_goods_id,seller_id') : array();
@@ -145,7 +145,6 @@ class orderAutoUpdate extends pluginBase
                         if($v['type'] == 1)
                         {
                             $result = Order_Class::refund($v['id'],$v['seller_id'],'seller');
-                            var_dump($result);
                             if(is_string($result))
                             {
                                 $refundmentDB->rollback();
@@ -183,9 +182,9 @@ class orderAutoUpdate extends pluginBase
 	public static function configName()
 	{
 		return array(
-			"order_finish_time" => array("name" => "已发货订单 X(分钟)自动完成","type" => "text","pattern" => "int"),
-            //"order_cancel_time" => array("name" => "未付款订单 X(分钟)自动取消","type" => "text","pattern" => "int"),
-			"order_agree_time" => array("name" => "申请退换货的订单 X(分钟)自动同意","type" => "text","pattern" => "int"),
+			"order_finish_time" => array("name" => "已发货订单 X(天)自动完成","type" => "text","pattern" => "int"),
+            //"order_cancel_time" => array("name" => "未付款订单 X(天)自动取消","type" => "text","pattern" => "int"),
+			"order_agree_time" => array("name" => "申请退换货的订单 X(天)自动同意","type" => "text","pattern" => "int"),
 		);
 	}
 
@@ -204,6 +203,6 @@ class orderAutoUpdate extends pluginBase
 	 */
 	public static function description()
 	{
-		return "订单自动完成和退换货自动处理。1，已经发货的订单会在X分钟后自动完成；2，申请退换货的订单会在X分钟后自动同意";
+		return "订单自动完成和退换货自动处理。1，已经发货的订单会在X天后自动完成；2，申请退换货的订单会在X天后自动同意";
 	}
 }
