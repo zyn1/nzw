@@ -1,66 +1,66 @@
 $(function(){
-	$('[type=checkbox]').prop('checked',false);
-	$('#ckAll').click(function(){
-		$("input[name^='sub']").prop("checked", this.checked);
-			if(!this.checked) {
+    $('[type=checkbox]').prop('checked',false);
+    $('#ckAll').click(function(){
+        $("input[name^='sub']").prop("checked", this.checked);
+            if(!this.checked) {
                 $('.js_goods_list').find('input[type=checkbox]').removeAttr('checked');
                 $('#weight').text(0);
-			    $('#origin_price').text(0);
+                $('#origin_price').text(0);
                 $('#discount_price').text(0);     
-			    $('#sum_price').text(0);	
-			}else{
-					var weight = origin_price = total_discount = promotion_price = sum_price = 0;
+                $('#sum_price').text(0);    
+            }else{
+                    var weight = origin_price = total_discount = promotion_price = sum_price = 0;
                     
                     $('.js_goods_list').find('input').attr('checked', 'checked');
-					$("input[name^='sub']").each(function(i){
-						var json = JSON.parse($(this).attr('data-json'));
-						var num = $('#count_'+json.goods_id+'_'+json.product_id).val();
+                    $("input[name^='sub']").each(function(i){
+                        var json = JSON.parse($(this).attr('data-json'));
+                        var num = $('#count_'+json.goods_id+'_'+json.product_id).val();
                         weight +=mathMul(parseFloat(json.weight),num);
-						origin_price +=mathMul(parseFloat(json.sell_price),num);
+                        origin_price +=mathMul(parseFloat(json.sell_price),num);
                         total_discount += mathMul(parseFloat(json.reduce),num);
                         
-					})
-                    $('#weight').text(weight);
+                    })
+                    $('#weight').text(weight.toFixed(2));
                     $('#origin_price').text(origin_price.toFixed(2));
-                    $('#discount_price').text(total_discount);      
-                    $('#sum_price').text(mathSub(origin_price, total_discount));    
-					
-			}
-	})
-	$('input[name^=sub]').click(function(){
-		var $subs = $("input[name^='sub']");
-		$('#ckAll').prop("checked" , $subs.length == $subs.filter(":checked").length ? true :false);
-		check_goods(this);
-	})
+                    $('#discount_price').text(total_discount.toFixed(2));      
+                    $('#sum_price').text(mathSub(origin_price, total_discount,2));    
+                    
+            }
+    })
+    $('input[name^=sub]').click(function(){
+        var $subs = $("input[name^='sub']");
+        $('#ckAll').prop("checked" , $subs.length == $subs.filter(":checked").length ? true :false);
+        check_goods(this);
+    })
   
 
 })
 function check_goods(_this){
-		var data = $(_this).attr('data-json');
-		var dataObj = JSON.parse(data);
-		
-		var weight_total = parseInt($('#weight').text());
-		var origin_price = parseFloat( $('#origin_price').text());
+        var data = $(_this).attr('data-json');
+        var dataObj = JSON.parse(data);
+        
+        var weight_total = parseInt($('#weight').text());
+        var origin_price = parseFloat( $('#origin_price').text());
         var discount_price = parseFloat($('#discount_price').text());
         var promotion_price = parseFloat($('#promotion_price').text());
-		var delivery = parseFloat($('#delivery').text());
-		var sum_price = parseFloat($('#sum_price').text());
+        var delivery = parseFloat($('#delivery').text());
+        var sum_price = parseFloat($('#sum_price').text());
         var new_count = parseInt($('#count_'+dataObj.goods_id+'_'+dataObj.product_id).val());                 
-		var goods_price = mathMul(parseFloat(dataObj.sell_price),new_count);//选中商品的价格*数量
-		var goods_reduce = mathMul(parseFloat(dataObj.reduce),new_count);
-		if($(_this).prop('checked')){//
-		    $('#weight').text(mathAdd(weight_total,mathMul(parseInt(dataObj.weight),new_count),2));
-			$('#origin_price').text(mathAdd(origin_price,goods_price,2));
-            $('#discount_price').text(mathAdd(discount_price,goods_reduce,2));
-            $('#sum_price').text(mathSub(mathAdd(origin_price,goods_price,2), mathAdd(discount_price,goods_reduce,2)));  
-		}else{
-			$('#weight').text(mathSub(weight_total,parseInt(mathMul(dataObj.weight,new_count)),2));
-			$('#origin_price').text(mathSub(origin_price,goods_price,2));
+        var goods_price = mathMul(parseFloat(dataObj.sell_price),new_count);//选中商品的价格*数量
+        var goods_reduce = mathMul(parseFloat(dataObj.reduce),new_count);
+        if($(_this).prop('checked')){//
+            $('#weight').text(mathAdd(weight_total,mathMul(parseInt(dataObj.weight),new_count),2).toFixed(2));
+            $('#origin_price').text(mathAdd(origin_price,goods_price,2).toFixed(2));
+            $('#discount_price').text(mathAdd(discount_price,goods_reduce,2).toFixed(2));
+            $('#sum_price').text(mathSub(mathAdd(origin_price,goods_price,2), mathAdd(discount_price,goods_reduce,2),2));  
+        }else{
+            $('#weight').text(mathSub(weight_total,parseInt(mathMul(dataObj.weight,new_count)),2));
+            $('#origin_price').text(mathSub(origin_price,goods_price,2));
             $('#discount_price').text(mathSub(discount_price,goods_reduce,2));
-            $('#sum_price').text(mathSub(mathSub(origin_price,goods_price,2), mathSub(discount_price,goods_reduce,2)));  
-		}
-		
-	}
+            $('#sum_price').text(mathSub(mathSub(origin_price,goods_price,2), mathSub(discount_price,goods_reduce,2),2));  
+        }
+        
+    }
 
 
 //购物车数量改动计算
@@ -144,10 +144,10 @@ function cartCount(obj)
                         var new_origin_price = mathAdd(origin_price,mathMul(parseFloat(obj.sell_price),diff),2);
                         var new_discount_price = mathAdd(discount_price,mathMul(parseFloat(obj.reduce),diff));
                         var new_weight = mathAdd(weight_total,mathMul(parseInt(obj.weight),diff),2);
-                        $('#weight').text(new_weight);
-                        $('#origin_price').text(new_origin_price);
-                        $('#discount_price').text(new_discount_price);
-                        $('#sum_price').text(mathSub(new_origin_price, new_discount_price));
+                        $('#weight').text(new_weight.toFixed(2));
+                        $('#origin_price').text(new_origin_price.toFixed(2));
+                        $('#discount_price').text(new_discount_price.toFixed(2));
+                        $('#sum_price').text(mathSub(new_origin_price, new_discount_price,2));
                     }
                 });
             }
