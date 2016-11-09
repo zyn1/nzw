@@ -24,7 +24,7 @@ class menuUcenter
 		),
 
 		"个人设置" => array(
-			"/ucenter/address" => "收获地址管理",
+			"/ucenter/address" => "收货地址管理",
 			"/ucenter/info" => "完善个人资料",
 			"/ucenter/password" => "修改登录密码",
 			"/ucenter/changePhone" => "修改绑定手机",
