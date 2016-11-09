@@ -38,7 +38,7 @@ class Menu
 		'会员'=>array(
 			'会员管理'=>array(
 	    		'/member/member_list' 	=> '会员列表',
-	     		'/member/group_list' 	=> '会员组列表',
+	     		/*'/member/group_list' 	=> '会员组列表',*/
 	     		'/member/withdraw_list' =>'会员提现管理',
 				'/comment/message_list'	=> '会员消息',
 			),
@@ -56,8 +56,8 @@ class Menu
 				'/comment/refer_list'		=> '咨询管理',
 				'/comment/discussion_list'	=> '讨论管理',*/
 				'/comment/comment_list'		=> '评价管理',
-				'/message/notify_list'      => '到货通知',
-				'/message/registry_list'    => '邮件订阅',
+				/*'/message/notify_list'      => '到货通知',
+				'/message/registry_list'    => '邮件订阅',*/
 				'/message/marketing_sms_list'=> '营销短信',
 			),
 		),
@@ -75,12 +75,12 @@ class Menu
                 '/order/refundment_list'        => '退款申请列表',
         		'/order/changeGoods_list'        => '换货申请列表',
         	),
-        	'发货地址'=>array(
+        	/*'发货地址'=>array(
         		'/order/ship_info_list'         => '发货地址管理',
-        	),
+        	),*/
 		),
 
-		'营销'=>array(
+		/*'营销'=>array(
         	'促销活动' => array(
         		'/market/pro_rule_list' => '促销活动列表'
         	),
@@ -92,7 +92,7 @@ class Menu
         	'代金券管理'=>array(
         		'/market/ticket_list'       => '代金券列表',
         	)
-		),
+		),*/
 
 		'统计'=>array(
 			'基础数据统计'=>array(
@@ -118,9 +118,9 @@ class Menu
     		),
         	'网站管理'=>array(
         		'/system/conf_base' => '网站设置',
-        		'/system/conf_ui/type/site'   => '网站前台主题',
+        		/*'/system/conf_ui/type/site'   => '网站前台主题',
         		'/system/conf_ui/type/system'   => '后台管理主题',
-        		'/system/conf_ui/type/seller'   => '商家管理主题',
+        		'/system/conf_ui/type/seller'   => '商家管理主题',*/
         	),
         	'支付管理'=>array(
             	'/system/payment_list' => '支付方式'
@@ -132,8 +132,8 @@ class Menu
         	'配送管理'=>array(
             	'/system/delivery'  	=> '配送方式',
         		'/system/freight_list'	=> '物流公司',
-	    		'/system/takeself_list' => '自提点列表',
-	    		'/system/takeself_edit'  => '添加自提点',
+	    		/*'/system/takeself_list' => '自提点列表',
+	    		'/system/takeself_edit'  => '添加自提点',*/
         	),
         	'地域管理'=>array(
         		'/system/area_list' => '地区列表',
@@ -172,11 +172,11 @@ class Menu
    			),
             '家装知识管理'=>array(
                 '/tools/article_list'=> '家装知识列表',
-                '/tools/article_edit'=> '家装知识发布'
+                /*'/tools/article_edit'=> '家装知识发布'*/
             ),
-     		'网站地图'=>array(
+     		/*'网站地图'=>array(
             	'/tools/seo_sitemaps' => '网站搜索地图',
-			)
+			)*/
 		),
 		'其他' => array(
        		'其他管理' => array(
