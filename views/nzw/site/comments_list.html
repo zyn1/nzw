@@ -7,7 +7,7 @@
 
 <section class="web">
 	<section class="main">
-		<header class="uc_head">
+		<header class="uc_head" style="height:36px;line-height: 36px;">
 			<h3 name="tips"><a href="{url:/site/comments_list/id/$this->goods['goods_id']}">全部评论({$this->commentCount['comment_total']}条)</a></h3>
 			<h3 name="tipsgood"><a href="{url:/site/comments_list/id/$this->goods['goods_id']/type/good}">好评({$this->commentCount['point_grade']['good']}条)</a></h3>
 			<h3 name="tipsmiddle"><a href="{url:/site/comments_list/id/$this->goods['goods_id']/type/middle}">中评({$this->commentCount['point_grade']['middle']}条)</a></h3>
@@ -51,8 +51,8 @@
 	<aside class="bar">
 		<div class="bar_box">
 			<h3 class="bar_box_head">商品信息</h3>
-			<div class="bar_goods_big">
-				<a target="_blank" href="{url:/site/products/id/$this->goods['goods_id']}">
+			<div class="bar_goods_big discuss">
+				<a style="height:auto;" target="_blank" href="{url:/site/products/id/$this->goods['goods_id']}">
 					<img alt="{$this->goods['name']}" src="{url:/pic/thumb/img/$this->goods['img']/w/180/h/180}">
 					<h5>{$this->goods['name']}</h5>
 					<em>￥{$this->goods['sell_price']}</em>

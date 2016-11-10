@@ -3,8 +3,7 @@ html { font-size: 13px; background: url("../image/web_bg.png") 0 0 repeat-x #fff
 
 body { color: #555; line-height: 1; }
 
-body, button, input, select, textarea { font-family: "Microsoft YaHei"; *font-family: "Microsoft YaHei"; }
-
+body,form,div,ul,ol,li,h1,h2,h3,h4,h5,h6,table,tr,th,td,p,input,dl,dt,dd,ul,ol,li,input,textarea { font-family:"微软雅黑"!important;}
 .gehang { width: 10px; height: 10px; overflow: hidden; text-indent: -9999px; clear: both; display: block; }
 
 .block { display: block; }
@@ -75,7 +74,7 @@ body, button, input, select, textarea { font-family: "Microsoft YaHei"; *font-fa
 
 .red { color: #ff6332; }
 
-.red2 { color: #c33; }
+.red2 { color: #FF8225; }
 
 .blue { color: #2d64b3; }
 
@@ -1118,7 +1117,7 @@ a .icon-rotate-90:before, a .icon-rotate-180:before, a .icon-rotate-270:before, 
 }
 .header .header_main .servicetel {
   float: right;
-  width: 220px;
+  width: 221px;
   height: 32px;
   position: relative;
   margin-top: 24px;
@@ -1190,7 +1189,7 @@ a .icon-rotate-90:before, a .icon-rotate-180:before, a .icon-rotate-270:before, 
 .foot .help .contact i { margin-right: 10px; }
 .foot .help .contact .tel { color: #555555; font-size: 14px;font-weight: bold;text-align: center; line-height: 30px;margin-top: 16px; }
 .foot .help .contact .mail { color: #999; font-size: 18px;text-align: center;}
-.foot .help .contact .mail img{width: 100px; height: 100px;}
+.foot .help .contact .mail img{width: 120px; height: 120px;}
 .foot .service { padding: 30px; box-shadow: 0 -1px #fff, 0 -2px #ddd; }
 .foot .service ul li { width: 183px; float: left; padding-left: 45px; position: relative; }
 .foot .service ul li i { display: block; position: absolute; left: 0; top: 0; font-size: 30px; color: rgba(153, 153, 153, 0.5); }
@@ -1326,7 +1325,7 @@ a .icon-rotate-90:before, a .icon-rotate-180:before, a .icon-rotate-270:before, 
 .cart_table table th:first-child, .cart_item_goods table th:first-child { border-left: none; }
 .cart_table table td:nth-child(2), .cart_item_goods table td:nth-child(2) { text-align: left; }
 .cart_table table img, .cart_item_goods table img { display: block; width: 66px; height: 66px; padding: 3px; border: 1px solid #ddd; margin: 10px auto; }
-.cart_table table em, .cart_item_goods table em { font-weight: bold; color: #6bb945; }
+.cart_table table em, .cart_item_goods table em { font-weight: bold; color: #ff6332; }
 .cart_table table .stats, .cart_item_goods table .stats { padding: 10px; line-height: 2; text-align: right;color: #797979; }
 .cart_table table .stats.padd{padding-right: 18px;}
 .cart_table table .stats em, .cart_item_goods table .stats em { font-size: 16px; }
@@ -1351,7 +1350,7 @@ a .icon-rotate-90:before, a .icon-rotate-180:before, a .icon-rotate-270:before, 
 .cart_btn .clear_cart_btn i { color: #6bb945; }
 .cart_btn .go_back_btn { background: #c9c9c9; position: absolute; right: 200px; top: 10px;color: #fff; font-size: 16px; cursor: pointer;  width: 160px; height: 40px; border-radius: 3px; text-align: center; line-height: 40px; }
 .cart_btn .go_back_btn i { color: #999; }
-.cart_btn .gopay_btn { position: absolute; right: 20px; top: 10px; margin: 0; }
+.cart_btn .gopay_btn { position: absolute; right: 20px; top: 10px; margin: 0;font-size: 16px; }
 
 .cart_2, .cart_3 { width: 1198px; border: 1px solid #e4e4e4; margin: 0 auto;background: #fff; }
 .cart_2 .cart_header, .cart_3 .cart_header { border-top: 1px solid #fff; border-bottom: 1px solid #e4e4e4; height: 32px; line-height: 32px; font-size: 14px; text-indent: 20px; font-weight: bold; }
@@ -1490,7 +1489,7 @@ background-image: url("../image/icon_slides.png"); background-repeat: no-repeat;
 .home_2 .hot_goods_list li a { width: 182px; margin: 0 auto; display: block; text-decoration: none; }
 .home_2 .hot_goods_list li img{height: 182px;width: 182px;}
 .home_2 .hot_goods_list li h4 { color: #555; display: block; height: 40px; line-height: 20px; margin: 5px auto; font-weight: normal; overflow: hidden; }
-.home_2 .hot_goods_list li em { font-size: 16px; font-weight: bold; color: #e71f19; }
+.home_2 .hot_goods_list li em { font-size: 16px; font-weight: bold; color: #ff6332 ; }
 .home_2 .hot_goods_list li del { float: right; text-decoration: line-through; color: #999; }
 .home_1 .home_article { width: 240px; float: right; background: #fff;}
 .home_1 .home_article .tab li { width: 120px; }
@@ -1513,7 +1512,7 @@ background-image: url("../image/icon_slides.png"); background-repeat: no-repeat;
 .home_floor .floor_body .floor_goods li a { width: 170px; margin: 0 auto; display: block; text-decoration: none; }
 .home_floor .floor_body .floor_goods li img { display: block; width: 170px; height: 170px; }
 .home_floor .floor_body .floor_goods li h4 { color: #555555; display: block; margin: 5px auto; font-weight: normal; overflow: hidden; line-height: 20px; height: 20px; white-space: nowrap; text-overflow: ellipsis; }
-.home_floor .floor_body .floor_goods li em { font-size: 16px; font-weight: bold; color: #e71f19; }
+.home_floor .floor_body .floor_goods li em { font-size: 16px; font-weight: bold; color: #ff6332 ; }
 .home_floor .floor_body .floor_goods li del { float: right; text-decoration: line-through; color: #999; }
 
 .ad_cycle .number {
@@ -1791,9 +1790,9 @@ background-image: url("../image/icon_slides.png"); background-repeat: no-repeat;
 
 .prompt_page { width: 600px; margin: 150px auto; padding: 50px; }
 .prompt_page .ico { width: 140px; height: 140px; display: block; float: left; margin-right: 50px; }
-.prompt_page.error { box-shadow: 0 0 5px #e71f19;background: #fefefe; }
+.prompt_page.error { box-shadow: 0 0 5px #C6C6C6;background: #fefefe; }
 .prompt_page.error .ico { background: url("../image/cry.gif") center no-repeat; }
-.prompt_page.error strong { color: #6bb945; font-size: 16px; }
+.prompt_page.error strong { color: #555; font-size: 16px; }
 .prompt_page.success { box-shadow: 0 0 5px #379339; }
 .prompt_page.bor{box-shadow: 0 0 5px #bfbfbf;border: 1px solid #E4E4E4;}
 .prompt_page.success .ico { background: url("../image/right.gif") center no-repeat; }
@@ -1906,10 +1905,12 @@ background-image: url("../image/icon_slides.png"); background-repeat: no-repeat;
 .bar_goods_big img { display: block; width: 205px; height: 205px; margin: 10px auto; }
 .bar_goods_big img.hot_img {width: 60px; height: 60px; margin: 10px 6px 10px 10px;float: left;}
 .bar_goods_big h5 { font-weight: normal; font-size: 13px; padding: 0 10px; line-height: 20px; height: 40px; overflow: hidden; }
+.bar .bar_box .discuss h5{margin: 6px 0;color: #555;}
+.bar .bar_box .discuss em{position: relative;}
 .bar_goods_big span { height: 20px; line-height: 20px; text-align: center; display: block; }
 .bar_goods_big span.hot_deta{text-align: left; float: left;width: 144px;padding-top: 8px; height: 40px;overflow: hidden;color: #555;}
 .bar_goods_big em, .bar_goods_big .star_box { position: absolute; bottom: 10px; }
-.bar_goods_big em { left: 10px; font-size: 15px; color: #6bb945; font-weight: bold; }
+.bar_goods_big em { left: 10px; font-size: 15px; color: #FF8225; font-weight: bold; }
 .bar_goods_big em.hot_price{position: inherit;}
 .bar_goods_big .star_box { right: 10px; bottom: 5px; }
 .bar_goods_big li { border-bottom: 1px solid #ddd;position: relative; }
@@ -2142,12 +2143,12 @@ background-image: url("../image/icon_slides.png"); background-repeat: no-repeat;
 .uc_head_tab a { color: #6d6d6d; background: #eeeeee; background-image: -webkit-linear-gradient(0deg, #eeeeee, #eeeeee); background-image: linear-gradient(0deg, #eeeeee, #eeeeee); box-shadow: 0 0 0 1px #eeeeee inset, 0 0 0 2px #eeeeee inset;}
 .uc_head_tab a:hover { text-decoration: none; color: #6d6d6d; }
 .uc_head_tab .money { float: right; margin-right: 15px; }
-.uc_head_tab .money em { font-weight: bold; color: #6bb945; }
+.uc_head_tab .money em { font-weight: bold; color: #ff6332; }
 
 .uc_table { margin-bottom: 10px; border: 1px solid #e4e4e4; border-top: none; border-bottom: none; }
 .uc_table table { width: 100%; text-align: center; }
 .uc_table table thead th { border-bottom: 1px solid #e4e4e4; height: 36px; color: #6d6d6d; background: #fafafa; font-size: 14px; }
-.uc_table table tbody th, .uc_table table tbody td { padding: 8px 5px; line-height: 1.6; border-bottom: 1px solid #e4e4e4;    color: #6d6d6d; }
+.uc_table table tbody th, .uc_table table tbody td { padding: 8px 5px; line-height: 1.6; border-bottom: 1px solid #e4e4e4; }
 .uc_table table tbody tr:nth-child(2n) { background: #fcfcfc; }
 .uc_table table tbody h4 { text-align: left; font-size: 14px; text-indent: 10px; position: relative;}
 /*.uc_table table tbody h4:before { content: ""; display: block; position: absolute; background: #6bb945; width: 3px; height: 3px; left: 3px; top: 10px; }*/
