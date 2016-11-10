@@ -2,12 +2,15 @@ html {
     margin: 0;
     padding: 0;
 }
+body,form,div,ul,ol,li,h1,h2,h3,h4,h5,h6,table,tr,th,td,p,input,dl,dt,dd,ul,ol,li,input,textarea { font-family:"微软雅黑"!important;}
+
 body {
     background: url("../images/login/bg.jpg") repeat scroll 0 0;
-    font-family: Arial,"Microsoft Yahei";
+    font-family: "Microsoft Yahei";
     margin: 0;
     padding: 0;
 }
+body,a,span,i,div,h1,h2,h3,h4,h5,p, button, input{font-family: "Microsoft Yahei";}
 .wrap {
     animation: 600ms linear 0s normal none 1 bounceIn;
     margin: 180px auto 0;

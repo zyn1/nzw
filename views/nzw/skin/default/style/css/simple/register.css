@@ -2,6 +2,8 @@ body, ul, ol, dl, dd, h1, h2, h3, h4, h5, h6, pre, form, fieldset, legend, input
 
 table { border-collapse: collapse; border-spacing: 0; }
 
+body,form,div,ul,ol,li,h1,h2,h3,h4,h5,h6,table,tr,th,td,p,input,dl,dt,dd,ul,ol,li,input,textarea { font-family:"微软雅黑"!important;}
+
 ul, ol, menu { list-style: none; text-align: left; }
 
 fieldset, img { border: none; }
