@@ -1,6 +1,6 @@
 .screen{width: 1200px; background: #fff; margin:0 auto;height: 50px; border: 1px solid #e4e4e4;margin-top: 15px;}
 .screen li{float: left;line-height: 50px; text-align: center; padding: 0 30px; font-size: 14px;}
-.screen li.color{color: #fff; background: #ff4400;}
+.screen li.color{color: #fff; background: #6bb945;}
 .screen li:hover{cursor: pointer;}
 .merch_list{height: auto;overflow: hidden;margin: 0 auto;margin-top: 8px;background: #fff; border: 1px solid #e4e4e4;}
 .merch_list li{border-bottom: 1px solid #e4e4e4;padding: 18px 30px;width: 1200px;overflow: hidden;}
