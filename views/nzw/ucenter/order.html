@@ -22,6 +22,13 @@
 				{set:$orderStatus = Order_Class::getOrderStatus($item)}
 				<b class="{if:$orderStatus >= 6}green{else:}orange{/if}">{echo:Order_Class::orderStatusText($orderStatus)}</b>
 			</td>
+		<script>
+			$(function(){
+				$("b:contains(申请换货)").css({'color':'#555','fontWeight':'normal'});
+				$("b:contains(申请退货)").css({'color':'#7b7b7b','fontWeight':'normal'});
+				$("b:contains(已取消)").css({'color':'#999','fontWeight':'normal'});
+			})
+		</script>
 		</tr>
 		{/foreach}
 		</tbody>
