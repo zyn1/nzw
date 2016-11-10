@@ -1752,7 +1752,7 @@ background-image: url("../image/icon_slides.png"); background-repeat: no-repeat;
 .goods_sort li:before { content: ""; display: block; width: 0; height: 0; right: 7px; top: 19px; position: absolute; border-style: solid; border-color: #999 transparent transparent transparent; border-width: 6px 6px 0; }
 .goods_sort li.asc:after { top: 19px; }
 .goods_sort li.asc:before { top: 14px; border-color: transparent transparent #999 transparent; border-width: 0 6px 6px; }
-.goods_sort li.current { background: #e71f19; }
+.goods_sort li.current { background: #6BB945; }
 .goods_sort li.current a { color: #fff; }
 .goods_sort li.current:after { background: #fafafa; }
 .goods_sort li.current:before { border-color: #fafafa transparent transparent transparent; }
