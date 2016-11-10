@@ -13,7 +13,7 @@
 			<h3 name="tipsmiddle"><a href="{url:/site/comments_list/id/$this->goods['goods_id']/type/middle}">中评({$this->commentCount['point_grade']['middle']}条)</a></h3>
 			<h3 name="tipsbad"><a href="{url:/site/comments_list/id/$this->goods['goods_id']/type/bad}">差评({$this->commentCount['point_grade']['bad']}条)</a></h3>
 		</header>
-		<div class="comment_list">
+		<div class="comment_list" style="border:1px solid #e4e4e4;border-top:none;">
 
 			{foreach:items=$this->commentQuery->find() item=$comment}
 			<div class="comment_item">
