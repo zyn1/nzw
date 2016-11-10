@@ -2174,7 +2174,8 @@ background-image: url("../image/icon_slides.png"); background-repeat: no-repeat;
 .user_form .grade_fl dl dt{width: 82px;}
 .user_form dl dt.vertical{vertical-align: top;}
 .user_form label { cursor: pointer; }
-.user_form label.attr{vertical-align: super;}
+.user_form label.attr{vertical-align: super;margin: 0px 8px;}
+.user_form label.attr input{margin: 0 5px;}
 .user_form label:hover { color: #6bb945; }
 .user_form input:checked + * { color: #e71f19; }
 
