@@ -24,8 +24,8 @@
 			<dt>退换商品：</dt>
 			<dd>
 				{foreach:items=Api::run('getOrderGoodsListByGoodsid',array('#order_id#',$this->orderRow['id'])) item=$good}
-				{set:$good_info = JSON::decode($good['goods_array'])}
-				{if:$good['is_send'] != 2}
+				{set:$good_info = JSON::decode($good['goods_array']);$refundsDB = new IModel('refundment_doc');}
+				{if:$good['is_send'] != 2 && !$refundsDB->getObj("if_del = 0 and (pay_status = 0 or pay_status = 3 or pay_status = 4) and FIND_IN_SET($good[id],order_goods_id)", 'id')}
 				<p>
 					<label>
 						<input type="checkbox" name="order_goods_id[]" value="{$good['id']}" />

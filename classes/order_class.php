@@ -602,16 +602,30 @@ class Order_Class
 		//2,已经付款
 		else if($orderRow['status'] == 2)
 		{
-			$refundDB  = new IModel('refundment_doc');
-			$refundRow = $refundDB->getObj('order_no = "'.$orderRow['order_no'].'" and if_del = 0 and pay_status = 0');
-			if($refundRow && $refundRow['type'] == 1)
+            if($orderRow['refunds_status'] == 1)
             {
-                return 12;
+                return 12; //申请退货
             }
-            if($refundRow && $refundRow['type'] == 2)
-			{
-				return 15;
-			}
+            if($orderRow['refunds_status'] == 2)
+            {
+                return 15; //申请换货
+            }
+            if($orderRow['refunds_status'] == 3)
+            {
+                return 21; //部分申请退货
+            }
+            if($orderRow['refunds_status'] == 4)
+            {
+                return 22; //部分申请换货
+            }
+            if($orderRow['refunds_status'] == 5)
+            {
+                return 23; //部分申请退换
+            }
+            if($orderRow['refunds_status'] == 6)
+            {
+                return 24; //申请退换
+            }
 
 			if($orderRow['distribution_status'] == 0)
 			{
@@ -634,16 +648,32 @@ class Order_Class
 		//4,完成订单
 		else if($orderRow['status'] == 5)
 		{
-            $refundDB  = new IModel('refundment_doc');
-            $refundRow = $refundDB->getObj('order_no = "'.$orderRow['order_no'].'" and if_del = 0 and pay_status = 0 and type = 2');
-            if($refundRow)
+            if($orderRow['refunds_status'] == 1)
             {
-                return 15;
+                return 12; //申请退货
             }
-            else
+            if($orderRow['refunds_status'] == 2)
             {
-                return 6;
+                return 15; //申请换货
             }
+            if($orderRow['refunds_status'] == 3)
+            {
+                return 21; //部分申请退货
+            }
+            if($orderRow['refunds_status'] == 4)
+            {
+                return 22; //部分申请换货
+            }
+            if($orderRow['refunds_status'] == 5)
+            {
+                return 23; //部分申请退换
+            }
+            if($orderRow['refunds_status'] == 6)
+            {
+                return 24; //申请退换
+            }
+            
+            return 6;
 		}
         //5,退款
         else if($orderRow['status'] == 6)
@@ -758,7 +788,11 @@ class Order_Class
 			10=> '部分退款',
 			11=> '已发货',
             12=> '申请退款',
-			15=> '申请换货',
+            15=> '申请换货',
+            21=> '部分申请退货',
+            22=> '部分申请换货',
+            23=> '部分申请退换',
+			24=> '申请退换',
 		);
 		return isset($result[$statusCode]) ? $result[$statusCode] : '';
 	}
@@ -962,11 +996,17 @@ class Order_Class
 	public static function isGoDelivery($orderRow)
 	{
 		/* 1,已经完全发货
-		 * 2,非货到付款，并且没有支付*/
-		if($orderRow['distribution_status'] == 1 || ($orderRow['pay_type'] != 0 && $orderRow['pay_status'] == 0) || self::getOrderStatus($orderRow) == 12)
+		 * 2,非货到付款，并且没有支付
+         * 3,有退货申请
+         */
+		if($orderRow['distribution_status'] == 1 || ($orderRow['pay_type'] != 0 && $orderRow['pay_status'] == 0))
 		{
-			return false;
+			return '不满足发货条件';
 		}
+        elseif(in_array(self::getOrderStatus($orderRow), array(12,21,23,24)))
+        {
+            return '有未处理的退货申请';
+        }
 		return true;
 	}
 
@@ -1212,7 +1252,7 @@ class Order_Class
     public static function isRefundmentChangeApply($orderRow)
     {
         //已经付款,并且未全部退款，未正在发货中
-        if($orderRow['pay_status'] == 1 && $orderRow['status'] != 6)
+        if($orderRow['pay_status'] == 1 && $orderRow['status'] != 6 && !in_array(self::getOrderStatus($orderRow), array(12,15,24)))
         {
             return true;
         }
@@ -1247,7 +1287,7 @@ class Order_Class
                     return "该商品已经做了退换处理";
                 }
 
-                if( $refundsDB->getObj('if_del = 0 and pay_status = 0 and FIND_IN_SET('.$val.',order_goods_id)') )
+                if( $refundsDB->getObj('if_del = 0 and (pay_status = 0 or pay_status = 3 or pay_status = 4) and FIND_IN_SET('.$val.',order_goods_id)') )
                 {
                     return "您已经对此商品提交了退换申请，请耐心等待";
                 }
@@ -1265,7 +1305,7 @@ class Order_Class
         else
         {
             //已经付款,并且未全部退款，未正在发货中
-            if($orderRow['pay_status'] == 1 && $orderRow['status'] != 6 && $orderRow['status'] != 5)
+            if($orderRow['pay_status'] == 1 && $orderRow['status'] != 6 && $orderRow['status'] != 5 && !in_array(self::getOrderStatus($orderRow), array(12,15,24)))
             {
                 return true;
             }
@@ -1301,7 +1341,7 @@ class Order_Class
 					return "该商品已经做了退换处理";
 				}
 
-				if( $refundsDB->getObj('if_del = 0 and pay_status = 0 and FIND_IN_SET('.$val.',order_goods_id)') )
+				if( $refundsDB->getObj('if_del = 0 and (pay_status = 0 or pay_status = 3 or pay_status = 4) and FIND_IN_SET('.$val.',order_goods_id)') )
 				{
 					return "您已经对此商品提交了退换申请，请耐心等待";
 				}
@@ -1311,7 +1351,7 @@ class Order_Class
 		else
 		{
 			//已付款、已发货并未全部退款订单
-			if($orderRow['pay_status'] == 1 && $orderRow['status'] != 6 && in_array(self::getOrderStatus($orderRow), array(3,6,8,10,15)))
+			if($orderRow['pay_status'] == 1 && $orderRow['status'] != 6 && in_array(self::getOrderStatus($orderRow), array(3,6,8,10,21,22,23)))
 			{
 				return true;
 			}

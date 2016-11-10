@@ -36,7 +36,7 @@
 				<dl>
 					<dd><a href="{url:ucenter/order}">我的订单</a></dd>
 					<dd><a href="{url:ucenter/address}">收货地址</a></dd>
-					<dd><a href="{url:ucenter/integral}">我的积分</a></dd>
+					<!--<dd><a href="{url:ucenter/integral}">我的积分</a></dd>-->
 					<dd><a href="{url:ucenter/account_log}">我的资金</a></dd>
 				</dl>
 			</li>
@@ -47,12 +47,11 @@
 					<p><a href="{url:/seller/index}">商家登录</a></p>
 				</div>
 			</li>
-			<li class="message"><a href="">消息</a></li>
-			<!-- <li><a href="{url:/simple/seller}">申请开店</a></li>
-			<li><a href="{url:/seller/index}">商家管理</a></li>
-			<li><a href="{url:/site/help_list}">使用帮助</a></li> -->
-			<li><a href="{url:/}">在线客服</a></li>
-			<li><a href="{url:/}">关于我们</a></li>
+			<li class="message"><a href="{url:/ucenter/message}">消息</a></li>
+            {if:$this->_siteConfig->qq}
+			<li><a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin={$this->_siteConfig->qq}&site=qq&menu=yes">在线客服</a></li>
+            {/if}
+			<li><a href="{url:/site/help/id/44}">关于我们</a></li>
 			<li class="serve_hot">客服热线：<em>400-659-9591</em></li>
 		</ul>
 	</div>

@@ -40,10 +40,10 @@ class menuSeller
 			"seller/fapiao_list/status/0" => "未开发票列表",
 		),
 
-		"营销模块" => array(
+		/*"营销模块" => array(
 			"/seller/regiment_list" => "团购",
 			"/seller/pro_rule_list" => "促销活动列表",
-		),
+		),*/
 
 		"配置模块" => array(
 			"/seller/delivery" => "物流配送",
