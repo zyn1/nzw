@@ -375,6 +375,8 @@ class Ucenter extends IController implements userAuthorization
         {
             $refundResult = Order_Class::isChangeApply($orderRow,$order_goods_id);
         }
+        
+        $redirectUrl = $type == 1 ? 'refunds' : 'changeRefunds';
             
         //判断退款申请是否有效
         if($refundResult === true)
@@ -394,27 +396,62 @@ class Ucenter extends IController implements userAuthorization
     		//写入数据库
     		$refundsDB = new IModel('refundment_doc');
     		$refundsDB->setData($updateData);
-    		$refundsDB->add();
-            if($type == 1)
+            
+            //查询当前订单是否已有退换单
+            //订单中商品的数量
+            $orderGoodsDB = new IModel('order_goods');
+            $goodsCount = $orderGoodsDB->getObj('order_id = '.$order_id.' and is_send <> 2', 'count(*) as num');
+            
+            if($goodsCount['num'] == 0)
             {
-                $this->redirect('refunds');
+                //没有未退换的商品
+                $data['refunds_status'] = 0;
             }
-    		else
+            elseif($goodsCount['num'] == 1)
             {
-                $this->redirect('changeRefunds');
+                //订单中只有一件商品
+                $data['refunds_status'] = $type == 1 ? 1 : 2;
             }
+            else
+            {
+                //一次全部申请退换
+                if(count($order_goods_id) >= $goodsCount['num'])
+                {
+                    $data['refunds_status'] = $type == 1 ? 1 : 2;
+                }
+                else
+                {
+                    //订单中已申请退货商品数量
+                    $refundRow = $refundsDB->getObj('order_id ='.$order_id.' and type =1 and if_del=0 and (pay_status = 0 or pay_status = 3 or pay_status = 4)','count(*) as num');
+                    //订单中已申请换货商品数量
+                    $changeRow = $refundsDB->getObj('order_id ='.$order_id.' and type = 2 and if_del=0 and (pay_status = 0 or pay_status = 3 or pay_status = 4)','count(*) as num');
+                    if($refundRow['num'] == 0 && $changeRow['num'] == 0)
+                    {
+                        $data['refunds_status'] = $type == 1 ? 3 : 4;
+                    }
+                    elseif($refundRow['num'] > 0 && $changeRow['num'] == 0)
+                    {
+                        $data['refunds_status'] = $type == 1 ? (($refundRow['num'] + count($order_goods_id)) >= $goodsCount['num'] ? 1 : 3) : (($refundRow['num'] + count($order_goods_id)) >= $goodsCount['num'] ? 6 : 5);
+                    }
+                    elseif($refundRow['num'] == 0 && $changeRow['num'] > 0)
+                    {
+                        $data['refunds_status'] = $type == 1 ? (($changeRow['num'] + count($order_goods_id)) >= $goodsCount['num'] ? 6 : 5) : (($changeRow['num'] + count($order_goods_id)) >= $goodsCount['num'] ? 2 : 4);
+                    }
+                    else
+                    {
+                        $data['refunds_status'] = ($refundRow['num'] + $changeRow['num'] + count($order_goods_id)) >= $goodsCount['num'] ? 6 : 5;
+                    }
+                }
+            }
+            $refundsDB->add();
+            $orderDB->setData($data);
+            $orderDB->update('id = '.$order_id);
+            $this->redirect($redirectUrl);
         }
         else
         {
         	$message = $refundResult;
-	        if($type == 1)
-            {
-                $this->redirect('refunds',false);
-            }
-            else
-            {
-                $this->redirect('changeRefunds',false);
-            }
+            $this->redirect($redirectUrl, false);
 	        Util::showMessage($message);
         }
     }
@@ -424,8 +461,40 @@ class Ucenter extends IController implements userAuthorization
     public function refunds_del()
     {
         $id = IFilter::act( IReq::get('id'),'int' );
-        $model = new IModel("refundment_doc");
-        $model->del("id = ".$id." and user_id = ".$this->user['user_id']);
+        $refundsDB = new IModel("refundment_doc");
+        $orderId = $refundsDB->getObj("id = ".$id." and user_id = ".$this->user['user_id'], 'order_id');
+        $order_id = $orderId['order_id'];
+        $refundsDB->del("id = ".$id." and user_id = ".$this->user['user_id']);
+
+        //查询订单中商品的数量
+        $orderGoodsDB = new IModel('order_goods');
+        $goodsCount = $orderGoodsDB->getObj('order_id = '.$order_id.' and is_send <> 2', 'count(*) as num');
+        
+        //查询是否还有该订单的申请退换货信息---退货
+        $refundRow = $refundsDB->getObj('order_id ='.$order_id.' and type =1 and if_del=0 and (pay_status = 0 or pay_status = 3 or pay_status = 4)','count(*) as num');
+        //换货
+        $changeRow = $refundsDB->getObj('order_id ='.$order_id.' and type = 2 and if_del=0 and (pay_status = 0 or pay_status = 3 or pay_status = 4)','count(*) as num');
+        $data = array();
+        if($refundRow['num'] == 0 && $changeRow['num'] == 0)
+        {
+            $data['refunds_status'] = 0;
+        }
+        elseif($refundRow['num'] > 0 && $changeRow['num'] == 0)
+        {
+            $data['refunds_status'] = ($refundRow['num'] >= $goodsCount['num']) ? 1 : 3;
+        }
+        elseif($refundRow['num'] == 0 && $changeRow['num'] > 0)
+        {
+            $data['refunds_status'] = ($changeRow['num'] >= $goodsCount['num']) ? 2 : 4;
+        }
+        else
+        {
+            $data['refunds_status'] = ($refundRow['num'] + $changeRow['num']) >= $goodsCount['num'] ? 6 : 5;
+        }
+        $orderDB = new IModel('order');
+        $orderDB->setData($data);
+        $orderDB->update('id = '.$order_id);
+        
         $this->redirect('refunds');
     }
     /**
