@@ -1291,7 +1291,7 @@ a .icon-rotate-90:before, a .icon-rotate-180:before, a .icon-rotate-270:before, 
 .next_step:hover { background-image: -webkit-linear-gradient(0deg, #28599f, #588bd5); background-image: linear-gradient(0deg, #28599f, #588bd5); }
 
 .goback_btn { display: inline-block; padding: 5px 15px; border: 1px solid #ddd; background: #fafafa; cursor: pointer; -webkit-transition: all 0.25s ease-in-out; transition: all 0.25s ease-in-out; }
-.goback_btn:hover { background: #e71f19; color: #fff; border: 1px solid #ba1813; }
+
 
 .prompt { background: #fef7e4; border: 1px solid #f7d36b; padding: 5px 15px; line-height: 2; color: #8f6c07; }
 
@@ -1614,7 +1614,7 @@ background-image: url("../image/icon_slides.png"); background-repeat: no-repeat;
 .bar .bar_box .bar_goods li em { display: block; margin-top: 5px; font-size: 14px; color: #FF8225; font-weight: bold; }
 .bar .bar_box .bar_goods.ranking { counter-reset: num; }
 .bar .bar_box .bar_goods.ranking li { position: relative; }
-.bar .bar_box .bar_goods.ranking li:before { content: counter(num); counter-increment: num; display: block; position: absolute; right: 5px; bottom: 3px; font-size: 14px; font-style: italic; z-index: 1; color: #fff; }
+.bar .bar_box .bar_goods.ranking li:before { content: counter(num); counter-increment: num; display: block; position: absolute; right: 5px; bottom: 3px; font-size: 12px; font-style: italic; z-index: 1; color: #fff; }
 .bar .bar_box .bar_goods.ranking li:after { content: ""; position: absolute; right: 0; bottom: 0; width: 0; height: 0; display: block; border-style: solid; border-width: 14px; border-color: transparent #ff6332 #ff6332 transparent; }
 .bar .bar_box .bar_goods.ranking li:nth-child(n+4):after { border-color: transparent #999 #999 transparent; }
 .bar .bar_box .bar_nav li { height: 28px; line-height: 28px; overflow: hidden; padding-left: 20px; border-bottom: 1px solid #ddd; position: relative; }
@@ -1682,7 +1682,7 @@ background-image: url("../image/icon_slides.png"); background-repeat: no-repeat;
 /* article read page style */
 .article { width: 938px; overflow: hidden; line-height: 2; padding: 10px; border: 1px solid #ddd; border-top: none; }
 
-.article_title { text-align: center; color: #f60; font-size: 14px; }
+.article_title { text-align: center;font-size: 14px; }
 
 .article_date { height: 28px; line-height: 28px; text-align: right; color: #999; border-bottom: 1px solid #ddd; display: block; }
 
