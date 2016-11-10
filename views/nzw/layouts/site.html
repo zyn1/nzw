@@ -27,17 +27,17 @@
 <header class="header web">
 	<div class="top_line">
 		<div class="welcome">
-			欢迎您来到{echo:$this->_siteConfig->name}！
+			<span>欢迎您来到{echo:$this->_siteConfig->name}！</span>
 			{if:$this->user}
-				<a href="{url:/ucenter/index}">个人中心</a>
+				<a href="{url:/ucenter/index}">个人中心</a><i>|</i>
 				<a href="{url:/simple/logout}">退出</a>
 			{else:}
-				<a href="{url:/simple/login}">登录</a>
+				<a href="{url:/simple/login}">登录</a><i>|</i>
 				<a class="reg" href="{url:/simple/reg}">免费注册</a>
 			{/if}
 		</div>
 		<ul class="top_tool">
-			<li>
+			<li class="persel_cen">
 				<a href="{url:ucenter/index}">个人中心</a>
 				<dl>
 					<dd><a href="{url:ucenter/order}">我的订单</a></dd>
