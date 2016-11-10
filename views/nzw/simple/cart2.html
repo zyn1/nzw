@@ -242,18 +242,65 @@ $(function(){
 								是否需要发票？(税金:￥{$this->goodsTax}) 
 								<input class="radio" onclick="orderFormInstance.doAccount();$('#tax_title').toggle();" name="taxes" type="checkbox" value="{$this->goodsTax}">
 							</td>
-							<td>
+							<!-- <td>
 								<label id="tax_title" class='none'>
 									发票抬头：
 									<input type='text' class='input_text' name='tax_title' />
 								</label>
-							</td>
+							</td> -->
 							<td>
 								<div class="all_count">
 									应付总额：<em>￥<span id='final_sum'>{$this->final_sum}</span></em> 元
 								</div>
 							</td>
 						</tr>
+
+						<tr class="inv_type">
+							<td>
+								<div id="tax_title" class='none'>
+									<h5><input type="radio" name="000">增值税普票</h5>
+									<div>
+										<ul>
+											<li><label for="">发票抬头：</label><input type='text' class='input_text' name='tax_title' /></li>
+										</ul>
+									</div>
+									<h5><input type="radio" name="000">增值税专票</h5>
+									<div>
+										<ul>
+											<li><label for="">发票抬头：</label><input type='text' class='input_text' name='tax_title' /></li>
+											<li><label for="">纳税人识别号：</label><input type='text' class='input_text' name='' /></li>
+											<li><label for="">地址：</label><input type='text' class='input_text' name='' /></li>
+											<li><label for="">电话：</label><input type='text' class='input_text' name='' /></li>
+											<li><label for="">开户行：</label><input type='text' class='input_text' name='' /></li>
+											<li><label for="">银行账户：</label><input type='text' class='input_text' name='' /></li>
+										</ul>
+									</div>
+								</div>
+						    </td>
+<script>
+	$(function(){
+		var oTax = document.getElementById('tax_title');
+		var oOrd = oTax.getElementsByTagName('h5')[0];
+		var oSpe = oTax.getElementsByTagName('h5')[1];
+		var nextOr = oOrd.nextElementSibling||oOrd.nextElementSibling; 
+		var nextSp = oSpe.nextElementSibling||oSpe.nextElementSibling;
+		var oRradio = oOrd.getElementsByTagName('input')[0];
+		var oSradio = oSpe.getElementsByTagName('input')[0];
+		oOrd.onclick=function(){
+			oRradio.checked="checked";	
+			nextOr.style.display='block';
+			nextSp.style.display='none';
+		}
+		oSpe.onclick=function(){   
+			oSradio.checked='checked';
+			nextSp.style.display='block';
+			nextOr.style.display='none';	
+		}
+	})
+</script>
+						    
+					    </tr>
+
 					</table>
 				</div>
 			</section>
