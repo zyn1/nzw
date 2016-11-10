@@ -43,7 +43,7 @@
 	</p>
 </section>
 {if:in_array($orderStatus,array(11,3))}
-<section>
+<section class="count_down">
     <strong>确认收货倒计时：</strong>
     {set:$free_time=$this->time;}
     <time id="cd_hour_{$this->order_info['order_id']}">{echo:floor($free_time/3600);}</time><span>小时</span>
