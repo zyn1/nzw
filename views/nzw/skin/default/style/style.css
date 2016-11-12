@@ -1148,9 +1148,9 @@ a .icon-rotate-90:before, a .icon-rotate-180:before, a .icon-rotate-270:before, 
 .header .header_main .header_cart .cart_simple .cart_panel .cart_total em, .header .header_main .header_cart .cart_simple .cart_panel .cart_total span { color: #e71f19; }
 .header .header_main .header_cart .cart_simple .cart_panel .cart_total a { display: inline-block; font-size: 12px; padding: 5px 10px; margin-top: 3px; background: #c33; border-radius: 4px; box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.3) inset, 0 0 0 1px #ba1813 inset, 1px 1px 4px rgba(0, 0, 0, 0.3); }
 .header .header_main .header_cart .cart_simple .cart_no { color: #555; font-size: 14px; line-height: 3; text-align: center; }
-.header .header_nav { height: 31px; }
-.header .header_nav .goods_nav { float: left; width: 230px; height: 31px; }
-.header .header_nav .goods_nav h2 { background: #4d9a28; border-width: 0 1px; height: 31px; line-height: 31px;font-weight: normal; font-size: 16px; text-indent: 40px; position: relative; }
+.header .header_nav { height: 35px; }
+.header .header_nav .goods_nav { float: left; width: 230px; height: 35px; }
+.header .header_nav .goods_nav h2 { background: #4d9a28; border-width: 0 1px; height: 35px; line-height: 35px;font-weight: normal; font-size: 16px; text-indent: 40px; position: relative; border-radius: 5px 5px 0 0;}
 .header .header_nav .goods_nav h2:after { content: ""; width: 8px; height: 8px; display: block; position: absolute; right: 10px; top: 7px; box-shadow: 2px 2px #fff; -webkit-transform: rotate(45deg); transform: rotate(45deg); }
 .header .header_nav .goods_nav:hover .cat_list { display: block; }
 .header .header_nav .goods_nav .cat_list { position: relative; width: 230px; box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); background: #fff; background: rgba(255, 255, 255, 1); }
@@ -1172,7 +1172,7 @@ a .icon-rotate-90:before, a .icon-rotate-180:before, a .icon-rotate-270:before, 
 .goods_nav .cat_list .icon_list .cat_more dl a{font-style: 12px !important;}
 .header .header_nav .goods_nav .cat_list .cat_more dl dd a {color: #666; display: block; float: left; margin: 8px 15px 8px 0; position: relative; }
 .header .header_nav .goods_nav .cat_list .cat_more dl dd a:after { content: ""; width: 1px; height: 10px; background: #ddd; right: -7px; top: 2px; display: block; position: absolute; }
-.header .header_nav .site_nav { float: left; width: 970px; line-height: 31px;}
+.header .header_nav .site_nav { float: left; width: 970px; line-height: 35px;}
 .header .header_nav .site_nav li { float: left; position: relative; }
 .header .header_nav .site_nav li a {margin-left: 1px; display: block; padding: 0 35px; font-size: 14px; position: relative; z-index: 1; text-decoration: none;color: #555; }
 .header .header_nav .site_nav li a:hover { background: #4d9a28; box-shadow: 1px 0 #4d9a28;color: #fff; }
