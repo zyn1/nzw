@@ -1120,6 +1120,7 @@ a .icon-rotate-90:before, a .icon-rotate-180:before, a .icon-rotate-270:before, 
   height: 32px;
   position: relative;
   margin-top: 24px;
+  right: 25px;
 }
 .header .header_main .servicetel span{
 	color: #555555;
