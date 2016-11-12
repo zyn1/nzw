@@ -29,6 +29,8 @@
         </div>
     </header >
     {viewcontent}
-    <div class="footer_bot">Copyright 2008-2015 vip.com，All Rights Reserved ICP证：粤 B2-20080</div>
+    <div class="footer_bot">
+    {echo:IFilter::stripSlash($this->_siteConfig->site_footer_code)}
+    </div>
 </body>
 </html>

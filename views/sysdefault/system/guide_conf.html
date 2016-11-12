@@ -1,0 +1,159 @@
+{js:artTemplate}
+<div class="headbar">
+	<div class="position"><span>系统</span><span>></span><span>网站管理</span><span>></span><span>导航设置</span></div>
+</div>
+<div class="content_box">
+
+	<div class="content form_content">
+		<form action='{url:/system/save_guide_conf}' method='post' name='guide_conf'>
+			<table class='form_table'>
+				<col width="150px" />
+				<col />
+
+				<tr>
+					<th>首页导航设置：</th>
+					<td>
+						<table class='border_table' id='guide_box'>
+							<col width="150px" />
+							<col width="250px" />
+							<col width="120px" />
+							<thead>
+							<tr>
+								<th>名称</th>
+								<th>链接地址</th>
+								<th>操作</th>
+							</tr>
+							</thead>
+
+							<tbody></tbody>
+
+							<tfoot>
+							<tr>
+								<td colspan='3'>
+									<button type='button' class='btn' onclick="add_guide();"><span>添加导航</span></button>
+								</td>
+							</tr>
+							</tfoot>
+
+							<!--导航行模板-->
+							<script type='text/html' id='guideTrTemplate'>
+							<tr class='td_c'>
+								<td><input type='text' name='guide_name[]' class='small' value='<%=name%>' pattern='required' alt='请填写导航名' /></td>
+								<td><input type='text' name='guide_link[]' class='middle' value='<%=link%>' pattern='required' alt='请填写URL，如：http://www.aircheng.com' /></td>
+								<td>
+									<img class='operator' src='{skin:images/admin/icon_asc.gif}' alt='向上' title='向上' />
+									<img class='operator' src='{skin:images/admin/icon_desc.gif}' alt='向下' title='向下' />
+									<img class='operator' src='{skin:images/admin/icon_del.gif}' alt='删除' title='删除' />
+								</td>
+							</tr>
+							</script>
+						</table>
+						<label>设置首页顶部导航条内容和链接地址</label>
+					</td>
+				</tr>
+				<tr>
+					<th></th>
+					<td><button type='submit' class='submit'><span>保存导航栏配置</span></button></td>
+				</tr>
+			</table>
+		</form>
+	</div>
+</div>
+
+<script type='text/javascript'>
+//DOM加载完毕
+$(function(){
+	//生成导航
+	{query:name=guide items=$guideList}{/query}
+	{if:$guideList}
+	var guideList = {echo:JSON::encode($guideList)};
+	for(var index in guideList)
+	{
+		add_guide(guideList[index]);
+	}
+	{else:}
+		add_guide();
+	{/if}
+
+});
+
+//添加导航
+function add_guide(data)
+{
+	var data = data ? data : {};
+	var guideTrHtml = template.render('guideTrTemplate',data);
+	$('#guide_box tbody').append(guideTrHtml);
+	var last_index = $('#guide_box tbody tr').size()-1;
+	buttonInit(last_index);
+}
+
+//操作按钮绑定
+function buttonInit(indexValue,ele)
+{
+	ele = ele || "#guide_box";
+	if(indexValue == undefined || indexValue === '')
+	{
+		var button_times = $(ele+' tbody tr').length;
+
+		for(var item=0;item < button_times;item++)
+		{
+			buttonInit(item,ele);
+		}
+	}
+	else
+	{
+		var obj = $(ele+' tbody tr:eq('+indexValue+') .operator')
+
+		//功能操作按钮
+		obj.each(
+			function(i)
+			{
+				switch(i)
+				{
+					//向上排序
+					case 0:
+					{
+						$(this).click(
+							function()
+							{
+								var insertIndex = $(this).parent().parent().prev().index();
+								if(insertIndex >= 0)
+								{
+									$(ele+' tbody tr:eq('+insertIndex+')').before($(this).parent().parent());
+								}
+							}
+						)
+					}
+					break;
+
+					//向上排序
+					case 1:
+					{
+						$(this).click(
+							function()
+							{
+								var insertIndex = $(this).parent().parent().next().index();
+								$(ele+' tbody tr:eq('+insertIndex+')').after($(this).parent().parent());
+							}
+						)
+					}
+					break;
+
+					//删除排序
+					case 2:
+					{
+						$(this).click(
+							function()
+							{
+								var obj = $(this);
+								art.dialog.confirm('确定要删除么？',function(){obj.parent().parent().remove()});
+							}
+						)
+					}
+					break;
+				}
+			}
+		)
+	}
+}
+</script>

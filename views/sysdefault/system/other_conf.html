@@ -1,0 +1,81 @@
+{js:kindeditor}
+{set:$this->confRow = $this->_siteConfig->getInfo()}
+<div class="headbar">
+	<div class="position"><span>系统</span><span>></span><span>网站管理</span><span>></span><span>站点设置</span></div>
+</div>
+<div class="content_box">
+
+	<div class="content form_content">
+		<form action='{url:/system/save_other_conf}' method='post' name='other_conf'>
+			<table class="form_table">
+				<colgroup>
+					<col width="150px" />
+					<col />
+				</colgroup>
+				<tr>
+					<th>默认的排序依据：</th>
+					<td>
+						<select name='order_by' class='normal'>
+							<option value='sort'>默认</option>
+							{foreach:items=search_goods::getOrderType()}
+							<option value='{$key}'>{$item}</option>
+							{/foreach}
+						</select>
+						<label>* 在商品列表页中商品的排序依据条件</label>
+					</td>
+				</tr>
+				<tr>
+					<th>发票税率：</th>
+					<td><input type='text' name='tax' class='small' empty pattern='float' alt='请输入正确的整数或者浮点数' />% <label>当买家需要发票的时候就要增加<商品金额>*<税率>的费用</label></td>
+				</tr>
+                <tr>
+                    <th>商家结算手续费：</th>
+                    <td><input type='text' name='commission' class='small' empty pattern='float' alt='请输入正确的整数或者浮点数' />% <label>商家结算时，扣除<应结算总额>的百分比，最终商家结算金额为：<应结算总额> - <应结算总额> * <商家结算手续费></label></td>
+                </tr>
+				<tr>
+					<th>商家开店服务费：</th>
+					<td><input type='text' name='serviceAccount' class='small' empty pattern='float' alt='请输入正确的整数或者浮点数' /> <label>商家开店需要交纳的服务费</label></td>
+				</tr>
+				<tr>
+					<th>默认备货时间：</th>
+					<td><input type='text' class='small' name='stockup_time' pattern='int' alt='请填写整数' />天 <label>* 订单确认后需要备货的时间</label></td>
+				</tr>
+				<tr>
+					<th>新用户注册设置：</th>
+					<td>
+						<label class='attr'><input type='radio' name='reg_option' value="0" />正常</label>
+						<!--<label class='attr'><input type='radio' name='reg_option' value="1" />邮箱验证</label>
+						<label class='attr'><input type='radio' name='reg_option' value="3" />手机验证</label>-->
+						<label class='attr'><input type='radio' name='reg_option' value="2" />关闭注册</label>
+						<label>新用户注册配置<!--，邮箱和手机验证要确保系统与验证接口对接正确--></label>
+					</td>
+				</tr>
+				<tr>
+					<th>库存预警数量：</th>
+					<td>
+						<input type='text' class='small' name='store_num_warning' pattern='int' alt='请填写整数' /> <label>当商品数量少于X件时，会在系统后台首页<a href="{url:/system/default}"><库存预警></a>显示</label>
+					</td>
+				</tr>
+				<tr>
+					<th></th>
+					<td>
+						<button class="submit" type='submit'><span>保存配置</span></button>
+					</td>
+				</tr>
+			</table>
+		</form>
+	</div>
+</div>
+
+<script type='text/javascript'>
+//DOM加载完毕
+$(function(){
+	//全部表单自动填入值
+	var formNameArray = ['other_conf'];
+	for(var index in formNameArray)
+	{
+		var formObject = new Form(formNameArray[index]);
+		formObject.init({echo:JSON::encode($this->confRow)});
+	}
+});
+</script>

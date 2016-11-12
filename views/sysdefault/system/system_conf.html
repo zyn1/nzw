@@ -1,0 +1,106 @@
+{js:artTemplate}
+{set:$this->confRow = array_merge(IWeb::$app->config,$this->_siteConfig->getInfo());}
+<div class="headbar">
+	<div class="position"><span>系统</span><span>></span><span>网站管理</span><span>></span><span>站点设置</span></div>
+</div>
+<div class="content_box">
+
+	<div class="content form_content">
+		<form action="{url:/system/save_system_conf}" method="post" name='system_conf'>
+			<table class="form_table">
+				<colgroup>
+					<col width="150px" />
+					<col />
+				</colgroup>
+				<tr>
+					<th>清理模板缓存：</th>
+					<td>
+						<button class='btn' type='button' onclick="clearCache();"><span>开始清理</span></button>
+						<label>清理系统编译生成的模板缓存文件</label>
+					</td>
+				</tr>
+				<tr>
+					<th>私密信息存储策略：</th>
+					<td>
+						<select name='safe' class='normal' pattern='required' alt='请选择一种语言'>
+							<option value='cookie'>COOKIE方案(存放于客户端)</option>
+							<option value='session'>SESSION方案(存放于服务器端)</option>
+						</select>
+						<label>注意：修改此设置后，用户会被强制退出。默认：COOKIE方案</label>
+					</td>
+				</tr>
+
+				<tr>
+					<th>设置语言包：</th>
+					<td>
+						{set:$langList = Config::getSitePlan('lang')}
+						<select class='normal' name='lang' pattern='required' alt='请选择一种语言'>
+							{foreach:items=$langList}
+							<option value='{$key}'>{$item['name']}</option>
+							{/foreach}
+						</select>
+						<label>切换整站语言</label>
+					</td>
+				</tr>
+
+				<tr>
+					<th>报错显示设置：</th>
+					<td>
+						<select name="debug">
+							<option value="0">隐藏错误【网站运营阶段】</option>
+							<option value="1">部分显示【普通开发阶段】</option>
+							<option value="2">全部显示【高质量开发阶段】</option>
+						</select>
+					</td>
+				</tr>
+
+				<tr>
+					<th>伪静态：</th>
+					<td>
+						<label class='attr'><input type='radio' name='rewriteRule' value="pathinfo" />开启</label>
+						<label class='attr'><input type='radio' name='rewriteRule' value="url" />关闭</label>
+						<label>开启伪静态前请先确保你的服务器环境支持伪静态规则，如果开启后网站无法打开，则需手动修改config/config.php【rewriteRule => url】</label>
+					</td>
+				</tr>
+
+				<tr>
+					<th>授权编号：</th>
+					<td><input type='text' name='authorizeCode' class='normal' empty /><label>购买正式授权的编号 <a href="http://www.aircheng.com/search" target="_blank">点击查询</a></label></td>
+				</tr>
+
+				<tr>
+					<th></th>
+					<td><button class="submit" type='submit'><span>保存系统设置</span></button></td>
+				</tr>
+			</table>
+		</form>
+	</div>
+</div>
+
+<script type='text/javascript'>
+//DOM加载完毕
+$(function(){
+	//全部表单自动填入值
+	var formNameArray = ['system_conf'];
+	for(var index in formNameArray)
+	{
+		var formObject = new Form(formNameArray[index]);
+		formObject.init({echo:JSON::encode($this->confRow)});
+	}
+});
+
+//清理缓存
+function clearCache()
+{
+	loadding('请稍候，系统正在清理缓存文件...');
+	jQuery.get('{url:/system/clearCache}',function(content)
+	{
+		unloadding();
+		var content = $.trim(content);
+		if(content == 1)
+			art.dialog.tips('清理成功！', 1.5);
+		else
+			art.dialog.tips('清理失败！', 1.5);
+	});
+}
+</script>

@@ -1,0 +1,126 @@
+{js:artTemplate}
+{set:$this->confRow = $this->_siteConfig->getInfo()}
+<div class="headbar">
+	<div class="position"><span>系统</span><span>></span><span>网站管理</span><span>></span><span>站点设置</span></div>
+</div>
+<div class="content_box">
+
+	<div class="content form_content">
+		<form action='{url:/system/save_mail_conf}' method='post' name='mail_conf'>
+			<!--邮箱设置-->
+			<table class="form_table">
+				<colgroup>
+					<col width="150px" />
+					<col />
+				</colgroup>
+				<tr>
+					<th>发送Email方式：</th>
+					<td>
+						<label class='attr'><input type='radio' name='email_type' value='1' checked='checked' onclick="show_mail(1);" />第三方SMTP方式</label>
+						<label class='attr'><input type='radio' name='email_type' value='2' onclick="show_mail(2)" />本地mail邮箱</label>
+						<label>* 如果本地已经搭建好邮件服务，请选择 "本地mail邮箱"，否则选择" 第三方SMTP方式 "来发送邮件</label>
+					</td>
+				</tr>
+				<tr>
+					<th>发送邮件的地址：</th>
+					<td>
+						<input type='text' name='mail_address' pattern='email' alt='填写正确的email地址' class='normal' />
+						<label>* 发送邮件所使用的email地址，邮件内容中的收件人信息就是显示此信息</label>
+					</td>
+				</tr>
+				<tr>
+					<th>安全协议：</th>
+					<td>
+						<label class='attr'><input type='radio' name='email_safe' value='' checked='checked' />默认</label>
+						<label class='attr'><input type='radio' name='email_safe' value='ssl' />SSL</label>
+						<label class='attr'><input type='radio' name='email_safe' value='tls' />TLS</label>
+						<label>如QQ邮箱，必须开启SSL协议，具体细则请参考各大邮件服务提供商</label>
+					</td>
+				</tr>
+				<tr name='smtp'>
+					<th>SMTP地址：</th>
+					<td>
+						<input type='text' name='smtp' class='normal' pattern='required' empty alt='填写正确的email地址' />
+						<label>第三方的SMTP的URL地址</label>
+					</td>
+				</tr>
+				<tr name='smtp'>
+					<th>用户名：</th>
+					<td>
+						<input type='text' name='smtp_user' class='normal' pattern='required' alt='发送邮件' empty />
+						<label>SMTP用户名</label>
+					</td>
+				</tr>
+				<tr name='smtp'>
+					<th>密码：</th>
+					<td><input type='password' name='smtp_pwd' class='normal' value='{$this->confRow['smtp_pwd']}' empty /><label>SMTP密码</label></td>
+				</tr>
+				<tr name='smtp'>
+					<th>端口号：</th>
+					<td><input type='text' name='smtp_port' class='small' empty /><label>SMTP端口号(默认：25)</label></td>
+				</tr>
+				<tr>
+					<th>测试邮件地址：</th>
+					<td><input type='text' name='test_address' pattern='email' class='normal' empty alt='填写正确的email地址' /><label>用于测试邮件发送的功能【可选】</label></td>
+				</tr>
+				<tr>
+					<th></th>
+					<td>
+						<button class="submit" type='submit'><span>保存邮箱设置</span></button>
+						<button class="submit" type='button' onclick="test_mail(this);"><span id='testmail'>测试邮件发送</span></button>
+					</td>
+				</tr>
+			</table>
+		</form>
+	</div>
+</div>
+
+<script type='text/javascript'>
+//DOM加载完毕
+$(function(){
+	//默认系统定义
+	show_mail(1);
+	//全部表单自动填入值
+	var formNameArray = ['mail_conf'];
+	for(var index in formNameArray)
+	{
+		var formObject = new Form(formNameArray[index]);
+		formObject.init({echo:JSON::encode($this->confRow)});
+	}
+});
+
+//测试邮件发送
+function test_mail(obj)
+{
+	$('form[name="mail_conf"] input:text').each(function(){
+		$(this).trigger('change');
+	});
+
+	if($('form[name="mail_conf"] input:text.invalid-text').length > 0)
+	{
+		return;
+	}
+
+	//按钮控制
+	obj.disabled = true;
+	$('#testmail').html('正在测试发送请稍后...');
+
+	var ajaxUrl = '{url:/system/test_sendmail/@random@}';
+	ajaxUrl     = ajaxUrl.replace('@random@',Math.random());
+
+	$.getJSON(ajaxUrl,$('form[name="mail_conf"]').serialize(),function(content){
+		obj.disabled = false;
+		$('#testmail').html('测试邮件发送');
+		alert(content.message);
+	});
+}
+
+//切换邮箱设置
+function show_mail(checkedVal)
+{
+	if(checkedVal==1)
+		$('table tr[name="smtp"] *').show();
+	else
+		$('table tr[name="smtp"] *').hide();
+}
+</script>
