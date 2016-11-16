@@ -33,7 +33,7 @@ class RequestHandler {
 	}
 	
 	function RequestHandler() {
-		$this->gateUrl = "https://pay.swiftpass.cn/pay/gateway";
+		$this->gateUrl = "'https://pay.swiftpass.cn/pay/gateway";
 		$this->key = "";
 		$this->parameters = array();
 		$this->debugInfo = "";
