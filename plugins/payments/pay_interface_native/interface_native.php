@@ -47,13 +47,12 @@ class interface_native extends paymentPlugin
         //$res = self::parseXML($xml);
         $this->resHandler->setContent($xml);
         //var_dump($this->resHandler->setContent($xml));
-        $this->resHandler->setKey($this->cfg->C('key'));
+        $this->resHandler->setKey(Payment::getConfigParam($paymentId,'key'));
         if($this->resHandler->isTenpaySign()){
             if($this->resHandler->getParameter('status') == 0 && $this->resHandler->getParameter('result_code') == 0){
                 //echo $this->resHandler->getParameter('status');
                 // 此处可以在添加相关处理业务，校验通知参数中的商户订单号out_trade_no和金额total_fee是否和商户业务系统的单号和金额是否一致，一致后方可更新数据库表中的记录。 
                 //更改订单状态
-                var_dump($this->resHandler->getParameter);
                 $orderNo = $this->resHandler->getParameter['out_trade_no'];
                 $money   = $this->resHandler->getParameter['total_fee']/100;
 
@@ -115,7 +114,7 @@ class interface_native extends paymentPlugin
         //通知地址，必填项，接收威富通通知的URL，需给绝对路径，255字符内格式如:http://wap.tenpay.com/tenpay.asp
         //$notify_url = 'http://'.$_SERVER['HTTP_HOST'];
         //$this->reqHandler->setParameter('notify_url',$notify_url.'/payInterface/request.php?method=callback');
-        $this->reqHandler->setParameter('notify_url',' ');//通知回调地址，目前默认是空格，商户在测试支付和上线时必须改为自己的，且保证外网能访问到
+        $this->reqHandler->setParameter('notify_url',$sendData['notify_url']);//通知回调地址，目前默认是空格，商户在测试支付和上线时必须改为自己的，且保证外网能访问到
         $this->reqHandler->setParameter('nonce_str',mt_rand(time(),time()+rand()));//随机字符串，必填项，不长于 32 位
         $this->reqHandler->createSign();//创建签名
         
