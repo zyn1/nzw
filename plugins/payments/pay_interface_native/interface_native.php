@@ -9,38 +9,38 @@ require_once dirname(__FILE__)."/class/ClientResponseHandler.class.php";
 require_once dirname(__FILE__)."/class/PayHttpClient.class.php"; 
 class interface_native extends paymentPlugin
 {
-	//支付插件名称
+    //支付插件名称
     public $name = '扫一扫微信支付';
     
     private $resHandler = null;
     private $reqHandler = null;
     private $pay = null;
 
-	/**
-	 * @see paymentplugin::getSubmitUrl()
-	 */
-	public function getSubmitUrl()
-	{
-		return 'https://pay.swiftpass.cn/pay/gateway';
-	}
+    /**
+     * @see paymentplugin::getSubmitUrl()
+     */
+    public function getSubmitUrl()
+    {
+        return 'https://pay.swiftpass.cn/pay/gateway';
+    }
 
-	/**
-	 * @see paymentplugin::notifyStop()
-	 */
-	public function notifyStop()
-	{
-		die("success");
-	}
+    /**
+     * @see paymentplugin::notifyStop()
+     */
+    public function notifyStop()
+    {
+        die("success");
+    }
 
-	/**
-	 * @see paymentplugin::callback()
-	 */
-	public function callback($callbackData,&$paymentId,&$money,&$message,&$orderNo){}
+    /**
+     * @see paymentplugin::callback()
+     */
+    public function callback($callbackData,&$paymentId,&$money,&$message,&$orderNo){}
 
-	/**
-	 * @see paymentplugin::serverCallback()
-	 */
-	public function serverCallback($callbackData,&$paymentId,&$money,&$message,&$orderNo)
+    /**
+     * @see paymentplugin::serverCallback()
+     */
+    public function serverCallback($callbackData,&$paymentId,&$money,&$message,&$orderNo)
     {
         $this->resHandler = new ClientResponseHandler();
         $xml = file_get_contents('php://input');
@@ -53,13 +53,12 @@ class interface_native extends paymentPlugin
                 //echo $this->resHandler->getParameter('status');
                 // 此处可以在添加相关处理业务，校验通知参数中的商户订单号out_trade_no和金额total_fee是否和商户业务系统的单号和金额是否一致，一致后方可更新数据库表中的记录。 
                 //更改订单状态
-                $orderNo = $this->resHandler->getParameter['out_trade_no'];
-                $money   = $this->resHandler->getParameter['total_fee']/100;
-
+                $orderNo = $this->resHandler->getParameter('out_trade_no');
+                $money   = $this->resHandler->getParameter('total_fee')/100;
                 //记录回执流水号
-                if(isset($this->resHandler->getParameter['transaction_id']) && $this->resHandler->getParameter['transaction_id'])
+                if($this->resHandler->getParameter('transaction_id'))
                 {
-                    $this->recordTradeNo($orderNo,$this->resHandler->getParameter['transaction_id']);
+                    $this->recordTradeNo($orderNo,$this->resHandler->getParameter('transaction_id'));
                 }
                 
                 self::dataRecodes('接口回调收到通知参数',$this->resHandler->getAllParameters());
@@ -72,31 +71,31 @@ class interface_native extends paymentPlugin
         }
     }
 
-	/**
-	 * @see paymentplugin::getSendData()
-	 */
-	public function getSendData($payment)
-	{
-		$return = array();
-		//基本参数
+    /**
+     * @see paymentplugin::getSendData()
+     */
+    public function getSendData($payment)
+    {
+        $return = array();
+        //基本参数
         $return['mch_id']           = $payment['mch_id'];
-		$return['key']              = $payment['key'];
-		$return['body']             = '微信支付';
-		$return['out_trade_no']     = $payment['M_OrderNO'];
-		$return['total_fee']        = $payment['M_Amount']*100;
-		$return['spbill_create_ip'] = IClient::getIp();
-		$return['notify_url']       = $this->serverCallbackUrl;
+        $return['key']              = $payment['key'];
+        $return['body']             = '微信支付';
+        $return['out_trade_no']     = $payment['M_OrderNO'];
+        $return['total_fee']        = $payment['M_Amount']*100;
+        $return['spbill_create_ip'] = IClient::getIp();
+        $return['notify_url']       = $this->serverCallbackUrl;
 
-		//除去待签名参数数组中的空值和签名参数
-		$para_filter = $this->paraFilter($return);
-		return $para_filter;
-	}
+        //除去待签名参数数组中的空值和签名参数
+        $para_filter = $this->paraFilter($return);
+        return $para_filter;
+    }
 
-	/**
-	 * @see paymentplugin::doPay()
-	 */
-	public function doPay($sendData)
-	{
+    /**
+     * @see paymentplugin::doPay()
+     */
+    public function doPay($sendData)
+    {
         $this->reqHandler = new RequestHandler();
         $this->pay = new PayHttpClient();
         $this->reqHandler->setGateUrl('https://pay.swiftpass.cn/pay/gateway');
@@ -107,7 +106,7 @@ class interface_native extends paymentPlugin
         $this->reqHandler->setParameter('total_fee',$sendData['total_fee']);
         $this->reqHandler->setParameter('mch_create_ip',isset($sendData['spbill_create_ip']) ? $sendData['spbill_create_ip'] : '127.0.0.1');
         $this->reqHandler->setParameter('time_start',ITime::getNow('YmdHis'));
-		$this->reqHandler->setParameter('time_expire',date('YmdHis', time()+600));
+        $this->reqHandler->setParameter('time_expire',date('YmdHis', time()+600));
         $this->reqHandler->setParameter('service','pay.weixin.native');//接口类型：pay.weixin.native
         $this->reqHandler->setParameter('mch_id',$sendData['mch_id']);//必填项，商户号，由威富通分配
         $this->reqHandler->setParameter('version','2.0');
@@ -161,19 +160,19 @@ class interface_native extends paymentPlugin
             /*echo json_encode(array('status'=>500,'msg'=>'Response Code:'.$this->pay->getResponseCode().' Error Info:'.$this->pay->getErrInfo()));*/
             die($this->pay->getErrInfo());
         }
-	}
+    }
 
-	/**
-	 * @param 获取配置参数
-	 */
-	public function configParam()
-	{
-		$result = array(
-			'mch_id'    => '商户号',
-			'key'       => '商户支付密钥',
-		);
-		return $result;
-	}
+    /**
+     * @param 获取配置参数
+     */
+    public function configParam()
+    {
+        $result = array(
+            'mch_id'    => '商户号',
+            'key'       => '商户支付密钥',
+        );
+        return $result;
+    }
     
     
     /**
