@@ -339,184 +339,227 @@ class System extends IController implements adminAuthorization
 
 		$this->redirect('payment_list');
     }
-	//[网站管理][站点设置]保存
-	function save_conf()
-	{
-		if(!$_POST)
-		{
-			$this->redirect('conf_base');
-		}
+    //[网站管理][站点设置]保存
+    function save_conf_base()
+    {
+        if(!$_POST)
+        {
+            $this->redirect('conf_base');
+        }
+        if(isset($_FILES['logo']['name']) && $_FILES['logo']['name']!='')
+        {
+            $uploadObj = new PhotoUpload();
+            $uploadObj->setIterance(false);
+            $photoInfo = $uploadObj->run();
+            if(isset($photoInfo['logo']['img']) && file_exists($photoInfo['logo']['img']))
+            {
+                $_POST['logo'] = $photoInfo['logo']['img'];
+            }
+        }
 
-		//错误信息
-		$form_index = IFilter::act(IReq::get('form_index'));
-		switch($form_index)
-		{
-			case "base_conf":
-			{
-				if(isset($_FILES['logo']['name']) && $_FILES['logo']['name']!='')
-				{
-					$uploadObj = new PhotoUpload();
-					$uploadObj->setIterance(false);
-					$photoInfo = $uploadObj->run();
-					if(isset($photoInfo['logo']['img']) && file_exists($photoInfo['logo']['img']))
-					{
-						$_POST['logo'] = $photoInfo['logo']['img'];
-					}
-				}
-			}
-			break;
+        //获取输入的数据
+        $inputArray = $_POST;
+        
+        $siteObj = new Config('site_config');
+        $siteObj->write($inputArray);
+        $this->redirect('/system/conf_base');
+    }
 
-			case "site_footer_conf":
-			{
-				$_POST['site_footer_code']=preg_replace('![\\r\\n]+!',"",$_POST['site_footer_code']);
-                $content = IReq::get('content','post');
-                $upObj  = new IUpload();
-                $attach = 'img';
-                $dir = IWeb::$app->config['upload'].'/'.date('Y')."/".date('m')."/".date('d');
-                $upObj->setDir($dir);
-                $upState = $upObj->execute();
-                if(!isset($upState[$attach]))
+    
+    //[网站管理][导航设置]保存
+    function save_guide_conf()
+    {
+        if(!$_POST)
+        {
+            $this->redirect('conf_base');
+        }
+        
+        $guideName = IFilter::act(IReq::get('guide_name'));
+        $guideLink = IFilter::act(IReq::get('guide_link'));
+        $data      = array();
+
+        $guideObj = new IModel('guide');
+
+        if(!empty($guideName))
+        {
+            foreach($guideName as $key => $val)
+            {
+                if(!empty($val) && !empty($guideLink[$key]))
                 {
-                    if($content == '')
+                    $data[$key]['name'] = $val;
+                    $data[$key]['link'] = $guideLink[$key];
+                }
+            }
+        }
+
+        //清空导航栏
+        $guideObj->del('all');
+
+        if($data)
+        {
+            //插入数据
+            foreach($data as $order => $rs)
+            {
+                $dataArray = array(
+                    'order' => $order,
+                    'name'  => $rs['name'],
+                    'link'  => $rs['link'],
+                );
+                $guideObj->setData($dataArray);
+                $guideObj->add();
+            }
+        }
+        $this->redirect('/system/guide_conf');
+    }
+
+    
+    //[网站管理][首页幻灯片设置]保存
+    function save_index_slide()
+    {
+        if(!$_POST)
+        {
+            $this->redirect('conf_base');
+        }
+        $config_slide = array();
+        if(isset($_POST['slide_name']))
+        {
+            foreach($_POST['slide_name'] as $key => $value)
+            {
+                $config_slide[$key]['name']     = $value;
+                $config_slide[$key]['url']      = $_POST['slide_url'][$key];
+                $config_slide[$key]['bgColor']  = $_POST['bgColor'][$key];
+                $config_slide[$key]['img']      = $_POST['slide_img'][$key];
+            }
+        }
+
+        if( isset($_FILES['slide_pic']) )
+        {
+            $uploadObj = new PhotoUpload();
+            $uploadObj->setIterance(false);
+            $slideInfo = $uploadObj->run();
+
+            if(isset($slideInfo['slide_pic']['flag']))
+            {
+                $slideInfo['slide_pic'] = array($slideInfo['slide_pic']);
+            }
+
+            if(isset($slideInfo['slide_pic']))
+            {
+                foreach($slideInfo['slide_pic'] as $key=>$value)
+                {
+
+                    if($value['flag']==1)
                     {
-                        $error_message = '没有上传文件';
+                        $config_slide[$key]['img']=$value['img'];
                     }
                 }
-                else
-                {
-                    if($upState[$attach][0]['flag']== 1)
-                    {
-                        $content = $dir.'/'.$upState[$attach][0]['name'];
-                    }
-                    else
-                    {
-                        $error_message = IUpload::errorMessage($upState[$attach][0]['flag']);
-                    }
-                }   
-                $_POST['site_help_code'] = $content;
-			}
-			break;
+            }
 
-			case "index_slide":
-			{
-				$config_slide = array();
-				if(isset($_POST['slide_name']))
-				{
-					foreach($_POST['slide_name'] as $key => $value)
-					{
-						$config_slide[$key]['name']     = $value;
-                        $config_slide[$key]['url']      = $_POST['slide_url'][$key];
-						$config_slide[$key]['bgColor']  = $_POST['bgColor'][$key];
-						$config_slide[$key]['img']      = $_POST['slide_img'][$key];
-					}
-				}
+        }
+        $_POST = array('index_slide' => serialize( $config_slide ));
 
-				if( isset($_FILES['slide_pic']) )
-				{
-					$uploadObj = new PhotoUpload();
-					$uploadObj->setIterance(false);
-					$slideInfo = $uploadObj->run();
+        //获取输入的数据
+        $inputArray = $_POST;
+        $siteObj = new Config('site_config');
+        $siteObj->write($inputArray);
+        $this->redirect('/system/index_slide');
+    }
 
-					if(isset($slideInfo['slide_pic']['flag']))
-					{
-						$slideInfo['slide_pic'] = array($slideInfo['slide_pic']);
-					}
+    
+    //[网站管理][站点底部设置]保存
+    function save_site_footer_conf()
+    {
+        if(!$_POST)
+        {
+            $this->redirect('conf_base');
+        }
+        $_POST['site_footer_code']=preg_replace('![\\r\\n]+!',"",$_POST['site_footer_code']);
+        $content = IReq::get('content','post');
+        $upObj  = new IUpload();
+        $attach = 'img';
+        $dir = IWeb::$app->config['upload'].'/'.date('Y')."/".date('m')."/".date('d');
+        $upObj->setDir($dir);
+        $upState = $upObj->execute();
+        if(!isset($upState[$attach]))
+        {
+            if($content == '')
+            {
+                $error_message = '没有上传文件';
+            }
+        }
+        else
+        {
+            if($upState[$attach][0]['flag']== 1)
+            {
+                $content = $dir.'/'.$upState[$attach][0]['name'];
+            }
+            else
+            {
+                $error_message = IUpload::errorMessage($upState[$attach][0]['flag']);
+            }
+        }   
+        $_POST['site_help_code'] = $content;
 
-					if(isset($slideInfo['slide_pic']))
-					{
-						foreach($slideInfo['slide_pic'] as $key=>$value)
-						{
+        //获取输入的数据
+        $inputArray = $_POST;
+        $siteObj = new Config('site_config');
+        $siteObj->write($inputArray);
+        $this->redirect('/system/site_footer_conf');
+    }
 
-							if($value['flag']==1)
-							{
-								$config_slide[$key]['img']=$value['img'];
-							}
-						}
-					}
+    
+    //[网站管理][其他信息设置]保存
+    function save_other_conf()
+    {
+        if(!$_POST)
+        {
+            $this->redirect('conf_base');
+        }
+        if( isset($_POST['auto_finish']) && $_POST['auto_finish']=="" )
+        {
+            $_POST['auto_finish']=="0";
+        }
 
-				}
-				$_POST = array('index_slide' => serialize( $config_slide ));
-			}
-			break;
+        //获取输入的数据
+        $inputArray = $_POST;
+        $siteObj = new Config('site_config');
+        $siteObj->write($inputArray);
+        $this->redirect('/system/other_conf');
+    }
 
-			//导航写入数据库，不需要记录配置文件
-			case "guide_conf":
-			{
-				$guideName = IFilter::act(IReq::get('guide_name'));
-				$guideLink = IFilter::act(IReq::get('guide_link'));
-				$data      = array();
+    
+    //[网站管理][邮箱设置]保存
+    function save_mail_conf()
+    {
+        if(!$_POST)
+        {
+            $this->redirect('conf_base');
+        }
 
-				$guideObj = new IModel('guide');
+        //获取输入的数据
+        $inputArray = $_POST;
+        $siteObj = new Config('site_config');
+        $siteObj->write($inputArray);
+        $this->redirect('/system/mail_conf');
+    }
 
-				if(!empty($guideName))
-				{
-					foreach($guideName as $key => $val)
-					{
-						if(!empty($val) && !empty($guideLink[$key]))
-						{
-							$data[$key]['name'] = $val;
-							$data[$key]['link'] = $guideLink[$key];
-						}
-					}
-				}
+    
+    //[网站管理][系统设置]保存
+    function save_system_conf()
+    {
+        if(!$_POST)
+        {
+            $this->redirect('conf_base');
+        }
 
-				//清空导航栏
-				$guideObj->del('all');
-
-				if($data)
-				{
-					//插入数据
-					foreach($data as $order => $rs)
-					{
-						$dataArray = array(
-							'order' => $order,
-							'name'  => $rs['name'],
-							'link'  => $rs['link'],
-						);
-						$guideObj->setData($dataArray);
-						$guideObj->add();
-					}
-				}
-			}
-			break;
-
-			case "other_conf":
-			{
-				if( isset($_POST['auto_finish']) && $_POST['auto_finish']=="" )
-				{
-					$_POST['auto_finish']=="0";
-				}
-			}
-			break;
-
-			case "mail_conf":
-			break;
-			case "system_conf":
-			break;
-		}
-
-		//获取输入的数据
-		$inputArray = $_POST;
-		if($form_index == 'system_conf')
-		{
-			//写入的配置文件
-			$configFile = IWeb::$app->getBasePath().'config/config.php';
-			Config::edit($configFile,$inputArray);
-		}
-		else
-		{
-			$siteObj = new Config('site_config');
-			$siteObj->write($inputArray);
-		}
-		$this->redirect('/system/conf_base/form_index/'.$form_index);
-	}
-
-	//网站设置页面
-	function conf_base()
-	{
-		$this->confRow = array_merge(IWeb::$app->config,$this->_siteConfig->getInfo(),array("form_index" => IFilter::act(IReq::get('form_index'))));
-		$this->redirect('conf_base');
-	}
+        //获取输入的数据
+        $inputArray = $_POST;
+        
+        //写入的配置文件
+        $configFile = IWeb::$app->getBasePath().'config/config.php';
+        Config::edit($configFile,$inputArray);
+        $this->redirect('/system/system_conf');
+    }
 
 	//[权限管理][管理员]管理员添加，修改[单页]
 	function admin_edit()

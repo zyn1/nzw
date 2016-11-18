@@ -117,7 +117,13 @@ class Menu
     			'/system/default' => '后台首页',
     		),
         	'网站管理'=>array(
-        		'/system/conf_base' => '网站设置',
+                '/system/conf_base' => '网站设置',
+                '/system/guide_conf' => '导航设置',
+                '/system/index_slide' => '首页幻灯设置',
+                '/system/site_footer_conf' => '站点底部信息',
+                '/system/other_conf' => '其他设置',
+                '/system/mail_conf' => '邮箱设置',
+        		'/system/system_conf' => '系统设置',
         		/*'/system/conf_ui/type/site'   => '网站前台主题',
         		'/system/conf_ui/type/system'   => '后台管理主题',
         		'/system/conf_ui/type/seller'   => '商家管理主题',*/

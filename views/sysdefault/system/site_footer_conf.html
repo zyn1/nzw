@@ -1,0 +1,54 @@
+{js:kindeditor}
+{js:artTemplate}
+{set:$this->confRow = $this->_siteConfig->getInfo()}
+<div class="headbar">
+	<div class="position"><span>系统</span><span>></span><span>网站管理</span><span>></span><span>站点底部设置</span></div>
+</div>
+<div class="content_box">
+
+	<div class="content form_content">
+		<form action='{url:/system/save_site_footer_conf}' method='post' name='site_footer_conf' enctype='multipart/form-data'>
+            {if:isset($this->confRow['site_help_code'])}
+            <input type='hidden' name='content' value='{$this->confRow['site_help_code']}' />
+            {/if}
+			<table class='form_table'>
+				<colgroup>
+					<col width="150px" />
+					<col />
+				</colgroup>
+                <tr>
+                    <th>站点底部友情链接上方图片：</th>
+                    <td>
+                        <input type="file" name="img" class="file" />
+                        {if: isset($this->confRow['site_help_code']) && $this->confRow['site_help_code']}
+                        <br>
+                        <img src='{webroot:}{echo:IFilter::addSlash($this->confRow['site_help_code'])}' />
+                        {/if}
+                    </td>
+                </tr>
+				<tr>
+					<th>站点底部信息：</th>
+					<td>
+						<textarea id="site_footer_code" name='site_footer_code' style='width:95%;height:300px;'>{echo:IFilter::stripSlash($this->confRow['site_footer_code'])}</textarea>
+						<label>设置站点底部页面信息，您可以点源代码试图直接进行代码编辑</label>
+					</td>
+				</tr>
+				<tr>
+					<th></th>
+					<td><button type='submit' class='submit'><span>保存站点底部信息</span></button></td>
+				</tr>
+			</table>
+
+		</form>
+	</div>
+</div>
+
+<script type='text/javascript'>
+//DOM加载完毕
+$(function(){
+	//装载编辑器
+	KindEditor.ready(function(K){
+		K.create('#site_footer_code');
+	});
+});
+</script>
