@@ -291,6 +291,7 @@ class interface_native extends paymentPlugin
 
         $this->pay->setReqContent($this->reqHandler->getGateURL(),$data);
         if($this->pay->call()){
+            $this->resHandler = new ClientResponseHandler();
             $this->resHandler->setContent($this->pay->getResContent());
             $this->resHandler->setKey($this->reqHandler->getKey());
             if($this->resHandler->isTenpaySign()){
