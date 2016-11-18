@@ -1,6 +1,6 @@
 <script src="{theme:javascript/jquery.slider.js}"></script>
 <!--幻灯片 开始-->
-<div class="home_banner">
+<div class="home_banner" style="height:145px;">
     {if:$this->index_slide}
     <ul>
         {foreach:items=$this->index_slide}
@@ -14,22 +14,25 @@
 <!-- 首页菜单 -->
 <nav class="home_nav">
     <ul>
-        <li class="map"><a href="{url:site/sitemap}"><i class="icon-th-list"></i><span>全部分类</span></a></li>
-        <li class="cart"><a href="{url:simple/cart}"><i class="icon-shopping-cart"></i><span>购物车</span></a></li>
-        <li class="groupon"><a href="{url:site/groupon}"><i class="icon-legal"></i><span>今日团购</span></a></li>
-        <li class="favorite"><a href="{url:ucenter/favorite}"><i class="icon-star"></i><span>我的收藏</span></a></li>
+        <li class="map"><a href="{url:site/sitemap}"><i class="icon-th-list"></i><span>充值</span></a></li>
+        <li class="cart"><a href="{url:simple/cart}"><i class="icon-shopping-cart"></i><span>家装知识</span></a></li>
+        <li class="groupon"><a href="{url:site/groupon}"><i class="icon-legal"></i><span>商城公告</span></a></li>
+        <li class="custom"><a href="{url:ucenter/favorite}"><i class="icon-star"></i><span>在线客服</span></a></li>
+        <li class="favorite"><a href="{url:ucenter/favorite}"><i class="icon-star"></i><span>收藏</span></a></li>
     </ul>
 </nav>
 {echo:Ad::show("首页顶部通栏100%*120(mobile)")}
 <!-- 首页推荐商品列表 -->
-<h2 class="home_title"><i class="icon-gift"></i><strong>商品推荐</strong></h2>
+<h2 class="home_title">
+    <strong>商家推荐</strong>
+    <a class="more_a" href="{url:/site/search_list_seller}">更多</a>
+</h2>
 <section class="home_goods">
     <ul>
-        {foreach:items = Api::run('getCommendRecom')}
+        {foreach:items=Api::run('getRecommendSeller',6)}
         <li>
-            <a href="{url:/site/products/id/$item[id]}">
-                <img src="{url:/pic/thumb/img/$item[img]/w/300/h/300}" alt="{$item['name']}">
-                <span>{$item['name']}</span>
+            <a href="{url:/site/home/id/$item['id']}">
+                <img src="{webroot:}{$item['seller_logo']}">
             </a>
         </li>
         {/foreach}
@@ -39,44 +42,49 @@
 {echo:Ad::show("首页中部通栏100%*200(mobile)")}
 
 <!-- 首页顶级栏目分类 -->
-<h2 class="home_title"><i class="icon-list"></i><strong>畅销商品分类</strong></h2>
-<nav class="home_goods_nav">
+<h2 class="home_title">
+    <strong>特价商品</strong>
+</h2>
+<section class="home_goods">
     <ul>
-        {foreach:items=Api::run('getCategoryListTop') item=$first }
-        <li><a href="{url:/site/pro_list/cat/$first[id]}">{$first['name']}</a><i class="icon-chevron-right"></i></li>
+        {foreach:items=Api::run('getCommendPrice',6)}
+        <li>
+            <a href="{url:/site/products/id/$item['id']}">
+                <img src="{url:/pic/thumb/img/$item['img']/w/170/h/170}">
+                <h4>{$item['name']}</h4>
+                <em>￥{$item['sell_price']}</em>
+                <del>￥{$item['market_price']}</del>
+            </a>
+        </li>
         {/foreach}
     </ul>
-</nav>
-
-<section class="home_slogan">
-    <ol>
-        <li>
-            <i class="icon-truck"></i>
-            <p>
-                <strong>免费送货与退货</strong>
-                <br>
-                <span>所有订单超过200免费送货。</span>
-            </p>
-        </li>
-        <li>
-            <i class="icon-jpy"></i>
-            <p>
-                <strong>退款保证</strong>
-                <br>
-                <span>100%退款保证。</span>
-            </p>
-        </li>
-        <li>
-            <i class="icon-phone"></i>
-            <p>
-                <strong>在线支持 24/7</strong>
-                <br>
-                <span>客服7*24小时在线。</span>
-            </p>
-        </li>
-    </ol>
 </section>
+<!-- 分类商品 strat-->
+<div class="home_title">
 
+</div>
+<!-- 分类商品 end-->
+<h2 class="home_title">
+    <strong>猜你喜欢</strong>
+</h2>
+<section class="home_goods">
+    <ul>
+        <li>
+            <a href="{url:/site/products/id/$item['id']}">
+                <img src="{url:/pic/thumb/img/$item['img']/w/170/h/170}">
+                <div class="good_name">{$item['name']}</div>
+                <em>￥{$item['sell_price']}</em>
+            </a>
+        </li>
+        <li>
+            <a href="{url:/site/products/id/$item['id']}">
+                <img src="{url:/pic/thumb/img/$item['img']/w/170/h/170}">
+                <div class="good_name">{$item['name']}</div>
+                <em>￥{$item['sell_price']}</em>
+            </a>
+        </li>
+    </ul>
+</section>
 <script>
 $(function() {
     // 设置首页导航为当前

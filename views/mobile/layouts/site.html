@@ -21,40 +21,39 @@
     <header class="header_box">
         <div class="header">
             {if:IWeb::$app->getController()->getId() == 'site' && IWeb::$app->getController()->getAction()->getId() == 'index'}
-            <div class="header_home"><i class="icon-home"></i></div>
+            <div class="header_home"><i class="icon-phone"></i></div>
             {else:}
             <div class="header_back" onclick="window.history.back();"><i class="icon-chevron-left"></i></div>
             {/if}
-            <h1 id="page_title" class="page_title">{echo:$this->_siteConfig->name}</h1>
-            <div class="header_so_btn" onclick="$('.header_search').toggle();"><i class="icon-search"></i></div>
+            <a class="header_search" href="">
+                <i class="serch_a icon-search"></i>请输入您要搜索的内容
+            </a>
+            <div class="header_so_btn"><i class="icon-comment-alt"></i>
+               <!--  <i class="icon-comments-alt"></i> 有消息显示此图标 -->
+            </div>
         </div>
     </header>
     <!-- 顶部搜索 -->
-    <section class="header_search">
+   <!--  <section class="header_search">
         <form method='get' action="{url:/}">
             <input type='hidden' name='controller' value='site'>
             <input type='hidden' name='action' value='search_list'>
             <input class="keywords" type="text" name='word' autocomplete="off" placeholder="请输入关键词...">
             <input class="submit" type="submit" value="搜索">
         </form>
-    </section>
+    </section> -->
     <!-- 引入内页 -->
     {viewcontent}
     <!-- 会员登陆与否显示不同内容 -->
-    {if:$this->user}
-    {else:}
-    <section class="footer_login">
-        <a class="login" href="{url:simple/login}">登录</a>
-        <a class="reg" href="{url:simple/reg}">注册</a>
-    </section>
-    {/if}
+    
     <!--底部菜单-->
     <nav class="footer_nav">
         <ul>
             <li class="nav_home"><a href="{url:/}"><i class="icon-home"></i><span>首页</span></a></li>
+            <li class="nav_map"><a href="{url:site/sitemap}"><i class="icon-reorder"></i><span>分类</span></a></li>
             <li class="nav_cart"><a href="{url:simple/cart}"><i class="icon-shopping-cart"></i><span>购物车</span></a></li>
             <li class="nav_user"><a href="{url:/ucenter/index}"><i class="icon-user"></i><span>个人中心</span></a></li>
-            <li class="nav_map"><a href="{url:site/sitemap}"><i class="icon-reorder"></i><span>分类</span></a></li>
+            
         </ul>
     </nav>
 </body>
