@@ -1469,6 +1469,12 @@ class Order_Class
 		$order_id = $refundsRow['order_id'];
 		$order_no = $refundsRow['order_no'];
 		$user_id  = $refundsRow['user_id'];
+        $orderRow = $tb_order->getObj('id = '.$order_id);
+        
+        if($orderRow['pay_type'] == 1 && $way == 'origin')
+        {
+            $way = 'balance';
+        }
 
 		//获取用户信息
 		$memberObj = $memberDB->getObj('user_id = '.$user_id,'exp,point');
@@ -1490,7 +1496,6 @@ class Order_Class
 		}
 
 		//(2)校验订单金额
-		$orderRow = $tb_order->getObj('id = '.$order_id);
 		if($refundsRow['amount'] > $orderRow['order_amount'])
 		{
 			return "退款金额不能大于实际用户支付的订单金额";
@@ -1653,7 +1658,14 @@ class Order_Class
 
 			case "origin":
 			{
-
+                $paymentInstance = Payment::createPaymentInstance($orderRow['pay_type']);
+                $paymentData = Payment::getPaymentInfoForRefund($orderRow['pay_type'],$refundId,$order_id,$amount, $orderRow['order_amount']);
+                $res=$paymentInstance->refund($paymentData);
+                if(is_array($res))
+                {
+                    return $res['msg'];
+                }
+                return true;
 			}
 			break;
 		}
