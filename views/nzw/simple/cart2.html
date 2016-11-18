@@ -258,44 +258,38 @@ $(function(){
 						<tr class="inv_type">
 							<td>
 								<div id="tax_title" class='none'>
-									<h5><input type="radio" name="000">增值税普票</h5>
+									<h5><input type="radio" name="fapiao_type" value="0">增值税普票</h5>
 									<div>
 										<ul>
 											<li><label for="">发票抬头：</label><input type='text' class='input_text' name='tax_title' /></li>
 										</ul>
 									</div>
-									<h5><input type="radio" name="000">增值税专票</h5>
+									<h5><input type="radio" name="fapiao_type" value="1">增值税专票</h5>
 									<div>
 										<ul>
 											<li><label for="">发票抬头：</label><input type='text' class='input_text' name='tax_title' /></li>
-											<li><label for="">纳税人识别号：</label><input type='text' class='input_text' name='' /></li>
-											<li><label for="">地址：</label><input type='text' class='input_text' name='' /></li>
-											<li><label for="">电话：</label><input type='text' class='input_text' name='' /></li>
-											<li><label for="">开户行：</label><input type='text' class='input_text' name='' /></li>
-											<li><label for="">银行账户：</label><input type='text' class='input_text' name='' /></li>
+                                            <li><label for="">公司名称：</label><input type='text' class='input_text' name='tax_com' /></li>
+											<li><label for="">纳税人识别号：</label><input type='text' class='input_text' name='tax_no' /></li>
+											<li><label for="">地址：</label><input type='text' class='input_text' name='tax_address' /></li>
+											<li><label for="">电话：</label><input type='text' class='input_text' name='tax_telphone' /></li>
+											<li><label for="">开户行：</label><input type='text' class='input_text' name='tax_bank' /></li>
+											<li><label for="">银行账户：</label><input type='text' class='input_text' name='tax_account' /></li>
 										</ul>
 									</div>
 								</div>
 						    </td>
 <script>
 	$(function(){
-		var oTax = document.getElementById('tax_title');
-		var oOrd = oTax.getElementsByTagName('h5')[0];
-		var oSpe = oTax.getElementsByTagName('h5')[1];
-		var nextOr = oOrd.nextElementSibling||oOrd.nextElementSibling; 
-		var nextSp = oSpe.nextElementSibling||oSpe.nextElementSibling;
-		var oRradio = oOrd.getElementsByTagName('input')[0];
-		var oSradio = oSpe.getElementsByTagName('input')[0];
-		oOrd.onclick=function(){
-			oRradio.checked="checked";	
-			nextOr.style.display='block';
-			nextSp.style.display='none';
-		}
-		oSpe.onclick=function(){   
-			oSradio.checked='checked';
-			nextSp.style.display='block';
-			nextOr.style.display='none';	
-		}
+        $('#tax_title').find('h5').each(function(){
+            var _t = $(this);
+            _t.find('input[type=radio]').click(function(){
+                if($(this).prop('checked'))
+                {
+                    $('#tax_title').find('div').hide().find('input[type=text]').attr('disabled','disabled');
+                    _t.next('div').show().find('input[type=text]').removeAttr('disabled');
+                }
+            })
+        })
 	})
 </script>
 						    
