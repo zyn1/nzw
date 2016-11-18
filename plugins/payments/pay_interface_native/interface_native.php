@@ -287,7 +287,7 @@ class interface_native extends paymentPlugin
         $this->reqHandler->setParameter('op_user_id',$sendData['mch_id']);//必填项，操作员帐号,默认为商户号
 
         $this->reqHandler->createSign();//创建签名
-        $data = Utils::toXml($this->reqHandler->getAllParameters());//将提交参数转为xml，目前接口参数也只支持XML方式
+        $data = self::toXml($this->reqHandler->getAllParameters());//将提交参数转为xml，目前接口参数也只支持XML方式
 
         $this->pay->setReqContent($this->reqHandler->getGateURL(),$data);
         if($this->pay->call()){
@@ -297,7 +297,7 @@ class interface_native extends paymentPlugin
                 //当返回状态与业务结果都为0时才返回支付二维码，其它结果请查看接口文档
                 if($this->resHandler->getParameter('status') == 0 && $this->resHandler->getParameter('result_code') == 0){
                     $res = $this->resHandler->getAllParameters();
-                    Utils::dataRecodes('提交退款',$res);
+                    self::dataRecodes('提交退款',$res);
                     return true;
                 }else{
                     return array('status'=>500,'msg'=>'Error Code:'.$this->resHandler->getParameter('err_code').' Error Message:'.$this->resHandler->getParameter('err_msg'));
