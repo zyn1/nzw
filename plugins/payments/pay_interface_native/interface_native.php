@@ -50,18 +50,19 @@ class interface_native extends paymentPlugin
         $this->resHandler->setKey(Payment::getConfigParam($paymentId,'key'));
         if($this->resHandler->isTenpaySign()){
             if($this->resHandler->getParameter('status') == 0 && $this->resHandler->getParameter('result_code') == 0){
-           
-                //更改订单状态
-                $orderNo = $this->resHandler->getParameter('out_trade_no');
-                $money   = $this->resHandler->getParameter('total_fee')/100;
-                //记录回执流水号
-                if($this->resHandler->getParameter('transaction_id'))
+                $orderNoT = $this->resHandler->getParameter('out_trade_no');
+                $moneyT   = $this->resHandler->getParameter('total_fee')/100;
+                if($orderNo == $orderNoT  && $money == $moneyT)
                 {
-                    $this->recordTradeNo($orderNo,$this->resHandler->getParameter('transaction_id'));
+                    //更改订单状态
+                    //记录回执流水号
+                    if($this->resHandler->getParameter('transaction_id'))
+                    {
+                        $this->recordTradeNo($orderNo,$this->resHandler->getParameter('transaction_id'));
+                    }
+                    return true;
                 }
-                
-                self::dataRecodes('接口回调收到通知参数',$this->resHandler->getAllParameters());
-                return true;
+                return false;
             }else{
                 return false;
             }
@@ -204,22 +205,6 @@ class interface_native extends paymentPlugin
         $xml.='</xml>';
         return $xml;
     }
-    
-    public static function dataRecodes($title,$data){
-        $handler = fopen('result.txt','a+');
-        $content = "================".$title."===================\n";
-        if(is_string($data) === true){
-            $content .= $data."\n";
-        }
-        if(is_array($data) === true){
-            forEach($data as $k=>$v){
-                $content .= "key: ".$k." value: ".$v."\n";
-            }
-        }
-        $flag = fwrite($handler,$content);
-        fclose($handler);
-        return $flag;
-    }
 
     public static function parseXML($xmlSrc){
         if(empty($xmlSrc)){
@@ -298,7 +283,6 @@ class interface_native extends paymentPlugin
                 //当返回状态与业务结果都为0时才返回支付二维码，其它结果请查看接口文档
                 if($this->resHandler->getParameter('status') == 0 && $this->resHandler->getParameter('result_code') == 0){
                     $res = $this->resHandler->getAllParameters();
-                    self::dataRecodes('提交退款',$res);
                     return true;
                 }else{
                     return array('status'=>500,'msg'=>'Error Code:'.$this->resHandler->getParameter('err_code').' Error Message:'.$this->resHandler->getParameter('err_msg'));
