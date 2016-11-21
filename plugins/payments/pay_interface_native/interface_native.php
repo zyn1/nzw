@@ -50,19 +50,15 @@ class interface_native extends paymentPlugin
         $this->resHandler->setKey(Payment::getConfigParam($paymentId,'key'));
         if($this->resHandler->isTenpaySign()){
             if($this->resHandler->getParameter('status') == 0 && $this->resHandler->getParameter('result_code') == 0){
-                $orderNoT = $this->resHandler->getParameter('out_trade_no');
-                $moneyT   = $this->resHandler->getParameter('total_fee')/100;
-                if($orderNo == $orderNoT  && $money == $moneyT)
+                $orderNo = $this->resHandler->getParameter('out_trade_no');
+                $money   = $this->resHandler->getParameter('total_fee')/100;
+                //更改订单状态
+                //记录回执流水号
+                if($this->resHandler->getParameter('transaction_id'))
                 {
-                    //更改订单状态
-                    //记录回执流水号
-                    if($this->resHandler->getParameter('transaction_id'))
-                    {
-                        $this->recordTradeNo($orderNo,$this->resHandler->getParameter('transaction_id'));
-                    }
-                    return true;
+                    $this->recordTradeNo($orderNo,$this->resHandler->getParameter('transaction_id'));
                 }
-                return false;
+                return true;
             }else{
                 return false;
             }
