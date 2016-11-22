@@ -125,7 +125,11 @@
                     {if:$pay_status == 0 && isset($step)}
                     <label><input type='radio' name='pay_status' value='3' />同意</label>
                     {else:}
-					<label><input type='radio' name='pay_status' value='2' />同意</label>
+                    {if:$pay_type == 10 && $type == 1}
+					<label><input type='radio' name='pay_status' value='5' />同意</label>
+                    {else:}
+                    <label><input type='radio' name='pay_status' value='2' />同意</label>
+                    {/if}
                     {/if}
 					<label><input type='radio' name='pay_status' value='1' />拒绝</label>
 				</div>

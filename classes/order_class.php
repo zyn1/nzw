@@ -1368,7 +1368,7 @@ class Order_Class
 	{
         if($type == 1)
         {
-            $result = array('0' => '申请退款', '1' => '退款失败', '2' => '退款成功', '3' => '商家同意退货', '4' => '已提交快递单号');
+            $result = array('0' => '申请退款', '1' => '退款失败', '2' => '退款成功', '3' => '商家同意退货', '4' => '已提交快递单号','5' => '商家同意，等待退款');
         }
 		else
         {
@@ -1658,12 +1658,15 @@ class Order_Class
 
 			case "origin":
 			{
-                $paymentInstance = Payment::createPaymentInstance($orderRow['pay_type']);
-                $paymentData = Payment::getPaymentInfoForRefund($orderRow['pay_type'],$refundId,$order_id,$amount, $orderRow['order_amount']);
-                $res=$paymentInstance->refund($paymentData);
-                if(is_array($res))
+                if($orderRow['pay_type'] <> 10)
                 {
-                    return $res['msg'];
+                    $paymentInstance = Payment::createPaymentInstance($orderRow['pay_type']);
+                    $paymentData = Payment::getPaymentInfoForRefund($orderRow['pay_type'],$refundId,$order_id,$amount, $orderRow['order_amount']);
+                    $res=$paymentInstance->refund($paymentData);
+                    if(is_array($res))
+                    {
+                        return $res['msg'];
+                    }
                 }
                 return true;
 			}

@@ -44,9 +44,7 @@ class interface_native extends paymentPlugin
     {
         $this->resHandler = new ClientResponseHandler();
         $xml = file_get_contents('php://input');
-        //$res = self::parseXML($xml);
         $this->resHandler->setContent($xml);
-        //var_dump($this->resHandler->setContent($xml));
         $this->resHandler->setKey(Payment::getConfigParam($paymentId,'key'));
         if($this->resHandler->isTenpaySign()){
             if($this->resHandler->getParameter('status') == 0 && $this->resHandler->getParameter('result_code') == 0){
@@ -111,7 +109,6 @@ class interface_native extends paymentPlugin
         $this->reqHandler->createSign();//创建签名
         
         $data = self::toXml($this->reqHandler->getAllParameters());
-        //var_dump($data);
         
         $this->pay->setReqContent($this->reqHandler->getGateURL(),$data);
         if($this->pay->call()){

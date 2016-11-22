@@ -41,7 +41,7 @@
 			</tr>
 			<tr class='t_l'>
 				<th>处理状态</th>
-				<td>{echo:Order_Class::refundmentText($pay_status,$type)}</td>
+				<td>{echo:Order_Class::refundmentText($pay_status,$type)}{if:$pay_status == 5}&nbsp;&nbsp;&nbsp;<a href="javascript:;" class="btn" onclick="jsRefund({$id})">退款</a>{/if}</td>
 			</tr>
 			<tr class='t_l'>
 				<th>处理时间:</th><td>{$dispose_time}</td>
@@ -49,9 +49,16 @@
 			<tr class='t_l'>
 				<th>退款原因:</th><td>{$content}</td>
 			</tr>
-			<tr class='t_l'>
-				<th>处理意见:</th><td>{$dispose_idea}</td>
-			</tr>
+            <tr class='t_l'>
+                <th>处理意见:</th><td>{$dispose_idea}</td>
+            </tr>
 		</tbody>
 	</table>
 </div>
+
+<script type="text/javascript">
+function jsRefund(id)
+{
+    window.open("{url:/order/jsRefund/id}/"+id);
+}
+</script>

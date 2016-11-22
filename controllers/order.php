@@ -1583,4 +1583,137 @@ class Order extends IController implements adminAuthorization
 		$reportObj->toDownload($strTable);
 		exit();
 	}
+    
+    public function jsRefund()
+    {
+        $refunds_id = IReq::get('id');/*
+        $updateData = array(
+            'dispose_time' => ITime::getDateTime(),
+            'dispose_idea' => '同意',
+            'pay_status'   => 2
+        );
+        $tb_refundment_doc = new IModel('refundment_doc');
+        $tb_refundment_doc->setData($updateData);
+        $tb_refundment_doc->update('id = '.$refunds_id);*/
+        
+        $orderGoodsDB= new IModel('order_goods');
+        $refundDB    = new IModel('refundment_doc');
+        $tb_order    = new IModel('order');
+
+        $refundsRow = $refundDB->getObj('id = '.$refunds_id);
+        if(!$refundsRow)
+        {
+            die("退款申请信息不存在");
+        }
+
+        if(!$refundsRow['order_goods_id'])
+        {
+            die("退款商品信息为空");
+        }
+
+        $orderGoodsList = $orderGoodsDB->query('id in ('.$refundsRow['order_goods_id'].') and is_send != 2');
+        $order_goods_id = explode(",",$refundsRow['order_goods_id']);
+        if(count($orderGoodsList) != count($order_goods_id))
+        {
+            die("要退款商品的状态不正确");
+        }
+
+        $order_id = $refundsRow['order_id'];
+        $order_no = $refundsRow['order_no'];
+        $orderRow = $tb_order->getObj('id = '.$order_id);
+
+        //退款金额校验
+        //(1)校验商品金额；
+        $autoMount = 0;
+        foreach($orderGoodsList as $key => $val)
+        {
+            $autoMount += $val['goods_nums'] * $val['real_price'];
+        }
+        if($refundsRow['amount'] > $autoMount)
+        {
+            die("退款金额不能大于商品金额");
+        }
+
+        //(2)校验订单金额
+        if($refundsRow['amount'] > $orderRow['order_amount'])
+        {
+            die("退款金额不能大于实际用户支付的订单金额");
+        }
+
+        //如果管理员（商家）自定义了退款金额。否则就使用默认的付款商品金额
+        $amount = $refundsRow['amount'] == 0 ? $autoMount : $refundsRow['amount'];
+
+        //更新order表状态,查询是否订单中还有未退款的商品，判断是订单退款状态：全部退款或部分退款
+        $isSendData = $orderGoodsDB->getObj('order_id = '.$order_id.' and is_send != 2');
+        $orderStatus = 6;//全部退款
+        if($isSendData)
+        {
+            $orderStatus = 7;//部分退款
+        }
+
+        /**
+         * 进行用户的余额增加操作,积分，经验的减少操作,
+         * 1,当全部退款时候,减少订单中记录的积分和经验;且如果没有发货的商品直接退回订单中的全部金额
+         * 2,当部分退款时候,查询商品表中积分和经验
+         */
+        if($orderStatus == 6)
+        {
+            $orderRow = $tb_order->getObj('id = '.$order_id);
+
+            //在订单商品没有发货情况下，直接退还所有的订单金额
+            $isDeliveryData = $orderGoodsDB->getObj('order_id = '.$order_id.' and delivery_id > 0');
+            if(!$isDeliveryData)
+            {
+                $amount = $refundsRow['amount'] == 0 ? $orderRow['order_amount'] : $refundsRow['amount'];
+            }
+            //已经发货了
+            else
+            {
+                //非管理员定义价格
+                if($refundsRow['amount'] == 0)
+                {
+                    //对于已经发货的要从订单总额中扣除运费
+                    $amount = $amount >= $orderRow['order_amount'] - $orderRow['real_freight'] ? $orderRow['order_amount'] - $orderRow['real_freight'] : $amount;
+                }
+            }
+        }
+
+        //最后检验
+        if($amount > $orderRow['order_amount'])
+        {
+            die('请手动填写要退款的金额');
+        }
+        
+        $paymentInstance = Payment::createPaymentInstance(10);
+        $paymentData = Payment::getPaymentInfoForRefund(10,$refunds_id,$order_id,$amount, $orderRow['order_amount']);
+        $res=$paymentInstance->refund($paymentData);
+        /*$result = Order_Class::refund($refunds_id,$this->admin['admin_id'],'admin','origin');
+        if(is_string($result))
+        {
+            $tb_refundment_doc->rollback();
+            die($result);
+        }*/
+    }
+    
+    public function updateRefund($batchNo)
+    {
+        $temp = explode('R', $batchNo);
+        $refunds_id = $temp[1];
+        
+        $updateData = array(
+            'dispose_time' => ITime::getDateTime(),
+            'dispose_idea' => '同意',
+            'pay_status'   => 2
+        );
+        $tb_refundment_doc = new IModel('refundment_doc');
+        $tb_refundment_doc->setData($updateData);
+        $tb_refundment_doc->update('id = '.$refunds_id);
+        
+        $result = Order_Class::refund($refunds_id,$this->admin['admin_id'],'admin','origin');
+        if(is_string($result))
+        {
+            $tb_refundment_doc->rollback();
+            die($result);
+        }
+    }
 }

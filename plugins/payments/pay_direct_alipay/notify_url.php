@@ -21,7 +21,7 @@ require_once(dirname(__FILE__)."/lib/alipay_notify.class.php");
 //计算得出通知验证结果
 $alipayNotify = new AlipayNotify($alipay_config);
 $verify_result = $alipayNotify->verifyNotify();
-
+return $verify_result;
 if($verify_result) {//验证成功
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	//请在这里加上商户的业务逻辑程序代
@@ -33,12 +33,14 @@ if($verify_result) {//验证成功
 	
 	//批次号
 	$batch_no = $_POST['batch_no'];
+    $orderObj = new Order();
+    $orderObj->updateRefund($batch_no);
 
 	//批量退款数据中转账成功的笔数
-	$success_num = $_POST['success_num'];
+	//$success_num = $_POST['success_num'];
 
 	//批量退款数据中的详细信息
-	$result_details = $_POST['result_details'];
+	//$result_details = $_POST['result_details'];
 
 
 	//判断是否在商户网站中已经做过了这次通知返回的处理
@@ -47,9 +49,6 @@ if($verify_result) {//验证成功
         
 	echo "success";		//请不要修改或删除
 
-	//调试用，写文本函数记录程序运行情况是否正常
-	//logResult("这里写入想要调试的代码变量值，或其他运行的结果记录");
-
 	//——请根据您的业务逻辑来编写程序（以上代码仅作参考）——
 	
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -57,8 +56,5 @@ if($verify_result) {//验证成功
 else {
     //验证失败
     echo "fail";
-
-    //调试用，写文本函数记录程序运行情况是否正常
-    //logResult("这里写入想要调试的代码变量值，或其他运行的结果记录");
 }
 ?>

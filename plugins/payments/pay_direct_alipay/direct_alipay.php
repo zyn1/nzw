@@ -220,12 +220,11 @@ class direct_alipay extends paymentPlugin
             "notify_url"    => trim($alipay_config['notify_url']),
             "seller_user_id"    => trim($sendData['M_PartnerId']),
             "refund_date"    => trim($alipay_config['refund_date']),
-            "batch_no"    => ITime::getDateTime(),
+            "batch_no"    => ITime::getDateTime('YmdHis').'R'.$sendData['M_refund'],
             "batch_num"    => 1,
             "detail_data"    => $sendData['M_Trade_NO'].'^'.$sendData['M_Amount'].'^退款',
             "_input_charset"    => trim(strtolower($alipay_config['input_charset']))
         );
-var_dump($parameter);exit;
         //建立请求
         $alipaySubmit = new AlipaySubmit($alipay_config);
         $html_text = $alipaySubmit->buildRequestForm($parameter,"get", "确认");

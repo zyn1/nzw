@@ -311,6 +311,7 @@ class Payment
         $payment['M_Trade_NO'] = $orderRow['trade_no'];
         $payment['M_Amount']    = $money;
         $payment['M_total']    = $sum;
+        $payment['M_refund']    = $refundId;
         return $payment;
         
     }
