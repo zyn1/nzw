@@ -21,7 +21,6 @@ require_once(dirname(__FILE__)."/lib/alipay_notify.class.php");
 //计算得出通知验证结果
 $alipayNotify = new AlipayNotify($alipay_config);
 $verify_result = $alipayNotify->verifyNotify();
-return $verify_result;
 if($verify_result) {//验证成功
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	//请在这里加上商户的业务逻辑程序代
