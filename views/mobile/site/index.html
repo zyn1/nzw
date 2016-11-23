@@ -1,3 +1,19 @@
+ <!-- 顶部通栏 -->
+    <header class="header_box">
+        <div class="header">
+            {if:IWeb::$app->getController()->getId() == 'site' && IWeb::$app->getController()->getAction()->getId() == 'index'}
+            <a class="header_home" tel=""><i class="icon-phone"></i></a>
+            {else:}
+            <div class="header_back" onclick="window.history.back();"><i class="icon-chevron-left"></i></div>
+            {/if}
+            <a class="header_search" href="{url:site/search}">
+                <i class="serch_a icon-search"></i>请输入您要搜索的内容
+            </a>
+            <a class="header_so_btn"><i class="icon-comment-alt"></i>
+                 <!--<i class="icon-comments-alt"></i> 有消息显示此图标 -->
+            </a>
+        </div>
+    </header>
 <script src="{theme:javascript/jquery.slider.js}"></script>
 <!--幻灯片 开始-->
 <div class="home_banner" style="height:145px;">
@@ -39,33 +55,113 @@
     </ul>
 </section>
 
-{echo:Ad::show("首页中部通栏100%*200(mobile)")}
 
-<!-- 首页顶级栏目分类 -->
 <h2 class="home_title">
     <strong>特价商品</strong>
+    <a class="more_a" href="{url:/site/search_list_seller}">更多</a>
 </h2>
 <section class="home_goods">
-    <ul>
-        {foreach:items=Api::run('getCommendPrice',6)}
-        <li>
-            <a href="{url:/site/products/id/$item['id']}">
-                <img src="{url:/pic/thumb/img/$item['img']/w/170/h/170}">
-                <h4>{$item['name']}</h4>
-                <em>￥{$item['sell_price']}</em>
-                <del>￥{$item['market_price']}</del>
-            </a>
-        </li>
-        {/foreach}
-    </ul>
+    <div class="goods_l">
+        <ul>
+            <li>
+                <a href="">
+                <img src="">
+                <div class="good_name">合木威廉 三层实木 地板</div>
+                <em>￥200.00</em>
+                </a>
+            </li>
+            <li>
+                <a href="">
+                <img src="">
+                <div class="good_name">合木威廉 三层实木 地板</div>
+                <em>￥200.00</em>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="goods_r">
+        <ul>
+            <li>
+                <a>
+                <img src="">
+                <p class="good_name">合木威廉 三层实木 地板合木威廉 三层实木 地板</p>
+                <em>￥200.00</em>
+                </a>
+            </li>
+            <li>
+                <a href="">
+                <img src="">
+                <p class="good_name">合木威廉 三层实木 地板</p>
+                <em>￥200.00</em>
+                </a>
+            </li>
+            <li>
+                <a href="">
+                <img src="">
+                <p class="good_name">合木威廉 三层实木 地板</p>
+                <em>￥200.00</em>
+                </a>
+            </li>
+            <li>
+                <a href="">
+                <img src="">
+                <p class="good_name">合木威廉 三层实木 地板</p>
+                <em>￥200.00</em>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
 </section>
-<!-- 分类商品 strat-->
-<div class="home_title">
-
+       <!--  {foreach:items=Api::run('getCommendPrice',6)}
+        {/foreach} -->
+<!-- 分类商品 end-->
+<script src='{theme:javascript/swiper.min.js}'></script>
+<script src='{theme:javascript/fl.js}'></script>
+<link rel="stylesheet" href="{skin:style/swiper.min.css}">
+<div class="swiper-container swiper-container-horizontal head">
+     <div class="swiper-wrapper" id="box1">
+        <div class="swiper-slide active">基础建材</div>
+        <div class="swiper-slide">瓷石地板</div>
+        <div class="swiper-slide">门窗</div>
+        <div class="swiper-slide">橱柜卫浴</div>
+        <div class="swiper-slide">家具电器</div>
+        <div class="swiper-slide">软装家饰</div>
+    </div>
+</div>
+<div class="swiper-container panel home_goods">
+    <section class="swiper-wrapper">
+        <div class="swiper-slide">
+           <ul>
+                <li>
+                    <a href="{url:/site/products/id/$item['id']}">
+                        <img src="{url:/pic/thumb/img/$item['img']/w/170/h/170}">
+                        <div class="good_name">{$item['name']}</div>
+                        <em>￥{$item['sell_price']}</em>
+                    </a>
+                </li>
+                <li>
+                    <a href="{url:/site/products/id/$item['id']}">
+                        <img src="{url:/pic/thumb/img/$item['img']/w/170/h/170}">
+                        <div class="good_name">{$item['name']}</div>
+                        <em>￥{$item['sell_price']}</em>
+                    </a>
+                </li>
+            </ul>
+            <div class="look_gd"><a>查看更多</a></div>
+        </div>
+        <div class="swiper-slide">22222222222222</div>
+        <div class="swiper-slide">33333333333333</div>
+        <div class="swiper-slide">44444444444444</div>
+        <div class="swiper-slide">55555555555555</div>
+        <div class="swiper-slide">66666666666666</div>
+    </section>
 </div>
 <!-- 分类商品 end-->
 <h2 class="home_title">
     <strong>猜你喜欢</strong>
+    <a class="more_a" href="">更多</a>
 </h2>
 <section class="home_goods">
     <ul>

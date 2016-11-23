@@ -17,22 +17,7 @@
 </head>
 
 <body>
-    <!-- 顶部通栏 -->
-    <header class="header_box">
-        <div class="header">
-            {if:IWeb::$app->getController()->getId() == 'site' && IWeb::$app->getController()->getAction()->getId() == 'index'}
-            <div class="header_home"><i class="icon-phone"></i></div>
-            {else:}
-            <div class="header_back" onclick="window.history.back();"><i class="icon-chevron-left"></i></div>
-            {/if}
-            <a class="header_search" href="">
-                <i class="serch_a icon-search"></i>请输入您要搜索的内容
-            </a>
-            <div class="header_so_btn"><i class="icon-comment-alt"></i>
-               <!--  <i class="icon-comments-alt"></i> 有消息显示此图标 -->
-            </div>
-        </div>
-    </header>
+   
     <!-- 顶部搜索 -->
    <!--  <section class="header_search">
         <form method='get' action="{url:/}">
