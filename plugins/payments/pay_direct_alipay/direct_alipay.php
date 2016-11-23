@@ -73,35 +73,12 @@ class direct_alipay extends paymentPlugin
 		return false;
 	}
 
-    /**
-     * @see paymentplugin::serverCallback()
-     */
-    public function serverCallback($callbackData,&$paymentId,&$money,&$message,&$orderNo)
-    {
-        return $this->callback($callbackData,$paymentId,$money,$message,$orderNo);
-    }
-
-
 	/**
-	 * @see paymentplugin::refundServerCallback()
+	 * @see paymentplugin::serverCallback()
 	 */
-	public function refundServerCallback($callbackData)
+	public function serverCallback($callbackData,&$paymentId,&$money,&$message,&$orderNo)
 	{
-		require_once(dirname(__FILE__)."/alipay.config.php");
-        require_once(dirname(__FILE__)."/lib/alipay_notify.class.php");
-        $alipayNotify = new AlipayNotify($alipay_config);
-        $verify_result = $alipayNotify->verifyNotify();
-        if($verify_result) {//验证成功            
-            //批次号
-            $batch_no = $callbackData['batch_no'];
-            $orderObj = new Order();
-            $res = $orderObj->updateRefund($batch_no);
-            return $res;
-        }
-        else {
-            //验证失败
-            return false;
-        }
+		return $this->callback($callbackData,$paymentId,$money,$message,$orderNo);
 	}
 
 	/**
