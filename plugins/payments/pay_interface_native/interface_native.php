@@ -50,8 +50,7 @@ class interface_native extends paymentPlugin
         $this->resHandler->setKey(Payment::getConfigParam($paymentId,'key'));
         if($this->resHandler->isTenpaySign()){
             if($this->resHandler->getParameter('status') == 0 && $this->resHandler->getParameter('result_code') == 0){
-                //echo $this->resHandler->getParameter('status');
-                // 此处可以在添加相关处理业务，校验通知参数中的商户订单号out_trade_no和金额total_fee是否和商户业务系统的单号和金额是否一致，一致后方可更新数据库表中的记录。 
+           
                 //更改订单状态
                 $orderNo = $this->resHandler->getParameter('out_trade_no');
                 $money   = $this->resHandler->getParameter('total_fee')/100;
@@ -110,9 +109,6 @@ class interface_native extends paymentPlugin
         $this->reqHandler->setParameter('service','pay.weixin.native');//接口类型：pay.weixin.native
         $this->reqHandler->setParameter('mch_id',$sendData['mch_id']);//必填项，商户号，由威富通分配
         $this->reqHandler->setParameter('version','2.0');
-        //通知地址，必填项，接收威富通通知的URL，需给绝对路径，255字符内格式如:http://wap.tenpay.com/tenpay.asp
-        //$notify_url = 'http://'.$_SERVER['HTTP_HOST'];
-        //$this->reqHandler->setParameter('notify_url',$notify_url.'/payInterface/request.php?method=callback');
         $this->reqHandler->setParameter('notify_url',$sendData['notify_url']);//通知回调地址，目前默认是空格，商户在测试支付和上线时必须改为自己的，且保证外网能访问到
         $this->reqHandler->setParameter('nonce_str',mt_rand(time(),time()+rand()));//随机字符串，必填项，不长于 32 位
         $this->reqHandler->createSign();//创建签名
@@ -263,6 +259,54 @@ class interface_native extends paymentPlugin
             return strtoupper ( $arr[1] );
         } else {
             return "";
+        }
+    }
+    
+    /**
+     * 退款
+     */
+    public function refund($sendData){
+        $this->reqHandler = new RequestHandler();
+        $this->pay = new PayHttpClient();
+        //$this->reqHandler->setReqParams($_POST,array('method'));
+        $this->reqHandler->setGateUrl('https://pay.swiftpass.cn/pay/gateway');
+        $this->reqHandler->setKey($sendData['key']);
+        $this->reqHandler->setParameter('out_trade_no',$sendData['M_Order_NO']);
+        $this->reqHandler->setParameter('transaction_id',$sendData['M_Trade_NO']);
+        $this->reqHandler->setParameter('out_refund_no',$sendData['M_OrderNO']);
+        $this->reqHandler->setParameter('refund_fee',$sendData['M_Amount']*100);
+        $this->reqHandler->setParameter('total_fee',$sendData['M_total']*100);
+        $reqParam = $this->reqHandler->getAllParameters();
+        if(empty($reqParam['transaction_id']) && empty($reqParam['out_trade_no'])){
+            return array('status'=>500,'msg'=>'参数错误！');
+        }
+        $this->reqHandler->setParameter('version','2.0');
+        $this->reqHandler->setParameter('service','trade.single.refund');//接口类型：trade.single.refund
+        $this->reqHandler->setParameter('mch_id',$sendData['mch_id']);//必填项，商户号，由威富通分配
+        $this->reqHandler->setParameter('nonce_str',mt_rand(time(),time()+rand()));//随机字符串，必填项，不长于 32 位
+        $this->reqHandler->setParameter('op_user_id',$sendData['mch_id']);//必填项，操作员帐号,默认为商户号
+
+        $this->reqHandler->createSign();//创建签名
+        $data = self::toXml($this->reqHandler->getAllParameters());//将提交参数转为xml，目前接口参数也只支持XML方式
+
+        $this->pay->setReqContent($this->reqHandler->getGateURL(),$data);
+        if($this->pay->call()){
+            $this->resHandler = new ClientResponseHandler();
+            $this->resHandler->setContent($this->pay->getResContent());
+            $this->resHandler->setKey($this->reqHandler->getKey());
+            if($this->resHandler->isTenpaySign()){
+                //当返回状态与业务结果都为0时才返回支付二维码，其它结果请查看接口文档
+                if($this->resHandler->getParameter('status') == 0 && $this->resHandler->getParameter('result_code') == 0){
+                    $res = $this->resHandler->getAllParameters();
+                    self::dataRecodes('提交退款',$res);
+                    return true;
+                }else{
+                    return array('status'=>500,'msg'=>'Error Code:'.$this->resHandler->getParameter('err_code').' Error Message:'.$this->resHandler->getParameter('err_msg'));
+                }
+            }
+            return array('status'=>500,'msg'=>'Error Code:'.$this->resHandler->getParameter('status').' Error Message:'.$this->resHandler->getParameter('message'));
+        }else{
+            return array('status'=>500,'msg'=>'Response Code:'.$this->pay->getResponseCode().' Error Info:'.$this->pay->getErrInfo());
         }
     }
 }

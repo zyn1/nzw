@@ -913,7 +913,7 @@ class Seller extends IController implements sellerAuthorization
 			{
                 if($type == 1)
                 {
-				    $result = Order_Class::refund($id,$this->seller['seller_id'],'seller');
+				    $result = Order_Class::refund($id,$this->seller['seller_id'],'seller','origin');
 				    if(is_string($result))
 				    {
 					    $tb_refundment_doc->rollback();

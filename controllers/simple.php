@@ -740,23 +740,22 @@ class Simple extends IController
                 $db_fapiao = new IModel('order_fapiao');
                 $fapiao_data = array(
                         'order_id'=> $order_id,
+                        'money' => $goodsResult['orderAmountPrice'],
+                        'status' => 0,
                         'user_id' => $user_id,
-                        'type'    => 0,
+                        'type'    => IReq::get('fapiao_type'),
                         'create_time'=> ITime::getDateTime(),
                         'taitou' => $tax_title,
                         'seller_id' => $seller_id
                 );
-                /*if($fapiao_data['type']==0){
-                    $fapiao_data['taitou'] = IFilter::act(IReq::get('tax_title'));
-                        
-                }else{
+                if($fapiao_data['type']==1){
                     $fapiao_data['com'] = IFilter::act(IReq::get('tax_com'));
                     $fapiao_data['tax_no']= IFilter::act(IReq::get('tax_no'));
                     $fapiao_data['address'] = IFilter::act(IReq::get('tax_address'));
                     $fapiao_data['telphone'] = IFilter::act(IReq::get('tax_telphone'));
                     $fapiao_data['bank'] = IFilter::act(IReq::get('tax_bank'));
                     $fapiao_data['account'] = IFilter::act(IReq::get('tax_account'));
-                }*/
+                }
                 $db_fapiao->setData($fapiao_data);
                 $db_fapiao->add();
             }

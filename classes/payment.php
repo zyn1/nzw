@@ -288,5 +288,59 @@ class Payment
                 return true;
             }
         }
-	}
+	}    
+    
+    /**
+     * @获取退款需要订单数据
+     * @$payment_id int 支付方式id
+     * @$order_id  int 订单id
+     * @return array
+     */
+    public static function getPaymentInfoForRefund($payment_id,$refundId,$order_id,$money,$sum){
+        $payment = self::getPaymentParam($payment_id);
+        
+        $orderObj = new IModel('order');
+        $orderRow = $orderObj->getObj('id = '.$order_id,'order_no,trade_no');
+        
+        if(empty($orderRow))
+        {
+            IError::show(403,'订单信息不正确，不能退款');
+        }
+        $payment['M_OrderNO'] = md5($refundId);
+        $payment['M_Order_NO'] = $orderRow['order_no'];
+        $payment['M_Trade_NO'] = $orderRow['trade_no'];
+        $payment['M_Amount']    = $money;
+        $payment['M_total']    = $sum;
+        return $payment;
+        
+    }
+    
+    /**
+     * 获取支付参数（商户id，密码）
+     * @param unknown $payment_id
+     */
+    private static function getPaymentParam($payment_id){
+        //最终返回值
+        $payment = array();
+        
+        //初始化配置参数
+        $paymentInstance = Payment::createPaymentInstance($payment_id);
+        $configParam = $paymentInstance->configParam();
+        foreach($configParam as $key => $val)
+        {
+            $payment[$key] = '';
+        }
+        
+        //获取公共信息
+        $paymentRow = self::getPaymentById($payment_id,'config_param');
+        if($paymentRow)
+        {
+            $paymentRow = JSON::decode($paymentRow);
+            foreach($paymentRow as $key => $item)
+            {
+                $payment[$key] = $item;
+            }
+        }
+        return $payment;
+    }
 }
