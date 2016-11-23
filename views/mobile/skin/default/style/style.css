@@ -1638,9 +1638,10 @@ a .icon-rotate-90:before, a .icon-rotate-180:before, a .icon-rotate-270:before, 
 }
 .goods_sort .sort_btn i {
     padding-left: 0.2rem;
-    position: relative;
-    top: 4px;
-    left: 5px;
+    position: absolute;
+    width: 23px;
+    height: 19px;
+    top: 17px;
 }
 
 .goods_select {
@@ -4214,12 +4215,12 @@ span.valid-msg, label.valid-msg {
 .icon-angle-up{
     background: url("../image/top/shang@2x.png") no-repeat;
 }
-/*.goods_sort .sort_btn{
+.goods_sort .sort_btn{
     position: relative;
 }
 .goods_sort .sort_btn .sp_px{
     position: absolute;
-    top: 10px;
+    top: 15px;
     right: 20px;
 }
 .goods_sort .sort_btn .sp_px i{
@@ -4228,17 +4229,17 @@ span.valid-msg, label.valid-msg {
     height: 6px;
     display: block;
 }
-.goods_sort .sp_px i.down_a{
+.goods_sort .down_a{
     background: url("../image/top/shang_s.png") no-repeat;
 }
-.goods_sort .sp_px i.up_a{
-    background: url("../image/top/xia@2x.png") no-repeat;
+/*.goods_sort .sp_px i.up_a{
+    background: url("../image/top/xia@2x.png") no-repeat;top:12px;
 }
 .goods_sort .on i.down_a {
     background: url("../image/top/shang@2x.png") no-repeat;
 }
 .goods_sort .on i.up_a {
-    background: url("../image/top/xia_s.png") no-repeat;
+    background: url("../image/top/xia_s.png") no-repeat;top:12px;
 }*/
 .sear_t{
     position: relative;

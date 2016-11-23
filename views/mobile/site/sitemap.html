@@ -11,10 +11,66 @@
 <script src='{theme:javascript/iscroll.js}'></script>
 <link rel="stylesheet" href="{skin:style/catalog.css}">
 
+<script type="text/javascript">
+	var myScroll,myScrollri;
+	var $ulLeft;var cataId = 0;
+	
+	function pullUpAction () {
+		setTimeout(function () {
+			myScrollri.refresh();
+		}, 500);
+	}
+
+	/**
+	 * 初始化iScroll控件
+	 */
+	function loaded() {
+		$ulLeft = $("#con_left");
+		myScroll = new IScroll("#con_left",{
+			mouseWheel: true,
+			click: true,
+			preventDefault: false,
+			preventDefaultException: { tagName: /^(INPUT|TEXTAREA|BUTTON|SELECT|A)$/ }
+		})
+		myScrollri = new IScroll("#con_right",{
+			mouseWheel: true, click: true
+		})
+		$('.job_sub li').eq(0).click();
+		
+	}
+	//初始化绑定iScroll控件 
+	document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);
+	document.addEventListener('DOMContentLoaded', loaded, false);
+	/* 切换内容*/
+   $(function(){
+   	/*$('.job_sub li').each(function(i){
+   		$(this).addClass("")
+   	})*/
+  	$('.job_sub li').click(function(){
+        $(this).addClass('off').siblings().removeClass('off');
+        var str = "#con_left li:nth-child("+($(this).index()+1)+")";
+        setTimeout(function () {
+        	myScroll.scrollToElement(document.querySelector(str));
+        }, 300);
+       /* cataId = $(this).attr("data-cataId");*/
+        cataId = $(this).index();
+        $('.fr_ite_'+$(this).index()).removeClass('disp').siblings().addClass('disp');
+        pullUpAction();
+        myScrollri.scrollTo(0,0,100, IScroll.utils.ease.elastic);
+    });
+  });
+</script>
+<script>
+$(function(){
+   // 设置首页导航为当前
+	$(".nav_map").addClass('on')
+})
+</script>
+
 <section class="map_list clear">
 	<div class="l_left" id="con_left">
 		<ul class="job_sub" id="scroller1">
-	        <li class="off"><a>手机/配件</a></li>
+	        		<li class="off"><a>手机/配件</a></li>
 			<li class=""><a>电脑办公</a></li>
 			<li class=""><a>数码智能</a></li>
 			<li class=""><a >潮流服装</a></li>
@@ -140,58 +196,3 @@
 		</div>
 	</div>
 </section>
-<script type="text/javascript">
-	var myScroll,myScrollri;
-	var $ulLeft;var cataId = 0;
-	
-	function pullUpAction () {
-		setTimeout(function () {
-			myScrollri.refresh();
-		}, 500);
-	}
-
-	/**
-	 * 初始化iScroll控件
-	 */
-	function loaded() {
-		$ulLeft = $("#con_left");
-		myScroll = new IScroll("#con_left",{
-			mouseWheel: true,
-			click: true,
-			preventDefault: false,
-			preventDefaultException: { tagName: /^(INPUT|TEXTAREA|BUTTON|SELECT|A)$/ }
-		})
-		myScrollri = new IScroll("#con_right",{
-			mouseWheel: true, click: true
-		})
-		$('.job_sub li').eq(0).click();
-		
-	}
-	//初始化绑定iScroll控件 
-	document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);
-	document.addEventListener('DOMContentLoaded', loaded, false);
-	/* 切换内容*/
-   $(function(){
-   	/*$('.job_sub li').each(function(i){
-   		$(this).addClass("")
-   	})*/
-  	$('.job_sub li').click(function(){
-        $(this).addClass('off').siblings().removeClass('off');
-        var str = "#con_left li:nth-child("+($(this).index()+1)+")";
-        setTimeout(function () {
-        	myScroll.scrollToElement(document.querySelector(str));
-        }, 300);
-       /* cataId = $(this).attr("data-cataId");*/
-        cataId = $(this).index();
-        $('.fr_ite_'+$(this).index()).removeClass('disp').siblings().addClass('disp');
-        pullUpAction();
-        myScrollri.scrollTo(0,0,100, IScroll.utils.ease.elastic);
-    });
-  });
-	</script>
-<script>
-$(function(){
-   // 设置首页导航为当前
-	$(".nav_map").addClass('on')
-})
-</script>
