@@ -24,7 +24,7 @@ $alipay_config['seller_user_id']=$alipay_config['partner'];
 $alipay_config['key']			= 'jj7pjw5sq3glj5l6n2gnuqdyb6j7kze1';
 
 // 服务器异步通知页面路径，需http://格式的完整路径，不能加?id=123这类自定义参数,必须外网可以正常访问
-$alipay_config['notify_url']="http://www.nz826.com/plugins/payments/pay_direct_alipay/notify_url.php";
+$alipay_config['notify_url']="http://www.nz826.com/block/refund_server_callback/_id/10";
 
 // 签名方式
 $alipay_config['sign_type']    = strtoupper('MD5');

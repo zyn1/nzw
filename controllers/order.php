@@ -1713,7 +1713,8 @@ class Order extends IController implements adminAuthorization
         if(is_string($result))
         {
             $tb_refundment_doc->rollback();
-            die($result);
+            return false;
         }
+        return true;
     }
 }

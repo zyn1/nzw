@@ -19,7 +19,8 @@ abstract class paymentPlugin
 	public $version             = 1.0;   //版本
 	public $callbackUrl         = '';    //支付完成后，同步回调地址
 	public $serverCallbackUrl   = '';    //异步通知地址
-	public $merchantCallbackUrl ='';	 //支付中断返回
+    public $merchantCallbackUrl ='';     //支付中断返回
+	public $refundServerCallbackUrl ='';	 //退款异步通知地址
 
 	/**
 	* @brief 构造函数
@@ -31,8 +32,10 @@ abstract class paymentPlugin
 		$this->callbackUrl         = IUrl::getHost().IUrl::creatUrl("/block/callback/_id/".$payment_id);
 		//回调业务处理地址
 		$this->serverCallbackUrl   = IUrl::getHost().IUrl::creatUrl("/block/server_callback/_id/".$payment_id);
-		//中断支付返回
-		$this->merchantCallbackUrl = IUrl::getHost().IUrl::creatUrl("/block/merchant_callback/_id/".$payment_id);
+        //中断支付返回
+        $this->merchantCallbackUrl = IUrl::getHost().IUrl::creatUrl("/block/merchant_callback/_id/".$payment_id);
+		//退款异步通知地址
+		$this->refundServerCallbackUrl = IUrl::getHost().IUrl::creatUrl("/block/refund_server_callback/_id/".$payment_id);
 	}
 
 	/**

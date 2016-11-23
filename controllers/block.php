@@ -314,6 +314,38 @@ class Block extends IController
 		IError::show(403,$message);
 	}
 
+    /**
+     * @brief 退款回调[异步]
+     */
+    function refund_server_callback()
+    {
+        //从URL中获取支付方式
+        $payment_id      = IFilter::act(IReq::get('_id'),'int');
+        $paymentInstance = Payment::createPaymentInstance($payment_id);
+
+        if(!is_object($paymentInstance))
+        {
+            die('fail');
+        }
+
+        //初始化参数
+        $money   = '';
+        $message = '退款失败';
+        $orderNo = '';
+
+        //执行接口回调函数
+        /*$callbackData = array_merge($_POST,$_GET);
+        unset($callbackData['controller']);
+        unset($callbackData['action']);
+        unset($callbackData['_id']);*/
+        $return = $paymentInstance->refundServerCallback($_POST);
+        
+        if(!$return)
+        {
+            die('fail');
+        }
+    }
+
 	/**
      * @brief 【重要】支付回调[异步]
 	 */
