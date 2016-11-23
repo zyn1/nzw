@@ -1658,15 +1658,12 @@ class Order_Class
 
 			case "origin":
 			{
-                if($orderRow['pay_type'] <> 10)
+                $paymentInstance = Payment::createPaymentInstance($orderRow['pay_type']);
+                $paymentData = Payment::getPaymentInfoForRefund($orderRow['pay_type'],$refundId,$order_id,$amount, $orderRow['order_amount']);
+                $res=$paymentInstance->refund($paymentData);
+                if(is_array($res))
                 {
-                    $paymentInstance = Payment::createPaymentInstance($orderRow['pay_type']);
-                    $paymentData = Payment::getPaymentInfoForRefund($orderRow['pay_type'],$refundId,$order_id,$amount, $orderRow['order_amount']);
-                    $res=$paymentInstance->refund($paymentData);
-                    if(is_array($res))
-                    {
-                        return $res['msg'];
-                    }
+                    return $res['msg'];
                 }
                 return true;
 			}
