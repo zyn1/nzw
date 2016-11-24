@@ -203,7 +203,31 @@
 		<!-- 编辑商品 end-->
 	</div>
 </section>
-<!-- 统计信息 -->
+
+<footer class="cart_footer">
+	<div class="cart_footer_fixed">
+		<ul>
+			<li><a class="box_all box"><i></i></a>&nbsp;全选</li>
+			<li><span>合计:<em class="count">&nbsp;￥29</em></span></li>
+			<li><span>不含运费</span></li>
+			<li><span class="buy btn_pay" id="btn_pay" onclick="gourl('{url:/simple/cart2}')">去结算</span></li>
+		</ul>
+	</div>
+</footer>
+<!-- <footer class="cart_footer">
+	<div class="cart_footer_fixed">
+		<div class="buy btn_pay" id="btn_pay" onclick="gourl('{url:/simple/cart2}')">
+			去结算
+		</div>
+		<div class="count">
+			<span>合计:</span>
+			<em>￥<i id='sum_price'>{$this->final_sum}</i></em>
+			<u>不含运费</u>
+		</div>
+	</div>
+</footer> -->
+{/if}
+<!-- 热门商品 -->
 <section class="hot_googs">
 	<div class="hot_title">热门商品</div>
 	<ul class="hot_ul clear">
@@ -237,29 +261,6 @@
 		</li>
 	</ul>
 </section>
-<footer class="cart_footer">
-	<div class="cart_footer_fixed">
-		<ul>
-			<li><a class="box_all box"><i></i></a>&nbsp;全选</li>
-			<li><span>合计:<em class="count">&nbsp;￥29</em></span></li>
-			<li><span>不含运费</span></li>
-			<li><span class="buy btn_pay" id="btn_pay" onclick="gourl('{url:/simple/cart2}')">去结算</span></li>
-		</ul>
-	</div>
-</footer>
-<!-- <footer class="cart_footer">
-	<div class="cart_footer_fixed">
-		<div class="buy btn_pay" id="btn_pay" onclick="gourl('{url:/simple/cart2}')">
-			去结算
-		</div>
-		<div class="count">
-			<span>合计:</span>
-			<em>￥<i id='sum_price'>{$this->final_sum}</i></em>
-			<u>不含运费</u>
-		</div>
-	</div>
-</footer> -->
-{/if}
 <script>
 $(function(){
 	// 隐藏底部导航

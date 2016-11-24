@@ -27,9 +27,13 @@
              $(this).parent().parent().parent().parent(".cart_sel").find(".cart_goods").hide();
       })
          /*购物车选择*/
-      $(".box").click(function(){
-        alert("dd")
+      $(".checkbox").click(function(){
+       if($(this).find("i").hasClass("check")){
+        $(this).find("i").removeClass("check");
+       }else{
         $(this).find("i").addClass("check");
+        } 
+        
       });
 
 });
