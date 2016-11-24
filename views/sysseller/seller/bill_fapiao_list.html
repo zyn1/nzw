@@ -28,7 +28,7 @@
 			{foreach:items=$this->fapiaoData}
 			<tr>
 				<td>{if:$item['bill_id'] == -1}开店服务费发票{else:}<a href='{url:/seller/bill_edit/id/$item[bill_id]}'>结算单 {$item['bill_id']} </a>{/if}</td>
-				<td>{if:$item['type']==0}普通{else:}增值税{/if}</td>
+				<td>{if:$item['type']==0}增值税普票{else:}增值税专票{/if}</td>
 				<td>{if:$item['type']==0}{$item['taitou']}{else:}{$item['com']}{/if}</td>
 				<td>{echo:Order_Class::getFapiaoStatus($item['status'])}</td>
 			</tr>
