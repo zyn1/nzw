@@ -248,7 +248,7 @@
 <script>
 // 点击打开关闭规格页
 $(document).ready(function(){
-  $("#type_close,#type_ok,#mask").click(function(){
+  $("#type_close,#type_ok,#mask,#joinCarButton,#buyNowButton").click(function(){
     var goods_chose=$(".goods_chose");
     var ok_button=$(".ok_button");
     var mask=$(".mask");
@@ -256,6 +256,7 @@ $(document).ready(function(){
     ok_button.animate({bottom: '-4.3rem'},"slow");
     mask.fadeOut(300);
   });
+  $("#type_ok").click(function(){alert("添加成功，在购物车等亲~")});
   $("#pro_type").click(function(){
     var goods_chose=$(".goods_chose");
     var ok_button=$(".ok_button");
