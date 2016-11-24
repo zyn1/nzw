@@ -18,23 +18,23 @@
 </header>
 <section class="home_top">
     <div class="top_title">
-        <a class="sj_de">商家介绍</a>
-        <a class="sj_good on">全部商品</a>
+        <a class="sj_de on">商家介绍</a>
+        <a class="sj_good">全部商品</a>
     </div>
 </section>
 <!-- 商家详情 -->
-<div class="home_deal" style="display:none">
+<div class="home_deal">
    <div class="seller_info">
         <div class="info clear">
             <ul>
                 <li class="seller_photo"><img src="{skin:image/top/logo@2x.png}"/></li>
                 <li class="seller_name">
-                    <h3><strong>卓和家具旗舰店</strong></h3>
+                    <h3>卓和家具旗舰店</h3>
                     <p>主营：林业家具</p>
                     <p>所在地：{echo:join(' ',area::name($sellerRow['province'],$sellerRow['city'],$sellerRow['area']))} {$sellerRow['address']}</p>
                 </li>
                 <li class="kf_a">
-                    <a><i></i>客服</a>
+                    <a><i></i></a>
                 </li>
             </ul>
         </div>
@@ -44,27 +44,14 @@
             <span class="xl3">好评率：<em>99.8%</em></span>
         </div>
    </div> 
-<!-- <div id="pageInfo" data-title="{$sellerRow['true_name']}"></div>
-<section class="seller_info">
-    <dl>
-        <dt>评分：</dt>
-        <dd>
-            <em class="star star_{echo:statistics::gradeSeller($sellerRow['id'])}"></em>
-        </dd>
-    </dl>
-    <dl>
-        <dt>销量：</dt>
-        <dd>{echo:statistics::sellCountSeller($sellerRow['id'])} 件</dd>
-    </dl>
-    <dl>
-        <dt>联系电话：</dt>
-        <dd>{$sellerRow['phone']}</dd>
-    </dl>
-    <dl>
-        <dt>所在地：</dt>
-        <dd>{echo:join(' ',area::name($sellerRow['province'],$sellerRow['city'],$sellerRow['area']))} {$sellerRow['address']}</dd>
-    </dl> 
-</section>-->
+   <div class="home_t">
+        <div class="t_name">进入官网</div>
+        <div class="t_dz"><a>www.nz826.com</a></div>
+   </div>
+   <div class="home_t">
+        <div class="t_name">客服热线</div>
+        <div class="t_dz"><a  href="tel:4006599591">400-659-9591</a></div>
+   </div>
 </div>
 <!-- 商家详情 end-->
 
@@ -72,7 +59,7 @@
 {set:plugin::trigger("onServiceButton",$sellerRow['id'])}
 {set:$goodsObj = search_goods::find(array('go.seller_id' => $seller_id),20);$resultData = $goodsObj->find();}
 {if:$resultData}
-<div class="home_goods">
+<div class="home_goods" style="display:none">
 <aside class="goods_sort">
     {foreach:items=search_goods::getOrderType()}
     <span class="sort_btn" onclick="gourl('{echo:search_goods::searchUrl(array('order','by'),array($key,search_goods::getOrderBy($key)))}')">{$item}<i class="down_a"></i></span>

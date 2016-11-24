@@ -39,7 +39,7 @@
 				<td>{$item['order_no']}</td>
 				<td>{$item['amount']}</td>
 				<td>{echo:$item['username']=='' ? '游客' : $item['username']}</td>
-				<td>{echo:Order_Class::refundmentText($item['pay_status'],$item['type'])}</td>
+				<td>{echo:Order_Class::refundmentText($item['pay_status'],$item['type'])}{if:$item['pay_status'] == 5}&nbsp;&nbsp;&nbsp;<a href="javascript:;" class="btn" onclick="jsRefund({$item['id']})">退款</a>{/if}</td>
 				<td>{$item['dispose_time']}</td>
 			</tr>
 			{/query}
@@ -48,3 +48,9 @@
 </div>
 {$query->getPageBar()}
 </form>
+<script type="text/javascript">
+function jsRefund(id)
+{
+    window.open("{url:/order/jsRefund/id}/"+id);
+}
+</script>

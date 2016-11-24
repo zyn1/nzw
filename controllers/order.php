@@ -1583,4 +1583,38 @@ class Order extends IController implements adminAuthorization
 		$reportObj->toDownload($strTable);
 		exit();
 	}
+    
+    public function jsRefund()
+    {
+        $refunds_id = IReq::get('id');
+        $updateData = array(
+            'dispose_time' => ITime::getDateTime(),
+            'dispose_idea' => '同意',
+            'pay_status'   => 2
+        );
+        $tb_refundment_doc = new IModel('refundment_doc');
+        $tb_refundment_doc->setData($updateData);
+        $tb_refundment_doc->update('id = '.$refunds_id);
+        $result = Order_Class::refund($refunds_id,$this->admin['admin_id'],'admin','origin');
+        if(is_string($result))
+        {
+            $tb_refundment_doc->rollback();
+            die($result);
+        }
+    }
+    
+    public function updateRefund($batchNo)
+    {
+        $temp = explode('R', $batchNo);
+        $refunds_id = $temp[1];
+        
+        $updateData = array(
+            'dispose_time' => ITime::getDateTime(),
+            'dispose_idea' => '同意',
+            'pay_status'   => 2
+        );
+        $tb_refundment_doc = new IModel('refundment_doc');
+        $tb_refundment_doc->setData($updateData);
+        $tb_refundment_doc->update('id = '.$refunds_id);
+    }
 }

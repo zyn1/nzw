@@ -32,7 +32,7 @@
 			{foreach:items=$this->fapiaoData}
 			<tr>
 				<td><a href='{url:/seller/order_show/id/$item[order_id]}'>{$item['order_no']}</a></td>
-				<td>{if:$item['type']==0}普通{else:}增值税{/if}</td>
+				<td>{if:$item['type']==0}增值税普票{else:}增值税专票{/if}</td>
 				<td>{if:$item['type']==0}{$item['taitou']}{else:}{$item['com']}{/if}</td>
 				<td>{echo:Order_Class::getFapiaoStatus($item['status'])}</td>
 				<td>{$item['username']}</th>

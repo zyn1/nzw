@@ -144,7 +144,7 @@ class orderAutoUpdate extends pluginBase
                     {
                         if($v['type'] == 1)
                         {
-                            $result = Order_Class::refund($v['id'],$v['seller_id'],'seller');
+                            $result = Order_Class::refund($v['id'],$v['seller_id'],'seller','origin');
                             if(is_string($result))
                             {
                                 $refundmentDB->rollback();

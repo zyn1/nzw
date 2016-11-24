@@ -1,8 +1,27 @@
-
-<div id="pageInfo" data-title="购物车"></div>
+<script src="{theme:javascript/style.js}"></script>
+<header class="header_login">
+	<div class="header_title">
+		<a class="return_a"onclick="window.history.back();"></a>
+		<h2>购物车</h2>
+		<a class="a_gd"></a>
+        <div class="s_nav">
+        	<div class="c-tip-arrow" style="left: 30px;"><em></em><ins></ins></div>
+            <ul>
+                <li><a>首页</a></li>
+                <li><a href="javascript:location.reload()">刷新</a></li>
+            </ul>
+        </div>
+	</div>
+</header>
+<!-- <div id="pageInfo" data-title="购物车"></div> -->
 {if:$this->count == 0}
 <!-- 无商品显示 -->
-<section class="nodata">购物车中空空如也哦~</section>
+<section class="nodata">
+<div style="text-align: center;">
+	<img src="{skin:image/top/gouwuche_kong@2x.png}"/>
+</div>	
+<p>购物车中空空如也哦~<p>
+</section>
 {else:}
 <!-- 优惠信息 -->
 <section class="cart_prompt" style="display:none" id="cart_prompt">
@@ -17,59 +36,185 @@
 
 <!-- 商品列表 -->
 <section class="cart_list">
-	<ul>
-		{foreach:items = $this->goodsList}
-		<li>
-			<div class="cart_list_goods">
-				<div class="cart_list_photo" onclick="gourl('{url:/site/products/id/$item['goods_id']}')">
-					<img src="{url:/pic/thumb/img/$item[img]/w/80/h/80}" alt="{$item['name']}">
-				</div>
-				<div class="cart_list_info">
-					<h3 class="cart_list_info_title">{$item['name']}</h3>
-					<p class="cart_list_info_info">
-						{if:isset($item['spec_array'])} {set:$spec_array=Block::show_spec($item['spec_array']);}
-						{foreach:items=$spec_array item=$specValue key=$specName}
-						{$specName}：{$specValue}&nbsp;
-						{/foreach}
-						{else:}
-						祝您购物愉快!
-						{/if}
-					</p>
-					<em class="cart_list_info_price">单价：￥{$item['sell_price']}</em>
+	<div class="cart_sel">
+		<div class="cart_goods" >
+			<div class="cart_title">
+				<a class="sel_all box"><i></i></a>
+				<div class="name">
+					<span class="sel_name">七彩云小铺</span>
+					<span class="sel_cz sel_cz_bj">编辑</span>
 				</div>
 			</div>
-			{set:$item_json = JSON::encode($item)}
-			<del class="del" onclick='javascript:removeCartByJSON({$item_json});'>删除</del>
-			<div class="goods_num_adjust">
-				<span onclick='cart_reduce({$item_json});'>-</span>
-				<input type='text' onchange='cartCount({$item_json});' id="count_{$item['goods_id']}_{$item['product_id']}" value="{$item['count']}">
-				<span onclick='cart_increase({$item_json});'>+</span>
+			<ul>
+				<li>
+					<a class="checkbox box"><i></i></a>
+					<div class="cart_list_goods">
+					<a class="clear">
+						<div class="cart_list_photo"><img src="{skin:image/top/gouwuche_kong@2x.png}" alt="{$item['name']}"></div>
+						<div class="cart_list_info">
+							<h3 class="cart_list_info_title">奇异小家</h3>
+							<p class="cart_list_info_info">
+								颜色分类:黄色
+							</p>
+							<p class="cart_list_info_price ">
+								<em>￥29</em>
+								<del class="old_price">￥59</del>
+							</p>
+						</div>
+						<div class="good_num">×3</div>
+						</a>
+					</div>
+				</li>
+			</ul>
+		</div>
+		<!-- 编辑商品 -->
+		<div class="cart_edit" style="display:none">
+			<div class="cart_title">
+				<a class="sel_all box"><i></i></a>
+				<div class="name">
+					<span class="sel_name">七彩云小铺</span>
+					<span class="sel_cz sel_cz_wc">完成</span>
+				</div>
 			</div>
-			<div class="count">小结：￥<span id="sum_{$item['goods_id']}_{$item['product_id']}">{$item['sum']}</span></div>
-		</li>
-		{/foreach}
-	</ul>
-</section>
-<!-- 统计信息 -->
-<section class="cart_count">
-	<h4>购物车统计</h4>
-	<table>
-		<tr>
-			<th>总重量</th>
-			<th>总金额</th>
-			<th>商品优惠</th>
-			<th>促销优惠</th>
-		</tr>
-		<tr>
-			<td><span id='weight'>{$this->weight}</span>g</td>
-			<td>￥<span id='origin_price'>{$this->sum}</span></td>
-			<td>￥<span id='discount_price'>{$this->reduce}</span></td>
-			<td>￥<span id='promotion_price'>{$this->proReduce}</span></td>
-		</tr>
-	</table>
+			<ul>
+				<li>
+					<a class="checkbox box"><i></i></a>
+					<div class="cart_list_goods">
+					<a class="clear">
+						<div class="cart_list_photo"><img src="{skin:image/top/gouwuche_kong@2x.png}" alt="{$item['name']}"></div>
+						<div class="cart_list_info">
+							<div class="num_good clear">
+								<input type="button" id="jian" value="-">
+								<input type="text" id="num" value="3">
+								<input type="button" id="add" value="+">
+							</div>
+							<p class="cart_list_info_info">
+								颜色分类:黄色
+							</p>
+						</div>
+						<div class="dele" onclick='javascript:removeCartByJSON({$item_json});'>删除</div>
+						</a>
+					</div>
+				</li>
+			</ul>
+		</div>
+		<!-- 编辑商品 end-->
+	</div>
+	<div class="cart_sel">
+		<div class="cart_goods">
+			<div class="cart_title">
+				<a class="sel_all box"><i></i></a>
+				<div class="name">
+					<span class="sel_name">七彩云小铺</span>
+					<span class="sel_cz sel_cz_bj">编辑</span>
+				</div>
+			</div>
+			<ul>
+				<li>
+					<a class="checkbox box"><i></i></a>
+					<div class="cart_list_goods">
+					<a class="clear">
+						<div class="cart_list_photo"><img src="{skin:image/top/gouwuche_kong@2x.png}" alt="{$item['name']}"></div>
+						<div class="cart_list_info">
+							<h3 class="cart_list_info_title">奇异小家</h3>
+							<p class="cart_list_info_info">
+								颜色分类:黄色
+							</p>
+							<p class="cart_list_info_price ">
+								<em>￥29</em>
+								<del class="old_price">￥59</del>
+							</p>
+						</div>
+						<div class="good_num">×3</div>
+						</a>
+					</div>
+				</li>
+				<li>
+					<a class="checkbox box"><i></i></a>
+					<div class="cart_list_goods">
+					<a class="clear">
+						<div class="cart_list_photo"><img src="{skin:image/top/gouwuche_kong@2x.png}" alt="{$item['name']}"></div>
+						<div class="cart_list_info">
+							<h3 class="cart_list_info_title">奇异小家</h3>
+							<p class="cart_list_info_info">
+								颜色分类:黄色
+							</p>
+							<p class="cart_list_info_price ">
+								<em>￥29</em>
+								<del class="old_price">￥59</del>
+							</p>
+						</div>
+						<div class="good_num">×3</div>
+						</a>
+					</div>
+				</li>
+			</ul>
+		</div>
+		<!-- 编辑商品 -->
+		<div class="cart_edit" style="display:none">
+			<div class="cart_title">
+				<a class="sel_all box"><i></i></a>
+				<div class="name">
+					<span class="sel_name">七彩云小铺</span>
+					<span class="sel_cz sel_cz_wc">完成</span>
+				</div>
+			</div>
+			<ul>
+				<li>
+					<a class="checkbox box"><i></i></a>
+					<div class="cart_list_goods">
+					<a class="clear">
+						<div class="cart_list_photo"><img src="{skin:image/top/gouwuche_kong@2x.png}" alt="{$item['name']}"></div>
+						<div class="cart_list_info">
+							<div class="num_good clear">
+								<input type="button" id="jian" value="-">
+								<input type="text" id="num" value="3">
+								<input type="button" id="add" value="+">
+							</div>
+							<p class="cart_list_info_info">
+								颜色分类:黄色
+							</p>
+						</div>
+						<div class="dele" onclick='javascript:removeCartByJSON({$item_json});'>删除</div>
+						</a>
+					</div>
+				</li>
+				<li>
+					<a class="checkbox box"><i></i></a>
+					<div class="cart_list_goods">
+					<a class="clear">
+						<div class="cart_list_photo"><img src="{skin:image/top/gouwuche_kong@2x.png}" alt="{$item['name']}"></div>
+						<div class="cart_list_info">
+							<div class="num_good clear">
+								<input type="button" id="jian" value="-">
+								<input type="text" id="num" value="3">
+								<input type="button" id="add" value="+">
+							</div>
+							<p class="cart_list_info_info">
+								颜色分类:黄色
+							</p>
+						</div>
+						<div class="dele" onclick='javascript:removeCartByJSON({$item_json});'>删除</div>
+						</a>
+					</div>
+				</li>
+			</ul>
+		</div>
+		<!-- 编辑商品 end-->
+	</div>
 </section>
 
 <footer class="cart_footer">
+	<div class="cart_footer_fixed">
+		<ul>
+			<li><a class="box_all box"><i></i></a>&nbsp;全选</li>
+			<li><span>合计:<em class="count">&nbsp;￥29</em></span></li>
+			<li><span>不含运费</span></li>
+			<li><span class="buy btn_pay" id="btn_pay" onclick="gourl('{url:/simple/cart2}')">去结算</span></li>
+		</ul>
+	</div>
+</footer>
+<!-- <footer class="cart_footer">
 	<div class="cart_footer_fixed">
 		<div class="buy btn_pay" id="btn_pay" onclick="gourl('{url:/simple/cart2}')">
 			去结算
@@ -80,8 +225,42 @@
 			<u>不含运费</u>
 		</div>
 	</div>
-</footer>
+</footer> -->
 {/if}
+<!-- 热门商品 -->
+<section class="hot_googs">
+	<div class="hot_title">热门商品</div>
+	<ul class="hot_ul clear">
+		<li>
+			<a>
+				<img src="{skin:image/top/gouwuche_kong@2x.png}"/>
+				<div class="good_name">合木威廉 三层实木 地板</div>
+				<em>￥500.00</em>
+			</a>
+		</li>
+		<li>
+			<a>
+				<img src="{skin:image/top/gouwuche_kong@2x.png}"/>
+				<div class="good_name">合木威廉 三层实木 地板</div>
+				<em>￥500.00</em>
+			</a>
+		</li>
+		<li>
+			<a>
+				<img src="{skin:image/top/gouwuche_kong@2x.png}"/>
+				<div class="good_name">合木威廉 三层实木 地板</div>
+				<em>￥500.00</em>
+			</a>
+		</li>
+		<li>
+			<a>
+				<img src="{skin:image/top/gouwuche_kong@2x.png}"/>
+				<div class="good_name">合木威廉 三层实木 地板</div>
+				<em>￥500.00</em>
+			</a>
+		</li>
+	</ul>
+</section>
 <script>
 $(function(){
 	// 隐藏底部导航

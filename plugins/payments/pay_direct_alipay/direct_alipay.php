@@ -13,6 +13,7 @@
  * @class direct_alipay
  * @brief 支付宝插件类
  */
+ 
 class direct_alipay extends paymentPlugin
 {
 	//支付插件名称
@@ -206,4 +207,27 @@ class direct_alipay extends paymentPlugin
 		);
 		return $result;
 	}
+    
+    /**
+     * 退款
+     */
+    public function refund($sendData){
+        require_once(dirname(__FILE__)."/alipay.config.php");
+        require_once(dirname(__FILE__)."/lib/alipay_submit.class.php");
+        $parameter = array(
+            "service" => trim($alipay_config['service']),
+            "partner" => trim($sendData['M_PartnerId']),
+            "notify_url"    => trim($alipay_config['notify_url']),
+            "seller_user_id"    => trim($sendData['M_PartnerId']),
+            "refund_date"    => trim($alipay_config['refund_date']),
+            "batch_no"    => ITime::getDateTime('YmdHis').'R'.$sendData['M_refund'],
+            "batch_num"    => 1,
+            "detail_data"    => $sendData['M_Trade_NO'].'^'.$sendData['M_Amount'].'^退款',
+            "_input_charset"    => trim(strtolower($alipay_config['input_charset']))
+        );
+        //建立请求
+        $alipaySubmit = new AlipaySubmit($alipay_config);
+        $html_text = $alipaySubmit->buildRequestForm($parameter,"get", "确认");
+        die($html_text);
+    }
 }
