@@ -4606,3 +4606,10 @@ span.xl3 em{
 .home_top .top_title a.on{
     color: #6BB945;
 }
+/*商品详情页*/
+.goods_info ul{
+    margin: 0.1rem 0.2rem;
+}
+.goods_info ul li{
+    line-height: 0.2rem;
+}
