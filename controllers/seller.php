@@ -930,6 +930,18 @@ class Seller extends IController implements sellerAuthorization
                     }
                 }
 			}
+            if($pay_status == 5)
+            {
+                if($type == 2)
+                {
+                    $result = Order_Class::changeGoods($order_id,$id);
+                    if(is_string($result))
+                    {
+                        $tb_refundment_doc->rollback();
+                        die($result);
+                    }
+                }
+            }
 		}
         if($type == 1)
         {
