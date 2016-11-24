@@ -28,10 +28,7 @@
 <aside class="goods_sort">
     {foreach:items=search_goods::getOrderType()}
     <span class="sort_btn" onclick="gourl('{echo:search_goods::searchUrl(array('order','by'),array($key,search_goods::getOrderBy($key)))}')">{$item}
-       <!--  <div class="sp_px clear">
-            <i class="down_a"></i>
-            <i class="up_a"></i>
-        </div> -->
+        <i class="down_a"></i>
     </span>
     
     {/foreach}
@@ -69,7 +66,7 @@ $(function(){
     // 切换导航样式
     var order = getUrlParam("order");
     var sortBtn = $(".goods_sort").children('.sort_btn');
-    // sortBtn.eq(2).append('<i>');
+    sortBtn.eq(2).append('<i>');
     if(order=="sale"){
         sortBtn.eq(0).addClass('on').append('<i class="icon-angle-down"></i>');
     }else if (order=="sale_toggle"){
@@ -87,7 +84,7 @@ $(function(){
     }else if(order=="new_toggle"){
         sortBtn.eq(3).addClass('on').append('<i class="icon-angle-up"></i>');
     }else{
-        sortBtn.eq(0).addClass('on');
+        sortBtn.eq(0).addClass('on').append('<i class="icon-angle-down"></i>');
     };
 });
 </script>

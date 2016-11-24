@@ -5,7 +5,8 @@
 {if:$resultData}
 <aside class="goods_sort">
 	{foreach:items=search_goods::getOrderType()}
-	<span class="sort_btn" onclick="gourl('{echo:search_goods::searchUrl(array('order','by'),array($key,search_goods::getOrderBy($key)))}')">{$item}</span>
+	<span class="sort_btn" onclick="gourl('{echo:search_goods::searchUrl(array('order','by'),array($key,search_goods::getOrderBy($key)))}')">{$item}
+        <i class="down_a"></i></span>
 	{/foreach}
 </aside>
 <section class="goods_list">
