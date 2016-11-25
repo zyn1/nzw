@@ -541,6 +541,174 @@ input[type="number"]::-webkit-outer-spin-button {
 .btn_bottom_goods .btn_tab .btn_tab_submit input {
     display: none;
 }
+.goods_chose{
+    height: 4rem;
+    width: 100%;
+    background: #fff;
+    border-top: 1px solid #dedede;
+    position: fixed;
+    bottom: -4.2rem;
+    z-index: 10;
+}
+.goods_chose .goods_pic{
+    width: 1rem;height: 1rem;
+    border: 1px solid #dedede;
+    position: absolute;top: -0.2rem;left: 0.2rem;
+    padding: 0.05rem;
+    border-radius: 5px;
+    background: #fff;
+}
+.goods_chose .price{
+    font-size: 0.14rem;
+    font-weight: bold;
+    color: #ee4442;
+    line-height: 1;
+    margin-top: 0.2rem;
+    display: block;
+    margin-left: 1.5rem; 
+}
+.goods_chose .num{
+    font-size: 0.12rem;
+    font-weight: normal;
+    color: #878787;
+    line-height: 1;
+    margin-top: 0.1rem;
+    display: block;
+    margin-left: 1.5rem;
+}
+.goods_chose .close{
+    top: 0.1rem;position: absolute;
+    display: block;
+    width: 20px;
+    height: 20px;
+    right: 0.1rem;
+    background: url("../image/top/guanbi.png") no-repeat;
+}
+.goods_chose .type{
+    padding:0 0.2rem;
+    height: 2.99rem;
+    position: absolute;
+    bottom: 0.1rem;
+    overflow: auto;
+    width: 90%;
+}
+.goods_chose .type > ul{
+    margin-bottom: 0.2rem;
+}
+.goods_chose .type > ul > li{
+    font-weight: normal;
+    font-size: 0.12rem;
+    color: #6BB945;
+    display: block;padding: 0.01rem 0.1rem;    
+    border-radius: 3px;
+    border: 1px solid #6BB945;
+    line-height: 0.2rem;  
+    margin:0.05rem;  
+    /*DIV宽度根据内容自适应*/
+    display:inline-block; 
+    *display:inline; 
+    *zoom:1; 
+}
+.goods_chose .type > ul > li.active{
+    background: #6BB945;
+    color: #fff;
+}
+.goods_chose .type > ul > li:first-child{
+    font-weight: bold;
+    display: block;
+    font-size: 0.14rem;
+    padding-bottom: 0.1rem;
+    color: #878787;
+    border: 0;
+}
+.goods_chose .type > ul > li .num_add{
+    float: right;color: #6BB945;
+}
+.goods_chose .type > ul > li .num_add span{
+    background: #eee;display: inline-block;
+    width: 0.25rem;height: 0.25rem;text-align: center;
+}
+.goods_chose .type > ul > li .num_add input{
+    color: #878787;width: 0.5rem;
+    background: #eee;border: 0;line-height: 0.25rem;
+    text-align: center;
+}
+.goods_chose .ok_button{
+    position: fixed;
+    bottom: -4.3rem;width: 90%;
+    display: block;
+    margin: 0 auto;
+}
+.goods_chose .type_ok{
+    display: block;
+    margin: 0 auto;
+    background: #6BB945;
+    border-radius: 3px;
+    width: 100%;
+    height: 0.4rem;
+    color: #fff;
+    font-size: 0.14rem;
+    border: 0;
+}
+.mask{
+    position:fixed;
+    left:0;
+    top:0;
+    z-index:100;
+    height:100%;
+    width:100%;
+    background:black;
+    opacity:0.4;
+    display: none;
+    z-index: 5;
+}
+.check {
+    height: 0.2rem;
+    width: 0.5rem;
+    display: block;
+}
+.check input {
+    display: none;
+}
+.check input:checked + span {
+    background-position: 0 0;
+}
+.check span {
+    -webkit-transition: all 0.25s ease-in-out;
+    transition: all 0.25s ease-in-out;
+    height: 0.2rem;
+    width: 0.5rem;
+    display: block;
+    background-image: url("../image/check.png");
+    background-repeat: no-repeat;
+    background-size: auto 0.2rem;
+    background-position: right 0;
+    border-radius: 0.05rem;
+}
+
+.check2 {
+    height: 0.18rem;
+    width: 0.18rem;
+    display: block;
+}
+.check2 input {
+    display: none;
+}
+.check2 span {
+    box-shadow: 0 0 0 1px #ddd inset;
+    border-radius: 50%;
+    display: block;
+    width: 0.18rem;
+    height: 0.18rem;
+    background: url("../image/icon_select_no.png") center no-repeat;
+    background-size: 100%;
+}
+.check2 input:checked + span {
+    box-shadow: 0 0 0 1px #F13E7A inset;
+    background: url("../image/icon_select.png") center no-repeat;
+    background-size: 100%;
+}
+
 .formpost {
     background: #fff;
     border-width: 1px 0;
@@ -4524,6 +4692,13 @@ span.xl3 em{
 }
 .home_top .top_title a.on{
     color: #6BB945;
+}
+/*商品详情页*/
+.goods_info ul{
+    margin: 0.1rem 0.2rem;
+}
+.goods_info ul li{
+    line-height: 0.2rem;
 }
 /*购物车css*/
 .header_login .a_gd{

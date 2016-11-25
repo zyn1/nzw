@@ -81,7 +81,7 @@
 	<ul>
 		<li >产品参数</li>
 		<li class="line"></li>
-		<li class="pro_type">
+		<li class="pro_type" id="pro_type">
 			选择：<span >大号、米色、圆木墩</span>
 		</li>
 	</ul>
@@ -198,10 +198,113 @@
 		<span id="buyNowButton" class="btn_tab_submit pink">立即购买</span>
 	</div>
 </div>
+<div class="mask" id="mask"></div>
+<div class="goods_chose">
+	<img class="goods_pic" src="{url:/pic/thumb/img/$item[img]/w/350/h/350}">
+	<em class="price">￥<span id="data_sellPrice">{$sell_price}</span></em>
+	<em class="num">库存<span id="data_sellPrice">{$store_nums}</span>件</em>
+	<div class="close" id="type_close"></div>
+	<div class="type">
+		<ul>
+			<li>颜色</li>
+			<li class="active">米色</li>
+			<li>橘黄色</li>
+		</ul>
+		<ul>
+			<li>尺寸</li>
+			<li class="active">25X15</li>
+			<li>25X18</li>
+			<li>25X25</li>
+			<li>25X30</li>
+			<li class="active">25X15</li>
+			<li>25X18</li>
+			<li>25X25</li>
+			<li>25X30</li>
+			<li class="active">25X15</li>
+			<li>25X18</li>
+			<li>25X25</li>
+			<li>25X30</li>
+			<li class="active">25X15</li>
+			<li>25X18</li>
+			<li>25X25</li>
+			<li>25X30</li>
+			<li class="active">25X15</li>
+			<li>25X18</li>
+			<li>25X25</li>
+			<li>25X30</li>
+		</ul>
+		<ul>
+			<li style="width:94%;">数量<div class="num_add"><span  onclick="numDec()">-</span>&nbsp;<input type="text" id="quantity" readOnly="true" value="1"/>&nbsp;<span onclick="numAdd()">+</span></div></li>
+		</ul>
+		<div style="height:0.4rem;"></div>
+		<div class="ok_button">
+			<button class="type_ok" id="type_ok">确定</button>
+		</div>
+	</div>
+</div>
 
 
 
 <script>
+// 点击打开关闭规格页
+$(document).ready(function(){
+  $("#type_close,#type_ok,#mask,#joinCarButton,#buyNowButton").click(function(){
+    var goods_chose=$(".goods_chose");
+    var ok_button=$(".ok_button");
+    var mask=$(".mask");
+    goods_chose.animate({bottom: '-4.2rem'},"slow");
+    ok_button.animate({bottom: '-4.3rem'},"slow");
+    mask.fadeOut(300);
+  });
+  $("#type_ok").click(function(){alert("添加成功，在购物车等亲~")});
+  $("#pro_type").click(function(){
+    var goods_chose=$(".goods_chose");
+    var ok_button=$(".ok_button");
+    var mask=$(".mask");
+    goods_chose.animate({bottom: '0rem'},"slow");
+    ok_button.animate({bottom: '0.1rem'},"slow");
+    mask.fadeIn(300);
+  });
+});
+
+// 数量加减JS
+$(function(){
+ $("#quantity").keyup(function(){
+  if(isNaN($(this).val()) || parseInt($(this).val())<1){
+   $(this).val("1");
+   $("#totalPrice").html($("#price").val());
+   return;
+  }
+  var total = parseFloat($("#price").val())*parseInt($(this).val());
+  $("#totalPrice").html(total.toFixed(2));
+ })
+
+})
+
+/*商品数量+1*/
+function numAdd(){
+ var num_add = parseInt($("#quantity").val())+1;
+ if($("#quantity").val()==""){
+  num_add = 1;
+ }
+ $("#quantity").val(num_add);
+ var total = parseFloat($("#price").val())*parseInt($("#quantity").val());
+ $("#totalPrice").html(total.toFixed(2));
+}
+/*商品数量-1*/
+function numDec(){
+ var num_dec = parseInt($("#quantity").val())-1;
+ if(num_dec<1){
+  //购买数量必须大于或等于1
+  alert("购买数量必须大于或等于1");
+ }else{
+  $("#quantity").val(num_dec);
+  var total = parseFloat($("#price").val())*parseInt($("#quantity").val());
+  $("#totalPrice").html(total.toFixed(2));
+ }
+}
+
+
 $(function(){
 	// 设置焦点图
     $(".goods_photo").MobileSlider({
