@@ -1,0 +1,50 @@
+<script src="{theme:javascript/style.js}"></script>
+<header class="header_login">
+    <div class="header_title">
+        <a class="return_a"onclick="window.history.back();"></a>
+        <h2>开发票</h2>
+    </div>
+</header>
+<section class="invoic_top">
+    <div class="top_title">
+        <a class="sj_de on">增值税普票</a>
+        <a class="sj_good">增值税专票</a>
+    </div>
+    <div class="invoic_center">
+        <form>
+            <div class="invoic invoic_ty">
+                <span>发票抬头</span>
+                <span><input type="text" placeholder="请输入抬头名称"/></span>
+            </div>
+            <div class="invoic_zp">
+                <div class="invoic">
+                    <span>公司名称</span>
+                    <span><input type="text" placeholder="请输公司名称"/></span>
+                </div>
+                <div class="invoic">
+                    <span>纳税人识别号</span>
+                    <span><input type="text" placeholder="请输入纳税人识别号"/></span>
+                </div>
+                <div class="invoic">
+                    <span>地址</span>
+                    <span><input type="text" placeholder="请输入地址"/></span>
+                </div>
+                <div class="invoic">
+                    <span>电话</span>
+                    <span><input type="text" placeholder="请输入电话"/></span>
+                </div>
+                <div class="invoic">
+                    <span>开户行</span>
+                    <span><input type="text" placeholder="请银行账户"/></span>
+                </div>
+            </div>
+            <div class="invoice_but"><input type="submit" value="确定"/></div>
+        </form>
+    </div>
+</section>
+<script>
+$(function(){
+    // 隐藏底部导航
+    hideNav();
+});
+</script>

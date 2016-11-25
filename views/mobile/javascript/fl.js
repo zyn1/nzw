@@ -30,7 +30,7 @@ $(document).ready(function(){
         });
 
 });
-$(function(){
+/*$(function(){
 
     var head_top = ''; 
     var like_tops='';
@@ -58,4 +58,4 @@ $(function(){
         }  
     
     })
-});
+});*/
