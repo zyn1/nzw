@@ -1277,7 +1277,7 @@ a .icon-rotate-90:before, a .icon-rotate-180:before, a .icon-rotate-270:before, 
     color: #fff;
     text-align: center;
     height: 0.49rem;
-    padding: 0.28rem 0 0.07rem 0;
+    padding-top: 0.28rem;
     line-height: 0.49rem;
 }
 .main_head .header{
@@ -1398,7 +1398,7 @@ a .icon-rotate-90:before, a .icon-rotate-180:before, a .icon-rotate-270:before, 
 .footer_nav ul i {
     display: block;
     margin: 0.07rem auto 0.03rem;
-    width: 0.34rem;
+    width: 0.24rem;
     height: 0.35rem;
     font-size: 0.15rem;
     color: #fff;
@@ -4809,4 +4809,45 @@ span.xl3 em{
     color: #fff;
     border-radius: 0.05rem;
     border: 0px;
+}
+
+/*帮助中心*/
+.help_bar .bar{
+    width: 33%;
+    height: 1.2rem;
+    background: #fff;
+    border: 1px solid #ccc;
+    border-left: 0;border-top:0; 
+    text-align: center;
+    display: inline-block;
+    float: left;
+}
+.help_bar .bar img{
+    width: 100%;
+}
+.help_bar li{
+    line-height: 0.4rem;
+    padding: 0 0.1rem 0 0.2rem;
+    text-align: left;
+    border-bottom: 1px solid #E2E2E2;
+}
+.help_bar li .icon-more{
+    margin-top: 0.11rem;
+}
+.help_bar a{
+    color: #555;
+}
+.help_bar .article{    
+    padding: 0 0.1rem;
+}
+
+/*返回顶部*/
+#back-to-top a{
+    right: 0.2rem;
+    bottom: 0.8rem;
+    width: 42px;
+    height: 42px;
+    background: url("../image/top/Totop.png") no-repeat;
+    z-index: 10;
+    position: fixed;    
 }
