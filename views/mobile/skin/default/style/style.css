@@ -2054,7 +2054,7 @@ a .icon-rotate-90:before, a .icon-rotate-180:before, a .icon-rotate-270:before, 
     font-size: 0.13rem;
 }
 .goods_info > ul > li {
-    padding: 0.1rem;
+    padding: 0.15rem;
     line-height: 1.6;
 }
 .goods_info > ul > li.line {
@@ -2091,7 +2091,7 @@ a .icon-rotate-90:before, a .icon-rotate-180:before, a .icon-rotate-270:before, 
 }
 .goods_info > ul > li.pro_view img{
     width: 0.6rem;height: 0.6rem;
-    border: 1px solid #D9D9D9;
+    border: 1px solid #e1e1e1;
     border-radius: 1px;margin-right: 0.2rem;
 }
 .goods_info > ul > li.pro_view .view-time{
@@ -4699,6 +4699,26 @@ span.xl3 em{
 }
 .goods_info ul li{
     line-height: 0.2rem;
+}
+.goods_view ul li{
+    float: left;
+    width: 25%;
+    text-align: center;
+}
+.goods_view ul li em{
+    display: block;
+    width: 0.6rem;
+    height: 0.24rem;
+    line-height: 0.24rem;
+    border-radius: 0.04rem;
+    background: #eee;
+    margin: 0 auto;
+    margin-top: 0.1rem;
+    font-size: 0.12rem;
+}
+.goods_view ul li em.active{
+    background: #6BB945;
+    color: #fff;
 }
 /*购物车css*/
 .header_login .a_gd{
