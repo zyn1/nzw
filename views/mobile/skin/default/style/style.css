@@ -1398,7 +1398,7 @@ a .icon-rotate-90:before, a .icon-rotate-180:before, a .icon-rotate-270:before, 
 .footer_nav ul i {
     display: block;
     margin: 0.07rem auto 0.03rem;
-    width: 0.24rem;
+    width: 0.35rem;
     height: 0.35rem;
     font-size: 0.15rem;
     color: #fff;
@@ -1428,16 +1428,16 @@ a .icon-rotate-90:before, a .icon-rotate-180:before, a .icon-rotate-270:before, 
     z-index: 1;
 }
 .footer_nav ul .on i.icon-home {
-    background: url("../image/top/shouye_1@2x.png") no-repeat;
+    background: url("../image/top/shouye_1@2x.png") center no-repeat;
 }
 .footer_nav ul .on i.icon-reorder {
-    background: url("../image/top/fenlei_1@2x.png") no-repeat;
+    background: url("../image/top/fenlei_1@2x.png") center no-repeat;
 }
 .footer_nav ul .on i.icon-shopping-cart {
-    background: url("../image/top/gouwuche_1@2x.png") no-repeat;
+    background: url("../image/top/gouwuche_1@2x.png") center no-repeat;
 }
 .footer_nav ul .on i.icon-user {
-    background: url("../image/top/gerenzhongxin_1@2x.png") no-repeat;
+    background: url("../image/top/gerenzhongxin_1@2x.png") center no-repeat;
 }
 .footer_nav ul .on span {
     color: #ee4442;
@@ -1924,7 +1924,7 @@ a .icon-rotate-90:before, a .icon-rotate-180:before, a .icon-rotate-270:before, 
     height: 100%;
 }
 .goods_list ul li .name {
-    font-size: 0.11rem;
+    font-size: 0.14rem;
     color: #000;
     overflow: hidden;
     line-height: 0.2rem;
@@ -2915,7 +2915,7 @@ a .icon-rotate-90:before, a .icon-rotate-180:before, a .icon-rotate-270:before, 
 .input_li .input_textarea {
     height: 0.8rem;
 }
-.input_li .input_captcha {
+/*.input_li .input_captcha {
     width: 1.2rem;
     float: left;
 }
@@ -2935,7 +2935,7 @@ a .icon-rotate-90:before, a .icon-rotate-180:before, a .icon-rotate-270:before, 
     margin: 0 0.1rem;
     box-shadow: 0 0 0 1px #ededed;
     background: #fafafa;
-}
+}*/
 .input_li .input_item {
     position: absolute;
     height: 0.1rem;
@@ -2960,7 +2960,7 @@ a .icon-rotate-90:before, a .icon-rotate-180:before, a .icon-rotate-270:before, 
     color: #fff;
     height: 0.3rem;
     line-height: 0.3rem;
-    margin: 0 auto;
+    margin: 0.5rem auto;
     width: 90%;
     font-size: 0.18rem;
 }

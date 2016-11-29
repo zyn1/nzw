@@ -1,4 +1,4 @@
-.peis,.zf_way{
+.peis,.zf_way,.submit_ok,.w_paswd{
 	height: 2.5rem;
     width: 100%;
     background: #fff;
@@ -27,23 +27,24 @@
 .peis ul li .ps_cont,.zf_way ul li .ps_cont{
 	padding-left:0.25rem; 
 }
-.peis .close,.zf_way .close{
-	top: 0.1rem;
+.peis .close,.zf_way .close,.submit_ok .close{
+	top: 0.15rem;
     position: absolute;
     display: block;
     width: 20px;
     height: 20px;
-    right: 0.1rem;
+    left: 0.1rem;
     background: url("../image/top/guanbi.png") no-repeat;
 }
-.peis .ps_title span,.zf_way .ps_title span{
+.peis .ps_title span,.zf_way .ps_title span,.submit_ok .ps_title span{
 	display: block;
 	height: 0.48rem;
 	line-height: 0.48rem;
 	padding: 0 0.15rem;
 	border-bottom: 0.01rem solid #ededed;
+	text-align: center;
 }
-.peis .type_ok,.zf_way .type_ok{
+.peis .type_ok,.zf_way .type_ok,.submit_ok .type_ok{
 	width: 80%;
 	height: 0.4rem;
 	margin:0 10%;
@@ -60,4 +61,61 @@
 .zf_way ul li .ps_cont .img_zf{
 	width: 0.2rem;
 	height: 0.2rem;
+}
+/*订单详情*/
+.submit_ok{
+	height: 4rem !important;
+	bottom: -4.2rem;
+}
+.submit_ok .order_line{
+	height: 0.4rem;
+	line-height: 0.4rem;
+	padding: 0 0.15rem;
+	position: relative;
+}
+.submit_ok .order_line span:nth-child(2){
+	position: absolute;
+	left:1.5rem; 
+}
+/*输入支付密码*/
+.w_paswd{
+z-index: 11;
+}
+.w_paswd .passwd_cont{
+	padding: 0.15rem;
+}
+.w_paswd .passwd_cont .pass .pas_tex{
+	border: 1px solid #D3D3D3;
+    float: left;
+    width: 13%;
+    margin-left: 1.1%;
+    height: 0.4rem;
+    padding: 0 1%;
+    font-size: 0.15rem;
+    text-align: center;
+}
+.w_paswd .passwd_cont .pass .pas_tex:first-child{
+	margin-left:0px; 
+}
+.w_paswd .pas_but{
+	margin-top:0.4rem;
+}
+.w_paswd .passwd_cont .pas_but button{
+	display: block;
+	padding: 0.1rem 0.15rem;
+	text-align: center;
+	border-radius: 0.025rem;
+	border: 0px;
+	width: 38%;
+}
+.w_paswd .passwd_cont .pas_but .pas_qr{
+	float: left;
+	background: #6BB945;
+	color: #fff;
+
+}
+.w_paswd .passwd_cont .pas_but .pas_qx{
+	float: right;
+	background: #CACACA;
+	color: #7b7b7b;
 }
