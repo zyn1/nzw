@@ -1,0 +1,63 @@
+.peis,.zf_way{
+	height: 2.5rem;
+    width: 100%;
+    background: #fff;
+    border-top: 1px solid #dedede;
+    position: fixed;
+    bottom: -2.7rem;
+    z-index: 10;
+}
+.peis .ps_select,.zf_way .ps_select{
+	height: 1.2rem;
+/*    overflow: auto;*/
+    border-bottom: 0.01rem solid #ededed;
+}
+.peis .ps_select ul,.zf_way .ps_select ul{
+	height: 1.2rem;
+	overflow: auto;
+}
+.peis ul li,.zf_way ul li{
+	height: 0.4rem;
+	line-height: 0.4rem;
+	border-bottom: 0.01rem solid #ededed;
+	padding: 0 0.15rem;
+	position: relative;
+}
+
+.peis ul li .ps_cont,.zf_way ul li .ps_cont{
+	padding-left:0.25rem; 
+}
+.peis .close,.zf_way .close{
+	top: 0.1rem;
+    position: absolute;
+    display: block;
+    width: 20px;
+    height: 20px;
+    right: 0.1rem;
+    background: url("../image/top/guanbi.png") no-repeat;
+}
+.peis .ps_title span,.zf_way .ps_title span{
+	display: block;
+	height: 0.48rem;
+	line-height: 0.48rem;
+	padding: 0 0.15rem;
+	border-bottom: 0.01rem solid #ededed;
+}
+.peis .type_ok,.zf_way .type_ok{
+	width: 80%;
+	height: 0.4rem;
+	margin:0 10%;
+	text-align: center;
+	color: #fff;
+	background: #6BB945;
+	border: 0px;
+	border-radius: 0.05rem;
+}
+.peis .ok_button,.zf_way .ok_button{
+	position: relative;
+	top:0.2rem;
+}
+.zf_way ul li .ps_cont .img_zf{
+	width: 0.2rem;
+	height: 0.2rem;
+}
