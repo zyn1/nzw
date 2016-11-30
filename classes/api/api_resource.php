@@ -25,7 +25,7 @@ return array(
 			'where' => 'visibility = 1 and top = 1',
 			'order' => 'sort ASC',
 			'fields'=> 'title,id,style,color,create_time',
-			'limit' => '10'
+			'limit' => '6'
 		)
 	),
 	//团购列表
@@ -162,7 +162,7 @@ return array(
 	),
 	//公告列表
 	'getAnnouncementList'=>array(
-		'query'=>array('name'=>'announcement','order'=>'id desc','limit'=>10)
+		'query'=>array('name'=>'announcement','order'=>'id desc','limit'=>6)
 	),
 	//所有关键字列表
 	'getKeywordAllList'=>array(
