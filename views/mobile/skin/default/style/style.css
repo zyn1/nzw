@@ -4871,3 +4871,12 @@ span.xl3 em{
     z-index: 10;
     position: fixed;    
 }
+/*我的收藏*/
+.jagw{
+    float: left;
+    display: block;
+    margin-top: 0.1rem;
+    color: #aaa;
+    line-height: 0.18rem;
+    height: 0.3rem;
+}
