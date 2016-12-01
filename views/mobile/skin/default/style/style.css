@@ -2811,35 +2811,16 @@ a .icon-rotate-90:before, a .icon-rotate-180:before, a .icon-rotate-270:before, 
     padding: 50px 0px;
     position: relative;
 }
+.nodata img{
+    display: block;
+    margin: 0 auto;
+}
 .nodata p{
     height: 40px;
     line-height: 40px;
     position: relative;
     top: 25px;
 }
-
-.user_order_detail {
-    padding: 0 0.15rem;
-}
-
-.detail_table {
-    width: 100%;
-    margin-bottom: 0.15rem;
-}
-.detail_table, .detail_table th, .detail_table td {
-    border: 1px solid #ededed;
-}
-.detail_table th, .detail_table td {
-    padding: 0.05rem 0.08rem;
-    line-height: 1.6;
-}
-.detail_table th {
-    width: 0.6rem;
-    color: #222;
-    text-align: right;
-    white-space: nowrap;
-}
-
 .input_li {
     padding: 0.15rem 0;
     font-size: 0.12rem;

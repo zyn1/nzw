@@ -1,167 +1,113 @@
 {set:$item = $this->order_info;}
 {set:$orderStatus = Order_Class::getOrderStatus($item)}
-
-<div id="pageInfo" data-title="订单详情"></div>
-<section class="user_order_detail">
-
-	<table class="detail_table">
-		<tr>
-			<th>订单编号</th>
-			<td>{$item['order_no']}</td>
-		</tr>
-		<tr>
-			<th>下单日期</th>
-			<td>{$item['create_time']}</td>
-		</tr>
-
-		<tr>
-			<th>订单状态</th>
-			<td>{echo:Order_Class::orderStatusText($orderStatus)}</td>
-		</tr>
-		<tr>
-			<th>订单操作</th>
-			<td>
-				{if:in_array($orderStatus,array(1,2))}
-				<input class="btn" type="button" value="取消订单" onclick='window.location.href="{url:/ucenter/order_status/order_id/$this->order_info['order_id']/op/cancel}"' />
-				{/if}
-
-				{if:$orderStatus == 2}
-				<input class="btn" type="button" value="立即付款" onclick="window.location.href='{url:/block/doPay/order_id/$item[id]}'" />
-				{/if}
-
-				{if:in_array($orderStatus,array(11,3))}
-				<input class="btn" type="button" value="确认收货" onclick='window.location.href="{url:/ucenter/order_status/order_id/$this->order_info['order_id']/op/confirm}"' />
-				{/if}
-
-				{if:Order_Class::isRefundmentApply($this->order_info)}
-				<input class="btn" type="button" value="申请退款" onclick='window.location.href="{url:/ucenter/refunds_edit/order_id/$this->order_info['order_id']}"' />
-				{/if}
-			</td>
-		</tr>
-		<tr>
-			<th>订单价格</th>
-			<td>
-				商品总金额：￥{$item['payable_amount']}
-				<span class="red">+</span> 运费：￥
-				<label id="freightFee">{$item['real_freight']}</label>
-				{if:$item['taxes'] > 0}
-				<span class="red">+</span> 税金：￥{$item['taxes']} {/if} {if:$item['pay_fee'] > 0}
-				<span class="red">+</span> 支付手续费：￥{$item['pay_fee']} {/if} {if:$item['insured'] > 0}
-				<span class="red">+</span> 保价：￥{$item['insured']} {/if} {if:$item['discount'] > 0}
-				<span class="red">+</span> 订单涨价：￥{$item['discount']} {/if} {if:$item['discount']
-				< 0} <span class="red">-</span> 订单折扣：￥{$item['discount']} {/if} {if:$item['promotions'] > 0}
-					<span class="red">-</span> 促销优惠金额：￥{$item['promotions']} {/if}
-			</td>
-		</tr>
-		<tr>
-			<th>共需支付</th>
-			<td>￥{$item['order_amount']}</td>
-		</tr>
-		<tr>
-			<th>收货人</th>
-			<td>{$item['accept_name']}</td>
-		</tr>
-		<tr>
-			<th>固定电话</th>
-			<td>{$item['telphone']}</td>
-		</tr>
-		<tr>
-			<th>手机号码</th>
-			<td>{$item['mobile']}</td>
-		</tr>
-		<tr>
-			<th>收获地址</th>
-			<td>{$this->order_info['province_str']} {$this->order_info['city_str']} {$this->order_info['area_str']} {$this->order_info['address']}</td>
-		</tr>
-		<tr>
-			<th>支付方式</th>
-			<td>{$item['payment']}</td>
-		</tr>
-		<tr>
-			<th>运费</th>
-			<td>{$item['real_freight']}</td>
-		</tr>
-		<tr>
-			<th>物流公司</th>
-			<td>{$item['freight']['freight_name']}</td>
-		</tr>
-		<tr>
-			<th>快递单号</th>
-			<td>{$item['freight']['delivery_code']}</td>
-		</tr>
-		<tr>
-			<th>支付说明</th>
-			<td>{$this->order_info['paynote']}</td>
-		</tr>
-		{if:$item['invoice']==1}
-		<tr>
-			<th>所需税金</th>
-			<td>{$item['taxes']}</td>
-		</tr>
-		<tr>
-			<th>发票抬头</th>
-			<td>{$item['invoice_title']}</td>
-		</tr>
-		{/if}
-	</table>
-
-	{set:$order_id=$item['id']} {foreach:items=Api::run('getOrderGoodsListByGoodsid',array('#order_id#',$order_id)) item=$good} {set:$good_info = JSON::decode($good['goods_array'])}
-	<table class="detail_table">
-		<tr>
-			<th>商品</th>
-			<td>
-				<a href="{url:/site/products/id/$good[goods_id]}">
-					<img src="{url:/pic/thumb/img/$good[img]/w/140/h/140}">
-				</a>
-			</td>
-		</tr>
-		{if:$good['delivery_id']}
-		<tr>
-			<th>物流信息</th>
-			<td>
-				<input type='button' class='btn' value='点击查询' onclick="freightLine({$good['delivery_id']});" />
-			</td>
-		</tr>
-		{/if}
-		<tr>
-			<th>商品单价</th>
-			<td>￥{$good['real_price']}</td>
-		</tr>
-		<tr>
-			<th>商品数量</th>
-			<td>x {$good['goods_nums']}</td>
-		</tr>
-		<tr>
-			<th>赠送积分</th>
-			<td>{echo:$good['point']*$good['goods_nums']}</td>
-		</tr>
-		<tr>
-			<th>优惠金额</th>
-			<td>￥{echo:$good['goods_price']-$good['real_price']}</td>
-		</tr>
-	</table>
-	{/foreach}
+<link rel="stylesheet" href="{skin:style/bases.css}">
+<header class="header_login">
+	<div class="header_title">
+		<a class="return_a"onclick="window.history.back();"></a>
+		<h2>订单详情</h2>
 	</div>
+</header>
+<!-- <div id="pageInfo" data-title="订单详情"></div> -->
+<section class="user_order_detail cart_2">
+	<div class="order_number">
+		<span>订单编号：</span>
+		<span class="order_state">待发货</span>
+	</div>
+	<div class="cart_sel">
+		<div class="cart_goods" >
+			<div class="cart_title">
+                <a class="name clear" href="">
+                    <img src="{skin:image/top/gouwuche_kong@2x.png}"/>
+                    <span class="sel_name">七彩云小铺</span>
+                    <span class="sel_cz sel_cz_bj">交易成功</span>
+                </a>
+            </div>
+			<ul>
+				<li>
+					<div class="cart_list_goods">
+                    <a class="clear">
+                        <div class="cart_list_photo"><img src="{skin:image/top/gouwuche_kong@2x.png}" alt="{$item['name']}"></div>
+                        <div class="cart_list_info">
+                            <h3 class="cart_list_info_title">奇异小家</h3>
+                            <p class="cart_list_info_info">
+                                颜色分类:黄色
+                            </p>
+                            <p class="cart_list_info_price ">
+                                <em>￥29</em>
+                                <del class="old_price">￥59</del>
+                            </p>
+                        </div>
+                        <div class="good_num">×3</div>
+                        </a>
+                    </div>
+				</li>
+				<li>
+					<div class="cart_list_goods">
+                    <a class="clear">
+                        <div class="cart_list_photo"><img src="{skin:image/top/gouwuche_kong@2x.png}" alt="{$item['name']}"></div>
+                        <div class="cart_list_info">
+                            <h3 class="cart_list_info_title">奇异小家</h3>
+                            <p class="cart_list_info_info">
+                                颜色分类:黄色
+                            </p>
+                            <p class="cart_list_info_price ">
+                                <em>￥29</em>
+                                <del class="old_price">￥59</del>
+                            </p>
+                        </div>
+                        <div class="good_num">×3</div>
+                        </a>
+                    </div>
+				</li>
+			</ul>
+			<div class="good_price">
+				共1件商品&nbsp;合计：￥98.00（含运费￥0.00）
+			</div>
+			<div class="good_an">
+				<a class="quoder" href="">退换货</a>
+				<a class="ljpay" href="">联系客服</a>
+			</div>
+		</div>
+	</div>
+	 <!--地址管理 开始-->
+    <div class="con_order">
+        <div class="adders_order" style="display: block;">
+            <a class="adder_height">
+                <p class="s_adder_p">
+                    <span>收货人：张三</span>
+                    <span class="tel">18652656789</span>
+                </p>
+                <p class="s_adder_p">
+                    收货地址：北京市大兴区大兴亦庄开发区文化园高兴街道34号
+                </p>
+            </a>
+        </div>
+    </div>
+    <!--地址管理 结束-->
+    <div class="order_logistics">
+        <a class="info_head">
+            <span>配送信息追踪</span>
+        </a>
+    </div>
+    <div class="order_de_fp">
+    	<div class="fp_head">发票信息：增值税普票<!-- 注：无发票则显示“无” --></div>
+    	<div class="fp_cont">
+    		<span>发票抬头：耐耐云商</span>
+    	</div>
+    </div>
+    <div class="order_pay_way">
+    	<span>支付方式：预存款</span>
+    </div>
 </section>
-
+<div style="height:0.48rem"></div>
+<footer class="order_detail_bottom">
+	<div class="bottom_an">
+		<a class="E9">删除订单<!-- 取消订单 --></a>
+		<a class="B6">立即评价 <!-- 立即支付，确认收货 --></a>
+	</div>
+</footer>
 <script>
 	$(function(){
 		hideNav()
 	})
-	//快递跟踪
-	function freightLine(doc_id) {
-		var urlVal = "{url:/block/freight/id/@id@}";
-		urlVal = urlVal.replace("@id@", doc_id);
-		art.dialog.open(urlVal, {
-			'title': '轨迹查询',
-			'width': '80%',
-			'height': '80%'
-		});
-	}
-
-	//修改表单信息
-	function editForm() {
-		$('#acceptShow').toggle();
-		$('#acceptForm').toggle();
-	}
 </script>

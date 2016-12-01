@@ -119,3 +119,146 @@ z-index: 11;
 	background: #CACACA;
 	color: #7b7b7b;
 }
+/*个人中心我的订单*/
+.order_top{
+	height: 0.4rem;
+	line-height: 0.4rem;
+	background: #fff;
+	border-bottom: 1px solid #e2e2e2;
+}
+.order_top .order_tit li{
+	float: left;
+	width: 20%;
+	text-align: center;
+}
+.order_top .order_tit li a{
+	display: block;
+}
+.order_top .order_tit li a.on{
+	color: #6BB945;
+}
+.user_order{
+	margin-top:0.15rem;
+}
+.cart_sel .good_price{
+	height: 0.4rem;
+	line-height: 0.4rem;
+	text-align: right;
+	border-bottom: 1px solid #e2e2e2;
+}
+.cart_sel .good_an{
+	height: 0.5rem;
+	line-height: 0.5rem;
+	text-align: right;
+	border-bottom: 1px solid #e2e2e2;
+}
+.cart_sel .good_an a{
+	padding: 0.08rem 0.18rem; 
+	margin-right:0.1rem;
+	border-radius: 0.05rem; 
+}
+.cart_sel .good_an a.quoder{
+	background: #E9E9E9;
+}
+.cart_sel .good_an a.ljpay{
+	color: #fff;
+	background: #6BB945;
+}
+/*个人中心我的订单 end*/
+/*个人中心订单详情 strat*/
+.user_order_detail .order_number{
+	height: 0.4rem;
+	line-height: 0.4rem;
+	background: #fff;
+	padding: 0 0.15rem;
+	margin-bottom:0.15rem; 
+}
+.user_order_detail .order_number .order_state{
+	float: right;
+	color: #6BB945;
+}
+.user_order_detail  .adders_order{
+	padding: 0.15rem;
+}
+.user_order_detail  .adders_order .adder_height{
+	display: block;
+}
+.adders_order .adder_height .s_adder_p{
+	line-height: 0.3rem;
+}
+.adders_order .adder_height .s_adder_p .tel{
+	float: right;
+}
+.user_order_detail .order_logistics{
+	line-height: 0.4rem;
+	background: #fff;
+	padding: 0 0.15rem;
+	position: relative;
+	margin-bottom: 0.15rem;
+}
+.user_order_detail .order_logistics a.info_head{
+	display: block;
+}
+.user_order_detail .order_logistics a.info_head:after{
+	content: ' ';
+    position: absolute;
+    border: #999 solid;
+    border-width: 2px 0 0 2px;
+    width: 0.10rem;
+    height: 0.10rem;
+    -webkit-transform: rotate(-225deg);
+    -moz-transform: rotate(-225deg);
+    right: 0.15rem;
+    top: 0.15rem;
+}
+/*发票*/
+.user_order_detail .order_de_fp{
+	background: #fff;
+	margin-bottom: 0.15rem;
+	padding: 0 0.15rem;
+}
+.user_order_detail .order_de_fp .fp_head{
+	height: 0.4rem;
+	line-height: 0.4rem;
+	border-bottom: 1px solid #e2e2e2;
+}
+.user_order_detail .order_de_fp .fp_cont{
+	padding: 0.1rem;
+}
+.user_order_detail .order_de_fp .fp_cont span{
+	display: block;
+	line-height: 0.3rem;
+}
+/*支付方式*/
+.user_order_detail .order_pay_way{
+	line-height: 0.4rem;
+	padding: 0 0.15rem;
+	background: #fff;
+}
+/*底部*/
+.order_detail_bottom{
+	position: fixed;
+	width: 100%;
+	bottom: 0px;
+	background: #fff;
+	border-top: 1px solid #e2e2e2
+}
+.order_detail_bottom .bottom_an{
+	line-height: 0.45rem;
+	text-align: right;
+}
+.order_detail_bottom .bottom_an a{
+	padding: 0.05rem 0.17rem;
+	text-align: center;
+	margin-right:0.15rem; 
+	border-radius: 0.05rem;
+}
+.order_detail_bottom .bottom_an a.E9{
+	background: #E9E9E9;
+}
+.order_detail_bottom .bottom_an a.B6{
+	background: #6BB945;
+	color: #fff;
+}
+
+/*个人中心订单详情 end*/
