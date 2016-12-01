@@ -3,8 +3,12 @@
 <header>
     <div class="user_main_info">
         <img src="{url:views/mobile/skin/default/image/user_ico.png}" class="user_ico">
-        <!-- <a href="" class="button">登录</a>
+        
+        <!--   未登录时显示此内容 
+        <a href="" class="button">登录</a>
         <a href="" class="button" style="margin-left:0.2rem;">立即注册</a> -->
+        
+        <!-- 已登录时显示此内容与账户余额 -->
         <span class="user_name">{$this->user['username']}</span>
         <a class="header_so_btn"><i class="icon-comment-alt"></i>
                 <!--<i class="icon-comments-alt"></i> 有消息显示此图标 -->
@@ -67,18 +71,12 @@
     </ul> -->
 </nav><!-- 
 <a href="{url:/simple/logout}" class="home_main_logout">退出登录</a> -->
-<nav class="footer_nav">
-    <ul>
-        <li class="nav_home"><a href="{url:/}"><i class="icon-home"></i><span>首页</span></a></li>
-        <li class="nav_map"><a href="{url:site/sitemap}"><i class="icon-reorder"></i><span>分类</span></a></li>
-        <li class="nav_cart"><a href="{url:simple/cart}"><i class="icon-shopping-cart"></i><span>购物车</span></a></li>
-        <li class="nav_user"><a href="{url:/ucenter/index}"><i class="icon-user"></i><span>个人中心</span></a></li>
-        
-    </ul>
-</nav>
+
 <script>
 $(function() {
     // 设置首页导航为当前
     $(".nav_user").addClass('on');
 })
+
+
 </script>
