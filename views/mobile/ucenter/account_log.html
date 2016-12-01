@@ -1,29 +1,35 @@
+<style type="text/css">
+    body{
+        background: #fff;
+    }
+</style>
 {set:$queryAccountLogList = Api::run('getUcenterAccoutLog',$this->user['user_id'])}
 {set:$logList = $queryAccountLogList->find()}
 
+<header class="header_login">
+    <div class="header_title">
+        <a class="return_a"onclick="window.history.back();"></a>
+        <h2>耐装钱包</h2>
+        <a class="qx_a" href="{url:/ucenter/account_list}">账单明细</a>
+    </div>
+</header>
+
 <div id="pageInfo" data-title="我的余额"></div>
+<section class="user_icon"><img src="{url:views/mobile/skin/default/image/user_ico.png}" class="user_ico"><span class="user_name">{$this->user['username']}</span></section>
 <section class="my_account">
-    <strong>帐户余额</strong>
+    <strong>余额</strong>
     <em>￥{$this->memberRow['balance']}</em>
 </section>
-{if:$logList}
-<section class="account_list">
+<section class="account_oper">
     <ul>
-        {foreach:items = $logList}
         <li>
-            <time>{echo:substr($item['time'],0,10)}</time>
-            <strong>变动金额：</strong>
-            <em>￥{$item['amount']}</em>
-            <p><strong>事件：</strong>{$item['note']}</p>
+            <a href=""><img src="{url:views/mobile/skin/default/image/top/account_02.png}"></a>
         </li>
-        {/foreach}
+        <li>
+            <a href=""><img src="{url:views/mobile/skin/default/image/top/account_04.png}"></a>
+        </li>
     </ul>
 </section>
-{$queryAccountLogList->getPageBar()}
-
-{else:}
-<section class="nodata">暂时没有帐户变动记录</section>
-{/if}
 
 <script>
 $(function(){

@@ -1,8 +1,19 @@
 <div id="pageInfo" data-title="个人中心"></div>
-<section class="user_main_info">
+
+<header>
+    <div class="user_main_info">
+        <img src="{url:views/mobile/skin/default/image/user_ico.png}" class="user_ico">
+        <!-- <a href="" class="button">登录</a>
+        <a href="" class="button" style="margin-left:0.2rem;">立即注册</a> -->
+        <span class="user_name">{$this->user['username']}</span>
+        <a class="header_so_btn"><i class="icon-comment-alt"></i>
+                <!--<i class="icon-comments-alt"></i> 有消息显示此图标 -->
+        </a>
+    </div>
+    <div class="info">账户余额<span>￥{$user['balance']}</span></div>
+</header>
+<!-- <section class="user_main_info">
     <ol>
-        <li>用户名：{$this->user['username']}</li>
-        <li>余额：<em>￥{$user['balance']}</em></li>
         <li>积分：<em>{$user['point']}</em></li>
         <li>代金券：<em>{$propData['prop_num']} 张</em></li>
     </ol>
@@ -22,21 +33,49 @@
     "地址管理"   => "icon-map-marker",
     "个人资料"   => "icon-file-alt",
     "修改密码"   => "icon-lock",
-)}
+)} -->
 <nav class="user_main_nav">
-    <h3>
+    <div class="user_order">
+        <span class="title">我的订单</span>
+        <span class="more">查看全部订单</span>
+    </div>
+    <!-- <h3>
         <i class="icon-user"></i>
         个人中心
-    </h3>
+    </h3> -->
     <ul>
+        <li class="order_oper"><a href=""><img src="{url:views/mobile/skin/default/image/top/ucenter_02.png}"></a></li>
+        <li class="order_oper"><a href=""><img src="{url:views/mobile/skin/default/image/top/ucenter_03.png}"></a></li>
+        <li class="order_oper"><a href=""><img src="{url:views/mobile/skin/default/image/top/ucenter_04.png}"></a></li>
+        <li class="order_oper"><a href=""><img src="{url:views/mobile/skin/default/image/top/ucenter_05.png}"></a></li>
+        <li class="order_oper"><a href=""><img src="{url:views/mobile/skin/default/image/top/ucenter_06.png}"></a></li>
+    </ul>
+    <ul>
+        <li class="ucenter_oper"><a href=""><img src="{url:views/mobile/skin/default/image/top/ucenter_08.png}"></a></li>
+        <li class="ucenter_oper"><a href=""><img src="{url:views/mobile/skin/default/image/top/ucenter_10.png}"></a></li>
+        <li class="ucenter_oper" style="border-right:none;"><a href=""><img src="{url:views/mobile/skin/default/image/top/ucenter_12.png}"></a></li>
+        <li class="ucenter_oper"><a href=""><img src="{url:views/mobile/skin/default/image/top/ucenter_16.png}"></a></li>
+        <li class="ucenter_oper"><a href=""><img src="{url:views/mobile/skin/default/image/top/ucenter_17.png}"></a></li>
+        <li class="ucenter_oper" style="border-right:none;"><a href=""><img src="{url:views/mobile/skin/default/image/top/ucenter_18.png}"></a></li>
+    </ul>
+  <!--   <ul>
         {foreach:items=menuUcenter::init()}
         {foreach:items=$item key=$moreKey item=$moreValue}
         <li><a href="{url:$moreKey}"><i class="{echo:$icoConfig[$moreValue]}"></i>{$moreValue}<u class="icon-chevron-right"></u></a></li>
         {/foreach}
         {/foreach}
+    </ul> -->
+</nav><!-- 
+<a href="{url:/simple/logout}" class="home_main_logout">退出登录</a> -->
+<nav class="footer_nav">
+    <ul>
+        <li class="nav_home"><a href="{url:/}"><i class="icon-home"></i><span>首页</span></a></li>
+        <li class="nav_map"><a href="{url:site/sitemap}"><i class="icon-reorder"></i><span>分类</span></a></li>
+        <li class="nav_cart"><a href="{url:simple/cart}"><i class="icon-shopping-cart"></i><span>购物车</span></a></li>
+        <li class="nav_user"><a href="{url:/ucenter/index}"><i class="icon-user"></i><span>个人中心</span></a></li>
+        
     </ul>
 </nav>
-<a href="{url:/simple/logout}" class="home_main_logout">退出登录</a>
 <script>
 $(function() {
     // 设置首页导航为当前

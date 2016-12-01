@@ -267,11 +267,15 @@ hr {
 }
 
 .green {
-    color: #46c100;
+    color: #6BB945;
 }
 
 .cyan {
     color: #36bc99;
+}
+
+.orange {
+    color: #F5A623;
 }
 
 .gold {
@@ -2686,24 +2690,111 @@ a .icon-rotate-90:before, a .icon-rotate-180:before, a .icon-rotate-270:before, 
     left: -0.5rem;
     top: 0.25rem;
 }
-
-.user_main_info {
-    margin: 0 0.15rem;
+header{
+    height: 1.7rem;
+    text-align: center;
+    position: relative;
+    /*渐变色*/
+    background: #6BB945; /* 为较旧的或者不支持的浏览器设置备用属性 */
+    background: -moz-linear-gradient(top, #3B7F19, #6BB945);
+    background: -webkit-gradient(linear, 0 0, 0 50%, from(#3B7F19), to(#6BB945));
+    border-top: 1px solid #6BB945;
 }
-.user_main_info li {
-    float: left;
-    width: 50%;
-    margin-bottom: 0.15rem;
+.user_main_info{
+    width: 2rem;
+    height: 0.7rem;
+    margin: 0 auto;
+    margin-top: 0.3rem;
+    font-size: 0.12rem;
+}
+.user_main_info .user_ico{
+    width: 0.7rem;
+    margin: 0 auto;
+    display: block;
+    border-radius: 50%;
+}
+.user_main_info .button{
+    display: inline-block;
+    width: 0.8rem;
+    text-align: center;
+    border:1px solid #fff;
+    line-height: 0.3rem;margin-top: 0.15rem;
+    color: #fff;
+    border-radius: 8%;
+}    
+.user_main_info .user_name{
+    display: inline-block;
+    width: 0.8rem;
+    text-align: center;
+    color: #fff;
+    line-height: 0.3rem;
+}
+.user_main_info .header_so_btn{
+    position: absolute;
+    right: 0rem;
+    top: 0.2rem;
+    display: block;
+}
+header .header_so_btn i{
+    display: block;
+    width: 0.3rem;
+    height: 0.3rem;
+    margin: 0 auto;
+}
+header .info{
+    position: absolute;
+    bottom: 0.2rem;
+    right: 0.2rem;
+    color: #fff;
+    font-size: 0.12rem;
+}
+header .info span{
     font-size: 0.14rem;
-}
-.user_main_info li em {
-    color: #ee4442;
 }
 
 .user_main_nav {
-    margin: 0 0.15rem;
     border-radius: 0.05rem;
     box-shadow: 0 0 0 1px #ededed;
+    background: #fff;
+}
+.user_main_nav .user_order{
+    padding: 0 0.15rem;
+    line-height: 0.5rem;
+    height: 0.5rem;
+    border-bottom: 1px solid #eee;
+    border-top: 0.1rem solid #f2f2f2;
+}
+.user_main_nav .user_order .title{
+    font-size: 0.13rem;
+    float: left;
+    font-weight: bold;
+}
+.user_main_nav .user_order .more{
+    font-size: 0.12rem;
+    float: right;    
+    color: #aaa;
+}
+.user_main_nav ul{
+    display: block;
+    width: 100%;
+}
+.user_main_nav .order_oper{
+    float: left;
+    width: 20%;
+    border-bottom: 0.1rem solid #f2f2f2;
+}
+.user_main_nav .order_oper img{
+    display: block;width: 100%;margin: 0 auto;border: 0;
+}
+.user_main_nav .ucenter_oper{
+    float: left;
+    width: 33%;
+    border-bottom: 1px solid #f2f2f2;
+    border-top: 1px solid #f2f2f2;
+    border-right: 1px solid #f2f2f2;
+}
+.user_main_nav .ucenter_oper img{
+    display: block;width: 100%;margin: 0 auto;border: 0;    
 }
 .user_main_nav i {
     color: #f60;
@@ -2724,10 +2815,6 @@ a .icon-rotate-90:before, a .icon-rotate-180:before, a .icon-rotate-270:before, 
 }
 .user_main_nav li a {
     display: block;
-    height: 0.4rem;
-    line-height: 0.4rem;
-    padding: 0 0.1rem;
-    font-size: 0.13rem;
 }
 .user_main_nav li i {
     font-size: 0.15rem;
@@ -3222,23 +3309,51 @@ span.valid-msg, label.valid-msg {
 .comments_list li em {
     color: #F85D92;
 }
-
-.my_account {
-    padding: 0.3rem 0;
-    background: #5BC2D9;
-    color: #fff;
+.user_icon {
+    display: block;
+    margin: 0.1rem auto;
     text-align: center;
-    margin-top: -0.15rem;
+}
+.user_icon .user_ico{
+    width: 0.8rem;
+    height: 0.8rem;
+    border-radius: 50%;
+}
+.user_icon .user_name{
+    margin-top: 0.1rem;
+    display: block;
+}
+.my_account {
+    padding-bottom: 0.35rem;
+    background: #fff;
+    color: #656565;
+    text-align: center;
+    border-bottom: 0.1rem solid #f9f9f9;
 }
 .my_account strong {
     font-weight: normal;
-    font-size: 0.12rem;
-    display: block;
+    font-size: 0.14rem;
+    display: inline-block;
 }
 .my_account em {
-    font-size: 0.3rem;
-    margin-top: 0.2rem;
+    font-size: 0.2rem;
+    margin-top: 0.1rem;
+    display: inline-block;
+    font-weight: bold;
+    color: #EF4933;
+}
+.account_oper li{
     display: block;
+    float: left;
+    width: 50%;    
+}
+.account_oper li a{
+    display: block;
+}
+.account_oper li img{
+    width: 100%;
+    display: block;
+    border: 1px solid #e6e6e6;
 }
 
 .account_list {
@@ -4391,7 +4506,9 @@ a.box i.check{
 /*登录页面*/
 .header_login{
     background: #fff;
-    padding-top: 0.31rem;
+    padding-top: 0.1rem;
+    border: 0;
+    height: auto;
 }
 .header_login .return_a:before{
     content: ' ';
@@ -4408,18 +4525,20 @@ a.box i.check{
 .header_login .header_title{
     position:relative;
     border-bottom: 1px solid #dedede;
+    line-height: 0.5rem;
 }
 .header_login h2{
     text-align: center;
-    font-size: 0.19rem;
-    line-height: 0.5rem;
+    font-size: 0.16rem;
+    font-weight: normal;
     height: 0.5rem;
     color: #030303;
 }
 .header_login .qx_a{
     position: absolute;
-    top: 0.2rem;
+    top: 0.02rem;
     right: 0.2rem;
+    font-size: 0.13rem;
 }
 .clear:after{
     display: block;
@@ -4870,4 +4989,145 @@ span.xl3 em{
     background: url("../image/top/Totop.png") no-repeat;
     z-index: 10;
     position: fixed;    
+}
+
+
+/*账户明细*/
+ul.tabs {
+margin: 0;
+padding: 0;
+float: left;
+list-style: none;
+height: 0.5rem;
+width: 100%;
+border-bottom: 1px solid #eee;
+}
+ul.tabs li {
+float: left;
+margin: 0;
+padding: 0;
+height: 0.5rem;
+line-height: 0.5rem;
+border-left: none;
+background: #fff;
+overflow: hidden;
+position: relative;
+width: 50%;
+text-align: center;
+}
+ul.tabs li.active a{
+color: #6bb945;
+}
+ul.tabs li a {
+text-decoration: none;
+color: #000;
+display: block;
+font-size: 0.14rem;
+width: 100%;
+border: 1px solid #fff;
+outline: none;
+}
+.tab_container {
+border-top: none;
+clear: both;
+float: left;
+width: 100%;
+background: #fff;
+-moz-border-radius-bottomright: 5px;
+-khtml-border-radius-bottomright: 5px;
+-webkit-border-bottom-right-radius: 5px;
+-moz-border-radius-bottomleft: 5px;
+-khtml-border-radius-bottomleft: 5px;
+-webkit-border-bottom-left-radius: 5px;
+}
+.tab_content {
+padding:0;
+font-size: 0.13rem;
+}
+.tab_content ul{
+}
+.tab_content ul li{
+    line-height: 0.3rem;
+}
+.tab_content ul li:first-child{
+    float: left;
+    width: 60%;
+}
+.tab_content ul li:nth-child(2){
+    float: right;
+    width: 40%;
+    text-align: right;
+}
+.tab_content ul li.time{
+    color: #aaa;
+}
+.tab_content .content_list{
+    border-bottom: 1px solid #eee;
+    margin-bottom:0.1rem; 
+    padding:0.1rem 0; 
+    position: relative;
+}
+.tab_content .content_list p.checked{
+    display: block;
+    position: absolute;
+    top:40%;
+    left: 2%;
+}
+.tab_content .content_list .checked_on{
+    width:95%;float:right;
+    padding: 0 0.1rem;
+}
+
+/*全选*/
+
+.chk_1 { 
+    display: none; 
+} 
+ 
+.chk_1 + label { 
+    background-color: #FFF; 
+    border: 1px solid #999; 
+    width: 0.14rem; 
+    height: 0.14rem;
+    color: #fff; 
+    padding: 0;
+    border-radius: 50%; 
+    display: inline-block; 
+    position: relative; 
+    margin-right: 0.1rem; 
+    text-align: center; 
+} 
+ 
+.chk_1:checked + label { 
+    background-color: #6BB945; 
+    border: 1px solid #6BB945; 
+} 
+ 
+.chk_1:checked + label:after { 
+    content: '\2714'; //勾选符号 
+    width: 100%; 
+    font-size: 0.12rem;  
+    vertical-align: text-top; 
+} 
+
+.container .check_del{
+    height: 0.5rem;
+    width: 100%;
+    position: fixed;
+    left: 0;bottom: 0;
+    background: #fff;
+    border-top:1px solid #eee;
+}
+.container .check_del p.checkall{
+    width: 50%;
+    padding-top: 0.2rem;
+    padding-left: 0.1rem;
+    height: 0.25rem;
+    background: #fff;
+    float: left;
+}
+.container .check_del .del{
+    height: 100%;width: 40%;
+    background: #6BB945;display: block;
+    float: right;border: 0;color: #fff;
 }
