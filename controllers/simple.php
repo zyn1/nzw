@@ -1319,6 +1319,119 @@ class Simple extends IController
     		Util::showMessage($result);
 		}
     }
+    
+    public function sellerRej()
+    {
+        $id = IReq::get('_i');
+        $code = IReq::get('_c');
+        $model = new IModel('seller_rej_sign');
+        if(!$model->getObj('seller_id = '.$id.' and code = '.$code))
+        {
+            IError::show(403,'改地址已失效，请与管理员联系');
+        }
+        $this->code = $code;
+        $model = new IModel('seller');
+        $this->sellerRow = $model->getObj('id = '.$id);
+        $this->redirect('sellerRej');
+    }
+
+    /**
+     * @brief 商户的修改动作
+     */
+    public function sellerRej_reg()
+    {
+        $seller_name = IValidate::name(IReq::get('seller_name')) ? IReq::get('seller_name') : "";
+        $email       = IValidate::email(IReq::get('email'))      ? IReq::get('email')       : "";
+        $truename    = IValidate::name(IReq::get('true_name'))   ? IReq::get('true_name')   : "";
+        $phone       = IValidate::phone(IReq::get('phone'))      ? IReq::get('phone')       : "";
+        $mobile      = IValidate::mobi(IReq::get('mobile'))      ? IReq::get('mobile')      : "";
+        $home_url    = IValidate::url(IReq::get('home_url'))     ? IReq::get('home_url')    : "";
+        $province    = IFilter::act(IReq::get('province'),'int');
+        $city        = IFilter::act(IReq::get('city'),'int');
+        $area        = IFilter::act(IReq::get('area'),'int');
+        $address     = IFilter::act(IReq::get('address'));
+        $id = IReq::get('_i');
+        $code = IReq::get('_c');
+        $model = new IModel('seller_rej_sign');
+        if(!$model->getObj('seller_id = '.$id.' and code = '.$code))
+        {
+            $errorMsg = '系统错误';
+        }
+        
+        if(!$seller_name)
+        {
+            $errorMsg = '填写正确的登陆用户名';
+        }
+
+        if(!$truename)
+        {
+            $errorMsg = '填写正确的商户真实全称';
+        }
+
+        //创建商家操作类
+        $sellerDB = new IModel("seller");
+        if($seller_name && $sellerDB->getObj("seller_name = '{$seller_name}' and id != {$id}"))
+        {
+            $errorMsg = "登录用户名重复";
+        }
+        else if($truename && $sellerDB->getObj("true_name = '{$truename}' and id != {$id}"))
+        {
+            $errorMsg = "商户真实全称重复";
+        }
+        //操作失败表单回填
+        if(isset($errorMsg))
+        {
+            $this->sellerRow = $sellerDB->getObj('id = '.$id);
+            $this->code = $code;
+            $this->redirect('sellerRej',false);
+            Util::showMessage($errorMsg);
+        }
+
+        //待更新的数据
+        $sellerRow = array(
+            'true_name' => $truename,
+            'phone'     => $phone,
+            'mobile'    => $mobile,
+            'email'     => $email,
+            'address'   => $address,
+            'province'  => $province,
+            'city'      => $city,
+            'area'      => $area,
+            'home_url'  => $home_url,
+            'is_lock'   => 2,
+        );
+
+        //商户资质、logo上传
+        if((isset($_FILES['paper_img']['name']) && $_FILES['paper_img']['name']) || (isset($_FILES['seller_logo']['name']) && $_FILES['seller_logo']['name']))
+        {
+            $uploadObj = new PhotoUpload();
+            $uploadObj->setIterance(false);
+            $photoInfo = $uploadObj->run();
+        }
+
+        if(isset($photoInfo['paper_img']['img']) && file_exists($photoInfo['paper_img']['img']))
+        {
+            $sellerRow['paper_img'] = $photoInfo['paper_img']['img'];
+        }
+            
+        if(isset($photoInfo['seller_logo']['img']) && file_exists($photoInfo['seller_logo']['img']))
+        {
+            $sellerRow['seller_logo'] = $photoInfo['seller_logo']['img'];
+        }
+        $sellerRow['seller_name'] = $seller_name;
+
+        $sellerDB->setData($sellerRow);
+        $sellerDB->update('id = '.$id);
+
+        //短信通知商城平台
+        if($this->_siteConfig->mobile)
+        {
+            $content = smsTemplate::sellerRej(array('{true_name}' => $truename));
+            $result = Hsms::send($this->_siteConfig->mobile,$content);
+        }
+        $model->del('seller_id = '.$id.' and code = '.$code);
+        $this->redirect('/site/success?message='.urlencode("提交成功！请耐心等待管理员的审核"));
+    }
 
 	/**
 	 * @brief 商户的增加动作

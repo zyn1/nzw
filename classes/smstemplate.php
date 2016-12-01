@@ -60,13 +60,23 @@ class smsTemplate
 		return strtr($templateString,$data);
 	}
 
+    /**
+     * @brief 商户注册提示管理员
+     * @param array $data 替换的数据
+     */
+    public static function sellerReg($data = null)
+    {
+        $templateString = "{true_name},申请加盟到平台,请尽快登录后台进行处理";
+        return strtr($templateString,$data);
+    }
+
 	/**
-	 * @brief 商户注册提示管理员
+	 * @brief 商户修改注册信息提示管理员
 	 * @param array $data 替换的数据
 	 */
-	public static function sellerReg($data = null)
+	public static function sellerRej($data = null)
 	{
-		$templateString = "{true_name},申请加盟到平台,请尽快登录后台进行处理";
+		$templateString = "{true_name},注册信息已修改,请尽快登录后台进行处理";
 		return strtr($templateString,$data);
 	}
 
