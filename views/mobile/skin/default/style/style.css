@@ -1402,7 +1402,7 @@ a .icon-rotate-90:before, a .icon-rotate-180:before, a .icon-rotate-270:before, 
 .footer_nav ul i {
     display: block;
     margin: 0.07rem auto 0.03rem;
-    width: 0.24rem;
+    width: 0.35rem;
     height: 0.35rem;
     font-size: 0.15rem;
     color: #fff;
@@ -1432,16 +1432,16 @@ a .icon-rotate-90:before, a .icon-rotate-180:before, a .icon-rotate-270:before, 
     z-index: 1;
 }
 .footer_nav ul .on i.icon-home {
-    background: url("../image/top/shouye_1@2x.png") no-repeat;
+    background: url("../image/top/shouye_1@2x.png") center no-repeat;
 }
 .footer_nav ul .on i.icon-reorder {
-    background: url("../image/top/fenlei_1@2x.png") no-repeat;
+    background: url("../image/top/fenlei_1@2x.png") center no-repeat;
 }
 .footer_nav ul .on i.icon-shopping-cart {
-    background: url("../image/top/gouwuche_1@2x.png") no-repeat;
+    background: url("../image/top/gouwuche_1@2x.png") center no-repeat;
 }
 .footer_nav ul .on i.icon-user {
-    background: url("../image/top/gerenzhongxin_1@2x.png") no-repeat;
+    background: url("../image/top/gerenzhongxin_1@2x.png") center no-repeat;
 }
 .footer_nav ul .on span {
     color: #ee4442;
@@ -1928,7 +1928,7 @@ a .icon-rotate-90:before, a .icon-rotate-180:before, a .icon-rotate-270:before, 
     height: 100%;
 }
 .goods_list ul li .name {
-    font-size: 0.11rem;
+    font-size: 0.14rem;
     color: #000;
     overflow: hidden;
     line-height: 0.2rem;
@@ -3002,7 +3002,7 @@ header .info span{
 .input_li .input_textarea {
     height: 0.8rem;
 }
-.input_li .input_captcha {
+/*.input_li .input_captcha {
     width: 1.2rem;
     float: left;
 }
@@ -3022,7 +3022,7 @@ header .info span{
     margin: 0 0.1rem;
     box-shadow: 0 0 0 1px #ededed;
     background: #fafafa;
-}
+}*/
 .input_li .input_item {
     position: absolute;
     height: 0.1rem;
@@ -3047,7 +3047,7 @@ header .info span{
     color: #fff;
     height: 0.3rem;
     line-height: 0.3rem;
-    margin: 0 auto;
+    margin: 0.5rem auto;
     width: 90%;
     font-size: 0.18rem;
 }
@@ -3803,22 +3803,26 @@ span.valid-msg, label.valid-msg {
 a.box{
     display: block;
     position: absolute;
-    width: 15px;
-    height: 15px;
+    width: 0.2rem;
+    height: 0.2rem;
     border-radius: 50%;
     border: 1px solid #979797;
-    top: 11px;
-    z-index: 10; 
+    top: 0.08rem;
+    z-index: 10;
 }
-a.box i.check{
-    width: 9px;
-    height: 9px;
-    background: #6BB945;
+a.box i.check:after{
+   width: 0.21rem;
+    height: 0.21rem;
     display: block;
-    border-radius: 50%;
+    content: "\2714";
+    background: #6BB945;
     position: relative;
-    top: 3px;
-    left: 3px; 
+    top: -0.01rem;
+    left: -0.01rem;
+    color: #fff;
+    line-height: 0.21rem;
+    text-align: center;
+    border-radius: 50%;
 }
 .cart_sel ul li a.box{
     top:0.5rem;
@@ -4990,6 +4994,7 @@ span.xl3 em{
     z-index: 10;
     position: fixed;    
 }
+<<<<<<< HEAD
 
 
 /*账户明细*/
@@ -5141,4 +5146,13 @@ font-size: 0.13rem;
     margin: 0 auto;
     border-radius: 0.05rem;
     margin-top: 2rem;
+}
+/*我的收藏*/
+.jagw{
+    float: left;
+    display: block;
+    margin-top: 0.1rem;
+    color: #aaa;
+    line-height: 0.18rem;
+    height: 0.3rem;
 }

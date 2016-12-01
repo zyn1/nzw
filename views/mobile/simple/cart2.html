@@ -7,6 +7,8 @@
 {js:artTemplate}
 <!-- 确认订单js -->
 <script type='text/javascript' src='{theme:javascript/orderFormClass.js}'></script>
+<script type="text/javascript" src="{theme:javascript/order.js}"></script>
+<link rel="stylesheet" href="{skin:style/bases.css}">
 <!-- 确认订单js end-->
 <section class="cart_2">
     <!--地址管理 开始-->
@@ -81,13 +83,13 @@
     <!--  商品结束 -->
     <div class="con_order">
         <div class="cart_2_delivery">
-            <a class="info_head">
+            <a class="info_head" id="psfs">
                 <span>配送方式</span>
                 <span class="sele_info">快递</span>
             </a>
         </div>
         <div class="cart_2_delivery">
-            <a class="info_head">
+            <a class="info_head" id="pay_way">
                 <span>支付方式</span>
                 <span class="sele_info">预存款</span>
             </a>
@@ -101,7 +103,7 @@
             </div>
         </div>
         <div class="cart_2_delivery">
-            <a class="info_head">
+            <a class="info_head" href="{url:simple/invoice}">
                 <span>是否开发票</span>
                 <span class="sele_info">是</span>
                 <!-- 没有发票显示否 -->
@@ -137,6 +139,157 @@
         </div>
     </footer>
 </section>
+<div class="mask" id="mask"></div>
+<div class="peis">
+    <div class="ps_title">
+        <span><strong>配送方式</strong></span>
+        <div class="close" id="type_close"></div>
+    </div>
+    <div class="ps_select">
+    <ul>
+        <li>
+            <a class="box"><i></i></a>
+            <div class="ps_cont">
+                <span>EMS:</span>
+                <em>￥4.00</em>
+                <span>(快速邮递)</span>
+            </div>
+        </li>
+        <li>
+            <a class="box"><i></i></a>
+            <div class="ps_cont">
+                <span>EMS:</span>
+                <em>￥4.00</em>
+                <span>(快速邮递)</span>
+            </div>
+        </li>
+        <li>
+            <a class="box"><i></i></a>
+            <div class="ps_cont">
+                <span>EMS:</span>
+                <em>￥4.00</em>
+                <span>(快速邮递)</span>
+            </div>
+        </li>
+        <li>
+            <a class="box"><i></i></a>
+            <div class="ps_cont">
+                <span>EMS:</span>
+                <em>￥4.00</em>
+                <span>(快速邮递)</span>
+            </div>
+        </li>
+    </ul>
+    </div>
+    <div class="ok_button">
+        <button class="type_ok" id="type_ok">确定</button>
+    </div>
+</div>
+<!-- 支付方式 strat-->
+<div class="zf_way">
+    <div class="ps_title">
+        <span><strong>支付方式</strong></span>
+        <div class="close" id="type_close"></div>
+    </div>
+    <div class="ps_select">
+    <ul>
+        <li>
+            <a class="box"><i></i></a>
+            <div class="ps_cont">
+                <img class="img_zf" src="{skin:image/top/logo@2x.png}"/>
+                <span>预存款</span>
+            </div>
+        </li>
+        <li>
+            <a class="box"><i></i></a>
+            <div class="ps_cont">
+                <img class="img_zf" src="{skin:image/top/logo@2x.png}"/>
+                <span>支付宝</span>
+            </div>
+        </li>
+        <li>
+            <a class="box"><i></i></a>
+            <div class="ps_cont">
+                <img class="img_zf" src="{skin:image/top/logo@2x.png}"/>
+                <span>微信支付</span>
+            </div>
+        </li>
+        <li>
+            <a class="box"><i></i></a>
+            <div class="ps_cont">
+                <img class="img_zf" src="{skin:image/top/logo@2x.png}"/>
+                <span>预存款</span>
+            </div>
+        </li>
+    </ul>
+    </div>
+    <div class="ok_button">
+        <button class="type_ok" id="type_ok">确定</button>
+    </div>
+<div>
+<!-- 支付方式end -->
+<!-- 确认提交订单 strat-->
+<div class="submit_ok">
+    <div class="ps_title">
+        <div class="close" id="type_close"></div>
+        <span><strong>订单详情</strong></span>
+    </div>
+    <div class="order_del">
+        <div class="order_line">
+            <span>订单号码：</span>
+            <span>20161103110234</span>
+        </div>
+        <div class="order_line">
+            <span>支付方式：</span>
+            <span>预存款</span>
+        </div>
+        <div class="order_line">
+            <span>配送方式：</span>
+            <span>快递</span>
+        </div>
+        <div class="order_line">
+            <span>收货人：</span>
+            <span>快递</span>
+        </div>
+        <div class="order_line">
+            <span>联系方式：</span>
+            <span>18703567890</span>
+        </div>
+        <div class="order_line">
+            <span>发票信息：</span>
+            <span>增值税专票</span>
+        </div>
+    </div>
+    <div class="ok_button">
+        <button class="type_ok" id="ljzf">立即支付</button>
+    </div>
+<div>
+<!-- 确认提交订单end -->
+<!-- 支付密码 strat-->
+<div class="w_paswd">
+    <div class="ps_title">
+        <div class="close" id="type_close"></div>
+        <span><strong>请输入支付密码</strong></span>
+    </div>
+    <div class="passwd_cont ">
+        <form>
+            <div class="pass clear">
+            <input class="pas_tex" type="text"/>
+            <input class="pas_tex" type="text"/>
+            <input class="pas_tex" type="text"/>
+            <input class="pas_tex" type="text"/>
+            <input class="pas_tex" type="text"/>
+            <input class="pas_tex" type="text"/> 
+            </div>   
+            <div class="pas_but clear">
+                <button class="pas_qr">确定</button>
+                <button class="pas_qx" id="pas_xq">取消</button>
+            </div>
+
+        </form>
+    </div>
+</div>
+<!-- 支付密码 end-->
 <script>
 $(function(){
     // 隐藏底部导航
