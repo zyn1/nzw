@@ -3507,20 +3507,21 @@ span.valid-msg, label.valid-msg {
 
 .coupon_list li {
     border-bottom: 1px solid #eee;
-    height: 0.16rem;
-    line-height: 0.16rem;
+    height: 0.8rem;
     padding: 0.1rem 0.15rem;
+    color: #666;
+}
+.coupon_list li .title{
+    color: #666;
+}
+.coupon_list li .author{
+    color: #6BB945;
+    font-size: 0.12rem;padding-top: 0.3rem;
+    line-height: 0.2rem;
 }
 .coupon_list li time {
-    float: right;
-    color: #999;
+    color: #aaa;
     font-size: 0.11rem;
-}
-.coupon_list li strong {
-    font-weight: normal;
-}
-.coupon_list li em {
-    color: #f69800;
 }
 .coupon_list li i {
     display: inline-block;
@@ -3528,8 +3529,8 @@ span.valid-msg, label.valid-msg {
     color: #fff;
     padding: 0 0.05rem;
 }
-.coupon_list li:nth-child(2n) {
-    background: #fafafa;
+.coupon_list li.read .title,.coupon_list li.read .author{
+    color: #aaa;
 }
 
 .refunds_edit {
