@@ -21,9 +21,13 @@
     .chk_1 + label{
     	color: #666;
     }
-    .choice .radio{
-    	margin: 0;
-    }
+	.help_bar .set_list ul li span{
+	    width: auto;display: inline-block;
+	    text-align: left;
+	}
+	.help_bar .set_list ul li label{
+	    text-align: left;padding-left: 0.2rem;
+	}
 </style>
 <script src="{theme:javascript/style.js}"></script>
 <header class="header_box main_head">
@@ -32,7 +36,7 @@
         <div class="sear_t">
             <a href="">个人信息设置</a>
         </div>
-        <a class="qx_a" href="{url:ucenter/info_edit}">编辑</a>
+        <a class="qx_a" href="{url:ucenter/info}">完成</a>
    </div>
 </header>
 
@@ -42,37 +46,32 @@
 		<input type="hidden" name='callback' value="{$callback}" />
 			<ul>
 				<li class="upfilebox">
-					<input accept="image/*" type="file"><img src="{url:views/mobile/skin/default/image/user_ico.png}" class="user_ico"><span class="user_name">{$this->user['username']} </span>
+					<input accept="image/*" type="file"><img src="{url:views/mobile/skin/default/image/user_ico.png}" class="user_ico"><span class="user_name">{$this->user['username']}</span><i class="icon-more"></i>
 				</li>
 				<li>
-					{$this->user['username']}</li>
+					<input type="text" name="true_name" class="input_text" placeholder="请输入昵称"></li>
 	                                  <li class="choice">
 	                                  		<span>性别</span>
-	                                  		<label class="radio">女</label>   
-	                                  </li>
-	                                  <li>	               
-	                                  		<span>出生日期</span>
-	                                  		<label class="radio">2016-11-02</label> 
-	                                  </li>
-	                                  <li>	   
-	                                  		<span>固定电话</span>
-	                                  		<label class="radio">4038788</label> 
+	                                  		<label class="radio">男<input type="radio" name="sex" value="1" ><i></i></label>  
+    					<label class="radio">女<input type="radio" name="sex" value="2" checked><i></i></label>  
 	                                  </li>
 	                                  <li>	                                  		
-	                                  		<span>QQ</span>
-	                                  		<label class="radio">20161102</label> 
+					<input type="text" name="birthday" class="input_text" pattern='date' onFocus="WdatePicker()" placeholder="请输入出生日期"/>
 	                                  </li>
 	                                  <li>	                                  		
-	                                  		<span>邮编</span>
-	                                  		<label class="radio">100001</label> 
+					<input type="text" name="telephone" class="input_text" value="" pattern="" placeholder="请输入固定电话"/>
 	                                  </li>
 	                                  <li>	                                  		
-	                                  		<span>装修风格</span>
-	                                  		<label class="radio">欧美古典风</label> 
+					<input type="text" name="qq" class="input_text" value="" pattern="" placeholder="请输入QQ号"/>
 	                                  </li>
-	                                  <li>
-	                                  		<span>详细地址</span>
-	                                  		<label class="radio">北京大兴</label> 
+	                                  <li>	                                  		
+					<input type="text" name="zip" class="input_text" value="" pattern="" placeholder="请输入邮编"/>
+	                                  </li>
+	                                  <li>	                                  		
+					<input type="text" name="？？？" class="input_text" value="" pattern="" placeholder="请输入装修风格"/>
+	                                  </li>
+	                                  <li>	                                  		
+					<input type="text" name="contact_addr" class="input_text" value="" pattern="" placeholder="请输入详细地址"/>
 	                                  </li>
 				
 					<section class="input_li">
@@ -91,6 +90,14 @@
 $(function(){
 	// 内页隐藏页底导航
 	hideNav();
+	//初始化地域联动
+	var areaInstance = new areaSelect('province');
+	{if:$this->memberRow}
+	{set:$area = explode(',',trim($this->memberRow['area'],','))}
+	areaInstance.init({"province":"{$area[0]}","city":"{$area[1]}","area":"{$area[2]}"});
+	{else:}
+	areaInstance.init();
+	{/if}
 });
 
 //表单回填
