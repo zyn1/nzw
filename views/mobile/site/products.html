@@ -1,3 +1,27 @@
+<style type="text/css">
+    body{
+        background: #fff;
+    }
+</style>
+<script src="{theme:javascript/style.js}"></script>
+<header class="header_box main_head">
+    <div class="header">
+        <a class="return_a" onclick="window.history.back();"></a>
+        <div class="sear_t">
+            <a href="" class="active">商品</a>
+            <a href="">详情</a>
+            <a href="">评价</a>
+        </div>
+        <a class="a_gd"></a>
+        <div class="s_nav">
+            <ul>
+                <li><a><i class="icon-home">首页</i></a></li>
+                <li><a href="javascript:location.reload()"><i class="icon-comments-alt">消息</i></a></li>
+            </ul>
+        </div>
+   </div>
+</header>
+
 <script src="{theme:javascript/products.js}"></script>
 <script src="{theme:javascript/jquery.slider.js}"></script>
 <section class="goods_photo">
@@ -28,102 +52,69 @@
 			{if:$group_price}
 			<!--当前用户有会员价-->
 			<li>
-				会员价：<em class="price">￥<span id="data_groupPrice">{$group_price}</span></em>　
+				<em class="price">￥<span id="data_groupPrice">{$group_price}</span></em>　
 				<del class="old_price">￥<span id="data_sellPrice">{$sell_price}</span></del>
 			</li>
 
 			{else:}
 			<!--当前用户普通价格-->
 			<li>
-				销售价：<em class="price">￥<span id="data_sellPrice">{$sell_price}</span></em>
+				<em class="price">￥<span id="data_sellPrice">{$sell_price}</span></em>
+				<br>市场价：<em class="old_price">￥<span id="data_sellPrice">{$sell_price}</span></em>
 			</li>
 			{/if}
-		{/if}
-		<li>
-			商品编号：<span class="number" id="data_goodsNo">{echo:$goods_no?$goods_no:$id}</span>
-		</li>
-		<li>
-			库存：<span class="number" id="data_storeNums">{$store_nums}</span>
-		</li>
-		<li class="area_li">
-			至
-			<a class="sel_area" href="javascript:;" name="localArea">所在地区</a>：
-			<span id="deliveInfo"></span>
-			<div class="area_box none">
-				<ul>
-					<li><a data-code="1" href="#J_PostageTableCont"><strong>全部</strong></a></li>
-					{foreach:items=Api::run('getAreasListTop')}
-					<li><a href="javascript:$('.area_box').hide();" name="areaSelectButton" value="{$item['area_id']}">{$item['area_name']}</a></li>
-					{/foreach}
-				</ul>
-			</div>
-		</li>
-		<li>
-			商品重量：<span class="number">{$weight}g</span>
-		</li>
+		{/if}		
 		{if:isset($seller)}
 		{set:plugin::trigger("onServiceButton",$seller['id'])}
 		<li>
-			商家名称：<strong class="seller_name">{$seller['true_name']}</strong>
+			店铺：<strong class="seller_name">{$seller['true_name']}</strong>
 		</li>
 		<li>
-			商家所在地：<span class="seller_area">{echo:join(' ',area::name($seller['province'],$seller['city'],$seller['area']))}</span>
+			所在地：<span class="seller_area">{echo:join(' ',area::name($seller['province'],$seller['city'],$seller['area']))}</span>
 		</li>
 		<li>
 			联系客服：<a class="seller_tel" href="tel:{$seller['phone']}">{$seller['phone']}</a>
 		</li>
 		{/if}
-		<li>
-			商品评价：<span class="number">{$comments} 次</span>
-		</li>
-		<li>
-			商品销量：<span class="number">{$sale} 件</span>
-		</li>
-		{if:$this->user}
-		<li>
-			收藏商品：<span class="goods_favorite" onclick="favorite_add_ajax({$id},this);">点击收藏</span>
-		</li>
-		{/if}
-		<!-- 如果商品数量小于0 -->
-		{if:$store_nums <= 0}
-		<li>该商品已售完，不能购买，您可以看看其它商品！</li>
-		<!-- 商品数量大于0的正常情况 -->
-		{else:}
-			<!-- 如果商品有自定义参数 -->
-			{if:$spec_array}
-			{foreach:items=JSON::decode($spec_array)}
-			<li>
-				<dl class="goods_tags" name="specCols">
-					<dt>{$item['name']}：</dt>
-					<dd>
-						{set:$specVal=explode(',',trim($item['value'],','))}
-						{foreach:items=$specVal item=$spec_value}
-						{if:$item['type'] == 1}
-						<span specName="{$item['name']}" specId="{$item['id']}" specData="{$spec_value}">
-							{$spec_value}
-						</span>
-						{else:}
-						<span class="img_tags" specName="{$item['name']}" specId="{$item['id']}" specData="{$spec_value}">
-							<img src="{webroot:$spec_value}">
-						</span>
-						{/if}
-						{/foreach}
-					</dd>
-				</dl>
-			</li>
-			{/foreach}
-			{/if}
-			<!-- 购买数量调整 -->
-			<li>
-				<div class="goods_num_adjust">
-					<span id="buyReduceButton">-</span>
-					<input type='text' id="buyNums" onblur="checkBuyNums();" value="1">
-					<span id="buyAddButton">+</span>
-				</div>
-			</li>
-		{/if}
 	</ul>
-	<!-- <a class="read_more" href="{url:/site/pro_detail/id/$id}">查看商品详情</a> -->
+	<div class="cut"></div>
+	<ul>
+		<li >产品参数</li>
+		<li class="line"></li>
+		<li class="pro_type" id="pro_type">
+			选择：<span >大号、米色、圆木墩</span>
+		</li>
+	</ul>
+	<div class="cut"></div>
+	<ul>
+		<li >商品评价（{$comments} ）<i class="icon-more"></i></li>
+		<li class="line"></li>
+		<li class="pro_view">
+			<p><img src=""><span >一米阳光</span><span class="view-time">2016-10-17</span></p>
+			<p>很好看啊！！</p>
+		</li>
+		<li class="line"></li>
+	</ul>
+	<ul>
+		<li >我的足迹</li>
+		<li class="pro_foot">
+			<img src="">
+			<p class="pro_name">{$name}</p>
+			<p class="price">{$sell_price}</p>
+		</li>
+		<li class="pro_foot">
+			<img src="">
+			<p class="pro_name">{$name}</p>
+			<p class="price">{$sell_price}</p>
+		</li>
+		<li class="pro_foot">
+			<img src="">
+			<p class="pro_name">{$name}</p>
+			<p class="price">{$sell_price}</p>
+		</li>
+	</ul>
+	<div class="clear"></div>
+	
 </section>
 <section class="pro_tab">
 	<ul>
@@ -188,26 +179,132 @@
 	<ul class="btn_ico">
 		<li>
 			<a href="{url:/}">
-				<i class="icon-home"></i>
-				<span>首页</span>
+				<i class="icon-kefu"></i>
 			</a>
 		</li>
 		<li>
-			<a href="{url:/simple/cart}">
-				<i class="icon-shopping-cart"></i>
-				<span>购物车</span>
+			<a href="{url:/}">
+				<i class="icon-guanzhu"></i>
+			</a>
+		</li>
+		<li>
+			<a href="{url:/simple/cart}" id="joinCarButton">
+				<i class="icon-jiarugouwuche"></i>
 			</a>
 		</li>
 	</ul>
 	<div class="btn_tab">
+		
 		<span id="buyNowButton" class="btn_tab_submit pink">立即购买</span>
-		<span id="joinCarButton" class="btn_tab_submit blue">加入购物车</span>
+	</div>
+</div>
+<div class="mask" id="mask"></div>
+<div class="goods_chose">
+	<img class="goods_pic" src="{url:/pic/thumb/img/$item[img]/w/350/h/350}">
+	<em class="price">￥<span id="data_sellPrice">{$sell_price}</span></em>
+	<em class="num">库存<span id="data_sellPrice">{$store_nums}</span>件</em>
+	<div class="close" id="type_close"></div>
+	<div class="type">
+		<ul>
+			<li>颜色</li>
+			<li class="active">米色</li>
+			<li>橘黄色</li>
+		</ul>
+		<ul>
+			<li>尺寸</li>
+			<li class="active">25X15</li>
+			<li>25X18</li>
+			<li>25X25</li>
+			<li>25X30</li>
+			<li class="active">25X15</li>
+			<li>25X18</li>
+			<li>25X25</li>
+			<li>25X30</li>
+			<li class="active">25X15</li>
+			<li>25X18</li>
+			<li>25X25</li>
+			<li>25X30</li>
+			<li class="active">25X15</li>
+			<li>25X18</li>
+			<li>25X25</li>
+			<li>25X30</li>
+			<li class="active">25X15</li>
+			<li>25X18</li>
+			<li>25X25</li>
+			<li>25X30</li>
+		</ul>
+		<ul>
+			<li style="width:94%;">数量<div class="num_add"><span  onclick="numDec()">-</span>&nbsp;<input type="text" id="quantity" readOnly="true" value="1"/>&nbsp;<span onclick="numAdd()">+</span></div></li>
+		</ul>
+		<div style="height:0.4rem;"></div>
+		<div class="ok_button">
+			<button class="type_ok" id="type_ok">确定</button>
+		</div>
 	</div>
 </div>
 
 
 
 <script>
+// 点击打开关闭规格页
+$(document).ready(function(){
+  $("#type_close,#type_ok,#mask,#joinCarButton,#buyNowButton").click(function(){
+    var goods_chose=$(".goods_chose");
+    var ok_button=$(".ok_button");
+    var mask=$(".mask");
+    goods_chose.animate({bottom: '-4.2rem'},"slow");
+    ok_button.animate({bottom: '-4.3rem'},"slow");
+    mask.fadeOut(300);
+  });
+  $("#type_ok").click(function(){alert("添加成功，在购物车等亲~")});
+  $("#pro_type").click(function(){
+    var goods_chose=$(".goods_chose");
+    var ok_button=$(".ok_button");
+    var mask=$(".mask");
+    goods_chose.animate({bottom: '0rem'},"slow");
+    ok_button.animate({bottom: '0.1rem'},"slow");
+    mask.fadeIn(300);
+  });
+});
+
+// 数量加减JS
+$(function(){
+ $("#quantity").keyup(function(){
+  if(isNaN($(this).val()) || parseInt($(this).val())<1){
+   $(this).val("1");
+   $("#totalPrice").html($("#price").val());
+   return;
+  }
+  var total = parseFloat($("#price").val())*parseInt($(this).val());
+  $("#totalPrice").html(total.toFixed(2));
+ })
+
+})
+
+/*商品数量+1*/
+function numAdd(){
+ var num_add = parseInt($("#quantity").val())+1;
+ if($("#quantity").val()==""){
+  num_add = 1;
+ }
+ $("#quantity").val(num_add);
+ var total = parseFloat($("#price").val())*parseInt($("#quantity").val());
+ $("#totalPrice").html(total.toFixed(2));
+}
+/*商品数量-1*/
+function numDec(){
+ var num_dec = parseInt($("#quantity").val())-1;
+ if(num_dec<1){
+  //购买数量必须大于或等于1
+  alert("购买数量必须大于或等于1");
+ }else{
+  $("#quantity").val(num_dec);
+  var total = parseFloat($("#price").val())*parseInt($("#quantity").val());
+  $("#totalPrice").html(total.toFixed(2));
+ }
+}
+
+
 $(function(){
 	// 设置焦点图
     $(".goods_photo").MobileSlider({

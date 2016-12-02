@@ -1,0 +1,141 @@
+<script src="{theme:javascript/style.js}"></script>
+<link rel="stylesheet" href="{skin:style/bases.css}">
+<header class="header_login">
+	<div class="header_title">
+		<a class="return_a"onclick="window.history.back();"></a>
+		<h2>我的订单</h2>
+	</div>
+</header>
+<section class="order_top">
+	<ul class="order_tit">
+		<li><a herf="{url:ucenter/order}">全部</a></li>
+		<li><a class="on" herf="{url:ucenter/order_dfk}">待付款</a></li>
+		<li><a herf="{url:ucenter/order_dfh}">待发货</a></li>
+		<li><a herf="{url:ucenter/order_dsh}">待收货</a></li>
+		<li><a herf="{url:ucenter/order_dpj}">待评价</a></li>
+	</ul>
+</section>
+<section class="user_order cart_list">
+{set:$user_id = $this->user['user_id']}
+    {set:$queryOrderList = Api::run('getOrderList',$user_id)}
+    {set:$orderList = $queryOrderList->find()}
+    {if:$orderList}
+	<div class="cart_sel">
+		<div class="cart_goods">
+			<div class="cart_title">
+				<a class="sel_all box"><i></i></a>
+				<div class="name">
+					<span class="sel_name">七彩云小铺</span>
+					<span class="sel_cz sel_cz_bj">代付款</span>
+				</div>
+			</div>
+			<ul>
+				<li>
+					<a class="checkbox box"><i></i></a>
+					<div class="cart_list_goods">
+					<a class="clear">
+						<div class="cart_list_photo"><img src="{skin:image/top/gouwuche_kong@2x.png}" alt="{$item['name']}"></div>
+						<div class="cart_list_info">
+							<h3 class="cart_list_info_title">奇异小家</h3>
+							<p class="cart_list_info_info">
+								颜色分类:黄色
+							</p>
+							<p class="cart_list_info_price ">
+								<em>￥29</em>
+								<del class="old_price">￥59</del>
+							</p>
+						</div>
+						<div class="good_num">×3</div>
+						</a>
+					</div>
+				</li>
+				<li>
+					<a class="checkbox box"><i></i></a>
+					<div class="cart_list_goods">
+					<a class="clear">
+						<div class="cart_list_photo"><img src="{skin:image/top/gouwuche_kong@2x.png}" alt="{$item['name']}"></div>
+						<div class="cart_list_info">
+							<h3 class="cart_list_info_title">奇异小家</h3>
+							<p class="cart_list_info_info">
+								颜色分类:黄色
+							</p>
+							<p class="cart_list_info_price ">
+								<em>￥29</em>
+								<del class="old_price">￥59</del>
+							</p>
+						</div>
+						<div class="good_num">×3</div>
+						</a>
+					</div>
+				</li>
+			</ul>
+			<div class="good_price">
+				共1件商品&nbsp;合计：￥98.00（含运费￥0.00）
+			</div>
+			<div class="good_an">
+				<a class="quoder" href="">取消订单</a>
+				<a class="ljpay" href="">立即支付</a>
+			</div>
+		</div>
+	</div>
+<!-- 
+底部结算 -->
+<footer class="cart_footer">
+	<div class="cart_footer_fixed">
+		<ul>
+			<li><a class="box_all box"><i></i></a>&nbsp;全选</li>
+			<li></li>
+			<li></li>
+			<li><span class="buy btn_pay" id="btn_pay">合并付款</span></li>
+		</ul>
+	</div>
+</footer>
+
+	{else:}
+	<div class="nodata">
+		<img src="{skin:image/top/orderempty.png}"/>
+		您的订单为空，去逛逛！
+	</div>
+	<!-- 热门商品 -->
+<section class="hot_googs">
+	<div class="hot_title">热门商品</div>
+	<ul class="hot_ul clear">
+		<li>
+			<a>
+				<img src="{skin:image/top/gouwuche_kong@2x.png}"/>
+				<div class="good_name">合木威廉 三层实木 地板</div>
+				<em>￥500.00</em>
+			</a>
+		</li>
+		<li>
+			<a>
+				<img src="{skin:image/top/gouwuche_kong@2x.png}"/>
+				<div class="good_name">合木威廉 三层实木 地板</div>
+				<em>￥500.00</em>
+			</a>
+		</li>
+		<li>
+			<a>
+				<img src="{skin:image/top/gouwuche_kong@2x.png}"/>
+				<div class="good_name">合木威廉 三层实木 地板</div>
+				<em>￥500.00</em>
+			</a>
+		</li>
+		<li>
+			<a>
+				<img src="{skin:image/top/gouwuche_kong@2x.png}"/>
+				<div class="good_name">合木威廉 三层实木 地板</div>
+				<em>￥500.00</em>
+			</a>
+		</li>
+	</ul>
+</section>
+    {/if}
+</section>
+
+
+<script>
+$(function(){
+	hideNav()
+})
+</script>

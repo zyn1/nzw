@@ -1,10 +1,36 @@
 {set:$favoriteObj = Api::run('getFavorite',$this->user['user_id'],IReq::get('cat_id'));$favoriteList = $favoriteObj->find()}
-<div id="pageInfo" data-title="我的收藏"></div>
+<script src="{theme:javascript/style.js}"></script>
+<header class="header_login">
+	<div class="header_title">
+		<a class="return_a"onclick="window.history.back();"></a>
+		<h2>我的收藏</h2>
+		<a class="a_gd"></a>
+        <div class="s_nav">
+        	<div class="c-tip-arrow" style="left: 30px;"><em></em><ins></ins></div>
+            <ul>
+                <li><a>首页</a></li>
+                <li><a href="javascript:location.reload()">刷新</a></li>
+            </ul>
+        </div>
+	</div>
+</header>
 {if:$favoriteList}
 <section class="goods_list">
 	<ul>
 		{foreach:items=$favoriteList}
 		<li>
+            <a class="clear" href="{url:/site/products/id/$item['goods_id']}">
+                <i class="photo"><img class="goods_photo" src="{url:/pic/thumb/img/$item[img]/w/140/h/140}" alt="{$item['name']}"></i>
+                <div class="name_price">
+                    <h3 class="name"><strong>{$item['name']}</strong></h3>
+                    
+                    <em class="price">￥{$item['sell_price']}</em>
+                    <span class="jagw">加入购物车</span>
+                    <span class="xl" onclick="delModel({link:'{url:/ucenter/favorite_del/id/$item[id]}',msg:'是否取消收藏？'});">删除</span>
+                </div>
+            </a>                
+        </li>
+		<!-- <li>
 			<a href="{url:/site/products/id/$item['goods_id']}">
 				<i class="photo">
 					<img class="goods_photo" src="{url:/pic/thumb/img/$item[img]/w/140/h/140}" alt="{$item['name']}">
@@ -14,7 +40,7 @@
 			<del class="del" onclick="delModel({link:'{url:/ucenter/favorite_del/id/$item[id]}',msg:'是否取消收藏？'});">
 				取消收藏
 			</del>
-		</li>
+		</li> -->
 		{/foreach}
 	</ul>
 </section>

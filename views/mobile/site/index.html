@@ -1,6 +1,38 @@
+<style type="text/css">
+    .header_box{
+        height: 0.73rem;
+    }
+</style>
+ <!-- 顶部通栏 -->
+    <header class="header_box">
+        <div class="header">
+            {if:IWeb::$app->getController()->getId() == 'site' && IWeb::$app->getController()->getAction()->getId() == 'index'}
+            <a class="header_home" tel=""><i class="icon-phone"></i></a>
+            {else:}
+            <div class="header_back" onclick="window.history.back();"><i class="icon-chevron-left"></i></div>
+            {/if}
+            <a class="header_search" href="{url:site/search}">
+                <i class="serch_a icon-search"></i>请输入您要搜索的内容
+            </a>
+            <a class="header_so_btn"><i class="icon-comment-alt"></i>
+                 <!--<i class="icon-comments-alt"></i> 有消息显示此图标 -->
+            </a>
+        </div>
+    </header>
 <script src="{theme:javascript/jquery.slider.js}"></script>
+<script>
+$(function() {
+    // 设置首页导航为当前
+    $(".nav_home").addClass('on');
+    // 设置焦点图
+    $(".home_banner").MobileSlider({
+        width: 720,
+        height: 360
+    });
+})
+</script>
 <!--幻灯片 开始-->
-<div class="home_banner">
+<div class="home_banner" style="height:145px;">
     {if:$this->index_slide}
     <ul>
         {foreach:items=$this->index_slide}
@@ -14,77 +46,153 @@
 <!-- 首页菜单 -->
 <nav class="home_nav">
     <ul>
-        <li class="map"><a href="{url:site/sitemap}"><i class="icon-th-list"></i><span>全部分类</span></a></li>
-        <li class="cart"><a href="{url:simple/cart}"><i class="icon-shopping-cart"></i><span>购物车</span></a></li>
-        <li class="groupon"><a href="{url:site/groupon}"><i class="icon-legal"></i><span>今日团购</span></a></li>
-        <li class="favorite"><a href="{url:ucenter/favorite}"><i class="icon-star"></i><span>我的收藏</span></a></li>
+        <li class="map"><a href="{url:site/sitemap}"><i class="icon-th-list"></i><span>充值</span></a></li>
+        <li class="cart"><a href="{url:simple/cart}"><i class="icon-shopping-cart"></i><span>家装知识</span></a></li>
+        <li class="groupon"><a href="{url:site/groupon}"><i class="icon-legal"></i><span>商城公告</span></a></li>
+        <li class="custom"><a href="{url:ucenter/favorite}"><i class="icon-star"></i><span>在线客服</span></a></li>
+        <li class="favorite"><a href="{url:ucenter/favorite}"><i class="icon-star"></i><span>收藏</span></a></li>
     </ul>
 </nav>
 {echo:Ad::show("首页顶部通栏100%*120(mobile)")}
 <!-- 首页推荐商品列表 -->
-<h2 class="home_title"><i class="icon-gift"></i><strong>商品推荐</strong></h2>
+<h2 class="home_title">
+    <strong>商家推荐</strong>
+    <a class="more_a" href="{url:/site/search_list_seller}">更多</a>
+</h2>
 <section class="home_goods">
     <ul>
-        {foreach:items = Api::run('getCommendRecom')}
+        {foreach:items=Api::run('getRecommendSeller',6)}
         <li>
-            <a href="{url:/site/products/id/$item[id]}">
-                <img src="{url:/pic/thumb/img/$item[img]/w/300/h/300}" alt="{$item['name']}">
-                <span>{$item['name']}</span>
+            <a href="{url:/site/home/id/$item['id']}">
+                <img src="{webroot:}{$item['seller_logo']}">
             </a>
         </li>
         {/foreach}
     </ul>
 </section>
 
-{echo:Ad::show("首页中部通栏100%*200(mobile)")}
 
-<!-- 首页顶级栏目分类 -->
-<h2 class="home_title"><i class="icon-list"></i><strong>畅销商品分类</strong></h2>
-<nav class="home_goods_nav">
+<h2 class="home_title">
+    <strong>特价商品</strong>
+    <a class="more_a" href="{url:/site/search_list_seller}">更多</a>
+</h2>
+<section class="home_goods">
+    <div class="goods_l">
+        <ul>
+            <li>
+                <a href="">
+                <img src="">
+                <div class="good_name">合木威廉 三层实木 地板</div>
+                <em>￥200.00</em>
+                </a>
+            </li>
+            <li>
+                <a href="">
+                <img src="">
+                <div class="good_name">合木威廉 三层实木 地板</div>
+                <em>￥200.00</em>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="goods_r">
+        <ul>
+            <li>
+                <a>
+                <img src="">
+                <p class="good_name">合木威廉 三层实木 地板合木威廉 三层实木 地板</p>
+                <em>￥200.00</em>
+                </a>
+            </li>
+            <li>
+                <a href="">
+                <img src="">
+                <p class="good_name">合木威廉 三层实木 地板</p>
+                <em>￥200.00</em>
+                </a>
+            </li>
+            <li>
+                <a href="">
+                <img src="">
+                <p class="good_name">合木威廉 三层实木 地板</p>
+                <em>￥200.00</em>
+                </a>
+            </li>
+            <li>
+                <a href="">
+                <img src="">
+                <p class="good_name">合木威廉 三层实木 地板</p>
+                <em>￥200.00</em>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+</section>
+<!-- 分类商品 end-->
+<script src='{theme:javascript/swiper.min.js}'></script>
+<script src='{theme:javascript/fl.js}'></script>
+<link rel="stylesheet" href="{skin:style/swiper.min.css}">
+<div class="swiper-container swiper-container-horizontal head">
+     <div class="swiper-wrapper" id="box1">
+        <div class="swiper-slide active">基础建材</div>
+        <div class="swiper-slide">瓷石地板</div>
+        <div class="swiper-slide">门窗</div>
+        <div class="swiper-slide">橱柜卫浴</div>
+        <div class="swiper-slide">家具电器</div>
+        <div class="swiper-slide">软装家饰</div>
+    </div>
+</div>
+<div class="swiper-container panel home_goods">
+    <section class="swiper-wrapper">
+        <div class="swiper-slide">
+           <ul>
+                <li>
+                    <a href="">
+                        <img src="">
+                        <div class="good_name">{$item['name']}</div>
+                        <em>￥{$item['sell_price']}</em>
+                    </a>
+                </li>
+                <li>
+                    <a href="">
+                        <img src="">
+                        <div class="good_name">{$item['name']}</div>
+                        <em>￥{$item['sell_price']}</em>
+                    </a>
+                </li>
+            </ul>
+            <div class="look_gd"><a>查看更多</a></div>
+        </div>
+        <div class="swiper-slide">22222222222222</div>
+        <div class="swiper-slide">33333333333333</div>
+        <div class="swiper-slide">44444444444444</div>
+        <div class="swiper-slide">55555555555555</div>
+        <div class="swiper-slide">66666666666666</div>
+    </section>
+</div>
+<!-- 分类商品 end-->
+<h2 class="home_title" id="like_top">
+    <strong>猜你喜欢</strong>
+    <a class="more_a" href="">更多</a>
+</h2>
+<section class="home_goods">
     <ul>
-        {foreach:items=Api::run('getCategoryListTop') item=$first }
-        <li><a href="{url:/site/pro_list/cat/$first[id]}">{$first['name']}</a><i class="icon-chevron-right"></i></li>
-        {/foreach}
+        <li>
+            <a href="">
+                <img src="">
+                <div class="good_name">{$item['name']}</div>
+                <em>￥{$item['sell_price']}</em>
+            </a>
+        </li>
+        <li>
+            <a href="">
+                <img src="">
+                <div class="good_name">{$item['name']}</div>
+                <em>￥{$item['sell_price']}</em>
+            </a>
+        </li>
     </ul>
-</nav>
-
-<section class="home_slogan">
-    <ol>
-        <li>
-            <i class="icon-truck"></i>
-            <p>
-                <strong>免费送货与退货</strong>
-                <br>
-                <span>所有订单超过200免费送货。</span>
-            </p>
-        </li>
-        <li>
-            <i class="icon-jpy"></i>
-            <p>
-                <strong>退款保证</strong>
-                <br>
-                <span>100%退款保证。</span>
-            </p>
-        </li>
-        <li>
-            <i class="icon-phone"></i>
-            <p>
-                <strong>在线支持 24/7</strong>
-                <br>
-                <span>客服7*24小时在线。</span>
-            </p>
-        </li>
-    </ol>
 </section>
 
-<script>
-$(function() {
-    // 设置首页导航为当前
-    $(".nav_home").addClass('on');
-    // 设置焦点图
-    $(".home_banner").MobileSlider({
-        width: 720,
-        height: 360
-    });
-})
-</script>

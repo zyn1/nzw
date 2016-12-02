@@ -1,0 +1,97 @@
+<style type="text/css">
+    body{
+        background: #fff;
+    }
+</style>
+<script src="{theme:javascript/style.js}"></script>
+<header class="header_box">
+    <div class="header">
+        <a class="return_a" onclick="window.history.back();"></a>
+        <div class="sear_t">
+            <form action="">
+                <input type="text" class="text" placeholder="输入关键词"/>
+            </form>
+        </div>
+        <a class="a_gd"></a>
+        <div class="s_nav">
+            <ul>
+                <li><a>首页</a></li>
+                <li><a href="javascript:location.reload()">刷新</a></li>
+            </ul>
+        </div>
+   </div>
+</header>
+{js:areaSelect}
+<aside class="goods_sort">
+    {foreach:items=search_seller::getOrderType()}
+    <span class="sort_btn" onclick="{echo:search_goods::searchUrl(array('order','by'),array($key,search_goods::getOrderBy($key)))}">{$item}<i class="down_a"></i></span>
+    {/foreach}
+</aside>
+<section class="goods_list">
+    {if:$this->word}
+        {set:$defaultWhere = array('search' => $this->word)}
+        {set:$queryObj = search_seller::find($defaultWhere,20);$resultData = $queryObj->find();}
+        {else:}
+        {set:$queryObj=Api::run('getSellerList');$resultData=$queryObj->find()}
+        {/if}
+        {if:$resultData}
+    <ul>
+          {foreach:items=$resultData}
+        <li>
+            <a class="clear" href="{url:/site/home/id/$item['id']}">
+               <i class="sellers_i"><img class="sellers_photo" src="{webroot:}{$item['seller_logo']}" alt="{$item['true_name']}"></i>
+                <div class="name_price">
+                    <h3 class="seller_name"><strong>{$item['true_name']}</strong></h3>
+                    <p class="se_m_g">主营商品：{$item['sales']}</p>
+                    <p class="se_m_g">所在地：{echo:join(' ',area::name($item['province'],$item['city'],$item['area']))}</p>
+                </div>
+                <div class="sellers_xl">
+                    <span class="xl1">销量898</span>
+                    <span class="xl2">共898件宝贝</span>
+                    <span class="xl3">好评率：<em>99.8%</em></span>
+                </div>
+            </a>
+            
+        </li>
+        {/foreach}
+    </ul>
+</section>
+<div class="down_g">下拉加载更多</div>
+<!-- <div class="down_g">没有更多数据</div> -->
+<!-- {$goodsObj->getPageBar()} -->
+{else:}
+<p class="no_tip">
+    对不起，当前系统没有商家
+</p>
+{/if}
+
+<script>
+$(function(){
+    // 隐藏底部导航
+    hideNav();
+
+    // 切换导航样式
+    var order = getUrlParam("order");
+    var sortBtn = $(".goods_sort").children('.sort_btn');
+    sortBtn.eq(2).append('<i>');
+    if(order=="sale"){
+        sortBtn.eq(0).addClass('on').append('<i class="icon-angle-down"></i>');
+    }else if (order=="sale_toggle"){
+        sortBtn.eq(0).addClass('on').append('<i class="icon-angle-up"></i>');
+    }else if (order=="cpoint"){
+        sortBtn.eq(1).addClass('on').append('<i class="icon-angle-down"></i>');
+    }else if(order=="cpoint_toggle"){
+        sortBtn.eq(1).addClass('on').append('<i class="icon-angle-up"></i>');
+    }else if(order=="price"){
+        sortBtn.eq(2).addClass('on').append('<i class="icon-angle-down"></i>');
+    }else if(order=="price_toggle"){
+        sortBtn.eq(2).addClass('on').append('<i class="icon-angle-up"></i>');
+    }else if(order=="new"){
+        sortBtn.eq(3).addClass('on').append('<i class="icon-angle-down"></i>');
+    }else if(order=="new_toggle"){
+        sortBtn.eq(3).addClass('on').append('<i class="icon-angle-up"></i>');
+    }else{
+        sortBtn.eq(0).addClass('on').append('<i class="icon-angle-down"></i>');
+    };
+});
+</script>

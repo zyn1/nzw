@@ -1,22 +1,198 @@
 
+ <header class="header_box">
+        <div class="header">
+            <a class="header_search search_wid" href="{url:site/search}">
+                <i class="serch_a icon-search"></i>请输入您要搜索的内容
+            </a>
+        </div>
+    </header>
 <div id="pageInfo" data-title="分类浏览"></div>
 <!--分类信息 开始-->
+<script src='{theme:javascript/iscroll.js}'></script>
+<link rel="stylesheet" href="{skin:style/catalog.css}">
 
-<section class="map_list">
-	{foreach:items=Api::run('getCategoryListTop') item=$first }
-	<dl>
-		<dt><a href="{url:/site/pro_list/cat/$first[id]}">{$first['name']}</a></dt>
-		<dd>
-			{foreach:items=Api::run('getCategoryByParentid',array('#parent_id#',$first['id'])) item=$second}
-			<a href="{url:/site/pro_list/cat/$second[id]}">{$second['name']}</a>
-			{/foreach}
-		</dd>
-	</dl>
-	{/foreach}
-</section>
+<script type="text/javascript">
+	var myScroll,myScrollri;
+	var $ulLeft;var cataId = 0;
+	
+	function pullUpAction () {
+		setTimeout(function () {
+			myScrollri.refresh();
+		}, 500);
+	}
 
+	/**
+	 * 初始化iScroll控件
+	 */
+	function loaded() {
+		$ulLeft = $("#con_left");
+		myScroll = new IScroll("#con_left",{
+			mouseWheel: true,
+			click: true,
+			preventDefault: false,
+			preventDefaultException: { tagName: /^(INPUT|TEXTAREA|BUTTON|SELECT|A)$/ }
+		})
+		myScrollri = new IScroll("#con_right",{
+			mouseWheel: true, click: true
+		})
+		$('.job_sub li').eq(0).click();
+		
+	}
+	//初始化绑定iScroll控件 
+	document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);
+	document.addEventListener('DOMContentLoaded', loaded, false);
+	/* 切换内容*/
+   $(function(){
+   	/*$('.job_sub li').each(function(i){
+   		$(this).addClass("")
+   	})*/
+  	$('.job_sub li').click(function(){
+        $(this).addClass('off').siblings().removeClass('off');
+        var str = "#con_left li:nth-child("+($(this).index()+1)+")";
+        setTimeout(function () {
+        	myScroll.scrollToElement(document.querySelector(str));
+        }, 300);
+       /* cataId = $(this).attr("data-cataId");*/
+        cataId = $(this).index();
+        $('.fr_ite_'+$(this).index()).removeClass('disp').siblings().addClass('disp');
+        pullUpAction();
+        myScrollri.scrollTo(0,0,100, IScroll.utils.ease.elastic);
+    });
+  });
+</script>
 <script>
 $(function(){
+   // 设置首页导航为当前
 	$(".nav_map").addClass('on')
 })
 </script>
+
+<section class="map_list clear">
+	<div class="l_left" id="con_left">
+		<ul class="job_sub" id="scroller1">
+	        		<li class="off"><a>手机/配件</a></li>
+			<li class=""><a>电脑办公</a></li>
+			<li class=""><a>数码智能</a></li>
+			<li class=""><a >潮流服装</a></li>
+			<li class=""><a >饰品配饰</a></li>
+			<li class=""><a>妈咪宝贝</a></li>
+			<li class=""><a >舒适内衣</a></li>
+			<li class=""><a >礼品箱包</a></li>
+			<li class=""><a >时尚鞋靴</a></li>
+			<li class=""><a >运动户外</a></li>
+			<li class=""><a>丽人美妆</a></li>
+			<li class=""><a>玩具乐器</a></li>
+			<li class=""><a >食品饮料</a></li>
+			<li class=""><a>智能家电</a></li>
+			<li class=""><a>品质钟表</a></li>
+			<li class=""><a>家居日用</a></li>
+		</ul>
+	</div>
+	 <div class="l_right" id="con_right">
+		<!-- 三级  -->
+		<div class="fr_ite">
+			<ul>
+				<li>
+					<div class="ft_name">上水管</div>
+					<div class="ft_img clear">
+						<a><img src="{skin:image/top/logo@2x.png}"/></a>
+						<a><img src="{skin:image/top/logo@2x.png}"/></a>
+						<a><img src="{skin:image/top/logo@2x.png}"/></a>
+					</div>
+				</li>
+				<li>
+					<div class="ft_name">上水管</div>
+					<div class="ft_img clear">
+						<a><img src="{skin:image/top/logo@2x.png}"/></a>
+						<a><img src="{skin:image/top/logo@2x.png}"/></a>
+						<a><img src="{skin:image/top/logo@2x.png}"/></a>
+					</div>
+				</li>
+				<li>
+					<div class="ft_name">上水管</div>
+					<div class="ft_img clear">
+						<a><img src="{skin:image/top/logo@2x.png}"/></a>
+						<a><img src="{skin:image/top/logo@2x.png}"/></a>
+						<a><img src="{skin:image/top/logo@2x.png}"/></a>
+					</div>
+				</li>
+				<li>
+					<div class="ft_name">上水管</div>
+					<div class="ft_img clear">
+						<a><img src="{skin:image/top/logo@2x.png}"/></a>
+						<a><img src="{skin:image/top/logo@2x.png}"/></a>
+						<a><img src="{skin:image/top/logo@2x.png}"/></a>
+					</div>
+				</li>
+				<li>
+					<div class="ft_name">上水管</div>
+					<div class="ft_img clear">
+						<a><img src="{skin:image/top/logo@2x.png}"/></a>
+						<a><img src="{skin:image/top/logo@2x.png}"/></a>
+						<a><img src="{skin:image/top/logo@2x.png}"/></a>
+					</div>
+				</li>
+				<li>
+					<div class="ft_name">上水管</div>
+					<div class="ft_img clear">
+						<a><img src="{skin:image/top/logo@2x.png}"/></a>
+						<a><img src="{skin:image/top/logo@2x.png}"/></a>
+						<a><img src="{skin:image/top/logo@2x.png}"/></a>
+					</div>
+				</li>
+			</ul>
+		</div>
+		<div class="fr_ite">
+			<ul>
+				<li>
+					<div class="ft_name">下水管</div>
+					<div class="ft_img clear">
+						<a><img src="{skin:image/top/logo@2x.png}"/></a>
+						<a><img src="{skin:image/top/logo@2x.png}"/></a>
+						<a><img src="{skin:image/top/logo@2x.png}"/></a>
+					</div>
+				</li>
+				<li>
+					<div class="ft_name">上水管</div>
+					<div class="ft_img clear">
+						<a><img src="{skin:image/top/logo@2x.png}"/></a>
+						<a><img src="{skin:image/top/logo@2x.png}"/></a>
+						<a><img src="{skin:image/top/logo@2x.png}"/></a>
+					</div>
+				</li>
+				<li>
+					<div class="ft_name">上水管</div>
+					<div class="ft_img clear">
+						<a><img src="{skin:image/top/logo@2x.png}"/></a>
+						<a><img src="{skin:image/top/logo@2x.png}"/></a>
+						<a><img src="{skin:image/top/logo@2x.png}"/></a>
+					</div>
+				</li>
+				<li>
+					<div class="ft_name">上水管</div>
+					<div class="ft_img clear">
+						<a><img src="{skin:image/top/logo@2x.png}"/></a>
+						<a><img src="{skin:image/top/logo@2x.png}"/></a>
+						<a><img src="{skin:image/top/logo@2x.png}"/></a>
+					</div>
+				</li>
+				<li>
+					<div class="ft_name">上水管</div>
+					<div class="ft_img clear">
+						<a><img src="{skin:image/top/logo@2x.png}"/></a>
+						<a><img src="{skin:image/top/logo@2x.png}"/></a>
+						<a><img src="{skin:image/top/logo@2x.png}"/></a>
+					</div>
+				</li>
+				<li>
+					<div class="ft_name">上水管</div>
+					<div class="ft_img clear">
+						<a><img src="{skin:image/top/logo@2x.png}"/></a>
+						<a><img src="{skin:image/top/logo@2x.png}"/></a>
+						<a><img src="{skin:image/top/logo@2x.png}"/></a>
+					</div>
+				</li>
+			</ul>
+		</div>
+	</div>
+</section>

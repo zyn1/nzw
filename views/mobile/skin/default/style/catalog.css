@@ -1,0 +1,69 @@
+.l_left {
+    position: absolute;
+    top: 0.85rem;
+    left: 0;
+    width: 25%;
+    bottom: 0.71rem;
+    overflow: hidden;
+    background: #fff;
+}
+.l_left ul.job_sub li {
+    line-height: 0.6rem;
+    text-align: center;
+    background: #fff;
+
+}
+.l_left ul.job_sub li a {
+    color: #656565;
+    display: block;
+    font-size: 0.14rem;
+    padding: 0 0.04rem 0 0.04rem;
+    text-align: center;
+    border: 1px solid #e8e8e8;
+    border-top: none;
+}
+.l_left ul.job_sub li.off a {
+    color: #6BB945;
+    display: block;
+    text-align: center;
+    border: 1px solid #e8e8e8;
+    border-left: 4px solid #6bb945;
+}
+.l_left ul.job_sub li.off:first-child a {
+    border-top: none;
+}
+.l_left ul.job_sub li:last-child a {
+    border-bottom: 1px solid #e5e5e5;
+}
+.l_right {
+    position: absolute;
+    top: 0.85rem;
+    right: 0;
+    background: #fff;
+    width: 75%;
+    bottom: 0.71rem;
+    overflow: hidden;
+}
+.l_right .fr_ite li .ft_name{
+	height: 0.5rem;
+	line-height: 0.5rem;
+	color: #656565;
+}
+.l_right .fr_ite{
+	padding: 0 0.2rem;
+}
+.l_right .fr_ite ul li .ft_img a{
+	display: block;
+	float: left;
+	width: 30%;
+	border: 1px solid #DBDBDB;
+}
+.fr_ite ul li .ft_img a:nth-child(2){
+	margin: 0 3%;
+}
+.fr_ite ul li .ft_img a img{
+	width: 100%;
+}
+.disp{
+	display: none;
+}
