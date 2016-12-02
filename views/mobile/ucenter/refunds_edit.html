@@ -1,10 +1,20 @@
-<div id="pageInfo" data-title="申请退款"></div>
+<header class="header_login">
+	<div class="header_title">
+		<a class="return_a"onclick="window.history.back();"></a>
+		<h2>申请售后</h2>
+	</div>
+</header>
 <form action="{url:/ucenter/refunds_update}" method="post" callback="checkForm();">
+
 	<input type="hidden" name="order_id" value="{$this->orderRow['id']}" />
 	<section class="refunds_edit">
 		<div class="base">
 			<strong>订单号：</strong>
 			<span>{$this->orderRow['order_no']}</span><br>
+		</div>
+		<div class="base">
+			类型：<input type="radio" name="types" value="male" /> 退货 &nbsp;
+			<input type="radio" name="types" value="female" /> 换货
 		</div>
 		<div class="input_li goods">
 			<strong>选择退款商品：</strong>
@@ -19,15 +29,15 @@
 			{/foreach}
 		</div>
 		<div class="input_li note">
-			<strong>备注退款理由：</strong>
+			<strong>备注理由：</strong>
 			<div>
-				<textarea name="content" id="content" class="input_textarea" pattern="required" initmsg="" alt="填写退款备注信息"></textarea>
+				<textarea name="content" id="content" class="input_textarea" pattern="required" initmsg="" alt="填写备注信息"></textarea>
 			</div>
 		</div>
 	</section>
 	<div class="btn_bottom">
 		<div class="btn_tab">
-			<label class="btn_tab_submit blue">提交退款申请<input type="submit"></label>
+			<label class="btn_tab_submit blue">提交申请<input type="submit"></label>
 		</div>
 	</div>
 </form>

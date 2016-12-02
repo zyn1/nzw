@@ -1,0 +1,34 @@
+<header class="header_login">
+    <div class="header_title">
+        <a class="return_a"onclick="window.history.back();"></a>
+        <h2>填写退换单</h2>
+    </div>
+</header>
+<section class="refund_order">
+	<form>
+	 	<div class="ord_cont">
+          	<span>快递公司</span>
+          	<span><input type="text" placeholder="请输入快递公司"/></span>
+        </div>
+        <div class="ord_cont">
+          	<span>快递单号</span>
+          	<span><input type="text" placeholder="请输入快递单号"/></span>
+        </div>
+        <div class="ord_cont">
+          	<span>退货地址</span>
+          	<span><input type="text" placeholder="请输入退货地址"/></span>
+        </div>
+        <div class="ord_cont">
+          	<span>其他说明</span>
+          	<span><textarea class="textare"></textarea></span>
+        </div>
+        <div class="ord_cont_but"><input type="submit" value="提交"/></div>
+	</form>
+</section>
+<script>
+//DOM加载完毕
+$(function(){
+    // 隐藏底部导航
+    hideNav();
+})
+</script>

@@ -1,0 +1,47 @@
+<style type="text/css">
+    body{
+        background: #fff;
+    }
+    .main_head .sear_t a{
+    	width: 100%;
+    }
+</style>
+<script src="{theme:javascript/style.js}"></script>
+<header class="header_box main_head">
+    <div class="header">
+        <a class="return_a" onclick="window.history.back();"></a>
+        <div class="sear_t">
+            <a href="">设置</a>
+        </div>
+        <a class="a_gd"></a>
+        <div class="s_nav">
+            <ul>
+                <li><a><i class="icon-home">首页</i></a></li>
+                <li><a href="javascript:location.reload()"><i class="icon-comments-alt">消息</i></a></li>
+            </ul>
+        </div>
+   </div>
+</header>
+
+	<section class="help_bar">
+		<div class="article_list">
+			<ul>
+				<a href="{url:ucenter/info}"><li>个人信息设置<i class="icon-more"></i></li></a>
+				<a href="{url:ucenter/password}"><li>支付密码设置<i class="icon-more"></i></li></a>
+                                                <a href="{url:ucenter/password}"><li>登录密码设置<i class="icon-more"></i></li></a>
+                                                <a href="{url:ucenter/mobliephone}"><li>修改手机号<i class="icon-more"></i></li></a>
+                                                <a href="{url:ucenter/mobliephone}"><li>修改邮箱号<i class="icon-more"></i></li></a>
+                                                <a href="{url:ucenter/info}"><li>编辑收货地址<i class="icon-more"></i></li></a>
+			</ul>
+		</div>
+	</section>
+    <section class="input_li">
+        <input type="submit" class="input_submit" value="返回" onclick="window.history.back();">
+    </section>
+
+
+<script>
+$(function(){
+    hideNav();
+})
+</script>

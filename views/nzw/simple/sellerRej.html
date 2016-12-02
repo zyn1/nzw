@@ -1,0 +1,112 @@
+{js:areaSelect}
+{set:$sellerRow = $this->sellerRow;}
+<div style="background:#f6f6f6;padding-bottom:50px;">
+<section class="web">
+	
+	<section class="reg_box entry">
+		<header class="login_header entry">
+			<h3 class="apply">申请加盟商户</h3>
+			<p class="forin">加入我们的电商平台，成为我们的供应商，一起共创美好未来</p>
+		</header>
+		<form action="{url:/simple/sellerRej_reg}" method="post" enctype='multipart/form-data' name="sellerForm">
+            <input type="hidden" name="_i" value="{$sellerRow['id']}">
+			<input type="hidden" name="_c" value="{$this->code}">
+            <div class="tab_apply">
+            </div>
+			<div class="online_lists">
+				<dl>
+                    <dt>登陆用户名：</dt>
+                    <dd>
+                        <input class="input_text" name="seller_name" type="text" value="" pattern="required" alt="用户名不能为空" other="seller" otheralt="该用户名已经注册" value="{$sellerRow['seller_name']}">
+                        <span>* 用户名称（必填）</span>
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>商户真实全称：</dt>
+                    <dd>
+                        <input class="input_text" name="true_name" type="text" value="" pattern="required" alt="商户真实全称不能为空" other="seller" otheralt="该商户已经注册">
+                        <span>* 商户真实全称不能为空</span>
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>商家logo图片：</dt>
+                    <dd>
+                        <input type='file' name='seller_logo'>
+                        {if:$sellerRow['seller_logo']}                        
+                        <br/>
+                        <img src="{webroot:}{$sellerRow['seller_logo']}" alt="{$sellerRow['seller_name']}" style="width: 180px;">
+                        {/if}
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>商户资质材料：</dt>
+                    <dd>
+                        <input type='file' name='paper_img'>
+                        {if:$sellerRow['paper_img']}                        
+                        <br/>
+                        <img src="{webroot:}{$sellerRow['paper_img']}" alt="{$sellerRow['seller_name']}" style="width: 180px;">
+                        {/if}
+                    </dd>
+                </dl>
+				<dl>
+                    <dt>固定电话：</dt>
+                    <dd>
+                        <input type="text" class="input_text" name="phone" pattern="phone" alt="请输入正确的电话">
+                        <span>* 固定电话联系方式，如：010-88888888</span>
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>手机号码：</dt>
+                    <dd>
+                        <input type="text" class="input_text" name="mobile" pattern="mobi" alt="请输入正确的手机号码">
+                        <span>* 移动电话联系方式：如：13000000000</span>
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>邮箱：</dt>
+                    <dd>
+                        <input type="text" class="input_text" name="email" pattern="email" alt="请输入正确的电子邮箱">
+                        <span>* 电子邮箱联系方式</span>
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>地区：</dt>
+                    <dd>
+                        <select class="input_select" name="province" child="city,area"></select>
+                        <select class="input_select" name="city" child="area"></select>
+                        <select class="input_select" name="area"></select>
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>详细地址：</dt>
+                    <dd>
+                        <input class="input_text" name="address" type="text" empty value="">
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>企业官网：</dt>
+                    <dd>
+                        <input class="input_text" name="home_url" type="text" pattern="url" empty value="">
+                        <span>填写完整的网址</span>
+                    </dd>
+                </dl>
+				<dl>
+					<dt></dt>
+					<dd>
+						<input class="input_submit" type="submit" value="提交">
+					</dd>
+				</dl>
+			</div>
+		</form>
+	</section>
+</section>
+</div>
+
+
+<script>
+var areaInstance = new areaSelect('province');
+areaInstance.init({echo:JSON::encode($sellerRow)});
+
+var formObj = new Form('sellerForm');
+formObj.init({echo:JSON::encode($sellerRow)});
+</script>
