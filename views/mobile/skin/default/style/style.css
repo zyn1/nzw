@@ -460,7 +460,7 @@ input[type="number"]::-webkit-outer-spin-button {
     background: #999;
 }
 .btn_bottom .btn_tab .btn_tab_submit.blue {
-    background: #5BC2D9;
+    background: #6BB945;
 }
 .btn_bottom .btn_tab .btn_tab_submit input {
     display: none;
@@ -3063,7 +3063,7 @@ header .info span{
     text-overflow: ellipsis;
 }
 .input_li .input_radio input:checked + span {
-    background: #5BC2D9;
+    background: #6BB945;
     color: #fff;
 }
 .input_li .input_radio.block {
@@ -3477,9 +3477,9 @@ span.valid-msg, label.valid-msg {
     background: #fafafa;
 }
 
-.refunds_edit {
-    padding: 0.15rem;
-}
+/*.refunds_edit {
+    padding:0 0.15rem;
+}*/
 .refunds_edit strong {
     font-weight: normal;
     color: #555;
@@ -3488,10 +3488,17 @@ span.valid-msg, label.valid-msg {
     color: #999;
 }
 .refunds_edit .base {
-    padding-bottom: 0.1rem;
+    padding: 0 0.15rem;
+    background: #fff;
+    height: 0.4rem;
+    line-height: 0.4rem;
+    margin-bottom: 0.15rem;
 }
 .refunds_edit .goods, .refunds_edit .note {
     padding: 0;
+    background: #fff;
+    padding: 0.15rem;
+    margin-bottom: 0.15rem;
 }
 .refunds_edit .goods div, .refunds_edit .note div {
     position: relative;
@@ -3545,25 +3552,21 @@ span.valid-msg, label.valid-msg {
 
 .refunds_detail {
     padding: 0.15rem;
+    background: #fff;
 }
-.refunds_detail table th {
-    width: 0.7rem;
-    background: #fafafa;
-    text-align: right;
-}
-.refunds_detail table th, .refunds_detail table td {
-    border: 1px solid #ededed;
-    padding: 0.05rem;
-    line-height: 1.6;
-    vertical-align: top;
+.refunds_detail p{
+    padding-bottom: 0.1rem;
+    position: relative;
+    line-height: 0.3rem;
 }
 .refunds_detail a {
     color: #5BC2D9;
 }
-.refunds_detail em {
-    color: #f69800;
+.refunds_detail .refund_order_an{
+    padding: 0.05rem 0.15rem;
+    background: #6BB945;
+    color: #fff;
 }
-
 .withdraw_list {
     padding: 0 0.15rem;
 }
@@ -5136,4 +5139,49 @@ font-size: 0.13rem;
     color: #aaa;
     line-height: 0.18rem;
     height: 0.3rem;
+}
+/*退货单*/
+.refund_order .ord_cont{
+    background: #fff;
+    padding: 0 0.15rem;
+}
+.refund_order .ord_cont span{
+    display: block;
+    line-height: 0.4rem;
+}
+.refund_order .ord_cont span input,.refund_order .ord_cont span .textare{
+    width: 96%;
+    border: 1px solid #E2E2E2;
+    line-height: 0.4rem;
+    border-radius: 0.05rem;
+    padding:0 2%;
+}
+.refund_order .ord_cont_but{
+    background: #fff;
+    padding: 0.3rem 0.15rem;
+}
+.refund_order .ord_cont_but input{
+    width: 100%;
+    background: #6BB945;
+    color: #fff;
+    border-radius: 0.05rem;
+    text-align: center;
+    height: 0.4rem;
+    line-height: 0.4rem;
+    border: 0px;
+}
+/*物流追踪*/
+.logistics_cont .dh {
+    background: #fff;
+    padding: 0.1rem 0.15rem;
+    border-bottom: 1px solid #e9e9e9;
+}
+.logistics_cont .dh p{
+    line-height: 0.3rem;
+}
+.logistics_cont .play {
+    margin-top: 0.15rem;
+    background: #fff;
+    border-bottom: 1px solid #E2E2E2;
+    border-top: 1px solid #E2E2E2;
 }

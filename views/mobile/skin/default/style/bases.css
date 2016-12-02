@@ -262,3 +262,66 @@ z-index: 11;
 }
 
 /*个人中心订单详情 end*/
+/*售后 strat*/
+.refunds_top ul{
+	height: 0.4rem;
+	line-height: 0.4rem;
+	background: #fff;
+	border-bottom: 1px solid #e2e2e2;
+}
+.refunds_top ul li{
+	float: left;
+	width: 50%;
+}
+.refunds_top ul li a{
+	display: block;
+	text-align: center;
+}
+.refunds_top ul li a.on{
+	color: #6BB945;
+}
+.refunds_list .refunds_infor{
+	display: block;
+	background: #fff;
+	margin-bottom: 0.15rem;
+	padding: 0.15rem 0;
+	border-bottom: 1px solid #e2e2e2;
+}
+.refunds_list .refunds_infor .infor_div{
+	line-height: 0.3rem;
+	padding:0 0.15rem;
+	position: relative;
+}
+.refunds_list .refunds_infor .infor_div .infor_date{
+	color: #AAAAAA;
+}
+.refunds_list .refunds_infor .infor_div  label input{
+	display: none;
+}
+.refunds_list .refunds_infor .infor_div label{
+	display: block;
+	float: right;
+	width: 0.7rem;
+	height: 0.25rem;
+	line-height: 0.25rem;
+	text-align: center;
+	
+}
+.refunds_list .refunds_infor .infor_div label.infor_qx{
+	border: 1px solid #6BB945;
+	color: #6BB945;
+}
+.refunds_list .refunds_infor .infor_div label.infor_del{
+	background: #6BB945;
+	color: #fff;
+}
+.F5A623{
+	color: #F5A623;
+}
+.DF3737{
+	color: #DF3737;
+}
+.b6{
+	color: #6BB945;
+}
+/*售后 end*/
