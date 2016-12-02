@@ -762,6 +762,15 @@ class Member extends IController implements adminAuthorization
                 if($suggest)
                 {
                     $msg = $content.',原因是：'.$suggest;
+                    if($data['is_lock'] == 2 && $is_lock == 1)
+                    {
+                        $temp = rand(100000,999999);
+                        $model = new IModel('seller_rej_sign');
+                        $model->setData(array('seller_id' => $seller_id, 'code' => $temp));
+                        $model->add();
+                        $url = IUrl::getHost().IUrl::creatUrl('/simple/sellerRej/_i/'.$seller_id.'/_c/'.$temp);
+                        $msg .= "<br/>点击下面这个链接重新编辑开店信息：<a href='{$url}'>{$url}</a>。<br />如果不能点击，请您把它复制到地址栏中打开。";
+                    }
                 }
                 else
                 {

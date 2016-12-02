@@ -1616,9 +1616,9 @@ background-image: url("../image/icon_slides.png"); background-repeat: no-repeat;
 .bar .bar_box .bar_goods li em { display: block; margin-top: 5px; font-size: 14px; color: #FF8225; font-weight: bold; }
 .bar .bar_box .bar_goods.ranking { counter-reset: num; }
 .bar .bar_box .bar_goods.ranking li { position: relative; }
-.bar .bar_box .bar_goods.ranking li:before { content: counter(num); counter-increment: num; display: block; position: absolute; right: 5px; bottom: 3px; font-size: 12px; font-style: italic; z-index: 1; color: #fff; }
-.bar .bar_box .bar_goods.ranking li:after { content: ""; position: absolute; right: 0; bottom: 0; width: 0; height: 0; display: block; border-style: solid; border-width: 14px; border-color: transparent #ff6332 #ff6332 transparent; }
-.bar .bar_box .bar_goods.ranking li:nth-child(n+4):after { border-color: transparent #999 #999 transparent; }
+.bar .bar_box .bar_goods.ranking li:before { content: counter(num);counter-increment: num;display: block;position: absolute;right: 17px;bottom: 14px;font-size: 12px;font-style: italic;z-index: 1;color: #fff; }
+.bar .bar_box .bar_goods.ranking li:after {  content: "";position: absolute;right: 10px;bottom: 10px;width: 0;height: 0;display: block;border-style: solid;border-width: 10px;border-color: #ff6332 #ff6332; }
+.bar .bar_box .bar_goods.ranking li:nth-child(n+4):after {border-color: #999 #999;}
 .bar .bar_box .bar_nav li { height: 28px; line-height: 28px; overflow: hidden; padding-left: 20px; border-bottom: 1px solid #ddd; position: relative; }
 .bar .bar_box .bar_nav li a{color: #555;}
 .bar .bar_box .bar_nav li:before { content: ""; width: 3px; height: 3px; background: #6bb945; display: block; position: absolute; left: 10px; top: 12px; }

@@ -107,13 +107,13 @@
                 </ul>
                 <div class="con">
                     <ul>
-                        {foreach:items=Api::run('getAnnouncementList',7)}
+                        {foreach:items=Api::run('getAnnouncementList',6)}
                         <li><a href="{url:/site/notice_detail/id/$item['id']}">{$item['title']}</a></li>
                         {/foreach}
                     </ul>
                     <ul>
                         <ul class="news-list">
-                            {foreach:items=Api::run('getArtList',7)}
+                            {foreach:items=Api::run('getArtList',6)}
                             <li><a href="{url:/site/article_detail/id/$item['id']}">{echo:Article::showTitle($item['title'],$item['color'],$item['style'])}</a></li>
                             {/foreach}
                         </ul>
