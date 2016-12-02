@@ -2935,6 +2935,39 @@ header .info span{
 .input_li li {
     position: relative;
 }
+.input_li li.recharge{
+    border-bottom: 0.1rem #eee solid;
+    padding-bottom: 0.2rem;
+}
+.input_li li.recharge h3{
+    line-height: 0.5rem;
+    height: 0.6rem;
+    padding-left: 0.15rem;font-size: 0.16rem;
+    font-weight: normal;color: #666;
+}
+.input_li li.recharge .input_text{
+    line-height: 0.4rem;height: 0.4rem;
+    width: 90%;padding: 0;
+    margin: 0 auto;border: 1px solid #eee;
+    border-radius: 0.03rem;
+}
+.input_li li.choice h3{
+    line-height: 0.5rem;
+    height: 0.6rem;
+    padding-left: 0.15rem;font-size: 0.16rem;
+    font-weight: normal;color: #666;    
+}
+.input_li li.choice label{
+    line-height: 0.5rem;
+    font-size: 0.16rem;
+    color: #666;padding-left: 0.3rem;
+}
+.input_li li.no_online h3{
+    line-height: 0.5rem;
+    height: 0.6rem;
+    padding-left: 0.15rem;font-size: 0.16rem;
+    font-weight: normal;color: #666;      
+}
 .input_li li .link {
     display: block;
     height: 0.3rem;
