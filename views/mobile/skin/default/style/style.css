@@ -5276,7 +5276,77 @@ font-size: 0.13rem;
     background: #fff;
     border-bottom: 1px solid #E2E2E2;
     border-top: 1px solid #E2E2E2;
+    padding-left: 0.5rem;
 }
+.play-con-one {
+    margin: 0.35rem 0px 0px 0.15rem;
+    border-left: 0.02rem solid #6BB945;
+    position: relative;
+}
+.play .con-line {
+    margin-left: 0.15rem;
+    padding-bottom: 0.15rem;
+    position: relative;
+    top: -0.1rem;
+}
+.play .play-height {
+    line-height: 0.3rem;
+}
+.play-height span{
+    font-size: 0.13rem;
+}
+.cola {
+    color: #aaa;
+}
+.play .play-con {
+    border-left: 0.02rem solid #6BB945;
+    margin-left: 0.15rem;
+    position: relative;
+}
+.play .play-con-one:before{
+    content: '';
+    display: inline-block;
+    position: absolute;
+    left: -0.1rem;
+    top: -0.03rem;
+    width: 0.16rem;
+    height: 0.16rem;
+    border-radius: 0.10rem;
+    -moz-border-radius: 0.10rem;
+    -webkit-border-radius: 0.10rem;
+    border: 0.01rem solid #6BB945;
+}
+.play .play-con-one:after {
+    content: '';
+    display: inline-block;
+    position: absolute;
+    left: -0.07rem;
+    top: 0.0rem;
+    width: 0.12rem;
+    height: 0.12rem;
+    border-radius: 0.10rem;
+    -moz-border-radius: 0.10rem;
+    -webkit-border-radius: 0.10rem;
+    background: #6BB945;
+   
+}
+.play .play-con:after {
+    content: '';
+    display: inline-block;
+    position: absolute;
+    left: -0.04rem;
+    top: 0.20rem;
+    width: 0.07rem;
+    height: 0.07rem;
+    border-radius: 0.10rem;
+    -moz-border-radius: 0.10rem;
+    -webkit-border-radius: 0.10rem;
+    background: #6BB945;
+}
+.colb6{
+    color: #6BB945;
+}
+/*物流追踪 end*/
 /*修改绑定手机邮箱*/
 .find_pw .input_li li.num_change{
     font-size: 0.16rem;
