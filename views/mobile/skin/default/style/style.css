@@ -82,7 +82,7 @@ body {
 body {
     line-height: 1;
     font-size: 0.15rem;
-    background: #f2f2f2;
+    background: #f9f9f9;
     color: #656565;
 }
 
@@ -408,21 +408,20 @@ input[type="number"]::-webkit-outer-spin-button {
 
 .btn_bottom {
     height: 0.58rem;
+    margin:0.3rem 0;
 }
 .btn_bottom .btn_submit {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    display: block;
+       display: block;
     width: 100%;
     height: 0.48rem;
     line-height: 0.48rem;
     color: #fff;
-    background: #5BC2D9;
+    background: #6BB945;
     border: none;
     cursor: pointer;
     outline: none;
     text-align: center;
+    border-radius:0.05rem; 
 }
 .btn_bottom .btn_submit.cf60 {
     background: #f60;
@@ -1968,7 +1967,7 @@ a .icon-rotate-90:before, a .icon-rotate-180:before, a .icon-rotate-270:before, 
     display: block;
     margin-top: 0.1rem;
     color: #aaa;   
-    line-height: 0.18rem;
+    line-height: 0.3rem;
     height: 0.3rem;
 }
 
@@ -3039,15 +3038,8 @@ header .info span{
     background: #fafafa;
 }*/
 .input_li .input_item {
-    position: absolute;
-    height: 0.1rem;
-    line-height: 0.1rem;
-    background: #fff;
-    top: -0.07rem;
-    padding: 0 0.1rem;
-    left: 0.05rem;
-    color: #999;
-    font-size: 0.11rem;
+    line-height: 0.5rem;
+    font-size: 0.14rem;
 }
 .input_li .li_item {
     display: block;
@@ -3271,6 +3263,7 @@ span.valid-msg, label.valid-msg {
     background: #fff;
     height: 0.8rem;
     padding: 0.15rem;
+    border-bottom: 1px solid #f2f2f2;
 }
 .comment_goods .com_goods .good_img{
     height:0.6rem;
@@ -3292,8 +3285,19 @@ span.valid-msg, label.valid-msg {
     margin-bottom: 0.1rem;
     font-weight: normal;
 }
+.comment_goods .conten_comm{
+    line-height: 0.2rem;
+    height: 0.5rem;
+    overflow: auto;
+    margin: 0.05rem 0;
+}
 .comment_goods .point_star {
     line-height: 0.4rem;
+    background: #fff;
+    padding: 0 0.15rem;
+    margin-top: 0.15rem;
+    border-top: 1px solid #f2f2f2;
+    border-bottom: 1px solid #f2f2f2;
 }
 .comment_goods .point_star strong {
     font-weight: normal;
@@ -3307,21 +3311,75 @@ span.valid-msg, label.valid-msg {
     float: left;
     color: #999;
 }
-.comment_goods .point_star label i {
+.comment_goods .point_star label i:after{
     display: inline-block;
+    content: "\2605";
+    color: #DBDBDB;
     font-size: 0.24rem;
     padding-left: 0.05rem;
 }
-.comment_goods .point_star label i.on {
-    color: #f69800;
+.comment_goods .point_star label i.on:after{
+    color: #FFC109;
 }
 .comment_goods .input_li {
-    padding: 0;
     position: relative;
     margin-top: 0.15rem;
+    background: #fff;
+    border-top: 1px solid #f2f2f2;
+    border-bottom: 1px solid #f2f2f2;
+    padding:0 0.15rem;
+}
+.comment_goods .input_li .file_an{
+    display: block;
+    width: 0.8rem;
+    height: 0.3rem;
+    line-height: 0.3rem;
+    border: 1px solid #B8B8B8;
+    border-radius: 0.05rem;
+    text-align: center;
+}
+.comment_goods .input_li .file_an input{
+    display: none;
+}
+.comment_goods .input_li .file_ts{
+    font-size: 0.12rem;
+    display: block;
+    padding:0.1rem 0;
 }
 .comment_goods .input_li strong {
-    font-weight: normal;
+    display: block;
+}
+.file_imgs .file_img{
+    float: left;
+    width: 25%;
+    height: 0.8rem;
+    border: 0.01rem solid #E2E2E2;
+    margin-right: 2%;
+    padding:0.1rem;
+    position: relative;
+}
+.file_imgs .file_img:nth-child(3){
+    margin-right: 0px;
+}
+.file_imgs .file_img a.img_del{
+    position: absolute;
+    display: none;
+    opacity: 0.51;
+    background: #373737;
+    color: #fff;
+    width: 100%;
+    left: 0;
+    bottom: 0;
+    height: 0.25rem;
+    line-height: 0.25rem;
+    text-align: center;
+}
+.file_imgs .file_img:hover a.img_del {
+   display: block;
+}
+.file_imgs .file_img img{
+    width: 100%;
+    height: 100%;
 }
 /*评论界面*/
 .comments_list {
@@ -5289,13 +5347,19 @@ font-size: 0.13rem;
     display: block;
     margin-top: 0.1rem;
     color: #aaa;
-    line-height: 0.18rem;
+    line-height: 0.3rem;
     height: 0.3rem;
+    background: url("../image/top/gwc_sc.png") no-repeat 0 center;
+    padding-left: 0.16rem;
+}
+.del_icon{
+    background: url("../image/top/ljt.png") no-repeat 0 center;
+    padding-left: 0.18rem;
 }
 /*退货单*/
 .refund_order .ord_cont{
     background: #fff;
-    padding: 0 0.15rem;
+    padding: 0 0.18rem;
 }
 .refund_order .ord_cont span{
     display: block;
