@@ -3175,18 +3175,20 @@ span.valid-msg, label.valid-msg {
 .address_list .address_list_header {
     color: #222;
     position: relative;
-    padding: 0.16rem 0.16rem 0.1rem;
-    height: 0.16rem;
-    line-height: 0.16rem;
+    padding: 0.1rem 0.2rem;
+    padding-bottom: 0;
+    height: 0.3rem;
+    line-height: 0.3rem;
+    font-size: 0.16rem;color: #666;
 }
 .address_list .address_list_header .name {
     display: block;
     float: left;
-    width: 0.6rem;
+    width: 50%;
 }
 .address_list .address_list_header .phone {
     display: block;
-    float: left;
+    float: right;
 }
 .address_list .address_list_header .select {
     text-indent: -9999px;
@@ -3196,8 +3198,8 @@ span.valid-msg, label.valid-msg {
     height: 0.16rem;
 }
 .address_list .address_list_section {
-    padding: 0 0.16rem 0.16rem;
-    line-height: 1.4;
+    padding: 0.1rem 0.2rem;
+    line-height: 0.2rem;width: 90%;white-space:normal;
 }
 .address_list .address_list_footer {
     display: none;
