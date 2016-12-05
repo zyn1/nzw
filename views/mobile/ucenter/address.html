@@ -1,12 +1,22 @@
-<div id="pageInfo" data-title="地址管理"></div>
-<div class="address_edit_btn" id="address_edit_btn">编辑</div>
+<style type="text/css">
+    body{
+        background: #fff;
+    }
+</style>
+<header class="header_login">
+	<div class="header_title">
+		<a class="return_a"onclick="window.history.back();"></a>
+		<h2 id="pageInfo" data-title="管理收货地址">管理收货地址</h2>
+	</div>
+</header>
+<!-- <div class="address_edit_btn" id="address_edit_btn">编辑</div> -->
 <section id="address_list" class="address_list">
 	<ul>
 		<!-- 这里两个class default 代表是否是默认地址 on 代表当前是否选中 -->
 		{foreach:items=$this->address}
 		<li data-value="1" {if:$item['is_default']==1}class="default"{/if}>
 			<header class="address_list_header">
-				<strong class="name">{$item['accept_name']}</strong>
+				<span class="name">收货人&nbsp;{$item['accept_name']}</span>
 				<span class="phone">{$item['mobile']}</span>
 			</header>
 			<section class="address_list_section">
@@ -23,11 +33,24 @@
 			</footer>
 		</li>
 		{/foreach}
+		<li>
+			<div class="address_list_header">				
+				<span class="name">收货人&nbsp;{$item['accept_name']}</span>
+				<span class="phone">{$item['mobile']}</span>
+			</div>
+			<section class="address_list_section">
+				收货地址：{$this->areas[$item['province']]} {$this->areas[$item['city']]} {$this->areas[$item['area']]} {$item['address']}
+			</section>
+			<footer data-value="1">
+				设为默认
+			</footer>
+
+		</li>
 	</ul>
 </section>
 
-<div class="btn_bottom">
-	<input type="button" value="添加新地址" class="btn_submit pink" onclick="editAddress();" />
+<div class="input_li">
+	<input type="button" value="添加新地址" class="input_submit" onclick="editAddress();" />
 </div>
 
 <script>
