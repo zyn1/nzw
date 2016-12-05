@@ -3159,18 +3159,20 @@ span.valid-msg, label.valid-msg {
     margin-bottom: 0.16rem;
     background: #fff;
     outline: 1px solid #ededed;
+    border-bottom: 0.1rem solid #f2f2f2;
+    min-height: 1.2rem;
 }
-.address_list li.default .address_list_header:before {
-    color: #ee4442;
-    content: "[\9ed8\8ba4]";
+.address_list li .address_list_icon{
+    display: none ;
+}
+.address_list li.default .address_list_icon {
+    color: #6BB945;
     display: block;
     float: left;
-    width: 0.4rem;
+    margin-left:0.2rem;font-size: 0.14rem;line-height: 0.16rem;height: 0.16rem;
 }
-.address_list li.default .address_btn.pink {
-    color: #F85D92;
-    border-color: #ededed;
-    background: #fafafa;
+.address_list li.default .address_list_icon img{
+    width: 0.16rem;margin-right: 0.1rem;
 }
 .address_list .address_list_header {
     color: #222;

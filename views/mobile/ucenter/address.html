@@ -15,25 +15,6 @@
 		<!-- 这里两个class default 代表是否是默认地址 on 代表当前是否选中 -->
 		{foreach:items=$this->address}
 		<li data-value="1" {if:$item['is_default']==1}class="default"{/if}>
-			<header class="address_list_header">
-				<span class="name">收货人&nbsp;{$item['accept_name']}</span>
-				<span class="phone">{$item['mobile']}</span>
-			</header>
-			<section class="address_list_section">
-				{$this->areas[$item['province']]} {$this->areas[$item['city']]} {$this->areas[$item['area']]} {$item['address']}
-			</section>
-			<footer class="address_list_footer">
-				<span class="address_btn" onclick='editAddress({$item['id']})'>修改</span>
-				<span class="address_btn" onclick="delModel({link:'{url:/ucenter/address_del/id/$item[id]}'});">删除</span>
-				{if:$item['is_default']==1}
-				<a class="address_btn" href="{url:/ucenter/address_default/id/$item[id]/is_default/0}">取消默认</a>
-				{else:}
-				<a class="address_btn pink" href="{url:/ucenter/address_default/id/$item[id]/is_default/1}">设为默认</a>
-				{/if}
-			</footer>
-		</li>
-		{/foreach}
-		<li>
 			<div class="address_list_header">				
 				<span class="name">收货人&nbsp;{$item['accept_name']}</span>
 				<span class="phone">{$item['mobile']}</span>
@@ -41,16 +22,16 @@
 			<section class="address_list_section">
 				收货地址：{$this->areas[$item['province']]} {$this->areas[$item['city']]} {$this->areas[$item['area']]} {$item['address']}
 			</section>
-			<footer data-value="1">
-				设为默认
+			<footer data-value="1" class="address_list_icon">
+				<img src="{url:views/mobile/skin/default/image/top/check-on.png}">默认地址
 			</footer>
-
 		</li>
+		{/foreach}
 	</ul>
 </section>
 
 <div class="input_li">
-	<input type="button" value="添加新地址" class="input_submit" onclick="editAddress();" />
+	<input type="button" value="添加新地址" class="input_submit"  />
 </div>
 
 <script>
@@ -76,7 +57,7 @@ $(function(){
 	});
 });
 
-//地址修改
+//地址修改弹窗
 function editAddress(addressId)
 {
 	art.dialog.open(creatUrl("block/address/id/"+addressId),
