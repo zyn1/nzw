@@ -1,0 +1,40 @@
+
+<style type="text/css">
+    body{
+        background: #fff;
+    }
+    .coupon_list li{
+    	border: 0;
+    }
+</style>
+
+<header class="header_login">
+	<div class="header_title">
+		<a class="return_a"onclick="window.history.back();"></a>
+		<h2 id="pageInfo" data-title="我的消息">我的消息</h2>
+	</div>
+</header>
+
+<div id="pageInfo" data-title="短消息"></div>
+
+<section class="coupon_list">
+	<ul>
+		<li>
+			<div class="title">123123123</div>
+			<div class="author">耐耐网推送</div>
+			<time>2016-12-03 12:12:12</time>
+		</li>
+		<li>
+			这里就是内容了	
+		</li>
+	</ul>
+</section>
+
+
+<script>
+
+$(function(){
+	// 隐藏底部导航
+	hideNav();
+});
+</script>
