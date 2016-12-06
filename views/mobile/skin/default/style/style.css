@@ -5512,7 +5512,7 @@ font-size: 0.13rem;
 }
 .addre .item_del_des textarea{
     width: 100%;
-    height: 0.5rem;
+    height: 0.7rem;
     padding:0.15rem 0;
     border: 0px;
     outline:none;
@@ -5539,4 +5539,40 @@ font-size: 0.13rem;
     border-top: 1px solid #E2E2E2;
     border-bottom: 1px solid #E2E2E2;
     position: relative;
+}
+.addre_qr_del{
+    width: 100%;
+    position: fixed;
+    bottom: -1.7rem;
+    z-index: 10;
+}
+.addre_qr_del .addre_qr_cont{
+    background: #fff;
+    height: 1.0rem;
+    width: 70%;
+    margin: 0 auto;
+    border-radius: 0.15rem;
+    text-align: center;
+}
+.addre_qr_del .addre_qr_cont strong{
+    display: block;
+    height: 0.6rem;
+    line-height: 0.6rem;
+}
+.addre_qr_del .addre_qr_cont .addre_an{
+    height: 0.4rem;
+    line-height: 0.4rem;
+    border-top: 1px solid #0076ff;
+}
+.addre_qr_del .addre_qr_cont .addre_an a{
+    display: block;
+    float: left;
+    color: #0076FF;
+}
+.addre_qr_cont .addre_an a.ad_qx{
+    width: 49%;
+    border-right: 1px solid #0076ff;
+}
+.addre_qr_cont .addre_an a.ad_qd{
+    width: 50%;
 }
