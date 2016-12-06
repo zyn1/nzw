@@ -45,5 +45,17 @@ $(document).ready(function(){
     $(".ps_select ul li .box i").removeClass("check");
     $(this).find("i").addClass("check")
   });
+  // 编辑地址默认
+      $(".default em").click(function(){
+       if($(this).hasClass("on")){
+        $(this).removeClass("on").addClass("no");
+       }else{
+        $(this).removeClass("no").addClass("on");
+       }
+        
+      });
+
 
 });
+
+
