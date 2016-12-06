@@ -9,7 +9,6 @@
 		<h2 id="pageInfo" data-title="管理收货地址">管理收货地址</h2>
 	</div>
 </header>
-<!-- <div class="address_edit_btn" id="address_edit_btn">编辑</div> -->
 <section id="address_list" class="address_list">
 	<ul>
 		<!-- 这里两个class default 代表是否是默认地址 on 代表当前是否选中 -->
@@ -38,52 +37,6 @@
 $(function(){
 	// 内页隐藏页底导航
 	hideNav();
-	// 打开关闭编辑模式
-	var btn = $("#address_edit_btn"),
-		list = $("#address_list").find('li');
-	btn.on('click',function(){
-		var t = $(this),
-			v = t.data('v');
-		if(v==1){
-			t.html("编辑").data('v', '0');
-			list.children('footer').hide();
-			list.find('.select').show();
-		}else{
-			t.html("取消").data('v', '1');
-			// 这里把原来的 show()改成了 css控制
-			list.children('footer').css('display','table');
-			list.find('.select').hide();
-		}
-	});
 });
 
-//地址修改弹窗
-function editAddress(addressId)
-{
-	art.dialog.open(creatUrl("block/address/id/"+addressId),
-	{
-		"id":"addressWindow",
-		"title":"收货地址",
-		"ok":function(iframeWin, topWin){
-			var formObject = iframeWin.document.forms[0];
-			if(formObject.onsubmit() === false)
-			{
-				alert("请正确填写各项信息");
-				return false;
-			}
-			$.getJSON(formObject.action,$(formObject).serialize(),function(content){
-				if(content.result == false)
-				{
-					alert(content.msg);
-					return;
-				}
-				window.location.reload();
-			});
-			return false;
-		},
-		"okVal":"提交",
-		"cancel":true,
-		"cancelVal":"取消",
-	});
-}
 </script>

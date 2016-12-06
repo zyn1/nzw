@@ -2,6 +2,7 @@
   <link rel="stylesheet" href="{skin:style/LArea.css}">
   <script src="{theme:javascript/LArea.js}"></script>
   <script src="{theme:javascript/LAreaData1.js}"></script>
+  <script src="{theme:javascript/order.js}"></script>
 <header class="header_login">
 	<div class="header_title">
 		<a class="return_a"onclick="window.history.back();"></a>
@@ -9,7 +10,6 @@
 		<a class="qx_a">保存</a>
 	</div>
 </header>
-<script src="{theme:javascript/order.js}"></script>
 <section class="addre">
 	<form id="frm_login" method="get" action="">
         <div class="item">
@@ -22,17 +22,15 @@
         </div>
         <div class="item">
           <lable class="item_tit">所在区域</lable>
-	         <div class="content-block">
-	          	<input id="demo1" class="txt-input" type="text" readonly="" placeholder="城市选择特效" />
-	            <input id="value1" type="hidden" />
-	        </div>
+           <div class="content-block">
+              <input id="demo1" class="txt-input" type="text" readonly="" placeholder="城市选择特效" />
+              <input id="value1" type="hidden" />
+          </div>
            <a class="adder_right"></a>
         </div>
-        
         <div class="item_del_des">
         	 <textarea  class="txt-input" placeholder="详细街道、楼牌号等">北京市，，，</textarea>
         </div>
-
         <div class="default">
           <lable class="default_tit">设置为默认地址</lable>
           <em class="no"></em>
