@@ -43,18 +43,15 @@
 	document.addEventListener('DOMContentLoaded', loaded, false);
 	/* 切换内容*/
    $(function(){
-   	/*$('.job_sub li').each(function(i){
-   		$(this).addClass("")
-   	})*/
+   
   	$('.job_sub li').click(function(){
         $(this).addClass('off').siblings().removeClass('off');
         var str = "#con_left li:nth-child("+($(this).index()+1)+")";
         setTimeout(function () {
         	myScroll.scrollToElement(document.querySelector(str));
         }, 300);
-       /* cataId = $(this).attr("data-cataId");*/
         cataId = $(this).index();
-        $('.fr_ite_'+$(this).index()).removeClass('disp').siblings().addClass('disp');
+        $(".fr_ite").eq(cataId).removeClass('disp').siblings().addClass('disp');
         pullUpAction();
         myScrollri.scrollTo(0,0,100, IScroll.utils.ease.elastic);
     });

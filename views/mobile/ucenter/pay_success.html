@@ -1,0 +1,56 @@
+<style type="text/css">
+     .input_li {
+		padding:0;
+		background: #6bb945;
+	}
+    .input_li .form ul li{
+    	text-align: center;
+    }
+    .input_li .form ul li:first-child{
+    	padding-bottom: 0.35rem ;
+    }
+    .input_li .form{
+	padding-top: 0.6rem;
+    }
+    .input_li .form ul li span{
+    	font-size: 0.18rem;
+    	display: block;
+    	margin-top:0.6rem; 
+    	color: #fff;
+    }
+    .input_li .form ul li input[type=submit]{
+    	width: 40%;
+    	display: inline-block;
+    	border-radius: 0.05rem;
+    }
+</style>
+<header class="header_login">
+	<div class="header_title">
+		<a class="return_a"onclick="window.history.back();"></a>
+		<h2 id="pageInfo" data-title="找回密码">支付成功</h2>
+	</div>
+</header>
+<div id="pageInfo" data-title="密码修改"></div>
+
+<section class="reg input_li">
+	<div class="form">
+		<form action="{url:/ucenter/password_edit}" method="POST" role="form">
+			<ul>
+				<li>
+					
+					<img src="{url:views/mobile/skin/default/image/top/success_2.png}">
+					<span>支付成功！买家已付款</span>
+				</li>
+				<li style="background: #f2f2f2;">
+					<input type="submit" class="input_submit" value="回到首页" style="margin-right:0.15rem;">
+					<input type="submit" class="reg" value="进入个人中心">
+				</li>
+			</ul>
+		</form>
+	</div>
+</section>
+<script>
+$(function(){
+	hideNav();
+})
+</script>

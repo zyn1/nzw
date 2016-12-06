@@ -1,4 +1,20 @@
 
+<style type="text/css">
+    body{
+        background: #fff;
+    }
+    .pages_bar{
+    	display: none;
+    }
+</style>
+
+<header class="header_login">
+	<div class="header_title">
+		<a class="return_a"onclick="window.history.back();"></a>
+		<h2 id="pageInfo" data-title="我的消息">我的消息</h2>
+		<a class="qx_a" href="{url:ucenter/message_edit}">编辑</a>
+	</div>
+</header>
 
 <div id="pageInfo" data-title="短消息"></div>
 
@@ -6,35 +22,26 @@
 	<ul>
 		{set:$queryMessageList = Api::run('getUcenterMessageList',$msgIds)}
 		{foreach:items = $queryMessageList->find()}
-		<li onclick='show_msg(this,{echo:JSON::encode($item)})'>
+		<li onclick='show_msg(this,{echo:JSON::encode($item)})' class="read"><!-- 如果消息已读则添加 class="read" -->
+			<div class="title">{$item['title']}</div>
+			<div class="author">耐耐网推送</div>
 			<time>{$item['time']}</time>
-			<i id="msg_id_{$item['id']}">
+			<!-- <i id="msg_id_{$item['id']}">
 				{if:$msgObj->is_read($item['id'])}已读{else:}未读{/if}
-			</i>
-			<strong>{$item['title']}</strong>
+			</i> -->
 		</li>
 		{/foreach}
 	</ul>
 	{$queryMessageList->getPageBar()}
 </section>
-<section id="show_msg" class="complain none">
+<!-- <section id="show_msg" class="complain none">
 	<div class="close" onclick='$(this).parents("#show_msg").hide()'></div>
 	<article id="content">最好免费赠送</article>
-</section>
+</section> -->
 
 
 <script>
-//阅读消息
-function show_msg(_self,obj){
-	$('#show_msg #content').html(obj.content);
-	$('#show_msg').show();
-	$.get("{url:/ucenter/message_read}",{"id":obj.id},function(data){
-		if(data == 1){
-			$("#msg_id_"+obj.id).addClass('bold');
-			$("#msg_id_"+obj.id).html('已读');
-		}
-	});
-}
+
 $(function(){
 	// 隐藏底部导航
 	hideNav();

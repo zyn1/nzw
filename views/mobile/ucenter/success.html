@@ -15,7 +15,7 @@
 <header class="header_login">
 	<div class="header_title">
 		<a class="return_a"onclick="window.history.back();"></a>
-		<h2 id="pageInfo" data-title="找回密码">修改登录密码</h2>
+		<h2 id="pageInfo" data-title="找回密码">密码设置成功</h2>
 	</div>
 </header>
 <div id="pageInfo" data-title="密码修改"></div>
@@ -27,7 +27,7 @@
 				<li>
 					
 					<img src="{url:views/mobile/skin/default/image/top/success_1.png}">
-					<span>恭喜您！XX设置成功!</span>
+					<span>恭喜您！ {echo:IReq::get('message') ? IFilter::act(IReq::get('message'),'text') : '操作成功！'}</span>
 				</li>
 				<li>
 					<input type="submit" class="input_submit" value="回到首页">

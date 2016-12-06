@@ -1,11 +1,35 @@
-<div id="pageInfo" data-title="评论商品"></div>
+<script src="{theme:javascript/style.js}"></script>
+<header class="header_login">
+	<div class="header_title">
+		<a class="return_a"onclick="window.history.back();"></a>
+		<h2>评论商品</h2>
+		<a class="a_gd"></a>
+        <div class="s_nav" style="display: none;">
+        	<div class="c-tip-arrow" style="left: 30px;"><em></em><ins></ins></div>
+            <ul>
+                <li><a><i class="icon-home">首页</i></a></li>
+                <li><a href="javascript:location.reload()"><i class="icon-comments-alt">消息</i></a></li>
+            </ul>
+        </div>
+	</div>
+</header>
+{js:kindeditor}
+{set:$swfloadObject = new Swfupload('site/comment_img_upload');$swfloadObject->show();}
 <form method="post" action="{url:/site/comment_add}">
 <input type="hidden" name="id" value="{$this->comment['id']}" />
 <!-- 评价商品 -->
 <section class="comment_goods">
-	<h3>{$this->goods['name']}</h3>
+	<div class="com_goods">
+		<div class="good_img">
+			<img src="{skin:image/top/gouwuche_kong@2x.png}"/>
+		</div>
+		<div class="good_name">
+			<h3>{$this->goods['name']}</h3>
+			<p class="cola">颜色分类：黄色</p>
+		</div>
+	</div>
 	<div class="point_star">
-		<strong>商品评级：</strong>
+		<strong>评价等级：</strong>
 		<label>
 			<i class="icon-star on"></i>
 			<i class="icon-star on"></i>
@@ -16,14 +40,32 @@
 		<input type="hidden" name="point" value="5">
 	</div>
 	<div class="input_li">
+		<strong class="input_item">上传图片</strong>
+		<label id='uploadButton' class="file_an"><input id="Button1" type="file" name="flie"/>选择文件</label>
+		<span class="file_ts">可以上传多张图片，分辨率3000px以下，大小不得超过{echo:IUpload::getMaxSize()}</span>
+		<div id="thumbnails" class="file_imgs clear">
+			<!-- <div class="file_img">
+				<img src="{skin:image/top/gouwuche_kong@2x.png}"/>
+				<a class="img_del">删除</a>
+			</div> -->
+		</div>
+
 		<strong class="input_item">我的评价</strong>
 		<textarea name="contents" id="contents" class="input_textarea"></textarea>
+		<div class="btn_bottom">
+			<input type="submit" value="立即评价" class="btn_submit">
+		</div>
 	</div>
+	
 </section>
-<div class="btn_bottom">
-	<input type="submit" value="提交评价" class="btn_submit">
-</div>
+
 </form>
+<!-- 没评论内容 -->
+<div class="nodata">
+		<img src="{skin:image/top/com_no.png}"/>
+		没有更多内容！
+	</div>
+<script src='{theme:javascript/uplo.js}'></script>
 <script>
 $(function(){
 	// 隐藏底部导航
@@ -42,4 +84,61 @@ $(function(){
 	});
 
 })
+
+ //下面用于多图片上传预览功能
+
+    function setImagePreviews(avalue) {
+        var docObj = document.getElementById("Button1");
+        var dd = document.getElementById("thumbnails");
+        dd.innerHTML = "";
+        var fileList = docObj.files;
+        for (var i = 0; i < fileList.length; i++) {            
+
+
+            dd.innerHTML += "<div class='file_img' > <img id='img" + i + "'  /> </div>";
+            var imgObjPreview = document.getElementById("img"+i); 
+            if (docObj.files && docObj.files[i]) {
+
+                //火狐下，直接设img属性
+
+                imgObjPreview.style.display = 'block';
+                imgObjPreview.style.width = '100%';
+                imgObjPreview.style.height = '100%';
+
+                //imgObjPreview.src = docObj.files[0].getAsDataURL();
+
+                //火狐7以上版本不能用上面的getAsDataURL()方式获取，需要一下方式
+
+                imgObjPreview.src = window.URL.createObjectURL(docObj.files[i]);
+            }
+            else {
+                //IE下，使用滤镜
+
+                docObj.select();
+                var imgSrc = document.selection.createRange().text;
+                alert(imgSrc)
+                var localImagId = document.getElementById("img" + i);
+
+                //必须设置初始大小
+
+                localImagId.style.width = "100%";
+                localImagId.style.height = "100%";
+
+                //图片异常的捕捉，防止用户修改后缀来伪造图片
+
+                try {
+                    localImagId.style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale)";
+                    localImagId.filters.item("DXImageTransform.Microsoft.AlphaImageLoader").src = imgSrc;
+                }
+                catch (e) {
+                    alert("您上传的图片格式不正确，请重新选择!");
+                    return false;
+                }
+                imgObjPreview.style.display = 'none';
+                document.selection.empty();
+            }
+        }  
+        return true;
+    }
 </script>
+

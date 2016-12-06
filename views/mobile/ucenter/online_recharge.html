@@ -1,30 +1,41 @@
+<style type="text/css">
+    body{
+        background: #fff;
+    }
+</style>
+<header class="header_login">
+    <div class="header_title">
+        <a class="return_a"onclick="window.history.back();"></a>
+        <h2 id="pageInfo" data-title="充值">充值</h2>
+        <a class="qx_a" href="{url:simple/login}"></a>
+    </div>
+</header>
+
+
+
 {set:$paymentList=Api::run('getPaymentListByOnline')}
 <div id="pageInfo" data-title="在线充值"></div>
 <form action="{url:/block/doPay}" method="POST" class="form-inline form" role="form">
 <section class="login input_li">
     <ul>
-        <li>
+        <li  class="recharge">
+            <h3>充值金额</h3>
             <input type="text" name="recharge" class="input_text" placeholder="请输入充值金额" pattern='^[0-9]*$' initmsg="" alt="请输入金额">
         </li>
         {if:$paymentList}
-        <li>
+        <li  class="choice">
+            <h3>充值方式</h3>
             {foreach:items = $paymentList}
-            <label class="input_radio block">
-                <input type="radio" {if:$key==0}checked{/if} name="payment_id" value="{$item['id']}">
-                <span>{$item['name']} {$item['note']}，手续费：{if:$item['poundage_type']==2}￥{$item['poundage']}{else:}{$item['poundage']}%{/if}</span>
-            </label>
+            <label class="radio">{$item['name']} {$item['note']}，手续费：{if:$item['poundage_type']==2}￥{$item['poundage']}{else:}{$item['poundage']}%{/if}<input type="radio" name="payment_id" value="{$item['id']}" {if:$key==0}checked{/if}><i></i></label>  
             {/foreach}
         </li>
         {else:}
-        <li>没有线上支付方式</li>
+        <li class="no_online"><h3>暂时没有线上支付方式</h3></li>
         {/if}
+        <li>            
+                    <input type="submit" class="input_submit" value="确定修改">
+        </li>
     </ul>
-</section>
-<div class="btn_bottom">
-    <div class="btn_tab">
-        <label class="btn_tab_submit blue">确认充值<input type="submit"></label>
-    </div>
-</div>
 </section>
 </form>
 <script>

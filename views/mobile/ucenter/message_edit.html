@@ -1,0 +1,92 @@
+
+<style type="text/css">
+    body{
+        background: #fff;
+    }
+    .container .checked{
+    	float: left;height: 100%;padding-top: 0.3rem;
+    }
+</style>
+
+<script>
+$(function(){ //调用全选插件
+    $.fn.check({checkall_name:"checkall",checkbox_name:"check"})}),
+
+//全选插件
+(function($) {
+    $.fn.check    = function(options) {
+    var defaults  = {
+        checkall_name: "checkall_name", //全选框name
+        checkbox_name: "checkbox_name" //单选框name
+    },
+    ops           = $.extend(defaults, options);
+    e             = $("input[name='" + ops.checkall_name + "']"), //全选
+    f             = $("input[name='" + ops.checkbox_name + "']"), //单选
+    g             = f.length; //单选数量
+    f.click(function() {
+    $("input[name ='" + ops.checkbox_name + "']:checked").length == $("input[name='" + ops.checkbox_name + "']").length ? e.attr("checked", !0) : e.attr("checked", !1);
+    }), e.click(function() {
+    for (i = 0; g > i; i++) f[i].checked = this.checked;
+    });
+    };
+})(jQuery);
+</script>
+
+<header class="header_login">
+	<div class="header_title">
+		<a class="return_a"onclick="window.history.back();"></a>
+		<h2 id="pageInfo" data-title="我的消息">我的消息</h2>
+		<a class="qx_a" href="{url:ucenter/message}">完成</a>
+	</div>
+</header>
+
+<div id="pageInfo" data-title="短消息"></div>
+
+<section class="coupon_list">
+
+<div class="container">  
+	<ul>
+		<li onclick=''>
+			<p class="checked"><input type="checkbox" name="check"  class="chk_1" id="checkbox_a2"/><label for="checkbox_a2"></label></p>
+			<div class="checked_on">
+				<div class="title">123123123</div>
+				<div class="author">耐耐网推送</div>
+				<time>2016-12-03 12:12:12</time>
+			</div>
+		</li>
+                    <div class="clear"></div>
+		<li onclick=''>
+			<p class="checked"><input type="checkbox" name="check"  class="chk_1" id="checkbox_a3"/><label for="checkbox_a3"></label></p>
+			<div class="checked_on">
+				<div class="title">123123123</div>
+				<div class="author">耐耐网推送</div>
+				<time>2016-12-03 12:12:12</time>
+			</div>
+		</li>
+                    <div class="clear"></div>
+		<li onclick=''>
+			<p class="checked"><input type="checkbox" name="check"  class="chk_1" id="checkbox_a4"/><label for="checkbox_a4"></label></p>
+			<div class="checked_on">
+				<div class="title">123123123</div>
+				<div class="author">耐耐网推送</div>
+				<time>2016-12-03 12:12:12</time>
+			</div>
+		</li>
+                    <div class="clear"></div>
+	</ul>
+
+  
+    <div class="check_del">
+        <p class="checkall"><input type="checkbox" name="checkall" class="chk_1" id="checkbox_a1"/><label for="checkbox_a1"></label>全选</p><button class="del">删除</button>
+    </div>
+</div>
+</section>
+
+
+<script>
+
+$(function(){
+	// 隐藏底部导航
+	hideNav();
+});
+</script>

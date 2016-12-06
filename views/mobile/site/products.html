@@ -116,65 +116,6 @@
 	<div class="clear"></div>
 	
 </section>
-<section class="pro_tab">
-	<ul>
-		<li class="on">商品详情</li>
-		<li>商品评论</li>
-		<li>商品咨询</li>
-	</ul>
-</section>
-<section class="pro_con">
-	<div class="con">
-		{if:isset($content) && $content}
-			<article class="article_detail">{$content}</article>
-		{/if}
-	</div>
-	<div class="con none">
-		<div id='commentBox'></div>
-		<script type='text/html' id='commentRowTemplate'>
-		<div class="commet">
-			<div class="user">
-				<img src="{webroot:<%=head_ico%>}" onerror="this.src='{skin:image/user_ico.jpg}'" />
-			</div>
-			<dl class="desc">
-				<%=contents%>
-			</dl>
-		</div>
-		<%if(recontents){%>
-			<div class="recommet">
-				<div class="user"><img src="{skin:image/admin_ico.png}"></div>
-				<div class="desc"><%=recontents%></div>
-			</div>
-		<%}%>
-		</script>
-	</div>
-	<div class="con none">
-		{if:$this->user}
-		<div class="question_btn">
-			<a href="{url:/site/consult/id/$id}">我要咨询</a>
-		</div>
-		{/if}
-		<div id='referBox'></div>
-		<!--购买咨询JS模板-->
-		<script type='text/html' id='referRowTemplate'>
-		<div class="commet">
-			<div class="user">
-				<img src="{webroot:<%=head_ico%>}" onerror="this.src='{skin:image/user_ico.jpg}'" />
-			</div>
-			<dl class="desc">
-				<%=question%>
-			</dl>
-		</div>
-		<%if(answer){%>
-			<div class="recommet">
-				<div class="user"><img src="{skin:image/admin_ico.png}"></div>
-				<div class="desc"><%=answer%></div>
-			</div>
-		<%}%>
-
-		</script>
-	</div>
-</section>
 <div class="btn_bottom_goods">
 	<ul class="btn_ico">
 		<li>
