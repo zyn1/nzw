@@ -2911,6 +2911,7 @@ header .info span{
 .input_li {
     padding: 0.15rem 0;
     font-size: 0.12rem;
+    background: #fff;
 }
 .input_li li {
     position: relative;
@@ -4480,7 +4481,7 @@ a.box i.check:after{
     color: #656565;
     position: relative;
 }
-.cart_2 .cart_2_bj em{
+.cart_2 .cart_2_bj em,.addre .default em{
     display: block;
     position: absolute;
     width: 55px;
@@ -4488,10 +4489,10 @@ a.box i.check:after{
     top: 0.1rem;
     right: 0.15rem;
 }
-.cart_2 .cart_2_bj em.no{
+.cart_2 .cart_2_bj em.no,.addre .default em.no{
     background: url("../image/top/tuidong.png") no-repeat;
 }
-.cart_2 .cart_2_bj em.on{
+.cart_2 .cart_2_bj em.on,.addre .default em.on{
     background: url("../image/top/tuidong_s.png") no-repeat;
 }
 .cart_2 .count{
@@ -5479,4 +5480,63 @@ font-size: 0.13rem;
     line-height: 0.5rem;
     height: 0.6rem;
 }
-
+/*收货地址*/
+.addre .item {
+    position: relative;
+    background: #fff;
+    padding: 0 0.15rem;
+    border-bottom: 1px solid #E2E2E2;
+    height: 0.45rem;
+}
+.addre .item .item_tit {
+    height: 0.45rem;
+    line-height: 0.45rem;
+    display: block;
+    float: left;
+    font-size: 0.14rem;
+    width: 20%;
+}
+.addre .item .txt-input {
+    background: none repeat scroll 0 0 #fff;
+    border: 0px;
+    color: #252525;
+    height: 0.44rem;
+    padding-left: 0.05rem;
+    outline: none;
+    width: 75%;
+}
+.addre .item_del_des{
+    background: #fff;
+    padding:0 0.15rem;
+    border-bottom: 1px solid #E2E2E2;
+}
+.addre .item_del_des textarea{
+    width: 100%;
+    height: 0.5rem;
+    padding:0.15rem 0;
+    border: 0px;
+    outline:none;
+}
+.addre .item .adder_right:before {
+    content: ' ';
+    position: absolute;
+    border: #C7C7CC solid;
+    border-width: 2px 0 0 2px;
+    width: 0.08rem;
+    height: 0.08rem;
+    -webkit-transform: rotate(-225deg);
+    -moz-transform: rotate(-225deg);
+    right: 0.15rem;
+    position: absolute;
+    top: 0.16rem;
+}
+.addre .default{
+    background: #fff;
+    height: 0.6rem;
+    line-height: 0.6rem;
+    padding: 0 0.15rem;
+    margin-top: 0.15rem;
+    border-top: 1px solid #E2E2E2;
+    border-bottom: 1px solid #E2E2E2;
+    position: relative;
+}
