@@ -1,4 +1,5 @@
 <script src="{theme:javascript/style.js}"></script>
+{set:$msgObj = new Mess($this->user['user_id']);$msgNum = $msgObj->needReadNum();}
 <header class="header_login">
 	<div class="header_title">
 		<a class="return_a"onclick="window.history.back();"></a>
@@ -7,8 +8,14 @@
         <div class="s_nav" style="display: block;">
         	<div class="c-tip-arrow" style="left: 30px;"><em></em><ins></ins></div>
             <ul>
-                <li><a><i class="icon-home">首页</i></a></li>
-                <li><a href="javascript:location.reload()"><i class="icon-comments-alt">消息</i></a></li>
+                <li><a href="{url:/}"><i class="icon-home">首页</i></a></li>
+                <li><a href="{url:/ucenter/message}">
+                {if:$msgNum > 0}
+                <i class="icon-comments-alt">消息</i>
+                {else:}
+                <i class="icon-comment-alt">消息</i>
+                {/if}
+                </a></li>
             </ul>
         </div>
 	</div>

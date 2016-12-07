@@ -86,7 +86,7 @@ class search_goods
 	/**
 	 * @brief 商品检索,可以直接读取 $_GET 全局变量:attr,order,brand,min_price,max_price
 	 *        在检索商品过程中计算商品结果中的进一步属性和规格的筛选
-	 * @param mixed $defaultWhere string(条件) or array('search' => '模糊查找','category_extend' => '商品分类ID','字段' => 对应数据)
+	 * @param mixed $defaultWhere string(条件) or array('search' => '模糊查找','category_extend' => '商品分类ID','commend_extend'=>'推荐类型id','字段' => 对应数据)
 	 * @param int $limit 读取数量
 	 * @param bool $isCondition 是否筛选出商品的属性，价格等数据
 	 * @return IQuery
@@ -151,14 +151,24 @@ class search_goods
 						continue;
 					}
 
-					//商品分类检索
-					if($key == 'category_extend')
+                    //商品分类检索
+                    if($key == 'category_extend')
+                    {
+                        //没有点击搜索属性 $attrCond
+                        if($val && !$attrCond)
+                        {
+                            $join[]  = "left join category_extend as ce on ce.goods_id = go.id";
+                            $where[] = "ce.category_id in (".$val.")";
+                        }
+                    }
+
+					//商品推荐类型检索
+					elseif($key == 'commend_extend')
 					{
-						//没有点击搜索属性 $attrCond
-						if($val && !$attrCond)
+						if($val)
 						{
-							$join[]  = "left join category_extend as ce on ce.goods_id = go.id";
-							$where[] = "ce.category_id in (".$val.")";
+							$join[]  = "left join commend_goods as cg on cg.goods_id = go.id";
+							$where[] = "cg.commend_id in (".$val.")";
 						}
 					}
 					//搜索词模糊

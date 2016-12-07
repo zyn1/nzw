@@ -8,14 +8,17 @@
     <div class="header">
         <a class="return_a" onclick="window.history.back();"></a>
         <div class="sear_t">
-            <form action="">
-                <input type="text" class="text" placeholder="输入关键词"/>
+            <form method='get' action='{url:/}'>
+                <input type='hidden' name='controller' value='site'>
+                <input type='hidden' name='action' value='search_list'>
+                <input type="hidden" name="type" value="1"/>
+                <input type="text" class="text" name="word" placeholder="输入关键词"/>
             </form>
         </div>
         <a class="a_gd"></a>
         <div class="s_nav">
             <ul>
-                <li><a>首页</a></li>
+                <li><a href="{url:/}">首页</a></li>
                 <li><a href="javascript:location.reload()">刷新</a></li>
             </ul>
         </div>

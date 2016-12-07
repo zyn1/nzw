@@ -12,23 +12,23 @@
 		         <li><a class="ul_a" rel="2">商家</a></li>
 		      </ul>
 		  </div>
-		  	<form action="">
-			  	<input type="text" class="text" placeholder="输入关键词"/>
+		  	<form method='get' action='{url:/}'>
+                <input type='hidden' name='controller' value='site'>
+                <input type='hidden' name='action' value='search_list'>
+                <input type="hidden" name="type"/>
+			  	<input type="text" class="text" name="word" placeholder="输入关键词"/>
 			</form>
 		</div>
-    	<a class="qx_a">取消</a>
+    	<a class="qx_a" onclick="window.history.back();">取消</a>
    </div>
 </header>
 <div class="s_main">
 	<div class="s_title">热门搜索<a class="del_a"></a></div>
 	<div class="s_ch clear">
-		<a>苹果手机</a>
-		<a>收纳箱</a>
-		<a>收纳箱</a>
-		<a>苹果手机</a>
-		<a>苹果手机</a>
-		<a>耳机转换头</a>
-		<a>收纳箱</a>
+		{foreach:items=Api::run('getKeywordList') }
+        {set:$tmpWord = urlencode($item['word']);}
+        <a href="{url:/site/search_list/word/$tmpWord}">{$item['word']}</a>
+        {/foreach}
 	</div>
 </div>
 <script>

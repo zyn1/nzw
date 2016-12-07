@@ -67,22 +67,13 @@ $(function(){
 <section class="map_list clear">
 	<div class="l_left" id="con_left">
 		<ul class="job_sub" id="scroller1">
-	        		<li class="off"><a>手机/配件</a></li>
-			<li class=""><a>电脑办公</a></li>
-			<li class=""><a>数码智能</a></li>
-			<li class=""><a >潮流服装</a></li>
-			<li class=""><a >饰品配饰</a></li>
-			<li class=""><a>妈咪宝贝</a></li>
-			<li class=""><a >舒适内衣</a></li>
-			<li class=""><a >礼品箱包</a></li>
-			<li class=""><a >时尚鞋靴</a></li>
-			<li class=""><a >运动户外</a></li>
-			<li class=""><a>丽人美妆</a></li>
-			<li class=""><a>玩具乐器</a></li>
-			<li class=""><a >食品饮料</a></li>
-			<li class=""><a>智能家电</a></li>
-			<li class=""><a>品质钟表</a></li>
-			<li class=""><a>家居日用</a></li>
+            {foreach:items=Api::run('getCategoryListTop') item=$first }
+            {if:$key == 0}
+            <li class="off"><a>{$first['name']}</a></li>
+            {else:}
+            <li class=""><a>{$first['name']}</a></li>
+            {/if}
+            {/foreach}
 		</ul>
 	</div>
 	 <div class="l_right" id="con_right">

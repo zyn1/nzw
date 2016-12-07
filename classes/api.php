@@ -47,7 +47,6 @@ class Api
 		//匿名参数处理
 		$agumentsArray = func_get_args();
 		array_shift($agumentsArray);
-
 		$apiConf = self::$apiResource[$apiName];
 
 		//1,单纯的数据库读取方式
@@ -108,7 +107,11 @@ class Api
 		{
 			foreach($aguments as $param)
 			{
-				if(is_numeric($param))
+                if(is_numeric($param))
+                {
+                    $queryInfo['limit'] = $param;
+                }
+				elseif(is_string($param))
 				{
 					$queryInfo['limit'] = $param;
 				}

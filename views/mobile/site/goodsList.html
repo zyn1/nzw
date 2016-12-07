@@ -11,7 +11,7 @@
             <form method='get' action='{url:/}'>
                 <input type='hidden' name='controller' value='site'>
                 <input type='hidden' name='action' value='search_list'>
-                <input type="hidden" name="type" value="2"/>
+                <input type="hidden" name="type" value="1"/>
                 <input type="text" class="text" name="word" placeholder="输入关键词"/>
             </form>
         </div>
@@ -24,37 +24,32 @@
         </div>
    </div>
 </header>
-{js:areaSelect}
+{set:$commend_id = IFilter::act(IReq::get('_t'),'int')}
+{set:$goodsObj = search_goods::find(array('commend_extend' => $commend_id),20);$resultData = $goodsObj->find();}
+
+{if:$resultData}
 <aside class="goods_sort">
-    {foreach:items=search_seller::getOrderType()}
-    <span class="sort_btn" onclick="{echo:search_goods::searchUrl(array('order','by'),array($key,search_goods::getOrderBy($key)))}">{$item}<i class="down_a"></i></span>
+    {foreach:items=search_goods::getOrderType()}
+    <span class="sort_btn" onclick="gourl('{echo:search_goods::searchUrl(array('order','by'),array($key,search_goods::getOrderBy($key)))}')">{$item}
+        <i class="down_a"></i>
+    </span>
+    
     {/foreach}
 </aside>
 <section class="goods_list">
-    {if:$this->word}
-        {set:$defaultWhere = array('search' => $this->word)}
-        {set:$queryObj = search_seller::find($defaultWhere,20);$resultData = $queryObj->find();}
-        {else:}
-        {set:$queryObj=Api::run('getSellerList');$resultData=$queryObj->find()}
-        {/if}
-        {if:$resultData}
     <ul>
-          {foreach:items=$resultData}
+        {foreach:items=$resultData}
         <li>
-            <a class="clear" href="{url:/site/home/id/$item['id']}">
-               <i class="sellers_i"><img class="sellers_photo" src="{webroot:}{$item['seller_logo']}" alt="{$item['true_name']}"></i>
+            <a class="clear" href="{url:/site/products/id/$item[id]}">
+                <i class="photo"><img class="goods_photo" src="{url:/pic/thumb/img/$item[img]/w/200/h/200}" alt="{$item['name']}"></i>
                 <div class="name_price">
-                    <h3 class="seller_name"><strong>{$item['true_name']}</strong></h3>
-                    <p class="se_m_g">主营商品：{$item['sales']}</p>
-                    <p class="se_m_g">所在地：{echo:join(' ',area::name($item['province'],$item['city'],$item['area']))}</p>
+                    <h3 class="name"><strong>{$item['name']}</strong></h3>
+                    
+                    <em class="price">￥{$item['sell_price']}</em>
+                    <del class="old_price">市场价：￥{$item['market_price']}</del>
+                    <span class="xl">销量68</span>
                 </div>
-                <div class="sellers_xl">
-                    <span class="xl1">销量898</span>
-                    <span class="xl2">共898件宝贝</span>
-                    <span class="xl3">好评率：<em>99.8%</em></span>
-                </div>
-            </a>
-            
+            </a>                
         </li>
         {/foreach}
     </ul>
@@ -63,9 +58,7 @@
 <!-- <div class="down_g">没有更多数据</div> -->
 <!-- {$goodsObj->getPageBar()} -->
 {else:}
-<p class="no_tip">
-    对不起，当前系统没有商家
-</p>
+<section class="nodata">没有相关商品</section>
 {/if}
 
 <script>

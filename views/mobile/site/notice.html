@@ -1,0 +1,46 @@
+
+<style type="text/css">
+    body{
+        background: #fff;
+    }
+    .pages_bar{
+    	display: none;
+    }
+</style>
+
+<header class="header_login">
+	<div class="header_title">
+		<a class="return_a"onclick="window.history.back();"></a>
+		<h2 id="pageInfo" data-title="商城公告">商城公告</h2>
+		<a class="qx_a" href="{url:ucenter/message_edit}">编辑</a>
+	</div>
+</header>
+
+<div id="pageInfo" data-title="短消息"></div>
+
+<section class="coupon_list">
+	<ul>
+        {set:$queryNotice = Api::run('getNoticeList')}
+        {foreach:items = $queryNotice->find()}
+        <li onclick="window.location.href = '{url:/site/notice_detail/id/$item[id]}'">
+            <div class="title">{$item['title']}</div>
+            <div class="author">耐耐网推送</div>
+            <time>{$item['time']}</time>
+        </li>
+        {/foreach}
+	</ul>
+	{$queryNotice->getPageBar()}
+</section>
+<!-- <section id="show_msg" class="complain none">
+	<div class="close" onclick='$(this).parents("#show_msg").hide()'></div>
+	<article id="content">最好免费赠送</article>
+</section> -->
+
+
+<script>
+
+$(function(){
+	// 隐藏底部导航
+	hideNav();
+});
+</script>

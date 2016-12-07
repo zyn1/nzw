@@ -14,8 +14,12 @@
             <a class="header_search" href="{url:site/search}">
                 <i class="serch_a icon-search"></i>请输入您要搜索的内容
             </a>
-            <a class="header_so_btn"><i class="icon-comment-alt"></i>
-                 <!--<i class="icon-comments-alt"></i> 有消息显示此图标 -->
+            <a class="header_so_btn" href="{url:ucenter/message}">
+            {if:$msgNum > 0}
+            <i class="icon-comments-alt"></i>
+            {else:}
+            <i class="icon-comment-alt"></i>
+            {/if}
             </a>
         </div>
     </header>
@@ -46,10 +50,10 @@ $(function() {
 <!-- 首页菜单 -->
 <nav class="home_nav">
     <ul>
-        <li class="map"><a href="{url:site/sitemap}"><i class="icon-th-list"></i><span>充值</span></a></li>
-        <li class="cart"><a href="{url:simple/cart}"><i class="icon-shopping-cart"></i><span>家装知识</span></a></li>
-        <li class="groupon"><a href="{url:site/groupon}"><i class="icon-legal"></i><span>商城公告</span></a></li>
-        <li class="custom"><a href="{url:ucenter/favorite}"><i class="icon-star"></i><span>在线客服</span></a></li>
+        <li class="map"><a href="{url:ucenter/online_recharge}"><i class="icon-th-list"></i><span>充值</span></a></li>
+        <li class="cart"><a href="{url:site/article}"><i class="icon-shopping-cart"></i><span>家装知识</span></a></li>
+        <li class="groupon"><a href="{url:site/notice}"><i class="icon-legal"></i><span>商城公告</span></a></li>
+        <li class="custom"><a href="mqqwpa://im/chat?chat_type=wpa&uin={$this->_siteConfig->qq}&version=1&src_type=web&web_src=bjhuli.com"><i class="icon-star"></i><span>在线客服</span></a></li>
         <li class="favorite"><a href="{url:ucenter/favorite}"><i class="icon-star"></i><span>收藏</span></a></li>
     </ul>
 </nav>
@@ -74,59 +78,33 @@ $(function() {
 
 <h2 class="home_title">
     <strong>特价商品</strong>
-    <a class="more_a" href="{url:/site/search_list_seller}">更多</a>
+    <a class="more_a" href="{url:site/goodsList/_t/2}">更多</a>
 </h2>
 <section class="home_goods">
     <div class="goods_l">
         <ul>
+            {foreach:items=Api::run('getCommendPrice',2)}
             <li>
-                <a href="">
-                <img src="">
-                <div class="good_name">合木威廉 三层实木 地板</div>
-                <em>￥200.00</em>
+                <a href="{url:/site/products/id/$item['id']}">
+                    <img src="{url:/pic/thumb/img/$item['img']/w/170/h/170}">
+                    <div class="good_name">{$item['name']}</div>
+                    <em>￥{$item['sell_price']}</em>
                 </a>
             </li>
-            <li>
-                <a href="">
-                <img src="">
-                <div class="good_name">合木威廉 三层实木 地板</div>
-                <em>￥200.00</em>
-                </a>
-            </li>
-            
+            {/foreach}
         </ul>
     </div>
     <div class="goods_r">
         <ul>
+            {foreach:items=Api::run('getCommendPrice','2,4')}
             <li>
-                <a>
-                <img src="">
-                <p class="good_name">合木威廉 三层实木 地板合木威廉 三层实木 地板</p>
-                <em>￥200.00</em>
+                <a href="{url:/site/products/id/$item['id']}">
+                    <img src="{url:/pic/thumb/img/$item['img']/w/170/h/170}">
+                    <div class="good_name">{$item['name']}</div>
+                    <em>￥{$item['sell_price']}</em>
                 </a>
             </li>
-            <li>
-                <a href="">
-                <img src="">
-                <p class="good_name">合木威廉 三层实木 地板</p>
-                <em>￥200.00</em>
-                </a>
-            </li>
-            <li>
-                <a href="">
-                <img src="">
-                <p class="good_name">合木威廉 三层实木 地板</p>
-                <em>￥200.00</em>
-                </a>
-            </li>
-            <li>
-                <a href="">
-                <img src="">
-                <p class="good_name">合木威廉 三层实木 地板</p>
-                <em>￥200.00</em>
-                </a>
-            </li>
-            
+            {/foreach}
         </ul>
     </div>
 </section>
@@ -136,63 +114,52 @@ $(function() {
 <link rel="stylesheet" href="{skin:style/swiper.min.css}">
 <div class="swiper-container swiper-container-horizontal head">
      <div class="swiper-wrapper" id="box1">
-        <div class="swiper-slide active">基础建材</div>
-        <div class="swiper-slide">瓷石地板</div>
-        <div class="swiper-slide">门窗</div>
-        <div class="swiper-slide">橱柜卫浴</div>
-        <div class="swiper-slide">家具电器</div>
-        <div class="swiper-slide">软装家饰</div>
+        {foreach:items=Api::run('getCategoryListTop') item=$first }
+        {if:$key == 0}
+        <div class="swiper-slide active">{$first['name']}</div>
+        {else:}
+        <div class="swiper-slide">{$first['name']}</div>
+        {/if}
+        {/foreach}
     </div>
 </div>
 <div class="swiper-container panel home_goods">
     <section class="swiper-wrapper">
+    {foreach:items=Api::run('getCategoryListTop') item=$first }
         <div class="swiper-slide">
            <ul>
+           {set:$cateId=goods_class::catChild($first['id'])}
+                {foreach:items=Api::run('getCategoryExtendList',array('#categroy_id#',$cateId),6)}
                 <li>
-                    <a href="">
-                        <img src="">
+                    <a href="{url:/site/products/id/$item['id']}">
+                        <img src="{url:/pic/thumb/img/$item['img']/w/170/h/170}">
                         <div class="good_name">{$item['name']}</div>
                         <em>￥{$item['sell_price']}</em>
                     </a>
                 </li>
-                <li>
-                    <a href="">
-                        <img src="">
-                        <div class="good_name">{$item['name']}</div>
-                        <em>￥{$item['sell_price']}</em>
-                    </a>
-                </li>
+                {/foreach}
             </ul>
-            <div class="look_gd"><a>查看更多</a></div>
+            <div class="look_gd"><a href="{url:/site/pro_list/cat/$first[id]}">查看更多</a></div>
         </div>
-        <div class="swiper-slide">22222222222222</div>
-        <div class="swiper-slide">33333333333333</div>
-        <div class="swiper-slide">44444444444444</div>
-        <div class="swiper-slide">55555555555555</div>
-        <div class="swiper-slide">66666666666666</div>
+    {/foreach}
     </section>
 </div>
 <!-- 分类商品 end-->
 <h2 class="home_title" id="like_top">
-    <strong>猜你喜欢</strong>
-    <a class="more_a" href="">更多</a>
+    <strong>推荐商品</strong>
+    <a class="more_a" href="{url:site/goodsList/_t/4}">更多</a>
 </h2>
 <section class="home_goods">
     <ul>
+        {foreach:items=Api::run('getCommendRecom',6)}
         <li>
-            <a href="">
-                <img src="">
+            <a href="{url:/site/products/id/$item['id']}">
+                <img src="{url:/pic/thumb/img/$item['img']/w/170/h/170}">
                 <div class="good_name">{$item['name']}</div>
                 <em>￥{$item['sell_price']}</em>
             </a>
         </li>
-        <li>
-            <a href="">
-                <img src="">
-                <div class="good_name">{$item['name']}</div>
-                <em>￥{$item['sell_price']}</em>
-            </a>
-        </li>
+        {/foreach}
     </ul>
 </section>
 
