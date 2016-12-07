@@ -79,110 +79,23 @@ $(function(){
 	 <div class="l_right" id="con_right">
 		<!-- 三级  -->
 		<div class="rightBox" id="scroller">
+        {foreach:items=Api::run('getCategoryListTop') item=$first }
 		<div class="fr_ite">
 			<ul>
+                {foreach:items=Api::run('getCategoryByParentid',array('#parent_id#',$first['id'])) item=$second}
 				<li>
-					<div class="ft_name">上水管</div>
+					<div class="ft_name"><a href="{url:/site/pro_list/cat/$second[id]}">{$second['name']}</a></div>
 					<div class="ft_img clear">
-						<a><img src="{skin:image/top/logo@2x.png}"/></a>
-						<a><img src="{skin:image/top/logo@2x.png}"/></a>
-						<a><img src="{skin:image/top/logo@2x.png}"/></a>
+                        {set:$cateId=goods_class::catChild($second['id'])}
+                        {foreach:items=Api::run('getCategoryExtendList',array('#categroy_id#',$cateId),3)}
+						<a href="{url:/site/products/id/$item['id']}"><img src="{url:/pic/thumb/img/$item['img']/w/170/h/170}"></a>
+                        {/foreach}
 					</div>
 				</li>
-				<li>
-					<div class="ft_name">上水管</div>
-					<div class="ft_img clear">
-						<a><img src="{skin:image/top/logo@2x.png}"/></a>
-						<a><img src="{skin:image/top/logo@2x.png}"/></a>
-						<a><img src="{skin:image/top/logo@2x.png}"/></a>
-					</div>
-				</li>
-				<li>
-					<div class="ft_name">上水管</div>
-					<div class="ft_img clear">
-						<a><img src="{skin:image/top/logo@2x.png}"/></a>
-						<a><img src="{skin:image/top/logo@2x.png}"/></a>
-						<a><img src="{skin:image/top/logo@2x.png}"/></a>
-					</div>
-				</li>
-				<li>
-					<div class="ft_name">上水管</div>
-					<div class="ft_img clear">
-						<a><img src="{skin:image/top/logo@2x.png}"/></a>
-						<a><img src="{skin:image/top/logo@2x.png}"/></a>
-						<a><img src="{skin:image/top/logo@2x.png}"/></a>
-					</div>
-				</li>
-				<li>
-					<div class="ft_name">上水管</div>
-					<div class="ft_img clear">
-						<a><img src="{skin:image/top/logo@2x.png}"/></a>
-						<a><img src="{skin:image/top/logo@2x.png}"/></a>
-						<a><img src="{skin:image/top/logo@2x.png}"/></a>
-					</div>
-				</li>
-				<li>
-					<div class="ft_name">上水管</div>
-					<div class="ft_img clear">
-						<a><img src="{skin:image/top/logo@2x.png}"/></a>
-						<a><img src="{skin:image/top/logo@2x.png}"/></a>
-						<a><img src="{skin:image/top/logo@2x.png}"/></a>
-					</div>
-				</li>
+                {/foreach}
 			</ul>
 		</div>
-		<div class="fr_ite">
-			<ul>
-				<li>
-					<div class="ft_name">下水管</div>
-					<div class="ft_img clear">
-						<a><img src="{skin:image/top/logo@2x.png}"/></a>
-						<a><img src="{skin:image/top/logo@2x.png}"/></a>
-						<a><img src="{skin:image/top/logo@2x.png}"/></a>
-					</div>
-				</li>
-				<li>
-					<div class="ft_name">上水管</div>
-					<div class="ft_img clear">
-						<a><img src="{skin:image/top/logo@2x.png}"/></a>
-						<a><img src="{skin:image/top/logo@2x.png}"/></a>
-						<a><img src="{skin:image/top/logo@2x.png}"/></a>
-					</div>
-				</li>
-				<li>
-					<div class="ft_name">上水管</div>
-					<div class="ft_img clear">
-						<a><img src="{skin:image/top/logo@2x.png}"/></a>
-						<a><img src="{skin:image/top/logo@2x.png}"/></a>
-						<a><img src="{skin:image/top/logo@2x.png}"/></a>
-					</div>
-				</li>
-				<li>
-					<div class="ft_name">上水管</div>
-					<div class="ft_img clear">
-						<a><img src="{skin:image/top/logo@2x.png}"/></a>
-						<a><img src="{skin:image/top/logo@2x.png}"/></a>
-						<a><img src="{skin:image/top/logo@2x.png}"/></a>
-					</div>
-				</li>
-				<li>
-					<div class="ft_name">上水管</div>
-					<div class="ft_img clear">
-						<a><img src="{skin:image/top/logo@2x.png}"/></a>
-						<a><img src="{skin:image/top/logo@2x.png}"/></a>
-						<a><img src="{skin:image/top/logo@2x.png}"/></a>
-					</div>
-				</li>
-				<li>
-					<div class="ft_name">上水管</div>
-					<div class="ft_img clear">
-						<a><img src="{skin:image/top/logo@2x.png}"/></a>
-						<a><img src="{skin:image/top/logo@2x.png}"/></a>
-						<a><img src="{skin:image/top/logo@2x.png}"/></a>
-					</div>
-				</li>
-			</ul>
-		</div>
+		{/foreach}
 	</div>
 	</div>
 </section>

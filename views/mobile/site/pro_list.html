@@ -10,18 +10,21 @@
 	{/foreach}
 </aside>
 <section class="goods_list">
-	<ul>
-		{foreach:items=$resultData}
-		<li>
-			<a href="{url:/site/products/id/$item[id]}">
-				<i class="photo"><img class="goods_photo" src="{url:/pic/thumb/img/$item[img]/w/200/h/200}" alt="{$item['name']}"></i>
-				<h3 class="name"><strong>{$item['name']}</strong></h3>
-				<del class="old_price">￥{$item['market_price']}</del>
-				<em class="price">￥{$item['sell_price']}</em>
-			</a>
-		</li>
-		{/foreach}
-	</ul>
+    <ul>
+        {foreach:items=$resultData}
+        <li>
+            <a class="clear" href="{url:/site/products/id/$item[id]}">
+                <i class="photo"><img class="goods_photo" src="{url:/pic/thumb/img/$item[img]/w/200/h/200}" alt="{$item['name']}"></i>
+                <div class="name_price">
+                    <h3 class="name"><strong>{$item['name']}</strong></h3>
+                    
+                    <em class="price">￥{$item['sell_price']}</em>
+                    <del class="old_price">市场价：￥{$item['market_price']}</del>
+                </div>
+            </a>                
+        </li>
+        {/foreach}
+    </ul>
 </section>
 {$goodsObj->getPageBar()}
 {else:}
@@ -35,7 +38,6 @@ $(function(){
 	// 切换导航样式
 	var order = getUrlParam("order");
 	var by = getUrlParam("by");
-	console.log(by)
 	var sortBtn = $(".goods_sort").children('.sort_btn');
 	// sortBtn.eq(2).append('<i>');
 	if(order=="sale"){

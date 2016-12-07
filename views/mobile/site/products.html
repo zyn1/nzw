@@ -8,15 +8,26 @@
     <div class="header">
         <a class="return_a" onclick="window.history.back();"></a>
         <div class="sear_t">
-            <a href="" class="active">商品</a>
-            <a href="">详情</a>
-            <a href="">评价</a>
+            <a href="javascript:;" class="active">商品</a>
+            <a href="{url:site/pro_detail/id/$id}">详情</a>
+            <a href="{url:site/pro_pingjia/id/$id}">评价</a>
         </div>
         <a class="a_gd"></a>
         <div class="s_nav">
             <ul>
                 <li><a><i class="icon-home">首页</i></a></li>
-                <li><a href="javascript:location.reload()"><i class="icon-comments-alt">消息</i></a></li>
+                <li><a href="{url:ucenter/message}">
+                {if:$this->user}
+                {set:$msgObj = new Mess($this->user['user_id']);$msgNum = $msgObj->needReadNum();}
+                {else:$msgNum = 0;}
+                {set:}
+                {/if}
+                {if:$msgNum > 0}
+                <i class="icon-comments-alt">消息</i>
+                {else:}
+                <i class="icon-comment-alt">消息</i>
+                {/if}
+                </a></li>
             </ul>
         </div>
    </div>
@@ -60,14 +71,14 @@
 			<!--当前用户普通价格-->
 			<li>
 				<em class="price">￥<span id="data_sellPrice">{$sell_price}</span></em>
-				<br>市场价：<em class="old_price">￥<span id="data_sellPrice">{$sell_price}</span></em>
+				<br>市场价：<em class="old_price">￥<span id="data_sellPrice">{$market_price}</span></em>
 			</li>
 			{/if}
 		{/if}		
 		{if:isset($seller)}
 		{set:plugin::trigger("onServiceButton",$seller['id'])}
 		<li>
-			店铺：<strong class="seller_name">{$seller['true_name']}</strong>
+			店铺：<strong class="seller_name"><a href="{url:/site/home/id/$seller_id}">{$seller['true_name']}</a></strong>
 		</li>
 		<li>
 			所在地：<span class="seller_area">{echo:join(' ',area::name($seller['province'],$seller['city'],$seller['area']))}</span>

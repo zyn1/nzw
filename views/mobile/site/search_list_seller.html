@@ -27,17 +27,17 @@
 {js:areaSelect}
 <aside class="goods_sort">
     {foreach:items=search_seller::getOrderType()}
-    <span class="sort_btn" onclick="{echo:search_goods::searchUrl(array('order','by'),array($key,search_goods::getOrderBy($key)))}">{$item}<i class="down_a"></i></span>
+    <a class="sort_btn" href="{echo:search_goods::searchUrl(array('order','by'),array($key,search_goods::getOrderBy($key)))}">{$item}<i class="down_a"></i></a>
     {/foreach}
 </aside>
 <section class="goods_list">
     {if:$this->word}
-        {set:$defaultWhere = array('search' => $this->word)}
-        {set:$queryObj = search_seller::find($defaultWhere,20);$resultData = $queryObj->find();}
-        {else:}
-        {set:$queryObj=Api::run('getSellerList');$resultData=$queryObj->find()}
-        {/if}
-        {if:$resultData}
+    {set:$defaultWhere = array('search' => $this->word)}
+    {else:}
+    {set:$defaultWhere=''}
+    {/if}
+    {set:$queryObj = search_seller::find($defaultWhere,20);$resultData = $queryObj->find();}
+    {if:$resultData}
     <ul>
           {foreach:items=$resultData}
         <li>
@@ -49,9 +49,9 @@
                     <p class="se_m_g">所在地：{echo:join(' ',area::name($item['province'],$item['city'],$item['area']))}</p>
                 </div>
                 <div class="sellers_xl">
-                    <span class="xl1">销量898</span>
-                    <span class="xl2">共898件宝贝</span>
-                    <span class="xl3">好评率：<em>99.8%</em></span>
+                    <span class="xl1">销量{$item['sale']}</span>
+                    <span class="xl2">共{echo:statistics::goodsCountSeller($item['id'])}件宝贝</span>
+                    <span class="xl3">评分：<em>{echo:Common::gradeWidth(statistics::gradeSeller($item['id']))}</em></span>
                 </div>
             </a>
             

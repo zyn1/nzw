@@ -27,10 +27,10 @@ $(function(){
 	<div class="merch_list">
         {if:$this->word}
         {set:$defaultWhere = array('search' => $this->word)}
-        {set:$queryObj = search_seller::find($defaultWhere,20);$resultData = $queryObj->find();}
         {else:}
-        {set:$queryObj=Api::run('getSellerList');$resultData=$queryObj->find()}
+        {set:$defaultWhere=''}
         {/if}
+        {set:$queryObj = search_seller::find($defaultWhere,20);$resultData = $queryObj->find();}
         {if:$resultData}
         <ul>
             {foreach:items=$resultData}

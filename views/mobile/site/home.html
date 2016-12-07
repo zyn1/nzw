@@ -19,50 +19,52 @@
         </div>
    </div>
 </header>
+{set:$_t = IReq::get('_t') ? IReq::get('_t') : 1}
 <section class="home_top">
     <div class="top_title">
-        <a class="sj_de on">商家介绍</a>
-        <a class="sj_good">全部商品</a>
+        <a class="sj_de {if:$_t == 1} on {/if}" href="{url:/site/home/id/$seller_id}">商家介绍</a>
+        <a class="sj_good {if:$_t == 2} on {/if}" href="{url:/site/home/id/$seller_id/_t/2}">全部商品</a>
     </div>
 </section>
 <!-- 商家详情 -->
+{set:plugin::trigger("onServiceButton",$sellerRow['id'])}
+{if:$_t == 1}
 <div class="home_deal">
    <div class="seller_info">
         <div class="info clear">
             <ul>
-                <li class="seller_photo"><img src="{skin:image/top/logo@2x.png}"/></li>
+                <li class="seller_photo"><img src="{url:/pic/thumb/img/$sellerRow[seller_logo]/w/60/h/60}"/></li>
                 <li class="seller_name">
-                    <h3>卓和家具旗舰店</h3>
-                    <p>主营：林业家具</p>
+                    <h3>{$sellerRow['true_name']}</h3>
+                    <p>主营：{$sellerRow['sales']}</p>
                     <p>所在地：{echo:join(' ',area::name($sellerRow['province'],$sellerRow['city'],$sellerRow['area']))} {$sellerRow['address']}</p>
                 </li>
                 <li class="kf_a">
-                    <a><i></i></a>
+                    <a href="mqqwpa://im/chat?chat_type=wpa&uin={$sellerRow['server_num']}&version=1&src_type=web&web_src=bjhuli.com"><i></i></a>
                 </li>
             </ul>
         </div>
         <div class="sellers_xl">
-            <span class="xl1">销量898</span>
-            <span class="xl2">共898件宝贝</span>
-            <span class="xl3">好评率：<em>99.8%</em></span>
+            <span class="xl1">销量{echo:statistics::sellCountSeller($sellerRow['id'])}</span>
+            <span class="xl2">共{echo:statistics::goodsCountSeller($sellerRow['id'])}件宝贝</span>
+            <span class="xl3">评分：<em>{echo:statistics::gradeSeller($sellerRow['id'])}</em></span>
         </div>
    </div> 
    <div class="home_t">
         <div class="t_name">进入官网</div>
-        <div class="t_dz"><a>www.nz826.com</a></div>
+        <div class="t_dz"><a href="{$sellerRow['home_url']}" target="_blank">{$sellerRow['home_url']}</a></div>
    </div>
    <div class="home_t">
         <div class="t_name">客服热线</div>
-        <div class="t_dz"><a  href="tel:4006599591">400-659-9591</a></div>
+        <div class="t_dz"><a  href="tel:{$sellerRow['phone']}">{$sellerRow['phone']}</a></div>
    </div>
 </div>
 <!-- 商家详情 end-->
+{else:}
 
-
-{set:plugin::trigger("onServiceButton",$sellerRow['id'])}
 {set:$goodsObj = search_goods::find(array('go.seller_id' => $seller_id),20);$resultData = $goodsObj->find();}
 {if:$resultData}
-<div class="home_goods" style="display:none">
+<div class="home_goods">
 <aside class="goods_sort">
     {foreach:items=search_goods::getOrderType()}
     <span class="sort_btn" onclick="gourl('{echo:search_goods::searchUrl(array('order','by'),array($key,search_goods::getOrderBy($key)))}')">{$item}<i class="down_a"></i></span>
@@ -79,7 +81,7 @@
                     
                     <em class="price">￥{$item['sell_price']}</em>
                     <del class="old_price">市场价：￥{$item['market_price']}</del>
-                    <span class="xl">销量68</span>
+                    <span class="xl">销量{$item['sale']}</span>
                 </div>
                 
             </a>
@@ -94,6 +96,7 @@
 <section class="nodata">商品进货中，请稍后关注上架情况</section>
 {/if}
 </div>
+{/if}
 
 
 <script>

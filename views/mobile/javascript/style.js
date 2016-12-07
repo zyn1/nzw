@@ -3,19 +3,6 @@
       $(".a_gd").click(function(){
       $(".s_nav").toggle();
       });
-      /*商家详情切换*/
-      $(".home_top .top_title .sj_de").click(function(){
-      	$(".home_deal").show();
-      	$(".home_goods").hide();
-      	$(this).addClass("on");
-      	$(".sj_good").removeClass("on");
-      });
-      $(".home_top .top_title .sj_good").click(function(){
-      	$(".home_deal").hide();
-      	$(".home_goods").show();
-      	$(this).addClass("on");
-      	$(".sj_de").removeClass("on");
-      });
       /*购物车编辑和完成div切换*/
       $(".cart_edit .name .sel_cz_wc").click(function(){
             $(this).parent(".cart_sel").addClass("on")
