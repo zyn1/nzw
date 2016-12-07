@@ -1,6 +1,6 @@
 <script type="text/javascript">
 //注册校验码
-function _sendMobileCode(_self)
+function _sendMobileCode(_self, _v = 1)
 {
 	$(_self).prop("disabled",true);
 	var mobile = $('[name="mobile"]').val();
@@ -11,7 +11,7 @@ function _sendMobileCode(_self)
             captcha = $(this).val();
         }
     })
-	$.get("{url:/simple/_sendMobileCode}",{"captcha":captcha,"mobile":mobile},function(content)
+	$.get("{url:/simple/_sendMobileCode}",{"captcha":captcha,"mobile":mobile, '_v':_v},function(content)
 	{
 		if(content)
 		{

@@ -27,11 +27,16 @@ class Site extends IController
 		$this->index_slide = Api::run('getBannerList');
         
         //获取用户站内信条数
-        $msgObj = new Mess($this->user['user_id']);
-        $msgNum = $msgObj->needReadNum();
+        $msgNum = 0;
+        if($this->user)
+        {
+            $msgObj = new Mess($this->user['user_id']);
+            $msgNum = $msgObj->needReadNum();
+        }
         $this->setRenderData(array(
             "msgNum"     => $msgNum
         ));
+        
 		$this->redirect('index');
 	}
 

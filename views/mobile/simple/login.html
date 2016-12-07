@@ -13,6 +13,7 @@
 <section class="login input_li">
 	<form action='{url:/simple/login_act}' method='post'>
 		<input type="hidden" name='callback' value="{$callback}" />
+        <input type="hidden" name="_v">
 		<ul>
 			<li>
 				<input type="text" class="input_text" placeholder="请输入手机号" initmsg="验证通过" name="login_info" id="login_info" value="{echo:ICookie::get('loginName');}" pattern='required' alt='请输入手机号' />

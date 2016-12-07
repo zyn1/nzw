@@ -1,5 +1,9 @@
 <script src="{theme:javascript/style.js}"></script>
+{if:$this->user}
 {set:$msgObj = new Mess($this->user['user_id']);$msgNum = $msgObj->needReadNum();}
+{else:}
+{set:$msgNum = 0;}
+{/if}
 <header class="header_login">
 	<div class="header_title">
 		<a class="return_a"onclick="window.history.back();"></a>
