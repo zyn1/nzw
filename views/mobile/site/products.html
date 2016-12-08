@@ -97,15 +97,19 @@
 		</li>
 	</ul>
 	<div class="cut"></div>
+    {if:$comments > 0}
 	<ul>
-		<li >商品评价（{$comments} ）<i class="icon-more"></i></li>
+		<li ><a href="{url:site/pro_pingjia/id/$id}">商品评价（{$comments} ）<i class="icon-more"></i></a></li>
 		<li class="line"></li>
+        {foreach:items=$this->commentRow}
 		<li class="pro_view">
-			<p><img src=""><span >一米阳光</span><span class="view-time">2016-10-17</span></p>
-			<p>很好看啊！！</p>
+			<p><img src="{webroot:$item['head_ico']}"><span >{$item['username']}</span><span class="view-time">{$item['comment_time']}</span></p>
+			<p>{$item['contents']}</p>
 		</li>
 		<li class="line"></li>
+        {/foreach}
 	</ul>
+    {/if}
     {if:$this->user}
 	<ul>
 		<li ><a href="{url:ucenter/history}">我的足迹</a></li>

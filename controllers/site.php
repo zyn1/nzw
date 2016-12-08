@@ -462,6 +462,19 @@ class Site extends IController
         $user_id = $this->user ? $this->user['user_id'] : 0;
         user_history::set_user_history($goods_id,$user_id);
 		$this->setRenderData($goods_info);
+        
+        if(IClient::getDevice() == 'mobile')
+        {
+            //商品评论
+            $commentDB = new IQuery('comment as c');
+            $commentDB->join   = 'left join goods as go on c.goods_id = go.id AND go.is_del = 0 left join user as u on u.id = c.user_id';
+            $commentDB->fields = 'u.head_ico,u.username,c.*';
+            $commentDB->where  = 'c.goods_id = '.$goods_id.' and c.status <> 0';
+            $commentDB->order  = 'c.id desc';
+            $commentDB->limit = 1;
+            $data     = $commentDB->find();
+            $this->commentRow = $data;
+        }
 		$this->redirect('products');
 	}
 	//商品讨论更新
