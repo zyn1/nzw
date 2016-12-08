@@ -1616,8 +1616,30 @@ background-image: url("../image/icon_slides.png"); background-repeat: no-repeat;
 .bar .bar_box .bar_goods li em { display: block; margin-top: 5px; font-size: 14px; color: #FF8225; font-weight: bold; }
 .bar .bar_box .bar_goods.ranking { counter-reset: num; }
 .bar .bar_box .bar_goods.ranking li { position: relative; }
-.bar .bar_box .bar_goods.ranking li:before { content: counter(num);counter-increment: num;display: block;position: absolute;right: 17px;bottom: 14px;font-size: 12px;font-style: italic;z-index: 1;color: #fff; }
-.bar .bar_box .bar_goods.ranking li:after {  content: "";position: absolute;right: 10px;bottom: 10px;width: 0;height: 0;display: block;border-style: solid;border-width: 10px;border-color: #ff6332 #ff6332; }
+.bar .bar_box .bar_goods.ranking li:before {     
+	content: counter(num);
+    counter-increment: num;
+    display: block;
+    position: absolute;
+    right: 15px;
+    bottom: 12px;
+    font-size: 10px;
+    z-index: 1;
+    color: #fff; 
+}
+.bar .bar_box .bar_goods.ranking li:after { 
+	content: "";
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    width: 0;
+    height: 0;
+    display: block;
+    border-style: solid;
+    border-width: 8px;
+    border-color: #ff6332 #ff6332;
+    border-radius: 10px; 
+}
 .bar .bar_box .bar_goods.ranking li:nth-child(n+4):after {border-color: #999 #999;}
 .bar .bar_box .bar_nav li { height: 28px; line-height: 28px; overflow: hidden; padding-left: 20px; border-bottom: 1px solid #ddd; position: relative; }
 .bar .bar_box .bar_nav li a{color: #555;}
@@ -2115,7 +2137,7 @@ background-image: url("../image/icon_slides.png"); background-repeat: no-repeat;
 .uc_info .user_info_right{float: right; border-left: 1px #dcdcdc solid; padding:3px 68px;font-size: 16px;color: #6b6b6b;text-align: center;}
 .uc_info .user_info_right li{line-height: 32px;}
 .uc_info .user_info_right li p{color: #FF8225;}
-.uc_info .user_info_right li .withdraw{display: block;height: 36px;width: 100px;line-height: 36px;background: #6bb945;font-size: 14px;color: #fff;}
+.uc_info .user_info_right li .withdraw{display: block;height: 36px;width: 100px;line-height: 36px;background: #6bb945;font-size: 14px;color: #fff; border-radius: 5px;}
 .uc_info .user_info li { float: left; width: 390px; margin-bottom: 13px; }
 .uc_info .user_info strong { color: #FF8225; }
 .uc_info .user_stat { width: 760px; float: right; padding: 9px; border: 1px solid #ddd; background: #fafafa; }
