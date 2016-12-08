@@ -168,7 +168,7 @@ class APIUcenter
     }
 
     //[我的足迹]获取浏览记录数据
-	public function getHistory($userid)
+	public function getHistory($userid,$limit = 0)
     {
 		//获取收藏夹信息
 	    $page   = IReq::get('page') ? IFilter::act(IReq::get('page'),'int') : 1;
@@ -178,6 +178,10 @@ class APIUcenter
 		$historyObj->fields= " h.*,go.name,go.id as goods_id,go.img,go.store_nums,go.sell_price,go.market_price";
         $historyObj->order="h.time DESC";
         $historyObj->group="go.id";
+        if($limit)
+        {
+            $historyObj->limit = $limit;
+        }
 
 		$where = 'h.user_id = '.$userid;
 

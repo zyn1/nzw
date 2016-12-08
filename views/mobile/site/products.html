@@ -106,41 +106,40 @@
 		</li>
 		<li class="line"></li>
 	</ul>
+    {if:$this->user}
 	<ul>
-		<li >我的足迹</li>
+		<li ><a href="{url:ucenter/history}">我的足迹</a></li>
+        {set:$historyObj = Api::run('getHistory',$this->user['user_id'], 6)}
+        {if:$historyObj}
+        {foreach:items=$historyObj->find()}
 		<li class="pro_foot">
-			<img src="">
-			<p class="pro_name">{$name}</p>
-			<p class="price">{$sell_price}</p>
+			<img src="{url:/pic/thumb/img/$item['img']/w/60/h/60}">
+			<p class="pro_name">{$item['name']}</p>
+			<p class="price">{$item['sell_price']}</p>
 		</li>
-		<li class="pro_foot">
-			<img src="">
-			<p class="pro_name">{$name}</p>
-			<p class="price">{$sell_price}</p>
-		</li>
-		<li class="pro_foot">
-			<img src="">
-			<p class="pro_name">{$name}</p>
-			<p class="price">{$sell_price}</p>
-		</li>
+        {/foreach}
+        {else:}
+        <li>对不起，没有找到相关商品</li>
+        {/if}
 	</ul>
+    {/if}
 	<div class="clear"></div>
 	
 </section>
 <div class="btn_bottom_goods">
 	<ul class="btn_ico">
 		<li>
-			<a href="{url:/}">
+			<a href="mqqwpa://im/chat?chat_type=wpa&uin={$seller['server_num']}&version=1&src_type=web&web_src=bjhuli.com">
 				<i class="icon-kefu"></i>
 			</a>
 		</li>
 		<li>
-			<a href="{url:/}">
+			<a href="javascript:;" onclick="favorite_add_ajax({$id},this);">
 				<i class="icon-guanzhu"></i>
 			</a>
 		</li>
 		<li>
-			<a href="{url:/simple/cart}" id="joinCarButton">
+			<a href="javascript:;" id="joinCarButton">
 				<i class="icon-jiarugouwuche"></i>
 			</a>
 		</li>
