@@ -158,28 +158,28 @@
 	<div class="type">
 		<ul>
 			<li>颜色</li>
-			<li class="active">米色</li>
+			<li class="">米色</li>
 			<li>橘黄色</li>
 		</ul>
 		<ul>
 			<li>尺寸</li>
-			<li class="active">25X15</li>
+			<li class="">25X15</li>
 			<li>25X18</li>
 			<li>25X25</li>
 			<li>25X30</li>
-			<li class="active">25X15</li>
+			<li class="">25X15</li>
 			<li>25X18</li>
 			<li>25X25</li>
 			<li>25X30</li>
-			<li class="active">25X15</li>
+			<li class="">25X15</li>
 			<li>25X18</li>
 			<li>25X25</li>
 			<li>25X30</li>
-			<li class="active">25X15</li>
+			<li class="">25X15</li>
 			<li>25X18</li>
 			<li>25X25</li>
 			<li>25X30</li>
-			<li class="active">25X15</li>
+			<li class="">25X15</li>
 			<li>25X18</li>
 			<li>25X25</li>
 			<li>25X30</li>
@@ -216,6 +216,10 @@ $(document).ready(function(){
     ok_button.animate({bottom: '0.1rem'},"slow");
     mask.fadeIn(300);
   });
+  $(".goods_chose .type ul li").click(function(){
+  	$(".goods_chose .type ul li").removeClass("active");
+  	$(this).addClass("active");
+  })
 });
 
 // 数量加减JS
