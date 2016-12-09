@@ -4,7 +4,7 @@
 		<a class="return_a"onclick="window.history.back();"></a>
 		<h2>购物车</h2>
 		<a class="a_gd"></a>
-        <div class="s_nav" style="display: block;">
+        <div class="s_nav">
         	<div class="c-tip-arrow" style="left: 30px;"><em></em><ins></ins></div>
             <ul>
                 <li><a><i class="icon-home">首页</i></a></li>
@@ -40,7 +40,7 @@
 	<div class="cart_sel">
 		<div class="cart_goods" >
 			<div class="cart_title">
-				<a class="sel_all box"><i></i></a>
+				<label class="s_sel_all box"><input type="checkbox" name="sel_all" class="chk_1"></label>
 				<div class="name">
 					<span class="sel_name">七彩云小铺</span>
 					<span class="sel_cz sel_cz_bj">编辑</span>
@@ -48,7 +48,7 @@
 			</div>
 			<ul>
 				<li>
-					<a class="checkbox box"><i></i></a>
+					<label class="g_checkbox box"><input type="checkbox" name="checkbox"  class="chk_1"/></label>
 					<div class="cart_list_goods">
 					<a class="clear">
 						<div class="cart_list_photo"><img src="{skin:image/top/gouwuche_kong@2x.png}" alt="{$item['name']}"></div>
@@ -71,7 +71,7 @@
 		<!-- 编辑商品 -->
 		<div class="cart_edit" style="display:none">
 			<div class="cart_title">
-				<a class="sel_all box"><i></i></a>
+				<label class="s_sel_all box"><input type="checkbox" name="sel_all"  class="chk_1"/></label>
 				<div class="name">
 					<span class="sel_name">七彩云小铺</span>
 					<span class="sel_cz sel_cz_wc">完成</span>
@@ -79,7 +79,7 @@
 			</div>
 			<ul>
 				<li>
-					<a class="checkbox box"><i></i></a>
+					<label class="g_checkbox box"><input type="checkbox" name="checkbox"  class="chk_1"/></label>
 					<div class="cart_list_goods">
 					<a class="clear">
 						<div class="cart_list_photo"><img src="{skin:image/top/gouwuche_kong@2x.png}" alt="{$item['name']}"></div>
@@ -104,7 +104,7 @@
 	<div class="cart_sel">
 		<div class="cart_goods">
 			<div class="cart_title">
-				<a class="sel_all box"><i></i></a>
+				<label class="s_sel_all box"><input type="checkbox" name="sel_all"  class="chk_1"/></label>
 				<div class="name">
 					<span class="sel_name">七彩云小铺</span>
 					<span class="sel_cz sel_cz_bj">编辑</span>
@@ -112,7 +112,7 @@
 			</div>
 			<ul>
 				<li>
-					<a class="checkbox box"><i></i></a>
+					<label class="g_checkbox box"><input type="checkbox" name="checkbox"  class="chk_1"/></label>
 					<div class="cart_list_goods">
 					<a class="clear">
 						<div class="cart_list_photo"><img src="{skin:image/top/gouwuche_kong@2x.png}" alt="{$item['name']}"></div>
@@ -131,7 +131,7 @@
 					</div>
 				</li>
 				<li>
-					<a class="checkbox box"><i></i></a>
+					<label class="g_checkbox box"><input type="checkbox" name="checkbox"  class="chk_1"/></label>
 					<div class="cart_list_goods">
 					<a class="clear">
 						<div class="cart_list_photo"><img src="{skin:image/top/gouwuche_kong@2x.png}" alt="{$item['name']}"></div>
@@ -154,7 +154,7 @@
 		<!-- 编辑商品 -->
 		<div class="cart_edit" style="display:none">
 			<div class="cart_title">
-				<a class="sel_all box"><i></i></a>
+				<label class="s_sel_all box"><input type="checkbox" name="sel_all"  class="chk_1"/></label>
 				<div class="name">
 					<span class="sel_name">七彩云小铺</span>
 					<span class="sel_cz sel_cz_wc">完成</span>
@@ -162,7 +162,7 @@
 			</div>
 			<ul>
 				<li>
-					<a class="checkbox box"><i></i></a>
+					<label class="g_checkbox box"><input type="checkbox" name="checkbox"  class="chk_1"/></label>
 					<div class="cart_list_goods">
 					<a class="clear">
 						<div class="cart_list_photo"><img src="{skin:image/top/gouwuche_kong@2x.png}" alt="{$item['name']}"></div>
@@ -181,7 +181,7 @@
 					</div>
 				</li>
 				<li>
-					<a class="checkbox box"><i></i></a>
+					<label class="g_checkbox box"><input type="checkbox" name="checkbox"  class="chk_1"/></label>
 					<div class="cart_list_goods">
 					<a class="clear">
 						<div class="cart_list_photo"><img src="{skin:image/top/gouwuche_kong@2x.png}" alt="{$item['name']}"></div>
@@ -208,7 +208,7 @@
 <footer class="cart_footer">
 	<div class="cart_footer_fixed">
 		<ul>
-			<li><a class="box_all box"><i></i></a>&nbsp;全选</li>
+			<li><label class="box_all box"><input type="checkbox" name="check"  class="chk_1"/></label>
 			<li><span>合计:<em class="count">&nbsp;￥29</em></span></li>
 			<li><span>不含运费</span></li>
 			<li><span class="buy btn_pay" id="btn_pay" onclick="gourl('{url:/simple/cart2}')">去结算</span></li>

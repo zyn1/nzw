@@ -27,27 +27,21 @@
              $(this).parent().parent().parent().parent(".cart_sel").find(".cart_goods").hide();
       })
          /*购物车选择 start*/
-      $(".checkbox").click(function(){
-        $(this).find("i").toggleClass("check");
-        var all_boxi=$(this).parent().parent("ul").find("li .checkbox i");
-        var sel_all_i=$(this).parent().parent().parent(".cart_goods").find(".cart_title .sel_all i");
-        var all_checki=$(this).parent().parent("ul").find("li .checkbox .check");
-        //.cart_list 下的class="box"下的i标签存在class="check"的值
-        var box_all_checki= $(".cart_goods").find(".checkbox .check");
-        //.cart_list 下的class="box"下的i标签
-        var box_all_onchecki=$(".cart_goods").find(".checkbox i")
-        //全选按钮
-        var box_all_i = $(".box_all i");
-        if(all_boxi.length == all_checki.length){
-          sel_all_i.addClass('check');
+      $("input[name^='checkbox']").click(function(){
+         $(this).parent("label").toggleClass("check");
+        var g_checkbox = $(".cart_goods ul li .g_checkbox")
+        var check_g_checkbox = $(".cart_goods ul li .check")
+        var sel_all_check = $(this).parent().parent().parent().parent("").find(".cart_title .s_sel_all")
+        if(g_checkbox.length == check_g_checkbox.length){
+          sel_all_check.addClass('check');
         }else{
-          sel_all_i.removeClass("check");
+          sel_all_check.removeClass('check');
         }
-        if(box_all_onchecki.length == box_all_checki.length ){
+        /*if(box_all_onchecki.length == box_all_checki.length ){
           box_all_i.addClass('check');
         }else{
           box_all_i.removeClass("check");
-        }
+        }*/
       });
       $(".sel_all").click(function(){
           $(this).find("i").toggleClass("check");

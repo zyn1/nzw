@@ -3899,7 +3899,7 @@ span.valid-msg, label.valid-msg {
     display: block;
     float: right;
 }
-a.box{
+label.box{
     display: block;
     position: absolute;
     width: 0.2rem;
@@ -3909,7 +3909,7 @@ a.box{
     top: 0.08rem;
     z-index: 10;
 }
-a.box i.check:after{
+label.check:after{
    width: 0.21rem;
     height: 0.21rem;
     display: block;
@@ -3923,7 +3923,7 @@ a.box i.check:after{
     text-align: center;
     border-radius: 50%;
 }
-.cart_sel ul li a.box{
+.cart_sel ul li label.box{
     top:0.5rem;
 }
 .cart_sel li {
