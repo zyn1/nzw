@@ -3,7 +3,7 @@
 <header>
     <div class="user_main_info">
         {set:$user_ico = $this->user['head_ico']}
-        <img src="{webroot:$user_ico}" class="user_ico">
+        <img src="{if:$user_ico}{webroot:$user_ico}{else:}{skin:image/user_ico.png}{/if}" class="user_ico">
         
         <!--   未登录时显示此内容 
         <a href="" class="button">登录</a>
