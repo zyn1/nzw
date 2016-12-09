@@ -4120,13 +4120,14 @@ label.check:after{
 }
 .cart_footer .cart_footer_fixed ul li:nth-child(1){
     padding-left: 2%;
-    width: 21%;
+    width: 10%;
     font-size: 0.14rem;
 }
-.cart_footer_fixed ul li:nth-child(2),.cart_footer_fixed ul li:nth-child(3){
-    width: 23%;
+.cart_footer_fixed ul li:nth-child(2){
+    width: 57%;
     font-size: 0.13rem;
     color: #8B8B8B ;
+    text-align: left;
 }
 .cart_footer_fixed ul li .count{
     font-size: 0.16rem;
@@ -4135,7 +4136,7 @@ label.check:after{
 .cart_footer .cart_footer_fixed ul li:nth-child(1) .box{
     top:12px;
 }
-.cart_footer .cart_footer_fixed ul li:nth-child(4){
+.cart_footer .cart_footer_fixed ul li:nth-child(3){
     width: 31%;
 }
 .cart_footer .cart_footer_fixed .trade_count {
@@ -4156,6 +4157,7 @@ label.check:after{
     height: 0.49rem;
     line-height: 0.49rem;
     color: #fff;
+    width: 100%;
 }
 .cart_footer .cart_footer_fixed .buy input,.sub_buy input {
     display: none;
