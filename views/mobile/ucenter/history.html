@@ -1,4 +1,3 @@
-{set:$favoriteObj = Api::run('getFavorite',$this->user['user_id'],IReq::get('cat_id'));$favoriteList = $favoriteObj->find()}
 <script src="{theme:javascript/style.js}"></script>
 <header class="header_login">
 	<div class="header_title">
@@ -14,21 +13,21 @@
         </div>
 	</div>
 </header>
-{if:$favoriteList}
+{set:$historyObj = Api::run('getHistory',$this->user['user_id'])}
+{if:$historyObj}
 <section class="goods_list">
 	<ul>
-		{foreach:items=$favoriteList}
+		{foreach:items=$historyObj->find()}
 		<li>
-            <a class="clear" href="{url:/site/products/id/$item['goods_id']}">
-                <i class="photo"><img class="goods_photo" src="{url:/pic/thumb/img/$item[img]/w/140/h/140}" alt="{$item['name']}"></i>
+            <div class="clear">
+                <a href="{url:/site/products/id/$item['goods_id']}"><i class="photo"><img class="goods_photo" src="{url:/pic/thumb/img/$item[img]/w/140/h/140}" alt="{$item['name']}"></i></a>
                 <div class="name_price">
                     <h3 class="name"><strong>{$item['name']}</strong></h3>
                     
                     <em class="price">￥{$item['sell_price']}</em>
-                    <span class="jagw">加入购物车</span>
-                    <span class="xl del_icon" onclick="delModel({link:'{url:/ucenter/favorite_del/id/$item[id]}',msg:'是否取消收藏？'});">删除</span>
+                    <span class="xl del_icon" onclick="delModel({link:'{url:/ucenter/history_del/id/$item[goods_id]}',msg:'确定删除浏览记录？'});">删除</span>
                 </div>
-            </a>                
+            </div>                
         </li>
 		<!-- <li>
 			<a href="{url:/site/products/id/$item['goods_id']}">
@@ -43,9 +42,10 @@
 		</li> -->
 		{/foreach}
 	</ul>
+    {$historyObj->getPageBar()}
 </section>
 {else:}
-<section class="nodata">您还没有收藏任何宝贝呢!</section>
+<section class="nodata">您还没有查看任何宝贝呢!</section>
 {/if}
 
 <script>

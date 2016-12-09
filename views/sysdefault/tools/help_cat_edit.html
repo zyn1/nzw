@@ -5,7 +5,7 @@
 <div class="content_box">
 	<div class="content form_content">
 		{set:$tmpId = $id===null?"":"id=$id";}
-		<form action='{url:/tools/help_cat_edit_act/$id}' method='post' name='cat'>
+		<form action='{url:/tools/help_cat_edit_act/$id}' method='post' name='cat' enctype="multipart/form-data">
 			{if:$id!==null}
 			<input type='hidden' name='id' value='{$id}' />
 			{/if}
@@ -33,10 +33,17 @@
 						<label class='attr'><input type='radio' name='position_left' value='0' {echo:$this->cat_row['position_left']==0?'checked':''} />否</label>
 					</td>
 				</tr>
+                <tr>
+                    <th>排序：</th>
+                    <td>
+                        <input type='text' class='small' name='sort' value='{$this->cat_row['sort']}' pattern='^\d+$' alt='请填写一个数字' />
+                    </td>
+                </tr>
 				<tr>
-					<th>排序：</th>
+					<th>图标：</th>
 					<td>
-						<input type='text' class='small' name='sort' value='{$this->cat_row['sort']}' pattern='^\d+$' alt='请填写一个数字' />
+						<input type="file" name="img">
+                        {if:$this->cat_row['img']}<img src="{webroot:$this->cat_row['img']}" />{/if}
 					</td>
 				</tr>
 				<tr>

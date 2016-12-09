@@ -905,6 +905,10 @@ class Tools extends IController implements adminAuthorization
 		$data["position_left"] = IReq::get("position_left","post");
 		$data["position_foot"] = IReq::get("position_foot","post");
 		$data["sort"] = IReq::get("sort");
+        if(isset($_FILES) && $_FILES)
+        {
+            $data['img'] = $_FILES['img'];
+        }
 
 		$re=SiteHelp::cat_edit($data);
 		if($re['flag']!==true)

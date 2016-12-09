@@ -7,7 +7,7 @@
     	border: 0;
     }
 </style>
-
+{set:$id=IReq::get('id');$msgObj=new IModel('message');$content=$msgObj->getObj('id='.$id);}
 <header class="header_login">
 	<div class="header_title">
 		<a class="return_a"onclick="window.history.back();"></a>
@@ -19,13 +19,13 @@
 
 <section class="coupon_list">
 	<ul>
-		<li>
-			<div class="title">123123123</div>
+		<li class="read">
+			<div class="title">{$content['title']}</div>
 			<div class="author">耐耐网推送</div>
-			<time>2016-12-03 12:12:12</time>
+			<time>{$content['time']}</time>
 		</li>
 		<li>
-			这里就是内容了	
+			{$content['content']}	
 		</li>
 	</ul>
 </section>
@@ -36,5 +36,9 @@
 $(function(){
 	// 隐藏底部导航
 	hideNav();
+    
+    //消息标记为已读
+    var id = '{$id}';
+    $.get("{url:/ucenter/message_read}",{"id":id},function(data){});
 });
 </script>

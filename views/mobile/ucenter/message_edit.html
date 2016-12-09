@@ -10,7 +10,7 @@
 
 <script>
 $(function(){ //调用全选插件
-    $.fn.check({checkall_name:"checkall",checkbox_name:"check"})}),
+    $.fn.check({checkall_name:"checkall",checkbox_name:"sub[]"})}),
 
 //全选插件
 (function($) {
@@ -41,47 +41,34 @@ $(function(){ //调用全选插件
 </header>
 
 <div id="pageInfo" data-title="短消息"></div>
-
 <section class="coupon_list">
-
+{set:$queryMessageList = Api::run('getUcenterMessageList',$msgIds)}
 <div class="container">  
+<form action="{url:/ucenter/messages_del}">
 	<ul>
-		<li onclick=''>
-			<p class="checked"><input type="checkbox" name="check"  class="chk_1" id="checkbox_a2"/><label for="checkbox_a2"></label></p>
+        {foreach:items = $queryMessageList->find()}
+        <li {if:$msgObj->is_read($item['id'])} class="read"{/if}>
+			<p class="checked"><input type="checkbox" name="sub[]" value="{$item['id']}" class="chk_1" id="checkbox_a{$item['id']}"/><label for="checkbox_a{$item['id']}"></label></p>
 			<div class="checked_on">
-				<div class="title">123123123</div>
+				<div class="title">
+                <a href="{url:ucenter/message_content/id/$item['id']}">{$item['title']}</a>
+                </div>
 				<div class="author">耐耐网推送</div>
-				<time>2016-12-03 12:12:12</time>
+				<time>{$item['time']}</time>
 			</div>
 		</li>
-                    <div class="clear"></div>
-		<li onclick=''>
-			<p class="checked"><input type="checkbox" name="check"  class="chk_1" id="checkbox_a3"/><label for="checkbox_a3"></label></p>
-			<div class="checked_on">
-				<div class="title">123123123</div>
-				<div class="author">耐耐网推送</div>
-				<time>2016-12-03 12:12:12</time>
-			</div>
-		</li>
-                    <div class="clear"></div>
-		<li onclick=''>
-			<p class="checked"><input type="checkbox" name="check"  class="chk_1" id="checkbox_a4"/><label for="checkbox_a4"></label></p>
-			<div class="checked_on">
-				<div class="title">123123123</div>
-				<div class="author">耐耐网推送</div>
-				<time>2016-12-03 12:12:12</time>
-			</div>
-		</li>
-                    <div class="clear"></div>
+        <div class="clear"></div>
+        {/foreach}
+        {$queryMessageList->getPageBar()}
 	</ul>
 
+</form>
   
     <div class="check_del">
-        <p class="checkall"><input type="checkbox" name="checkall" class="chk_1" id="checkbox_a1"/><label for="checkbox_a1"></label>全选</p><button class="del">删除</button>
+        <p class="checkall"><input type="checkbox" name="checkall" class="chk_1" id="checkbox_a100"/><label for="checkbox_a100"></label>全选</p><button class="del" onclick="delModel();">删除</button>
     </div>
 </div>
 </section>
-
 
 <script>
 

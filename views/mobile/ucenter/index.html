@@ -2,7 +2,8 @@
 
 <header>
     <div class="user_main_info">
-        <img src="{url:views/mobile/skin/default/image/user_ico.png}" class="user_ico">
+        {set:$user_ico = $this->user['head_ico']}
+        <img src="{webroot:$user_ico}" class="user_ico">
         
         <!--   未登录时显示此内容 
         <a href="" class="button">登录</a>
@@ -10,7 +11,7 @@
         
         <!-- 已登录时显示此内容与账户余额 -->
         <span class="user_name">{$this->user['username']}</span>
-        <a class="header_so_btn">
+        <a class="header_so_btn" href="{url:ucenter/message}">
         {if:$msgNum > 0}
         <i class="icon-comments-alt"></i>
         {else:}
@@ -45,26 +46,26 @@
 <nav class="user_main_nav">
     <div class="user_order">
         <span class="title">我的订单</span>
-        <span class="more">查看全部订单</span>
+        <span class="more"><a href="{url:ucenter/order}">查看全部订单</a></span>
     </div>
     <!-- <h3>
         <i class="icon-user"></i>
         个人中心
     </h3> -->
     <ul>
-        <li class="order_oper"><a href=""><img src="{url:views/mobile/skin/default/image/top/ucenter_02.png}"></a></li>
-        <li class="order_oper"><a href=""><img src="{url:views/mobile/skin/default/image/top/ucenter_03.png}"></a></li>
-        <li class="order_oper"><a href=""><img src="{url:views/mobile/skin/default/image/top/ucenter_04.png}"></a></li>
-        <li class="order_oper"><a href=""><img src="{url:views/mobile/skin/default/image/top/ucenter_05.png}"></a></li>
-        <li class="order_oper"><a href=""><img src="{url:views/mobile/skin/default/image/top/ucenter_06.png}"></a></li>
+        <li class="order_oper"><a href="{url:ucenter/order/_s/1}"><img src="{url:views/mobile/skin/default/image/top/ucenter_02.png}"></a></li>
+        <li class="order_oper"><a href="{url:ucenter/order/_s/2}"><img src="{url:views/mobile/skin/default/image/top/ucenter_03.png}"></a></li>
+        <li class="order_oper"><a href="{url:ucenter/order/_s/3}"><img src="{url:views/mobile/skin/default/image/top/ucenter_04.png}"></a></li>
+        <li class="order_oper"><a href="{url:ucenter/order/_s/4}"><img src="{url:views/mobile/skin/default/image/top/ucenter_05.png}"></a></li>
+        <li class="order_oper"><a href="{url:ucenter/order/_s/5}"><img src="{url:views/mobile/skin/default/image/top/ucenter_06.png}"></a></li>
     </ul>
     <ul>
-        <li class="ucenter_oper"><a href=""><img src="{url:views/mobile/skin/default/image/top/ucenter_08.png}"></a></li>
-        <li class="ucenter_oper"><a href=""><img src="{url:views/mobile/skin/default/image/top/ucenter_10.png}"></a></li>
+        <li class="ucenter_oper"><a href="{url:ucenter/account_log}"><img src="{url:views/mobile/skin/default/image/top/ucenter_08.png}"></a></li>
+        <li class="ucenter_oper"><a href="{url:ucenter/favorite}"><img src="{url:views/mobile/skin/default/image/top/ucenter_10.png}"></a></li>
         <li class="ucenter_oper" style="border-right:none;"><a href="{url:ucenter/setup_list}"><img src="{url:views/mobile/skin/default/image/top/ucenter_12.png}"></a></li>
-        <li class="ucenter_oper"><a href=""><img src="{url:views/mobile/skin/default/image/top/ucenter_16.png}"></a></li>
-        <li class="ucenter_oper"><a href=""><img src="{url:views/mobile/skin/default/image/top/ucenter_17.png}"></a></li>
-        <li class="ucenter_oper" style="border-right:none;"><a href=""><img src="{url:views/mobile/skin/default/image/top/ucenter_18.png}"></a></li>
+        <li class="ucenter_oper"><a href="{url:site/help_index}"><img src="{url:views/mobile/skin/default/image/top/ucenter_16.png}"></a></li>
+        <li class="ucenter_oper"><a href="{url:ucenter/history}"><img src="{url:views/mobile/skin/default/image/top/ucenter_17.png}"></a></li>
+        <li class="ucenter_oper" style="border-right:none;"><a href="{url:ucenter/message}"><img src="{url:views/mobile/skin/default/image/top/ucenter_18.png}"></a></li>
     </ul>
   <!--   <ul>
         {foreach:items=menuUcenter::init()}

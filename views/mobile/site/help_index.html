@@ -11,13 +11,24 @@
     <div class="header">
         <a class="return_a" onclick="window.history.back();"></a>
         <div class="sear_t">
-            <a href="">帮助中心</a>
+            <a href="javascript:;">帮助中心</a>
         </div>
         <a class="a_gd"></a>
         <div class="s_nav">
             <ul>
-                <li><a><i class="icon-home">首页</i></a></li>
-                <li><a href="javascript:location.reload()"><i class="icon-comments-alt">消息</i></a></li>
+                <li><a href="{url:/}"><i class="icon-home">首页</i></a></li>
+                <li><a href="{url:/ucenter/message}">
+                {if:$this->user}
+                {set:$msgObj = new Mess($this->user['user_id']);$msgNum = $msgObj->needReadNum();}
+                {else:}
+                {set:$msgNum = 0;}
+                {/if}
+                {if:$msgNum > 0}
+                <i class="icon-comments-alt">消息</i>
+                {else:}
+                <i class="icon-comment-alt">消息</i>
+                {/if}
+                </a></li>
             </ul>
         </div>
    </div>
@@ -27,25 +38,11 @@
 <script src="{theme:javascript/jquery.slider.js}"></script>
 <section class="help_bar">
 	
-		<nav class="bar">				
-				<a href="{url:mobile/site/help_list/id/1}"><img src="{url:views/mobile/skin/default/image/top/help_bar1.png}"></a>
-		</nav>
-	
-		<nav class="bar">
-				<a href="{url:mobile/site/help_list/id/2}"><img src="{url:views/mobile/skin/default/image/top/help_bar2.png}"></a>
-		</nav>
-	
-		<nav class="bar" style="border-right:0;">
-				<a href="{url:mobile/site/help_list/id/3}"><img src="{url:views/mobile/skin/default/image/top/help_bar3.png}"></a>
-		</nav>
-	
-		<nav class="bar">
-				<a href="{url:mobile/site/help_list/id/4}"><img src="{url:views/mobile/skin/default/image/top/help_bar4.png}"></a>
-		</nav>
-	
-		<nav class="bar">				
-				<a href="{url:mobile/site/help_list/id/5}"><img src="{url:views/mobile/skin/default/image/top/help_bar5.png}"></a>
-		</nav>
+	{query:name=help_category order=sort asc}
+    <nav class="bar">                
+            <a href="{url:site/help_list/id/$item['id']}"><img src="{webroot:$item['img']}"></a>
+    </nav>
+    {/query}
 	
 </section>
 

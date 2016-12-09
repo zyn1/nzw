@@ -11,13 +11,24 @@
     <div class="header">
         <a class="return_a" onclick="window.history.back();"></a>
         <div class="sear_t">
-            <a href="">关于我们</a>
+            <a href="javascript:;">{$this->cat_row['name']}</a>
         </div>
         <a class="a_gd"></a>
         <div class="s_nav">
             <ul>
-                <li><a><i class="icon-home">首页</i></a></li>
-                <li><a href="javascript:location.reload()"><i class="icon-comments-alt">消息</i></a></li>
+                <li><a href="{url:/}"><i class="icon-home">首页</i></a></li>
+                <li><a href="{url:/ucenter/message}">
+                {if:$this->user}
+                {set:$msgObj = new Mess($this->user['user_id']);$msgNum = $msgObj->needReadNum();}
+                {else:}
+                {set:$msgNum = 0;}
+                {/if}
+                {if:$msgNum > 0}
+                <i class="icon-comments-alt">消息</i>
+                {else:}
+                <i class="icon-comment-alt">消息</i>
+                {/if}
+                </a></li>
             </ul>
         </div>
    </div>
@@ -26,10 +37,11 @@
 	<section class="help_bar">
 		<div class="article_list">
 			<ul>
-				<a href="{url:mobile/site/help.html}"><li>购物流程<i class="icon-more"></i></li></a>
-				<a href="{url:mobile/site/help.html}"><li>常见问题<i class="icon-more"></i></li></a>
-				<a href="{url:mobile/site/help.html}"><li>支付方式<i class="icon-more"></i></li></a>
+            {foreach:items = $this->helpQuery->find()}                
+				<a href="{url:/site/help/id/$item[id]}"><li>{$item['name']}<i class="icon-more"></i></li></a>
+			{/foreach}
 			</ul>
+            {$this->helpQuery->getPageBar();}
 		</div>
 	</section>
 

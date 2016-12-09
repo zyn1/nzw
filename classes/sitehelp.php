@@ -112,6 +112,23 @@ class SiteHelp
 		$arr['sort'] = intval($arr['sort']);
 		$arr['position_left'] = intval($arr['position_left'])==1?1:0;
 		$arr['position_foot'] = intval($arr['position_foot'])==1?1:0;
+        if(isset($arr['img']))
+        {
+            $upObj  = new IUpload("5000",array("gif","png","jpg"));
+            $dir    = IWeb::$app->config['upload'].'/'.date('Y')."/".date('m')."/".date('d');
+            $upObj->setDir($dir);
+            $upState = $upObj->execute();
+            $result = $upState ? current($upState) : "";
+            if($result && isset($result[0]['flag']) && $result[0]['flag'] == 1)
+            {
+                //最终附件路径
+                $arr['img'] = $dir.'/'.$result[0]['name'];
+            }
+            else if(!$content)
+            {
+                return array('flag'=>false,'data'=>'请上传正确的附件数据');
+            }
+        }
 
 		$tb_help_category = new IModel("help_category");
 		$tb_help_category->setData($arr);

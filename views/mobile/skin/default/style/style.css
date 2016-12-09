@@ -1912,8 +1912,6 @@ a .icon-rotate-90:before, a .icon-rotate-180:before, a .icon-rotate-270:before, 
     position: relative;
     float: none;
     width: 100%;
-}
-.goods_list ul li a {
     display: block;
     padding: 0.1rem;
 }

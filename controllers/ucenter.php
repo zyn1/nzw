@@ -586,11 +586,20 @@ class Ucenter extends IController implements userAuthorization
     //站内消息
     public function message()
     {
+        $msgObj = new Mess($this->user['user_id']);
+        $msgIds = $msgObj->getAllMsgIds();
+        $msgIds = $msgIds ? $msgIds : 0;
+        $this->setRenderData(array('msgIds' => $msgIds,'msgObj' => $msgObj));
+        $this->redirect('message');
+    }
+    //站内消息编辑
+    public function message_edit()
+    {
     	$msgObj = new Mess($this->user['user_id']);
     	$msgIds = $msgObj->getAllMsgIds();
     	$msgIds = $msgIds ? $msgIds : 0;
 		$this->setRenderData(array('msgIds' => $msgIds,'msgObj' => $msgObj));
-    	$this->redirect('message');
+    	$this->redirect('message_edit');
     }
     /**
      * @brief 删除消息
@@ -602,6 +611,20 @@ class Ucenter extends IController implements userAuthorization
         $msg = new Mess($this->user['user_id']);
         $msg->delMessage($id);
         $this->redirect('message');
+    }
+    /**
+     * @brief 删除多条消息
+     * @param array $id 消息ID
+     */
+    public function messages_del()
+    {
+        $ids = IFilter::act(IReq::get('sub') ,'int' );
+        $msg = new Mess($this->user['user_id']);
+        foreach($ids as $id)
+        {
+            $msg->delMessage($id);
+        }
+        $this->redirect('message_edit');
     }
     public function message_read()
     {

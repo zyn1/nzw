@@ -22,7 +22,8 @@
 	<ul>
 		{set:$queryMessageList = Api::run('getUcenterMessageList',$msgIds)}
 		{foreach:items = $queryMessageList->find()}
-		<li onclick='show_msg(this,{echo:JSON::encode($item)})' class="read"><!-- 如果消息已读则添加 class="read" -->
+        <a href="{url:ucenter/message_content/id/$item['id']}">
+		<li {if:$msgObj->is_read($item['id'])} class="read"{/if}>
 			<div class="title">{$item['title']}</div>
 			<div class="author">耐耐网推送</div>
 			<time>{$item['time']}</time>
@@ -30,6 +31,7 @@
 				{if:$msgObj->is_read($item['id'])}已读{else:}未读{/if}
 			</i> -->
 		</li>
+        </a>
 		{/foreach}
 	</ul>
 	{$queryMessageList->getPageBar()}
