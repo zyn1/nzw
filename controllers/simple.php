@@ -273,6 +273,21 @@ class Simple extends IController
     	//$this->proReduce = $result['proReduce'];
     	$this->sum       = $result['sum'];
     	$this->goodsList = $result['goodsList'];
+        if(IClient::getDevice() == 'mobile')
+        {
+            $sellerDB = new IModel('seller');
+            $sellerGoods = array();
+            foreach($result['goodsList'] as $v)
+            {
+                if(!isset($sellerGoods[$v['seller_id']]['seller_name']))
+                {
+                    $sellerRow = $sellerDB->getObj('id ='.$v['seller_id'], 'seller_name');
+                    $sellerGoods[$v['seller_id']]['seller_name'] = $sellerRow['seller_name'];
+                }
+                $sellerGoods[$v['seller_id']]['goodsList'][] = $v;
+            }
+            $this->goodsList = $sellerGoods;
+        }
     	$this->count     = $result['count'];
     	//$this->reduce    = $result['reduce'];
     	//$this->weight    = $result['weight'];

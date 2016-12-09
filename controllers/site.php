@@ -324,8 +324,221 @@ class Site extends IController
 		}
 	}
 
-	//商品展示
-	function products()
+    //商品展示
+    function products()
+    {
+        $goods_id = IFilter::act(IReq::get('id'),'int');
+
+        if(!$goods_id)
+        {
+            IError::show(403,"传递的参数不正确");
+            exit;
+        }
+
+        //使用商品id获得商品信息
+        $tb_goods = new IModel('goods');
+        $goods_info = $tb_goods->getObj('id='.$goods_id." AND is_del=0");
+        if(!$goods_info)
+        {
+            IError::show(403,"这件商品不存在");
+            exit;
+        }
+
+        //品牌名称
+        if($goods_info['brand_id'])
+        {
+            $tb_brand = new IModel('brand');
+            $brand_info = $tb_brand->getObj('id='.$goods_info['brand_id']);
+            if($brand_info)
+            {
+                $goods_info['brand'] = $brand_info['name'];
+            }
+        }
+
+        //获取商品分类
+        $categoryObj = new IModel('category_extend as ca,category as c');
+        $categoryList= $categoryObj->query('ca.goods_id = '.$goods_id.' and ca.category_id = c.id','c.id,c.name','ca.id desc',1);
+        $categoryRow = null;
+        if($categoryList)
+        {
+            $categoryRow = current($categoryList);
+        }
+        $goods_info['category'] = $categoryRow ? $categoryRow['id'] : 0;
+
+        //商品图片
+        $tb_goods_photo = new IQuery('goods_photo_relation as g');
+        $tb_goods_photo->fields = 'p.id AS photo_id,p.img ';
+        $tb_goods_photo->join = 'left join goods_photo as p on p.id=g.photo_id ';
+        $tb_goods_photo->where =' g.goods_id='.$goods_id;
+        $goods_info['photo'] = $tb_goods_photo->find();
+
+        //商品是否参加促销活动(团购，抢购)
+        $goods_info['promo']     = IReq::get('promo')     ? IReq::get('promo') : '';
+        $goods_info['active_id'] = IReq::get('active_id') ? IFilter::act(IReq::get('active_id'),'int') : 0;
+        if($goods_info['promo'])
+        {
+            $activeObj    = new Active($goods_info['promo'],$goods_info['active_id'],$this->user['user_id'],$goods_id);
+            $activeResult = $activeObj->data();
+            if(is_string($activeResult))
+            {
+                IError::show(403,$activeResult);
+            }
+            else
+            {
+                $goods_info[$goods_info['promo']] = $activeResult;
+            }
+        }
+
+        //获得扩展属性
+        $tb_attribute_goods = new IQuery('goods_attribute as g');
+        $tb_attribute_goods->join  = 'left join attribute as a on a.id=g.attribute_id ';
+        $tb_attribute_goods->fields=' a.name,g.attribute_value ';
+        $tb_attribute_goods->where = "goods_id='".$goods_id."' and attribute_id!=''";
+        $goods_info['attribute'] = $tb_attribute_goods->find();
+
+        //购买记录
+        $tb_shop = new IQuery('order_goods as og');
+        $tb_shop->join = 'left join order as o on o.id=og.order_id';
+        $tb_shop->fields = 'count(*) as totalNum';
+        $tb_shop->where = 'og.goods_id='.$goods_id.' and o.status = 5';
+        $shop_info = $tb_shop->find();
+        $goods_info['buy_num'] = 0;
+        if($shop_info)
+        {
+            $goods_info['buy_num'] = $shop_info[0]['totalNum'];
+        }
+
+        //购买前咨询
+        $tb_refer    = new IModel('refer');
+        $refeer_info = $tb_refer->getObj('goods_id='.$goods_id,'count(*) as totalNum');
+        $goods_info['refer'] = 0;
+        if($refeer_info)
+        {
+            $goods_info['refer'] = $refeer_info['totalNum'];
+        }
+
+        //网友讨论
+        $tb_discussion = new IModel('discussion');
+        $discussion_info = $tb_discussion->getObj('goods_id='.$goods_id,'count(*) as totalNum');
+        $goods_info['discussion'] = 0;
+        if($discussion_info)
+        {
+            $goods_info['discussion'] = $discussion_info['totalNum'];
+        }
+
+        //获得商品的价格区间
+        $tb_product = new IModel('products');
+        $product_info = $tb_product->getObj('goods_id='.$goods_id,'max(sell_price) as maxSellPrice ,max(market_price) as maxMarketPrice');
+        if(isset($product_info['maxSellPrice']) && $product_info['maxSellPrice'])
+        {
+            $goods_info['sell_price']   .= "-".$product_info['maxSellPrice'];
+            $goods_info['market_price'] .= "-".$product_info['maxMarketPrice'];
+        }
+
+        //获得会员价
+        $countsumInstance = new countsum();
+        $goods_info['group_price'] = $countsumInstance->getGroupPrice($goods_id,'goods');
+
+        //获取商家信息
+        if($goods_info['seller_id'])
+        {
+            $sellerDB = new IModel('seller');
+            $goods_info['seller'] = $sellerDB->getObj('id = '.$goods_info['seller_id']);
+        }
+
+        //增加浏览次数
+        $visit    = ISafe::get('visit');
+        $checkStr = "#".$goods_id."#";
+        if($visit && strpos($visit,$checkStr) !== false)
+        {
+        }
+        else
+        {
+            $tb_goods->setData(array('visit' => 'visit + 1'));
+            $tb_goods->update('id = '.$goods_id,'visit');
+            $visit = $visit === null ? $checkStr : $visit.$checkStr;
+            ISafe::set('visit',$visit);
+        }
+        $user_id = $this->user ? $this->user['user_id'] : 0;
+        user_history::set_user_history($goods_id,$user_id);
+        $this->setRenderData($goods_info);
+        
+        if(IClient::getDevice() == 'mobile')
+        {
+            //商品评论
+            $commentDB = new IQuery('comment as c');
+            $commentDB->join   = 'left join goods as go on c.goods_id = go.id AND go.is_del = 0 left join user as u on u.id = c.user_id';
+            $commentDB->fields = 'u.head_ico,u.username,c.*';
+            $commentDB->where  = 'c.goods_id = '.$goods_id.' and c.status <> 0';
+            $commentDB->order  = 'c.id desc';
+            $commentDB->limit = 1;
+            $data     = $commentDB->find();
+            $this->commentRow = $data;
+        }
+        $this->redirect('products');
+    }
+
+    //商品评价展示
+    function pro_pingjia()
+    {
+        $goods_id = IFilter::act(IReq::get('id'),'int');
+        $type = IReq::get('_t') ? IReq::get('_t') : 0;
+
+        if(!$goods_id)
+        {
+            IError::show(403,"传递的参数不正确");
+            exit;
+        }
+
+        //使用商品id获得商品信息
+        $tb_goods = new IModel('goods');
+        $goods_info = $tb_goods->getObj('id='.$goods_id." AND is_del=0");
+        if(!$goods_info)
+        {
+            IError::show(403,"这件商品不存在");
+            exit;
+        }
+        
+        //获取商家信息
+        if($goods_info['seller_id'])
+        {
+            $sellerDB = new IModel('seller');
+            $goods_info['seller'] = $sellerDB->getObj('id = '.$goods_info['seller_id']);
+        }
+        
+        $this->setRenderData($goods_info);
+        
+        //商品评论
+        $commentDB = new IQuery('comment as c');
+        $commentDB->join   = 'left join goods as go on c.goods_id = go.id AND go.is_del = 0 left join user as u on u.id = c.user_id';
+        $commentDB->fields = 'u.head_ico,u.username,c.*';
+        $where = 'c.goods_id = '.$goods_id.' and c.status <> 0';
+        if($type == 1)
+        {
+            $where .= ' and c.point = 5';
+        }
+        elseif($type == 2)
+        {
+            $where .= ' and c.point < 5 and c.point > 1';
+        }
+        elseif($type == 3)
+        {
+            $where .= ' and c.point < 2';
+        }
+        $commentDB->where  = $where;
+        $commentDB->order  = 'c.id desc';
+        $commentDB->pagesize = 10;
+        $commentDB->page = IReq::get('page') ? IReq::get('page') : 1;
+        $data     = $commentDB->find();
+        $pageHtml = $commentDB->getPageBar();
+        $this->pageHtml = $pageHtml;
+        $this->commentRow = $data;
+        $this->type = $type;
+        $this->redirect('pro_pingjia');
+    }
+
+	//商品详情展示
+	function pro_detail()
 	{
 		$goods_id = IFilter::act(IReq::get('id'),'int');
 
@@ -354,128 +567,23 @@ class Site extends IController
 				$goods_info['brand'] = $brand_info['name'];
 			}
 		}
-
-		//获取商品分类
-		$categoryObj = new IModel('category_extend as ca,category as c');
-		$categoryList= $categoryObj->query('ca.goods_id = '.$goods_id.' and ca.category_id = c.id','c.id,c.name','ca.id desc',1);
-		$categoryRow = null;
-		if($categoryList)
-		{
-			$categoryRow = current($categoryList);
-		}
-		$goods_info['category'] = $categoryRow ? $categoryRow['id'] : 0;
-
-		//商品图片
-		$tb_goods_photo = new IQuery('goods_photo_relation as g');
-		$tb_goods_photo->fields = 'p.id AS photo_id,p.img ';
-		$tb_goods_photo->join = 'left join goods_photo as p on p.id=g.photo_id ';
-		$tb_goods_photo->where =' g.goods_id='.$goods_id;
-		$goods_info['photo'] = $tb_goods_photo->find();
-
-		//商品是否参加促销活动(团购，抢购)
-		$goods_info['promo']     = IReq::get('promo')     ? IReq::get('promo') : '';
-		$goods_info['active_id'] = IReq::get('active_id') ? IFilter::act(IReq::get('active_id'),'int') : 0;
-		if($goods_info['promo'])
-		{
-			$activeObj    = new Active($goods_info['promo'],$goods_info['active_id'],$this->user['user_id'],$goods_id);
-			$activeResult = $activeObj->data();
-			if(is_string($activeResult))
-			{
-				IError::show(403,$activeResult);
-			}
-			else
-			{
-				$goods_info[$goods_info['promo']] = $activeResult;
-			}
-		}
-
+        
 		//获得扩展属性
 		$tb_attribute_goods = new IQuery('goods_attribute as g');
 		$tb_attribute_goods->join  = 'left join attribute as a on a.id=g.attribute_id ';
 		$tb_attribute_goods->fields=' a.name,g.attribute_value ';
 		$tb_attribute_goods->where = "goods_id='".$goods_id."' and attribute_id!=''";
 		$goods_info['attribute'] = $tb_attribute_goods->find();
-
-		//购买记录
-		$tb_shop = new IQuery('order_goods as og');
-		$tb_shop->join = 'left join order as o on o.id=og.order_id';
-		$tb_shop->fields = 'count(*) as totalNum';
-		$tb_shop->where = 'og.goods_id='.$goods_id.' and o.status = 5';
-		$shop_info = $tb_shop->find();
-		$goods_info['buy_num'] = 0;
-		if($shop_info)
-		{
-			$goods_info['buy_num'] = $shop_info[0]['totalNum'];
-		}
-
-		//购买前咨询
-		$tb_refer    = new IModel('refer');
-		$refeer_info = $tb_refer->getObj('goods_id='.$goods_id,'count(*) as totalNum');
-		$goods_info['refer'] = 0;
-		if($refeer_info)
-		{
-			$goods_info['refer'] = $refeer_info['totalNum'];
-		}
-
-		//网友讨论
-		$tb_discussion = new IModel('discussion');
-		$discussion_info = $tb_discussion->getObj('goods_id='.$goods_id,'count(*) as totalNum');
-		$goods_info['discussion'] = 0;
-		if($discussion_info)
-		{
-			$goods_info['discussion'] = $discussion_info['totalNum'];
-		}
-
-		//获得商品的价格区间
-		$tb_product = new IModel('products');
-		$product_info = $tb_product->getObj('goods_id='.$goods_id,'max(sell_price) as maxSellPrice ,max(market_price) as maxMarketPrice');
-		if(isset($product_info['maxSellPrice']) && $product_info['maxSellPrice'])
-		{
-			$goods_info['sell_price']   .= "-".$product_info['maxSellPrice'];
-			$goods_info['market_price'] .= "-".$product_info['maxMarketPrice'];
-		}
-
-		//获得会员价
-		$countsumInstance = new countsum();
-		$goods_info['group_price'] = $countsumInstance->getGroupPrice($goods_id,'goods');
-
-		//获取商家信息
-		if($goods_info['seller_id'])
-		{
-			$sellerDB = new IModel('seller');
-			$goods_info['seller'] = $sellerDB->getObj('id = '.$goods_info['seller_id']);
-		}
-
-		//增加浏览次数
-		$visit    = ISafe::get('visit');
-		$checkStr = "#".$goods_id."#";
-		if($visit && strpos($visit,$checkStr) !== false)
-		{
-		}
-		else
-		{
-			$tb_goods->setData(array('visit' => 'visit + 1'));
-			$tb_goods->update('id = '.$goods_id,'visit');
-			$visit = $visit === null ? $checkStr : $visit.$checkStr;
-			ISafe::set('visit',$visit);
-		}
-        $user_id = $this->user ? $this->user['user_id'] : 0;
-        user_history::set_user_history($goods_id,$user_id);
-		$this->setRenderData($goods_info);
         
-        if(IClient::getDevice() == 'mobile')
+        //获取商家信息
+        if($goods_info['seller_id'])
         {
-            //商品评论
-            $commentDB = new IQuery('comment as c');
-            $commentDB->join   = 'left join goods as go on c.goods_id = go.id AND go.is_del = 0 left join user as u on u.id = c.user_id';
-            $commentDB->fields = 'u.head_ico,u.username,c.*';
-            $commentDB->where  = 'c.goods_id = '.$goods_id.' and c.status <> 0';
-            $commentDB->order  = 'c.id desc';
-            $commentDB->limit = 1;
-            $data     = $commentDB->find();
-            $this->commentRow = $data;
+            $sellerDB = new IModel('seller');
+            $goods_info['seller'] = $sellerDB->getObj('id = '.$goods_info['seller_id']);
         }
-		$this->redirect('products');
+        
+		$this->setRenderData($goods_info);
+		$this->redirect('pro_detail');
 	}
 	//商品讨论更新
 	function discussUpdate()
@@ -534,7 +642,7 @@ class Site extends IController
         $specJSON[0]['value'] = urldecode($specJSON[0]['value']);
 		//获取货品数据
 		$tb_products = new IModel('products');
-		$procducts_info = $tb_products->getObj("goods_id = ".$goods_id." and spec_array = '".JSON::encode($specJSON)."'");
+		$procducts_info = $tb_products->getObj("goods_id = ".$goods_id." and spec_array = '".urldecode(JSON::encode($specJSON)."'"));
 
 		//匹配到货品数据
 		if(!$procducts_info)

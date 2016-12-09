@@ -77,19 +77,3 @@
       });
 
 });
- $(document).ready(function(){
-    /*购物车 数量加减*/
-$("#add").click(function(){
-  var n=$("#num").val();
-  var num=parseInt(n)+1;
- if(num==0){alert("cc");}
-  $("#num").val(num);
-});
-$("#jian").click(function(){
-  var n=$("#num").val();
-  var num=parseInt(n)-1;
- if(num==0){alert("不能为0!"); return}
-  $("#num").val(num);
-  });
-
-});

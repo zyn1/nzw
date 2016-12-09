@@ -381,6 +381,9 @@ function productClass(goods_id,user_id,promo,active_id)
 					$('[name="mycart_count"]').text(json.count);
 					$('[name="mycart_sum"]').text(json.sum);
 
+                    $(".goods_chose").animate({bottom: '-4.2rem'},"slow");
+                    $(".ok_button").animate({bottom: '-4.3rem'},"slow");
+                    $(".mask").fadeOut(300);
 					tips("目前选购商品共"+json.count+"件，合计：￥"+json.sum);
 				});
 			}
@@ -462,10 +465,10 @@ function productClass(goods_id,user_id,promo,active_id)
 		});
 
 		//立即购买按钮
-		$('#buyNowButton').bind('click',function(){_self.buyNow();});
+		$(document).on('click', '#buyNowButton',function(){_self.buyNow();});
 
 		//加入购物车按钮
-		$('#joinCarButton').bind('click',function(){_self.joinCart();});
+        $(document).on('click', '#joinCarButton',function(){_self.joinCart();});
 
 		//库存域绑定事件,如果库存不足无法购买和加入购物车
 		$('#data_storeNums').bind('change',function()
@@ -492,5 +495,36 @@ function productClass(goods_id,user_id,promo,active_id)
 		{
 			$('#joinCarButton').hide();
 		}
+        
+        var goods_chose=$(".goods_chose");
+        var ok_button=$(".ok_button");
+        var mask=$(".mask");
+        // 点击打开关闭规格页
+        $("#type_close,#mask").click(function(){
+            goods_chose.animate({bottom: '-4.2rem'},"slow");
+            ok_button.animate({bottom: '-4.3rem'},"slow");
+            mask.fadeOut(300);
+          });
+          $("#pro_type").click(function(){
+            goods_chose.animate({bottom: '0rem'},"slow");
+            ok_button.animate({bottom: '0.1rem'},"slow");
+            mask.fadeIn(300);
+          });
+          $("#type_ok").click(function(){
+              //对规格的检查
+              if(_self.checkSpecSelected() == false)
+              {
+                  tips('请选择商品的规格');
+                  return;
+              }
+              var html = '';
+              goods_chose.find('li.current').each(function(){
+                  html += $(this).html()+'&nbsp;&nbsp;&nbsp;'; 
+              })
+              $('#pro_type').html('已选择：'+html);
+              goods_chose.animate({bottom: '-4.2rem'},"slow");
+                ok_button.animate({bottom: '-4.3rem'},"slow");
+                mask.fadeOut(300);
+          });
 	}())
 }

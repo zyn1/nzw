@@ -616,6 +616,10 @@ input[type="number"]::-webkit-outer-spin-button {
     background: #6BB945;
     color: #fff;
 }
+.goods_chose .type > ul > li.current{
+    background: #6BB945;
+    color: #fff;
+}
 .goods_chose .type > ul > li:first-child{
     font-weight: bold;
     display: block;
@@ -3909,6 +3913,16 @@ a.box{
     top: 0.08rem;
     z-index: 10;
 }
+input.box{
+    display: block;
+    position: absolute;
+    width: 0.2rem;
+    height: 0.2rem;
+    border-radius: 50%;
+    border: 1px solid #979797;
+    top: 0.08rem;
+    z-index: 10;
+}
 a.box i.check:after{
    width: 0.21rem;
     height: 0.21rem;
@@ -3998,7 +4012,7 @@ a.box i.check:after{
 .cart_edit .num_good{
     padding: 0.15rem 0;
 }
-.cart_edit .num_good #add,.cart_edit .num_good #jian{
+.cart_edit .num_good .reduce,.cart_edit .num_good .reduce{
     width: 0.3rem;
     height: 0.3rem;
     text-align: center;
@@ -4006,7 +4020,7 @@ a.box i.check:after{
     color: #6BB945;
     border: 0px;
 }
-.cart_edit .num_good #num{
+.cart_edit .num_good .goodsNum{
     width: 0.5rem;
     text-align: center;
     border: 0px;
@@ -4026,7 +4040,7 @@ a.box i.check:after{
 }
 .cart_list .goods_num_adjust {
     display: block;
-    float: left;
+    padding:0.1rem 0;
     margin-top: 0.1rem;
 }
 .cart_list .goods_num_adjust span {

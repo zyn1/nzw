@@ -9,7 +9,7 @@
 		<a class="return_a"onclick="window.history.back();"></a>
 		<h2>购物车</h2>
 		<a class="a_gd"></a>
-        <div class="s_nav" style="display: block;">
+        <div class="s_nav" style="display: none;">
         	<div class="c-tip-arrow" style="left: 30px;"><em></em><ins></ins></div>
             <ul>
                 <li><a href="{url:/}"><i class="icon-home">首页</i></a></li>
@@ -41,42 +41,51 @@
 	<ol></ol>
 </section>
 
-<!--促销模板
+<!--促销模板-->
 <script type="text/html" id="promotionTemplate">
 	<li><%=item['plan']%>，<%=item['info']%></li>
-</script>-->
+</script>
 
 <!-- 商品列表 -->
+<form action="{url:/simple/cart2}" method="post">
 <section class="cart_list">
+    {foreach:items = $this->goodsList item=$seller}
 	<div class="cart_sel">
 		<div class="cart_goods" >
 			<div class="cart_title">
 				<a class="sel_all box"><i></i></a>
 				<div class="name">
-					<span class="sel_name">七彩云小铺</span>
+					<span class="sel_name">{$seller['seller_name']}</span>
 					<span class="sel_cz sel_cz_bj">编辑</span>
 				</div>
 			</div>
 			<ul>
+                {foreach:items=$seller['goodsList']}
 				<li>
 					<a class="checkbox box"><i></i></a>
 					<div class="cart_list_goods">
 					<a class="clear">
-						<div class="cart_list_photo"><img src="{skin:image/top/gouwuche_kong@2x.png}" alt="{$item['name']}"></div>
+						<div class="cart_list_photo"><img src="{url:/pic/thumb/img/$item['img']/w/66/h/66}" alt="{$item['name']}"></div>
 						<div class="cart_list_info">
-							<h3 class="cart_list_info_title">奇异小家</h3>
-							<p class="cart_list_info_info">
-								颜色分类:黄色
-							</p>
+							<h3 class="cart_list_info_title"><a href="{url:/site/products/id/$item['goods_id']}">{$item['name']}</a></h3>							
+                            {if:isset($item['spec_array'])}
+                            <p class="cart_list_info_info">
+                            {set:$spec_array=Block::show_spec($item['spec_array']);}
+                            {foreach:items=$spec_array item=$specValue key=$specName}
+                                {$specName}：{$specValue} &nbsp&nbsp
+                            {/foreach}
+                            </p>
+                            {/if}
 							<p class="cart_list_info_price ">
-								<em>￥29</em>
-								<del class="old_price">￥59</del>
+								<em>￥{$item['sell_price']}</em>
+								<del class="old_price">￥{$item['market_price']}</del>
 							</p>
 						</div>
-						<div class="good_num">×3</div>
+						<div class="good_num">×{$item['count']}</div>
 						</a>
 					</div>
 				</li>
+                {/foreach}
 			</ul>
 		</div>
 		<!-- 编辑商品 -->
@@ -84,136 +93,42 @@
 			<div class="cart_title">
 				<a class="sel_all box"><i></i></a>
 				<div class="name">
-					<span class="sel_name">七彩云小铺</span>
+					<span class="sel_name">{$item['seller_name']}</span>
 					<span class="sel_cz sel_cz_wc">完成</span>
 				</div>
 			</div>
 			<ul>
+                {foreach:items=$seller['goodsList']}
 				<li>
 					<a class="checkbox box"><i></i></a>
 					<div class="cart_list_goods">
 					<a class="clear">
-						<div class="cart_list_photo"><img src="{skin:image/top/gouwuche_kong@2x.png}" alt="{$item['name']}"></div>
+						<div class="cart_list_photo"><img src="{url:/pic/thumb/img/$item['img']/w/66/h/66}" alt="{$item['name']}"></div>
 						<div class="cart_list_info">
-							<div class="num_good clear">
-								<input type="button" id="jian" value="-">
-								<input type="text" id="num" value="3">
-								<input type="button" id="add" value="+">
-							</div>
-							<p class="cart_list_info_info">
-								颜色分类:黄色
-							</p>
+							<div class="goods_num_adjust">
+                            <span onclick='cart_reduce({$item_json});'>-</span>
+                            <input type='text' onchange='cartCount({$item_json});' id="count_{$item['goods_id']}_{$item['product_id']}" value="{$item['count']}">
+                            <span onclick='cart_increase({$item_json});'>+</span>
+                            </div>
+                            {if:isset($item['spec_array'])}
+                            <p class="cart_list_info_info">
+                            {set:$spec_array=Block::show_spec($item['spec_array']);}
+                            {foreach:items=$spec_array item=$specValue key=$specName}
+                                {$specName}：{$specValue} &nbsp&nbsp
+                            {/foreach}
+                            </p>
+                            {/if}
 						</div>
 						<div class="dele" onclick='javascript:removeCartByJSON({$item_json});'>删除</div>
 						</a>
 					</div>
 				</li>
+                {/foreach}
 			</ul>
 		</div>
 		<!-- 编辑商品 end-->
 	</div>
-	<div class="cart_sel">
-		<div class="cart_goods">
-			<div class="cart_title">
-				<a class="sel_all box"><i></i></a>
-				<div class="name">
-					<span class="sel_name">七彩云小铺</span>
-					<span class="sel_cz sel_cz_bj">编辑</span>
-				</div>
-			</div>
-			<ul>
-				<li>
-					<a class="checkbox box"><i></i></a>
-					<div class="cart_list_goods">
-					<a class="clear">
-						<div class="cart_list_photo"><img src="{skin:image/top/gouwuche_kong@2x.png}" alt="{$item['name']}"></div>
-						<div class="cart_list_info">
-							<h3 class="cart_list_info_title">奇异小家</h3>
-							<p class="cart_list_info_info">
-								颜色分类:黄色
-							</p>
-							<p class="cart_list_info_price ">
-								<em>￥29</em>
-								<del class="old_price">￥59</del>
-							</p>
-						</div>
-						<div class="good_num">×3</div>
-						</a>
-					</div>
-				</li>
-				<li>
-					<a class="checkbox box"><i></i></a>
-					<div class="cart_list_goods">
-					<a class="clear">
-						<div class="cart_list_photo"><img src="{skin:image/top/gouwuche_kong@2x.png}" alt="{$item['name']}"></div>
-						<div class="cart_list_info">
-							<h3 class="cart_list_info_title">奇异小家</h3>
-							<p class="cart_list_info_info">
-								颜色分类:黄色
-							</p>
-							<p class="cart_list_info_price ">
-								<em>￥29</em>
-								<del class="old_price">￥59</del>
-							</p>
-						</div>
-						<div class="good_num">×3</div>
-						</a>
-					</div>
-				</li>
-			</ul>
-		</div>
-		<!-- 编辑商品 -->
-		<div class="cart_edit" style="display:none">
-			<div class="cart_title">
-				<a class="sel_all box"><i></i></a>
-				<div class="name">
-					<span class="sel_name">七彩云小铺</span>
-					<span class="sel_cz sel_cz_wc">完成</span>
-				</div>
-			</div>
-			<ul>
-				<li>
-					<a class="checkbox box"><i></i></a>
-					<div class="cart_list_goods">
-					<a class="clear">
-						<div class="cart_list_photo"><img src="{skin:image/top/gouwuche_kong@2x.png}" alt="{$item['name']}"></div>
-						<div class="cart_list_info">
-							<div class="num_good clear">
-								<input type="button" id="jian" value="-">
-								<input type="text" id="num" value="3">
-								<input type="button" id="add" value="+">
-							</div>
-							<p class="cart_list_info_info">
-								颜色分类:黄色
-							</p>
-						</div>
-						<div class="dele" onclick='javascript:removeCartByJSON({$item_json});'>删除</div>
-						</a>
-					</div>
-				</li>
-				<li>
-					<a class="checkbox box"><i></i></a>
-					<div class="cart_list_goods">
-					<a class="clear">
-						<div class="cart_list_photo"><img src="{skin:image/top/gouwuche_kong@2x.png}" alt="{$item['name']}"></div>
-						<div class="cart_list_info">
-							<div class="num_good clear">
-								<input type="button" id="jian" value="-">
-								<input type="text" id="num" value="3">
-								<input type="button" id="add" value="+">
-							</div>
-							<p class="cart_list_info_info">
-								颜色分类:黄色
-							</p>
-						</div>
-						<div class="dele" onclick='javascript:removeCartByJSON({$item_json});'>删除</div>
-						</a>
-					</div>
-				</li>
-			</ul>
-		</div>
-		<!-- 编辑商品 end-->
-	</div>
+    {/foreach}
 </section>
 
 <footer class="cart_footer">
@@ -222,10 +137,11 @@
 			<li><a class="box_all box"><i></i></a>&nbsp;全选</li>
 			<li><span>合计:<em class="count">&nbsp;￥29</em></span></li>
 			<li><span>不含运费</span></li>
-			<li><span class="buy btn_pay" id="btn_pay" onclick="gourl('{url:/simple/cart2}')">去结算</span></li>
+			<li><input type="submit" style="border: 0;" class="buy btn_pay" id="btn_pay" onclick="gourl('{url:/simple/cart2}')" value="去结算"></li>
 		</ul>
 	</div>
 </footer>
+</form>
 <!-- <footer class="cart_footer">
 	<div class="cart_footer_fixed">
 		<div class="buy btn_pay" id="btn_pay" onclick="gourl('{url:/simple/cart2}')">
@@ -243,34 +159,15 @@
 <section class="hot_googs">
 	<div class="hot_title">热门商品</div>
 	<ul class="hot_ul clear">
+        {foreach:items=Api::run('getCommendHot', 6)}
 		<li>
-			<a>
-				<img src="{skin:image/top/gouwuche_kong@2x.png}"/>
-				<div class="good_name">合木威廉 三层实木 地板</div>
-				<em>￥500.00</em>
+			<a href="{url:/site/products/id/$item['id']}">
+				<img src="{url:/pic/thumb/img/$item['img']/w/170/h/170}"/>
+				<div class="good_name">{$item['name']}</div>
+				<em>￥{$item['sell_price']}</em>
 			</a>
 		</li>
-		<li>
-			<a>
-				<img src="{skin:image/top/gouwuche_kong@2x.png}"/>
-				<div class="good_name">合木威廉 三层实木 地板</div>
-				<em>￥500.00</em>
-			</a>
-		</li>
-		<li>
-			<a>
-				<img src="{skin:image/top/gouwuche_kong@2x.png}"/>
-				<div class="good_name">合木威廉 三层实木 地板</div>
-				<em>￥500.00</em>
-			</a>
-		</li>
-		<li>
-			<a>
-				<img src="{skin:image/top/gouwuche_kong@2x.png}"/>
-				<div class="good_name">合木威廉 三层实木 地板</div>
-				<em>￥500.00</em>
-			</a>
-		</li>
+        {/foreach}
 	</ul>
 </section>
 <script>
