@@ -51,18 +51,22 @@
 <section class="cart_list">
     {foreach:items = $this->goodsList item=$seller}
 	<div class="cart_sel">
-		<div class="cart_goods" >
+		<div class="cart_goods">
 			<div class="cart_title">
-				<a class="sel_all box"><i></i></a>
+				<label class="s_sel_all box"><input type="checkbox" name="sel_all"  class="chk_1"/></label>
 				<div class="name">
-					<span class="sel_name">{$seller['seller_name']}</span>
+					<span class="sel_name">{$item['seller_name']}</span>
 					<span class="sel_cz sel_cz_bj">编辑</span>
 				</div>
 			</div>
 			<ul>
                 {foreach:items=$seller['goodsList']}
+                {set:$type=isset($item['spec_array'])?'product':'goods'}
+                {set:$item['id']=isset($item['spec_array'])?$item['product_id']:$item['goods_id']}
+                {set:$item['type']=$type}
+                {set:$item_json = JSON::encode($item)}
 				<li>
-					<a class="checkbox box"><i></i></a>
+					<label class="g_checkbox box"><input type="checkbox" name="checkbox"  class="chk_1"/></label>
 					<div class="cart_list_goods">
 					<a class="clear">
 						<div class="cart_list_photo"><img src="{url:/pic/thumb/img/$item['img']/w/66/h/66}" alt="{$item['name']}"></div>
@@ -91,7 +95,7 @@
 		<!-- 编辑商品 -->
 		<div class="cart_edit" style="display:none">
 			<div class="cart_title">
-				<a class="sel_all box"><i></i></a>
+				<label class="s_sel_all box"><input type="checkbox" name="sel_all"  class="chk_1"/></label>
 				<div class="name">
 					<span class="sel_name">{$item['seller_name']}</span>
 					<span class="sel_cz sel_cz_wc">完成</span>
@@ -99,8 +103,12 @@
 			</div>
 			<ul>
                 {foreach:items=$seller['goodsList']}
+                {set:$type=isset($item['spec_array'])?'product':'goods'}
+                {set:$item['id']=isset($item['spec_array'])?$item['product_id']:$item['goods_id']}
+                {set:$item['type']=$type}
+                {set:$item_json = JSON::encode($item)}
 				<li>
-					<a class="checkbox box"><i></i></a>
+					<label class="g_checkbox box"><input type="checkbox" name="checkbox"  class="chk_1"/></label>
 					<div class="cart_list_goods">
 					<a class="clear">
 						<div class="cart_list_photo"><img src="{url:/pic/thumb/img/$item['img']/w/66/h/66}" alt="{$item['name']}"></div>
@@ -134,26 +142,14 @@
 <footer class="cart_footer">
 	<div class="cart_footer_fixed">
 		<ul>
-			<li><a class="box_all box"><i></i></a>&nbsp;全选</li>
-			<li><span>合计:<em class="count">&nbsp;￥29</em></span></li>
+			<li><label class="box_all box"><input type="checkbox" name="box_all"  class="chk_1"/></label>
+			<li><span>合计:<em class="count">&nbsp;￥{$this->final_sum}</em></span></li>
 			<li><span>不含运费</span></li>
 			<li><input type="submit" style="border: 0;" class="buy btn_pay" id="btn_pay" onclick="gourl('{url:/simple/cart2}')" value="去结算"></li>
 		</ul>
 	</div>
 </footer>
 </form>
-<!-- <footer class="cart_footer">
-	<div class="cart_footer_fixed">
-		<div class="buy btn_pay" id="btn_pay" onclick="gourl('{url:/simple/cart2}')">
-			去结算
-		</div>
-		<div class="count">
-			<span>合计:</span>
-			<em>￥<i id='sum_price'>{$this->final_sum}</i></em>
-			<u>不含运费</u>
-		</div>
-	</div>
-</footer> -->
 {/if}
 <!-- 热门商品 -->
 <section class="hot_googs">

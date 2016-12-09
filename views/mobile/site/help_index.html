@@ -39,8 +39,10 @@
 <section class="help_bar">
 	
 	{query:name=help_category order=sort asc}
-    <nav class="bar">                
-            <a href="{url:site/help_list/id/$item['id']}"><img src="{webroot:$item['img']}"></a>
+    <nav class="bar">
+        <a href="{url:site/help_list/id/$item['id']}"><img src="{webroot:$item['img']}">
+            <strong>{$item['name']}</strong>
+        </a>               
     </nav>
     {/query}
 	
