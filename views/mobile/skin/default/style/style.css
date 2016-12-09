@@ -5074,6 +5074,10 @@ span.xl3 em{
 .help_bar .bar img{
     width: 100%;
 }
+.help_bar .bar strong{
+    position:relative;
+    bottom: 0.4rem;
+}
 .help_bar li{
     line-height: 0.4rem;
     padding: 0 0.1rem 0 0.2rem;
