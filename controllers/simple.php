@@ -386,7 +386,6 @@ class Simple extends IController
             }
             $result = $countSumObj->cart_count($id,$type,$buy_num,$promo,$active_id,$cartData);   
         }     
-
 		if($countSumObj->error)
 		{
 			IError::show(403,$countSumObj->error);
@@ -439,6 +438,23 @@ class Simple extends IController
     	$this->weight      = $result['weight'];
     	$this->freeFreight = $result['freeFreight'];
     	$this->seller      = $result['seller'];
+        
+        if(IClient::getDevice() == 'mobile')
+        {
+            $sellerDB = new IModel('seller');
+            $sellerGoods = array();
+            foreach($result['goodsList'] as $v)
+            {
+                if(!isset($sellerGoods[$v['seller_id']]['seller_name']))
+                {
+                    $sellerRow = $sellerDB->getObj('id ='.$v['seller_id'], 'seller_name, seller_logo');
+                    $sellerGoods[$v['seller_id']]['seller_name'] = $sellerRow['seller_name'];
+                    $sellerGoods[$v['seller_id']]['seller_logo'] = $sellerRow['seller_logo'];
+                }
+                $sellerGoods[$v['seller_id']]['goodsList'][] = $v;
+            }
+            $this->goodsList = $sellerGoods;
+        }
 
 		//收货地址列表
 		$this->addressList = $addressList;

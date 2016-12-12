@@ -33,52 +33,49 @@
       <!--地址管理 结束-->
       <!-- 商品 开始 -->
       <div class="cart_sel">
+        {foreach:items = $this->goodsList item=$seller}
         <div class="cart_goods">
             <div class="cart_title">
-                <a class="name clear" href="">
-                    <img src="{skin:image/top/gouwuche_kong@2x.png}"/>
-                    <span class="sel_name">七彩云小铺</span>
+                <a class="name clear" href="{url:/site/home/id/$key}">
+                    <img src="{webroot:$seller['seller_logo']}"/>
+                    <span class="sel_name">{$seller['seller_name']}</span>
                 </a>
             </div>
             <ul>
+                {foreach:items=$seller['goodsList']}
+                {if:$item['product_id']==0}
+                    {set:$type= 'goods';$id=$item['goods_id']}
+                {else:}
+                    {set:$type='product';$id=$item['product_id']}
+                {/if}
+                <input type='hidden' name='goods[]' value='{$type}-{$id}-{$item["count"]}' />
                 <li>
                     <div class="cart_list_goods">
                     <a class="clear">
-                        <div class="cart_list_photo"><img src="{skin:image/top/gouwuche_kong@2x.png}" alt="{$item['name']}"></div>
+                        <div class="cart_list_photo"><img src="{url:/pic/thumb/img/$item[img]/w/66/h/66}" alt="{$item['name']}"></div>
                         <div class="cart_list_info">
-                            <h3 class="cart_list_info_title">奇异小家</h3>
+                            <h3 class="cart_list_info_title"><a href="{url:/site/products/id/$item['goods_id']}">{$item['name']}</a></h3>
+                            {if:isset($item['spec_array'])}
                             <p class="cart_list_info_info">
-                                颜色分类:黄色
+                            {set:$spec_array=Block::show_spec($item['spec_array']);}
+                            {foreach:items=$spec_array item=$specValue key=$specName}
+                                {$specName}：{$specValue} &nbsp&nbsp
+                            {/foreach}
                             </p>
+                            {/if}
                             <p class="cart_list_info_price ">
-                                <em>￥29</em>
-                                <del class="old_price">￥59</del>
+                                <em>￥{$item['sell_price']}</em>
+                                <del class="old_price">￥{$item['market_price']}</del>
                             </p>
                         </div>
-                        <div class="good_num">×3</div>
+                        <div class="good_num">×{$item['count']}</div>
                         </a>
                     </div>
                 </li>
-                <li>
-                    <div class="cart_list_goods">
-                    <a class="clear">
-                        <div class="cart_list_photo"><img src="{skin:image/top/gouwuche_kong@2x.png}" alt="{$item['name']}"></div>
-                        <div class="cart_list_info">
-                            <h3 class="cart_list_info_title">奇异小家</h3>
-                            <p class="cart_list_info_info">
-                                颜色分类:黄色
-                            </p>
-                            <p class="cart_list_info_price ">
-                                <em>￥29</em>
-                                <del class="old_price">￥59</del>
-                            </p>
-                        </div>
-                        <div class="good_num">×3</div>
-                        </a>
-                    </div>
-                </li>
+                {/foreach}
             </ul>
         </div>
+        {/foreach}
     </div>
     <!--  商品结束 -->
     <div class="con_order">
