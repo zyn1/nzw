@@ -66,7 +66,7 @@
                 {set:$item['type']=$type}
                 {set:$item_json = JSON::encode($item)}
 				<li>
-					<label class="g_checkbox box"><input type="checkbox" name="checkbox"  class="chk_1"/></label>
+					<label class="g_checkbox box"><input type="checkbox" name="sub[]"  class="chk_1"/></label>
 					<div class="cart_list_goods">
 					<a class="clear">
 						<div class="cart_list_photo"><img src="{url:/pic/thumb/img/$item['img']/w/66/h/66}" alt="{$item['name']}"></div>
@@ -108,7 +108,7 @@
                 {set:$item['type']=$type}
                 {set:$item_json = JSON::encode($item)}
 				<li>
-					<label class="g_checkbox box"><input type="checkbox" name="checkbox"  class="chk_1"/></label>
+					<label class="g_checkbox box"><input type="checkbox" name="sub[]"  class="chk_1"/></label>
 					<div class="cart_list_goods">
 					<a class="clear">
 						<div class="cart_list_photo"><img src="{url:/pic/thumb/img/$item['img']/w/66/h/66}" alt="{$item['name']}"></div>

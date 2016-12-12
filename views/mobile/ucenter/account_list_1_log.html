@@ -6,16 +6,13 @@
         text-align: left;
     }
 </style>
-{set:$queryAccountLogList = Api::run('getUcenterAccoutLog',$this->user['user_id'])}
-{set:$logList = $queryAccountLogList->find()}
 <header class="header_login">
     <div class="header_title">
         <a class="return_a"onclick="window.history.back();"></a>
-        <h2>提现记录</h2>
+        <h2>提现详情</h2>
         
     </div>
 </header>
-
 
 <script>
 $(function(){
@@ -23,59 +20,48 @@ $(function(){
     hideNav();
 })
 </script>
-
-<script type="text/javascript">  
-  
-// $(document).ready(function() {  
-  
-//     //Default Action  
-//     $(".tab_content").hide(); //Hide all content  
-//     $("ul.tabs li:first").addClass("active").show(); //Activate first tab  
-//     $(".tab_content:first").show(); //Show first tab content  
-      
-//     //On Click Event  
-//     $("ul.tabs li").click(function() {  
-//         $("ul.tabs li").removeClass("active"); //Remove any "active" class  
-//         $(this).addClass("active"); //Add "active" class to selected tab  
-//         $(".tab_content").hide(); //Hide all tab content  
-//         var activeTab = $(this).find("a").attr("href"); //Find the rel attribute value to identify the active tab + content  
-//         $(activeTab).fadeIn(); //Fade in the active content  
-//         return false;  
-//     });  
-  
-// });  
-</script>  
-<style type="text/css">
-</style>
-
-
-
-
+{set:$queryWithdrawRow = Api::run('getWithdrawRow',IReq::get('id'))}
 <div class="container">        
      
     <div class="tab_container">  
          
-          
+         {if:$queryWithdrawRow}
         <div id="tab4" class="tab_content" style="display: block; ">  
             <div class="content_list">
             
             <div class="checked_on">                
                 <ul>
                     <li class="time">会员备注</li>
-                    <li>请尽快审核</li>
+                    <li>{$queryWithdrawRow['note']}</li>
                 </ul>
                     <div class="clear"></div>
                 <ul>
+                    <li class="time">处理状态</li>
+                    <li>{echo:AccountLog::getWithdrawStatus($queryWithdrawRow['status'])}</li>
+                </ul>
+                <ul>
                     <li class="time">管理员备注</li>
-                    <li>同意</li>
+                    <li>{$queryWithdrawRow['re_note']}</li>
                 </ul>
                 <ul>
                     <li class="time">提现金额</li>
-                    <li>￥100</li>
+                    <li>￥{$queryWithdrawRow['amount']}</li>
                 </ul>
                 <ul>
                     <li class="time">申请时间</li>
-                    <li>2016-08-16&nbsp;&nbsp;20:18:23</li>
+                    <li>{$queryWithdrawRow['time']}</li>
+                </ul>
+                <ul>
+                    <li class="time">开户姓名</li>
+                    <li>{$queryWithdrawRow['name']}</li>
+                </ul>
+                <ul>
+                    <li class="time">开户行</li>
+                    <li>{$queryWithdrawRow['bank']}</li>
+                </ul>
+                <ul>
+                    <li class="time">银行账号</li>
+                    <li>{$queryWithdrawRow['account']}</li>
                 </ul>
                 <ul>
                     <li class="time">账户余额</li>
@@ -85,7 +71,8 @@ $(function(){
             <button class="del_but">删除</button>
                     <div class="clear"></div>
             </div>
-        </div>  
+        </div> 
+        {/if} 
     </div>  
   
 </div> 

@@ -138,14 +138,21 @@ class APIUcenter
 		$query->page  = $page;
 		return $query;
 	}
-	//用户中心-提现记录
-	public function getWithdrawList($userid){
-		$page = IReq::get('page') ? IFilter::act(IReq::get('page'),'int') : 1;
-		$query = new IQuery('withdraw');
-		$query->where = "user_id = ".$userid." and is_del = 0";
-		$query->order = "id desc";
-		$query->page  = $page;
-		return $query;
+    //用户中心-提现记录
+    public function getWithdrawList($userid){
+        $page = IReq::get('page') ? IFilter::act(IReq::get('page'),'int') : 1;
+        $query = new IQuery('withdraw');
+        $query->where = "user_id = ".$userid." and is_del = 0";
+        $query->order = "id desc";
+        $query->page  = $page;
+        return $query;
+    }
+
+	//用户中心-提现详情
+	public function getWithdrawRow($id){
+		$query = new IModel('withdraw');
+		$row = $query->getObj("id = ".$id);
+		return $row;
 	}
 
     //[收藏夹]获取收藏夹数据

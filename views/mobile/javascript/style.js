@@ -5,15 +5,14 @@
       });
       /*购物车编辑和完成div切换*/
       $(".cart_edit .name .sel_cz_wc").click(function(){
-            $(this).parent(".cart_sel").addClass("on")
-             $(this).parent().parent().parent().parent(".cart_sel").find(".cart_goods").show();
-             $(this).parent().parent().parent().parent(".cart_sel").find(".cart_edit").hide();
+             $(this).closest(".cart_sel").find(".cart_goods").show();
+             $(this).closest(".cart_sel").find(".cart_edit").hide();
       })
       $(".cart_goods .name .sel_cz_bj").click(function(){
-             $(this).parent().parent().parent().parent(".cart_sel").find(".cart_edit").show();
-             $(this).parent().parent().parent().parent(".cart_sel").find(".cart_goods").hide();
+             $(this).closest(".cart_sel").find(".cart_edit").show();
+             $(this).closest(".cart_sel").find(".cart_goods").hide();
       })
-         /*购物车选择 start*/
+      /*购物车选择 start*/
       $("input[name^='checkbox']").click(function(){
          $(this).parent("label").toggleClass("check");
         var all_boxi=$(this).parent().parent().parent("ul").find("li .g_checkbox");

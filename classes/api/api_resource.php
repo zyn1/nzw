@@ -540,8 +540,12 @@ return array(
 	'getRefundmentDocList' => array(
 		'file' => 'ucenter.php','class' => 'APIUcenter'
 	),
-	//用户中心-提现记录
-	'getWithdrawList' => array(
+    //用户中心-提现记录
+    'getWithdrawList' => array(
+        'file' => 'ucenter.php','class' => 'APIUcenter'
+    ),
+	//用户中心-提现详情
+	'getWithdrawRow' => array(
 		'file' => 'ucenter.php','class' => 'APIUcenter'
 	),
 	//快捷登录

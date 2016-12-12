@@ -57,38 +57,27 @@ $(function(){
         <li><a href="{url:ucenter/account_list_1}">提现记录</a></li>  
     </ul>  
     <div class="tab_container">  
-        <div id="tab1" class="tab_content" style="display: block; ">  
+        <div id="tab1" class="tab_content" style="display: block; "> 
+            {set:$queryAccountLogList = Api::run('getUcenterAccoutLog',$this->user['user_id'])}
+            {foreach:items = $queryAccountLogList->find()}
             <div class="content_list">
                
                 <div class="checked_on">
                     <ul>
-                        <li>用户[6]使用余额支付购买，订单[20161023094931194671]</li>
-                        <li>+100000</li>
+                        <li>{$item['note']}</li>
+                        <li>{echo:$item['amount'] > 0 ?  '+'.$item['amount'] : $item['amount']}</li>
                     </ul>
                     <ul>
-                        <li class="time">2016-10-23&nbsp;20:18:20</li>
-                        <li class="time">10000</li>
+                        <li class="time">{$item['time']}</li>
+                        <li class="time">{$item['amount_log']}</li>
                     </ul>
                 </div>           
                     <div class="clear"></div>     
             </div>  
-            <div class="content_list">
-                
-                <div class="checked_on">
-                    <ul>
-                        <li>用户[6]使用余额支付购买，订单[20161023094931194671]</li>
-                        <li>-100000</li>
-                    </ul>
-                    <ul>
-                        <li class="time">2016-10-23&nbsp;20:18:20</li>
-                        <li class="time">10000</li>
-                    </ul>
-                </div>
-                    <div class="clear"></div>
-            </div>            
+            {/foreach}
         </div>  
           
-          
+        {$queryAccountLogList->getPageBar()}  
     </div>  
   
 </div> 
