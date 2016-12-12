@@ -22,6 +22,10 @@
         var box_all_checki= $(".cart_goods ul .g_checkbox");
         //.cart_list 下的class="box"下的i标签
         var box_all_onchecki=$(".cart_goods ul .check");
+        //编辑
+         var box_all_checki_edit= $(".cart_edit ul .g_checkbox");
+        //.cart_list 下的class="box"下的i标签
+        var box_all_onchecki_edit=$(".cart_edit ul .check");
         //全选按钮
         var box_all_i = $(".cart_footer_fixed ul li .box_all");
         if(all_boxi.length == all_checki.length){
@@ -34,21 +38,37 @@
         }else{
           box_all_i.removeClass("check");
         }
+        if(box_all_checki_edit.length == box_all_onchecki_edit.length ){
+          box_all_i.addClass("check");
+        }else{
+          box_all_i.removeClass("check");
+        }
       });
        $("input[name^='sel_all']").click(function(){
           $(this).parent("label").toggleClass("check");
           var checkbox_i=$(this).parent().parent().parent(".cart_goods").find("ul li .g_checkbox")
+          var checkbox_i_edit=$(this).parent().parent().parent(".cart_edit").find("ul li .g_checkbox")
         
           var sel_check_i=$(".cart_goods .cart_title").find(".s_sel_all ");
           var sel_oncheck_i=$(".cart_goods .cart_title").find(".check");
+          //编辑
+          var sel_check_i_edit=$(".cart_edit .cart_title").find(".s_sel_all ");
+          var sel_oncheck_i_edit=$(".cart_edit .cart_title").find(".check");
           //全选按钮
           var box_all_i2 = $(".cart_footer_fixed ul li .box_all");
           if($(this).parent("label").hasClass("check")){
             checkbox_i.addClass("check");
+            checkbox_i_edit.addClass("check");
           }else{
             checkbox_i.removeClass("check");
+            checkbox_i_edit.removeClass("check");
           }
           if(sel_check_i.length == sel_oncheck_i.length){
+            box_all_i2.addClass('check');
+          }else{
+            box_all_i2.removeClass("check");
+          }
+          if(sel_check_i_edit.length == sel_oncheck_i_edit.length){
             box_all_i2.addClass('check');
           }else{
             box_all_i2.removeClass("check");
