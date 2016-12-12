@@ -8,7 +8,7 @@
 </header>
 <div id="pageInfo" data-title="用户登录"></div>
 <div style="text-align: center; margin: 0.25rem;">
-	<img src="{skin:image/top/logo@2x.png}"/>
+	<img src="{if:$this->_siteConfig->logo}{webroot:$this->_siteConfig->logo}{else:}{skin:image/logo.png}{/if}"/>
 </div>
 <section class="login input_li">
 	<form action='{url:/simple/login_act}' method='post'>
