@@ -185,7 +185,6 @@ function cartCount(_obj)
                 });
                 countInput.data('oldNum',countInputVal);
                 $.getJSON(promUrl,{"goodsId":goodsId,"productId":productId,"num":num,"random":Math.random()},function(content){
-                    console.info(content)
                     if(content.promotion.length > 0)
                     {
                         $('#cart_prompt li').remove();
@@ -204,7 +203,6 @@ function cartCount(_obj)
 
                     /*开始更新数据*/
                     var checkInput   = countInput.closest('li.js_show_goods_det').find('input[name^=sub]');
-                    console.info(checkInput);
                     if(checkInput.prop('checked')){
                         $('#sum_price').html(content.final_sum);
                     }

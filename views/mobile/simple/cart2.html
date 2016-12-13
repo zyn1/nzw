@@ -5,30 +5,69 @@
     </div>
 </header>
 {js:artTemplate}
+{set:$default=$this->defaultAddress ? $this->defaultAddress : ''}
 <!-- 确认订单js -->
 <script type='text/javascript' src='{theme:javascript/orderFormClass.js}'></script>
+<script>
+//创建订单表单实例
+orderFormInstance = new orderFormClass();
+
+//DOM加载完毕
+$(function(){
+    //商家信息
+    orderFormInstance.seller = {echo:JSON::encode($this->seller)};
+
+    //商品价格
+    orderFormInstance.goodsSum = "{$this->final_sum}";
+
+    //配送方式初始化
+    orderFormInstance.deliveryInit("{$this->custom['delivery']}");
+
+    //收货地址数据
+    orderFormInstance.addressInit();
+
+    //支付方式
+    orderFormInstance.paymentInit("{$this->custom['payment']}");
+
+    //免运费
+    orderFormInstance.freeFreight = {echo:JSON::encode($this->freeFreight)};
+    {if:$default}
+    orderFormInstance.getDelivery({$default['province']});
+    {/if}
+});
+</script>
 <script type="text/javascript" src="{theme:javascript/order.js}"></script>
 <link rel="stylesheet" href="{skin:style/bases.css}">
 <!-- 确认订单js end-->
 <section class="cart_2">
+    <form action='{url:/simple/cart3}' class="form" method='post' name='order_form' onsubmit='return orderFormInstance.isSubmit()'>
+    <input type='hidden' name='direct_gid' value='{$this->gid}' />
+    <input type='hidden' name='direct_type' value='{$this->type}' />
+    <input type='hidden' name='direct_num' value='{$this->num}' />
+    <input type='hidden' name='direct_promo' value='{$this->promo}' />
+    <input type='hidden' name='direct_active_id' value='{$this->active_id}' />
     <!--地址管理 开始-->
     <div class="con_order">
+        {if:$default}
+        <input name="radio_address" type="hidden" value="{$default['id']}"/>
+        <div class="show_adderss">
+            <a class="adder_img adder_height" href="">
+                <p class="s_adder_p">
+                    <span>收货人：{$default['accept_name']}</span>
+                    <span class="tel">{$default['mobile']}</span>
+                </p>
+                <p class="s_adder_p colab bag_p">
+                    收货地址：{$default['address']}
+                </p>
+            </a>
+        </div>
+        {else:}
         <div class="no_adderss">
-            <a class="adder_img">
+            <a class="adder_img" href="{url:/}">
                 <p class="adder_p">请添加收货地址，以确保商品顺利到达</p>
             </a>
         </div>
-        <div class="show_adderss" style="display:none;">
-            <a class="adder_img adder_height">
-                <p class="s_adder_p">
-                    <span>收货人：张三</span>
-                    <span class="tel">18652656789</span>
-                </p>
-                <p class="s_adder_p colab bag_p">
-                    收货地址：北京市大兴区大兴亦庄开发区文化园高兴街道34号
-                </p>
-            </a>
-        </div>
+        {/if}
     </div>
       <!--地址管理 结束-->
       <!-- 商品 开始 -->
@@ -68,7 +107,7 @@
                                 <del class="old_price">￥{$item['market_price']}</del>
                             </p>
                         </div>
-                        <div class="good_num">×{$item['count']}</div>
+                        <div class="good_num" id="deliveryFeeBox_{$item['goods_id']}_{$item['product_id']}_{$item['count']}">×{$item['count']}</div>
                         </a>
                     </div>
                 </li>
@@ -135,6 +174,7 @@
             </label>
         </div>
     </footer>
+    </form>
 </section>
 <div class="mask" id="mask"></div>
 <div class="peis">

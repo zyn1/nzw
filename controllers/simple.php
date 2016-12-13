@@ -406,6 +406,7 @@ class Simple extends IController
 	    		$addressList[$key]['area_val']     = $temp[$val['area']];
     		}
     	}
+        $defaultAddress = empty($addressList) ? array() : $addressList[0];
 
 		//获取习惯方式
 		$memberObj = new IModel('member');
@@ -458,6 +459,9 @@ class Simple extends IController
 
 		//收货地址列表
 		$this->addressList = $addressList;
+        
+        //默认地址
+        $this->defaultAddress = $defaultAddress;
 
 		//获取商品税金
 		$this->goodsTax    = $result['tax'];
