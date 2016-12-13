@@ -4106,6 +4106,7 @@ label.check:after{
     width: 100%;
     height: 0.48rem;
     background: #fff;
+    z-index: 11;
 }
 .cart_footer .cart_footer_fixed {
     height: 0.48rem;
