@@ -50,9 +50,9 @@ $(document).ready(function(){
         mask.fadeIn(300);
       })
   //选择状态
-  $(".ps_select ul li .box").click(function(){
-    $(".ps_select ul li .box i").removeClass("check");
-    $(this).find("i").addClass("check")
+  $(".ps_select ul li .g_checkbox").click(function(){
+    $(".ps_select ul li .g_checkbox").removeClass("check");
+    $(this).addClass("check")
   });
   // 编辑地址默认
       $(".default em").click(function(){
