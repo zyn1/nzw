@@ -25,9 +25,17 @@
 					<th>收款人姓名：</th>
 					<td>{$this->withdrawRow['name']}</td>
 				</tr>
+                <tr>
+                    <th>提现金额：</th>
+                    <td>{$this->withdrawRow['amount']}</td>
+                </tr>
+                <tr>
+                    <th>手续费：</th>
+                    <td>{$this->withdrawRow['charge']}</td>
+                </tr>
 				<tr>
-					<th>提现金额：</th>
-					<td>{$this->withdrawRow['amount']}</td>
+					<th>应付金额：</th>
+					<td style="color: red;">{$this->withdrawRow['am']}</td>
 				</tr>
                 <tr>
                     <th>申请时间：</th>

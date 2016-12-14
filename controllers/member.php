@@ -548,7 +548,15 @@ class Member extends IController implements adminAuthorization
 		{
 			$withdrawObj = new IModel('withdraw');
 			$where       = 'id = '.$id;
-			$this->withdrawRow = $withdrawObj->getObj($where);
+			$withdrawRow = $withdrawObj->getObj($where);
+            $para = JSON::decode($withdrawRow['para']);
+            if($para)
+            {
+                $withdrawRow['charge'] = $para['charge'];
+                $withdrawRow['am'] = $para['am'];
+            }
+            
+            $this->withdrawRow = $withdrawRow;
 
 			$userDB = new IModel('user as u,member as m');
 			$this->userRow = $userDB->getObj('u.id = m.user_id and u.id = '.$this->withdrawRow['user_id']);
@@ -599,6 +607,15 @@ class Member extends IController implements adminAuthorization
 					);
 					$result = $log->write($config);
 					$result ? "" : die($log->error);
+                    
+                    //手续费记入平台账户余额
+                    $para = JSON::decode($withdrawRow['para']);
+                    if($para && $para['charge'] > 0)
+                    {
+                        $config['charge'] = $para['charge'];
+                        $result = $log->writeSystem($config);
+                        $result ? "" : die($log->error);
+                    }
 				}
 			}
 			$this->withdraw_detail();

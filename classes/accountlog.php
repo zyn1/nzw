@@ -47,12 +47,93 @@ class AccountLog
 		'drawback'=> 4,//退款到余额
 	);
 
+    /**
+     * 写入日志并且更新账户余额
+     * @param array $config config数据类型
+     * @return string|bool
+     */
+    public function write($config)
+    {
+        if(isset($config['user_id']))
+        {
+            $this->setUser($config['user_id']);
+        }
+        else
+        {
+            $this->error = "用户信息不存在";
+            return false;
+        }
+
+        isset($config['seller_id']) ? $this->setSeller($config['seller_id']) : "";
+        isset($config['admin_id'])  ? $this->setAdmin($config['admin_id'])   : "";
+        isset($config['event'])     ? $this->setEvent($config['event'])      : "";
+
+        if( isset($config['num']) && is_numeric($config['num']) )
+        {
+            $this->amount = abs(round($config['num'],2));
+
+            //金额正负值处理
+            if(in_array($this->allow_event[$this->event],array(2,3)))
+            {
+                $this->amount = '-'.abs($this->amount);
+            }
+        }
+        else
+        {
+            $this->error = "金额必须大于0元";
+            return false;
+        }
+
+        $this->config   = $config;
+        $this->noteData = isset($config['note']) ? $config['note'] : $this->note();
+
+        //写入数据库
+        $finnalAmount = $this->user['balance'] + $this->amount;
+        if($finnalAmount < 0)
+        {
+            $this->error = "用户余额不足";
+            return false;
+        }
+
+        //对用户余额进行更新
+        $memberDB    = new IModel('member');
+        $memberDB->setData(array("balance" => $finnalAmount));
+        $isChBalance = $memberDB->update("user_id = ".$this->user['id']);
+        if(!$isChBalance)
+        {
+            $this->error = "用户余额数据更新失败";
+            return false;
+        }
+
+        $tb_account_log = new IModel("account_log");
+        $insertData = array(
+            'admin_id'  => $this->admin ? $this->admin['id'] : 0,
+            'user_id'   => $this->user['id'],
+            'event'     => $this->allow_event[$this->event],
+            'note'      => $this->noteData,
+            'amount'    => $this->amount,
+            'amount_log'=> $finnalAmount,
+            'type'      => $this->amount >= 0 ? 0 : 1,
+            'time'      => ITime::getDateTime(),
+        );
+        $tb_account_log->setData($insertData);
+        $result = $tb_account_log->add();
+
+        //后台管理员操作记录
+        if($insertData['admin_id'])
+        {
+            $logObj = new log('db');
+            $logObj->write('operation',array("管理员:".$this->admin['admin_name'],"对账户金额进行了修改",$insertData['note']));
+        }
+        return $result;
+    }
+
 	/**
-	 * 写入日志并且更新账户余额
+	 * 写入日志并且更新系统账户余额
 	 * @param array $config config数据类型
 	 * @return string|bool
 	 */
-	public function write($config)
+	public function writeSystem($config)
 	{
 		if(isset($config['user_id']))
 		{
@@ -66,17 +147,10 @@ class AccountLog
 
 		isset($config['seller_id']) ? $this->setSeller($config['seller_id']) : "";
 		isset($config['admin_id'])  ? $this->setAdmin($config['admin_id'])   : "";
-		isset($config['event'])     ? $this->setEvent($config['event'])      : "";
 
-		if( isset($config['num']) && is_numeric($config['num']) )
+		if( isset($config['charge']) && is_numeric($config['charge']) )
 		{
-			$this->amount = abs(round($config['num'],2));
-
-			//金额正负值处理
-			if(in_array($this->allow_event[$this->event],array(2,3)))
-			{
-				$this->amount = '-'.abs($this->amount);
-			}
+			$this->amount = abs(round($config['charge'],2));
 		}
 		else
 		{
@@ -85,45 +159,28 @@ class AccountLog
 		}
 
 		$this->config   = $config;
-		$this->noteData = isset($config['note']) ? $config['note'] : $this->note();
+		$this->noteData = "管理员[{$this->admin['id']}]给用户[{$this->user['id']}]{$this->user['username']}提现，收取手续费，金额：{$this->amount}元";
 
 		//写入数据库
-		$finnalAmount = $this->user['balance'] + $this->amount;
-		if($finnalAmount < 0)
-		{
-			$this->error = "用户余额不足";
-			return false;
-		}
-
-		//对用户余额进行更新
-		$memberDB    = new IModel('member');
-		$memberDB->setData(array("balance" => $finnalAmount));
-		$isChBalance = $memberDB->update("user_id = ".$this->user['id']);
-		if(!$isChBalance)
-		{
-			$this->error = "用户余额数据更新失败";
-			return false;
-		}
-
-		$tb_account_log = new IModel("account_log");
+        $tb_account_log = new IModel("system_account_log");
+        $detail = $tb_account_log->query('1', 'amount_log', 'id desc', 1);
+        $amount = $detail ? $detail[0]['amount_log'] : 0;
+		$finnalAmount = $amount + $this->amount;
+		
 		$insertData = array(
-			'admin_id'  => $this->admin ? $this->admin['id'] : 0,
-			'user_id'   => $this->user['id'],
-			'event'     => $this->allow_event[$this->event],
 			'note'      => $this->noteData,
 			'amount'    => $this->amount,
 			'amount_log'=> $finnalAmount,
-			'type'      => $this->amount >= 0 ? 0 : 1,
 			'time'      => ITime::getDateTime(),
 		);
 		$tb_account_log->setData($insertData);
 		$result = $tb_account_log->add();
 
 		//后台管理员操作记录
-		if($insertData['admin_id'])
+		if($this->admin)
 		{
 			$logObj = new log('db');
-			$logObj->write('operation',array("管理员:".$this->admin['admin_name'],"对账户金额进行了修改",$insertData['note']));
+			$logObj->write('operation',array("管理员:".$this->admin['admin_name'],"对系统账户金额进行了修改",$insertData['note']));
 		}
 		return $result;
 	}
@@ -219,16 +276,16 @@ class AccountLog
 		$note = "";
 		switch($this->event)
 		{
-			//提现
-			case 'withdraw':
-			{
-				if($this->admin == null)
-				{
-					throw new IException("管理员信息不存在，无法提现");
-				}
-				$note .= "管理员[{$this->admin['id']}]给用户[{$this->user['id']}]{$this->user['username']}提现，金额：{$this->amount}元";
-			}
-			break;
+            //提现
+            case 'withdraw':
+            {
+                if($this->admin == null)
+                {
+                    throw new IException("管理员信息不存在，无法提现");
+                }
+                $note .= "管理员[{$this->admin['id']}]给用户[{$this->user['id']}]{$this->user['username']}提现，金额：{$this->amount}元";
+            }
+            break;
 
 			//支付
 			case 'pay':

@@ -617,15 +617,53 @@ class Market extends IController implements adminAuthorization
 		}
 	}
 
-	//账户余额记录
-	function account_list()
+    //账户余额记录
+    function account_list()
+    {
+        $page       = intval(IReq::get('page')) ? IReq::get('page') : 1;
+        $event      = intval(IReq::get('event'));
+        $startDate  = IFilter::act(IReq::get('startDate'));
+        $endDate    = IFilter::act(IReq::get('endDate'));
+
+        $where      = "event != 3";
+        if($startDate)
+        {
+            $where .= " and time >= '{$startDate}' ";
+        }
+
+        if($endDate)
+        {
+            $temp   = $endDate.' 23:59:59';
+            $where .= " and time <= '{$temp}' ";
+        }
+
+        if($event)
+        {
+            $where .= " and event = $event ";
+        }
+
+        $accountObj = new IQuery('account_log');
+        $accountObj->where = $where;
+        $accountObj->order = 'id desc';
+        $accountObj->page  = $page;
+
+        $this->accountObj  = $accountObj;
+        $this->event       = $event;
+        $this->startDate   = $startDate;
+        $this->endDate     = $endDate;
+        $this->accountList = $accountObj->find();
+
+        $this->redirect('account_list');
+    }
+
+	//系统账户余额记录
+	function system_account_list()
 	{
 		$page       = intval(IReq::get('page')) ? IReq::get('page') : 1;
-		$event      = intval(IReq::get('event'));
 		$startDate  = IFilter::act(IReq::get('startDate'));
 		$endDate    = IFilter::act(IReq::get('endDate'));
 
-		$where      = "event != 3";
+		$where      = "1";
 		if($startDate)
 		{
 			$where .= " and time >= '{$startDate}' ";
@@ -637,23 +675,17 @@ class Market extends IController implements adminAuthorization
 			$where .= " and time <= '{$temp}' ";
 		}
 
-		if($event)
-		{
-			$where .= " and event = $event ";
-		}
-
-		$accountObj = new IQuery('account_log');
+		$accountObj = new IQuery('system_account_log');
 		$accountObj->where = $where;
 		$accountObj->order = 'id desc';
 		$accountObj->page  = $page;
 
 		$this->accountObj  = $accountObj;
-		$this->event       = $event;
 		$this->startDate   = $startDate;
 		$this->endDate     = $endDate;
 		$this->accountList = $accountObj->find();
 
-		$this->redirect('account_list');
+		$this->redirect('system_account_list');
 	}
 
 	//后台操作记录
@@ -704,11 +736,18 @@ class Market extends IController implements adminAuthorization
 
 		switch($type)
 		{
-			case "account":
+            case "account":
+            {
+                $logObj = new IModel('account_log');
+                $logObj->del("time <= '{$dateStr}'");
+                $this->redirect('account_list');
+                break;
+            }
+			case "systemAccount":
 			{
-				$logObj = new IModel('account_log');
+				$logObj = new IModel('system_account_log');
 				$logObj->del("time <= '{$dateStr}'");
-				$this->redirect('account_list');
+				$this->redirect('system_account_list');
 				break;
 			}
 			case "operation":
