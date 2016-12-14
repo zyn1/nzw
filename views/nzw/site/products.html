@@ -106,7 +106,8 @@
  </script>
 			<!--商家信息 开始-->
 			{if:isset($seller)}
-			<li>商家：<a class="orange" href="{url:/site/home/id/$seller_id}">{$seller['true_name']}</a></li>
+			<li>商家：<a class="orange" href="{url:/site/home/id/$seller_id}">{$seller['true_name']}</a>
+                        		<img src="{url:views/nzw/skin/default/image/seller.png}" class="vip_icon"></li>
 			<!-- <li>联系电话：{$seller['phone']}</li> -->
 			<li class="qq_service">店铺客服：<a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin={$seller['server_num']}&site=qq&menu=yes"><img src="{skin:image/index/qq.png}" alt=""><span>点我咨询</span></a>       </li>
 			<li>所在地：{echo:join(' ',area::name($seller['province'],$seller['city'],$seller['area']))}</li>
