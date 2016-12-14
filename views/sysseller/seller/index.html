@@ -1,6 +1,20 @@
-{set:$countData = statistics::sellerAmount($this->seller['seller_id']);}
+{set:$countData = statistics::sellerAmount($this->seller['seller_id']);$sellerDB = new IModel('seller'); $sellerRow=$sellerDB->getObj('id='.$this->seller['seller_id'], 'is_pay')}
 {js:chart}
-
+{if:$sellerRow['is_pay'] == 0}
+<article class="module width_full">
+    <header><h3>温馨提示</h3></header>
+    <div class="module_content">
+        <table class="tablesorter" cellspacing="0">
+            <thead></thead>
+            <tbody>
+                <tr>
+                    <td>您还不是本站付费商家，为保障本站为您提供更好的服务，请 <a href="javascript:;" onclick="window.open('{url:/simple/sellerPay/sId/$this->seller['seller_id']}')">升级为付费商家</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</article>
+{/if}
 <article class="module width_full">
 	<header><h3>概要信息</h3></header>
 	<div class="module_content">
