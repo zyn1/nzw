@@ -161,11 +161,11 @@ class AccountLog
 		$this->config   = $config;
 		$this->noteData = "管理员[{$this->admin['id']}]给用户[{$this->user['id']}]{$this->user['username']}提现，收取手续费，金额：{$this->amount}元";
 
-		//写入数据库
-        $tb_account_log = new IModel("system_account_log");
-        $detail = $tb_account_log->query('1', 'amount_log', 'id desc', 1);
-        $amount = $detail ? $detail[0]['amount_log'] : 0;
+        //计入配置文件
+        $siteObj = new Config('site_config');
+        $amount = $siteObj->finnalAmount ? $siteObj->finnalAmount : 0;
 		$finnalAmount = $amount + $this->amount;
+        $siteObj->write(array('systemAccount' => $finnalAmount));
 		
 		$insertData = array(
 			'note'      => $this->noteData,
@@ -173,8 +173,12 @@ class AccountLog
 			'amount_log'=> $finnalAmount,
 			'time'      => ITime::getDateTime(),
 		);
+        
+        //写入数据库
+        $tb_account_log = new IModel("system_account_log");
 		$tb_account_log->setData($insertData);
 		$result = $tb_account_log->add();
+        
 
 		//后台管理员操作记录
 		if($this->admin)
