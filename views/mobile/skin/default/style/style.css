@@ -1230,6 +1230,7 @@ a .icon-rotate-90:before, a .icon-rotate-180:before, a .icon-rotate-270:before, 
 .goods_list ul li a { display: block; padding: 0.1rem; }
 .goods_list ul li .photo { position: relative; padding-bottom: 100%; display: block; width: 100%; }
 .goods_list ul li .photo img { position: absolute; max-height: 100%; max-width: 100%; display: block; left: 50%; top: 50%; -webkit-transform: translate(-50%, -50%); transform: translate(-50%, -50%); }
+.goods_list ul li .photo .vip_icon{width: 0.16rem;height: 0.16rem;position: absolute;right: 0;bottom: 0;float: right;}
 .goods_list ul li .name { height: 0.32rem; line-height: 0.16rem; font-size: 0.11rem; color: #000; overflow: hidden; margin: 0.1rem 0; }
 .goods_list ul li .name strong { margin: 0 auto; display: table; font-weight: normal; }
 .goods_list ul li .price { font-size: 0.14rem; font-weight: bold; color: #ee4442; line-height: 1; }
@@ -1264,6 +1265,7 @@ a .icon-rotate-90:before, a .icon-rotate-180:before, a .icon-rotate-270:before, 
 .goods_info { padding: 0.15rem; font-size: 0.13rem; }
 .goods_info > ul > li { padding: 0.05rem; border-bottom: 1px solid #ededed; line-height: 1.6; }
 .goods_info > ul > li.goods_name { font-weight: bold; font-size: 0.16rem; color: #222; }
+.goods_info > ul > li.goods_name .vip_icon{width: 0.24rem;height: 0.24rem;padding-left: 0.1rem;}
 .goods_info > ul > li.area_li { position: relative; }
 .goods_info .price { font-weight: bold; color: #ee4442; font-size: 0.15rem; }
 .goods_info .old_price { text-decoration: line-through; color: #999; }
