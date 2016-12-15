@@ -1488,10 +1488,10 @@ background-image: url("../image/icon_slides.png"); background-repeat: no-repeat;
 }
 .home_2 .hot_goods .special .floor_more a{color: #555555;}
 .home_2 .hot_goods .tab li { width: 235px; }
-.home_2 .hot_goods_list li { width: 182px; float: left;margin-right: 21px; }
+.home_2 .hot_goods_list li { width: 182px; float: left;margin-right: 21px; position: relative;}
 .home_2 .hot_goods_list li a { width: 182px; margin: 0 auto; display: block; text-decoration: none; }
 .home_2 .hot_goods_list li img{height: 182px;width: 182px;}
-.home_2 .hot_goods_list li .vip_icon{width: 32px; height: 32px;position: absolute;right: 12px;bottom: 57px;float: right;}
+.home_2 .hot_goods_list li .vip_icon{width: 32px; height: 32px;position: absolute;right: 1px;bottom: 67px;float: right;}
 .home_2 .hot_goods_list li h4 { color: #555; display: block; height: 40px; line-height: 20px; margin: 5px auto; font-weight: normal; overflow: hidden; }
 .home_2 .hot_goods_list li em { font-size: 16px; font-weight: bold; color: #ff6332 ; }
 .home_2 .hot_goods_list li del { float: right; text-decoration: line-through; color: #999; }
@@ -1969,7 +1969,7 @@ background-image: url("../image/icon_slides.png"); background-repeat: no-repeat;
 .goods_info .goods_info_num { font-size: 12px; color: #999; float: right; margin-top: 15px; }
 .goods_info .goods_ul { line-height: 2; margin-top: 10px; position: relative;}
 .goods_info li { position: relative; }
-.goods_info li .vip_icon{width: 16px; height: 16px;}
+.goods_info li .vip_icon{width: 16px; height: 16px;padding-left: 10px;}
 .goods_info li.collect{
     position: absolute;
     top: 30px;
