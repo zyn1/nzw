@@ -1455,7 +1455,14 @@ background-image: url("../image/icon_slides.png"); background-repeat: no-repeat;
 .home_1 .home_1_show ul{width: 1250px;}
 .home_1 .home_1_show li { width: 180px; float: left; margin-right: 21px; background: #fafafa; height: 180px;border: 1px solid #dfdfdf; position: relative;}
 .home_1 .home_1_show li img{width: 180px;  height: 180px;}
-.home_1 .home_1_show li .vip_icon{width: 32px; height: 32px;position: absolute;right: 0;bottom: 0;float: right;}
+.home_1 .home_1_show li .vip_icon{
+	width: 32px; 
+	height: 32px;
+	position: absolute;
+	right: 0;
+	bottom: 0;
+	float: right;
+}
 .home_2 .hot_goods .tab li, .home_1 .home_article .tab li { float: left; height: 38px; line-height: 38px; border-bottom: 2px solid #ddd; text-align: center; font-size: 14px; font-weight: bold; cursor: pointer; }
 .home_2 .hot_goods .tab li.on, .home_1 .home_article .tab li.on { border-color: #4d9a28; color: #4d9a28; }
 .home_2 .hot_goods .tab li.on, .home_1 .home_article .tab li.on a{color: #4d9a28;}
@@ -1488,7 +1495,7 @@ background-image: url("../image/icon_slides.png"); background-repeat: no-repeat;
 }
 .home_2 .hot_goods .special .floor_more a{color: #555555;}
 .home_2 .hot_goods .tab li { width: 235px; }
-.home_2 .hot_goods_list li { width: 182px; float: left;margin-right: 21px; }
+.home_2 .hot_goods_list li { width: 182px; float: left;margin-right: 21px;    position: relative;}
 .home_2 .hot_goods_list li a { width: 182px; margin: 0 auto; display: block; text-decoration: none; }
 .home_2 .hot_goods_list li img{height: 182px;width: 182px;}
 .home_2 .hot_goods_list li .vip_icon{width: 32px; height: 32px;position: absolute;right: 12px;bottom: 57px;float: right;}
