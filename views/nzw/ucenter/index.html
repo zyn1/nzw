@@ -74,6 +74,9 @@
 				<strong>{$item['name']}</strong>
 				<em>￥{$item['sell_price']}</em>
 				<del>￥120.00</del>
+                {if:$item['is_pay']}
+                <img src="{url:views/nzw/skin/default/image/sellerVip.png}" class="vip_icon">
+                {/if}
 			</a>
 		</li>
 		{/foreach}

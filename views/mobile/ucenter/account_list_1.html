@@ -9,7 +9,9 @@
     <div class="header_title">
         <a class="return_a"onclick="window.history.back();"></a>
         <h2>账单明细</h2>
+        {if:$items}
         <a class="qx_a" href="{url:ucenter/account_list_1_edit}">编辑</a>
+        {/if}
     </div>
 </header>
 <script>

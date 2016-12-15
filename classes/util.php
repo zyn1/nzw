@@ -111,6 +111,10 @@ class Util
 			{
 				$where[] = $key." ".$val;
 			}
+            elseif($key == 'province' || $key == 'city' || $key == 'area')
+            {
+                $where[] = $key."=".$val;
+            }
 			else
 			{
 				$where[] = $key."'".$val."'";

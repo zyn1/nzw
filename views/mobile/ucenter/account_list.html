@@ -9,57 +9,24 @@
     <div class="header_title">
         <a class="return_a"onclick="window.history.back();"></a>
         <h2>账单明细</h2>
-        <a class="qx_a" href="{url:ucenter/account_list_edit}">编辑</a>
     </div>
 </header>
-
-<!-- <div id="pageInfo" data-title="我的余额"></div>
-<section class="my_account">
-    <strong>账单明细</strong>
-    <em>￥{$this->memberRow['balance']}</em>
-</section>
-{if:$logList}
-<section class="account_list">
-    <ul>
-        {foreach:items = $logList}
-        <li>
-            <time>{echo:substr($item['time'],0,10)}</time>
-            <strong>变动金额：</strong>
-            <em>￥{$item['amount']}</em>
-            <p><strong>事件：</strong>{$item['note']}</p>
-        </li>
-        {/foreach}
-    </ul>
-</section>
-{$queryAccountLogList->getPageBar()}
-
-{else:}
-<section class="nodata">暂时没有帐户变动记录</section>
-{/if}
- -->
 <script>
 $(function(){
     // 隐藏底部导航
     hideNav();
 })
 </script>
- 
-<style type="text/css">
-</style>
-
-
-
-
 <div class="container">  
       
     <ul class="tabs">  
         <li class="active"><a >交易记录</a></li>  
         <li><a href="{url:ucenter/account_list_1}">提现记录</a></li>  
     </ul>  
-    <div class="tab_container">  
+    <div class="tab_container"> 
+        {if:$logList}
         <div id="tab1" class="tab_content" style="display: block; "> 
-            {set:$queryAccountLogList = Api::run('getUcenterAccoutLog',$this->user['user_id'])}
-            {foreach:items = $queryAccountLogList->find()}
+            {foreach:items = $logList}
             <div class="content_list">
                
                 <div class="checked_on">
@@ -78,6 +45,9 @@ $(function(){
         </div>  
           
         {$queryAccountLogList->getPageBar()}  
+        {else:}
+        暂时没有帐户变动记录
+        {/if}
     </div>  
   
 </div> 

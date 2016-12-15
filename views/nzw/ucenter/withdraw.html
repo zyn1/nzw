@@ -1,4 +1,5 @@
 
+{set:$withdrawAccount = $this->_siteConfig->withdrawAccount ? $this->_siteConfig->withdrawAccount : 0}
 <header class="uc_head_tab">
 	<span class="money">账户余额：<em>￥{$this->memberRow['balance']}</em></span>
 	<a href='{url:/ucenter/account_log}'>交易记录</a>
@@ -46,6 +47,9 @@
 
 <header class="uc_head">
 	<h3>申请提现</h3>
+    {if:$withdrawAccount}
+    <span style="float: right;margin-right: 10px; color: red;">提示：提现需要收取提现金额的{$withdrawAccount}%做为手续费</span>
+    {/if}
 </header>
 <section class="user_form">
 	<form action='#' method='post' name='withdraw' noComplate="true" class="js_validate_form">

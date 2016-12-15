@@ -1,4 +1,5 @@
 {set:$store_num_warning = $this->_siteConfig->store_num_warning ? $this->_siteConfig->store_num_warning : 20}
+{set:$accountDB = new IModel('system_account');$accountDetail = $accountDB->getObj();$systemAccount = $accountDetail ? $accountDetail['account'] : 0;}
 <form action="{url:/}" method="get" name="storeNumWarning">
 	<input type='hidden' name='controller' value='goods' />
 	<input type='hidden' name='action' value='goods_list' />
@@ -61,7 +62,8 @@
 								<tr><th>产品数量</th><td><a href="{url:/goods/goods_list}"><b class="f14 red3">{echo:statistics::goodsCount()}</b> 个</a></td></tr>
 								<tr><th>品牌数量</th><td>{query:name=brand fields=count(id) as countNums}<a href="{url:/brand/brand_list}"><b class="f14 red3">{$item['countNums']}</b> 个</a>{/query}</td></tr>
 								<tr><th>订单数量</th><td>{query:name=order fields=count(id) as countNums where=if_del eq 0}<a href="{url:/order/order_list}"><b class="f14 red3">{$item['countNums']}</b> 个</a>{/query}</td></tr>
-								<tr><th>库存预警</th><td>{query:name=goods fields=count(id) as countNums where=is_del eq 0 and store_nums l $store_num_warning}<a href="javascript:formSubmit('storeNumWarning');"><b class="f14 red3">{$item['countNums']}</b> 个</a>{/query}</td></tr>
+                                <tr><th>库存预警</th><td>{query:name=goods fields=count(id) as countNums where=is_del eq 0 and store_nums l $store_num_warning}<a href="javascript:formSubmit('storeNumWarning');"><b class="f14 red3">{$item['countNums']}</b> 个</a>{/query}</td></tr>
+								<tr><th>账户余额</th><td><a href="{url:/market/system_account_list}"><b class="f14 red3">{echo:round($systemAccount, 2)}</b> 元</a></td></tr>
 							</tbody>
 						</table>
 					</td>

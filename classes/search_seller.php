@@ -45,7 +45,7 @@ class search_seller
 		//开始查询
 		$sellerObj           = new IQuery("seller as s");
 		$sellerObj->page     = isset($_GET['page']) ? intval($_GET['page']) : 1;
-		$sellerObj->fields   = 's.id,s.true_name,s.seller_logo,s.sale,s.sales,s.province,s.city,s.area';
+		$sellerObj->fields   = 's.id,s.true_name,s.seller_logo,s.sale,s.sales,s.province,s.city,s.area,s.is_pay';
 		$sellerObj->pagesize = $limit;
 		$sellerObj->group    = 's.id';
 

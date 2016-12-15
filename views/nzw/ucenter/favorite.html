@@ -14,6 +14,9 @@
 				<h5>{$item['name']}</h5>
 				<em>￥{$item['sell_price']}</em>
 				<del>￥{$item['market_price']}</del>
+                {if:$item['is_pay']}
+                <img src="{url:views/nzw/skin/default/image/sellerVip.png}" class="vip_icon">
+                {/if}
 			</a>
 			<div class="goods_list_btn">
 				<div class="add_cart" onclick="joinCart_list({$item['goods_id']});">加入购物车</div>

@@ -1453,8 +1453,16 @@ background-image: url("../image/icon_slides.png"); background-repeat: no-repeat;
 .home_1 .promotion img { display: block; width: 200px; height: 200px; margin: 15px; margin-top: 10px; }
 .home_1 .home_1_show { margin-top: 10px; overflow: hidden; }
 .home_1 .home_1_show ul{width: 1250px;}
-.home_1 .home_1_show li { width: 180px; float: left; margin-right: 21px; background: #fafafa; height: 180px;border: 1px solid #dfdfdf; }
+.home_1 .home_1_show li { width: 180px; float: left; margin-right: 21px; background: #fafafa; height: 180px;border: 1px solid #dfdfdf; position: relative;}
 .home_1 .home_1_show li img{width: 180px;  height: 180px;}
+.home_1 .home_1_show li .vip_icon{
+	width: 32px; 
+	height: 32px;
+	position: absolute;
+	right: 0;
+	bottom: 0;
+	float: right;
+}
 .home_2 .hot_goods .tab li, .home_1 .home_article .tab li { float: left; height: 38px; line-height: 38px; border-bottom: 2px solid #ddd; text-align: center; font-size: 14px; font-weight: bold; cursor: pointer; }
 .home_2 .hot_goods .tab li.on, .home_1 .home_article .tab li.on { border-color: #4d9a28; color: #4d9a28; }
 .home_2 .hot_goods .tab li.on, .home_1 .home_article .tab li.on a{color: #4d9a28;}
@@ -1487,9 +1495,10 @@ background-image: url("../image/icon_slides.png"); background-repeat: no-repeat;
 }
 .home_2 .hot_goods .special .floor_more a{color: #555555;}
 .home_2 .hot_goods .tab li { width: 235px; }
-.home_2 .hot_goods_list li { width: 182px; float: left;margin-right: 21px; }
+.home_2 .hot_goods_list li { width: 182px; float: left;margin-right: 21px; position: relative;}
 .home_2 .hot_goods_list li a { width: 182px; margin: 0 auto; display: block; text-decoration: none; }
 .home_2 .hot_goods_list li img{height: 182px;width: 182px;}
+.home_2 .hot_goods_list li .vip_icon{width: 32px; height: 32px;position: absolute;right: 1px;bottom: 67px;float: right;}
 .home_2 .hot_goods_list li h4 { color: #555; display: block; height: 40px; line-height: 20px; margin: 5px auto; font-weight: normal; overflow: hidden; }
 .home_2 .hot_goods_list li em { font-size: 16px; font-weight: bold; color: #ff6332 ; }
 .home_2 .hot_goods_list li del { float: right; text-decoration: line-through; color: #999; }
@@ -1510,9 +1519,10 @@ background-image: url("../image/icon_slides.png"); background-repeat: no-repeat;
 .home_floor .floor_head .floor_nav a { color: #555555; }
 .home_floor .floor_body .floor_show { float: left; width: 228px; height: 473px;  border: 1px solid #dfdfdf; border-top: none;}
 .home_floor .floor_body .floor_goods { float: right; width: 970px; }
-.home_floor .floor_body .floor_goods li { width: 193px; float: left; padding: 10px 0; background: #fff; border: solid #ddd; border-width: 0 1px 1px 0; }
+.home_floor .floor_body .floor_goods li { width: 193px; float: left; padding: 10px 0; background: #fff; border: solid #ddd; border-width: 0 1px 1px 0; position: relative;}
 .home_floor .floor_body .floor_goods li a { width: 170px; margin: 0 auto; display: block; text-decoration: none; }
 .home_floor .floor_body .floor_goods li img { display: block; width: 170px; height: 170px; }
+.home_floor .floor_body .floor_goods li .vip_icon{width: 32px; height: 32px;position: absolute;right: 12px;bottom: 57px;float: right;}
 .home_floor .floor_body .floor_goods li h4 { color: #555555; display: block; margin: 5px auto; font-weight: normal; overflow: hidden; line-height: 20px; height: 20px; white-space: nowrap; text-overflow: ellipsis; }
 .home_floor .floor_body .floor_goods li em { font-size: 16px; font-weight: bold; color: #ff6332 ; }
 .home_floor .floor_body .floor_goods li del { float: right; text-decoration: line-through; color: #999; }
@@ -1610,7 +1620,8 @@ background-image: url("../image/icon_slides.png"); background-repeat: no-repeat;
 .bar .bar_box .bar_box_head .more { float: right; font-size: 12px; padding-right: 10px; font-weight: normal; color: #555; }
 .bar .bar_box .bar_goods li { padding: 5px; border-bottom: 1px solid #ddd; }
 .bar .bar_box .bar_goods li:last-child { border: none; }
-.bar .bar_box .bar_goods li a { display: block; text-decoration: none; }
+.bar .bar_box .bar_goods li a { display: block; text-decoration: none; position: relative;}
+.bar .bar_box .bar_goods li a .vip_icon{width: 16px;height: 16px;position: absolute;left: 43px;bottom: 1px;}
 .bar .bar_box .bar_goods li img { width: 60px; height: 60px; float: left; margin-right: 10px; }
 .bar .bar_box .bar_goods li strong {color: #555; display: block; max-height: 36px; line-height: 18px; overflow: hidden; font-weight: normal; }
 .bar .bar_box .bar_goods li em { display: block; margin-top: 5px; font-size: 14px; color: #FF8225; font-weight: bold; }
@@ -1789,6 +1800,7 @@ background-image: url("../image/icon_slides.png"); background-repeat: no-repeat;
 .goods_list ul li a { display: block; border: 1px solid #ddd; text-decoration: none; height: 300px; position: relative; }
 .goods_list ul li a:hover { border: 1px solid #ff6332; }
 .goods_list ul li img { display: block; width: 205px; height: 205px; margin: 6px auto; }
+.goods_list ul li .vip_icon{width: 32px; height: 32px;position: absolute;right: 7px;bottom: 84px;float: right;}
 .goods_list ul li h5 {color: #555; font-weight: normal; font-size: 13px; padding: 0 10px; line-height: 20px; height: 40px; overflow: hidden; }
 .goods_list ul li span { height: 20px; line-height: 20px; text-align: center; display: block; }
 .goods_list ul li em, .goods_list ul li del { position: absolute; bottom: 10px; }
@@ -1851,6 +1863,7 @@ background-image: url("../image/icon_slides.png"); background-repeat: no-repeat;
 
 .bar_seller { padding: 5px 10px; line-height: 2; font-size: 13px; }
 .bar_seller h1 { color: #555; font-size: 15px;font-weight: normal; }
+.bar_seller h1 .vip_icon{width: 32px; height: 32px;}
 
 .sitemap { position: relative; }
 .sitemap .sitemap_header { height: 40px; line-height: 40px; text-indent: 15px; color: #fff; background: #555; background-image: -webkit-linear-gradient(0deg, #3b3b3b, #6e6e6e); background-image: linear-gradient(0deg, #3b3b3b, #6e6e6e); border: 1px solid #ddd; }
@@ -1986,6 +1999,7 @@ background-image: url("../image/icon_slides.png"); background-repeat: no-repeat;
 .goods_info .goods_info_num { font-size: 12px; color: #999; float: right; margin-top: 15px; }
 .goods_info .goods_ul { line-height: 2; margin-top: 10px; position: relative;}
 .goods_info li { position: relative; }
+.goods_info li .vip_icon{width: 16px; height: 16px;padding-left: 10px;}
 .goods_info li.collect{
     position: absolute;
     top: 30px;

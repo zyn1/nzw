@@ -1,8 +1,12 @@
 {set:
 $search = IFilter::act(IReq::get('search'),'strict');
+$search['province'] = IReq::get('province');
+$search['city'] = IReq::get('city');
+$search['area'] = IReq::get('area');
 $conditon = Util::search($search);
 $where = $conditon ? " and ".$conditon : "";
 }
+{js:areaSelect}
 <div class="headbar">
 	<div class="position">
 		<span>会员</span><span>></span><span>商户管理</span><span>></span><span>商户列表</span>
@@ -12,6 +16,9 @@ $where = $conditon ? " and ".$conditon : "";
 			<form name="searchseller" action="{url:/}" method="get">
 				<input type='hidden' name='controller' value='member' />
 				<input type='hidden' name='action' value='seller_list' />
+                <select class="auto" name="province" child="city,area"></select>
+                <select class="auto" name="city" child="area"></select>
+                <select class="auto" name="area"></select>
 				<select class="auto" name="search[like]">
 					<option value="seller_name">登录名</option>
 					<option value="true_name">真实名称</option>
@@ -105,6 +112,9 @@ $(function(){
 	{
 		$('[name="search['+index+']"]').val(searchData[index]);
 	}
+    //地区联动插件
+    var areaInstance = new areaSelect('province');
+    areaInstance.init({echo:JSON::encode($search)});
 })
 
 //商户状态修改
