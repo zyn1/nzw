@@ -1,5 +1,5 @@
 {set:$store_num_warning = $this->_siteConfig->store_num_warning ? $this->_siteConfig->store_num_warning : 20}
-{set:$systemAccount = $this->_siteConfig->systemAccount ? $this->_siteConfig->systemAccount : 0}
+{set:$accountDB = new IModel('system_account');$accountDetail = $accountDB->getObj();$systemAccount = $accountDetail ? $accountDetail['account'] : 0;}
 <form action="{url:/}" method="get" name="storeNumWarning">
 	<input type='hidden' name='controller' value='goods' />
 	<input type='hidden' name='action' value='goods_list' />

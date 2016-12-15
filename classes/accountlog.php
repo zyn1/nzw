@@ -162,10 +162,25 @@ class AccountLog
 		$this->noteData = "管理员[{$this->admin['id']}]给用户[{$this->user['id']}]{$this->user['username']}提现，收取手续费，金额：{$this->amount}元";
 
         //计入配置文件
-        $siteObj = new Config('site_config');
+        /*$siteObj = new Config('site_config');
         $amount = $siteObj->finnalAmount ? $siteObj->finnalAmount : 0;
 		$finnalAmount = $amount + $this->amount;
-        $siteObj->write(array('systemAccount' => $finnalAmount));
+        $siteObj->write(array('systemAccount' => $finnalAmount));*/
+        
+        $accountDB = new IModel('system_account');
+        $accountDetail = $accountDB->getObj();
+        $amount = $accountDetail ? $accountDetail['account'] : 0;
+        $finnalAmount = $amount + $this->amount;
+        $data = array('account' => $finnalAmount, 'time' => ITime::getDateTime());
+        $accountDB->setData($data);
+        if($accountDetail)
+        {
+            $accountDB->update('id='.$accountDetail['id']);
+        }
+        else
+        {
+            $accountDB->add();
+        }
 		
 		$insertData = array(
 			'note'      => $this->noteData,
