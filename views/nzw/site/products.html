@@ -398,7 +398,9 @@
                 {set:$k = $key +1}
 				<li>
 					<a href="{url:/site/products/id/$item[id]}">
-						<img class="hot_img" src="{url:/pic/thumb/img/$item['img']/w/205/h/205}" alt="{$item['name']}">
+						<div class="div_img"><img class="hot_img" src="{url:/pic/thumb/img/$item['img']/w/205/h/205}" alt="{$item['name']}">
+						<img src="{url:views/nzw/skin/default/image/seller.png}" class="vip_icon">
+						</div>
 						<div>
 							<span class="hot_deta">{$item['name']}</span>
 							<em class="hot_price">￥{$item['sell_price']}</em>
