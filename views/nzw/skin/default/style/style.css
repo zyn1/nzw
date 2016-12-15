@@ -1613,7 +1613,8 @@ background-image: url("../image/icon_slides.png"); background-repeat: no-repeat;
 .bar .bar_box .bar_box_head .more { float: right; font-size: 12px; padding-right: 10px; font-weight: normal; color: #555; }
 .bar .bar_box .bar_goods li { padding: 5px; border-bottom: 1px solid #ddd; }
 .bar .bar_box .bar_goods li:last-child { border: none; }
-.bar .bar_box .bar_goods li a { display: block; text-decoration: none; }
+.bar .bar_box .bar_goods li a { display: block; text-decoration: none; position: relative;}
+.bar .bar_box .bar_goods li a .vip_icon{width: 16px;height: 16px;position: absolute;left: 43px;bottom: 1px;}
 .bar .bar_box .bar_goods li img { width: 60px; height: 60px; float: left; margin-right: 10px; }
 .bar .bar_box .bar_goods li strong {color: #555; display: block; max-height: 36px; line-height: 18px; overflow: hidden; font-weight: normal; }
 .bar .bar_box .bar_goods li em { display: block; margin-top: 5px; font-size: 14px; color: #FF8225; font-weight: bold; }
