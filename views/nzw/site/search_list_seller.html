@@ -36,7 +36,12 @@ $(function(){
             {foreach:items=$resultData}
             <li>
                 <div class="merch_left">
-                    <a href="{url:/site/home/id/$item['id']}"><img src="{webroot:}{$item['seller_logo']}" alt="{$item['true_name']}"></a>
+                    <a href="{url:/site/home/id/$item['id']}"><img src="{webroot:}{$item['seller_logo']}" alt="{$item['true_name']}">
+                    {if:$item['is_pay']}
+                     <img src="{url:views/nzw/skin/default/image/sellerVip.png}" class="vip_icon">
+                     {/if}
+                    </a>
+
                 </div>
                 <div class="merch_right">
                     <dl>
