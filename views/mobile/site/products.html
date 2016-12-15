@@ -78,7 +78,9 @@
 		{if:isset($seller)}
 		{set:plugin::trigger("onServiceButton",$seller['id'])}
 		<li>
-			店铺：<strong class="seller_name"><a href="{url:/site/home/id/$seller_id}">{$seller['true_name']}</a></strong>
+			店铺：<strong class="seller_name"><a href="{url:/site/home/id/$seller_id}">{$seller['true_name']}
+			<img src="{skin:image/top/jiahzuangzhishi@2x.png}" class="vip_logo"/>
+		</a></strong>
 		</li>
 		<li>
 			所在地：<span class="seller_area">{echo:join(' ',area::name($seller['province'],$seller['city'],$seller['area']))}</span>

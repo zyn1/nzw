@@ -69,6 +69,7 @@ $(function() {
         <li>
             <a href="{url:/site/home/id/$item['id']}">
                 <img src="{webroot:}{$item['seller_logo']}">
+                 <img src="{skin:image/top/jiahzuangzhishi@2x.png}" class="vip_logo"/>
             </a>
         </li>
         {/foreach}
@@ -86,9 +87,12 @@ $(function() {
             {foreach:items=Api::run('getCommendPrice',2)}
             <li>
                 <a href="{url:/site/products/id/$item['id']}">
-                    <img src="{url:/pic/thumb/img/$item['img']/w/170/h/170}">
+                   <div class="div_img"> <img src="{url:/pic/thumb/img/$item['img']/w/170/h/170}">
+                    <img src="{skin:image/top/jiahzuangzhishi@2x.png}" class="vip_logo"/>
+                   </div>
                     <div class="good_name">{$item['name']}</div>
                     <em>￥{$item['sell_price']}</em>
+                    
                 </a>
             </li>
             {/foreach}
@@ -99,9 +103,12 @@ $(function() {
             {foreach:items=Api::run('getCommendPrice','2,4')}
             <li>
                 <a href="{url:/site/products/id/$item['id']}">
-                    <img src="{url:/pic/thumb/img/$item['img']/w/170/h/170}">
+                     <div class="div_img"><img src="{url:/pic/thumb/img/$item['img']/w/170/h/170}">
+                    <img src="{skin:image/top/jiahzuangzhishi@2x.png}" class="vip_logo"/>
+                     </div>
                     <div class="good_name">{$item['name']}</div>
                     <em>￥{$item['sell_price']}</em>
+                    
                 </a>
             </li>
             {/foreach}
@@ -132,9 +139,12 @@ $(function() {
                 {foreach:items=Api::run('getCategoryExtendList',array('#categroy_id#',$cateId),6)}
                 <li>
                     <a href="{url:/site/products/id/$item['id']}">
-                        <img src="{url:/pic/thumb/img/$item['img']/w/170/h/170}">
+                        <div class="div_img"><img src="{url:/pic/thumb/img/$item['img']/w/170/h/170}">
+                        <img src="{skin:image/top/jiahzuangzhishi@2x.png}" class="vip_logo"/>
+                        </div>
                         <div class="good_name">{$item['name']}</div>
                         <em>￥{$item['sell_price']}</em>
+                        
                     </a>
                 </li>
                 {/foreach}
@@ -154,9 +164,12 @@ $(function() {
         {foreach:items=Api::run('getCommendRecom',6)}
         <li>
             <a href="{url:/site/products/id/$item['id']}">
-                <img src="{url:/pic/thumb/img/$item['img']/w/170/h/170}">
+                <div class="div_img"><img src="{url:/pic/thumb/img/$item['img']/w/170/h/170}">
+                    <img src="{skin:image/top/jiahzuangzhishi@2x.png}" class="vip_logo"/>
+                </div>
                 <div class="good_name">{$item['name']}</div>
                 <em>￥{$item['sell_price']}</em>
+                
             </a>
         </li>
         {/foreach}
