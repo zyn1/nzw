@@ -73,7 +73,9 @@
 						<img src="{url:/pic/thumb/img/$item[img]/w/60/h/60}" alt="{$item['name']}">
 						<strong>{$item['name']}</strong>
 						<em>￥{$item['sell_price']}</em>
-                        				<img src="{url:views/nzw/skin/default/image/seller.png}" class="vip_icon">
+                        {if:$sellerRow['is_pay']}
+                        <img src="{url:views/nzw/skin/default/image/sellerVip.png}" class="vip_icon">
+                        {/if}
 					</a>
 				</li>
 				{/foreach}
@@ -98,7 +100,9 @@
 						<img src="{url:/pic/thumb/img/$item[img]/w/60/h/60}" alt="{$item['name']}">
 						<strong>{$item['name']}</strong>
 						<em>￥{$item['sell_price']}</em>
-                        				<img src="{url:views/nzw/skin/default/image/seller.png}" class="vip_icon">
+                        {if:$sellerRow['is_pay']}
+                        <img src="{url:views/nzw/skin/default/image/sellerVip.png}" class="vip_icon">
+                        {/if}
 					</a>
 				</li>
 				{/foreach}
