@@ -192,7 +192,11 @@ $(function(){
                                     {set:$type='product';$id=$item['product_id']}
                                 {/if}
                                 <input type='hidden' name='goods[]' value='{$type}-{$id}-{$item["count"]}' />
-                                <img src="{url:/pic/thumb/img/$item[img]/w/66/h/66}" width="66px" height="66px" alt="{$item['name']}">
+                                 <div class="div_img"><img src="{url:/pic/thumb/img/$item[img]/w/66/h/66}" width="66px" height="66px" alt="{$item['name']}">
+                                 {if:goods_class::getSellerPay($item['seller_id'])}
+                                 <img src="{url:views/nzw/skin/default/image/sellerVip.png}" class="vip_icon">
+                                 {/if}
+                                 </div>
                                 </td>
 								<td>
 									<a href="{url:/site/products/id/$item['goods_id']}" class="gray_cart">{$item['name']}</a>

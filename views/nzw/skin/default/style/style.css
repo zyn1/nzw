@@ -1317,6 +1317,22 @@ a .icon-rotate-90:before, a .icon-rotate-180:before, a .icon-rotate-270:before, 
 .cart_table h3 i, .cart_item_goods h3 i { margin-right: 10px; color: #6bb945; font-size: 16px; }
 .cart_table table, .cart_item_goods table { width: 100%; text-align: center; border: 1px solid #e4e4e4; }
 .js_goods_list td.goods_img {padding: 10px;}
+.js_goods_list td.goods_img .div_img,.cart_item_goods .div_img{
+	 position: relative;
+	 float: left;
+}
+.cart_item_goods .div_img{
+	 margin: 0 20px;
+}
+.js_goods_list td.goods_img .vip_icon,.cart_item_goods .div_img .vip_icon{
+	width: 20px;
+    height: 20px;
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+    padding: 0;
+
+}
 .js_goods_list td.goods_img input{float: left;margin: 30px 15px;}
 .js_goods_list td.goods_img img{margin: 0;}
 .cart_table table.cart_deta{width: 96%; margin: 10px 2%;border: 1px solid #e4e4e4;}
@@ -1757,6 +1773,16 @@ background-image: url("../image/icon_slides.png"); background-repeat: no-repeat;
 .artice_goods ul { width: 940px; margin: 0 auto; }
 .artice_goods li { width: 235px; float: left; padding: 10px 0; background: #fff; }
 .artice_goods li a { width: 220px; margin: 10px auto; display: block; text-decoration: none; }
+.artice_goods li a .div_img{
+	position: relative;
+}
+.artice_goods li a .div_img .vip_icon{
+	position: absolute;
+	width: 32px;
+	height: 32px;
+	bottom: 0px;
+	right: 0px;
+}
 .artice_goods li strong { color: #555; display: block; margin: 5px auto; font-weight: normal; overflow: hidden; line-height: 20px; height: 20px; white-space: nowrap; text-overflow: ellipsis; }
 .artice_goods li em { font-size: 16px; font-weight: bold; color: #FF8225; }
 .artice_goods li del {
@@ -1939,6 +1965,17 @@ background-image: url("../image/icon_slides.png"); background-repeat: no-repeat;
 .groupon_list ul li span { float: right; color: #379339; }
 
 .bar_goods_big a { display: block; text-decoration: none; height: 82px; position: relative; }
+.bar_goods_big a .div_img{
+	position: relative;
+	float: left;
+}
+.bar_goods_big a .div_img .vip_icon{
+	position: absolute;
+	width: 20px;
+	height: 20px;
+	bottom: 2px;
+	right: 7px;
+}
 .bar_goods_big img { display: block; width: 205px; height: 205px; margin: 10px auto; }
 .bar_goods_big img.hot_img {width: 60px; height: 60px; margin: 10px 6px 10px 10px;float: left;}
 .bar_goods_big h5 { font-weight: normal; font-size: 13px; padding: 0 10px; line-height: 20px; height: 40px; overflow: hidden; }
@@ -1981,6 +2018,22 @@ background-image: url("../image/icon_slides.png"); background-repeat: no-repeat;
 }
 .bar_goods_big.infoma {padding-bottom: 8px;}
 .bar_goods_big.infoma a{height: auto;overflow: hidden;}
+.bar_goods_big a .div_img{
+	position: relative;
+	/*float: none;*/
+}
+.bar_goods_big.infoma a .div_img,.bar_goods_big.discuss a .div_img{
+	position: relative;
+	float: none;
+}
+.bar_goods_big.infoma a .div_img .vip_icon,.bar_goods_big.discuss a .div_img .vip_icon{
+	position: absolute;
+    width: 32px;
+    height: 32px;
+    bottom: 1px;
+    right: 12px;
+    margin: 0px;
+}
 .bar_goods_big.infoma dl dd{margin-left:10px;color: #555;line-height: 26px;}
 .bar_goods_big.infoma dl dt h5,.bar_goods_big.infoma dl dt h5 b{color:#555;font-weight: normal;font-size: 14px;height: 22px;overflow: hidden;}
 .bar_goods_big.infoma dl dd em,.bar_goods_big.infoma dl dd .star_box{position: static;font-weight: normal;}
@@ -2184,6 +2237,17 @@ background-image: url("../image/icon_slides.png"); background-repeat: no-repeat;
 .uc_head_tab .money em { font-weight: bold; color: #ff6332; }
 
 .uc_table { margin-bottom: 10px; border: 1px solid #e4e4e4; border-top: none; border-bottom: none; }
+.uc_table .div_img{
+	position: relative;
+	float: left;
+	left: 15px;
+}
+.uc_table .div_img .vip_icon{
+	position: absolute;
+	width: 20px;
+	height: 20px;
+	bottom: 0px;right: 0px;
+}
 .uc_table table { width: 100%; text-align: center; }
 .uc_table table thead th { border-bottom: 1px solid #e4e4e4; height: 36px; color: #6d6d6d; background: #fafafa; font-size: 14px; }
 .uc_table table tbody th, .uc_table table tbody td { padding: 8px 5px; line-height: 1.6; border-bottom: 1px solid #e4e4e4; }

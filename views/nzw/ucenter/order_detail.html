@@ -177,7 +177,12 @@
 			{set:$good_info = JSON::decode($good['goods_array'])}
 
 			<tr>
-				<td><img class="pro_pic" src="{webroot:$good['img']}" width="50px" height="50px" /></td>
+				<td><div class="div_img">
+                <img class="pro_pic" src="{webroot:$good['img']}" width="50px" height="50px" />
+                {if:goods_class::getSellerPay($good['seller_id'])}
+                <img src="{url:views/nzw/skin/default/image/sellerVip.png}" class="vip_icon">
+                {/if}
+                </div></td>
 				<td class="t_l">
 					<a class="blue" href="{url:/site/products/id/$good['goods_id']}" target='_blank'>{$good_info['name']}</a>
 					{if:$good_info['value']!=''}<p>{$good_info['value']}</p>{/if}

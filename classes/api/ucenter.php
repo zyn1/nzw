@@ -163,8 +163,8 @@ class APIUcenter
         $cat_id = IFilter::act($cat,'int');
 
         $favoriteObj = new IQuery("favorite as f");
-        $favoriteObj->join  = "left join goods as go on go.id = f.rid left join seller as s on s.id = go.seller_id";
-        $favoriteObj->fields= " f.*,go.name,go.id as goods_id,go.img,go.store_nums,go.sell_price,go.market_price,s.is_pay";
+        $favoriteObj->join  = "left join goods as go on go.id = f.rid";
+        $favoriteObj->fields= " f.*,go.name,go.id as goods_id,go.img,go.store_nums,go.sell_price,go.market_price,go.seller_id";
 
         $where = 'user_id = '.$userid;
         $where.= $cat_id ? ' and cat_id = '.$cat_id : "";
@@ -181,8 +181,8 @@ class APIUcenter
 	    $page   = IReq::get('page') ? IFilter::act(IReq::get('page'),'int') : 1;
 
 		$historyObj = new IQuery("user_history as h");
-		$historyObj->join  = "left join goods as go on go.id = h.goods_id left join seller as s on s.id = go.seller_id";
-		$historyObj->fields= " h.*,go.name,go.id as goods_id,go.img,go.store_nums,go.sell_price,go.market_price,s.is_pay";
+		$historyObj->join  = "left join goods as go on go.id = h.goods_id";
+		$historyObj->fields= " h.*,go.name,go.id as goods_id,go.img,go.store_nums,go.sell_price,go.market_price,go.seller_id";
         $historyObj->order="h.time DESC";
         $historyObj->group="go.id";
         if($limit)
