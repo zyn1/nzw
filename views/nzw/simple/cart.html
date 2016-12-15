@@ -36,7 +36,8 @@
 					<tr>
 						<td class="goods_img">
                         <input type='checkbox' name='sub[]' data-json='{$item_json}' value="{$type}-{$item['id']}" />
-                        <img src="{url:/pic/thumb/img/$item['img']/w/66/h/66}" alt="{$item['name']}">
+                        <div class="div_img"><img src="{url:/pic/thumb/img/$item['img']/w/66/h/66}" alt="{$item['name']}">
+                        <img src="{url:views/nzw/skin/default/image/seller.png}" class="vip_icon"></div>
                         </td>
 						<td>
 							<a href="{url:/site/products/id/$item['goods_id']}" class="gray">{$item['name']}</a>
