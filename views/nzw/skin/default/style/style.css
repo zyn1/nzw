@@ -1777,8 +1777,8 @@ background-image: url("../image/icon_slides.png"); background-repeat: no-repeat;
 }
 .artice_goods li a .div_img .vip_icon{
 	position: absolute;
-	width: 23px;
-	height: 23px;
+	width: 32px;
+	height: 32px;
 	bottom: 0px;
 	right: 0px;
 }
