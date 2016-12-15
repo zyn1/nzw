@@ -1973,8 +1973,8 @@ background-image: url("../image/icon_slides.png"); background-repeat: no-repeat;
 	position: absolute;
 	width: 20px;
 	height: 20px;
-	bottom: 0px;
-	right: 0px;
+	bottom: 2px;
+	right: 7px;
 }
 .bar_goods_big img { display: block; width: 205px; height: 205px; margin: 10px auto; }
 .bar_goods_big img.hot_img {width: 60px; height: 60px; margin: 10px 6px 10px 10px;float: left;}
@@ -2030,15 +2030,6 @@ background-image: url("../image/icon_slides.png"); background-repeat: no-repeat;
 	position: absolute;
     width: 32px;
     height: 32px;
-    bottom: 0px;
-    right: 10px;
-    margin: 0px;
-	right: 10px;
-}
-.bar_goods_big a .div_img .vip_icon{
-	position: absolute;
-    width: 23px;
-    height: 23px;
     bottom: 0px;
     right: 10px;
     margin: 0px;
