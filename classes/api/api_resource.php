@@ -4,8 +4,9 @@ return array(
 	'getGoodsInfo' => array(
 		'query' => array(
 			'name'   => 'goods as go',
+            'join'   => 'left join seller as s on s.id =  go.seller_id',
 			'where'  => 'go.id = #id# and go.is_del = 0',
-			'fields' => 'go.name,go.id as goods_id,go.img,go.sell_price,go.point,go.weight,go.store_nums,go.exp,go.goods_no,0 as product_id,go.seller_id',
+			'fields' => 'go.name,go.id as goods_id,go.img,go.sell_price,go.point,go.weight,go.store_nums,go.exp,go.goods_no,0 as product_id,go.seller_id,s.is_pay',
 			'type'   => 'row',
 		)
 	),
@@ -531,9 +532,9 @@ return array(
 	'getOrderGoodsListByGoodsid'=>array(
 	 	 'query'=>array(
 	    	'name'  => 'order_goods as og',
-	    	'join'  => 'left join goods as go on og.goods_id = go.id',
+	    	'join'  => 'left join goods as go on og.goods_id = go.id left join seller as s on s.id = go.seller_id',
 	    	'where' => 'order_id = #order_id# ',
-	    	'fields'=> 'og.*,go.point',
+	    	'fields'=> 'og.*,go.point,s.is_pay',
 	    )
 	),
 	//用户中心-我的代金券
