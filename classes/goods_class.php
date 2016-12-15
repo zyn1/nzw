@@ -1020,4 +1020,19 @@ class goods_class
 	{
 		return '2'==$type ? '-' : '+';
 	}
+    
+    //查询商家是否付费
+    public static function getSellerPay($seller_id)
+    {
+        $sellerDB = new IModel('seller');
+        $sellerRow = $sellerDB->getObj('id = '.$seller_id, 'is_pay');
+        if($sellerRow && $sellerRow['is_pay'] == 1)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 }

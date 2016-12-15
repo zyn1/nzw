@@ -10,13 +10,15 @@
 		{foreach:items=$historyObj->find()}
 		<li>
 			<a target="_blank" href="{url:/site/products/id/$item['goods_id']}">
-				<img alt="{$item['name']}" src="{url:/pic/thumb/img/$item['img']/w/205/h/205}">
+				<div class="div_img">
+                <img alt="{$item['name']}" src="{url:/pic/thumb/img/$item['img']/w/205/h/205}">
+                {if:goods_class::getSellerPay($item['seller_id'])}
+                <img src="{url:views/nzw/skin/default/image/sellerVip.png}" class="vip_icon">
+                {/if}
+                </div>
 				<h5>{$item['name']}</h5>
 				<em>￥{$item['sell_price']}</em>
 				<del>￥{$item['market_price']}</del>
-                {if:$item['is_pay']}
-                <img src="{url:views/nzw/skin/default/image/sellerVip.png}" class="vip_icon">
-                {/if}
 			</a>
 			<div class="goods_list_btn">
 				<div class="del_fav del_history" onclick="delModel({link:'{url:/ucenter/history_del/id/$item[goods_id]}',msg:'确定删除浏览记录？'});">删除记录</div>

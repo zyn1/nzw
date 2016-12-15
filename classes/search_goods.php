@@ -99,7 +99,7 @@ class search_goods
 		//开始查询
 		$goodsObj           = new IQuery("goods as go");
 		$goodsObj->page     = isset($_GET['page']) ? intval($_GET['page']) : 1;
-		$goodsObj->fields   = 'go.id,go.name,go.sell_price,go.market_price,go.store_nums,go.img,go.sale,go.grade,go.comments,go.favorite,s.is_pay';
+		$goodsObj->fields   = 'go.id,go.name,go.sell_price,go.market_price,go.store_nums,go.img,go.sale,go.grade,go.comments,go.favorite,go.seller_id';
 		$goodsObj->pagesize = $limit;
 		$goodsObj->group    = 'go.id';
 
@@ -107,7 +107,6 @@ class search_goods
 		//(1),当前产品分类
 		$where = array('go.is_del = 0');
 		$join  = array();
-        $join[] = 'left join seller as s on s.id = go.seller_id';
 
 		//(2),商品属性,规格筛选
 		$attrCond  = array();

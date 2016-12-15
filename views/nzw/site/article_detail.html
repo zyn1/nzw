@@ -13,18 +13,20 @@
 			<article class="article_content">{$this->articleRow['content']}</article>
 		</section>
 		{if:!empty($this->relationList)}
-		<section class="artice_goods goods_list">
+		<section class="artice_goods">
 			<h3>相关商品</h3>
 			<ul>
 				{foreach:items = $this->relationList}
 				<li>
 					<a href="{url:/site/products/id/$item['goods_id']}">
-						<img src="{url:/pic/thumb/img/$item[img]/w/220/h/220}" alt="{$item['name']}">
-						<strong>{$item['name']}</strong>
-						<em>￥{$item['sell_price']}</em>
-                        {if:$item['is_pay']}
+                        <div class="div_img">
+                        <img src="{url:/pic/thumb/img/$item[img]/w/220/h/220}" alt="{$item['name']}">
+                        {if:goods_class::getSellerPay($item['seller_id'])}
                         <img src="{url:views/nzw/skin/default/image/sellerVip.png}" class="vip_icon">
                         {/if}
+                        </div>
+						<strong>{$item['name']}</strong>
+						<em>￥{$item['sell_price']}</em>
 					</a>
 				</li>
 				{/foreach}
@@ -42,7 +44,7 @@
                         <img src="{url:/pic/thumb/img/$item[img]/w/60/h/60}" alt="{$item['name']}">
                         <strong>{$item['name']}</strong>
                         <em>￥{$item['sell_price']}</em>
-                        {if:$item['is_pay']}
+                        {if:goods_class::getSellerPay($item['seller_id'])}
                         <img src="{url:views/nzw/skin/default/image/sellerVip.png}" class="vip_icon">
                         {/if}
                     </a>
@@ -60,7 +62,7 @@
 						<img src="{url:/pic/thumb/img/$item['img']/w/60/h/60}" alt="{$item['name']}">
 						<strong>{$item['name']}</strong>
 						<em>￥{$item['sell_price']}</em>
-                        {if:$item['is_pay']}
+                        {if:goods_class::getSellerPay($item['seller_id'])}
                         <img src="{url:views/nzw/skin/default/image/sellerVip.png}" class="vip_icon">
                         {/if}
 					</a>
