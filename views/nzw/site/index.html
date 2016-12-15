@@ -137,6 +137,8 @@
                     <li>
                         <a href="{url:/site/home/id/$item['id']}">
                             <img src="{webroot:}{$item['seller_logo']}">
+                        <!-- 收费商家的图标 -->
+                        <img src="{url:views/nzw/skin/default/image/seller.png}" class="vip_icon">
                         </a>
                     </li>
                     {/foreach}
@@ -161,6 +163,7 @@
                     <li>
                         <a href="{url:/site/products/id/$item['id']}">
                             <img src="{url:/pic/thumb/img/$item['img']/w/170/h/170}">
+                        <img src="{url:views/nzw/skin/default/image/seller.png}" class="vip_icon">
                             <h4>{$item['name']}</h4>
                             <em>￥{$item['sell_price']}</em>
                             <del>￥{$item['market_price']}</del>
@@ -205,7 +208,7 @@
                     {foreach:items=Api::run('getCategoryExtendList',array('#categroy_id#',$cateId),10)}
                     <li>
                         <a href="{url:/site/products/id/$item['id']}">
-                            <img src="{url:/pic/thumb/img/$item['img']/w/170/h/170}">
+                            <img src="{url:/pic/thumb/img/$item['img']/w/170/h/170}"><img src="{url:views/nzw/skin/default/image/seller.png}" class="vip_icon">
                             <h4>{$item['name']}</h4>
                             <em>￥{$item['sell_price']}</em>
                             <del>￥{$item['market_price']}</del>
