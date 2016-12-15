@@ -14,6 +14,9 @@
 				<h5>{$item['name']}</h5>
 				<em>￥{$item['sell_price']}</em>
 				<del>￥{$item['market_price']}</del>
+                {if:$item['is_pay']}
+                <img src="{url:views/nzw/skin/default/image/sellerVip.png}" class="vip_icon">
+                {/if}
 			</a>
 			<div class="goods_list_btn">
 				<div class="del_fav del_history" onclick="delModel({link:'{url:/ucenter/history_del/id/$item[goods_id]}',msg:'确定删除浏览记录？'});">删除记录</div>

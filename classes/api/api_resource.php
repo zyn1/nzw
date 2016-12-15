@@ -499,9 +499,11 @@ return array(
 	//用户中心-感兴趣的商品
 	'getGoodsByCommendgoods'=>array(
 	 	 'query'=>array(
-	    	'name'  => 'goods',
-	    	'where' => 'is_del = 0',
-	    	'order' => 'grade desc',
+	    	'name'  => 'goods as go',
+            'join'  => 'left join seller as s on s.id = go.seller_id',
+            'fields'=> 'go.*,s.is_pay',
+	    	'where' => 'go.is_del = 0',
+	    	'order' => 'go.grade desc',
 	    	'limit' => 12,
 	    )
 	),
