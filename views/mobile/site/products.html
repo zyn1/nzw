@@ -124,7 +124,7 @@
         {foreach:items=$historyObj->find()}
 		<li class="pro_foot">
             <a href="{url:/site/products/id/$item['goods_id']}">
-			<img src="{url:/pic/thumb/img/$item['img']/w/60/h/60}">
+			<div class="div_img"><img src="{url:/pic/thumb/img/$item['img']/w/60/h/60}"><img src="{skin:image/sellerVip.png}" class="vip_logo"/></div>
 			<p class="pro_name">{$item['name']}</p>
 			<p class="price">{$item['sell_price']}</p>
             </a>

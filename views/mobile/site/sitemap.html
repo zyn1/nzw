@@ -88,7 +88,10 @@ $(function(){
 					<div class="ft_img clear">
                         {set:$cateId=goods_class::catChild($second['id'])}
                         {foreach:items=Api::run('getCategoryExtendList',array('#categroy_id#',$cateId),3)}
-						<a href="{url:/site/products/id/$item['id']}"><img src="{url:/pic/thumb/img/$item['img']/w/170/h/170}"></a>
+						<a href="{url:/site/products/id/$item['id']}">
+							<div class="div_img"><img src="{url:/pic/thumb/img/$item['img']/w/170/h/170}">
+							<img src="{skin:image/sellerVip.png}" class="vip_logo"/>
+							</div></a>
                         {/foreach}
 					</div>
 				</li>

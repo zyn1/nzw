@@ -1578,6 +1578,9 @@ ul li .div_img{
     bottom: 0px;
     right: 0px;
 }
+.goods_r ul li .div_img{
+    float: left;
+}
 .home_goods .goods_l img{
     width: 100%;
     height: 1.14rem;
@@ -1627,6 +1630,7 @@ ul li .div_img{
     height: 0.2rem !important;
     bottom: 0.15rem;
     right: 0.15rem;
+    border: 0px !important;
 }
 .home_goods a {
     display: block;
@@ -1634,7 +1638,7 @@ ul li .div_img{
 }
 .home_goods img {
     display: block;
-    width: 1.5rem;
+    width: 100%;
     height: 1.5rem;
 }
 .home_goods span {
