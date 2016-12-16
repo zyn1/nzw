@@ -35,7 +35,10 @@
             <ul>
                 <li class="seller_photo"><img src="{url:/pic/thumb/img/$sellerRow[seller_logo]/w/60/h/60}"/></li>
                 <li class="seller_name">
-                    <h3>{$sellerRow['true_name']}</h3>
+                    <h3>{$sellerRow['true_name']}
+                    {if:$sellerRow['is_pay']}
+                    <img src="{skin:image/sellerVip.png}" class="vip_logo"/></h3>
+                    {/if}
                     <p>主营：{$sellerRow['sales']}</p>
                     <p>所在地：{echo:join(' ',area::name($sellerRow['province'],$sellerRow['city'],$sellerRow['area']))} {$sellerRow['address']}</p>
                 </li>
@@ -75,7 +78,11 @@
         {foreach:items=$resultData}
         <li>
             <a class="clear" href="{url:/site/products/id/$item[id]}">
-                <i class="photo"><img class="goods_photo" src="{url:/pic/thumb/img/$item[img]/w/200/h/200}" alt="{$item['name']}"></i>
+                <i class="photo"><img class="goods_photo" src="{url:/pic/thumb/img/$item[img]/w/200/h/200}" alt="{$item['name']}">
+                {if:goods_class::getSellerPay($item['seller_id'])}
+                <img src="{skin:image/sellerVip.png}" class="vip_logo"/>
+                {/if}
+                </i>
                 <div class="name_price">
                     <h3 class="name"><strong>{$item['name']}</strong></h3>
                     

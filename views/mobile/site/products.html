@@ -48,7 +48,7 @@
 <section class="goods_info">
 	<ul>
 		<li class="goods_name">
-			{$name}<img src="{url:views/mobile/skin/default/image/admin_ico.png}" class="vip_icon">
+			{$name}<!--<img src="{url:views/mobile/skin/default/image/admin_ico.png}" class="vip_icon">-->
 		</li>
 		<!--抢购活动,引入 "_products_time"模板-->
 		{if:$promo == 'time' && isset($time)}
@@ -78,7 +78,11 @@
 		{if:isset($seller)}
 		{set:plugin::trigger("onServiceButton",$seller['id'])}
 		<li>
-			店铺：<strong class="seller_name"><a href="{url:/site/home/id/$seller_id}">{$seller['true_name']}</a></strong>
+			店铺：<strong class="seller_name"><a href="{url:/site/home/id/$seller_id}">{$seller['true_name']}
+			{if:$seller['is_pay']}
+            <img src="{skin:image/sellerVip.png}" class="vip_logo"/>
+            {/if}
+		</a></strong>
 		</li>
 		<li>
 			所在地：<span class="seller_area">{echo:join(' ',area::name($seller['province'],$seller['city'],$seller['area']))}</span>

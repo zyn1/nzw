@@ -77,7 +77,11 @@ $(function(){
             <div class="cart_title">
                 <a class="name clear" href="{url:/site/home/id/$key}">
                     <img src="{webroot:$seller['seller_logo']}"/>
-                    <span class="sel_name">{$seller['seller_name']}</span>
+                    <span class="sel_name">{$seller['seller_name']}
+                    {if:goods_class::getSellerPay($key)}
+                    <img src="{skin:image/sellerVip.png}" class="vip_logo"/>
+                    {/if}
+                    </span>
                 </a>
             </div>
             <ul>
@@ -312,11 +316,6 @@ $(function(){
         <form>
             <div class="pass clear">
             <input class="pas_tex" type="text"/>
-            <input class="pas_tex" type="text"/>
-            <input class="pas_tex" type="text"/>
-            <input class="pas_tex" type="text"/>
-            <input class="pas_tex" type="text"/>
-            <input class="pas_tex" type="text"/> 
             </div>   
             <div class="pas_but clear">
                 <button class="pas_qr">确定</button>

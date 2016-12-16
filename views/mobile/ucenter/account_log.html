@@ -15,7 +15,8 @@
 </header>
 
 <div id="pageInfo" data-title="我的余额"></div>
-<section class="user_icon"><img src="{url:views/mobile/skin/default/image/user_ico.png}" class="user_ico"><span class="user_name">{$this->user['username']}</span></section>
+{set:$user_ico = $this->user['head_ico']}
+<section class="user_icon"><img src="{if:$user_ico}{webroot:$user_ico}{else:}{skin:image/user_ico.png}{/if}" class="user_ico"><span class="user_name">{$this->user['username']}</span></section>
 <section class="my_account">
     <strong>余额</strong>
     <em>￥{$this->memberRow['balance']}</em>

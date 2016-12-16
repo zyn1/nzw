@@ -42,9 +42,15 @@
           {foreach:items=$resultData}
         <li>
             <a class="clear" href="{url:/site/home/id/$item['id']}">
-               <i class="sellers_i"><img class="sellers_photo" src="{webroot:}{$item['seller_logo']}" alt="{$item['true_name']}"></i>
+               <i class="sellers_i"><img class="sellers_photo" src="{webroot:}{$item['seller_logo']}" alt="{$item['true_name']}">
+                
+               </i>
                 <div class="name_price">
-                    <h3 class="seller_name"><strong>{$item['true_name']}</strong></h3>
+                    <h3 class="seller_name"><strong>{$item['true_name']}
+                    {if:$item['is_pay']}
+                    <img src="{skin:image/sellerVip.png}" class="vip_logo"/>
+                    {/if}
+                    </strong></h3>
                     <p class="se_m_g">主营商品：{$item['sales']}</p>
                     <p class="se_m_g">所在地：{echo:join(' ',area::name($item['province'],$item['city'],$item['area']))}</p>
                 </div>

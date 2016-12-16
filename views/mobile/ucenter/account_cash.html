@@ -57,27 +57,6 @@ function payPass()
                 window.location.href='{url:/ucenter/withdraw_list}';
             });
         })
-        /*art.dialog.open(creatUrl("block/payPass/name/"+name+"/amount/"+amount+'/bank/'+bank+'/account/'+account+'/note/'+note),
-        {
-            "id":"payPassWindow",
-            "title":"支付密码",
-            "width":380,
-            "ok":function(iframeWin, topWin){
-                var formObject = iframeWin.document.forms[0];
-                $.getJSON("{url:/ucenter/withdraw_act}",$(formObject).serialize(),function(content){
-                    if(content.result == false)
-                    {
-                        alert(content.msg);
-                        return;
-                    }
-                    window.location.reload();
-                });
-                return false;
-            },
-            "okVal":"确定",
-            "cancel":true,
-            "cancelVal":"取消",
-        });*/
     }
 }
 </script>  

@@ -56,7 +56,11 @@
 			<div class="cart_title">
 				<label class="s_sel_all box"><input type="checkbox" name="sel_all"  class="chk_1"/></label>
 				<div class="name">
-					<span class="sel_name">{$seller['seller_name']}</span>
+					<span class="sel_name">{$seller['seller_name']}
+                    {if:goods_class::getSellerPay($key)}
+                    <img src="{skin:image/sellerVip.png}" class="vip_logo"/>
+                    {/if}
+                    </span>
 					<span class="sel_cz sel_cz_bj">编辑</span>
 				</div>
 			</div>
@@ -122,7 +126,11 @@
         {foreach:items=Api::run('getCommendHot', 6)}
 		<li>
 			<a href="{url:/site/products/id/$item['id']}">
-				<img src="{url:/pic/thumb/img/$item['img']/w/170/h/170}"/>
+				<div class="div_img"><img src="{url:/pic/thumb/img/$item['img']/w/170/h/170}"/>
+                {if:goods_class::getSellerPay($item['seller_id'])}
+                <img src="{skin:image/sellerVip.png}" class="vip_logo"/>
+                {/if}
+                </div>
 				<div class="good_name">{$item['name']}</div>
 				<em>￥{$item['sell_price']}</em>
 			</a>

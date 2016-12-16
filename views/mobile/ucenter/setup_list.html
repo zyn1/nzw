@@ -6,6 +6,11 @@
     	width: 100%;
     }
 </style>
+{if:$this->user}
+{set:$msgObj = new Mess($this->user['user_id']);$msgNum = $msgObj->needReadNum();}
+{else:}
+{set:$msgNum = 0;}
+{/if}
 <script src="{theme:javascript/style.js}"></script>
 <header class="header_box main_head">
     <div class="header">
@@ -17,7 +22,13 @@
         <div class="s_nav">
             <ul>
                 <li><a><i class="icon-home">首页</i></a></li>
-                <li><a href="javascript:location.reload()"><i class="icon-comments-alt">消息</i></a></li>
+                <li><a href="{url:/ucenter/message}">
+                {if:$msgNum > 0}
+                <i class="icon-comments-alt">消息</i>
+                {else:}
+                <i class="icon-comment-alt">消息</i>
+                {/if}
+                </a></li>
             </ul>
         </div>
    </div>
