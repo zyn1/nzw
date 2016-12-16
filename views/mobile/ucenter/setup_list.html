@@ -21,7 +21,7 @@
         <a class="a_gd"></a>
         <div class="s_nav">
             <ul>
-                <li><a><i class="icon-home">首页</i></a></li>
+                <li><a href="{url:/}"><i class="icon-home">首页</i></a></li>
                 <li><a href="{url:/ucenter/message}">
                 {if:$msgNum > 0}
                 <i class="icon-comments-alt">消息</i>
@@ -38,21 +38,14 @@
 		<div class="article_list">
 			<ul>
 				<a href="{url:ucenter/info}"><li>个人信息设置<i class="icon-more"></i></li></a>
-				<a href="{url:ucenter/password}"><li>支付密码设置<i class="icon-more"></i></li></a>
-                                                <a href="{url:ucenter/password}"><li>登录密码设置<i class="icon-more"></i></li></a>
-                                                <a href="{url:ucenter/mobliephone}"><li>修改手机号<i class="icon-more"></i></li></a>
-                                                <a href="{url:ucenter/mobliephone}"><li>修改邮箱号<i class="icon-more"></i></li></a>
-                                                <a href="{url:ucenter/address}"><li>管理收货地址<i class="icon-more"></i></li></a>
+				<a href="{url:ucenter/payPass}"><li>支付密码设置<i class="icon-more"></i></li></a>
+                <a href="{url:ucenter/password}"><li>登录密码设置<i class="icon-more"></i></li></a>
+                <a href="{url:ucenter/mobliephone}"><li>修改手机号<i class="icon-more"></i></li></a>
+                <a href="{url:ucenter/mobliephone}"><li>修改邮箱号<i class="icon-more"></i></li></a>
+                <a href="{url:ucenter/address}"><li>管理收货地址<i class="icon-more"></i></li></a>
 			</ul>
 		</div>
 	</section>
     <section class="input_li">
         <input type="submit" class="input_submit" value="退出" onclick="window.location = '{url:/simple/logout}'">
     </section>
-
-
-<script>
-$(function(){
-    hideNav();
-})
-</script>

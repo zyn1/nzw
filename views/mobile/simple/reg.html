@@ -11,7 +11,6 @@
 		<form action='{url:/simple/reg_act}' method='post'>    
             <input type="hidden" name="reg_type" value="3">
 			<input type="hidden" name='callback' value="{$callback}" />
-            <input type="hidden" name="_v">
 			<ul>
                 <li>
                     <input class="input_text" name='username' type="text" pattern="^[\w\u0391-\uFFE5]{2,20}$" alt="填写2-20个字符，数字下划线和中文" other="user" otheralt="该用户名已经注册" placeholder="请输入用户名">

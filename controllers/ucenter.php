@@ -685,6 +685,21 @@ class Ucenter extends IController implements userAuthorization
     //[个人资料]展示 单页
     function info()
     {
+        $user_id = $this->user['user_id'];
+
+        $userObj       = new IModel('user');
+        $where         = 'id = '.$user_id;
+        $this->userRow = $userObj->getObj($where);
+
+        $memberObj       = new IModel('member');
+        $where           = 'user_id = '.$user_id;
+        $this->memberRow = $memberObj->getObj($where);
+        $this->redirect('info');
+    }
+
+    //[个人资料]编辑 单页
+    function info_edit()
+    {
     	$user_id = $this->user['user_id'];
 
     	$userObj       = new IModel('user');
@@ -694,7 +709,7 @@ class Ucenter extends IController implements userAuthorization
     	$memberObj       = new IModel('member');
     	$where           = 'user_id = '.$user_id;
     	$this->memberRow = $memberObj->getObj($where);
-    	$this->redirect('info');
+    	$this->redirect('info_edit');
     }
 
     //[个人资料] 修改 [动作]

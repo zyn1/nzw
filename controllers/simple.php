@@ -995,14 +995,13 @@ class Simple extends IController
 	{
         $mobile = IFilter::act(IReq::get('mobile'));
 		$captcha = IFilter::act(IReq::get('captcha'));
-        $_v = IReq::get('_v');
         $_captcha = ISafe::get('captcha');
 
 		if($mobile === null || !IValidate::mobi($mobile))
 		{
 			die("请输入正确的手机号码");
 		}
-        if((!$captcha || !$_captcha || $captcha != $_captcha) && is_null($_v))
+        if((!$captcha || !$_captcha || $captcha != $_captcha) && IClient::getDevice() == 'pc')
         {
             die("请填写正确的图形验证码");
         }
