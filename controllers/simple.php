@@ -885,12 +885,10 @@ class Simple extends IController
     {
         if($this->user)
         {
-            $this->redirect("/ucenter/index");
+            plugin::trigger('clearUser');
         }
-        else{
-            $this->layout = 'site_log';
-            $this->redirect('find_password');
-        }
+        $this->layout = 'site_log';
+        $this->redirect('find_password');
     }
 
 	/**
@@ -906,7 +904,7 @@ class Simple extends IController
 
         $captcha  = IReq::get('captcha');
         $_captcha = ISafe::get('captcha');
-        if(!$captcha || !$_captcha || $captcha != $_captcha)
+        if((!$captcha || !$_captcha || $captcha != $_captcha) && IClient::getDevice() == 'pc')
         {
             IError::show("请填写正确的图形验证码");
         }
