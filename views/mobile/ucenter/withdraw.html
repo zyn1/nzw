@@ -1,93 +1,90 @@
+<style type="text/css">
+    body{
+        background: #fff;
+    }
+    .tab_content .content_list .checked_on{
+        width: 90%;
+    }
+</style>
 {set:$queryWithdrawList = Api::run('getWithdrawList',$this->user['user_id'])}
 {set:$items = $queryWithdrawList->find()}
-<div id="pageInfo" data-title="申请提现"></div>
-<section class="my_account">
-    <strong>帐户余额</strong>
-    <em>￥{$this->memberRow['balance']}</em>
-</section>
-<section class="us_tab">
-    <ul>
-        <li class="on">申请提现</li>
-        <li>提现记录</li>
-    </ul>
-</section>
-<form action="{url:/ucenter/withdraw_act}" method="POST" class="form-inline form" role="form">
-<section class="uc_con">
-    <div class="uc_con_box">
-        <section class="login input_li">
-            <ul>
-                <li>
-                    <input type="text" name='name' class="input_text" placeholder="收款人姓名" pattern='required' initmsg="" alt="请输入收款人姓名">
-                </li>
-                <li>
-                    <input type="text" name='amount' class="input_text" placeholder="提现金额" pattern='^[0-9]*$' initmsg="" alt="请输入提现金额">
-                </li>
-                <li>
-                    <input type="text" name='note' class="input_text" placeholder="备注信息" pattern='required' initmsg="" alt="请输入备注信息">
-                </li>
-            </ul>
-        </section>
-        <div class="btn_bottom">
-            <div class="btn_tab">
-                <label class="btn_tab_submit blue">确认提现<input type="submit"></label>
-            </div>
-        </div>
+<header class="header_login">
+    <div class="header_title">
+        <a class="return_a"onclick="window.history.back();"></a>
+        <h2>账单明细</h2>
+        <a class="qx_a" href="{url:ucenter/withdraw_list}">完成</a>
     </div>
-    <div class="uc_con_box none">
-        {if:$items}
-        <div class="withdraw_list">
-            {foreach:items = $items}
-            <div class="withdraw_box">
-                <div class="base">
-                    <time>{echo:substr($item['time'],0,10)}</time>
-                    <i class="{if:$item['status'] == -1}bg_red{elseif:$item['status'] == 2}bg_green{else:}bg_blue{/if}">{echo:AccountLog::getWithdrawStatus($item['status'])}</i>
-                    <strong>提现金额：</strong>
-                    <em>￥{$item['amount']}元</em>
-                </div>
-                <div class="note">
-                    <strong>我的备注：</strong><span>{$item['note']}</span>
-                </div>
-                {if:$item['re_note']}
-                <div class="note">
-                    <strong>管理员备注：</strong><span>{$item['re_note']}</span>
-                </div>
-                {/if}
-                {if:$item['status']==0}
-                <div class="btn btn_s btn_fa" onclick="delModel({link:'{url:/ucenter/withdraw_del/id/$item[id]}'});">
-                    取消
-                </div>
-                {/if}
-            </div>
-            {/foreach}
-        </div>
-        {$queryWithdrawList->getPageBar()}
-        {else:}
-        <section class="nodata">暂时没有提现记录</section>
-        {/if}
-    </div>
-</section>
-</form>
-
+</header>
 <script>
 $(function(){
     // 隐藏底部导航
     hideNav();
-    // 简易选项卡切换JS
-    var $tab = $(".us_tab");
-    var $con = $(".uc_con"),
-        $conBox = $con.children('.uc_con_box');
-    $tab.on('click', 'li',function(){
-        var t = $(this),i = t.index();
-        t.addClass('on').siblings('li').removeClass('on');
-        $conBox.eq(i).removeClass('none').siblings('.uc_con_box').addClass('none');
-    });
-    // 原有JS
-    var formObj = new Form('withdraw');
-    formObj.init({
-        'name':'{$this->withdrawRow['name']}',
-        'note':'{$this->withdrawRow['note']}',
-        'amount':'{$this->withdrawRow['amount']}'
-    });
 })
 </script>
 
+<script>
+$(function(){ //调用全选插件
+    $.fn.check({checkall_name:"checkall",checkbox_name:"id[]"})}),
+
+//全选插件
+(function($) {
+    $.fn.check    = function(options) {
+    var defaults  = {
+        checkall_name: "checkall_name", //全选框name
+        checkbox_name: "checkbox_name" //单选框name
+    },
+    ops           = $.extend(defaults, options);
+    e             = $("input[name='" + ops.checkall_name + "']"), //全选
+    f             = $("input[name='" + ops.checkbox_name + "']"), //单选
+    g             = f.length; //单选数量
+    f.click(function() {
+    $("input[name ='" + ops.checkbox_name + "']:checked").length == $("input[name='" + ops.checkbox_name + "']").length ? e.attr("checked", !0) : e.attr("checked", !1);
+    }), e.click(function() {
+    for (i = 0; g > i; i++) f[i].checked = this.checked;
+    });
+    };
+})(jQuery);
+</script>
+
+
+<div class="container">  
+      
+    <ul class="tabs">  
+        <li><a href="{url:ucenter/account_list}">交易记录</a></li>  
+        <li class="active"><a >提现记录</a></li>  
+    </ul> 
+    <form action="{url:/ucenter/withdraw_del}">
+    <div class="tab_container">  
+         
+          
+        <div id="tab4" class="tab_content" style="display: block; ">  
+            {if:$items}
+            {foreach:items = $items}
+            <div class="content_list">
+            {if:$item['status'] == 0 && $item['is_del'] == 0}
+            <p class="checked"><input type="checkbox" name="id[]" value="{$item['id']}"  class="chk_1" id="checkbox_a{$item['id']}"/><label for="checkbox_a{$item['id']}"></label></p>
+            {/if}
+            <div class="checked_on">                
+                <ul>
+                    <li>{$item['note']}</li>
+                    <li>{$item['amount']}</li>
+                </ul>
+                    <div class="clear"></div>
+                <ul>
+                    <li class="time">{$item['time']}</li>
+                    <li class="time">{echo:AccountLog::getWithdrawStatus($item['status'])}</li>
+                </ul>
+            </div>
+                    <div class="clear"></div>
+            </div>
+            {/foreach}
+            {$queryWithdrawList->getPageBar()}
+            {/if}
+        </div>  
+    </div>  
+    
+    </form>
+    <div class="check_del">
+        <p class="checkall"><input type="checkbox" name="checkall" class="chk_1" id="checkbox_a100"/><label for="checkbox_a100"></label>全选</p><button class="del" onclick="delModel({'msg':'确定要取消吗？'});">取消</button>
+    </div>
+</div> 

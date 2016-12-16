@@ -20,52 +20,61 @@ $(function(){
     hideNav();
 })
 </script>
-{set:$queryWithdrawRow = Api::run('getWithdrawRow',IReq::get('id'))}
 <div class="container">        
      
     <div class="tab_container">  
          
-         {if:$queryWithdrawRow}
+         {if:$this->withdrawRow}
         <div id="tab4" class="tab_content" style="display: block; ">  
             <div class="content_list">
             
             <div class="checked_on">                
                 <ul>
                     <li class="time">会员备注</li>
-                    <li>{$queryWithdrawRow['note']}</li>
+                    <li>{$this->withdrawRow['note']}</li>
                 </ul>
                     <div class="clear"></div>
                 <ul>
                     <li class="time">处理状态</li>
-                    <li>{echo:AccountLog::getWithdrawStatus($queryWithdrawRow['status'])}</li>
+                    <li>{echo:AccountLog::getWithdrawStatus($this->withdrawRow['status'])}</li>
                 </ul>
                 <ul>
                     <li class="time">管理员备注</li>
-                    <li>{$queryWithdrawRow['re_note']}</li>
+                    <li>{$this->withdrawRow['re_note']}</li>
                 </ul>
                 <ul>
                     <li class="time">提现金额</li>
-                    <li>￥{$queryWithdrawRow['amount']}</li>
+                    <li>￥{$this->withdrawRow['amount']}</li>
+                </ul>
+                {if:isset($this->withdrawRow['charge']) && $this->withdrawRow['charge']}
+                <ul>
+                    <li class="time">手续费</li>
+                    <li>￥{$this->withdrawRow['charge']}</li>
                 </ul>
                 <ul>
+                    <li class="time">实收金额</li>
+                    <li>￥{$this->withdrawRow['am']}</li>
+                </ul>
+                {/if}
+                <ul>
                     <li class="time">申请时间</li>
-                    <li>{$queryWithdrawRow['time']}</li>
+                    <li>{$this->withdrawRow['time']}</li>
                 </ul>
                 <ul>
                     <li class="time">开户姓名</li>
-                    <li>{$queryWithdrawRow['name']}</li>
+                    <li>{$this->withdrawRow['name']}</li>
                 </ul>
                 <ul>
                     <li class="time">开户行</li>
-                    <li>{$queryWithdrawRow['bank']}</li>
+                    <li>{$this->withdrawRow['bank']}</li>
                 </ul>
                 <ul>
                     <li class="time">银行账号</li>
-                    <li>{$queryWithdrawRow['account']}</li>
+                    <li>{$this->withdrawRow['account']}</li>
                 </ul>
                 <ul>
                     <li class="time">账户余额</li>
-                    <li>￥90</li>
+                    <li>￥{$this->memberRow['balance']}</li>
                 </ul>
             </div>
             <button class="del_but">删除</button>

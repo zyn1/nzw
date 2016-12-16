@@ -10,7 +10,7 @@
         <a class="return_a"onclick="window.history.back();"></a>
         <h2>账单明细</h2>
         {if:$items}
-        <a class="qx_a" href="{url:ucenter/account_list_1_edit}">编辑</a>
+        <a class="qx_a" href="{url:ucenter/withdraw}">编辑</a>
         {/if}
     </div>
 </header>
@@ -36,7 +36,7 @@ $(function(){
             <div class="content_list">
             
             <div class="checked_on"> 
-                <a href="{url:/ucenter/account_list_1_log/id/$item['id']}">              
+                <a href="{url:/ucenter/withdraw_detail/id/$item['id']}">              
                 <ul>
                     <li>{$item['note']}</li>
                     <li>{$item['amount']}</li>

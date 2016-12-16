@@ -4,12 +4,10 @@
     }
 </style>
 <link rel="stylesheet" href="{skin:style/bases.css}">
-{set:$queryAccountLogList = Api::run('getUcenterAccoutLog',$this->user['user_id'])}
-{set:$logList = $queryAccountLogList->find()}
 <header class="header_login">
     <div class="header_title">
         <a class="return_a"onclick="window.history.back();"></a>
-        <h2>提现记录</h2>
+        <h2>提现申请</h2>
         
     </div>
 </header>
@@ -23,90 +21,109 @@ $(function(){
 </script>
 
 <script type="text/javascript">  
-  
-// $(document).ready(function() {  
-  
-//     //Default Action  
-//     $(".tab_content").hide(); //Hide all content  
-//     $("ul.tabs li:first").addClass("active").show(); //Activate first tab  
-//     $(".tab_content:first").show(); //Show first tab content  
-      
-//     //On Click Event  
-//     $("ul.tabs li").click(function() {  
-//         $("ul.tabs li").removeClass("active"); //Remove any "active" class  
-//         $(this).addClass("active"); //Add "active" class to selected tab  
-//         $(".tab_content").hide(); //Hide all tab content  
-//         var activeTab = $(this).find("a").attr("href"); //Find the rel attribute value to identify the active tab + content  
-//         $(activeTab).fadeIn(); //Fade in the active content  
-//         return false;  
-//     });  
-  
-// });  
-
 $(document).ready(function() {  
-    $("#pas_xq,#pas_qd,#type_close").click(function(){ 
+    $("#pas_xq,#type_close").click(function(){ 
         var mask=$(".mask");
         var w_paswd=$(".w_paswd");
         w_paswd.animate({bottom: '-2.7rem'},"slow");
         mask.fadeOut(300);
     });
   //打开支付密码
-    $("#del_but").click(function(){
+    /*$("#del_but").click(function(){
       var w_paswd=$(".w_paswd")
       var mask=$(".mask");
       w_paswd.animate({bottom: '0rem'},"slow");
       mask.fadeIn(300);
-    })
+    })*/
+    
 
 }); 
+function payPass()
+{
+    if($('.invalid-text').length == 0)
+    {
+        var w_paswd=$(".w_paswd")
+        var mask=$(".mask");
+        w_paswd.animate({bottom: '0rem'},"slow");
+        mask.fadeIn(300);
+        $('#pas_qd').click(function(){
+            var data = 'pay_pwd='+$('input[name=js_payPass]').val()+'&'+$('.js_validate_form').serialize();
+            $.getJSON("{url:/ucenter/withdraw_act}",data,function(content){
+                if(content.result == false)
+                {
+                    alert(content.msg);
+                    return;
+                }
+                window.location.href='{url:/ucenter/withdraw_list}';
+            });
+        })
+        /*art.dialog.open(creatUrl("block/payPass/name/"+name+"/amount/"+amount+'/bank/'+bank+'/account/'+account+'/note/'+note),
+        {
+            "id":"payPassWindow",
+            "title":"支付密码",
+            "width":380,
+            "ok":function(iframeWin, topWin){
+                var formObject = iframeWin.document.forms[0];
+                $.getJSON("{url:/ucenter/withdraw_act}",$(formObject).serialize(),function(content){
+                    if(content.result == false)
+                    {
+                        alert(content.msg);
+                        return;
+                    }
+                    window.location.reload();
+                });
+                return false;
+            },
+            "okVal":"确定",
+            "cancel":true,
+            "cancelVal":"取消",
+        });*/
+    }
+}
 </script>  
 
 
 
-
+{set:$withdrawAccount = $this->_siteConfig->withdrawAccount ? $this->_siteConfig->withdrawAccount : 0}
 <div class="container">        
-     
+    <form action='#' method='post' name='withdraw' noComplate="true" class="js_validate_form">
     <div class="tab_container">  
          
           
         <div id="tab4" class="tab_content" style="display: block; ">  
             <div class="content_list">
             
-            <div class="checked_on">                
+            <div class="checked_on"> 
+                {if:$withdrawAccount}
+                <span style="float: right;margin-right: 10px; color: red;">提示：提现需要收取提现金额的{$withdrawAccount}%做为手续费</span>
+                {/if}
                 <ul>
-                    <li class="time">收款人姓名</li>
-                    <li><input type="text" placeholder="请输入收款人姓名"></li>
-                </ul>
+                    <li class="time">持卡人姓名</li>
+                    <li><input name='name' pattern='required' alt='请填写真实的持卡人姓名' type="text" placeholder="请输入持卡人姓名"></li>
+                </ul>          
                 <ul>
                     <li class="time">提现金额</li>
-                    <li><input type="text" placeholder="请输入提现金额"></li>
+                    <li><input type="text" placeholder="请输入提现金额" name='amount' pattern='float' max_value="{$this->memberRow['balance']}" alt='填写提现金额' maxalt="提现金额不能大于账户余额"></li>
                 </ul>
                 <ul>
                     <li class="time">开户银行</li>
-                    <li><input type="text" placeholder="请输入开户银行"></li>
-                </ul>
-                <ul>
-                    <li class="time">持卡人姓名</li>
-                    <li><input type="text" placeholder="请输入持卡人姓名"></li>
-                </ul>
-                <ul>
-                    <li class="time">收款人账号</li>
-                    <li><input type="text" placeholder="请输入账号"></li>
+                    <li><input type="text" placeholder="请输入开户银行" name='bank' pattern='required' alt='填写开户银行'></li>
                 </ul>
                 <ul>
                     <li class="time">银行账户</li>
-                    <li><input type="text" placeholder="请输入银行账户"></li>
+                    <li><input type="text" placeholder="请输入银行账户" name='account' pattern='required' alt='填写银行账号'></li>
                 </ul>
                 <ul>
                     <li class="time">备注说明</li>
-                    <li><input type="text" placeholder="请输入备注说明"></li>
+                    <li><input name='note' type="text" placeholder="请输入备注说明"></li>
                 </ul>
             </div>
-            <button class="del_but" id="del_but">申请提现</button>
+            <input type="submit" class="del_but" id="del_but" onclick="setTimeout(payPass, 1000)" value="申请提现">
                     <div class="clear"></div>
             </div>
         </div>  
-    </div>  
+    </div> 
+    </form> 
   
 </div> 
 
@@ -118,21 +135,13 @@ $(document).ready(function() {
         <span><strong>请输入支付密码</strong></span>
     </div>
     <div class="passwd_cont ">
-        <form>
-            <div class="pass clear">
-            <input class="pas_tex" type="text"/>
-            <input class="pas_tex" type="text"/>
-            <input class="pas_tex" type="text"/>
-            <input class="pas_tex" type="text"/>
-            <input class="pas_tex" type="text"/>
-            <input class="pas_tex" type="text"/> 
-            </div>   
-            <div class="pas_but clear">
-                <button class="pas_qr" id="pas_qd">确定</button>
-                <button class="pas_qx" id="pas_xq">取消</button>
-            </div>
-
-        </form>
+        <div class="pass clear">
+        <input class="pas_tex" name="js_payPass" type="password"/>
+        </div>   
+        <div class="pas_but clear">
+            <button class="pas_qr" id="pas_qd">确定</button>
+            <button class="pas_qx" id="pas_xq">取消</button>
+        </div>
     </div>
 </div>
 <!-- 支付密码 end-->

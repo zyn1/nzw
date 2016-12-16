@@ -838,10 +838,21 @@ class Ucenter extends IController implements userAuthorization
     {
     	$user_id = $this->user['user_id'];
 
+        $memberObj = new IModel('member','balance');
+        $this->memberRow = $memberObj->getObj('user_id = '.$user_id);
+
     	$id  = IFilter::act( IReq::get('id'),'int' );
     	$obj = new IModel('withdraw');
     	$where = 'id = '.$id.' and user_id = '.$user_id;
-    	$this->withdrawRow = $obj->getObj($where);
+    	$withdrawRow = $obj->getObj($where);
+        $para = JSON::decode($withdrawRow['para']);
+        if($para)
+        {
+            $withdrawRow['charge'] = $para['charge'];
+            $withdrawRow['am'] = $para['am'];
+        }
+        
+        $this->withdrawRow = $withdrawRow;
     	$this->redirect('withdraw_detail');
     }
 
@@ -853,11 +864,25 @@ class Ucenter extends IController implements userAuthorization
     	{
     		$dataArray   = array('is_del' => 1);
     		$withdrawObj = new IModel('withdraw');
-    		$where = 'id = '.$id.' and user_id = '.$this->user['user_id'];
+            $where = 'user_id = '.$this->user['user_id'];
+            if(is_array($id))
+            {
+                $idStr = join(',',$id);
+                $where .= ' and id in ('.$idStr.')';
+            }
+            else
+            {
+                $where .= ' and id = '.$id;
+            }
     		$withdrawObj->setData($dataArray);
     		$withdrawObj->update($where);
+            $this->redirect('withdraw');
     	}
-    	$this->redirect('withdraw');
+        else
+        {
+            $this->redirect('withdraw',false);
+            Util::showMessage('请选择要删除的数据');
+        }
     }
 
     //[余额交易记录]
