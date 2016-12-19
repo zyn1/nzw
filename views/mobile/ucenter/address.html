@@ -14,6 +14,7 @@
 		<!-- 这里两个class default 代表是否是默认地址 on 代表当前是否选中 -->
 		{foreach:items=$this->address}
 		<li data-value="1" {if:$item['is_default']==1}class="default"{/if}>
+        <a href="{url:/ucenter/address_add/id/$item['id']}">
 			<div class="address_list_header">				
 				<span class="name">收货人&nbsp;{$item['accept_name']}</span>
 				<span class="phone">{$item['mobile']}</span>
@@ -24,13 +25,14 @@
 			<footer data-value="1" class="address_list_icon">
 				<img src="{url:views/mobile/skin/default/image/top/check-on.png}">默认地址
 			</footer>
+        </a>
 		</li>
 		{/foreach}
 	</ul>
 </section>
 
 <div class="input_li">
-	<input type="button" value="添加新地址" class="input_submit"  />
+	<input type="button" value="添加新地址" class="input_submit" onclick="window.location='{url:/ucenter/address_add}'"  />
 </div>
 
 <script>

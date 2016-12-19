@@ -58,10 +58,11 @@ $(document).ready(function(){
       $(".default em").click(function(){
        if($(this).hasClass("on")){
         $(this).removeClass("on").addClass("no");
+        $('input[name=is_default]').val(0);
        }else{
         $(this).removeClass("no").addClass("on");
+        $('input[name=is_default]').val(1);
        }
-        
       });
       
 

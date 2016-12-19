@@ -222,6 +222,17 @@ class Ucenter extends IController implements userAuthorization
 		$this->address = $address;
         $this->redirect('address');
     }
+    
+    public function address_add()
+    {
+        $id = IFilter::act(IReq::get('id'), 'int');
+        $user_id = $this->user['user_id'];
+        $addressDB = new IModel('address');
+        $addressRow = $addressDB->getObj('id = '.$id.' and user_id = '.$user_id);
+        $this->addressRow = $addressRow;
+        $this->redirect('address_add');
+    }
+    
     /**
      * @brief 收货地址管理
      */
