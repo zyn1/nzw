@@ -733,11 +733,30 @@ class Ucenter extends IController implements userAuthorization
     //[个人资料] 修改 [动作]
     function info_edit_act()
     {
+        $email     = IFilter::act( IReq::get('email'),'string');
+        $mobile    = IFilter::act( IReq::get('mobile'),'string');
 		$desc_info = IFilter::act( IReq::get('desc_info'),'string');
 
     	$user_id   = $this->user['user_id'];
     	$memberObj = new IModel('member');
     	$where     = 'user_id = '.$user_id;
+        if($email)
+        {
+            $memberRow = $memberObj->getObj('user_id != '.$user_id.' and email = "'.$email.'"');
+            if($memberRow)
+            {
+                IError::show('邮箱已经被注册');
+            }
+        }
+
+        if($mobile)
+        {
+            $memberRow = $memberObj->getObj('user_id != '.$user_id.' and mobile = "'.$mobile.'"');
+            if($memberRow)
+            {
+                IError::show('手机已经被注册');
+            }
+        }
 
     	//地区
     	$province = IFilter::act( IReq::get('province','post') ,'string');
@@ -756,6 +775,11 @@ class Ucenter extends IController implements userAuthorization
     		'area'         => $areaArr ? ",".join(",",$areaArr)."," : "",
             'desc_info'    => $desc_info
     	);
+        if(IClient::getDevice() == 'pc')
+        {
+            $dataArray['email'] = $email;
+            $dataArray['mobile'] = $mobile;
+        }
 
     	$memberObj->setData($dataArray);
     	$memberObj->update($where);

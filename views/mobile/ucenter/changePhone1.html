@@ -8,26 +8,16 @@
 <section class="find_pw">
 	<div class="con input_li">
 		<ul>
-			<form action='{url:/simple/find_password_mobile}' method='post' id="mobileWay">
+			<form action='{url:/ucenter/changePhone2}' method='post' id="mobileWay">
 				<li>
-					<input class='input_text' placeholder="请输入您的手机号" initmsg="" type="text" name="mobile" pattern="^[1][34578][0-9]{9}$"  alt="号码格式不正确" />
+					<input class='input_text' placeholder="请输入您的手机号" initmsg="" type="text" name="phone"  pattern="mobi" alt="填写正确的手机格式" />
 				</li>
 				<li class="yzm">
-					<input class="input_text input_captcha" type="text" placeholder="请输入验证码" initmsg="" name='mobile_code' pattern="^\w{4,6}$" alt="验证码不正确" />
+					<input class="input_text input_captcha" type="text" placeholder="请输入验证码" initmsg=""  name="phone_code" pattern='^\w{4,6}$' alt="验证码不正确" />
 					<input class="input_button" type="button" onclick="sendMessage();" value="获取验证码">
 				</li>
 				<li>
 					<input type="submit" class="input_submit" value="提交">
-				</li>
-				<li class="num_change">
-					当前绑定手机：13603560986
-				</li>
-				<li class="yzm">
-					<input class="input_text input_captcha" type="text" placeholder="请输入验证码" initmsg="" name='mobile_code' pattern="^\w{4,6}$" alt="验证码不正确" />
-					<input class="input_button" type="button" onclick="sendMessage();" value="获取验证码">
-				</li>
-				<li>
-					<input type="submit" class="input_submit" value="下一步">
 				</li>
 			</form>
 		</ul>
@@ -67,16 +57,18 @@ $(function(){
 
   //发送短信码
 function sendMessage(){
-	var username = $('#mobileWay [name="username"]').val();
-	var mobile   = $('#mobileWay [name="mobile"]').val();
-	$.get("{url:/simple/send_message_mobile}",{"username":username,"mobile":mobile},function(content){
-		if(content == 'success'){
-			alert('发送成功，请查看您的手机');
-		}
-		else{
-			alert(content);
-			return;
-		}
-	});
+    var phone = $('[name="phone"]').val();
+    $.get("{url:/ucenter/_sendMobileCode}",{"phone":phone},function(content)
+    {
+        if(content != 'success')
+        {
+            alert(content);
+            return;
+        }
+        else
+        {
+            alert('发送成功，请查看您的手机');
+        }
+    });
 }
 </script>

@@ -1,0 +1,74 @@
+<header class="header_login">
+	<div class="header_title">
+		<a class="return_a"onclick="window.history.back();"></a>
+		<h2 id="pageInfo" data-title="修改绑定手机">修改绑定手机</h2>
+		
+	</div>
+</header>
+<section class="find_pw">
+	<div class="con input_li">
+		<ul>
+			<form action='{url:/ucenter/changePhone1}' method='post' id="mobileWay">
+				<li class="num_change">
+					当前绑定手机：{$this->mobile}
+				</li>
+				<li class="yzm">
+					<input class="input_text input_captcha" type="text" placeholder="请输入验证码" initmsg=""  name="phone_code" pattern='^\w{4,6}$' alt="验证码不正确" />
+					<input class="input_button" type="button" onclick="sendMessage(this);" value="获取验证码">
+				</li>
+				<li>
+					<input type="submit" class="input_submit" value="下一步">
+				</li>
+			</form>
+		</ul>
+		<!-- 邮箱找回密码 start-->
+	<!-- 	<ul class="none">
+			<form action='{url:/simple/find_password_email}' method='post' id="mailWay">
+				<li>
+					<input class='input_text' placeholder="请输入您的用户名" initmsg="" type="text" name='username' pattern="^[\w\u0391-\uFFE5]{2,20}$" alt="请输入正确的用户名" />
+				</li>
+				<li>
+					<input class='input_text' placeholder="请输入您的邮箱" initmsg="" type="text" name='email' pattern="email" alt="邮箱格式不正确" />
+				</li>
+				<li>
+					<input type="submit" class="input_submit" value="找回密码">
+				</li>
+			</form>
+		</ul> -->
+	</div>
+</section>
+<script>
+$(function(){
+    hideNav();
+})
+$(function(){
+	// 给底部导航加上当前样式
+	$(".nav_user").addClass('on');
+	$(".footer_login").hide();
+	// 选项卡切换
+	var tab = $(".tab"),
+		con = $(".con").children('ul');
+	tab.on('click', 'li', function(){
+		var t = $(this),i = t.index();
+		t.addClass('on').siblings('li').removeClass('on');
+		con.eq(i).removeClass('none').siblings('ul').addClass('none');
+	});
+})
+
+//发送短信码
+function sendMessage()
+{
+    $.get("{url:/ucenter/_sendMobileCode}",{},function(content)
+    {
+        if(content != 'success')
+        {
+            alert(content);
+            return;
+        }
+        else
+        {
+            alert('发送成功，请查看您的手机');
+        }
+    });
+}
+</script>
