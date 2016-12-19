@@ -3199,6 +3199,18 @@ span.valid-msg, label.valid-msg {
     border-bottom: 0.1rem solid #f2f2f2;
     min-height: 1.2rem;
 }
+.address_list li:after{
+    content: ' ';
+    position: absolute;
+    top: 0.5rem;
+    right: 0.1rem;
+    border: #2D2D03 solid;
+    border-width: 0.03rem 0 0 0.03rem;
+    width: 0.13rem;
+    height: 0.13rem;
+    -webkit-transform: rotate(135deg);
+    -moz-transform: rotate(135deg);
+}
 .address_list li .address_list_icon{
     display: none ;
 }
