@@ -845,8 +845,15 @@ class Simple extends IController
 		}
 		else
 		{
-			$this->setRenderData($dataArray);
-			$this->redirect('cart3');
+            if(IClient::getDevice() == 'pc')
+            {
+                $this->setRenderData($dataArray);
+                $this->redirect('cart3');
+            }
+			else
+            {
+                echo JSON::encode($dataArray);
+            }
 		}
     }
 
