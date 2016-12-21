@@ -27,10 +27,25 @@ function orderFormClass()
     /**
      * 算账
      */
-    this.doAccount = function()
+    this.doAccount = function(abs)
     {
+        if(abs)
+        {
+            if(abs == 'protected')
+            {
+                if ($('.cart_2_bj em').hasClass("on")) {
+                    $('.cart_2_bj em').removeClass("on").addClass("no");
+                    $('.cart_2_bj input:hidden').val(0);
+                }else{
+                    $('.cart_2_bj em').removeClass("no").addClass("on");
+                    $('.cart_2_bj input:hidden').val( $('.cart_2_bj input:hidden').attr('js_data'));
+                }
+            }
+        }
+        
         //税金
-        this.taxPrice = $('input:checkbox[name="taxes"]:checked').length > 0 ? $('input:checkbox[name="taxes"]:checked').val() : 0;
+        this.taxPrice = $('input:hidden[name="taxes"]').val();
+        this.protectPrice = $('input:hidden[name="if_protected"]').val();
         //最终金额
         this.orderAmount = parseFloat(this.goodsSum) - parseFloat(this.ticketPrice) + parseFloat(this.deliveryPrice) + parseFloat(this.paymentPrice) + parseFloat(this.taxPrice) + parseFloat(this.protectPrice);
 
@@ -77,6 +92,7 @@ function orderFormClass()
                     }
                     $('input[type="radio"][name="delivery_id"][value="'+content.id+'"]').data("protectPrice",parseFloat(content.protect_price));
                     $('input[type="radio"][name="delivery_id"][value="'+content.id+'"]').data("deliveryPrice",parseFloat(content.price));
+                    $('input[type="radio"][name="delivery_id"][value="'+content.id+'"]').data("is_save_price",parseFloat(content.is_save_price));
                     var deliveryHtml = template.render("deliveryTemplate",{"item":content});
                     $("#deliveryShow"+content.id).html(deliveryHtml);
                     $('input[type="radio"][name="delivery_id"][value="'+content.id+'"]').prop("disabled",false);
@@ -117,15 +133,24 @@ function orderFormClass()
     this.deliverySelected = function(deliveryId)
     {
         var deliveryObj = $('input[type="radio"][name="delivery_id"][value="'+deliveryId+'"]');
+        $('input[name=if_protected]').attr('js_data', deliveryObj.data("protectPrice") > 0 ? deliveryObj.data("protectPrice") : 0)
         this.protectPrice  = deliveryObj.data("protectPrice") > 0 ? deliveryObj.data("protectPrice") : 0;
         this.deliveryPrice = deliveryObj.data("deliveryPrice")> 0 ? deliveryObj.data("deliveryPrice"): 0;
+        if(deliveryObj.data("is_save_price") == 0)
+        {
+            $('.js_if_protected').hide();
+        }
+        else
+        {
+            $('.js_if_protected').show();
+        }
 
         //先发货后付款
         if(deliveryObj.attr('paytype') == '1')
         {
             $('input[type="radio"][name="payment"]').prop('checked',false);
             $('input[type="radio"][name="payment"]').prop('disabled',true);
-            $('#paymentBox').hide("slow");
+            $('.js_payment_selected').hide("slow");
 
             //支付手续费清空
             this.paymentPrice = 0;
@@ -133,7 +158,7 @@ function orderFormClass()
         else
         {
             $('input[type="radio"][name="payment"]').prop('disabled',false);
-            $('#paymentBox').show("slow");
+            $('.js_payment_selected').show("slow");
         }
         _self.doAccount();
     }
@@ -145,8 +170,7 @@ function orderFormClass()
     {
         if(defaultPaymentId > 0)
         {
-            console.info($('input:radio[name="payment"][value="'+defaultPaymentId+'"]'));
-            $('input:radio[name="payment"][value="'+defaultPaymentId+'"]').trigger('click');
+            _self.paymentSelected(defaultPaymentId);
         }
     }
 
@@ -156,7 +180,9 @@ function orderFormClass()
     this.paymentSelected = function(paymentId)
     {
         var paymentObj = $('input[type="radio"][name="payment"][value="'+paymentId+'"]');
+        paymentObj.trigger('click');
         this.paymentPrice = paymentObj.attr("alt");
+        $('.js_payment_data').text($('input[type="radio"][name="payment"][value="'+paymentId+'"]').attr('js_data'))
         this.doAccount();
     }
 
@@ -192,7 +218,38 @@ function orderFormClass()
             alert("请选择支付方式");
             return false;
         }
-        return true;
+        $.ajax({
+             type: "post",
+             url: submitUrl,
+             data: $('form.js_order_form').serialize(),
+             dataType: "json",
+             success: function(content){
+                if(content.code == 0)
+                {
+                    alert(content.msg);
+                    return false;
+                }
+                else
+                {
+                    var submit_ok=$(".submit_ok");
+                    var mask=$("#js_mask");
+                    submit_ok.animate({bottom: '0rem'},"slow");
+                    mask.fadeIn(300);
+                    $('.js_order_no').text(content.js_order_num);
+                    $('.js_payment_info').text(content.js_payment);
+                    $('.js_delivery_info').text(content.js_delevery);
+                    $('.js_acce_info').text(content.accept_name);
+                    $('.js_mobile_info').text(content.mobile);
+                    $('.js_fapiao_info').text(content.js_fapiao_type);
+                    $("#ljzf").click(function(){
+                        var w_paswd=$(".w_paswd")
+                        w_paswd.animate({bottom: '0rem'},"slow");
+                        submit_ok.animate({bottom: '-4.2rem'},"slow");
+                    });
+                    return false;
+                }
+             }
+        });
     }
     
     /**
@@ -256,19 +313,4 @@ function orderFormClass()
         return $('form[name="order_form"]').length == 1 ? $('form[name="order_form"]') : $('form:first');
     }
 }
-
-/**
- * 订单对象
- * address:收货地址; delivery:配送方式; payment:支付方式;
- */
-$(function(){
-    //
-    $(".cart_2_bj em").click(function(){
-    	if ($(this).hasClass("on")) {
-    		$(this).removeClass("on").addClass("no");
-    	}else{
-    		$(this).removeClass("no").addClass("on");
-    	}
-    });
-});
 

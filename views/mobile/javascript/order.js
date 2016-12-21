@@ -24,18 +24,7 @@ $(document).ready(function(){
         zf_way.animate({bottom: '0rem'},"slow");
         mask.fadeIn(300);
     });
-    //确认提交按钮打开订单详情
-    $(".cart_footer_fixed .sub_buy").click(function(){
-        var submit_ok=$(".submit_ok");
-        var mask=$("#js_mask");
-        submit_ok.animate({bottom: '0rem'},"slow");
-        mask.fadeIn(300);
-        $("#ljzf").click(function(){
-            var w_paswd=$(".w_paswd")
-            w_paswd.animate({bottom: '0rem'},"slow");
-            submit_ok.animate({bottom: '-4.2rem'},"slow");
-        })
-    });
+
     //选择状态
     $(".ps_select ul li .g_checkbox").click(function(){
         $(this).closest('ul').find(".g_checkbox").removeClass("check");
