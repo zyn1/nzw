@@ -227,7 +227,6 @@ function orderFormClass()
                 if(content.code == 0)
                 {
                     alert(content.msg);
-                    return false;
                 }
                 else
                 {
@@ -241,12 +240,43 @@ function orderFormClass()
                     $('.js_acce_info').text(content.accept_name);
                     $('.js_mobile_info').text(content.mobile);
                     $('.js_fapiao_info').text(content.js_fapiao_type);
-                    $("#ljzf").click(function(){
-                        var w_paswd=$(".w_paswd")
-                        w_paswd.animate({bottom: '0rem'},"slow");
-                        submit_ok.animate({bottom: '-4.2rem'},"slow");
-                    });
-                    return false;
+                    if(content.js_deliveryType != 1 &&content.js_paymentType == 1)
+                    {
+                        $('.js_pay_button').show();
+                        _url = _url.replace("@id@",content.js_order_id);
+                        $('.js_pay_click').click(function(){
+                            if(content.pay_type == 1)
+                            {
+                                var w_paswd=$(".w_paswd")
+                                w_paswd.animate({bottom: '0rem'},"slow");
+                                submit_ok.animate({bottom: '-4.2rem'},"slow");
+                                $('.js_pay_confirm').click(function(){
+                                    $.ajax({
+                                         type: "post",
+                                         url: $(this).attr('js_data'),
+                                         data: {pay_pwd:$('input[name=pay_pwd]').val()},
+                                         dataType: "json",
+                                         success: function(data){
+                                            if(content.result == false)
+                                            {
+                                                alert(content.msg);
+                                                return;
+                                            }
+                                            window.location.href=_url;
+                                         }
+                                     });
+                                })
+                            }
+                            else
+                            {
+                                window.location = _url;
+                            }  
+                        })
+                    }
+                    else
+                    {
+                        $('.js_pay_button').hide();
+                    }
                 }
              }
         });

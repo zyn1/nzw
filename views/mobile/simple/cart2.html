@@ -10,6 +10,7 @@
 <script type='text/javascript' src='{theme:javascript/orderFormClass.js}'></script>
 <script>
 var submitUrl = '{url:/simple/cart35}';
+var _url = '{url:/block/doPay/order_id/@id@}';
 //创建订单表单实例
 orderFormInstance = new orderFormClass();
 
@@ -278,8 +279,8 @@ $(function(){
             <span class="js_fapiao_info"></span>
         </div>
     </div>
-    <div class="ok_button">
-        <button class="type_ok" id="ljzf">立即支付</button>
+    <div class="ok_button js_pay_button">
+        <button class="type_ok js_pay_click">立即支付</button>
     </div>
 <div>
 <!-- 确认提交订单end -->
@@ -290,16 +291,13 @@ $(function(){
         <span><strong>请输入支付密码</strong></span>
     </div>
     <div class="passwd_cont ">
-        <form>
-            <div class="pass clear">
-            <input class="pas_tex" type="text"/>
-            </div>   
-            <div class="pas_but clear">
-                <button class="pas_qr">确定</button>
-                <button class="pas_qx js_close_pay">取消</button>
-            </div>
-
-        </form>
+        <div class="pass clear">
+        <input class="pas_tex" type="password" name="pay_pwd"/>
+        </div>   
+        <div class="pas_but clear">
+            <button class="pas_qr js_pay_confirm" js_data="{url:/block/validatePayPass}">确定</button>
+            <button class="pas_qx js_close_pay">取消</button>
+        </div>
     </div>
 </div>
 <!-- 支付密码 end-->
