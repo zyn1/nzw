@@ -4,11 +4,19 @@
 .screen li:hover{cursor: pointer;}
 .merch_list{height: auto;overflow: hidden;margin: 0 auto;margin-top: 8px;background: #fff; border: 1px solid #e4e4e4;}
 .merch_list li{border-bottom: 1px solid #e4e4e4;padding: 18px 30px;width: 1200px;overflow: hidden;}
-.merch_list .merch_left{float: left;}
+.merch_list .merch_left{float: left;position: relative;}
+.merch_list .merch_left .vip_icon{
+    width: 32px;
+    height: 32px;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    float: right;
+}
 .merch_list .merch_left img{width: 120px; height: 120px;border:1px solid #d8d8d8;}
 .merch_list .merch_right{float: left;margin-left: 20px;}
 .merch_list .merch_right dl{font-size: 14px;}
-.merch_list .merch_right dl dt{font-size: 16px; color: #ea3b13; font-weight: bold; line-height: 28px;}
+.merch_list .merch_right dl dt{font-size: 16px; color: #6bb945; font-weight: bold; line-height: 28px;}
 .merch_list .merch_right dl dd{line-height: 24px;}
 .merch_list .bottom_word{clear: both; padding: 3px 0;}
 .merch_list .bottom_word span{line-height: 26px;}

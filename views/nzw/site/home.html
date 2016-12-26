@@ -25,6 +25,9 @@
 				<li>
 					<a target="_blank" href="{url:/site/products/id/$item[id]}">
 						<img alt="{$item['name']}" src="{url:/pic/thumb/img/$item[img]/w/205/h/205}">
+                        {if:$sellerRow['is_pay']}
+                        <img src="{url:views/nzw/skin/default/image/sellerVip.png}" class="vip_icon">
+                        {/if}
 						<h5>{$item['name']}</h5>
 						<em>￥{$item['sell_price']}</em>
 						<del>￥{$item['market_price']}</del>
@@ -45,7 +48,11 @@
 		<div class="bar_box">
 			<h3 class="bar_box_head">商户信息</h3>
 			<div class="bar_seller">
-				<h1>{$sellerRow['true_name']}</h1>
+				<h1>{$sellerRow['true_name']}
+                {if:$sellerRow['is_pay']}
+                <img src="{url:views/nzw/skin/default/image/sellerVip.png}" class="vip_icon">
+                {/if}        
+                </h1>
 				<div class="star_box">
 					<strong class="item">评分：</strong>
 					<span class="star star_{echo:statistics::gradeSeller($sellerRow['id'])}"></span>
@@ -66,6 +73,9 @@
 						<img src="{url:/pic/thumb/img/$item[img]/w/60/h/60}" alt="{$item['name']}">
 						<strong>{$item['name']}</strong>
 						<em>￥{$item['sell_price']}</em>
+                        {if:$sellerRow['is_pay']}
+                        <img src="{url:views/nzw/skin/default/image/sellerVip.png}" class="vip_icon">
+                        {/if}
 					</a>
 				</li>
 				{/foreach}
@@ -90,6 +100,9 @@
 						<img src="{url:/pic/thumb/img/$item[img]/w/60/h/60}" alt="{$item['name']}">
 						<strong>{$item['name']}</strong>
 						<em>￥{$item['sell_price']}</em>
+                        {if:$sellerRow['is_pay']}
+                        <img src="{url:views/nzw/skin/default/image/sellerVip.png}" class="vip_icon">
+                        {/if}
 					</a>
 				</li>
 				{/foreach}

@@ -157,7 +157,7 @@ class APIUcenter
 
         $favoriteObj = new IQuery("favorite as f");
         $favoriteObj->join  = "left join goods as go on go.id = f.rid";
-        $favoriteObj->fields= " f.*,go.name,go.id as goods_id,go.img,go.store_nums,go.sell_price,go.market_price";
+        $favoriteObj->fields= " f.*,go.name,go.id as goods_id,go.img,go.store_nums,go.sell_price,go.market_price,go.seller_id";
 
         $where = 'user_id = '.$userid;
         $where.= $cat_id ? ' and cat_id = '.$cat_id : "";
@@ -175,7 +175,7 @@ class APIUcenter
 
 		$historyObj = new IQuery("user_history as h");
 		$historyObj->join  = "left join goods as go on go.id = h.goods_id";
-		$historyObj->fields= " h.*,go.name,go.id as goods_id,go.img,go.store_nums,go.sell_price,go.market_price";
+		$historyObj->fields= " h.*,go.name,go.id as goods_id,go.img,go.store_nums,go.sell_price,go.market_price,go.seller_id";
         $historyObj->order="h.time DESC";
         $historyObj->group="go.id";
 

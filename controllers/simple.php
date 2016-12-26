@@ -1543,15 +1543,7 @@ class Simple extends IController
 			$content = smsTemplate::sellerReg(array('{true_name}' => $truename));
 			$result = Hsms::send($this->_siteConfig->mobile,$content);
 		}
-
-        if($type == 1)
-        {
-            $this->redirect('/simple/sellerPay/sId/'.$seller_id);
-        }
-        else
-        {
-		    $this->redirect('/site/success?message='.urlencode("申请成功！请耐心等待管理员的审核"));
-        }
+		$this->redirect('/site/success?message='.urlencode("申请成功！请耐心等待管理员的审核"));
 	}
     
     //申请开店支付页面

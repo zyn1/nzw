@@ -1,4 +1,5 @@
 {set:$store_num_warning = $this->_siteConfig->store_num_warning ? $this->_siteConfig->store_num_warning : 20}
+{set:$accountDB = new IModel('system_account');$accountDetail = $accountDB->getObj();$systemAccount = $accountDetail ? $accountDetail['account'] : 0;}
 <form action="{url:/}" method="get" name="storeNumWarning">
 	<input type='hidden' name='controller' value='goods' />
 	<input type='hidden' name='action' value='goods_list' />
@@ -61,7 +62,8 @@
 								<tr><th>产品数量</th><td><a href="{url:/goods/goods_list}"><b class="f14 red3">{echo:statistics::goodsCount()}</b> 个</a></td></tr>
 								<tr><th>品牌数量</th><td>{query:name=brand fields=count(id) as countNums}<a href="{url:/brand/brand_list}"><b class="f14 red3">{$item['countNums']}</b> 个</a>{/query}</td></tr>
 								<tr><th>订单数量</th><td>{query:name=order fields=count(id) as countNums where=if_del eq 0}<a href="{url:/order/order_list}"><b class="f14 red3">{$item['countNums']}</b> 个</a>{/query}</td></tr>
-								<tr><th>库存预警</th><td>{query:name=goods fields=count(id) as countNums where=is_del eq 0 and store_nums l $store_num_warning}<a href="javascript:formSubmit('storeNumWarning');"><b class="f14 red3">{$item['countNums']}</b> 个</a>{/query}</td></tr>
+                                <tr><th>库存预警</th><td>{query:name=goods fields=count(id) as countNums where=is_del eq 0 and store_nums l $store_num_warning}<a href="javascript:formSubmit('storeNumWarning');"><b class="f14 red3">{$item['countNums']}</b> 个</a>{/query}</td></tr>
+								<tr><th>账户余额</th><td><a href="{url:/market/system_account_list}"><b class="f14 red3">{echo:round($systemAccount, 2)}</b> 元</a></td></tr>
 							</tbody>
 						</table>
 					</td>
@@ -84,8 +86,8 @@
 
 							<tbody>
 								<tr><th>待回复评论</th><td><a href="{url:/comment/comment_list/search[c.recomment_time]/=0}"><b class="red3 f14">{echo:statistics::commentCount()}</b></a> 个</td></tr>
-								<tr><th>待回复建议</th><td>{query:name=suggestion where=re_time is null fields=count(*) as countNums}<a href='{url:/comment/suggestion_list/search[a.re_time=]/0}'><b class="red3 f14">{$item['countNums']}</b></a>{/query} 个</td></tr>
-								<tr><th>待回复咨询</th><td><a href="{url:/comment/refer_list/search[r.status=]/0}"><b class="red3 f14">{echo:statistics::referWaitCount()}</b></a> 个</td></tr>
+								<!--<tr><th>待回复建议</th><td>{query:name=suggestion where=re_time is null fields=count(*) as countNums}<a href='{url:/comment/suggestion_list/search[a.re_time=]/0}'><b class="red3 f14">{$item['countNums']}</b></a>{/query} 个</td></tr>
+								<tr><th>待回复咨询</th><td><a href="{url:/comment/refer_list/search[r.status=]/0}"><b class="red3 f14">{echo:statistics::referWaitCount()}</b></a> 个</td></tr>-->
 								<tr><th>未发货订单</th><td>{query:name=order fields=count(id) as countNums where=distribution_status eq 0 and if_del eq 0}<a href="{url:/order/order_list/search[distribution_status]/0}"><b class="f14 red3">{$item['countNums']}</b></a> 个{/query}</td></tr>
 								<tr><th>退款申请</th><td><a href="{url:/order/refundment_list}"><b class="red3 f14">{echo:statistics::refundsCount()}</b></a> 个</td></tr>
 								<tr><th>待审商家</th><td>{query:name=seller fields=count(id) as countNums where=is_lock eq 2}<a href="{url:/member/seller_list/search[is_lock=]/2}"><b class="red3 f14">{$item['countNums']}</b></a> 个{/query}</td></tr>

@@ -284,7 +284,7 @@ class Block extends IController
 				$recharge_no  = isset($tradenoArray[1]) ? $tradenoArray[1] : 0;
 				if(payment::updateRecharge($recharge_no))
 				{
-					$this->redirect('/site/success?message='.urlencode("申请成功！请耐心等待管理员的审核"));
+					$this->redirect('/site/success?message='.urlencode("升级成功"));
 					return;
 				}
 				IError::show(403,'支付失败');

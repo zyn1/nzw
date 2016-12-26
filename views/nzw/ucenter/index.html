@@ -70,7 +70,12 @@
 		{foreach:items=Api::run('getGoodsByCommendgoods',8)}
 		<li>
 			<a href="{url:/site/products/id/$item['id']}">
-				<img src="{url:/pic/thumb/img/$item[img]/w/220/h/220}" alt="{$item['name']}">
+				<div class="div_img">
+                <img src="{url:/pic/thumb/img/$item[img]/w/220/h/220}" alt="{$item['name']}">
+                {if:goods_class::getSellerPay($item['seller_id'])}
+                <img src="{url:views/nzw/skin/default/image/sellerVip.png}" class="vip_icon">
+                {/if}
+                </div>
 				<strong>{$item['name']}</strong>
 				<em>￥{$item['sell_price']}</em>
 				<del>￥120.00</del>

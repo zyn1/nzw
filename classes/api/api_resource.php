@@ -89,9 +89,9 @@ return array(
             'name' => 'commend_goods as co',
             'join' => 'left join goods as go on co.goods_id = go.id',
             'where' => 'co.commend_id = 2 and go.is_del = 0 AND go.id is not null',
-            'fields' => 'go.img,go.sell_price,go.name,go.id,go.market_price',
+            'fields' => 'go.img,go.sell_price,go.name,go.id,go.market_price,go.seller_id',
             'limit'=>'10',
-            'order'=>'sort asc'
+            'order'=>'go.sort asc'
         )
     ),
 	//推荐商家列表
@@ -99,7 +99,7 @@ return array(
 		'query' => array(
 			'name' => 'seller',
 			'where' => 'is_del = 0 AND is_lock = 0 AND is_recomm = 1',
-			'fields' => 'id,true_name,seller_logo',
+			'fields' => 'id,true_name,seller_logo,is_pay',
 			'limit'=>'6',
 			'order'=>'is_vip DESC, sort asc'
 		)
@@ -119,9 +119,9 @@ return array(
 			'name' => 'commend_goods as co',
 			'join' => 'left join goods as go on co.goods_id = go.id',
 			'where' => 'co.commend_id = 3 and go.is_del = 0 AND go.id is not null',
-			'fields' => 'go.img,go.sell_price,go.name,go.id,go.market_price',
+			'fields' => 'go.img,go.sell_price,go.name,go.id,go.market_price,go.seller_id',
 			'limit'=>'10',
-			'order'=>'sort asc'
+			'order'=>'go.sort asc'
 		)
 	),
 	//推荐商品列表
@@ -151,9 +151,9 @@ return array(
 			'name' => 'commend_goods as co',
 			'join' => 'left join goods as go on co.goods_id = go.id',
 			'where' => 'co.commend_id = 3 and go.is_del = 0 AND go.id is not null and go.brand_id = #brandid#',
-			'fields' => 'go.img,go.sell_price,go.name,go.id',
+			'fields' => 'go.img,go.sell_price,go.name,go.id,go.seller_id',
 			'limit'=>'10',
-			'order'=>'sort asc'
+			'order'=>'go.sort asc'
 		)
 	),
 	//导航列表
@@ -179,7 +179,7 @@ return array(
 	    	'join'  => 'left join goods as go on go.id = ca.goods_id',
 	    	'where' => 'ca.category_id in(#categroy_id#) and go.is_del = 0',
 	    	'order' => 'go.sort asc,go.id desc',
-	    	'fields'=> 'distinct go.id,go.name,go.img,go.sell_price,go.market_price',
+	    	'fields'=> 'distinct go.id,go.name,go.img,go.sell_price,go.market_price,go.seller_id',
 	    	'limit' => 10,
 	    )
 	),
@@ -189,7 +189,7 @@ return array(
 	    	'name'  => 'goods as go',
 	    	'join'  => 'left join category_extend as ca on ca.goods_id = go.id',
 	    	'where' => 'ca.category_id in (#categroy_id#) and go.is_del = 0',
-	    	'fields'=> 'distinct go.id,go.name,go.img,go.sell_price',
+	    	'fields'=> 'distinct go.id,go.name,go.img,go.sell_price,go.seller_id',
 		   	'order' => 'sale desc',
 	    	'limit' => 10,
 	    )
@@ -335,8 +335,8 @@ return array(
 	//根据品牌销量排名列表
 	'getGoodsListBrandSum'=>array(
 	    'query'=>array(
-	    	'name'   => 'goods',
-	    	'fields' => 'id,name,img,sell_price',
+	    	'name'   => 'goods as go',
+	    	'fields' => 'id,name,img,sell_price,seller_id',
 	    	'where'  => 'brand_id = #brandid#',
 	    	'order'  => 'sale desc',
 	    	'limit'  => 10,
@@ -346,7 +346,7 @@ return array(
     'getGoodsListSales'=>array(
         'query'=>array(
             'name'   => 'goods',
-            'fields' => 'id,name,img,sell_price',
+            'fields' => 'id,name,img,sell_price,seller_id',
             'where'  => "is_del = 0",
             'order'  => 'sale desc',
             'limit'  => 10,
@@ -529,7 +529,7 @@ return array(
 	    	'name'  => 'order_goods as og',
 	    	'join'  => 'left join goods as go on og.goods_id = go.id',
 	    	'where' => 'order_id = #order_id# ',
-	    	'fields'=> 'og.*,go.point',
+	    	'fields'=> 'og.*,go.point,go.seller_id',
 	    )
 	),
 	//用户中心-我的代金券
@@ -596,7 +596,7 @@ return array(
 			'name'   => 'relation as r',
 			'join'   => 'left join goods as go on r.goods_id = go.id',
 			'where'  => 'r.article_id in (#article_id#) and go.id is not null',
-			'fields' => 'go.id as goods_id,go.img,go.name,go.sell_price',
+			'fields' => 'go.id as goods_id,go.img,go.name,go.sell_price,go.seller_id',
 		)
 	),
 	//获取全部特价商品活动

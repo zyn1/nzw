@@ -745,7 +745,6 @@ class Ucenter extends IController implements userAuthorization
     	$user_id = $this->user['user_id'];
     	$amount  = IReq::get('amount');
     	$message = '';
-
     	$dataArray = array(
     		'name'   => urldecode(IReq::get('name')),
             'note'   => urldecode(IReq::get('note')),
@@ -755,6 +754,17 @@ class Ucenter extends IController implements userAuthorization
 			'user_id'=> $user_id,
 			'time'   => ITime::getDateTime(),
     	);
+        if($this->_siteConfig->withdrawAccount)
+        {
+            $para['charge'] = round($amount*$this->_siteConfig->withdrawAccount/100, 2);
+            $para['am'] = $amount-$para['charge'];
+        }
+        else
+        {
+            $para['charge'] = 0;
+            $para['am'] = $amount;
+        }
+        $dataArray['para'] = JSON::encode($para);
 		$mixAmount = 0;
 		$memberObj = new IModel('member');
 		$where     = 'user_id = '.$user_id;

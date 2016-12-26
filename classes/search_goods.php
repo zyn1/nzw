@@ -99,7 +99,7 @@ class search_goods
 		//开始查询
 		$goodsObj           = new IQuery("goods as go");
 		$goodsObj->page     = isset($_GET['page']) ? intval($_GET['page']) : 1;
-		$goodsObj->fields   = 'go.id,go.name,go.sell_price,go.market_price,go.store_nums,go.img,go.sale,go.grade,go.comments,go.favorite';
+		$goodsObj->fields   = 'go.id,go.name,go.sell_price,go.market_price,go.store_nums,go.img,go.sale,go.grade,go.comments,go.favorite,go.seller_id';
 		$goodsObj->pagesize = $limit;
 		$goodsObj->group    = 'go.id';
 
