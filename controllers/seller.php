@@ -451,7 +451,8 @@ class Seller extends IController implements sellerAuthorization
 	public function seller_add()
 	{
 		$seller_id   = $this->seller['seller_id'];
-		$email       = IFilter::act(IReq::get('email'));
+        $email       = IFilter::act(IReq::get('email'));
+		$contacts_name       = IFilter::act(IReq::get('contacts_name'));
 		$password    = IFilter::act(IReq::get('password'));
 		$repassword  = IFilter::act(IReq::get('repassword'));
 		$phone       = IFilter::act(IReq::get('phone'));
@@ -489,7 +490,8 @@ class Seller extends IController implements sellerAuthorization
 			'account'   => $account,
 			'phone'     => $phone,
 			'mobile'    => $mobile,
-			'email'     => $email,
+            'email'     => $email,
+			'contacts_name'     => $contacts_name,
 			'address'   => $address,
 			'province'  => $province,
 			'city'      => $city,
