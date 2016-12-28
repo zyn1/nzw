@@ -125,8 +125,8 @@ body { margin: 0;min-width: 1300px}
 .hl_main5_content1 ul{width:1600px; overflow:hidden; margin-top:20px;}
 .hl_main5_content1 ul li{ float:left; width:220px; display:inline; height:151px}
 .hl_main5_content1 ul li img{ width:220px; }
-.hl_scrool_leftbtn{width:40px; height:85px; float:left; margin-left:10px; margin-top:50px; cursor:pointer; background:url(../img/index_yz_left.png) no-repeat}
-.hl_scrool_rightbtn{width:40px; height:85px;   float:right; margin-right:5px; margin-top:50px; cursor:pointer; background:url(../img/index_yz_right.png) no-repeat}
+.hl_scrool_leftbtn{width:40px; height:85px; float:left; margin-left:10px; margin-top:50px; cursor:pointer; background:url(../images1/index_yz_left.png) no-repeat}
+.hl_scrool_rightbtn{width:40px; height:85px;   float:right; margin-right:5px; margin-top:50px; cursor:pointer; background:url(../images1/index_yz_right.png) no-repeat}
 
 /*业主推荐图片点击放大图片背景调试*/
 .demoList { width:1300px; overflow:hidden; height:170px}
