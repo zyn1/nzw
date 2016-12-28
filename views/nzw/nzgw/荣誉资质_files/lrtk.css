@@ -1,0 +1,202 @@
+/* 懒人图库 搜集整理 www.lanrentuku.com */
+
+html, body, p {
+     border: 0 none;
+     margin: 0;
+	 padding:0;
+     outline-style: none;
+     outline-width: 0;
+     vertical-align: baseline;
+	 font-size: 12px;
+}
+/*--------------------------------------------
+container
+--------------------------------------------*/
+div#container {
+     width: 100%;
+     margin: 0 auto;
+     overflow: hidden;
+}
+div.examples_body {
+     width: 1300px;
+	 margin: 0 auto 0 auto;
+	 clear: both;
+	 overflow: hidden;
+	 position: relative;
+}
+
+
+/* The main banner unordered list */
+.bannerHolder {
+     width: 1250px;
+	 margin: 20px 0 15px 0;
+	 padding: 20px 10px 20px 10px;
+	 
+ 
+	 overflow: hidden;
+
+	/* CSS3 rounded corners */
+	 -moz-border-radius:12px;
+	 -webkit-border-radius:12px;
+	 border-radius:12px;
+}
+
+/* Hiding the bullets of the li elements: */
+.bannerHolder li {
+	 list-style: none;
+	 display: inline;
+}
+
+/* The banner divs */
+.banner01 {
+     width: 288px;
+	 height: 251px;
+	 position: relative;
+	 overflow: hidden;
+	 float: left;
+	 display: inline;
+	 margin:  10px
+}
+
+/* The banner divs */
+.banner01 img {
+	 display: block;
+	 border: none;
+}
+
+/* The dark animated divs */
+.banner01 div {
+	 position: absolute;
+	 z-index: 9;
+	 background-color: #222;
+	 width: 60px;
+	 height: 60px;
+	 cursor: pointer;
+
+	/*	Setting a really big value for border-radius
+		will make the divs perfect circles */
+	 -moz-border-radius:100px;
+	 -webkit-border-radius:100px;
+	 border-radius:100px;
+}
+
+/*	Positioning the animated divs outside the
+	corners of the visible banner area: */
+.banner01 .cornerTL {
+	left: -52px;
+	top: -62px;
+}
+.banner01 .cornerTR {
+	right: -52px;
+	top: -62px;
+}
+.banner01 .cornerBL {
+	left: -52px;
+	bottom: -62px;
+}
+.banner01 .cornerBR {
+	right: -52px;
+	bottom: -62px;
+}
+.banner_text1{
+	width: 180px;
+	height: 60px;
+	color: #FFF;
+	position: absolute;
+	z-index: 10;
+	left: 80px;
+	top: 150px;
+	text-align: center;
+}
+.banner_text2{
+	width: 180px;
+	height: 60px;
+	color: #FFF;
+	position: absolute;
+	z-index: 10;
+	left: 380px;
+	top: 150px;
+	text-align: center;
+}
+
+.banner_text3{
+	width: 180px;
+	height: 60px;
+	color: #FFF;
+	position: absolute;
+	z-index: 10;
+	left: 690px;
+	top: 150px;
+	text-align: center;
+}
+
+.banner_text4{
+	width: 180px;
+	height: 60px;
+	color: #FFF;
+	position: absolute;
+	z-index: 10;
+	left: 990px;
+	top: 150px;
+	text-align: center;
+}
+
+.banner_text5{
+	width: 180px;
+	height: 60px;
+	color: #FFF;
+	position: absolute;
+	z-index:10;
+	left: 80px;
+	top: 420px;
+	text-align: center;
+}
+
+.banner_text6{
+	width: 180px;
+	height: 60px;
+	color: #FFF;
+	position: absolute;
+	z-index:10;
+	left: 380px;
+	top: 420px;
+	text-align: center;
+}
+.banner_text7{
+	width: 180px;
+	height: 60px;
+	color: #FFF;
+	position: absolute;
+	z-index: 10;
+	left: 700px;
+	top: 420px;
+	text-align: center;
+}
+
+.banner_text8{
+	width: 180px;
+	height: 60px;
+	color: #FFF;
+	position: absolute;
+	z-index: 10;
+	left: 1000px;
+	top: 420px;
+	text-align: center;
+}
+
+
+
+/* The "Visit Company" text */
+.banner01 p {
+     width: 100%;
+	 left: 0;
+	 top: 57px;
+	 z-index: 200;
+	 position: absolute;
+	 font-family: Tahoma, Arial, Helvetica, sans-serif;
+	 color: #FFF;
+	 font-size: 11px;
+	 text-align: center;
+	 cursor: pointer;
+	 display: none;	/* hidden by default */
+}
