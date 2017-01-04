@@ -1756,7 +1756,7 @@ class Simple extends IController
         $model = new IModel('seller_rej_sign');
         if(!$model->getObj('seller_id = '.$id.' and code = '.$code))
         {
-            IError::show(403,'改地址已失效，请与管理员联系');
+            IError::show(403,'修改地址已失效，请与管理员联系');
         }
         $this->code = $code;
         $model = new IModel('seller');
@@ -1770,10 +1770,11 @@ class Simple extends IController
     public function sellerRej_reg()
     {
         $seller_name = IValidate::name(IReq::get('seller_name')) ? IReq::get('seller_name') : "";
+        $contacts_name = IValidate::name(IReq::get('contacts_name')) ? IReq::get('contacts_name') : "";
         $email       = IValidate::email(IReq::get('email'))      ? IReq::get('email')       : "";
         $truename    = IValidate::name(IReq::get('true_name'))   ? IReq::get('true_name')   : "";
         $phone       = IValidate::phone(IReq::get('phone'))      ? IReq::get('phone')       : "";
-        $mobile      = IValidate::mobi(IReq::get('mobile'))      ? IReq::get('mobile')      : "";
+        //$mobile      = IValidate::mobi(IReq::get('mobile'))      ? IReq::get('mobile')      : "";
         $home_url    = IValidate::url(IReq::get('home_url'))     ? IReq::get('home_url')    : "";
         $province    = IFilter::act(IReq::get('province'),'int');
         $city        = IFilter::act(IReq::get('city'),'int');
@@ -1795,6 +1796,11 @@ class Simple extends IController
         if(!$truename)
         {
             $errorMsg = '填写正确的商户真实全称';
+        }
+
+        if(!$contacts_name)
+        {
+            $errorMsg = '填写正确的联系人';
         }
 
         //创建商家操作类
@@ -1819,8 +1825,9 @@ class Simple extends IController
         //待更新的数据
         $sellerRow = array(
             'true_name' => $truename,
+            'contacts_name' => $contacts_name,
             'phone'     => $phone,
-            'mobile'    => $mobile,
+            //'mobile'    => $mobile,
             'email'     => $email,
             'address'   => $address,
             'province'  => $province,
@@ -1831,7 +1838,7 @@ class Simple extends IController
         );
 
         //商户资质、logo上传
-        if((isset($_FILES['paper_img']['name']) && $_FILES['paper_img']['name']) || (isset($_FILES['seller_logo']['name']) && $_FILES['seller_logo']['name']))
+        if((isset($_FILES['paper_img']['name']) && $_FILES['paper_img']['name']) || (isset($_FILES['seller_logo']['name']) && $_FILES['seller_logo']['name']) || (isset($_FILES['identity_card']['name']) && $_FILES['identity_card']['name']))
         {
             $uploadObj = new PhotoUpload();
             $uploadObj->setIterance(false);
@@ -1846,6 +1853,11 @@ class Simple extends IController
         if(isset($photoInfo['seller_logo']['img']) && file_exists($photoInfo['seller_logo']['img']))
         {
             $sellerRow['seller_logo'] = $photoInfo['seller_logo']['img'];
+        }
+            
+        if(isset($photoInfo['identity_card']['img']) && file_exists($photoInfo['identity_card']['img']))
+        {
+            $sellerRow['identity_card'] = $photoInfo['identity_card']['img'];
         }
         $sellerRow['seller_name'] = $seller_name;
 
@@ -1867,7 +1879,8 @@ class Simple extends IController
 	 */
 	public function seller_reg()
 	{
-		$seller_name = IValidate::name(IReq::get('seller_name')) ? IReq::get('seller_name') : "";
+        $seller_name = IValidate::name(IReq::get('seller_name')) ? IReq::get('seller_name') : "";
+		$contacts_name = IValidate::name(IReq::get('contacts_name')) ? IReq::get('contacts_name') : "";
 		$email       = IValidate::email(IReq::get('email'))      ? IReq::get('email')       : "";
 		$truename    = IValidate::name(IReq::get('true_name'))   ? IReq::get('true_name')   : "";
 		$phone       = IValidate::phone(IReq::get('phone'))      ? IReq::get('phone')       : "";
@@ -1882,7 +1895,9 @@ class Simple extends IController
         $address     = IFilter::act(IReq::get('address'));
         $con_num     = IFilter::act(IReq::get('con_num'));
 		$type        = IFilter::act(IReq::get('type'));
-
+        $mobile_code = IFilter::act(IReq::get('mobile_code','post'));
+        $captcha     = IFilter::act(IReq::get('captcha','post'));
+        $_captcha    = ISafe::get('captcha');
 		if($password == '')
 		{
 			$errorMsg = '请输入密码！';
@@ -1898,10 +1913,35 @@ class Simple extends IController
 			$errorMsg = '填写正确的登陆用户名';
 		}
 
-		if(!$truename)
+        if(!$truename)
+        {
+            $errorMsg = '填写正确的商户真实全称';
+        }
+
+		if(!$contacts_name)
 		{
-			$errorMsg = '填写正确的商户真实全称';
+			$errorMsg = '填写正确的联系人';
 		}
+        if(!$_FILES['paper_img']['name'])
+        {
+            $errorMsg = '填上传营业执照';
+        }
+        if(!$_FILES['identity_card']['name'])
+        {
+            $errorMsg = '填上传负责人证件';
+        }
+
+        if(!$_captcha || !$captcha || $captcha != $_captcha)
+        {
+            $errorMsg = "图形验证码输入不正确";
+        }
+
+        $_mobileCode = ISafe::get('seller_code'.$mobile);
+        if(!$mobile_code || !$_mobileCode || $mobile_code != $_mobileCode)
+        {
+            $errorMsg = "手机验证码不正确";
+        }
+
 
 		//创建商家操作类
 		$sellerDB = new IModel("seller");
@@ -1924,7 +1964,8 @@ class Simple extends IController
 
 		//待更新的数据
 		$sellerRow = array(
-			'true_name' => $truename,
+            'true_name' => $truename,
+			'contacts_name' => $contacts_name,
 			'phone'     => $phone,
 			'mobile'    => $mobile,
 			'email'     => $email,
@@ -1942,13 +1983,10 @@ class Simple extends IController
             $sellerRow['is_pay'] = 1;
         }
 
-		//商户资质、logo上传
-		if((isset($_FILES['paper_img']['name']) && $_FILES['paper_img']['name']) || (isset($_FILES['seller_logo']['name']) && $_FILES['seller_logo']['name']))
-		{
-			$uploadObj = new PhotoUpload();
-			$uploadObj->setIterance(false);
-			$photoInfo = $uploadObj->run();
-		}
+		//营业执照、负责人证件、logo上传
+		$uploadObj = new PhotoUpload();
+		$uploadObj->setIterance(false);
+		$photoInfo = $uploadObj->run();
 
         if(isset($photoInfo['paper_img']['img']) && file_exists($photoInfo['paper_img']['img']))
         {
@@ -1958,6 +1996,11 @@ class Simple extends IController
         if(isset($photoInfo['seller_logo']['img']) && file_exists($photoInfo['seller_logo']['img']))
         {
             $sellerRow['seller_logo'] = $photoInfo['seller_logo']['img'];
+        }
+            
+        if(isset($photoInfo['identity_card']['img']) && file_exists($photoInfo['identity_card']['img']))
+        {
+            $sellerRow['identity_card'] = $photoInfo['identity_card']['img'];
         }
 		$sellerRow['seller_name'] = $seller_name;
 		$sellerRow['password']    = md5($password);
@@ -1974,6 +2017,41 @@ class Simple extends IController
 		}
 		$this->redirect('/site/success?message='.urlencode("申请成功！请耐心等待管理员的审核"));
 	}
+
+    //商家开店发送验证码
+    public function sendSellerMobileCode()
+    {
+        $mobile   = IReq::get('mobile');
+        $captcha  = IReq::get('captcha');
+        $_captcha = ISafe::get('captcha');
+        if(IValidate::mobi($mobile) == false)
+        {
+            die("请填写正确的手机号码");
+        }
+        if(!$captcha || !$_captcha || $captcha != $_captcha)
+        {
+            die("请填写正确的图形验证码");
+        }
+
+        $sellerObj = new IModel('seller');
+        $sellerRow = $sellerObj->getObj('mobile = "'.$mobile.'"');
+        if($sellerRow)
+        {
+            die("手机号已经被申请");
+        }
+
+        $mobile_code = rand(100000,999999);
+        $content = smsTemplate::checkCode(array('{mobile_code}' => $mobile_code));
+        $result = Hsms::send($mobile,$content);
+        if($result == 'success')
+        {
+            ISafe::set("seller_code".$mobile,$mobile_code);
+        }
+        else
+        {
+            die($result);
+        }
+    }
     
     //申请开店支付页面
     function sellerPay()

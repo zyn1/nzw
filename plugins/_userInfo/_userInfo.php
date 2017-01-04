@@ -142,6 +142,7 @@ class _userInfo extends pluginBase
 		$email      = IFilter::act(IReq::get('email','post'));
 		$mobile     = IFilter::act(IReq::get('mobile','post'));
 		$mobile_code= IFilter::act(IReq::get('mobile_code','post'));
+        $true_name  = IFilter::act(IReq::get('true_name','post'));
     	$username   = IFilter::act(IReq::get('username','post'));
     	$password   = IFilter::act(IReq::get('password','post'));
     	$repassword = IFilter::act(IReq::get('repassword','post'));
@@ -197,26 +198,22 @@ class _userInfo extends pluginBase
 				}
 			}
 		}
-		//手机验证
-		else if($reg_type == 3)
+		if(IValidate::mobi($mobile) == false)
 		{
-			if(IValidate::mobi($mobile) == false)
-			{
-				return "手机号格式不正确";
-			}
+			return "手机号格式不正确";
+		}
 
-			$_mobileCode = ISafe::get('code'.$mobile);
-			if(!$mobile_code || !$_mobileCode || $mobile_code != $_mobileCode)
-			{
-				return "手机号验证码不正确";
-			}
+		$_mobileCode = ISafe::get('code'.$mobile);
+		if(!$mobile_code || !$_mobileCode || $mobile_code != $_mobileCode)
+		{
+			return "手机号验证码不正确";
+		}
 
-			$memberObj = new IModel('member');
-			$memberRow = $memberObj->getObj('mobile = "'.$mobile.'"');
-			if($memberRow)
-			{
-				return "手机号已经被注册";
-			}
+		$memberObj = new IModel('member');
+		$memberRow = $memberObj->getObj('mobile = "'.$mobile.'"');
+		if($memberRow)
+		{
+			return "手机号已经被注册";
 		}
 
 		//用户名检查
@@ -251,6 +248,7 @@ class _userInfo extends pluginBase
 			'user_id' => $user_id,
 			'time'    => ITime::getDateTime(),
 			'status'  => $reg_type == 1 ? 3 : 1,
+            'true_name'  => $true_name,
 			'mobile'  => $mobile,
 			'email'   => $email,
 		);

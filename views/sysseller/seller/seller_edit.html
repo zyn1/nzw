@@ -25,9 +25,14 @@
 				<label class="tip">* 重复确认密码</label>
 			</fieldset>
 
+            <fieldset>
+                <label>商户真实全称：</label>
+                <input name="true_name" type="text" value="" pattern="required" disabled="disabled" />
+            </fieldset>
+
 			<fieldset>
-				<label>商户真实全称：</label>
-				<input name="true_name" type="text" value="" pattern="required" disabled="disabled" />
+				<label>联系人：</label>
+				<input name="contacts_name" type="text" value="" pattern="required" />
 			</fieldset>
 
             <fieldset>
@@ -40,13 +45,23 @@
                     {/if}
                 </div>
             </fieldset>
+            <fieldset>
+                <label>营业执照：</label>
+                <div class="box">
+                    {if:isset($this->sellerRow['paper_img']) && $this->sellerRow['paper_img']}
+                    <p><a target="_blank" href="{webroot:}{$this->sellerRow['paper_img']}"><img src='{webroot:}{$this->sellerRow['paper_img']}' style='width:320px;border:1px solid #ccc' /></a></p>
+                    {else:}
+                    暂无营业执照
+                    {/if}
+                </div>
+            </fieldset>
 			<fieldset>
-				<label>商户资质材料：</label>
+				<label>负责人证件：</label>
 				<div class="box">
-					{if:isset($this->sellerRow['paper_img']) && $this->sellerRow['paper_img']}
-					<p><a target="_blank" href="{webroot:}{$this->sellerRow['paper_img']}"><img src='{webroot:}{$this->sellerRow['paper_img']}' style='width:320px;border:1px solid #ccc' /></a></p>
+					{if:isset($this->sellerRow['identity_card']) && $this->sellerRow['identity_card']}
+					<p><a target="_blank" href="{webroot:}{$this->sellerRow['identity_card']}"><img src='{webroot:}{$this->sellerRow['identity_card']}' style='width:320px;border:1px solid #ccc' /></a></p>
 					{else:}
-					暂无商户资质材料
+					暂无负责人证件
 					{/if}
 				</div>
 			</fieldset>

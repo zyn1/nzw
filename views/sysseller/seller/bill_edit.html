@@ -12,8 +12,8 @@
 			<fieldset>
 				<label>结算货款起止时间：</label>
 				<div class="box">
-					<input type='text' class="normal" name='start_time' readonly="readonly" pattern='date' onFocus="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'{$date}',disabledDates:['0[2-9]$','1[0-5]$','1[7-9]$','2[0-9]$','3[0-1]$']})" alt='请填写开始日期' title="请填写开始日期" />
-					<input type='text' class="normal" name='end_time' readonly="readonly" pattern='date' onFocus="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'{$date}',disabledDates:['0[1-9]$','1[0-4]$','1[6-9]$','2[0-9]$']})" alt='请填写结束日期' title="请填写结束日期" />
+					<input type='text' class="normal" name='start_time' readonly="readonly" pattern='date' onFocus="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'{$date}'/*,disabledDates:['0[2-9]$','1[0-5]$','1[7-9]$','2[0-9]$','3[0-1]$']*/})" alt='请填写开始日期' title="请填写开始日期" />
+					<input type='text' class="normal" name='end_time' readonly="readonly" pattern='date' onFocus="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'{$date}'/*,disabledDates:['0[1-9]$','1[0-4]$','1[6-9]$','2[0-9]$']*/})" alt='请填写结束日期' title="请填写结束日期" />
 					<input class="btn" type="button" value="点击计算结算明细" id="checkButton" onclick="checkoutFee();" />
 				    <label class="tip">根据选择的日期系统会自动生成结算详情报告，商家必须发货且用户必须收货后才会有统计数据</label>
                 </div>
