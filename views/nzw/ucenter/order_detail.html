@@ -142,6 +142,10 @@
 </header>
 <section class="col_table">
 	<table>
+        <tr>
+            <th>发票类型：</th>
+            <td>{if:$this->order_info['fapiao_type'] == 1}增值税专票{else:}增值税普票{/if}</td>
+        </tr>
 		<tr>
 			<th>所需税金：</th>
 			<td>{$this->order_info['taxes']}</td>
@@ -150,6 +154,32 @@
 			<th>发票抬头：</th>
 			<td>{$this->order_info['invoice_title']}</td>
 		</tr>
+        {if:$this->order_info['fapiao_type'] == 1}
+        <tr>
+            <th>公司名称：</th>
+            <td>{$this->order_info['fapiao_com']}</td>
+        </tr>
+        <tr>
+            <th>纳税人识别号：</th>
+            <td>{$this->order_info['fapiao_tax_no']}</td>
+        </tr>
+        <tr>
+            <th>地址：</th>
+            <td>{$this->order_info['fapiao_address']}</td>
+        </tr>
+        <tr>
+            <th>电话：</th>
+            <td>{$this->order_info['fapiao_telphone']}</td>
+        </tr>
+        <tr>
+            <th>开户行：</th>
+            <td>{$this->order_info['fapiao_bank']}</td>
+        </tr>
+        <tr>
+            <th>银行账户：</th>
+            <td>{$this->order_info['fapiao_account']}</td>
+        </tr>
+        {/if}
 	</table>
 </section>
 {/if}

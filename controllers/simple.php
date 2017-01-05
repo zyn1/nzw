@@ -331,16 +331,56 @@ class Simple extends IController
 		$countSumResult = $countSumObj->goodsCount($cartObj->cartFormat(array("goods" => $goodsArray,"product" => $productArray)));
     	echo JSON::encode($countSumResult);
     }
+    
+    //保存发票信息
+    function invoiceSafe()
+    {
+        $user_id = ($this->user['user_id'] == null) ? 0 : $this->user['user_id'];
+        if($user_id == 0)
+        {
+            $this->redirect('/simple/login?tourist&callback=/simple/cart2');
+        }
+        ICookie::set('invoice'.$user_id, JSON::encode($_POST));
+        $this->redirect('/simple/cart2');
+    }
+    
+    //开发票页面
+    function invoice()
+    {
+        $user_id = ($this->user['user_id'] == null) ? 0 : $this->user['user_id'];
+        if($user_id == 0)
+        {
+            $this->redirect('/simple/login?tourist&callback=/simple/cart2');
+        }
+        $this->invoiceData = JSON::decode(ICookie::get('invoice'.$user_id));
+        $this->redirect('invoice');
+    }
 
     //填写订单信息cart2
     function cart2()
     {
-		$id        = IFilter::act(IReq::get('id'),'int');
-		$type      = IFilter::act(IReq::get('type'));//goods,product
-		$promo     = IFilter::act(IReq::get('promo'));
-		$active_id = IFilter::act(IReq::get('active_id'),'int');
-		$buy_num   = IReq::get('num') ? IFilter::act(IReq::get('num'),'int') : 1;
-		$tourist   = IReq::get('tourist');//游客方式购物
+        //游客的user_id默认为0
+        $user_id       = ($this->user['user_id'] == null) ? 0 : $this->user['user_id'];
+        $addressId = IReq::get('addressId') ? IReq::get('addressId') : (isset($data['addressId']) ? $data['addressId'] : 0);
+        
+        if(empty($_POST))
+        {
+            $_POST = JSON::decode(ICookie::get('cart2'.$user_id));
+            $_POST['addressId'] = $addressId;
+        }
+        $id        = IFilter::act(IReq::get('id'),'int');
+        $type      = IFilter::act(IReq::get('type'));//goods,product
+        $promo     = IFilter::act(IReq::get('promo'));
+        $active_id = IFilter::act(IReq::get('active_id'),'int');
+        $buy_num   = IReq::get('num') ? IFilter::act(IReq::get('num'),'int') : 1;
+        $tourist   = IReq::get('tourist');//游客方式购物
+        $checked = IReq::get('sub');
+        
+        //记录数据
+        ICookie::set('cart2'.$user_id, JSON::encode($_POST));
+        
+        //是否开发票
+        $this->invoiceData = JSON::decode(ICookie::get('invoice'.$user_id));
 
     	//必须为登录用户
     	if($tourist === null && $this->user['user_id'] == null)
@@ -358,9 +398,6 @@ class Simple extends IController
     		}
     	}
         
-        //游客的user_id默认为0
-        $user_id = ($this->user['user_id'] == null) ? 0 : $this->user['user_id'];
-        $checked = IReq::get('sub');
         $cartData = array();
         //计算商品
         $countSumObj = new CountSum($user_id);
@@ -393,6 +430,7 @@ class Simple extends IController
 
     	//获取收货地址
     	$addressObj  = new IModel('address');
+        $addressDetail = array();
     	$addressList = $addressObj->query('user_id = '.$user_id,"*","is_default desc");
 
 		//更新$addressList数据
@@ -406,7 +444,25 @@ class Simple extends IController
 	    		$addressList[$key]['area_val']     = $temp[$val['area']];
     		}
     	}
-        $defaultAddress = empty($addressList) ? array() : $addressList[0];
+        if($addressId)
+        {
+            $addressDetail = $addressObj->getObj('user_id = '.$user_id.' and id = '.$addressId,"*");
+        }
+        if($addressDetail)
+        {
+            $temp = area::name($addressDetail['province'],$addressDetail['city'],$addressDetail['area']);
+            if(isset($temp[$addressDetail['province']]) && isset($temp[$addressDetail['city']]) && isset($temp[$addressDetail['area']]))
+            {
+                $addressDetail['province_val'] = $temp[$addressDetail['province']];
+                $addressDetail['city_val']     = $temp[$addressDetail['city']];
+                $addressDetail['area_val']     = $temp[$addressDetail['area']];
+            }
+            $defaultAddress = $addressDetail;
+        }
+        else
+        {
+            $defaultAddress = empty($addressList) ? array() : $addressList[0];
+        }
 
 		//获取习惯方式
 		$memberObj = new IModel('member');
@@ -513,7 +569,7 @@ class Simple extends IController
                 $cartData[$tem[0]]['id'][] = intval($tem[1]);
                 $cartData[$tem[0]]['data'][intval($tem[1])] = array('count' => intval($tem[2]));
                 $cartData[$tem[0]]['data']['count'] = intval($tem[2]);
-                $delCart[$tem[1]][] = $tem[0];
+                $delCart[$tem[1]] = $tem[0];
             }
             //计算购物车中的商品价格$goodsResult
             $goodsResult = $countSumObj->cart_count($gid,$type,$num,$promo,$active_id,$cartData);
@@ -874,6 +930,9 @@ class Simple extends IController
         
         //是否保价
         $if_protected = IFilter::act(IReq::get('if_protected'),'int');
+        
+        //获取发票信息
+        $invoiceData   = JSON::decode(ICookie::get('invoice'.$user_id));
 
 		//获取商品数据信息
     	$countSumObj = new CountSum($user_id);
@@ -892,7 +951,7 @@ class Simple extends IController
                 $cartData[$tem[0]]['id'][] = intval($tem[1]);
                 $cartData[$tem[0]]['data'][intval($tem[1])] = array('count' => intval($tem[2]));
                 $cartData[$tem[0]]['data']['count'] = intval($tem[2]);
-                $delCart[$tem[1]][] = $tem[0];
+                $delCart[$tem[1]] = $tem[0];
             }
             //计算购物车中的商品价格$goodsResult
             $goodsResult = $countSumObj->cart_count($gid,$type,$num,$promo,$active_id,$cartData);
@@ -933,7 +992,7 @@ class Simple extends IController
     	$telphone      = IFilter::act($addressRow['telphone'],'phone');
         $zip           = IFilter::act($addressRow['zip'],'zip');
         
-        $tax_title     = IReq::get('tax_title') ? IFilter::act(IReq::get('tax_title')) : $accept_name;
+        $tax_title     = $invoiceData['tax_title'] ? IFilter::act($invoiceData['tax_title']) : $accept_name;
 		//检查订单重复
     	$checkData = array(
     		"accept_name" => $accept_name,
@@ -1180,18 +1239,18 @@ class Simple extends IController
                         'money' => $goodsResult['orderAmountPrice'],
                         'status' => 0,
                         'user_id' => $user_id,
-                        'type'    => IReq::get('fapiao_type'),
+                        'type'    => $invoiceData['fapiao_type'],
                         'create_time'=> ITime::getDateTime(),
                         'taitou' => $tax_title,
                         'seller_id' => $seller_id
                 );
                 if($fapiao_data['type']==1){
-                    $fapiao_data['com'] = IFilter::act(IReq::get('tax_com'));
-                    $fapiao_data['tax_no']= IFilter::act(IReq::get('tax_no'));
-                    $fapiao_data['address'] = IFilter::act(IReq::get('tax_address'));
-                    $fapiao_data['telphone'] = IFilter::act(IReq::get('tax_telphone'));
-                    $fapiao_data['bank'] = IFilter::act(IReq::get('tax_bank'));
-                    $fapiao_data['account'] = IFilter::act(IReq::get('tax_account'));
+                    $fapiao_data['com'] = IFilter::act($invoiceData['tax_com']);
+                    $fapiao_data['tax_no']= IFilter::act($invoiceData['tax_no']);
+                    $fapiao_data['address'] = IFilter::act($invoiceData['tax_address']);
+                    $fapiao_data['telphone'] = IFilter::act($invoiceData['tax_telphone']);
+                    $fapiao_data['bank'] = IFilter::act($invoiceData['tax_bank']);
+                    $fapiao_data['account'] = IFilter::act($invoiceData['tax_account']);
                 }
                 $db_fapiao->setData($fapiao_data);
                 $db_fapiao->add();
@@ -1231,6 +1290,8 @@ class Simple extends IController
 		$this->stockup_time = $this->_siteConfig->stockup_time ? $this->_siteConfig->stockup_time : 2;
 
 		plugin::trigger('setCallback','/ucenter/order');
+        ICookie::clear('cart2'.$user_id);
+        ICookie::clear('invoice'.$user_id);
 		//订单金额为0时，订单自动完成
         $dataArray['code'] = 1;
         $dataArray['js_order_id'] = join("_",$orderIdArray);

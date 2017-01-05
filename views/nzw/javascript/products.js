@@ -125,10 +125,8 @@ function productClass(goods_id,user_id,promo,active_id,seller_id)
 	 */
 	this.seller_info_ajax = function()
 	{
-        console.info(this.seller_id)
 		$.getJSON(creatUrl("site/seller_info_ajax/seller_id/"+this.seller_id),function(json)
 		{
-            console.info(json);
             var sellerInfoHtml = template.render('sellerInfoTemplate',json);
 			$("#sellerInfoBox").html(sellerInfoHtml);
 		});

@@ -6,6 +6,7 @@
 </header>
 {js:artTemplate}
 {set:$default=$this->defaultAddress ? $this->defaultAddress : ''}
+{set:$invoiceData = $this->invoiceData}
 <!-- 确认订单js -->
 <script type='text/javascript' src='{theme:javascript/orderFormClass.js}'></script>
 <script>
@@ -59,7 +60,7 @@ $(function(){
         {if:$default}
         <input name="radio_address" type="hidden" value="{$default['id']}"/>
         <div class="show_adderss">
-            <a class="adder_img adder_height" href="{url:/ucenter/address}">
+            <a class="adder_img adder_height" href="{url:/ucenter/addressChoose}">
                 <p class="s_adder_p">
                     <span>收货人：{$default['accept_name']}</span>
                     <span class="tel">{$default['mobile']}</span>
@@ -146,15 +147,21 @@ $(function(){
             <div class="info_head">
                 <span>买家留言</span>
                 <span class="ly_text">
-                    <input class="input_text" type="text" placeholder="请输入留言内容"/>
+                    <input class="input_text" type="text" name='message' placeholder="请输入留言内容"/>
                 </span>
             </div>
         </div>
         <div class="cart_2_delivery">
             <a class="info_head" href="{url:simple/invoice}">
-            <input type="hidden" name="taxes" js_data="{$this->goodsTax}" value="0">
-                <span>是否开发票</span>
+            {if:$invoiceData}
+                <input type="hidden" name="taxes" value="{$this->goodsTax}">
+                <span>是否开发票？(税金:￥{$this->goodsTax})</span>
+                <span class="sele_info">{if:$invoiceData['fapiao_type'] == 1}增值税专票{else:}增值税普票{/if}</span>                
+            {else:}
+                <input type="hidden" name="taxes" value="0">
+                <span>是否开发票？(税金:￥{$this->goodsTax})</span>
                 <span class="sele_info">否</span>
+            {/if}
             </a>
         </div>
         <div class="cart_2_bj js_if_protected">

@@ -196,6 +196,35 @@ class Ucenter extends IController implements userAuthorization
     /**
      * @brief 我的地址
      */
+    public function addressChoose()
+    {
+        //取得自己的地址
+        $query = new IQuery('address');
+        $query->where = 'user_id = '.$this->user['user_id'];
+        $address = $query->find();
+        $areas   = array();
+
+        if($address)
+        {
+            foreach($address as $ad)
+            {
+                $temp = area::name($ad['province'],$ad['city'],$ad['area']);
+                if(isset($temp[$ad['province']]) && isset($temp[$ad['city']]) && isset($temp[$ad['area']]))
+                {
+                    $areas[$ad['province']] = $temp[$ad['province']];
+                    $areas[$ad['city']]     = $temp[$ad['city']];
+                    $areas[$ad['area']]     = $temp[$ad['area']];
+                }
+            }
+        }
+
+        $this->areas = $areas;
+        $this->address = $address;
+        $this->redirect('addressChoose');
+    }
+    /**
+     * @brief 我的地址
+     */
     public function address()
     {
 		//取得自己的地址

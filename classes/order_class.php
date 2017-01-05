@@ -456,10 +456,17 @@ class Order_Class
             if($data['invoice'])
             {
                 $fapiao = new IModel('order_fapiao');
-                $fapiao_info = $fapiao->getObj('order_id = '.$order_id, 'id,taitou,status');
+                $fapiao_info = $fapiao->getObj('order_id = '.$order_id, 'id,type,com,tax_no,address,telphone,bank,account,taitou,status');
                 if($fapiao_info)
                 {
                     $data['fapiao_id'] = $fapiao_info['id'];
+                    $data['fapiao_type'] = $fapiao_info['type'];
+                    $data['fapiao_com'] = $fapiao_info['com'];
+                    $data['fapiao_tax_no'] = $fapiao_info['tax_no'];
+                    $data['fapiao_address'] = $fapiao_info['address'];
+                    $data['fapiao_telphone'] = $fapiao_info['telphone'];
+                    $data['fapiao_bank'] = $fapiao_info['bank'];
+                    $data['fapiao_account'] = $fapiao_info['account'];
                     $data['fapiao_taitou'] = $fapiao_info['taitou'];
                     $data['fapiao_status'] = $fapiao_info['status'];
                 }

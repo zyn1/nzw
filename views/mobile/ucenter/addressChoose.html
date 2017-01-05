@@ -1,0 +1,41 @@
+<style type="text/css">
+    body{
+        background: #fff;
+    }
+</style>
+<header class="header_login">
+	<div class="header_title">
+		<a class="return_a"onclick="window.history.back();"></a>
+		<h2 id="pageInfo" data-title="选择收货地址">选择收货地址</h2>
+        <a class="qx_a" href="{url:ucenter/address}">管理</a>
+	</div>
+</header>
+<section id="address_list" class="address_list">
+	<ul>
+		<!-- 这里两个class default 代表是否是默认地址 on 代表当前是否选中 -->
+		{foreach:items=$this->address}
+		<li data-value="1" {if:$item['is_default']==1}class="default"{/if}>
+        <a href="{url:/simple/cart2/addressId/$item['id']}">
+			<div class="address_list_header">				
+				<span class="name">收货人&nbsp;{$item['accept_name']}</span>
+				<span class="phone">{$item['mobile']}</span>
+			</div>
+			<section class="address_list_section">
+				收货地址：{$this->areas[$item['province']]} {$this->areas[$item['city']]} {$this->areas[$item['area']]} {$item['address']}
+			</section>
+			<footer data-value="1" class="address_list_icon">
+				<img src="{url:views/mobile/skin/default/image/top/check-on.png}">默认地址
+			</footer>
+        </a>
+		</li>
+		{/foreach}
+	</ul>
+</section>
+
+<script>
+$(function(){
+	// 内页隐藏页底导航
+	hideNav();
+});
+
+</script>

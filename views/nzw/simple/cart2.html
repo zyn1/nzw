@@ -246,12 +246,6 @@ $(function(){
 								是否需要发票？(税金:￥{$this->goodsTax}) 
 								<input class="radio" onclick="orderFormInstance.doAccount();$('#tax_title').toggle();" name="taxes" type="checkbox" value="{$this->goodsTax}">
 							</td>
-							<!-- <td>
-								<label id="tax_title" class='none'>
-									发票抬头：
-									<input type='text' class='input_text' name='tax_title' />
-								</label>
-							</td> -->
 							<td>
 								<div class="all_count">
 									应付总额：<em>￥<span id='final_sum'>{$this->final_sum}</span></em> 元
