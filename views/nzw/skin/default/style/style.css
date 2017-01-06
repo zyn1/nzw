@@ -1325,8 +1325,8 @@ a .icon-rotate-90:before, a .icon-rotate-180:before, a .icon-rotate-270:before, 
 	 margin: 0 20px;
 }
 .js_goods_list td.goods_img .vip_icon,.cart_item_goods .div_img .vip_icon{
-	width: 20px;
-    height: 20px;
+	width: 16px;
+    height: 16px;
     position: absolute;
     bottom: 0px;
     right: 0px;
@@ -1398,7 +1398,7 @@ a .icon-rotate-90:before, a .icon-rotate-180:before, a .icon-rotate-270:before, 
 .cart_item_count.last{background: #fff;border: 1px solid #e4e4e4;}
 .cart_item_count .count { font-size: 14px; }
 .cart_item_count.last .count{text-align: right;}
-.cart_item_count.last .count p{line-height: 26px;}
+.cart_item_count.last .count p{line-height: 28px;}
 .cart_item_count .count strong { color: #ee6b4d; }
 .cart_item_count table { margin-top: 20px; width: 100%; border-top: 1px solid #f5c53a; }
 .cart_item_count.last table{border-top: 1px solid #e4e4e4;}
@@ -1473,8 +1473,8 @@ background-image: url("../image/icon_slides.png"); background-repeat: no-repeat;
 .home_1 .home_1_show li { width: 180px; float: left; margin-right: 21px; background: #fafafa; height: 180px;border: 1px solid #dfdfdf; position: relative;}
 .home_1 .home_1_show li img{width: 180px;  height: 180px;}
 .home_1 .home_1_show li .vip_icon{
-	width: 24px; 
-	height: 24px;
+	width: 16px; 
+	height: 16px;
 	position: absolute;
 	right: 0;
 	bottom: 0;
@@ -1516,7 +1516,7 @@ background-image: url("../image/icon_slides.png"); background-repeat: no-repeat;
 .home_2 .hot_goods_list li { width: 182px; float: left;margin-right: 21px; position: relative;}
 .home_2 .hot_goods_list li a { width: 182px; margin: 0 auto; display: block; text-decoration: none; }
 .home_2 .hot_goods_list li img{height: 182px;width: 182px;}
-.home_2 .hot_goods_list li .vip_icon{width: 24px; height: 24px;position: absolute;right: 1px;bottom: 67px;float: right;border: 0;}
+.home_2 .hot_goods_list li .vip_icon{width: 16px; height: 16px;position: absolute;right: 1px;bottom: 67px;float: right;border: 0;}
 .home_2 .hot_goods_list li h4 { color: #555; display: block; height: 40px; line-height: 20px; margin: 5px auto; font-weight: normal; overflow: hidden; }
 .home_2 .hot_goods_list li em { font-size: 16px; font-weight: bold; color: #ff6332 ; }
 .home_2 .hot_goods_list li del { float: right; text-decoration: line-through; color: #999; }
@@ -1540,7 +1540,7 @@ background-image: url("../image/icon_slides.png"); background-repeat: no-repeat;
 .home_floor .floor_body .floor_goods li { width: 193px; float: left; padding: 10px 0; background: #fff; border: solid #ddd; border-width: 0 1px 1px 0; position: relative;}
 .home_floor .floor_body .floor_goods li a { width: 170px; margin: 0 auto; display: block; text-decoration: none; }
 .home_floor .floor_body .floor_goods li img { display: block; width: 170px; height: 170px; }
-.home_floor .floor_body .floor_goods li .vip_icon{width: 24px; height: 24px;position: absolute;right: 12px;bottom: 57px;float: right;border: 0;}
+.home_floor .floor_body .floor_goods li .vip_icon{width: 16px; height: 16px;position: absolute;right: 12px;bottom: 57px;float: right;border: 0;}
 .home_floor .floor_body .floor_goods li h4 { color: #555555; display: block; margin: 5px auto; font-weight: normal; overflow: hidden; line-height: 20px; height: 20px; white-space: nowrap; text-overflow: ellipsis; }
 .home_floor .floor_body .floor_goods li em { font-size: 16px; font-weight: bold; color: #ff6332 ; }
 .home_floor .floor_body .floor_goods li del { float: right; text-decoration: line-through; color: #999; }
@@ -1739,7 +1739,7 @@ background-image: url("../image/icon_slides.png"); background-repeat: no-repeat;
 
 .article_date { height: 28px; line-height: 28px; text-align: right; color: #999; border-bottom: 1px solid #ddd; display: block; }
 
-.article_content { padding: 10px; font-size: 13px; width: 938px; overflow: hidden; }
+.article_content { padding: 10px; font-size: 13px;/* width: 938px;*/ overflow: hidden; }
 .article_content p { padding: 5px 0; text-indent: 2em; }
 .article_content a, .article_content span, .article_content em, .article_content i, .article_content u, .article_content strong, .article_content b { padding: 0 5px; }
 .article_content u { text-decoration: none; border-bottom: 1px solid #555; }
@@ -1780,8 +1780,8 @@ background-image: url("../image/icon_slides.png"); background-repeat: no-repeat;
 }
 .artice_goods li a .div_img .vip_icon{
 	position: absolute;
-	width: 24px;
-	height: 24px;
+	width: 16px;
+	height: 16px;
 	bottom: 0px;
 	right: 0px;border: 0;
 }
@@ -1826,9 +1826,9 @@ background-image: url("../image/icon_slides.png"); background-repeat: no-repeat;
 .goods_list ul { width: 1000px; }
 .goods_list ul li { width: 220px; float: left; margin: 16px 0 0 16px; }
 .goods_list ul li a { display: block; border: 1px solid #ddd; text-decoration: none; height: 300px; position: relative; }
-.goods_list ul li a:hover { border: 1px solid #ff6332; }
+.goods_list ul li a:hover { border: 1px solid #6bb945; }
 .goods_list ul li img { display: block; width: 205px; height: 205px; margin: 6px auto; }
-.goods_list ul li .vip_icon{width: 24px; height: 24px;position: absolute;right: 7px;bottom: 84px;float: right;border: 0;}
+.goods_list ul li .vip_icon{width: 16px; height: 16px;position: absolute;right: 7px;bottom: 84px;float: right;border: 0;}
 .goods_list ul li h5 {color: #555; font-weight: normal; font-size: 13px; padding: 0 10px; line-height: 20px; height: 40px; overflow: hidden; }
 .goods_list ul li span { height: 20px; line-height: 20px; text-align: center; display: block; }
 .goods_list ul li em, .goods_list ul li del { position: absolute; bottom: 10px; }
@@ -1891,7 +1891,7 @@ background-image: url("../image/icon_slides.png"); background-repeat: no-repeat;
 
 .bar_seller { padding: 5px 10px; line-height: 2; font-size: 13px; }
 .bar_seller h1 { color: #555; font-size: 15px;font-weight: normal; }
-.bar_seller h1 .vip_icon{width: 24px; height: 24px;border: 0;}
+.bar_seller h1 .vip_icon{width: 16px; height: 16px;border: 0;}
 
 .sitemap { position: relative; }
 .sitemap .sitemap_header { height: 40px; line-height: 40px; text-indent: 15px; color: #fff; background: #555; background-image: -webkit-linear-gradient(0deg, #3b3b3b, #6e6e6e); background-image: linear-gradient(0deg, #3b3b3b, #6e6e6e); border: 1px solid #ddd; }
@@ -1973,8 +1973,8 @@ background-image: url("../image/icon_slides.png"); background-repeat: no-repeat;
 }
 .bar_goods_big a .div_img .vip_icon{
 	position: absolute;
-	width: 20px;
-	height: 20px;
+	width: 16px;
+	height: 16px;
 	bottom: 2px;
 	right: 7px;border: 0;
 }
@@ -1996,8 +1996,8 @@ background-image: url("../image/icon_slides.png"); background-repeat: no-repeat;
     counter-increment: num;
     display: block;
     position: absolute;
-    right: 5px;
-    bottom: 3px;
+    right: 15px;
+    bottom: 10px;
     font-size: 14px;
     font-style: italic;
     z-index: 1;
@@ -2031,8 +2031,8 @@ background-image: url("../image/icon_slides.png"); background-repeat: no-repeat;
 }
 .bar_goods_big.infoma a .div_img .vip_icon,.bar_goods_big.discuss a .div_img .vip_icon{
 	position: absolute;
-    width: 24px;
-    height: 24px;
+    width: 16px;
+    height: 16px;
     bottom: 1px;
     right: 12px;
     margin: 0px;border: 0;
@@ -2292,7 +2292,7 @@ section.count_down{margin: 13px 5px;}
 .order_schedule ol li:before { content: counter(num); counter-increment: num; display: block; position: absolute; width: 16px; height: 16px; border-radius: 50%; background: #e71f19; color: #fff; text-align: center; line-height: 16px; left: 0; top: 4px; font-size: 12px; }
 .order_schedule ol li:after { width: 2px; height: 8px; background: #f17975; content: ""; display: block; position: absolute; left: 7px; top: 20px; }
 .order_schedule ol li:last-child:after { display: none; }
-.order_schedule .btn input { display: inline-block; border: 1px solid; padding: 5px 10px; color: #fff; cursor: pointer; -webkit-transition: all 0.25s ease-in-out; transition: all 0.25s ease-in-out; }
+.order_schedule .btn input { display: inline-block; border: 0px solid; padding: 5px 10px; color: #fff; cursor: pointer; -webkit-transition: all 0.25s ease-in-out; transition: all 0.25s ease-in-out; }
 .order_schedule .btn.btn_green input { border-color: #379339; background: #45b847; }
 .order_schedule .btn.btn_green input:hover { border-color: #296e2b; background: #379339; }
 .order_schedule .btn.btn_orange input { border-color: #f5ab48; background: #f5ab48; }
