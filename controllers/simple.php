@@ -281,8 +281,8 @@ class Simple extends IController
             {
                 if(!isset($sellerGoods[$v['seller_id']]['seller_name']))
                 {
-                    $sellerRow = $sellerDB->getObj('id ='.$v['seller_id'], 'seller_name');
-                    $sellerGoods[$v['seller_id']]['seller_name'] = $sellerRow['seller_name'];
+                    $sellerRow = $sellerDB->getObj('id ='.$v['seller_id'], 'true_name');
+                    $sellerGoods[$v['seller_id']]['true_name'] = $sellerRow['true_name'];
                 }
                 $sellerGoods[$v['seller_id']]['goodsList'][] = $v;
             }
@@ -504,8 +504,8 @@ class Simple extends IController
             {
                 if(!isset($sellerGoods[$v['seller_id']]['seller_name']))
                 {
-                    $sellerRow = $sellerDB->getObj('id ='.$v['seller_id'], 'seller_name, seller_logo');
-                    $sellerGoods[$v['seller_id']]['seller_name'] = $sellerRow['seller_name'];
+                    $sellerRow = $sellerDB->getObj('id ='.$v['seller_id'], 'true_name, seller_logo');
+                    $sellerGoods[$v['seller_id']]['true_name'] = $sellerRow['true_name'];
                     $sellerGoods[$v['seller_id']]['seller_logo'] = $sellerRow['seller_logo'];
                 }
                 $sellerGoods[$v['seller_id']]['goodsList'][] = $v;

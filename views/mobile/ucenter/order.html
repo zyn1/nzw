@@ -20,12 +20,12 @@
     {set:$sellerObj = new IModel('seller');}
 	<div class="cart_sel">
     {foreach:items = $orderList}
-    {set:$orderStatus = Order_Class::getOrderStatus($item);$orderObj = new order_class();$orderInfo = $orderObj->getOrderShow($item['id'],$user_id);$sellerRow = $sellerObj->getObj('id ='.$item['seller_id'], 'seller_name, seller_logo');}
+    {set:$orderStatus = Order_Class::getOrderStatus($item);$orderObj = new order_class();$orderInfo = $orderObj->getOrderShow($item['id'],$user_id);$sellerRow = $sellerObj->getObj('id ='.$item['seller_id'], 'true_name, seller_logo');}
 		<div class="cart_goods" >
 			<div class="cart_title">
                 <a class="name clear" href="{url:/site/home/id/$item['seller_id']}">
                     <img src="{webroot:$sellerRow['seller_logo']}"/>
-                    <span class="sel_name">{$sellerRow['seller_name']}
+                    <span class="sel_name">{$sellerRow['true_name']}
                     {if:goods_class::getSellerPay($item['seller_id'])}
                     <img src="{skin:image/sellerVip.png}" class="vip_logo"/>
                     {/if}
@@ -34,8 +34,9 @@
                 </a>
             </div>
 			<ul>
+            {set:$num = 0;$deliveryCom = array();}
             {foreach:items=Api::run('getOrderGoodsListByGoodsid',array('#order_id#',$orderInfo['order_id'])) item=$good}
-            {set:$good_info = JSON::decode($good['goods_array'])}
+            {set:$good_info = JSON::decode($good['goods_array']);$num = $num+$good['goods_nums']}
 				<li>
 					<div class="cart_list_goods">
                     <a class="clear" href="{url:/ucenter/order_detail/id/$item[id]}">
@@ -49,8 +50,8 @@
                                 <em>￥{$good['real_price']}</em>
                                 <del class="old_price">￥{$good['goods_price']}</del>
                                 <!--<a href="{url:/site/comments/id/$item[id]}">去评价</a>-->
-                                {if:$good['delivery_id']}
-                                <a href="{url:/ucenter/logistics/p/$good['delivery_id']}">查看物流</a>
+                                {if:$good['delivery_id'] && !in_array($good['delivery_id'],$deliveryCom)}
+                                {set:$deliveryCom[] = $good['delivery_id']}
                                 {/if}
                             </p>
                         </div>
@@ -61,20 +62,25 @@
             {/foreach}
 			</ul>
 			<div class="good_price">
-				共1件商品&nbsp;合计：￥{$orderInfo['order_amount']}（含运费￥{$orderInfo['real_freight']}）
+				共{$num}件商品&nbsp;合计：￥{$orderInfo['order_amount']}（含运费￥{$orderInfo['real_freight']}）
 			</div>
 			<div class="good_an">
+                {if:$deliveryCom}
+                {foreach:items=$deliveryCom item=$deve}
+                <a class="ljpay" href="{url:/ucenter/logistics/p/$deve}">查看物流</a>
+                {/foreach}
+                {/if}
                 {if:in_array($orderStatus,array(1,2))}
-                <a class="quoder" href="javascript:;" onclick="window.location.href='{url:/ucenter/order_status/order_id/$orderInfo['order_id']/op/cancel}';">取消订单</a>
+                <a class="quoder" href="{url:/ucenter/order_status/order_id/$orderInfo['order_id']/op/cancel/_call/1}">取消订单</a>
                 {/if}
                 {if:Order_Class::isRefundmentChangeApply($orderInfo) && !in_array($orderStatus,array(12,15))}
-                <a class="quoder" href="javascript:;" onclick="window.location.href='{url:/ucenter/refunds_edit/order_id/$orderInfo['order_id']}';">退换货</a>
+                <a class="quoder" href="{url:/ucenter/refunds_edit/order_id/$orderInfo['order_id']}">退换货</a>
                 {/if}
                 {if:$orderStatus == 2}
                 <a class="ljpay" href="javascript:;" {if:$orderInfo['pay_type'] == 1} onclick="payPass({$orderInfo['order_id']});" {else:} onclick="window.location.href='{url:/block/doPay/order_id/$orderInfo['order_id']}'" {/if}>立即付款</a>
                 {/if}
                 {if:in_array($orderStatus,array(11,3))}
-                <a class="ljpay" href="javascript:;" onclick="window.location.href='{url:/ucenter/order_status/order_id/$orderInfo['order_id']/op/confirm}';">确认收货</a>
+                <a class="ljpay" href="{url:/ucenter/order_status/order_id/$orderInfo['order_id']/op/confirm}">确认收货</a>
                 {/if}
 			</div>
 		</div>
@@ -82,15 +88,6 @@
 	</div>
     {$queryOrderList->getPageBar()}
 	</div>
-	<!-- 
-	<ul class="user_list">
-		{foreach:items = $orderList}
-        <li>
-			<i class="icon-chevron-right"></i>
-			<a href="{url:/ucenter/order_detail/id/$item[id]}">订单号：{$item['order_no']}</a>
-		</li>
-        {/foreach}
-	</ul> -->
 	
 	{else:}
 	<div class="nodata">
@@ -122,7 +119,7 @@
 <!-- 支付密码 strat-->
 <div class="w_paswd">
     <div class="ps_title">
-        <div class="close js_close_pay"></div>
+        <div class="close type_close"></div>
         <span><strong>请输入支付密码</strong></span>
     </div>
     <div class="passwd_cont ">
@@ -142,7 +139,7 @@ $(function(){
 
 function payPass(_i)
 {
-    $("#js_mask").fadeIn(300);
+    $("#mask").fadeIn(300);
     $(".w_paswd").animate({bottom: '0rem'},"slow");
     $('.js_pay_confirm').click(function(){
         $.ajax({
@@ -160,5 +157,9 @@ function payPass(_i)
              }
          });
     })
+    $("#mask,.type_close,.js_close_pay").click(function(){
+        $(".w_paswd").animate({bottom: '-2.7rem'},"slow");
+        $("#mask").fadeOut(300);
+    });
 }
 </script>

@@ -129,7 +129,6 @@ class Ucenter extends IController implements userAuthorization
 
         $orderObj = new order_class();
         $this->order_info = $orderObj->getOrderShow($id,$this->user['user_id']);
-
         if(!$this->order_info)
         {
         	IError::show(403,'订单信息不存在');
@@ -192,7 +191,7 @@ class Ucenter extends IController implements userAuthorization
 			}
 			break;
 		}
-        if(IClient::getDevice() == 'pc')
+        if(IClient::getDevice() == 'pc' || !is_null(IReq::get('_call')))
         {
             $this->redirect("order_detail/id/$id");
         }
@@ -214,10 +213,10 @@ class Ucenter extends IController implements userAuthorization
             $tb_freight->where = 'd.id = '.$id;
             $tb_freight->fields= 'd.*,f.freight_type,f.freight_name';
             $freightData = $tb_freight->find();
-            $this->setRenderData($freightData);
             if($freightData)
             {
                 $freightData = current($freightData);
+                $this->setRenderData($freightData);
                 if($freightData['freight_type'] && $freightData['delivery_code'])
                 {
                     $result = freight_facade::line($freightData['freight_type'],$freightData['delivery_code']);
