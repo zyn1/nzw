@@ -397,7 +397,7 @@
 		<div class="bar_box">
 			<h3 class="bar_box_head">热卖排行</h3>
 			<ul class="bar_goods_big">
-				{foreach:items=Api::run('getCommendHot')}
+				{foreach:items=Api::run('getCommendHot',9)}
                 {set:$k = $key +1}
 				<li>
 					<a href="{url:/site/products/id/$item[id]}">
