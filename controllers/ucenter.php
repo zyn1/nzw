@@ -83,7 +83,14 @@ class Ucenter extends IController implements userAuthorization
 		{
 			$result['message'] = '请选择图片';
 		}
-		echo '<script type="text/javascript">parent.callback_user_ico('.JSON::encode($result).');</script>';
+        if(IClient::getDevice() == 'pc')
+        {
+            echo '<script type="text/javascript">parent.callback_user_ico('.JSON::encode($result).');</script>';
+        }
+		else
+        {
+            $this->info_edit();
+        }
 	}
 
     /**
@@ -189,6 +196,35 @@ class Ucenter extends IController implements userAuthorization
     /**
      * @brief 我的地址
      */
+    public function addressChoose()
+    {
+        //取得自己的地址
+        $query = new IQuery('address');
+        $query->where = 'user_id = '.$this->user['user_id'];
+        $address = $query->find();
+        $areas   = array();
+
+        if($address)
+        {
+            foreach($address as $ad)
+            {
+                $temp = area::name($ad['province'],$ad['city'],$ad['area']);
+                if(isset($temp[$ad['province']]) && isset($temp[$ad['city']]) && isset($temp[$ad['area']]))
+                {
+                    $areas[$ad['province']] = $temp[$ad['province']];
+                    $areas[$ad['city']]     = $temp[$ad['city']];
+                    $areas[$ad['area']]     = $temp[$ad['area']];
+                }
+            }
+        }
+
+        $this->areas = $areas;
+        $this->address = $address;
+        $this->redirect('addressChoose');
+    }
+    /**
+     * @brief 我的地址
+     */
     public function address()
     {
 		//取得自己的地址
@@ -215,6 +251,17 @@ class Ucenter extends IController implements userAuthorization
 		$this->address = $address;
         $this->redirect('address');
     }
+    
+    public function address_add()
+    {
+        $id = IFilter::act(IReq::get('id'), 'int');
+        $user_id = $this->user['user_id'];
+        $addressDB = new IModel('address');
+        $addressRow = $addressDB->getObj('id = '.$id.' and user_id = '.$user_id);
+        $this->addressRow = $addressRow;
+        $this->redirect('address_add');
+    }
+    
     /**
      * @brief 收货地址管理
      */
@@ -685,6 +732,21 @@ class Ucenter extends IController implements userAuthorization
     //[个人资料]展示 单页
     function info()
     {
+        $user_id = $this->user['user_id'];
+
+        $userObj       = new IModel('user');
+        $where         = 'id = '.$user_id;
+        $this->userRow = $userObj->getObj($where);
+
+        $memberObj       = new IModel('member');
+        $where           = 'user_id = '.$user_id;
+        $this->memberRow = $memberObj->getObj($where);
+        $this->redirect('info');
+    }
+
+    //[个人资料]编辑 单页
+    function info_edit()
+    {
     	$user_id = $this->user['user_id'];
 
     	$userObj       = new IModel('user');
@@ -694,37 +756,36 @@ class Ucenter extends IController implements userAuthorization
     	$memberObj       = new IModel('member');
     	$where           = 'user_id = '.$user_id;
     	$this->memberRow = $memberObj->getObj($where);
-    	$this->redirect('info');
+    	$this->redirect('info_edit');
     }
 
     //[个人资料] 修改 [动作]
     function info_edit_act()
     {
-		$email     = IFilter::act( IReq::get('email'),'string');
+        $email     = IFilter::act( IReq::get('email'),'string');
         $mobile    = IFilter::act( IReq::get('mobile'),'string');
 		$desc_info = IFilter::act( IReq::get('desc_info'),'string');
 
     	$user_id   = $this->user['user_id'];
     	$memberObj = new IModel('member');
     	$where     = 'user_id = '.$user_id;
+        if($email)
+        {
+            $memberRow = $memberObj->getObj('user_id != '.$user_id.' and email = "'.$email.'"');
+            if($memberRow)
+            {
+                IError::show('邮箱已经被注册');
+            }
+        }
 
-		if($email)
-		{
-			$memberRow = $memberObj->getObj('user_id != '.$user_id.' and email = "'.$email.'"');
-			if($memberRow)
-			{
-				IError::show('邮箱已经被注册');
-			}
-		}
-
-		if($mobile)
-		{
-			$memberRow = $memberObj->getObj('user_id != '.$user_id.' and mobile = "'.$mobile.'"');
-			if($memberRow)
-			{
-				IError::show('手机已经被注册');
-			}
-		}
+        if($mobile)
+        {
+            $memberRow = $memberObj->getObj('user_id != '.$user_id.' and mobile = "'.$mobile.'"');
+            if($memberRow)
+            {
+                IError::show('手机已经被注册');
+            }
+        }
 
     	//地区
     	$province = IFilter::act( IReq::get('province','post') ,'string');
@@ -733,18 +794,21 @@ class Ucenter extends IController implements userAuthorization
     	$areaArr  = array_filter(array($province,$city,$area));
 
     	$dataArray       = array(
-    		'email'        => $email,
     		'true_name'    => IFilter::act( IReq::get('true_name') ,'string'),
     		'sex'          => IFilter::act( IReq::get('sex'),'int' ),
     		'birthday'     => IFilter::act( IReq::get('birthday') ),
     		'zip'          => IFilter::act( IReq::get('zip') ,'string' ),
     		'qq'           => IFilter::act( IReq::get('qq') , 'string' ),
     		'contact_addr' => IFilter::act( IReq::get('contact_addr'), 'string'),
-    		'mobile'       => $mobile,
     		'telephone'    => IFilter::act( IReq::get('telephone'),'string'),
     		'area'         => $areaArr ? ",".join(",",$areaArr)."," : "",
             'desc_info'    => $desc_info
     	);
+        if(IClient::getDevice() == 'pc')
+        {
+            $dataArray['email'] = $email;
+            $dataArray['mobile'] = $mobile;
+        }
 
     	$memberObj->setData($dataArray);
     	$memberObj->update($where);
@@ -1264,7 +1328,7 @@ class Ucenter extends IController implements userAuthorization
             $_email = $email['email'];
             $captcha = IFilter::act(IReq::get('captcha'));
             $_captcha = ISafe::get('captcha');
-            if(!$captcha || !$_captcha || $captcha != $_captcha)
+            if((!$captcha || !$_captcha || $captcha != $_captcha) && IClient::getDevice() == 'pc')
             {
                 die("请填写正确的图形验证码");
             }
@@ -1298,7 +1362,7 @@ class Ucenter extends IController implements userAuthorization
         $code = IReq::get('email_code');
         $captcha = IFilter::act(IReq::get('captcha'));
         $_captcha = ISafe::get('captcha');
-        if(!$captcha || !$_captcha || $captcha != $_captcha)
+        if((!$captcha || !$_captcha || $captcha != $_captcha) && IClient::getDevice() == 'pc')
         {
             die("请填写正确的图形验证码");
         }
@@ -1387,7 +1451,7 @@ class Ucenter extends IController implements userAuthorization
             $_mobile = $mobile['mobile'];
             $captcha = IFilter::act(IReq::get('captcha'));
             $_captcha = ISafe::get('captcha');
-            if(!$captcha || !$_captcha || $captcha != $_captcha)
+            if((!$captcha || !$_captcha || $captcha != $_captcha) && IClient::getDevice() == 'pc')
             {
                 die("请填写正确的图形验证码");
             }
@@ -1418,7 +1482,7 @@ class Ucenter extends IController implements userAuthorization
         $code = IReq::get('phone_code');
         $captcha = IFilter::act(IReq::get('captcha'));
         $_captcha = ISafe::get('captcha');
-        if(!$captcha || !$_captcha || $captcha != $_captcha)
+        if((!$captcha || !$_captcha || $captcha != $_captcha) && IClient::getDevice() == 'pc')
         {
             IError::show(403,"请填写正确的图形验证码");
         }
@@ -1528,7 +1592,7 @@ class Ucenter extends IController implements userAuthorization
         $code = IReq::get('phone_code');
         $captcha = IFilter::act(IReq::get('captcha'));
         $_captcha = ISafe::get('captcha');
-        if(!$captcha || !$_captcha || $captcha != $_captcha)
+        if((!$captcha || !$_captcha || $captcha != $_captcha) && IClient::getDevice() == 'pc')
         {
             IError::show(403,"请填写正确的图形验证码");
         }

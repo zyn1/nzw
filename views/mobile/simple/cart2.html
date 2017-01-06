@@ -6,9 +6,12 @@
 </header>
 {js:artTemplate}
 {set:$default=$this->defaultAddress ? $this->defaultAddress : ''}
+{set:$invoiceData = $this->invoiceData}
 <!-- 确认订单js -->
 <script type='text/javascript' src='{theme:javascript/orderFormClass.js}'></script>
 <script>
+var submitUrl = '{url:/simple/cart35}';
+var _url = '{url:/block/doPay/order_id/@id@}';
 //创建订单表单实例
 orderFormInstance = new orderFormClass();
 
@@ -24,7 +27,9 @@ $(function(){
     orderFormInstance.deliveryInit("{$this->custom['delivery']}");
 
     //收货地址数据
-    orderFormInstance.addressInit();
+    {if:$default}
+    orderFormInstance.getDelivery({$default['province']});
+    {/if}
 
     //支付方式
     orderFormInstance.paymentInit("{$this->custom['payment']}");
@@ -34,13 +39,17 @@ $(function(){
     {if:$default}
     orderFormInstance.getDelivery({$default['province']});
     {/if}
+    
+    $('.js_close_pay').click(function(){
+        window.location = '{url:/ucenter/order}'
+    })
 });
 </script>
 <script type="text/javascript" src="{theme:javascript/order.js}"></script>
 <link rel="stylesheet" href="{skin:style/bases.css}">
 <!-- 确认订单js end-->
 <section class="cart_2">
-    <form action='{url:/simple/cart3}' class="form" method='post' name='order_form' onsubmit='return orderFormInstance.isSubmit()'>
+    <form action='' class="form js_order_form" method='post' name='order_form'>
     <input type='hidden' name='direct_gid' value='{$this->gid}' />
     <input type='hidden' name='direct_type' value='{$this->type}' />
     <input type='hidden' name='direct_num' value='{$this->num}' />
@@ -51,7 +60,7 @@ $(function(){
         {if:$default}
         <input name="radio_address" type="hidden" value="{$default['id']}"/>
         <div class="show_adderss">
-            <a class="adder_img adder_height" href="">
+            <a class="adder_img adder_height" href="{url:/ucenter/addressChoose}">
                 <p class="s_adder_p">
                     <span>收货人：{$default['accept_name']}</span>
                     <span class="tel">{$default['mobile']}</span>
@@ -63,7 +72,7 @@ $(function(){
         </div>
         {else:}
         <div class="no_adderss">
-            <a class="adder_img" href="{url:/}">
+            <a class="adder_img" href="{url:/ucenter/address_add}">
                 <p class="adder_p">请添加收货地址，以确保商品顺利到达</p>
             </a>
         </div>
@@ -125,44 +134,51 @@ $(function(){
         <div class="cart_2_delivery">
             <a class="info_head" id="psfs">
                 <span>配送方式</span>
-                <span class="sele_info">快递</span>
+                <span class="sele_info js_delivery_data"></span>
             </a>
         </div>
-        <div class="cart_2_delivery">
+        <div class="cart_2_delivery js_payment_selected">
             <a class="info_head" id="pay_way">
                 <span>支付方式</span>
-                <span class="sele_info">预存款</span>
+                <span class="sele_info js_payment_data"></span>
             </a>
         </div>
         <div class="cart_2_delivery">
             <div class="info_head">
                 <span>买家留言</span>
                 <span class="ly_text">
-                    <input class="input_text" type="text" placeholder="请输入留言内容"/>
+                    <input class="input_text" type="text" name='message' placeholder="请输入留言内容"/>
                 </span>
             </div>
         </div>
         <div class="cart_2_delivery">
             <a class="info_head" href="{url:simple/invoice}">
-                <span>是否开发票</span>
-                <span class="sele_info">是</span>
-                <!-- 没有发票显示否 -->
+            {if:$invoiceData}
+                <input type="hidden" name="taxes" value="{$this->goodsTax}">
+                <span>是否开发票？(税金:￥{$this->goodsTax})</span>
+                <span class="sele_info">{if:$invoiceData['fapiao_type'] == 1}增值税专票{else:}增值税普票{/if}</span>                
+            {else:}
+                <input type="hidden" name="taxes" value="0">
+                <span>是否开发票？(税金:￥{$this->goodsTax})</span>
+                <span class="sele_info">否</span>
+            {/if}
             </a>
         </div>
-        <div class="cart_2_bj">
+        <div class="cart_2_bj js_if_protected">
+            <input type="hidden" name="if_protected" value="0">
             <span>是否保价</span>
-            <em class="no"></em>
+            <em class="no" onclick="orderFormInstance.doAccount('protected');"></em>
         </div>
     </div>
     <!-- 结算信息 开始 -->
     <div class="cart_sect con_order">
         <div class="count">
-            {if:$this->final_sum != $this->sum}优惠后总金额{else:}商品总额{/if}：<strong>￥{$this->final_sum}</strong><br>
+            {if:$this->final_sum != $this->sum}+ 优惠后总金额{else:}+ 商品总额{/if}：<strong>￥{$this->final_sum}</strong><br>
             <!-- - 代金券：<strong name='ticket_value'>0</strong><br> -->
-            + 保价：<strong id='protect_price_value'>￥0</strong><br>
+            <p class="js_if_protected">+ 保价：<strong id='protect_price_value'>￥0</strong><br></p>
             + 运费：<strong id='delivery_fee_show'>￥0</strong><br>
             + 支付手续费：<strong id='payment_value'>￥0</strong><br>
-            + 总计:<strong id='tax_fee'>￥0</strong>
+            + 税金:<strong id='tax_fee'>￥0</strong>
         </div>
     </div>
     <div style="height:0.3rem"></div>
@@ -173,156 +189,122 @@ $(function(){
                 <span>实付款:</span>
                 <em id='final_sum'>&nbsp;{$this->final_sum}元</em>
             </div>
-            <label class="sub_buy">
-                确认提交<input type="submit"/>
+            <label class="sub_buy" onclick="orderFormInstance.isSubmit()">
+                确认提交
             </label>
         </div>
     </footer>
+    
+    <div class="peis">
+        <div class="ps_title">
+            <span><strong>配送方式</strong></span>
+            <div class="close" id="type_close"></div>
+        </div>
+        <div class="ps_select">
+        <ul>
+            {foreach:items = Api::run('getDeliveryList')}
+            <li>
+                <label class="g_checkbox box"><input type="radio"  name="delivery_id" value="{$item['id']}" paytype="{$item['type']}" js_data="{$item['name']}"  class="chk_1"/></label>
+                <div class="ps_cont">
+                    <span>{$item['name']}:</span>
+                    <em id="deliveryShow{$item['id']}"></em>
+                    <!--<span>({$item['description']})</span>-->
+                </div>
+            </li>
+            {/foreach}
+        </ul>
+        </div>
+        <div class="ok_button">
+            <a class="type_ok" onclick="orderFormInstance.deliverySelected($('input[name=delivery_id]:checked').val());$('#mask').trigger('click');$('.js_delivery_data').text($('input[name=delivery_id]:checked').attr('js_data'))">确定</a>
+        </div>
+    </div>
+    <!-- 支付方式 strat-->
+    <div class="zf_way">
+        <div class="ps_title">
+            <span><strong>支付方式</strong></span>
+            <div class="close" id="type_close"></div>
+        </div>
+        <div class="ps_select">
+        <ul>
+            {foreach:items = Api::run('getPaymentList')}
+            {set:$paymentPrice = CountSum::getGoodsPaymentPrice($item['id'],$this->sum);}
+            <li>
+                <label class="g_checkbox box {if:$this->custom['payment'] == $item['id']}check{/if}"><input type="radio" name="payment" js_data="{$item['name']}" alt="{$paymentPrice}"  class="chk_1" value="{$item['id']}"/></label>
+                <div class="ps_cont">
+                    <img class="img_zf" src="{webroot:$item['f_sign']}"/>
+                    <span>{$item['name']}</span>
+                </div>
+            </li>
+            {/foreach}
+        </ul>
+        </div>
+        <div class="ok_button">
+            <a class="type_ok" onclick="orderFormInstance.paymentSelected($('input[name=payment]:checked').val());$('#mask').trigger('click');$('.js_payment_data').text($('input[name=payment]:checked').attr('js_data'))">确定</a>
+        </div>
+    <div>
     </form>
 </section>
+    
+<script type='text/html' id='deliveryTemplate'>
+    <span style="color:#ff6332">运费：￥<%=item['price']%></span>
+    <%if(item['protect_price'] > 0){%>
+    <span style="color:#ff6332">保价：￥<%=item['protect_price']%></span>
+    <%}%>
+</script>
 <div class="mask" id="mask"></div>
-<div class="peis">
-    <div class="ps_title">
-        <span><strong>配送方式</strong></span>
-        <div class="close" id="type_close"></div>
-    </div>
-    <div class="ps_select">
-    <ul>
-        <li>
-            <label class="g_checkbox box"><input type="checkbox" name="checkbox"  class="chk_1"/></label>
-            <div class="ps_cont">
-                <span>EMS:</span>
-                <em>￥4.00</em>
-                <span>(快速邮递)</span>
-            </div>
-        </li>
-        <li>
-            <label class="g_checkbox box"><input type="checkbox" name="checkbox"  class="chk_1"/></label>
-            <div class="ps_cont">
-                <span>EMS:</span>
-                <em>￥4.00</em>
-                <span>(快速邮递)</span>
-            </div>
-        </li>
-        <li>
-            <label class="g_checkbox box"><input type="checkbox" name="checkbox"  class="chk_1"/></label>
-            <div class="ps_cont">
-                <span>EMS:</span>
-                <em>￥4.00</em>
-                <span>(快速邮递)</span>
-            </div>
-        </li>
-        <li>
-            <label class="g_checkbox box"><input type="checkbox" name="checkbox"  class="chk_1"/></label>
-            <div class="ps_cont">
-                <span>EMS:</span>
-                <em>￥4.00</em>
-                <span>(快速邮递)</span>
-            </div>
-        </li>
-    </ul>
-    </div>
-    <div class="ok_button">
-        <button class="type_ok" id="type_ok">确定</button>
-    </div>
-</div>
-<!-- 支付方式 strat-->
-<div class="zf_way">
-    <div class="ps_title">
-        <span><strong>支付方式</strong></span>
-        <div class="close" id="type_close"></div>
-    </div>
-    <div class="ps_select">
-    <ul>
-        <li>
-            <label class="g_checkbox box"><input type="checkbox" name="checkbox"  class="chk_1"/></label>
-            <div class="ps_cont">
-                <img class="img_zf" src="{skin:image/top/logo@2x.png}"/>
-                <span>预存款</span>
-            </div>
-        </li>
-        <li>
-            <label class="g_checkbox box"><input type="checkbox" name="checkbox"  class="chk_1"/></label>
-            <div class="ps_cont">
-                <img class="img_zf" src="{skin:image/top/logo@2x.png}"/>
-                <span>支付宝</span>
-            </div>
-        </li>
-        <li>
-            <label class="g_checkbox box"><input type="checkbox" name="checkbox"  class="chk_1"/></label>
-            <div class="ps_cont">
-                <img class="img_zf" src="{skin:image/top/logo@2x.png}"/>
-                <span>微信支付</span>
-            </div>
-        </li>
-        <li>
-            <label class="g_checkbox box"><input type="checkbox" name="checkbox"  class="chk_1"/></label>
-            <div class="ps_cont">
-                <img class="img_zf" src="{skin:image/top/logo@2x.png}"/>
-                <span>预存款</span>
-            </div>
-        </li>
-    </ul>
-    </div>
-    <div class="ok_button">
-        <button class="type_ok" id="type_ok">确定</button>
-    </div>
-<div>
+<div class="mask" id="js_mask"></div>
 <!-- 支付方式end -->
 <!-- 确认提交订单 strat-->
 <div class="submit_ok">
     <div class="ps_title">
-        <div class="close" id="type_close"></div>
+        <div class="close js_close_pay"></div>
         <span><strong>订单详情</strong></span>
     </div>
     <div class="order_del">
         <div class="order_line">
             <span>订单号码：</span>
-            <span>20161103110234</span>
+            <span class="js_order_no"></span>
         </div>
         <div class="order_line">
             <span>支付方式：</span>
-            <span>预存款</span>
+            <span class="js_payment_info"></span>
         </div>
         <div class="order_line">
             <span>配送方式：</span>
-            <span>快递</span>
+            <span class="js_delivery_info"></span>
         </div>
         <div class="order_line">
             <span>收货人：</span>
-            <span>快递</span>
+            <span class="js_acce_info"></span>
         </div>
         <div class="order_line">
             <span>联系方式：</span>
-            <span>18703567890</span>
+            <span class="js_mobile_info"></span>
         </div>
         <div class="order_line">
             <span>发票信息：</span>
-            <span>增值税专票</span>
+            <span class="js_fapiao_info"></span>
         </div>
     </div>
-    <div class="ok_button">
-        <button class="type_ok" id="ljzf">立即支付</button>
+    <div class="ok_button js_pay_button">
+        <button class="type_ok js_pay_click">立即支付</button>
     </div>
 <div>
 <!-- 确认提交订单end -->
 <!-- 支付密码 strat-->
 <div class="w_paswd">
     <div class="ps_title">
-        <div class="close" id="type_close"></div>
+        <div class="close js_close_pay"></div>
         <span><strong>请输入支付密码</strong></span>
     </div>
     <div class="passwd_cont ">
-        <form>
-            <div class="pass clear">
-            <input class="pas_tex" type="text"/>
-            </div>   
-            <div class="pas_but clear">
-                <button class="pas_qr">确定</button>
-                <button class="pas_qx" id="pas_xq">取消</button>
-            </div>
-
-        </form>
+        <div class="pass clear">
+        <input class="pas_tex" type="password" name="pay_pwd"/>
+        </div>   
+        <div class="pas_but clear">
+            <button class="pas_qr js_pay_confirm" js_data="{url:/block/validatePayPass}">确定</button>
+            <button class="pas_qx js_close_pay">取消</button>
+        </div>
     </div>
 </div>
 <!-- 支付密码 end-->

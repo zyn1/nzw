@@ -331,16 +331,56 @@ class Simple extends IController
 		$countSumResult = $countSumObj->goodsCount($cartObj->cartFormat(array("goods" => $goodsArray,"product" => $productArray)));
     	echo JSON::encode($countSumResult);
     }
+    
+    //保存发票信息
+    function invoiceSafe()
+    {
+        $user_id = ($this->user['user_id'] == null) ? 0 : $this->user['user_id'];
+        if($user_id == 0)
+        {
+            $this->redirect('/simple/login?tourist&callback=/simple/cart2');
+        }
+        ICookie::set('invoice'.$user_id, JSON::encode($_POST));
+        $this->redirect('/simple/cart2');
+    }
+    
+    //开发票页面
+    function invoice()
+    {
+        $user_id = ($this->user['user_id'] == null) ? 0 : $this->user['user_id'];
+        if($user_id == 0)
+        {
+            $this->redirect('/simple/login?tourist&callback=/simple/cart2');
+        }
+        $this->invoiceData = JSON::decode(ICookie::get('invoice'.$user_id));
+        $this->redirect('invoice');
+    }
 
     //填写订单信息cart2
     function cart2()
     {
-		$id        = IFilter::act(IReq::get('id'),'int');
-		$type      = IFilter::act(IReq::get('type'));//goods,product
-		$promo     = IFilter::act(IReq::get('promo'));
-		$active_id = IFilter::act(IReq::get('active_id'),'int');
-		$buy_num   = IReq::get('num') ? IFilter::act(IReq::get('num'),'int') : 1;
-		$tourist   = IReq::get('tourist');//游客方式购物
+        //游客的user_id默认为0
+        $user_id       = ($this->user['user_id'] == null) ? 0 : $this->user['user_id'];
+        $addressId = IReq::get('addressId') ? IReq::get('addressId') : (isset($data['addressId']) ? $data['addressId'] : 0);
+        
+        if(empty($_POST))
+        {
+            $_POST = JSON::decode(ICookie::get('cart2'.$user_id));
+            $_POST['addressId'] = $addressId;
+        }
+        $id        = IFilter::act(IReq::get('id'),'int');
+        $type      = IFilter::act(IReq::get('type'));//goods,product
+        $promo     = IFilter::act(IReq::get('promo'));
+        $active_id = IFilter::act(IReq::get('active_id'),'int');
+        $buy_num   = IReq::get('num') ? IFilter::act(IReq::get('num'),'int') : 1;
+        $tourist   = IReq::get('tourist');//游客方式购物
+        $checked = IReq::get('sub');
+        
+        //记录数据
+        ICookie::set('cart2'.$user_id, JSON::encode($_POST));
+        
+        //是否开发票
+        $this->invoiceData = JSON::decode(ICookie::get('invoice'.$user_id));
 
     	//必须为登录用户
     	if($tourist === null && $this->user['user_id'] == null)
@@ -358,9 +398,6 @@ class Simple extends IController
     		}
     	}
         
-        //游客的user_id默认为0
-        $user_id = ($this->user['user_id'] == null) ? 0 : $this->user['user_id'];
-        $checked = IReq::get('sub');
         $cartData = array();
         //计算商品
         $countSumObj = new CountSum($user_id);
@@ -393,6 +430,7 @@ class Simple extends IController
 
     	//获取收货地址
     	$addressObj  = new IModel('address');
+        $addressDetail = array();
     	$addressList = $addressObj->query('user_id = '.$user_id,"*","is_default desc");
 
 		//更新$addressList数据
@@ -406,7 +444,25 @@ class Simple extends IController
 	    		$addressList[$key]['area_val']     = $temp[$val['area']];
     		}
     	}
-        $defaultAddress = empty($addressList) ? array() : $addressList[0];
+        if($addressId)
+        {
+            $addressDetail = $addressObj->getObj('user_id = '.$user_id.' and id = '.$addressId,"*");
+        }
+        if($addressDetail)
+        {
+            $temp = area::name($addressDetail['province'],$addressDetail['city'],$addressDetail['area']);
+            if(isset($temp[$addressDetail['province']]) && isset($temp[$addressDetail['city']]) && isset($temp[$addressDetail['area']]))
+            {
+                $addressDetail['province_val'] = $temp[$addressDetail['province']];
+                $addressDetail['city_val']     = $temp[$addressDetail['city']];
+                $addressDetail['area_val']     = $temp[$addressDetail['area']];
+            }
+            $defaultAddress = $addressDetail;
+        }
+        else
+        {
+            $defaultAddress = empty($addressList) ? array() : $addressList[0];
+        }
 
 		//获取习惯方式
 		$memberObj = new IModel('member');
@@ -470,10 +526,390 @@ class Simple extends IController
     	$this->redirect('cart2');
     }
 
-	/**
-	 * 生成订单
-	 */
+    /**
+     * 生成订单
+     */
     function cart3()
+    {
+        $address_id    = IFilter::act(IReq::get('radio_address'),'int');
+        $delivery_id   = IFilter::act(IReq::get('delivery_id'),'int');
+        $accept_time   = IFilter::act(IReq::get('accept_time'));
+        $payment       = IFilter::act(IReq::get('payment'),'int');
+        $order_message = IFilter::act(IReq::get('message'));
+        $ticket_id     = IFilter::act(IReq::get('ticket_id'),'int');
+        $taxes         = IFilter::act(IReq::get('taxes'),'float');
+        $gid           = IFilter::act(IReq::get('direct_gid'),'int');
+        $num           = IFilter::act(IReq::get('direct_num'),'int');
+        $type          = IFilter::act(IReq::get('direct_type'));//商品或者货品
+        $promo         = IFilter::act(IReq::get('direct_promo'));
+        $active_id     = IFilter::act(IReq::get('direct_active_id'),'int');
+        $takeself      = IFilter::act(IReq::get('takeself'),'int');
+        $order_type    = 0;
+        $dataArray     = array();
+        $user_id       = ($this->user['user_id'] == null) ? 0 : $this->user['user_id'];
+        $invoice       = isset($_POST['taxes']) ? 1 : 0;
+        
+        //是否保价
+        $if_protected = IFilter::act(IReq::get('if_protected'),'int');
+
+        //获取商品数据信息
+        $countSumObj = new CountSum($user_id);
+        if($gid)
+        {
+            $goodsResult = $countSumObj->cart_count($gid,$type,$num,$promo,$active_id);
+        }
+        else
+        {
+            $goodsData     = IFilter::act(IReq::get('goods'));
+            if(count($goodsData)==0){$this->redirect('cart');return false;}
+            $cartData = array();
+            $delCart = array();
+            foreach($goodsData as $val){
+                $tem =explode('-',$val);
+                $cartData[$tem[0]]['id'][] = intval($tem[1]);
+                $cartData[$tem[0]]['data'][intval($tem[1])] = array('count' => intval($tem[2]));
+                $cartData[$tem[0]]['data']['count'] = intval($tem[2]);
+                $delCart[$tem[1]] = $tem[0];
+            }
+            //计算购物车中的商品价格$goodsResult
+            $goodsResult = $countSumObj->cart_count($gid,$type,$num,$promo,$active_id,$cartData);
+        }
+
+        if($countSumObj->error)
+        {
+            IError::show(403,$countSumObj->error);
+        }
+
+        //处理收件地址
+        //1,访客; 2,注册用户
+        if($user_id == 0)
+        {
+            $addressRow = ISafe::get('address');
+        }
+        else
+        {
+            $addressDB = new IModel('address');
+            $addressRow= $addressDB->getObj('id = '.$address_id.' and user_id = '.$user_id);
+        }
+
+        if(!$addressRow)
+        {
+            IError::show(403,"收货地址信息不存在");
+        }
+        $accept_name   = IFilter::act($addressRow['accept_name'],'name');
+        $province      = $addressRow['province'];
+        $city          = $addressRow['city'];
+        $area          = $addressRow['area'];
+        $address       = IFilter::act($addressRow['address']);
+        $mobile        = IFilter::act($addressRow['mobile'],'mobile');
+        $telphone      = IFilter::act($addressRow['telphone'],'phone');
+        $zip           = IFilter::act($addressRow['zip'],'zip');
+        
+        $tax_title     = IReq::get('tax_title') ? IFilter::act(IReq::get('tax_title')) : $accept_name;
+        //检查订单重复
+        $checkData = array(
+            "accept_name" => $accept_name,
+            "address"     => $address,
+            "mobile"      => $mobile,
+            "distribution"=> $delivery_id,
+        );
+        $result = order_class::checkRepeat($checkData,$goodsResult['goodsList']);
+        if( is_string($result) )
+        {
+            IError::show(403,$result);
+        }
+        
+        //配送方式,判断是否为货到付款
+        $deliveryObj = new IModel('delivery');
+        $deliveryRow = $deliveryObj->getObj('id = '.$delivery_id);
+        if(!$deliveryRow)
+        {
+            IError::show(403,'配送方式不存在');
+        }
+
+        if($deliveryRow['type'] == 0)
+        {
+            if($payment == 0)
+            {
+                IError::show(403,'请选择正确的支付方式');
+            }
+        }
+        else if($deliveryRow['type'] == 1)
+        {
+            $payment = 0;
+        }
+        else if($deliveryRow['type'] == 2)
+        {
+            if($takeself == 0)
+            {
+                IError::show(403,'请选择正确的自提点');
+            }
+        }
+        //如果不是自提方式自动清空自提点
+        if($deliveryRow['type'] != 2)
+        {
+            $takeself = 0;
+        }
+
+        if(!empty($delCart))
+        {
+            $cart = new Cart();
+            foreach($delCart as $k => $v)
+            {
+                $cart->del($k, $v);
+            }
+        }
+
+        //判断商品是否存在
+        if(is_string($goodsResult) || empty($goodsResult['goodsList']))
+        {
+            IError::show(403,'商品数据错误');
+        }
+
+        //加入促销活动
+        if($promo && $active_id)
+        {
+            $activeObject = new Active($promo,$active_id,$user_id,$gid,$type,$num);
+            $order_type = $activeObject->getOrderType();
+        }
+
+        $paymentObj = new IModel('payment');
+        $paymentRow = $paymentObj->getObj('id = '.$payment,'type,name');
+        if(!$paymentRow)
+        {
+            IError::show(403,'支付方式不存在');
+        }
+        $paymentName= $paymentRow['name'];
+        $paymentType= $paymentRow['type'];
+
+        //最终订单金额计算
+        $orderData = $countSumObj->countOrderFee($goodsResult,$province,$delivery_id,$payment,$taxes,0,$promo,$active_id,$if_protected);
+        if(is_string($orderData))
+        {
+            IError::show(403,$orderData);
+            exit;
+        }
+        //根据商品所属商家不同批量生成订单
+        $orderIdArray  = array();
+        $orderNumArray = array();
+        $final_sum     = 0;
+        foreach($orderData as $seller_id => $goodsResult)
+        {
+            //生成的订单数据
+            $dataArray = array(
+                'order_no'            => Order_Class::createOrderNum(),
+                'user_id'             => $user_id,
+                'accept_name'         => $accept_name,
+                'pay_type'            => $payment,
+                'distribution'        => $delivery_id,
+                'postcode'            => $zip,
+                'telphone'            => $telphone,
+                'province'            => $province,
+                'city'                => $city,
+                'area'                => $area,
+                'address'             => $address,
+                'mobile'              => $mobile,
+                'create_time'         => ITime::getDateTime(),
+                'postscript'          => $order_message,
+                'accept_time'         => $accept_time,
+                'exp'                 => $goodsResult['exp'],
+                'point'               => $goodsResult['point'],
+                'type'                => $order_type,
+
+                //商品价格
+                'payable_amount'      => $goodsResult['sum'],
+                'real_amount'         => $goodsResult['final_sum'],
+
+                //运费价格
+                'payable_freight'     => $goodsResult['deliveryOrigPrice'],
+                'real_freight'        => $goodsResult['deliveryPrice'],
+
+                //手续费
+                'pay_fee'             => $goodsResult['paymentPrice'],
+
+                //税金
+                'invoice'             => $invoice,
+                'invoice_title'       => $tax_title,
+                'taxes'               => $goodsResult['taxPrice'],
+
+                //优惠价格
+                'promotions'          => $goodsResult['proReduce'] + $goodsResult['reduce'],
+
+                //订单应付总额
+                'order_amount'        => $goodsResult['orderAmountPrice'],
+
+                //订单保价
+                'insured'             => $goodsResult['insuredPrice'],
+
+                //自提点ID
+                'takeself'            => $takeself,
+
+                //促销活动ID
+                'active_id'           => $active_id,
+
+                //商家ID
+                'seller_id'           => $seller_id,
+
+                //备注信息
+                'note'                => '',
+            );
+
+            //获取红包减免金额
+            if($ticket_id)
+            {
+                $memberObj = new IModel('member');
+                $memberRow = $memberObj->getObj('user_id = '.$user_id,'prop,custom');
+                foreach($ticket_id as $tk => $tid)
+                {
+                    //游客手动添加或注册用户道具中已有的代金券
+                    if(ISafe::get('ticket_'.$tid) == $tid || stripos(','.trim($memberRow['prop'],',').',',','.$tid.',') !== false)
+                    {
+                        $propObj   = new IModel('prop');
+                        $ticketRow = $propObj->getObj('id = '.$tid.' and NOW() between start_time and end_time and type = 0 and is_close = 0 and is_userd = 0 and is_send = 1');
+                        if(!$ticketRow)
+                        {
+                            IError::show(403,'代金券不可用');
+                        }
+
+                        if($ticketRow['seller_id'] == 0 || $ticketRow['seller_id'] == $seller_id)
+                        {
+                            $ticketRow['value']         = $ticketRow['value'] >= $goodsResult['final_sum'] ? $goodsResult['final_sum'] : $ticketRow['value'];
+                            $dataArray['prop']          = $tid;
+                            $dataArray['promotions']   += $ticketRow['value'];
+                            $dataArray['order_amount'] -= $ticketRow['value'];
+                            $goodsResult['promotion'][] = array("plan" => "代金券","info" => "使用了￥".$ticketRow['value']."代金券");
+
+                            //锁定红包状态
+                            $propObj->setData(array('is_close' => 2));
+                            $propObj->update('id = '.$tid);
+
+                            unset($ticket_id[$tk]);
+                            break;
+                        }
+                    }
+                }
+            }
+
+            //促销规则
+            if(isset($goodsResult['promotion']) && $goodsResult['promotion'])
+            {
+                foreach($goodsResult['promotion'] as $key => $val)
+                {
+                    $dataArray['note'] .= join("，",$val)."。";
+                }
+            }
+
+            $dataArray['order_amount'] = $dataArray['order_amount'] <= 0 ? 0 : $dataArray['order_amount'];
+
+            //生成订单插入order表中
+            $orderObj  = new IModel('order');
+            $orderObj->setData($dataArray);
+            $order_id = $orderObj->add();
+
+            if($order_id == false)
+            {
+                IError::show(403,'订单生成错误');
+            }
+
+            /*将订单中的商品插入到order_goods表*/
+            $orderInstance = new Order_Class();
+            $orderInstance->insertOrderGoods($order_id,$goodsResult['goodsResult']);
+
+            //订单金额小于等于0直接免单
+            if($dataArray['order_amount'] <= 0)
+            {
+                Order_Class::updateOrderStatus($dataArray['order_no']);
+            }
+            else
+            {
+                $orderIdArray[]  = $order_id;
+                $orderNumArray[] = $dataArray['order_no'];
+                $final_sum      += $dataArray['order_amount'];
+            }
+            
+            if($invoice){
+                $db_fapiao = new IModel('order_fapiao');
+                $fapiao_data = array(
+                        'order_id'=> $order_id,
+                        'money' => $goodsResult['orderAmountPrice'],
+                        'status' => 0,
+                        'user_id' => $user_id,
+                        'type'    => IReq::get('fapiao_type'),
+                        'create_time'=> ITime::getDateTime(),
+                        'taitou' => $tax_title,
+                        'seller_id' => $seller_id
+                );
+                if($fapiao_data['type']==1){
+                    $fapiao_data['com'] = IFilter::act(IReq::get('tax_com'));
+                    $fapiao_data['tax_no']= IFilter::act(IReq::get('tax_no'));
+                    $fapiao_data['address'] = IFilter::act(IReq::get('tax_address'));
+                    $fapiao_data['telphone'] = IFilter::act(IReq::get('tax_telphone'));
+                    $fapiao_data['bank'] = IFilter::act(IReq::get('tax_bank'));
+                    $fapiao_data['account'] = IFilter::act(IReq::get('tax_account'));
+                }
+                $db_fapiao->setData($fapiao_data);
+                $db_fapiao->add();
+            }
+        }
+
+        //记录用户默认习惯的数据
+        if(!isset($memberRow['custom']))
+        {
+            $memberObj = new IModel('member');
+            $memberRow = $memberObj->getObj('user_id = '.$user_id,'custom');
+        }
+
+        $memberData = array(
+            'custom' => serialize(
+                array(
+                    'payment'  => $payment,
+                    'delivery' => $delivery_id,
+                )
+            ),
+        );
+        $memberObj->setData($memberData);
+        $memberObj->update('user_id = '.$user_id);
+
+        //收货地址的处理
+        if($user_id)
+        {
+            $addressDefRow = $addressDB->getObj('user_id = '.$user_id.' and is_default = 1');
+            if(!$addressDefRow)
+            {
+                $addressDB->setData(array('is_default' => 1));
+                $addressDB->update('user_id = '.$user_id.' and id = '.$address_id);
+            }
+        }
+
+        //获取备货时间
+        $this->stockup_time = $this->_siteConfig->stockup_time ? $this->_siteConfig->stockup_time : 2;
+
+        //数据渲染
+        $this->order_id    = join("_",$orderIdArray);
+        $this->final_sum   = $final_sum;
+        $this->order_num   = join(",",$orderNumArray);
+        $this->payment     = $paymentName;
+        $this->paymentType = $paymentType;
+        $this->delivery    = $deliveryRow['name'];
+        $this->tax_title   = $tax_title;
+        $this->deliveryType= $deliveryRow['type'];
+        plugin::trigger('setCallback','/ucenter/order');
+        //订单金额为0时，订单自动完成
+        if($this->final_sum <= 0)
+        {
+            $this->redirect('/site/success/message/'.urlencode("订单确认成功，等待发货"));
+        }
+        else
+        {
+            $this->setRenderData($dataArray);
+            $this->redirect('cart3');
+        }
+    }
+
+	/**
+	 * 手机端生成订单
+	 */
+    function cart35()
     {
     	$address_id    = IFilter::act(IReq::get('radio_address'),'int');
     	$delivery_id   = IFilter::act(IReq::get('delivery_id'),'int');
@@ -491,10 +927,12 @@ class Simple extends IController
     	$order_type    = 0;
     	$dataArray     = array();
     	$user_id       = ($this->user['user_id'] == null) ? 0 : $this->user['user_id'];
-        $invoice       = isset($_POST['taxes']) ? 1 : 0;
         
         //是否保价
         $if_protected = IFilter::act(IReq::get('if_protected'),'int');
+        
+        //获取发票信息
+        $invoiceData   = JSON::decode(ICookie::get('invoice'.$user_id));
 
 		//获取商品数据信息
     	$countSumObj = new CountSum($user_id);
@@ -513,15 +951,18 @@ class Simple extends IController
                 $cartData[$tem[0]]['id'][] = intval($tem[1]);
                 $cartData[$tem[0]]['data'][intval($tem[1])] = array('count' => intval($tem[2]));
                 $cartData[$tem[0]]['data']['count'] = intval($tem[2]);
-                $delCart[$tem[1]][] = $tem[0];
+                $delCart[$tem[1]] = $tem[0];
             }
             //计算购物车中的商品价格$goodsResult
             $goodsResult = $countSumObj->cart_count($gid,$type,$num,$promo,$active_id,$cartData);
         }
 
+        $return = array();
 		if($countSumObj->error)
 		{
-			IError::show(403,$countSumObj->error);
+            $return['code'] = 0;
+			$return['msg'] = $countSumObj->error;
+            echo JSON::encode($return);exit;
 		}
 
 		//处理收件地址
@@ -538,7 +979,9 @@ class Simple extends IController
 
 		if(!$addressRow)
 		{
-			IError::show(403,"收货地址信息不存在");
+            $return['code'] = 0;
+            $return['msg'] = '收货地址信息不存在';
+            echo JSON::encode($return);exit;
 		}
     	$accept_name   = IFilter::act($addressRow['accept_name'],'name');
     	$province      = $addressRow['province'];
@@ -549,7 +992,7 @@ class Simple extends IController
     	$telphone      = IFilter::act($addressRow['telphone'],'phone');
         $zip           = IFilter::act($addressRow['zip'],'zip');
         
-        $tax_title     = IReq::get('tax_title') ? IFilter::act(IReq::get('tax_title')) : $accept_name;
+        $tax_title     = $invoiceData['tax_title'] ? IFilter::act($invoiceData['tax_title']) : $accept_name;
 		//检查订单重复
     	$checkData = array(
     		"accept_name" => $accept_name,
@@ -560,7 +1003,10 @@ class Simple extends IController
     	$result = order_class::checkRepeat($checkData,$goodsResult['goodsList']);
     	if( is_string($result) )
     	{
-			IError::show(403,$result);
+            $return['code'] = 0;
+            $return['msg'] = $result;
+            echo JSON::encode($return);
+            exit;
     	}
         
 		//配送方式,判断是否为货到付款
@@ -568,14 +1014,18 @@ class Simple extends IController
 		$deliveryRow = $deliveryObj->getObj('id = '.$delivery_id);
 		if(!$deliveryRow)
 		{
-			IError::show(403,'配送方式不存在');
+            $return['code'] = 0;
+            $return['msg'] = '配送方式不存在';
+            echo JSON::encode($return);exit;
 		}
 
 		if($deliveryRow['type'] == 0)
 		{
 			if($payment == 0)
 			{
-				IError::show(403,'请选择正确的支付方式');
+                $return['code'] = 0;
+                $return['msg'] = '请选择正确的支付方式';
+                echo JSON::encode($return);exit;
 			}
 		}
 		else if($deliveryRow['type'] == 1)
@@ -586,7 +1036,9 @@ class Simple extends IController
 		{
 			if($takeself == 0)
 			{
-				IError::show(403,'请选择正确的自提点');
+                $return['code'] = 0;
+                $return['msg'] = '请选择正确的自提点';
+                echo JSON::encode($return);exit;
 			}
 		}
 		//如果不是自提方式自动清空自提点
@@ -607,7 +1059,9 @@ class Simple extends IController
     	//判断商品是否存在
     	if(is_string($goodsResult) || empty($goodsResult['goodsList']))
     	{
-    		IError::show(403,'商品数据错误');
+            $return['code'] = 0;
+            $return['msg'] = '商品数据错误';
+            echo JSON::encode($return);exit;
     	}
 
     	//加入促销活动
@@ -621,7 +1075,9 @@ class Simple extends IController
 		$paymentRow = $paymentObj->getObj('id = '.$payment,'type,name');
 		if(!$paymentRow)
 		{
-			IError::show(403,'支付方式不存在');
+            $return['code'] = 0;
+            $return['msg'] = '支付方式不存在';
+            echo JSON::encode($return);exit;
 		}
 		$paymentName= $paymentRow['name'];
 		$paymentType= $paymentRow['type'];
@@ -630,8 +1086,9 @@ class Simple extends IController
 		$orderData = $countSumObj->countOrderFee($goodsResult,$province,$delivery_id,$payment,$taxes,0,$promo,$active_id,$if_protected);
 		if(is_string($orderData))
 		{
-			IError::show(403,$orderData);
-			exit;
+            $return['code'] = 0;
+            $return['msg'] = $orderData;
+            echo JSON::encode($return);exit;
 		}
 		//根据商品所属商家不同批量生成订单
 		$orderIdArray  = array();
@@ -672,7 +1129,7 @@ class Simple extends IController
 				'pay_fee'             => $goodsResult['paymentPrice'],
 
 				//税金
-				'invoice'             => $invoice,
+				'invoice'             => $taxes ? 1 : 0,
 				'invoice_title'       => $tax_title,
 				'taxes'               => $goodsResult['taxPrice'],
 
@@ -712,7 +1169,9 @@ class Simple extends IController
 						$ticketRow = $propObj->getObj('id = '.$tid.' and NOW() between start_time and end_time and type = 0 and is_close = 0 and is_userd = 0 and is_send = 1');
 						if(!$ticketRow)
 						{
-							IError::show(403,'代金券不可用');
+                            $return['code'] = 0;
+                            $return['msg'] = '代金券不可用';
+                            echo JSON::encode($return);exit;
 						}
 
 						if($ticketRow['seller_id'] == 0 || $ticketRow['seller_id'] == $seller_id)
@@ -752,7 +1211,9 @@ class Simple extends IController
 
 			if($order_id == false)
 			{
-				IError::show(403,'订单生成错误');
+                $return['code'] = 0;
+                $return['msg'] = '订单生成错误';
+                echo JSON::encode($return);exit;
 			}
 
 			/*将订单中的商品插入到order_goods表*/
@@ -771,25 +1232,25 @@ class Simple extends IController
 				$final_sum      += $dataArray['order_amount'];
 			}
             
-            if($invoice){
+            if($taxes){
                 $db_fapiao = new IModel('order_fapiao');
                 $fapiao_data = array(
                         'order_id'=> $order_id,
                         'money' => $goodsResult['orderAmountPrice'],
                         'status' => 0,
                         'user_id' => $user_id,
-                        'type'    => IReq::get('fapiao_type'),
+                        'type'    => $invoiceData['fapiao_type'],
                         'create_time'=> ITime::getDateTime(),
                         'taitou' => $tax_title,
                         'seller_id' => $seller_id
                 );
                 if($fapiao_data['type']==1){
-                    $fapiao_data['com'] = IFilter::act(IReq::get('tax_com'));
-                    $fapiao_data['tax_no']= IFilter::act(IReq::get('tax_no'));
-                    $fapiao_data['address'] = IFilter::act(IReq::get('tax_address'));
-                    $fapiao_data['telphone'] = IFilter::act(IReq::get('tax_telphone'));
-                    $fapiao_data['bank'] = IFilter::act(IReq::get('tax_bank'));
-                    $fapiao_data['account'] = IFilter::act(IReq::get('tax_account'));
+                    $fapiao_data['com'] = IFilter::act($invoiceData['tax_com']);
+                    $fapiao_data['tax_no']= IFilter::act($invoiceData['tax_no']);
+                    $fapiao_data['address'] = IFilter::act($invoiceData['tax_address']);
+                    $fapiao_data['telphone'] = IFilter::act($invoiceData['tax_telphone']);
+                    $fapiao_data['bank'] = IFilter::act($invoiceData['tax_bank']);
+                    $fapiao_data['account'] = IFilter::act($invoiceData['tax_account']);
                 }
                 $db_fapiao->setData($fapiao_data);
                 $db_fapiao->add();
@@ -828,26 +1289,22 @@ class Simple extends IController
 		//获取备货时间
 		$this->stockup_time = $this->_siteConfig->stockup_time ? $this->_siteConfig->stockup_time : 2;
 
-		//数据渲染
-		$this->order_id    = join("_",$orderIdArray);
-		$this->final_sum   = $final_sum;
-		$this->order_num   = join(",",$orderNumArray);
-		$this->payment     = $paymentName;
-		$this->paymentType = $paymentType;
-		$this->delivery    = $deliveryRow['name'];
-		$this->tax_title   = $tax_title;
-		$this->deliveryType= $deliveryRow['type'];
 		plugin::trigger('setCallback','/ucenter/order');
+        ICookie::clear('cart2'.$user_id);
+        ICookie::clear('invoice'.$user_id);
 		//订单金额为0时，订单自动完成
-		if($this->final_sum <= 0)
-		{
-			$this->redirect('/site/success/message/'.urlencode("订单确认成功，等待发货"));
-		}
-		else
-		{
-			$this->setRenderData($dataArray);
-			$this->redirect('cart3');
-		}
+        $dataArray['code'] = 1;
+        $dataArray['js_order_id'] = join("_",$orderIdArray);
+        $dataArray['js_final_sum'] = $final_sum;
+        $dataArray['js_paymentType'] = $paymentType;
+        $dataArray['js_deliveryType'] = $deliveryRow['type'];
+        $dataArray['js_delevery'] = $deliveryRow['name'];
+        $dataArray['js_payment'] = $paymentName;
+        $dataArray['js_order_num'] = join(",",$orderNumArray);
+        $dataArray['js_tax_title'] = $tax_title;
+        $dataArray['js_fapiao_type'] = $taxes ? ($fapiao_data['type']==1 ? '增值税专票' : '增值税普票') : '无';
+        $dataArray['code'] = 1;
+        echo JSON::encode($dataArray);
     }
 
     //到货通知处理动作
@@ -885,12 +1342,10 @@ class Simple extends IController
     {
         if($this->user)
         {
-            $this->redirect("/ucenter/index");
+            plugin::trigger('clearUser');
         }
-        else{
-            $this->layout = 'site_log';
-            $this->redirect('find_password');
-        }
+        $this->layout = 'site_log';
+        $this->redirect('find_password');
     }
 
 	/**
@@ -906,7 +1361,7 @@ class Simple extends IController
 
         $captcha  = IReq::get('captcha');
         $_captcha = ISafe::get('captcha');
-        if(!$captcha || !$_captcha || $captcha != $_captcha)
+        if((!$captcha || !$_captcha || $captcha != $_captcha) && IClient::getDevice() == 'pc')
         {
             IError::show("请填写正确的图形验证码");
         }
@@ -995,14 +1450,13 @@ class Simple extends IController
 	{
         $mobile = IFilter::act(IReq::get('mobile'));
 		$captcha = IFilter::act(IReq::get('captcha'));
-        $_v = IReq::get('_v');
         $_captcha = ISafe::get('captcha');
 
 		if($mobile === null || !IValidate::mobi($mobile))
 		{
 			die("请输入正确的手机号码");
 		}
-        if((!$captcha || !$_captcha || $captcha != $_captcha) && is_null($_v))
+        if((!$captcha || !$_captcha || $captcha != $_captcha) && IClient::getDevice() == 'pc')
         {
             die("请填写正确的图形验证码");
         }
@@ -1363,7 +1817,7 @@ class Simple extends IController
         $model = new IModel('seller_rej_sign');
         if(!$model->getObj('seller_id = '.$id.' and code = '.$code))
         {
-            IError::show(403,'改地址已失效，请与管理员联系');
+            IError::show(403,'修改地址已失效，请与管理员联系');
         }
         $this->code = $code;
         $model = new IModel('seller');
@@ -1377,10 +1831,11 @@ class Simple extends IController
     public function sellerRej_reg()
     {
         $seller_name = IValidate::name(IReq::get('seller_name')) ? IReq::get('seller_name') : "";
+        $contacts_name = IValidate::name(IReq::get('contacts_name')) ? IReq::get('contacts_name') : "";
         $email       = IValidate::email(IReq::get('email'))      ? IReq::get('email')       : "";
         $truename    = IValidate::name(IReq::get('true_name'))   ? IReq::get('true_name')   : "";
         $phone       = IValidate::phone(IReq::get('phone'))      ? IReq::get('phone')       : "";
-        $mobile      = IValidate::mobi(IReq::get('mobile'))      ? IReq::get('mobile')      : "";
+        //$mobile      = IValidate::mobi(IReq::get('mobile'))      ? IReq::get('mobile')      : "";
         $home_url    = IValidate::url(IReq::get('home_url'))     ? IReq::get('home_url')    : "";
         $province    = IFilter::act(IReq::get('province'),'int');
         $city        = IFilter::act(IReq::get('city'),'int');
@@ -1402,6 +1857,11 @@ class Simple extends IController
         if(!$truename)
         {
             $errorMsg = '填写正确的商户真实全称';
+        }
+
+        if(!$contacts_name)
+        {
+            $errorMsg = '填写正确的联系人';
         }
 
         //创建商家操作类
@@ -1426,8 +1886,9 @@ class Simple extends IController
         //待更新的数据
         $sellerRow = array(
             'true_name' => $truename,
+            'contacts_name' => $contacts_name,
             'phone'     => $phone,
-            'mobile'    => $mobile,
+            //'mobile'    => $mobile,
             'email'     => $email,
             'address'   => $address,
             'province'  => $province,
@@ -1438,7 +1899,7 @@ class Simple extends IController
         );
 
         //商户资质、logo上传
-        if((isset($_FILES['paper_img']['name']) && $_FILES['paper_img']['name']) || (isset($_FILES['seller_logo']['name']) && $_FILES['seller_logo']['name']))
+        if((isset($_FILES['paper_img']['name']) && $_FILES['paper_img']['name']) || (isset($_FILES['seller_logo']['name']) && $_FILES['seller_logo']['name']) || (isset($_FILES['identity_card']['name']) && $_FILES['identity_card']['name']))
         {
             $uploadObj = new PhotoUpload();
             $uploadObj->setIterance(false);
@@ -1453,6 +1914,11 @@ class Simple extends IController
         if(isset($photoInfo['seller_logo']['img']) && file_exists($photoInfo['seller_logo']['img']))
         {
             $sellerRow['seller_logo'] = $photoInfo['seller_logo']['img'];
+        }
+            
+        if(isset($photoInfo['identity_card']['img']) && file_exists($photoInfo['identity_card']['img']))
+        {
+            $sellerRow['identity_card'] = $photoInfo['identity_card']['img'];
         }
         $sellerRow['seller_name'] = $seller_name;
 
@@ -1474,7 +1940,8 @@ class Simple extends IController
 	 */
 	public function seller_reg()
 	{
-		$seller_name = IValidate::name(IReq::get('seller_name')) ? IReq::get('seller_name') : "";
+        $seller_name = IValidate::name(IReq::get('seller_name')) ? IReq::get('seller_name') : "";
+		$contacts_name = IValidate::name(IReq::get('contacts_name')) ? IReq::get('contacts_name') : "";
 		$email       = IValidate::email(IReq::get('email'))      ? IReq::get('email')       : "";
 		$truename    = IValidate::name(IReq::get('true_name'))   ? IReq::get('true_name')   : "";
 		$phone       = IValidate::phone(IReq::get('phone'))      ? IReq::get('phone')       : "";
@@ -1489,7 +1956,9 @@ class Simple extends IController
         $address     = IFilter::act(IReq::get('address'));
         $con_num     = IFilter::act(IReq::get('con_num'));
 		$type        = IFilter::act(IReq::get('type'));
-
+        $mobile_code = IFilter::act(IReq::get('mobile_code','post'));
+        $captcha     = IFilter::act(IReq::get('captcha','post'));
+        $_captcha    = ISafe::get('captcha');
 		if($password == '')
 		{
 			$errorMsg = '请输入密码！';
@@ -1505,10 +1974,35 @@ class Simple extends IController
 			$errorMsg = '填写正确的登陆用户名';
 		}
 
-		if(!$truename)
+        if(!$truename)
+        {
+            $errorMsg = '填写正确的商户真实全称';
+        }
+
+		if(!$contacts_name)
 		{
-			$errorMsg = '填写正确的商户真实全称';
+			$errorMsg = '填写正确的联系人';
 		}
+        if(!$_FILES['paper_img']['name'])
+        {
+            $errorMsg = '填上传营业执照';
+        }
+        if(!$_FILES['identity_card']['name'])
+        {
+            $errorMsg = '填上传负责人证件';
+        }
+
+        if(!$_captcha || !$captcha || $captcha != $_captcha)
+        {
+            $errorMsg = "图形验证码输入不正确";
+        }
+
+        $_mobileCode = ISafe::get('seller_code'.$mobile);
+        if(!$mobile_code || !$_mobileCode || $mobile_code != $_mobileCode)
+        {
+            $errorMsg = "手机验证码不正确";
+        }
+
 
 		//创建商家操作类
 		$sellerDB = new IModel("seller");
@@ -1531,7 +2025,8 @@ class Simple extends IController
 
 		//待更新的数据
 		$sellerRow = array(
-			'true_name' => $truename,
+            'true_name' => $truename,
+			'contacts_name' => $contacts_name,
 			'phone'     => $phone,
 			'mobile'    => $mobile,
 			'email'     => $email,
@@ -1549,13 +2044,10 @@ class Simple extends IController
             $sellerRow['is_pay'] = 1;
         }
 
-		//商户资质、logo上传
-		if((isset($_FILES['paper_img']['name']) && $_FILES['paper_img']['name']) || (isset($_FILES['seller_logo']['name']) && $_FILES['seller_logo']['name']))
-		{
-			$uploadObj = new PhotoUpload();
-			$uploadObj->setIterance(false);
-			$photoInfo = $uploadObj->run();
-		}
+		//营业执照、负责人证件、logo上传
+		$uploadObj = new PhotoUpload();
+		$uploadObj->setIterance(false);
+		$photoInfo = $uploadObj->run();
 
         if(isset($photoInfo['paper_img']['img']) && file_exists($photoInfo['paper_img']['img']))
         {
@@ -1565,6 +2057,11 @@ class Simple extends IController
         if(isset($photoInfo['seller_logo']['img']) && file_exists($photoInfo['seller_logo']['img']))
         {
             $sellerRow['seller_logo'] = $photoInfo['seller_logo']['img'];
+        }
+            
+        if(isset($photoInfo['identity_card']['img']) && file_exists($photoInfo['identity_card']['img']))
+        {
+            $sellerRow['identity_card'] = $photoInfo['identity_card']['img'];
         }
 		$sellerRow['seller_name'] = $seller_name;
 		$sellerRow['password']    = md5($password);
@@ -1581,6 +2078,41 @@ class Simple extends IController
 		}
 		$this->redirect('/site/success?message='.urlencode("申请成功！请耐心等待管理员的审核"));
 	}
+
+    //商家开店发送验证码
+    public function sendSellerMobileCode()
+    {
+        $mobile   = IReq::get('mobile');
+        $captcha  = IReq::get('captcha');
+        $_captcha = ISafe::get('captcha');
+        if(IValidate::mobi($mobile) == false)
+        {
+            die("请填写正确的手机号码");
+        }
+        if(!$captcha || !$_captcha || $captcha != $_captcha)
+        {
+            die("请填写正确的图形验证码");
+        }
+
+        $sellerObj = new IModel('seller');
+        $sellerRow = $sellerObj->getObj('mobile = "'.$mobile.'"');
+        if($sellerRow)
+        {
+            die("手机号已经被申请");
+        }
+
+        $mobile_code = rand(100000,999999);
+        $content = smsTemplate::checkCode(array('{mobile_code}' => $mobile_code));
+        $result = Hsms::send($mobile,$content);
+        if($result == 'success')
+        {
+            ISafe::set("seller_code".$mobile,$mobile_code);
+        }
+        else
+        {
+            die($result);
+        }
+    }
     
     //申请开店支付页面
     function sellerPay()

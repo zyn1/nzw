@@ -104,9 +104,8 @@ class _userInfo extends pluginBase
     	$captcha    = IFilter::act(IReq::get('captcha','post'));
         $_captcha   = ISafe::get('captcha');
     	$is_auto   = IFilter::act(IReq::get('is_auto','post'));
-        $_v = IReq::get('_v');
 
-        if((!$_captcha || !$captcha || $captcha != $_captcha) && is_null($_v))
+        if((!$_captcha || !$captcha || $captcha != $_captcha) && IClient::getDevice() == 'pc')
         {
             return "图形验证码输入不正确";
         }
@@ -143,12 +142,12 @@ class _userInfo extends pluginBase
 		$email      = IFilter::act(IReq::get('email','post'));
 		$mobile     = IFilter::act(IReq::get('mobile','post'));
 		$mobile_code= IFilter::act(IReq::get('mobile_code','post'));
+        $true_name  = IFilter::act(IReq::get('true_name','post'));
     	$username   = IFilter::act(IReq::get('username','post'));
     	$password   = IFilter::act(IReq::get('password','post'));
     	$repassword = IFilter::act(IReq::get('repassword','post'));
     	$captcha    = IFilter::act(IReq::get('captcha','post'));
     	$_captcha   = ISafe::get('captcha');
-        $_v = IReq::get('_v');
 
     	//获取注册配置参数
 		$siteConfig = new Config('site_config');
@@ -166,12 +165,12 @@ class _userInfo extends pluginBase
     		return "密码是字母，数字，下划线组成的6-32个字符";
     	}
 
-    	if($password != $repassword && is_null($_v))
+    	if($password != $repassword && IClient::getDevice() == 'pc')
     	{
     		return "2次密码输入不一致";
     	}
 
-    	if((!$_captcha || !$captcha || $captcha != $_captcha) && is_null($_v))
+    	if((!$_captcha || !$captcha || $captcha != $_captcha) && IClient::getDevice() == 'pc')
     	{
     		return "图形验证码输入不正确";
     	}
@@ -199,26 +198,22 @@ class _userInfo extends pluginBase
 				}
 			}
 		}
-		//手机验证
-		else if($reg_type == 3)
+		if(IValidate::mobi($mobile) == false)
 		{
-			if(IValidate::mobi($mobile) == false)
-			{
-				return "手机号格式不正确";
-			}
+			return "手机号格式不正确";
+		}
 
-			$_mobileCode = ISafe::get('code'.$mobile);
-			if(!$mobile_code || !$_mobileCode || $mobile_code != $_mobileCode)
-			{
-				return "手机号验证码不正确";
-			}
+		$_mobileCode = ISafe::get('code'.$mobile);
+		if(!$mobile_code || !$_mobileCode || $mobile_code != $_mobileCode)
+		{
+			return "手机号验证码不正确";
+		}
 
-			$memberObj = new IModel('member');
-			$memberRow = $memberObj->getObj('mobile = "'.$mobile.'"');
-			if($memberRow)
-			{
-				return "手机号已经被注册";
-			}
+		$memberObj = new IModel('member');
+		$memberRow = $memberObj->getObj('mobile = "'.$mobile.'"');
+		if($memberRow)
+		{
+			return "手机号已经被注册";
 		}
 
 		//用户名检查
@@ -253,6 +248,7 @@ class _userInfo extends pluginBase
 			'user_id' => $user_id,
 			'time'    => ITime::getDateTime(),
 			'status'  => $reg_type == 1 ? 3 : 1,
+            'true_name'  => $true_name,
 			'mobile'  => $mobile,
 			'email'   => $email,
 		);
@@ -278,13 +274,12 @@ class _userInfo extends pluginBase
 	{
 		$mobile   = IReq::get('mobile');
         $captcha  = IReq::get('captcha');
-		$_v  = IReq::get('_v');
 		$_captcha = ISafe::get('captcha');
 		if(IValidate::mobi($mobile) == false)
 		{
 			die("请填写正确的手机号码");
 		}
-		if((!$captcha || !$_captcha || $captcha != $_captcha) && $_v == 1)
+		if((!$captcha || !$_captcha || $captcha != $_captcha) && IClient::getDevice() == 'pc')
 		{
 			die("请填写正确的图形验证码");
 		}

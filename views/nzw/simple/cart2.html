@@ -226,8 +226,8 @@ $(function(){
 				<div class="cart_item_count last">
 					<div class="count">
 						<p>{if:$this->final_sum != $this->sum}优惠后总金额{else:}商品总金额{/if}：<strong>{$this->final_sum}</strong></p>  
-						<!-- 代金券：<strong name='ticket_value'>0</strong>  
-						税金：<strong id='tax_fee'>0</strong>  -->
+						<!-- 代金券：<strong name='ticket_value'>0</strong>  -->
+						税金：<strong id='tax_fee'>0</strong>  
 						<p>运费总计：<strong id='delivery_fee_show'>0</strong></p>  
 						<p class="js_if_protected"><input type="checkbox" name="if_protected" value="1" onclick="orderFormInstance.doAccount();"/>是否保价：<strong id='protect_price_value'>0</strong> </p> 
 						支付手续费：<strong id='payment_value'>0</strong>
@@ -246,12 +246,6 @@ $(function(){
 								是否需要发票？(税金:￥{$this->goodsTax}) 
 								<input class="radio" onclick="orderFormInstance.doAccount();$('#tax_title').toggle();" name="taxes" type="checkbox" value="{$this->goodsTax}">
 							</td>
-							<!-- <td>
-								<label id="tax_title" class='none'>
-									发票抬头：
-									<input type='text' class='input_text' name='tax_title' />
-								</label>
-							</td> -->
 							<td>
 								<div class="all_count">
 									应付总额：<em>￥<span id='final_sum'>{$this->final_sum}</span></em> 元

@@ -1,31 +1,27 @@
 <header class="header_login">
 	<div class="header_title">
 		<a class="return_a"onclick="window.history.back();"></a>
-		<h2 id="pageInfo" data-title="找回密码">找回密码</h2>
-		<a class="qx_a" href="{url:simple/login}">登录</a>
+		<h2 id="pageInfo" data-title="修改绑定邮箱">修改绑定邮箱</h2>
+		
 	</div>
 </header>
 <section class="find_pw">
-	<!-- <ul class="tab">
-		<li class="on">短信找回</li>
-		<li>邮箱找回</li>
-	</ul> -->
 	<div class="con input_li">
 		<ul>
-			<form action='{url:/simple/find_password_mobile}' method='post' id="mobileWay">
-				<li>
-					<input class='input_text' placeholder="请输入您的手机号" initmsg="" type="text" name="mobile" pattern="^[1][34578][0-9]{9}$"  alt="号码格式不正确" />
+			<form action='{url:/ucenter/changeEmail1}' method='post' id="mobileWay">
+				<li class="num_change">
+					当前绑定邮箱：{$this->email}
 				</li>
 				<li class="yzm">
-					<input class="input_text input_captcha" type="text" placeholder="请输入验证码" initmsg="" name='mobile_code' pattern="^\w{4,6}$" alt="验证码不正确" />
-					<input class="input_button" type="button" onclick="sendMessage();" value="获取验证码">
+					<input class="input_text input_captcha" type="text" placeholder="请输入验证码" initmsg="" name="email_code" pattern='^\w{4,6}$' alt="验证码不正确" />
+					<input class="input_button" type="button" onclick="sendChangeMail();" value="发送邮件验证码">
 				</li>
 				<li>
-					<input type="submit" class="input_submit" value="找回密码">
+					<input type="submit" class="input_submit" value="下一步">
 				</li>
 			</form>
 		</ul>
-		<!-- 邮箱找回密码 strat-->
+		<!-- 邮箱找回密码 start-->
 	<!-- 	<ul class="none">
 			<form action='{url:/simple/find_password_email}' method='post' id="mailWay">
 				<li>
@@ -43,6 +39,9 @@
 </section>
 <script>
 $(function(){
+    hideNav();
+})
+$(function(){
 	// 给底部导航加上当前样式
 	$(".nav_user").addClass('on');
 	$(".footer_login").hide();
@@ -56,17 +55,19 @@ $(function(){
 	});
 })
 
-  //发送短信码
-function sendMessage(){
-	var mobile   = $('#mobileWay [name="mobile"]').val();
-	$.get("{url:/simple/send_message_mobile}",{"mobile":mobile},function(content){
-		if(content == 'success'){
-			alert('发送成功，请查看您的手机');
-		}
-		else{
-			alert(content);
-			return;
-		}
-	});
+function sendChangeMail()
+{
+    $.get("{url:/ucenter/_sendChangeEmailCode}",{},function(content)
+    {
+        if(content)
+        {
+            alert(content);
+            return;
+        }
+        else
+        {
+            alert('发送成功，请注意查收');
+        }
+    });
 }
 </script>

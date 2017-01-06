@@ -87,7 +87,7 @@ class ICookie
      */
 	public static function clear($name)
 	{
-		self::set($name,'',0);
+		self::set($name,'',-1);
 	}
 
     /**

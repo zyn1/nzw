@@ -1,16 +1,6 @@
+<link rel="stylesheet" href="{skin:style/bases.css}">
 {js:artTemplate} {js:areaSelect} {js:my97date}
 <div id="pageInfo" data-title="个人资料"></div>
-
-
-				<!-- <li>
-					<span class="input_item">所在地区</span>
-					<select name="province" child="city,area"class="input_select f3"></select>
-					<select name="city" child="area" class="input_select f3"></select>
-					<select name="area" class="input_select f3"></select>
-				</li> -->
-			
-
-
 <style type="text/css">
     body{
         background: #fff;
@@ -34,50 +24,52 @@
     <div class="header">
         <a class="return_a" onclick="window.history.back();"></a>
         <div class="sear_t">
-            <a href="">个人信息设置</a>
+            <a href="javascript:;">个人信息设置</a>
         </div>
-        <a class="qx_a" href="{url:ucenter/info}">完成</a>
+        <a class="qx_a" href="javascript:$('.js_info_edit').submit();">完成</a>
    </div>
 </header>
 
 <section class="help_bar">
 	<div class="set_list">
-		<form action='{url:/ucenter/info_edit_act}' name='user_info' method="POST" role="form">
-		<input type="hidden" name='callback' value="{$callback}" />
+		<form action='{url:/ucenter/info_edit_act}' name='user_info' method="POST" role="form" class="js_info_edit">
 			<ul>
-				<li class="upfilebox">
-					<input accept="image/*" type="file"><img src="{url:views/mobile/skin/default/image/user_ico.png}" class="user_ico"><span class="user_name">{$this->user['username']}</span><i class="icon-more"></i>
+				<li class="upfilebox" onclick="select_ico()">
+                    {set:$user_ico = $this->user['head_ico']}
+					<img id="user_ico_img" src="{if:$user_ico}{webroot:$user_ico}{else:}{skin:image/user_ico.png}{/if}" class="user_ico"><span class="user_name">{$this->user['username']}</span><i class="icon-more"></i>
 				</li>
-				<li>
-					<input type="text" name="true_name" class="input_text" placeholder="请输入昵称"></li>
-	                                  <li class="choice">
-	                                  		<span>性别</span>
-	                                  		<label class="radio">男<input type="radio" name="sex" value="1" ><i></i></label>  
-    					<label class="radio">女<input type="radio" name="sex" value="2" checked><i></i></label>  
-	                                  </li>
-	                                  <li>	                                  		
+				<li><input type="text" name="true_name" class="input_text" pattern="required" placeholder="请输入真实姓名"></li>
+	            <li class="choice">
+	                <span>性别</span>
+	                <label class="radio">男<input type="radio" name="sex" value="1" ><i></i></label>  
+    				<label class="radio">女<input type="radio" name="sex" value="2" checked><i></i></label>  
+	            </li>
+	            <li>	                                  		
 					<input type="text" name="birthday" class="input_text" pattern='date' onFocus="WdatePicker()" placeholder="请输入出生日期"/>
-	                                  </li>
-	                                  <li>	                                  		
-					<input type="text" name="telephone" class="input_text" value="" pattern="" placeholder="请输入固定电话"/>
-	                                  </li>
-	                                  <li>	                                  		
-					<input type="text" name="qq" class="input_text" value="" pattern="" placeholder="请输入QQ号"/>
-	                                  </li>
-	                                  <li>	                                  		
-					<input type="text" name="zip" class="input_text" value="" pattern="" placeholder="请输入邮编"/>
-	                                  </li>
-	                                  <li>	                                  		
-					<input type="text" name="？？？" class="input_text" value="" pattern="" placeholder="请输入装修风格"/>
-	                                  </li>
-	                                  <li>	                                  		
-					<input type="text" name="contact_addr" class="input_text" value="" pattern="" placeholder="请输入详细地址"/>
-	                                  </li>
-				
-					<section class="input_li">
-					        <input type="submit" class="input_submit" value="保存">
-					    </section>
-				
+	            </li>
+	            <li>	                                  		
+					<input type="text" name="telephone" class="input_text" value="" pattern="phone" placeholder="请输入固定电话"/>
+	            </li>
+	            <li>	                                  		
+					<input type="text" name="qq" class="input_text" value="" pattern="qq" placeholder="请输入QQ号"/>
+	            </li>
+	            <li>	                                  		
+					<input type="text" name="zip" class="input_text" value="" pattern="zip" placeholder="请输入邮编"/>
+	            </li>
+	            <li>	                                  		
+					<input type="text" name="desc_info" class="input_text" value="" pattern="required" placeholder="请输入装修风格"/>
+	            </li>
+                <li>                                              
+                    <select class="input_select" name="province" child="city,area"></select>
+                    <select class="input_select" name="city" child="area"></select>
+                    <select class="input_select" name="area"></select>
+                </li>
+	            <li>	                                  		
+					<input type="text" name="contact_addr" class="input_text" value="" placeholder="请输入详细地址"/>
+	            </li>
+				<section class="input_li">
+				    <input type="submit" class="input_submit" value="保存">
+				</section>
 			</ul>
 		</form>
 	</div>
@@ -86,6 +78,27 @@
 
 
 <script>
+//修改头像
+function select_ico()
+{
+    var w_paswd=$(".w_paswd")
+    var mask=$(".mask");
+    w_paswd.animate({bottom: '0rem'},"slow");
+    mask.fadeIn(300);
+    $('#pas_qd').click(function(){
+        $('#uploadForm').submit();
+    })
+}
+
+$(document).ready(function() {  
+    $("#pas_xq,#type_close").click(function(){ 
+        var mask=$(".mask");
+        var w_paswd=$(".w_paswd");
+        w_paswd.animate({bottom: '-2.7rem'},"slow");
+        mask.fadeOut(300);
+    });
+}); 
+
 //DOM加载完毕
 $(function(){
 	// 内页隐藏页底导航
@@ -105,3 +118,24 @@ var formObj = new Form('user_info');
 formObj.init({echo:JSON::encode($this->memberRow)});
 
 </script>
+
+<div class="mask" id="mask"></div>
+<!-- 上传头像 strat-->
+<div class="w_paswd">
+    <div class="ps_title">
+        <div class="close" id="type_close"></div>
+        <span><strong>修改头像</strong></span>
+    </div>
+    <div class="passwd_cont ">
+        <form action="{url:/ucenter/user_ico_upload}" method="post" enctype="multipart/form-data" id="uploadForm">
+        <div class="pass clear">
+        <input type="file" class="file" name="attach">
+        </div>   
+        <div class="pas_but clear">
+            <button class="pas_qr" id="pas_qd">确定</button>
+            <button class="pas_qx" id="pas_xq">取消</button>
+        </div>
+        </form>
+    </div>
+</div>
+<!-- 上传头像 end-->

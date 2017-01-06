@@ -6,7 +6,8 @@
 <header class="header_login">
 	<div class="header_title">
 		<a class="return_a"onclick="window.history.back();"></a>
-		<h2 id="pageInfo" data-title="管理收货地址">管理收货地址</h2>
+		<h2 id="pageInfo" data-title="选择收货地址">选择收货地址</h2>
+        <a class="qx_a" href="{url:ucenter/address}">管理</a>
 	</div>
 </header>
 <section id="address_list" class="address_list">
@@ -14,7 +15,7 @@
 		<!-- 这里两个class default 代表是否是默认地址 on 代表当前是否选中 -->
 		{foreach:items=$this->address}
 		<li data-value="1" {if:$item['is_default']==1}class="default"{/if}>
-        <a href="{url:/ucenter/address_add/id/$item['id']}">
+        <a href="{url:/simple/cart2/addressId/$item['id']}">
 			<div class="address_list_header">				
 				<span class="name">收货人&nbsp;{$item['accept_name']}</span>
 				<span class="phone">{$item['mobile']}</span>
@@ -30,10 +31,6 @@
 		{/foreach}
 	</ul>
 </section>
-
-<div class="input_li">
-	<input type="button" value="添加新地址" class="input_submit" onclick="window.location='{url:/ucenter/address_add}'"  />
-</div>
 
 <script>
 $(function(){

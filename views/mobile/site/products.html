@@ -15,7 +15,7 @@
         <a class="a_gd"></a>
         <div class="s_nav">
             <ul>
-                <li><a><i class="icon-home">首页</i></a></li>
+                <li><a href="{url:/}"><i class="icon-home">首页</i></a></li>
                 <li><a href="{url:ucenter/message}">
                 {if:$this->user}
                 {set:$msgObj = new Mess($this->user['user_id']);$msgNum = $msgObj->needReadNum();}

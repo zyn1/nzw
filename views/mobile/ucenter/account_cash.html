@@ -28,15 +28,6 @@ $(document).ready(function() {
         w_paswd.animate({bottom: '-2.7rem'},"slow");
         mask.fadeOut(300);
     });
-  //打开支付密码
-    /*$("#del_but").click(function(){
-      var w_paswd=$(".w_paswd")
-      var mask=$(".mask");
-      w_paswd.animate({bottom: '0rem'},"slow");
-      mask.fadeIn(300);
-    })*/
-    
-
 }); 
 function payPass()
 {
@@ -60,9 +51,6 @@ function payPass()
     }
 }
 </script>  
-
-
-
 {set:$withdrawAccount = $this->_siteConfig->withdrawAccount ? $this->_siteConfig->withdrawAccount : 0}
 <div class="container">        
     <form action='#' method='post' name='withdraw' noComplate="true" class="js_validate_form">

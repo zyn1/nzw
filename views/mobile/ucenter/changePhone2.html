@@ -1,0 +1,41 @@
+<style type="text/css">
+    .input_li .form ul li{
+    	text-align: center;
+    }
+    .input_li .form{
+	margin-top: 0.6rem;
+    }
+    .input_li .form ul li span{
+    	font-size: 0.18rem;
+    	display: block;
+    	margin-top:0.6rem; 
+    	color: #888;
+    }
+</style>
+<header class="header_login">
+	<div class="header_title">
+		<a class="return_a"onclick="window.history.back();"></a>
+		<h2 id="pageInfo" data-title="修改绑定手机">修改绑定手机</h2>
+	</div>
+</header>
+<div id="pageInfo" data-title="修改绑定手机"></div>
+
+<section class="reg input_li">
+	<div class="form">
+		<ul>
+			<li>
+				
+				<img src="{url:views/mobile/skin/default/image/top/success_1.png}">
+				<span>恭喜你！您的手机修改成功！</span>
+			</li>
+			<li>
+				<a href="{url:/}" class="input_submit" value="回到首页"></a>
+			</li>
+		</ul>
+	</div>
+</section>
+<script>
+$(function(){
+	hideNav();
+})
+</script>

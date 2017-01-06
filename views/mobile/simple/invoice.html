@@ -1,4 +1,5 @@
 <script src="{theme:javascript/style.js}"></script>
+{set:$invoiceData = $this->invoiceData}
 <header class="header_login">
     <div class="header_title">
         <a class="return_a"onclick="window.history.back();"></a>
@@ -7,35 +8,45 @@
 </header>
 <section class="invoic_top">
     <div class="top_title">
+        {if:!empty($invoiceData) && $invoiceData['fapiao_type'] == 1}
+        <a class="sj_de">增值税普票</a>
+        <a class="sj_good on">增值税专票</a>
+        {else:}
         <a class="sj_de on">增值税普票</a>
         <a class="sj_good">增值税专票</a>
+        {/if}
     </div>
     <div class="invoic_center">
-        <form>
+        <form method="post" action="{url:/simple/invoiceSafe}" name='invoice_form'>
+            <input type="hidden" name="fapiao_type">
             <div class="invoic invoic_ty">
                 <span>发票抬头</span>
-                <span><input type="text" placeholder="请输入抬头名称"/></span>
+                <span><input type="text" name='tax_title' placeholder="请输入抬头名称"/></span>
             </div>
-            <div class="invoic_zp">
+            <div class="invoic_zp" {if:empty($invoiceData) || $invoiceData['fapiao_type'] == 0} style="display: none;"{/if}>
                 <div class="invoic">
                     <span>公司名称</span>
-                    <span><input type="text" placeholder="请输公司名称"/></span>
+                    <span><input type="text" name='tax_com' placeholder="请输公司名称"/></span>
                 </div>
                 <div class="invoic">
                     <span>纳税人识别号</span>
-                    <span><input type="text" placeholder="请输入纳税人识别号"/></span>
+                    <span><input type="text" name='tax_no' placeholder="请输入纳税人识别号"/></span>
                 </div>
                 <div class="invoic">
                     <span>地址</span>
-                    <span><input type="text" placeholder="请输入地址"/></span>
+                    <span><input type="text" name='tax_address' placeholder="请输入地址"/></span>
                 </div>
                 <div class="invoic">
                     <span>电话</span>
-                    <span><input type="text" placeholder="请输入电话"/></span>
+                    <span><input type="text" name='tax_telphone' placeholder="请输入电话"/></span>
                 </div>
                 <div class="invoic">
                     <span>开户行</span>
-                    <span><input type="text" placeholder="请银行账户"/></span>
+                    <span><input type="text" name='tax_bank' placeholder="请输入开户行"/></span>
+                </div>
+                <div class="invoic">
+                    <span>银行账户</span>
+                    <span><input type="text" name='tax_account' placeholder="请输入银行账户"/></span>
                 </div>
             </div>
             <div class="invoice_but"><input type="submit" value="确定"/></div>
@@ -46,5 +57,10 @@
 $(function(){
     // 隐藏底部导航
     hideNav();
+    
+    {if:$invoiceData}
+        var formObj = new Form('invoice_form');
+        formObj.init({echo:JSON::encode($invoiceData)});
+    {/if}
 });
 </script>

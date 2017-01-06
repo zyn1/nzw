@@ -27,10 +27,25 @@ function orderFormClass()
     /**
      * 算账
      */
-    this.doAccount = function()
+    this.doAccount = function(abs)
     {
+        if(abs)
+        {
+            if(abs == 'protected')
+            {
+                if ($('.cart_2_bj em').hasClass("on")) {
+                    $('.cart_2_bj em').removeClass("on").addClass("no");
+                    $('.cart_2_bj input:hidden').val(0);
+                }else{
+                    $('.cart_2_bj em').removeClass("no").addClass("on");
+                    $('.cart_2_bj input:hidden').val( $('.cart_2_bj input:hidden').attr('js_data'));
+                }
+            }
+        }
+        
         //税金
-        this.taxPrice = $('input:checkbox[name="taxes"]:checked').length > 0 ? $('input:checkbox[name="taxes"]:checked').val() : 0;
+        this.taxPrice = $('input:hidden[name="taxes"]').val();
+        this.protectPrice = $('input:hidden[name="if_protected"]').val();
         //最终金额
         this.orderAmount = parseFloat(this.goodsSum) - parseFloat(this.ticketPrice) + parseFloat(this.deliveryPrice) + parseFloat(this.paymentPrice) + parseFloat(this.taxPrice) + parseFloat(this.protectPrice);
 
@@ -44,85 +59,7 @@ function orderFormClass()
         $('#payment_value').html(this.paymentPrice);
         $('#tax_fee').html(this.taxPrice);
     }
-
-    //地址修改
-    this.addressEdit = function(addressId)
-    {
-        art.dialog.open(creatUrl("block/address/id/"+addressId),
-        {
-            "id":"addressWindow",
-            "title":"修改收货地址",
-            "ok":function(iframeWin, topWin){
-                var formObject = iframeWin.document.forms[0];
-                if(formObject.onsubmit() === false)
-                {
-                    alert("请正确填写各项信息");
-                    return false;
-                }
-                $.getJSON(formObject.action,$(formObject).serialize(),function(content){
-                    if(content.result == false)
-                    {
-                        alert(content.msg);
-                        return;
-                    }
-                    addressId ? $('#addressItem'+addressId).remove() : $('#addressItem:first').remove();
-
-                    //修改后的节点增加
-                    var addressLiHtml = template.render('addressLiTemplate',{"item":content.data});
-                    $('.addr_list').prepend(addressLiHtml);
-                    $('input:radio[name="radio_address"]:first').trigger('click');
-
-                    art.dialog({"id":"addressWindow"}).close();
-                });
-                return false;
-            },
-            "okVal":"修改",
-            "cancel":true,
-            "cancelVal":"取消",
-        });
-    }
-
-    //地址删除
-    this.addressDel  = function(addressId)
-    {
-        $('#addressItem'+addressId).remove();
-        $.get(creatUrl("ucenter/address_del"),{"id":addressId});
-    }
-
-    //地址增加
-    this.addressAdd  = function()
-    {
-        art.dialog.open(creatUrl("block/address"),
-        {
-            "id":"addressWindow",
-            "title":"添加收货地址",
-            "ok":function(iframeWin, topWin){
-                var formObject = iframeWin.document.forms[0];
-                if(formObject.onsubmit() === false)
-                {
-                    alert("请正确填写各项信息");
-                    return false;
-                }
-                $.getJSON(formObject.action,$(formObject).serialize(),function(content){
-                    if(content.result == false)
-                    {
-                        alert(content.msg);
-                        return;
-                    }
-                    var addressLiHtml = template.render('addressLiTemplate',{"item":content.data});
-                    $('.addr_list').prepend(addressLiHtml);
-                    $('input:radio[name="radio_address"]:first').trigger('click');
-
-                    art.dialog({"id":"addressWindow"}).close();
-                });
-                return false;
-            },
-            "okVal":"添加",
-            "cancel":true,
-            "cancelVal":"取消",
-        });
-    }
-
+    
     //根据省份地区ajax获取配送方式和运费
     this.getDelivery = function(province)
     {
@@ -155,6 +92,7 @@ function orderFormClass()
                     }
                     $('input[type="radio"][name="delivery_id"][value="'+content.id+'"]').data("protectPrice",parseFloat(content.protect_price));
                     $('input[type="radio"][name="delivery_id"][value="'+content.id+'"]').data("deliveryPrice",parseFloat(content.price));
+                    $('input[type="radio"][name="delivery_id"][value="'+content.id+'"]').data("is_save_price",parseFloat(content.is_save_price));
                     var deliveryHtml = template.render("deliveryTemplate",{"item":content});
                     $("#deliveryShow"+content.id).html(deliveryHtml);
                     $('input[type="radio"][name="delivery_id"][value="'+content.id+'"]').prop("disabled",false);
@@ -175,20 +113,9 @@ function orderFormClass()
             else if(_self.deliveryId > 0 && $('input[type="radio"][name="delivery_id"][value="'+_self.deliveryId+'"]').prop('disabled') != "disabled")
             {
                 $('input[type="radio"][name="delivery_id"][value="'+_self.deliveryId+'"]').trigger('click');
+                $('.js_delivery_data').text($('input[type="radio"][name="delivery_id"][value="'+_self.deliveryId+'"]').attr('js_data'))
             }
         });
-    }
-
-    /**
-     * address初始化
-     */
-    this.addressInit = function()
-    {
-        var addressList = $('input:radio[name="radio_address"]');
-        if(addressList.length > 0)
-        {
-            addressList.first().trigger('click');
-        }
     }
 
     /**
@@ -206,15 +133,24 @@ function orderFormClass()
     this.deliverySelected = function(deliveryId)
     {
         var deliveryObj = $('input[type="radio"][name="delivery_id"][value="'+deliveryId+'"]');
+        $('input[name=if_protected]').attr('js_data', deliveryObj.data("protectPrice") > 0 ? deliveryObj.data("protectPrice") : 0)
         this.protectPrice  = deliveryObj.data("protectPrice") > 0 ? deliveryObj.data("protectPrice") : 0;
         this.deliveryPrice = deliveryObj.data("deliveryPrice")> 0 ? deliveryObj.data("deliveryPrice"): 0;
+        if(deliveryObj.data("is_save_price") == 0)
+        {
+            $('.js_if_protected').hide();
+        }
+        else
+        {
+            $('.js_if_protected').show();
+        }
 
         //先发货后付款
         if(deliveryObj.attr('paytype') == '1')
         {
             $('input[type="radio"][name="payment"]').prop('checked',false);
             $('input[type="radio"][name="payment"]').prop('disabled',true);
-            $('#paymentBox').hide("slow");
+            $('.js_payment_selected').hide("slow");
 
             //支付手续费清空
             this.paymentPrice = 0;
@@ -222,7 +158,7 @@ function orderFormClass()
         else
         {
             $('input[type="radio"][name="payment"]').prop('disabled',false);
-            $('#paymentBox').show("slow");
+            $('.js_payment_selected').show("slow");
         }
         _self.doAccount();
     }
@@ -234,7 +170,7 @@ function orderFormClass()
     {
         if(defaultPaymentId > 0)
         {
-            $('input:radio[name="payment"][value="'+defaultPaymentId+'"]').trigger('click');
+            _self.paymentSelected(defaultPaymentId);
         }
     }
 
@@ -244,7 +180,9 @@ function orderFormClass()
     this.paymentSelected = function(paymentId)
     {
         var paymentObj = $('input[type="radio"][name="payment"][value="'+paymentId+'"]');
+        paymentObj.trigger('click');
         this.paymentPrice = paymentObj.attr("alt");
+        $('.js_payment_data').text($('input[type="radio"][name="payment"][value="'+paymentId+'"]').attr('js_data'))
         this.doAccount();
     }
 
@@ -253,11 +191,11 @@ function orderFormClass()
      */
     this.isSubmit = function()
     {
-        var addressObj  = $('input[type="radio"][name="radio_address"]:checked');
+        var addressObj  = $('input[type="hidden"][name="radio_address"]').val();
         var deliveryObj = $('input[type="radio"][name="delivery_id"]:checked');
         var paymentObj  = $('input[type="radio"][name="payment"]:checked');
 
-        if(addressObj.length == 0)
+        if(addressObj == 0)
         {
             alert("请选择收件人地址");
             return false;
@@ -280,40 +218,70 @@ function orderFormClass()
             alert("请选择支付方式");
             return false;
         }
-        return true;
-    }
-
-    /**
-     * 点击选择自提点
-     */
-    this.selectTakeself = function(deliveryId)
-    {
-        art.dialog.open(creatUrl("block/takeself"),{
-            title:'选择自提点',
-            okVal:'选择',
-            ok:function(iframeWin, topWin)
-            {
-                var takeselfJson = $(iframeWin.document).find('[name="takeselfItem"]:checked').val();
-                if(!takeselfJson)
+        $.ajax({
+             type: "post",
+             url: submitUrl,
+             data: $('form.js_order_form').serialize(),
+             dataType: "json",
+             success: function(content){
+                if(content.code == 0)
                 {
-                    alert('请选择自提点');
-                    return false;
+                    alert(content.msg);
                 }
-                var json = $.parseJSON(takeselfJson);
-                $('#takeself'+deliveryId).empty();
-                $('#takeself'+deliveryId).html(template.render('takeselfTemplate',{"item":json}));
-
-                //动态生成节点
-                _self.getForm().find("input[name='takeself']").remove();
-
-                //动态插入节点
-                _self.getForm().prepend("<input type='hidden' name='takeself' value='"+json.id+"' />");
-
-                return true;
-            }
+                else
+                {
+                    var submit_ok=$(".submit_ok");
+                    var mask=$("#js_mask");
+                    submit_ok.animate({bottom: '0rem'},"slow");
+                    mask.fadeIn(300);
+                    $('.js_order_no').text(content.js_order_num);
+                    $('.js_payment_info').text(content.js_payment);
+                    $('.js_delivery_info').text(content.js_delevery);
+                    $('.js_acce_info').text(content.accept_name);
+                    $('.js_mobile_info').text(content.mobile);
+                    $('.js_fapiao_info').text(content.js_fapiao_type);
+                    if(content.js_deliveryType != 1 &&content.js_paymentType == 1)
+                    {
+                        $('.js_pay_button').show();
+                        _url = _url.replace("@id@",content.js_order_id);
+                        $('.js_pay_click').click(function(){
+                            if(content.pay_type == 1)
+                            {
+                                var w_paswd=$(".w_paswd")
+                                w_paswd.animate({bottom: '0rem'},"slow");
+                                submit_ok.animate({bottom: '-4.2rem'},"slow");
+                                $('.js_pay_confirm').click(function(){
+                                    $.ajax({
+                                         type: "post",
+                                         url: $(this).attr('js_data'),
+                                         data: {pay_pwd:$('input[name=pay_pwd]').val()},
+                                         dataType: "json",
+                                         success: function(data){
+                                            if(content.result == false)
+                                            {
+                                                alert(content.msg);
+                                                return;
+                                            }
+                                            window.location.href=_url;
+                                         }
+                                     });
+                                })
+                            }
+                            else
+                            {
+                                window.location = _url;
+                            }  
+                        })
+                    }
+                    else
+                    {
+                        $('.js_pay_button').hide();
+                    }
+                }
+             }
         });
     }
-
+    
     /**
      * 代金券显示
      */
@@ -375,19 +343,4 @@ function orderFormClass()
         return $('form[name="order_form"]').length == 1 ? $('form[name="order_form"]') : $('form:first');
     }
 }
-
-/**
- * 订单对象
- * address:收货地址; delivery:配送方式; payment:支付方式;
- */
-$(function(){
-    //
-    $(".cart_2_bj em").click(function(){
-    	if ($(this).hasClass("on")) {
-    		$(this).removeClass("on").addClass("no");
-    	}else{
-    		$(this).removeClass("no").addClass("on");
-    	}
-    });
-});
 

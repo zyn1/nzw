@@ -155,6 +155,54 @@
 			</table>
 		</fieldset>
 
+        <fieldset>
+            <table class="tablesorter clear">
+                <colgroup>
+                    <col width="120px" />
+                    <col />
+                </colgroup>
+
+                <thead>
+                    <tr><th colspan="2">支付和配送信息</th></tr>
+                </thead>
+
+                <tbody>
+                    <tr>
+                        <th>配送方式:</th><td>{$delivery}</td>
+                    </tr>
+
+                    {if:$takeself}
+                    <tr>
+                        <th>自提地址:</th>
+                        <td>
+                            {$takeself['province_str']}
+                            {$takeself['city_str']}
+                            {$takeself['area_str']}
+                            {$takeself['address']}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>自提联系方式:</th>
+                        <td>
+                            座机：{$takeself['phone']} &nbsp;&nbsp;
+                            手机：{$takeself['mobile']}
+                        </td>
+                    </tr>
+                    {/if}
+
+                    <tr>
+                        <th>商品重量:</th><td>{$goods_weight} g</td>
+                    </tr>
+                    <tr>
+                        <th>支付方式:</th><td>{$payment}</td>
+                    </tr>
+                    <tr>
+                        <th>可得积分:</th><td>{$point}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </fieldset>
+
 		<fieldset>
 			<table class="tablesorter clear">
 				<colgroup>
@@ -163,48 +211,47 @@
 				</colgroup>
 
 				<thead>
-					<tr><th colspan="2">支付和配送信息</th></tr>
+					<tr><th colspan="2">发票信息</th></tr>
 				</thead>
 
 				<tbody>
-					<tr>
-						<th>配送方式:</th><td>{$delivery}</td>
-					</tr>
-
-					{if:$takeself}
-					<tr>
-						<th>自提地址:</th>
-						<td>
-							{$takeself['province_str']}
-							{$takeself['city_str']}
-							{$takeself['area_str']}
-							{$takeself['address']}
-						</td>
-					</tr>
-					<tr>
-						<th>自提联系方式:</th>
-						<td>
-							座机：{$takeself['phone']} &nbsp;&nbsp;
-							手机：{$takeself['mobile']}
-						</td>
-					</tr>
-					{/if}
-
-					<tr>
-						<th>商品重量:</th><td>{$goods_weight} g</td>
-					</tr>
-					<tr>
-						<th>支付方式:</th><td>{$payment}</td>
-					</tr>
-					<tr>
-						<th>是否开票:</th><td>{if:$invoice==0}否{else:}是{/if}</td>
-					</tr>
-					<tr>
-						<th>发票抬头:</th><td>{$invoice_title}</td>
-					</tr>
-					<tr>
-						<th>可得积分:</th><td>{$point}</td>
-					</tr>
+					
+                    <tr>
+                        <th>是否开票:</th><td>{if:$invoice==0}否{else:}是{/if}</td>
+                    </tr>
+                    <tr>
+                        <th>发票抬头:</th><td>{$invoice_title}</td>
+                    </tr>
+                    <tr>
+                        <th>发票类型：</th>
+                        <td>{if:$fapiao_type == 1}增值税专票{else:}增值税普票{/if}</td>
+                    </tr>
+                    {if:$fapiao_type == 1}
+                    <tr>
+                        <th>公司名称：</th>
+                        <td>{$fapiao_com}</td>
+                    </tr>
+                    <tr>
+                        <th>纳税人识别号：</th>
+                        <td>{$fapiao_tax_no}</td>
+                    </tr>
+                    <tr>
+                        <th>地址：</th>
+                        <td>{$fapiao_address}</td>
+                    </tr>
+                    <tr>
+                        <th>电话：</th>
+                        <td>{$fapiao_telphone}</td>
+                    </tr>
+                    <tr>
+                        <th>开户行：</th>
+                        <td>{$fapiao_bank}</td>
+                    </tr>
+                    <tr>
+                        <th>银行账户：</th>
+                        <td>{$fapiao_account}</td>
+                    </tr>
+                    {/if}
 				</tbody>
 			</table>
 		</fieldset>

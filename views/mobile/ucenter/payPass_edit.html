@@ -1,0 +1,39 @@
+<header class="header_login">
+	<div class="header_title">
+		<a class="return_a"onclick="window.history.back();"></a>
+		<h2 id="pageInfo" data-title="找回密码">修改支付密码</h2>
+		<a class="qx_a" href="{url:simple/login}"></a>
+	</div>
+</header>
+<div id="pageInfo" data-title="密码修改"></div>
+
+<section class="reg input_li">
+	<div class="form">
+		<form action="{url:/ucenter/payPass_update}" method="POST" role="form">
+			<ul>
+				<li>
+					
+					<input type='password' name="fpassword" class="input_text" pattern="^\S{6,32}$" alt='6-16位字母数字组合' placeholder="请输入原支付密码">
+				</li>
+				<li>
+					<input type='password' name="password" class="input_text" pattern="^\S{6,32}$" bind='repassword' alt='6-16位字母数字组合' placeholder="请输入新支付密码">
+				</li>
+				<li>
+					<input type='password' name="repassword" class="input_text" pattern="^\S{6,32}$" bind='password' alt='6-16位字母数字组合' placeholder="确认支付密码">
+				</li>
+				<li>
+					<!-- 退出登录并跳转 -->
+					<a href="{url:/ucenter/findPayPass}" class="link fr">忘记原密码？</a>
+				</li>
+				<li>
+					<input type="submit" class="input_submit" value="确定修改">
+				</li>
+			</ul>
+		</form>
+	</div>
+</section>
+<script>
+$(function(){
+	hideNav();
+})
+</script>

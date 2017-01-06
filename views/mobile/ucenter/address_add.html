@@ -1,0 +1,60 @@
+{js:artTemplate} {js:areaSelect}
+<header class="header_login">
+	<div class="header_title">
+		<a class="return_a"onclick="window.history.back();"></a>
+        {if:$this->addressRow}
+		<h2>编辑收货地址</h2>
+        {set:$id=$this->addressRow['id']}
+        <a class="qx_a" href="javascript:;" onclick="delModel({link:'{url:/ucenter/address_del/id/$id}'});">删除</a>
+        {else:}
+        <h2>添加收货地址</h2>
+        {/if}
+	</div>
+</header>
+<script src="{theme:javascript/order.js}"></script>
+<section class="addre">
+	<form id="frm_login" method="post" action="{url:/ucenter/address_edit}" name="addressForm">
+        <input type="hidden" name="id" value="{$this->addressRow['id']}">
+        <input type="hidden" name="is_default" value="{$this->addressRow['is_default']}">
+        <div class="item">
+          <lable class="item_tit">收货人</lable>
+          <input class="txt-input" type="text" placeholder="输入收件人姓名" value="{$this->addressRow['accept_name']}"name="accept_name" pattern='required' alt='姓名不能为空'>
+        </div>
+        <div class="item">
+          <lable class="item_tit">联系方式</lable>
+          <input class="txt-input" type="text" placeholder="输入联系方式" value="{$this->addressRow['mobile']}" name='mobile' pattern='mobi' alt='格式不正确'>
+        </div>
+        <div class="item">
+          <lable class="item_tit">所在区域</lable>
+	        <select class="input_select" name="province" child="city,area" style="width: 90px;"></select>
+            <select class="input_select" name="city" child="area" style="width: 90px;"></select>
+            <select class="input_select" name="area" style="width: 90px;"></select>
+        </div>
+        
+        <div class="item_del_des">
+        	 <textarea  class="txt-input" placeholder="详细街道、楼牌号等" name='address' alt='地址不能为空' pattern='required'>{$this->addressRow['address']}</textarea>
+        </div>
+
+        <div class="default">
+          <lable class="default_tit">设置为默认地址</lable>
+          {if:isset($this->addressRow['is_default']) && $this->addressRow['is_default'] == 1}
+          <em class="on"></em>
+          {else:}
+          <em class="no"></em>
+          {/if}
+        </div>
+        <div class="input_li">
+    			<input type="submit" value="保存" class="input_submit"  />
+    		</div>
+      </form>
+</section>
+   
+
+<script>
+$(function(){
+	// 内页隐藏页底导航
+	hideNav();
+    var areaInstance = new areaSelect('province');
+    areaInstance.init({echo:JSON::encode($this->addressRow)});
+})
+</script>

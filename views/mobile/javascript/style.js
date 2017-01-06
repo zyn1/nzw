@@ -9,11 +9,13 @@
         $(".invoic_zp").hide();
         $(this).addClass("on");
         $(".invoic_top .sj_good").removeClass("on");
+        $('div.invoic_center').find('input[type=hidden][name=fapiao_type]').val(0);
       });
       $(".invoic_top .top_title .sj_good").click(function(){
         $(".invoic_zp").show();
         $(this).addClass("on");
         $(".invoic_top .sj_de").removeClass("on");
+        $('div.invoic_center').find('input[type=hidden][name=fapiao_type]').val(1);
       });
 
 });

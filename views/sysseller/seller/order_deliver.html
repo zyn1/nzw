@@ -81,11 +81,13 @@
 					</tr>
                     <tr>
                         <th>地区:</th>
-                        <td align="left" colspan="3">
+                        <td align="left" colspan="">
                             <select name="province" child="city,area" class="auto"></select>
                             <select name="city" child="area" class="auto"></select>
                             <select name="area" pattern="required" class="auto"></select>
                         </td>
+                        <th>发票类型:</th>
+                        <td>{if:$fapiao_type == 1}增值税专票{else:}增值税普票{/if}</td>
                     </tr>
                     <tr>
                         <th>地址:</th><td align="left"><input type="text" class="normal" name="address" value="{$address}" size="50" pattern="required"/></td>
@@ -104,6 +106,26 @@
                         <th>发票抬头:</th><td>{$fapiao_taitou}</td>
                         {/if}
 					</tr>
+                    {if:$fapiao_type == 1}
+                    <tr>
+                        <th>公司名称：</th>
+                        <td>{$fapiao_com}</td>
+                        <th>纳税人识别号：</th>
+                        <td>{$fapiao_tax_no}</td>
+                    </tr>
+                    <tr>
+                        <th>公司地址：</th>
+                        <td>{$fapiao_address}</td>
+                        <th>电话：</th>
+                        <td>{$fapiao_telphone}</td>
+                    </tr>
+                    <tr>
+                        <th>开户行：</th>
+                        <td>{$fapiao_bank}</td>
+                        <th>银行账户：</th>
+                        <td>{$fapiao_account}</td>
+                    </tr>
+                    {/if}
 					<tr>
 						<th>物流公司：</th>
 						<td align="left">
