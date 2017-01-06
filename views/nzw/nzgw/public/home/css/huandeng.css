@@ -1,0 +1,32 @@
+/*幻灯片*/
+#focus{width:430px;height:305px;overflow:hidden;position:relative;}
+#focus ul{height:270px;position:absolute;}
+#focus ul li{float:left;width:430px;height:305px;overflow:hidden;position:relative;background:#000;}
+#focus ul li div{position:absolute;overflow:hidden;}
+#focus .btn{position:absolute;width:430px;height:15px;padding:5px 10px;right:0;bottom:0;text-align:right;}
+#focus .btn span{display:inline-block;_display:inline;_zoom:1;width:25px;height:10px;_font-size:0;margin-left:5px;cursor:pointer;background:#CC0000;}
+#focus .btn span.on{background:#CC0000;}
+
+#focus ul li .slideother{position:absolute;left:0px;top:255px;width:430px;height:50px;display:inline-block;}
+#focus ul li .slideother p{padding-left:10px;position:relative;top:10px;left:0px;display:block;white-space:nowrap; overflow:hidden; text-overflow:ellipsis;width: 400px;}
+#focus ul li .slideother p a{color:#fff;text-decoration:none;font-weight: bold;}
+#focus ul li .slideother p a:hover{text-decoration:none;}
+
+#focus ul li .slideother{
+  background-color: rgba(0,0,0,0.5);/* IE9、标准浏览器、IE6和部分IE7内核的浏览器(如QQ浏览器)会读懂 */
+}
+#focus ul li .slideother p{
+  color: #FFFFFF;
+}
+
+@media \0screen\,screen\9 {/* 只支持IE6、7、8 */
+  #focus ul li .slideother{
+    background-color:#000000;
+    filter:Alpha(opacity=50);
+    position:static; /* IE6、7、8只能设置position:static(默认属性) ，否则会导致子元素继承Alpha值 */
+    *zoom:1; /* 激活IE6、7的haslayout属性，让它读懂Alpha */
+  }
+  #focus ul li .slideother p{
+    position: relative;/* 设置子元素为相对定位，可让子元素不继承Alpha值 */
+  }  
+}
