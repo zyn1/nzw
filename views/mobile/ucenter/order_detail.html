@@ -1,4 +1,4 @@
-{set:$sellerObj = new IModel('seller');$sellerRow = $sellerObj->getObj('id ='.$this->order_info['seller_id'], 'true_name, seller_logo,server_num');}
+{set:$sellerObj = new IModel('seller');$sellerRow = $sellerObj->getObj('id ='.$this->order_info['seller_id'], 'true_name, seller_logo,server_num');$commentDB = new IModel('comment');}
 <link rel="stylesheet" href="{skin:style/bases.css}">
 <header class="header_login">
 	<div class="header_title">
@@ -32,6 +32,7 @@
                 {if:$good['delivery_id'] && !in_array($good['delivery_id'],$deliveryCom)}
                 {set:$deliveryCom[] = $good['delivery_id']}
                 {/if}
+                {set:$commentRow = $commentDB->getObj('user_id = '.$this->user["user_id"].' and order_no = '.$this->order_info["order_no"].' and goods_id = '.$good["goods_id"].' and status != 2', 'id,status')}
 				<li>
 					<div class="cart_list_goods">
                     <a class="clear" href="{url:/site/products/id/$good['goods_id']}">
@@ -42,6 +43,11 @@
                             <p class="cart_list_info_price ">
                                 <em>￥{$good['real_price']}</em>
                                 <del class="old_price">￥{$good['goods_price']}</del>
+                                {if:$commentRow}
+                                <a href="{url:/site/comments/id/$commentRow[id]}">
+                                {if:$commentRow['status'] == 1}去追评{else:}去评价{/if}
+                                </a>
+                                {/if}
                             </p>
                         </div>
                         <div class="good_num">×{$good['goods_nums']}</div>

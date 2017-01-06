@@ -17,7 +17,7 @@
 <section class="user_order cart_2">
 {set:$user_id = $this->user['user_id'];$queryOrderList = Api::run('getOrderList',$user_id,$this->orderStatus);$orderList = $queryOrderList->find();}
     {if:$orderList}
-    {set:$sellerObj = new IModel('seller');}
+    {set:$sellerObj = new IModel('seller');$commentDB = new IModel('comment');}
 	<div class="cart_sel">
     {foreach:items = $orderList}
     {set:$orderStatus = Order_Class::getOrderStatus($item);$orderObj = new order_class();$orderInfo = $orderObj->getOrderShow($item['id'],$user_id);$sellerRow = $sellerObj->getObj('id ='.$item['seller_id'], 'true_name, seller_logo');}
@@ -37,6 +37,7 @@
             {set:$num = 0;$deliveryCom = array();}
             {foreach:items=Api::run('getOrderGoodsListByGoodsid',array('#order_id#',$orderInfo['order_id'])) item=$good}
             {set:$good_info = JSON::decode($good['goods_array']);$num = $num+$good['goods_nums']}
+            {set:$commentRow = $commentDB->getObj('user_id = '.$this->user["user_id"].' and order_no = '.$orderInfo["order_no"].' and goods_id = '.$good["goods_id"].' and status != 2', 'id,status')}
 				<li>
 					<div class="cart_list_goods">
                     <a class="clear" href="{url:/ucenter/order_detail/id/$item[id]}">
@@ -49,7 +50,11 @@
                             <p class="cart_list_info_price ">
                                 <em>￥{$good['real_price']}</em>
                                 <del class="old_price">￥{$good['goods_price']}</del>
-                                <!--<a href="{url:/site/comments/id/$item[id]}">去评价</a>-->
+                                {if:$commentRow}
+                                <a href="{url:/site/comments/id/$commentRow[id]}">
+                                {if:$commentRow['status'] == 1}去追评{else:}去评价{/if}
+                                </a>
+                                {/if}
                                 {if:$good['delivery_id'] && !in_array($good['delivery_id'],$deliveryCom)}
                                 {set:$deliveryCom[] = $good['delivery_id']}
                                 {/if}
