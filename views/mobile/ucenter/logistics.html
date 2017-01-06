@@ -6,65 +6,35 @@
 </header>
 <section class="logistics_cont">
 	<!-- 订单号 strat-->
+  {if:isset($this->data)}
   <div class="dh">
     <p class="dh-num">
       <span class="colab">物流单号&nbsp;&nbsp;</span>
-      <span>140106199010</span>
+      <span>{$delivery_code}</span>
     </p>
     <p class="dh-th">
       <span class="colab">配送方式&nbsp;&nbsp;</span>
-      <span>邮政</span>
+      <span>{$freight_name}</span>
     </p>
   </div>
   <!-- 订单号 end-->
   <!-- 流程跟踪 strat -->
   <div class="play">
-    <div class="play-con-one">
+    {foreach:items = $this->data}
+    
+    <div {if:$key == 0} class="play-con-one" {else:} class="play-con" {/if}>
       <div class="con-line">
-        <div class="play-height colb6">您的货物已到达北京中转站</div>
+        <div class="play-height colb6">{$item['station']}</div>
         <div class="play-height cola">
-          <span>2016-05-26</span>
-          <span>13:22</span>
+          <span>{$item['time']}</span>
         </div>
       </div>
     </div>
-    <div class="play-con">
-      <div class="con-line">
-        <div class="play-height">您的货物离开杭州发往北京</div>
-        <div class="play-height cola">
-          <span>2016-05-26</span>
-          <span>13:22</span>
-        </div>
-      </div>
-    </div>
-    <div class="play-con">
-      <div class="con-line">
-        <div class="play-height">您的货物到达杭州中转站</div>
-        <div class="play-height cola">
-          <span>2016-05-26</span>
-          <span>13:22</span>
-        </div>
-      </div>
-    </div>
-    <div class="play-con">
-      <div class="con-line">
-        <div class="play-height">配送员正在提货</div>
-        <div class="play-height cola">
-          <span>2016-05-26</span>
-          <span>13:22</span>
-        </div>
-      </div>
-    </div>
-    <div class="play-con">
-      <div class="con-line">
-        <div class="play-height">您的订单已由圆通速递发货</div>
-        <div class="play-height cola">
-          <span>2016-05-26</span>
-          <span>13:22</span>
-        </div>
-      </div>
-    </div>
+    {/foreach}
   </div>
+  {else:}
+  <div class="dh" style="text-align: center;">{$this->msg}</div>
+  {/if}
   <!-- 流程跟踪 end-->
 </section>
 <script>

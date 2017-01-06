@@ -1,82 +1,121 @@
-{set:$queryEvaluationList = Api::run('getUcenterEvaluation',$this->user['user_id'])}
-{set:$items = $queryEvaluationList->find()}
-<div id="pageInfo" data-title="商品评价"></div>
-{if:$items}
-
-<section class="evaluation_list">
-    <ul>
-        {foreach:items = $items}
-        {set:$goods = Api::run('getGoodsInfo',array('#id#',$item['goods_id']))}
-        <li>
-            <img src="{url:/pic/thumb/img/$goods[img]/w/300/h/300}" alt="{$item['name']}">
-            <h3>{$item['name']}</h3>
-            {if:$item['status'] == 0}
-            <div class="btn btn_s btn_fa" onclick="gourl('{url:/site/comments/id/$item[id]}')">
-                发表评价
+<link rel="stylesheet" href="{skin:style/bases.css}">
+<header class="header_login">
+    <div class="header_title">
+        <a class="return_a"onclick="window.history.back();"></a>
+        <h2>我的订单</h2>
+    </div>
+</header>
+<section class="order_top">
+    <ul class="order_tit">
+        <li><a href="{url:ucenter/order}">全部</a></li>
+        <li><a href="{url:ucenter/order/_s/1}">待付款</a></li>
+        <li><a href="{url:ucenter/order/_s/2}">待发货</a></li>
+        <li><a href="{url:ucenter/order/_s/3}">待收货</a></li>
+        <li><a class="on" href="javascript:;">待评价</a></li>
+    </ul>
+</section>
+<section class="user_order cart_2">
+{set:$user_id = $this->user['user_id'];$queryOrderList = Api::run('getOrderList',$user_id,$this->orderStatus);$orderList = $queryOrderList->find();$commentObj = new IModel('comment')}
+    {if:$orderList}
+    <div class="cart_sel">
+    {foreach:items = $orderList}
+    {set:$orderStatus = Order_Class::getOrderStatus($item);$orderObj = new order_class();$orderInfo = $orderObj->getOrderShow($item['id'],$user_id);}
+        <div class="cart_goods" >
+            <div class="cart_title">
+                <a class="name clear" href="{url:/site/home/id/$item['seller_id']}">
+                    <img src="{skin:image/top/gouwuche_kong@2x.png}"/>
+                    <span class="sel_name">七彩云小铺
+                    {if:goods_class::getSellerPay($item['seller_id'])}
+                    <img src="{skin:image/sellerVip.png}" class="vip_logo"/>
+                    {/if}
+                    </span>
+                    <span class="sel_cz sel_cz_bj">{echo:Order_Class::orderStatusText($orderStatus)}</span>
+                </a>
             </div>
-            {else:}
-            <p>
-                <strong>我的评论：</strong>{$item['contents']}
-            </p>
-            {/if}
+            <ul>
+            {foreach:items=Api::run('getOrderGoodsListByGoodsid',array('#order_id#',$orderInfo['order_id'])) item=$good}
+            {set:$good_info = JSON::decode($good['goods_array'])}
+                <li>
+                    <div class="cart_list_goods">
+                    <a class="clear" href="{url:/ucenter/order_detail/id/$item[id]}">
+                        <div class="cart_list_photo">
+                        <img src="{webroot:$good['img']}" alt="{$good_info['name']}">
+                        </div>
+                        <div class="cart_list_info">
+                            <h3 class="cart_list_info_title">{$good_info['name']}</h3>
+                            {if:$good_info['value']!=''}<p class="cart_list_info_info">{$good_info['value']}</p>{/if}
+                            <p class="cart_list_info_price ">
+                                <em>￥{$good['real_price']}</em>
+                                <del class="old_price">￥{$good['goods_price']}</del>
+                                <a href="{url:/site/comments/id/$item[id]}">去评价</a>
+                            </p>
+                        </div>
+                        <div class="good_num">×{$good['goods_nums']}</div>
+                    </a>
+                    </div>
+                </li>
+            {/foreach}
+            </ul>
+            <div class="good_price">
+                共1件商品&nbsp;合计：￥{$orderInfo['order_amount']}（含运费￥{$orderInfo['real_freight']}）
+            </div>
+            <div class="good_an">
+                {if:in_array($orderStatus,array(1,2))}
+                <a class="quoder" href="javascript:;" onclick="window.location.href='{url:/ucenter/order_status/order_id/$orderInfo['order_id']/op/cancel}';">取消订单</a>
+                {/if}
+                {if:Order_Class::isRefundmentChangeApply($orderInfo) && !in_array($orderStatus,array(12,15))}
+                <a class="quoder" href="javascript:;" onclick="window.location.href='{url:/ucenter/refunds_edit/order_id/$orderInfo['order_id']}';">退换货</a>
+                {/if}
+                {if:$orderStatus == 2}
+                <a class="ljpay" href="javascript:;" onclick="window.location.href='{url:/block/doPay/order_id/$orderInfo['order_id']}'">立即付款</a>
+                {/if}
+                {if:in_array($orderStatus,array(11,3))}
+                <a class="ljpay" href="javascript:;" onclick="window.location.href='{url:/ucenter/order_status/order_id/$orderInfo['order_id']/op/confirm}';">确认收货</a>
+                {/if}
+            </div>
+        </div>
+    {/foreach}
+    </div>
+    {$queryOrderList->getPageBar()}
+    </div>
+    <!-- 
+    <ul class="user_list">
+        {foreach:items = $orderList}
+        <li>
+            <i class="icon-chevron-right"></i>
+            <a href="{url:/ucenter/order_detail/id/$item[id]}">订单号：{$item['order_no']}</a>
+        </li>
+        {/foreach}
+    </ul> -->
+    
+    {else:}
+    <div class="nodata">
+        <img src="{skin:image/top/orderempty.png}"/>
+        您还没有相关订单，去逛逛！
+    </div>
+    <!-- 热门商品 -->
+<section class="hot_googs">
+    <div class="hot_title">热门商品</div>
+    <ul class="hot_ul clear">
+        {foreach:items=Api::run('getCommendHot', 6)}
+        <li>
+            <a href="{url:/site/products/id/$item['id']}">
+                <div class="div_img"><img src="{url:/pic/thumb/img/$item['img']/w/170/h/170}"/>
+                {if:goods_class::getSellerPay($item['seller_id'])}
+                <img src="{skin:image/sellerVip.png}" class="vip_logo"/>
+                {/if}
+                </div>
+                <div class="good_name">{$item['name']}</div>
+                <em>￥{$item['sell_price']}</em>
+            </a>
         </li>
         {/foreach}
     </ul>
 </section>
-{$queryEvaluationList->getPageBar()}
-{else:}
-<section class="nodata">您当前没有评价信息~</section>
-{/if}
-
+    {/if}
+</section>
 <script>
 $(function(){
-    // 隐藏底部导航
-    hideNav();
-    // 自己写的瀑布流(基于我写的PC版修改的,参考完整版http://blog.csdn.net/fungleo/article/details/49247665)
-    var Obj = $(".evaluation_list"),
-        Ul = Obj.children('ul'),
-        Li = Ul.children('li');
-    $(window).load(function(event) {
-        waterfall();
-    });
-    $(window).resize(function(event) {
-        waterfall();
-    });
-    function waterfall(){
-        var WinW = $(window).width();
-        var Blank = 0,                     // 每个图片之间的间隔留白
-            LiW = WinW/2,                // 一个图片距离上一个图片的宽度距离
-            LiCol = 2,                  // 计算在当前窗口下，有几列
-            UlW = WinW;          // 根据有几列，设定总的宽度（减掉最后一个留白）
-
-
-        var AllLi = [];                     // 建立一个空数组变量
-        Li.each(function(index, e){
-            var T = $(this);
-            var pageMarTop = 0;
-            if (index<LiCol) {                      // 第一行的处理
-                AllLi[index] = T.outerHeight();     // 给数组添加内容，为当前元素的高度值
-                T.css({
-                    top: 0,
-                    left: LiW*index+'px'
-                });
-                pageMarTop = T.outerHeight()+15;
-            } else{
-                var MinH = Math.min.apply(null,AllLi);      // 找到数组中，最小的那个值（也就是留白最大的）
-                var MinI = $.inArray(MinH,AllLi);           // 通过 $.inArray 查找数值在数组中的索引
-                var ThisH = T.outerHeight()+Blank;          // 自身的高度加上留白
-
-                AllLi[MinI] = parseInt(MinH+ThisH);         // 将被占位的数组重新赋值
-
-                T.css({
-                    top: MinH+Blank+'px',
-                    left: LiW*MinI+'px'
-                });
-                pageMarTop = MinH+ThisH+15;
-            };
-            // 这是控制分页的,如果换成其他分页,也要做相应的调整,修改class
-            $(".pages_bar").css('margin-top', pageMarTop+'px');
-        });
-    }
+    hideNav()
 })
 </script>

@@ -99,6 +99,7 @@ class Ucenter extends IController implements userAuthorization
     public function order()
     {
         $this->initPayment();
+        $this->orderStatus = IReq::get('_s');
         $this->redirect('order');
 
     }
@@ -191,8 +192,54 @@ class Ucenter extends IController implements userAuthorization
 			}
 			break;
 		}
-		$this->redirect("order_detail/id/$id");
+        if(IClient::getDevice() == 'pc')
+        {
+            $this->redirect("order_detail/id/$id");
+        }
+		else
+        {
+            $this->redirect("order");
+        }
 	}
+
+    //物流轨迹查询
+    public function logistics()
+    {
+        $id = IFilter::act(IReq::get('p'),'int');
+
+        if($id)
+        {
+            $tb_freight = new IQuery('delivery_doc as d');
+            $tb_freight->join  = 'left join freight_company as f on f.id = d.freight_id';
+            $tb_freight->where = 'd.id = '.$id;
+            $tb_freight->fields= 'd.*,f.freight_type,f.freight_name';
+            $freightData = $tb_freight->find();
+            $this->setRenderData($freightData);
+            if($freightData)
+            {
+                $freightData = current($freightData);
+                if($freightData['freight_type'] && $freightData['delivery_code'])
+                {
+                    $result = freight_facade::line($freightData['freight_type'],$freightData['delivery_code']);
+                    if($result['result'] == 'success')
+                    {
+                        $this->data = array_reverse($result['data']);
+                    }
+                    else
+                    {
+                        
+                        $this->msg = isset($result['reason']) ? $result['reason'] : '物流接口发生错误';
+                    }
+                }
+                else
+                {
+                    $this->msg = '缺少物流信息';
+                }
+            }
+        }
+        $this->msg = '发货单信息不存在';
+        $this->redirect('logistics');
+    }
     /**
      * @brief 我的地址
      */

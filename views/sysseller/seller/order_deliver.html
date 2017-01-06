@@ -87,7 +87,7 @@
                             <select name="area" pattern="required" class="auto"></select>
                         </td>
                         <th>发票类型:</th>
-                        <td>{if:$fapiao_type == 1}增值税专票{else:}增值税普票{/if}</td>
+                        <td>{if:isset($fapiao_type) && $fapiao_type == 1}增值税专票{else if:isset($fapiao_type) && $fapiao_type == 0}增值税普票{else:}无{/if}</td>
                     </tr>
                     <tr>
                         <th>地址:</th><td align="left"><input type="text" class="normal" name="address" value="{$address}" size="50" pattern="required"/></td>
@@ -106,7 +106,7 @@
                         <th>发票抬头:</th><td>{$fapiao_taitou}</td>
                         {/if}
 					</tr>
-                    {if:$fapiao_type == 1}
+                    {if:isset($fapiao_type) && $fapiao_type == 1}
                     <tr>
                         <th>公司名称：</th>
                         <td>{$fapiao_com}</td>

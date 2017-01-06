@@ -7,112 +7,80 @@
 </header>
 <section class="order_top">
 	<ul class="order_tit">
-		<li><a class="on" herf="{url:ucenter/order}">全部</a></li>
-		<li><a herf="{url:ucenter/order_dfk}">待付款</a></li>
-		<li><a herf="{url:ucenter/order_dfh}">待发货</a></li>
-		<li><a herf="{url:ucenter/order_dsh}">待收货</a></li>
-		<li><a herf="{url:ucenter/order_dpj}">待评价</a></li>
+		<li><a {if:$this->orderStatus == 0} class="on" {/if} href="{url:ucenter/order}">全部</a></li>
+		<li><a {if:$this->orderStatus == 1} class="on" {/if} href="{url:ucenter/order/_s/1}">待付款</a></li>
+		<li><a {if:$this->orderStatus == 2} class="on" {/if} href="{url:ucenter/order/_s/2}">待发货</a></li>
+		<li><a {if:$this->orderStatus == 3} class="on" {/if} href="{url:ucenter/order/_s/3}">待收货</a></li>
+		<li><a {if:$this->orderStatus == 4} class="on" {/if} href="{url:ucenter/order/_s/4}">待评价</a></li>
 	</ul>
 </section>
 <section class="user_order cart_2">
-{set:$user_id = $this->user['user_id']}
-    {set:$queryOrderList = Api::run('getOrderList',$user_id)}
-    {set:$orderList = $queryOrderList->find()}
+{set:$user_id = $this->user['user_id'];$queryOrderList = Api::run('getOrderList',$user_id,$this->orderStatus);$orderList = $queryOrderList->find();}
     {if:$orderList}
+    {set:$sellerObj = new IModel('seller');}
 	<div class="cart_sel">
+    {foreach:items = $orderList}
+    {set:$orderStatus = Order_Class::getOrderStatus($item);$orderObj = new order_class();$orderInfo = $orderObj->getOrderShow($item['id'],$user_id);$sellerRow = $sellerObj->getObj('id ='.$item['seller_id'], 'seller_name, seller_logo');}
 		<div class="cart_goods" >
 			<div class="cart_title">
-                <a class="name clear" href="">
-                    <img src="{skin:image/top/gouwuche_kong@2x.png}"/>
-                    <span class="sel_name">七彩云小铺<img src="{skin:image/top/jiahzuangzhishi@2x.png}" class="vip_logo"/><</span>
-                    <span class="sel_cz sel_cz_bj">待收货</span>
+                <a class="name clear" href="{url:/site/home/id/$item['seller_id']}">
+                    <img src="{webroot:$sellerRow['seller_logo']}"/>
+                    <span class="sel_name">{$sellerRow['seller_name']}
+                    {if:goods_class::getSellerPay($item['seller_id'])}
+                    <img src="{skin:image/sellerVip.png}" class="vip_logo"/>
+                    {/if}
+                    </span>
+                    <span class="sel_cz sel_cz_bj">{echo:Order_Class::orderStatusText($orderStatus)}</span>
                 </a>
             </div>
 			<ul>
+            {foreach:items=Api::run('getOrderGoodsListByGoodsid',array('#order_id#',$orderInfo['order_id'])) item=$good}
+            {set:$good_info = JSON::decode($good['goods_array'])}
 				<li>
 					<div class="cart_list_goods">
-                    <a class="clear">
-                        <div class="cart_list_photo"><img src="{skin:image/top/gouwuche_kong@2x.png}" alt="{$item['name']}"></div>
+                    <a class="clear" href="{url:/ucenter/order_detail/id/$item[id]}">
+                        <div class="cart_list_photo">
+                        <img src="{webroot:$good['img']}" alt="{$good_info['name']}">
+                        </div>
                         <div class="cart_list_info">
-                            <h3 class="cart_list_info_title">奇异小家</h3>
-                            <p class="cart_list_info_info">
-                                颜色分类:黄色
-                            </p>
+                            <h3 class="cart_list_info_title">{$good_info['name']}</h3>
+                            {if:$good_info['value']!=''}<p class="cart_list_info_info">{$good_info['value']}</p>{/if}
                             <p class="cart_list_info_price ">
-                                <em>￥29</em>
-                                <del class="old_price">￥59</del>
+                                <em>￥{$good['real_price']}</em>
+                                <del class="old_price">￥{$good['goods_price']}</del>
+                                <!--<a href="{url:/site/comments/id/$item[id]}">去评价</a>-->
+                                {if:$good['delivery_id']}
+                                <a href="{url:/ucenter/logistics/p/$good['delivery_id']}">查看物流</a>
+                                {/if}
                             </p>
                         </div>
-                        <div class="good_num">×3</div>
-                        </a>
+                        <div class="good_num">×{$good['goods_nums']}</div>
+                    </a>
                     </div>
 				</li>
+            {/foreach}
 			</ul>
 			<div class="good_price">
-				共1件商品&nbsp;合计：￥98.00（含运费￥0.00）
+				共1件商品&nbsp;合计：￥{$orderInfo['order_amount']}（含运费￥{$orderInfo['real_freight']}）
 			</div>
 			<div class="good_an">
-				<a class="quoder" href="">退换货</a>
-				<a class="ljpay" href="">确认收货</a>
+                {if:in_array($orderStatus,array(1,2))}
+                <a class="quoder" href="javascript:;" onclick="window.location.href='{url:/ucenter/order_status/order_id/$orderInfo['order_id']/op/cancel}';">取消订单</a>
+                {/if}
+                {if:Order_Class::isRefundmentChangeApply($orderInfo) && !in_array($orderStatus,array(12,15))}
+                <a class="quoder" href="javascript:;" onclick="window.location.href='{url:/ucenter/refunds_edit/order_id/$orderInfo['order_id']}';">退换货</a>
+                {/if}
+                {if:$orderStatus == 2}
+                <a class="ljpay" href="javascript:;" {if:$orderInfo['pay_type'] == 1} onclick="payPass({$orderInfo['order_id']});" {else:} onclick="window.location.href='{url:/block/doPay/order_id/$orderInfo['order_id']}'" {/if}>立即付款</a>
+                {/if}
+                {if:in_array($orderStatus,array(11,3))}
+                <a class="ljpay" href="javascript:;" onclick="window.location.href='{url:/ucenter/order_status/order_id/$orderInfo['order_id']/op/confirm}';">确认收货</a>
+                {/if}
 			</div>
 		</div>
+    {/foreach}
 	</div>
-
-	<div class="cart_sel">
-		<div class="cart_goods" >
-			<div class="cart_title">
-                <a class="name clear" href="">
-                    <img src="{skin:image/top/gouwuche_kong@2x.png}"/>
-                    <span class="sel_name">七彩云小铺<img src="{skin:image/top/jiahzuangzhishi@2x.png}" class="vip_logo"/></span>
-                    <span class="sel_cz sel_cz_bj">代付款</span>
-                </a>
-            </div>
-			<ul>
-				<li>
-					<div class="cart_list_goods">
-                    <a class="clear">
-                        <div class="cart_list_photo"><img src="{skin:image/top/gouwuche_kong@2x.png}" alt="{$item['name']}"></div>
-                        <div class="cart_list_info">
-                            <h3 class="cart_list_info_title">奇异小家</h3>
-                            <p class="cart_list_info_info">
-                                颜色分类:黄色
-                            </p>
-                            <p class="cart_list_info_price ">
-                                <em>￥29</em>
-                                <del class="old_price">￥59</del>
-                            </p>
-                        </div>
-                        <div class="good_num">×3</div>
-                        </a>
-                    </div>
-				</li>
-				<li>
-					<div class="cart_list_goods">
-                    <a class="clear">
-                        <div class="cart_list_photo"><img src="{skin:image/top/gouwuche_kong@2x.png}" alt="{$item['name']}"></div>
-                        <div class="cart_list_info">
-                            <h3 class="cart_list_info_title">奇异小家</h3>
-                            <p class="cart_list_info_info">
-                                颜色分类:黄色
-                            </p>
-                            <p class="cart_list_info_price ">
-                                <em>￥29</em>
-                                <del class="old_price">￥59</del>
-                            </p>
-                        </div>
-                        <div class="good_num">×3</div>
-                        </a>
-                    </div>
-				</li>
-			</ul>
-			<div class="good_price">
-				共2件商品&nbsp;合计：￥98.00（含运费￥0.00）
-			</div>
-			<div class="good_an">
-				<a class="quoder" href="">取消订单</a>
-				<a class="ljpay" href="">立即支付</a>
-			</div>
-		</div>
+    {$queryOrderList->getPageBar()}
 	</div>
 	<!-- 
 	<ul class="user_list">
@@ -127,46 +95,70 @@
 	{else:}
 	<div class="nodata">
 		<img src="{skin:image/top/orderempty.png}"/>
-		您的订单为空，去逛逛！
+		您还没有相关订单，去逛逛！
 	</div>
 	<!-- 热门商品 -->
 <section class="hot_googs">
 	<div class="hot_title">热门商品</div>
 	<ul class="hot_ul clear">
+        {foreach:items=Api::run('getCommendHot', 6)}
 		<li>
-			<a>
-				<img src="{skin:image/top/gouwuche_kong@2x.png}"/>
-				<div class="good_name">合木威廉 三层实木 地板</div>
-				<em>￥500.00</em>
+			<a href="{url:/site/products/id/$item['id']}">
+				<div class="div_img"><img src="{url:/pic/thumb/img/$item['img']/w/170/h/170}"/>
+                {if:goods_class::getSellerPay($item['seller_id'])}
+                <img src="{skin:image/sellerVip.png}" class="vip_logo"/>
+                {/if}
+                </div>
+                <div class="good_name">{$item['name']}</div>
+                <em>￥{$item['sell_price']}</em>
 			</a>
 		</li>
-		<li>
-			<a>
-				<img src="{skin:image/top/gouwuche_kong@2x.png}"/>
-				<div class="good_name">合木威廉 三层实木 地板</div>
-				<em>￥500.00</em>
-			</a>
-		</li>
-		<li>
-			<a>
-				<img src="{skin:image/top/gouwuche_kong@2x.png}"/>
-				<div class="good_name">合木威廉 三层实木 地板</div>
-				<em>￥500.00</em>
-			</a>
-		</li>
-		<li>
-			<a>
-				<img src="{skin:image/top/gouwuche_kong@2x.png}"/>
-				<div class="good_name">合木威廉 三层实木 地板</div>
-				<em>￥500.00</em>
-			</a>
-		</li>
+        {/foreach}
 	</ul>
 </section>
     {/if}
 </section>
+<div class="mask" id="mask"></div>
+<!-- 支付密码 strat-->
+<div class="w_paswd">
+    <div class="ps_title">
+        <div class="close js_close_pay"></div>
+        <span><strong>请输入支付密码</strong></span>
+    </div>
+    <div class="passwd_cont ">
+        <div class="pass clear">
+        <input class="pas_tex" type="password" name="pay_pwd"/>
+        </div>   
+        <div class="pas_but clear">
+            <button class="pas_qr js_pay_confirm">确定</button>
+            <button class="pas_qx js_close_pay">取消</button>
+        </div>
+    </div>
+</div>
 <script>
 $(function(){
 	hideNav()
 })
+
+function payPass(_i)
+{
+    $("#js_mask").fadeIn(300);
+    $(".w_paswd").animate({bottom: '0rem'},"slow");
+    $('.js_pay_confirm').click(function(){
+        $.ajax({
+             type: "post",
+             url: '{url:/block/validatePayPass}',
+             data: {pay_pwd:$('input[name=pay_pwd]').val()},
+             dataType: "json",
+             success: function(data){
+                if(data.result == false)
+                {
+                    alert(data.msg);
+                    return;
+                }
+                window.location.href='{url:/block/doPay/order_id/'+_i+'}';
+             }
+         });
+    })
+}
 </script>

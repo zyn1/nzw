@@ -257,9 +257,9 @@ function orderFormClass()
                                          data: {pay_pwd:$('input[name=pay_pwd]').val()},
                                          dataType: "json",
                                          success: function(data){
-                                            if(content.result == false)
+                                            if(data.result == false)
                                             {
-                                                alert(content.msg);
+                                                alert(data.msg);
                                                 return;
                                             }
                                             window.location.href=_url;

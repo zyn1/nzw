@@ -113,11 +113,30 @@ class APIUcenter
 		return $query;
 	}
 	//用户中心-订单列表
-	public function getOrderList($userid){
+	public function getOrderList($userid,$status){
 		$page = IReq::get('page') ? IFilter::act(IReq::get('page'),'int') : 1;
-		$query = new IQuery('order');
-		$query->where = "user_id =".$userid." and if_del= 0";
-		$query->order = "id desc";
+		$query = new IQuery('order as o');
+        $where = "o.user_id =".$userid." and o.if_del= 0";
+        if($status == 1)
+        {
+            $where .= ' and o.status = 1 and o.pay_type != 0';
+        }
+        elseif($status == 2)
+        {
+            $where .= ' and ((o.status = 1 and o.pay_type = 0 and o.distribution_status = 0) or (o.status = 2 and o.distribution_status = 0))';
+        }
+        elseif($status == 3)
+        {
+            $where .= ' and ((o.status = 1 and o.pay_type = 0 and o.distribution_status = 1) or (o.status = 2 and o.distribution_status = 1))';
+        }
+        elseif($status ==4)
+        {
+           // $query->join = "inner join comment as c on c.order_no = o.order_no";
+            $where .= ' and o.status = 5 and o.refunds_status != 1 and o.refunds_status != 2 and o.refunds_status != 3 and o.refunds_status != 4 and o.refunds_status != 5 and o.refunds_status != 6';
+            $query->fields="o.*";
+        }
+		$query->where = $where;
+		$query->order = "o.id desc";
 		$query->page  = $page;
 		return $query;
 	}

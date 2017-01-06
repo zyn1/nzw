@@ -10,7 +10,7 @@
 			</tr>
 		</thead>
 		<tbody>
-		{set:$queryOrderList = Api::run('getOrderList',$this->user['user_id'])}
+		{set:$queryOrderList = Api::run('getOrderList',$this->user['user_id'],0)}
 		 {foreach:items = $queryOrderList->find()}
 		<tr>
 			<td><a href="{url:/ucenter/order_detail/id/$item[id]}">{$item['order_no']}</a></td>
