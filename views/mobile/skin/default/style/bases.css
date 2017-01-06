@@ -46,13 +46,15 @@
 }
 .peis .type_ok,.zf_way .type_ok,.submit_ok .type_ok{
 	width: 80%;
-	height: 0.4rem;
-	margin:0 10%;
-	text-align: center;
-	color: #fff;
-	background: #6BB945;
-	border: 0px;
-	border-radius: 0.05rem;
+    height: 0.4rem;
+    margin: 0 10%;
+    text-align: center;
+    color: #fff;
+    background: #6BB945;
+    border: 0px;
+    border-radius: 0.05rem;
+    display: block;
+    line-height: 0.4rem;
 }
 .peis .ok_button,.zf_way .ok_button{
 	position: relative;

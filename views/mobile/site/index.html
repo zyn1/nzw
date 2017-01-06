@@ -107,7 +107,7 @@ $(function() {
             {foreach:items=Api::run('getCommendPrice','2,4')}
             <li>
                 <a href="{url:/site/products/id/$item['id']}">
-                    <div class="div_img"><img src="{url:/pic/thumb/img/$item['img']/w/170/h/170}">
+                    <div class="div_img clear"><img src="{url:/pic/thumb/img/$item['img']/w/170/h/170}">
                     {if:goods_class::getSellerPay($item['seller_id'])}
                     <img src="{skin:image/sellerVip.png}" class="vip_logo"/>
                     {/if}

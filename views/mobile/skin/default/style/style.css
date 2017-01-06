@@ -1578,6 +1578,9 @@ ul li .div_img{
     bottom: 0px;
     right: 0px;
 }
+.goods_r ul li .div_img{
+    float: left;
+}
 .home_goods .goods_l img{
     width: 100%;
     height: 1.14rem;
@@ -1627,6 +1630,7 @@ ul li .div_img{
     height: 0.2rem !important;
     bottom: 0.15rem;
     right: 0.15rem;
+    border: 0px !important;
 }
 .home_goods a {
     display: block;
@@ -1634,7 +1638,7 @@ ul li .div_img{
 }
 .home_goods img {
     display: block;
-    width: 1.5rem;
+    width: 100%;
     height: 1.5rem;
 }
 .home_goods span {
@@ -3194,6 +3198,18 @@ span.valid-msg, label.valid-msg {
     outline: 1px solid #ededed;
     border-bottom: 0.1rem solid #f2f2f2;
     min-height: 1.2rem;
+}
+.address_list li:after{
+    content: ' ';
+    position: absolute;
+    top: 0.5rem;
+    right: 0.1rem;
+    border: #2D2D03 solid;
+    border-width: 0.03rem 0 0 0.03rem;
+    width: 0.13rem;
+    height: 0.13rem;
+    -webkit-transform: rotate(135deg);
+    -moz-transform: rotate(135deg);
 }
 .address_list li .address_list_icon{
     display: none ;
@@ -5256,6 +5272,7 @@ span.xl3 em{
 
 
 
+
 /*账户明细*/
 ul.tabs {
 margin: 0;
@@ -5640,3 +5657,4 @@ font-size: 0.13rem;
 .addre_qr_cont .addre_an a.ad_qd{
     width: 50%;
 }
+
