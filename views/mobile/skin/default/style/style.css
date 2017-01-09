@@ -1253,7 +1253,7 @@ a .icon-rotate-90:before, a .icon-rotate-180:before, a .icon-rotate-270:before, 
     background: url("../image/top/shouye@3x.png") no-repeat 0px center;
 }
 .icon-phone{
-    background: url("../image/top/dianhua@2x.png") no-repeat;
+    background: url("../image/top/dianhua@2x.png") no-repeat center 0.02rem;
 }
 .icon-comment-alt{
     background: url("../image/top/xiaoxi @2x.png") no-repeat 0 center;
@@ -2034,8 +2034,9 @@ ul li .div_img{
 
 .nothing {
     text-align: center;
-    color: #46c100;
     font-size: 0.14rem;
+    background: #46c100;
+    padding-top: 0.3rem;
 }
 .nothing i {
     font-size: 1rem;
@@ -2043,18 +2044,27 @@ ul li .div_img{
 }
 .nothing p {
     line-height: 1.4;
+    padding: 0.5rem 0;
 }
 .nothing .tips {
     text-align: center;
-    margin-top: 0.2rem;
+    padding-top: 0.2rem;
+    background: #f9f9f9;
 }
 .nothing .tips a {
     display: inline-block;
     height: 0.32rem;
     line-height: 0.32rem;
     padding: 0 0.15rem;
-    background: #5BC2D9;
-    color: #fff;
+    border-radius: 2px;
+   
+}
+.nothing .tips a.tips_index{
+    background: #46c100;
+     color: #fff;
+}
+.nothing .tips a.tips_center{
+    background: #CACACA ;
 }
 .nothing .tips a:first-child {
     margin-right: 0.1rem;
@@ -3954,7 +3964,7 @@ span.valid-msg, label.valid-msg {
 .cart_title .name .sel_name .vip_logo{
     position: relative !important;
     bottom: 0.01rem;
-    right: -0.02rem;
+    left:0.01rem;
     top:inherit !important;
 }
 
@@ -4044,11 +4054,15 @@ label.check:after{
 }
 .cart_sel .cart_list_info .cart_list_info_price {
     position: absolute;
-    bottom: 0.03rem;
+    bottom: 0.2rem;
     left: 0;
     line-height: 1;
     color: #f60;
 }
+.cart_sel .cart_list_info .cart_list_info_price em{
+    color: #f60;
+}
+
 .cart_list_info_price .old_price{
     color: #979797;
     text-decoration: line-through;
@@ -4483,7 +4497,7 @@ label.check:after{
 .cart_2 .cart_sel .cart_title .name{
    display: block;
 }
-.cart_2 .cart_sel .cart_title .name img{
+.cart_2 .cart_sel .cart_title .name img.sell_logo{
     width: 0.25rem;
     height: 0.25rem;
     position: absolute;

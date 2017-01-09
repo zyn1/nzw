@@ -167,6 +167,23 @@ z-index: 11;
 	color: #fff;
 	background: #6BB945;
 }
+.cart_list_info_price .commen_zp{
+	position: absolute;
+    right: -1rem;
+    padding: 0.05rem 0.1rem;
+    background: #6BB945;
+    margin-top: 0.05rem;
+    color: #fff;
+    border-radius: 3px;
+}
+.cart_list_info_price .commen_look{
+	position: absolute;
+	right: -0.4rem;
+    padding: 0.05rem 0.15rem;
+    margin-top: 0.05rem;
+    border-radius: 3px;
+    color: #656565;
+}
 /*个人中心我的订单 end*/
 /*个人中心订单详情 strat*/
 .user_order_detail .order_number{

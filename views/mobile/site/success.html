@@ -1,11 +1,16 @@
 <div id="pageInfo" data-title="操作成功！"></div>
-
+<header class="header_login">
+	<div class="header_title">
+		<a class="return_a"onclick="window.history.back();"></a>
+		<h2 id="pageInfo">操作成功</h2>
+	</div>
+</header>
 <section class="nothing">
-    <i class="icon-ok green"></i>
-    <p class="green">恭喜您,您已 {echo:IReq::get('message') ? IFilter::act(IReq::get('message'),'text') : '操作成功！'} 现在去?</p>
+    <img src="{url:views/mobile/skin/default/image/top/success_2.png}">
+    <p class="cff ">恭喜您,您已 {echo:IReq::get('message') ? IFilter::act(IReq::get('message'),'text') : '操作成功！'} 现在去?</p>
     <div class="tips">
-        <a href="{url:/ucenter/index}">个人中心</a>
-        <a href="{url:/site/index}">网站首页</a>
+    	<a class="tips_index" href="{url:/site/index}">回到首页</a>
+        <a class="tips_center" href="{url:/ucenter/index}">进入个人中心</a>
     </div>
 </section>
 

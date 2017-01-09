@@ -1,12 +1,18 @@
 {set:$msg = IReq::get('msg') ? IReq::get('msg') : '发生错误'}
 <div id="pageInfo" data-title="出错啦"></div>
-
+<header class="header_login">
+	<div class="header_title">
+		<a class="return_a"onclick="window.history.back();"></a>
+		<h2 id="pageInfo">出错啦</h2>
+	</div>
+</header>
 <section class="nothing">
     <i class="icon-remove red"></i>
-    <p class="red">{echo:htmlspecialchars($msg,ENT_QUOTES)}</p>
+     <img src="{url:views/mobile/skin/default/image/top/error.png}">
+    <p class="cff">{echo:htmlspecialchars($msg,ENT_QUOTES)}</p>
     <div class="tips">
-        <a href="{url:/ucenter/index}">个人中心</a>
-        <a href="{url:/site/index}">网站首页</a>
+        <a class="tips_index" href="{url:/ucenter/index}">个人中心</a>
+        <a class="tips_center" href="{url:/site/index}">网站首页</a>
     </div>
 </section>
 

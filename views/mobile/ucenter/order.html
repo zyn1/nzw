@@ -31,7 +31,7 @@
 		<div class="cart_goods" >
 			<div class="cart_title">
                 <a class="name clear" href="{url:/site/home/id/$item['seller_id']}">
-                    <img src="{webroot:$sellerRow['seller_logo']}"/>
+                    <img class="sell_logo" src="{webroot:$sellerRow['seller_logo']}"/>
                     <span class="sel_name">{$sellerRow['true_name']}
                     {if:goods_class::getSellerPay($item['seller_id'])}
                     <img src="{skin:image/sellerVip.png}" class="vip_logo"/>
@@ -58,14 +58,20 @@
                                 <em>￥{$good['real_price']}</em>
                                 <del class="old_price">￥{$good['goods_price']}</del>
                                 {if:$commentRow}
-                                <a href="{url:/site/comments/id/$commentRow[id]}">
-                                {if:$commentRow['status'] == 1}去追评{else:}去评价{/if}
-                                </a>
+                                {if:$commentRow['status'] == 1}
+                                <a class="commen_look">已评论</a>
+                                <a class="commen_zp" href="{url:/site/comments/id/$commentRow[id]}">
+                                去追评</a>{else:}<a class="commen_zp" href="{url:/site/comments/id/$commentRow[id]}">去评价
+                                </a>{/if}
+                                
                                 {/if}
                                 {if:$good['delivery_id'] && !in_array($good['delivery_id'],$deliveryCom)}
                                 {set:$deliveryCom[] = $good['delivery_id']}
                                 {/if}
-                            </p>
+                             </p>
+                             <!-- <div class="commen_an">
+                                
+                            </div> -->
                         </div>
                         <div class="good_num">×{$good['goods_nums']}</div>
                     </a>
