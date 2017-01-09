@@ -1380,15 +1380,15 @@ a .icon-rotate-90:before, a .icon-rotate-180:before, a .icon-rotate-270:before, 
 }
 
 .footer_nav {
-    height: 0.8rem;
-}
-.footer_nav ul {
-    position: fixed;
+     position: fixed;
     bottom: 0;
     left: 0;
     right: 0;
     height: 0.7rem;
     z-index: 2;
+}
+.footer_nav ul {
+   height: 0.7rem;
 }
 .footer_nav ul li {
     width: 25%;
@@ -1529,7 +1529,7 @@ a .icon-rotate-90:before, a .icon-rotate-180:before, a .icon-rotate-270:before, 
 }
 .home_title strong {
     font-weight: normal;
-    font-size: 0.15px;
+    font-size: 0.15rem;
     color: #656565;
 }
 .home_title .more_a{
@@ -1931,9 +1931,9 @@ ul li .div_img{
     overflow: hidden;
     position: relative;
     float: none;
-    width: 100%;
+    width: 96%;
     display: block;
-    padding: 0.1rem;
+    padding: 2%;
 }
 .goods_list ul li a{
     padding: 0px;
@@ -2035,9 +2035,12 @@ ul li .div_img{
 .nothing {
     text-align: center;
     font-size: 0.14rem;
-    background: #46c100;
-    padding-top: 0.3rem;
 }
+.nothing .nothing_bag{
+     background: #46c100;
+     padding: 0.5rem 0;
+}
+
 .nothing i {
     font-size: 1rem;
     line-height: 2;
