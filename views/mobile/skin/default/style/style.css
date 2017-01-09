@@ -3960,6 +3960,15 @@ span.valid-msg, label.valid-msg {
 .cart_title .name .sel_name{
     display: block;
     float: left;
+    width: 71%;
+}
+.cart_title .name .sel_name i{
+        display: block;
+    float: left;
+    width: 83%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 .cart_title .name .sel_name .vip_logo{
     position: relative !important;

@@ -17,7 +17,7 @@
 			<div class="cart_title">
                 <a class="name clear" href="{url:/site/home/id/$this->order_info['seller_id']}">
                     <img class="sell_logo" src="{webroot:$sellerRow['seller_logo']}"/>
-                    <span class="sel_name">{$sellerRow['true_name']}
+                    <span class="sel_name"><i>{$sellerRow['true_name']}</i>
                     {if:goods_class::getSellerPay($this->order_info['seller_id'])}
                     <img src="{skin:image/sellerVip.png}" class="vip_logo"/>
                     {/if}

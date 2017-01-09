@@ -85,8 +85,8 @@ $(function(){
         <div class="cart_goods">
             <div class="cart_title">
                 <a class="name clear" href="{url:/site/home/id/$key}">
-                    <img src="{webroot:$seller['seller_logo']}"/>
-                    <span class="sel_name">{$seller['true_name']}
+                    <img class="sell_logo" src="{webroot:$seller['seller_logo']}"/>
+                    <span class="sel_name"><i>{$seller['true_name']}</i>
                     {if:goods_class::getSellerPay($key)}
                     <img src="{skin:image/sellerVip.png}" class="vip_logo"/>
                     {/if}

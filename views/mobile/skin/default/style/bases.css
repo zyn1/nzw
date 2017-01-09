@@ -191,7 +191,8 @@ z-index: 11;
 	line-height: 0.4rem;
 	background: #fff;
 	padding: 0 0.15rem;
-	margin-bottom:0.15rem; 
+	margin-bottom:0.15rem;
+	font-size: 0.13rem; 
 }
 .user_order_detail .order_number .order_state{
 	float: right;
