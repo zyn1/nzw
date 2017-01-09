@@ -24,8 +24,8 @@
         </div>
 	</div>
 </header>
-
-{set:$swfloadObject = new Swfupload('site/comment_img_upload');$swfloadObject->show();}
+<!-- {js:kindeditor}
+{set:$swfloadObject = new Swfupload('site/comment_img_upload');$swfloadObject->show();} -->
 <form method="post" action="{url:/site/comment_add}">
 <input type="hidden" name="id" value="{$this->comment['id']}" />
 <!-- 评价商品 -->
@@ -52,10 +52,10 @@
 	</div>
 	<div class="input_li">
 		<strong class="input_item">上传图片</strong>
-		<label id='uploadButton' class="file_an"><input id="Button1" type="file" name="flie"/>选择文件</label>
+		<label id='uploadButton' class="file_an">选择文件<input type="file" name="filesmul" multiple="multiple" onchange="filechange(this)"></label>
 		<span class="file_ts">可以上传多张图片，分辨率3000px以下，大小不得超过{echo:IUpload::getMaxSize()}</span>
 		<div id="thumbnails" class="file_imgs clear">
-			<!-- <div class="file_img">
+			<!-- <div  class="file_img">
 				<img src="{skin:image/top/gouwuche_kong@2x.png}"/>
 				<a class="img_del">删除</a>
 			</div> -->
@@ -98,58 +98,53 @@ $(function(){
 
  //下面用于多图片上传预览功能
 
-    function setImagePreviews(avalue) {
-        var docObj = document.getElementById("Button1");
-        var dd = document.getElementById("thumbnails");
-        dd.innerHTML = "";
-        var fileList = docObj.files;
-        for (var i = 0; i < fileList.length; i++) {            
-
-
-            dd.innerHTML += "<div class='file_img' > <img id='img" + i + "'  /> </div>";
-            var imgObjPreview = document.getElementById("img"+i); 
-            if (docObj.files && docObj.files[i]) {
-
-                //火狐下，直接设img属性
-
-                imgObjPreview.style.display = 'block';
-                imgObjPreview.style.width = '100%';
-                imgObjPreview.style.height = '100%';
-
-                //imgObjPreview.src = docObj.files[0].getAsDataURL();
-
-                //火狐7以上版本不能用上面的getAsDataURL()方式获取，需要一下方式
-
-                imgObjPreview.src = window.URL.createObjectURL(docObj.files[i]);
+    function filechange(obj) {
+        if (obj.files && obj.files.length) {
+            for (var i = 0; i < obj.files.length; i++) {
+                appendImg(window.URL.createObjectURL(obj.files[i]));
             }
-            else {
-                //IE下，使用滤镜
+        } else {
+            obj.select();
+            obj.blur();
 
-                docObj.select();
-                var imgSrc = document.selection.createRange().text;
-                alert(imgSrc)
-                var localImagId = document.getElementById("img" + i);
+            var imgSrc = document.selection.createRange().text;
+            appendImg(imgSrc, true);
+        }
 
-                //必须设置初始大小
-
-                localImagId.style.width = "100%";
-                localImagId.style.height = "100%";
-
-                //图片异常的捕捉，防止用户修改后缀来伪造图片
-
-                try {
-                    localImagId.style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale)";
-                    localImagId.filters.item("DXImageTransform.Microsoft.AlphaImageLoader").src = imgSrc;
-                }
-                catch (e) {
-                    alert("您上传的图片格式不正确，请重新选择!");
-                    return false;
-                }
-                imgObjPreview.style.display = 'none';
-                document.selection.empty();
-            }
-        }  
-        return true;
     }
+    function appendImg(url, ie) {
+        var img = document.createElement('img'), imgid = guid();;
+        img.src = url;
+        img.id = imgid;
+        var imgAdd = document.createElement("div");
+                imgAdd.setAttribute("class", "file_img");
+                imgAdd.appendChild(img);
+        var img_del = document.createElement("a");
+        img_del.setAttribute("class","img_del");
+        imgAdd.appendChild(img_del);
+        img_del.innerHTML="删除"
+        document.getElementById("thumbnails").appendChild(imgAdd);
+        
+        if (ie) {
+            try {
+                var imgshow = document.getElementById(imgid);
+                imgshow.style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale)";
+                imgshow.filters.item("DXImageTransform.Microsoft.AlphaImageLoader").src = url;
+            } catch (e) {
+                alert("您上传的图片格式不正确，请重新选择！");
+                return false;
+            }
+        }
+
+    }
+
+    var guid = (function () {
+        function s4() {
+            return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
+        }
+        return function () {
+            return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
+        };
+    })();
 </script>
 

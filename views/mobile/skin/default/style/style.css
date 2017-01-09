@@ -3417,13 +3417,14 @@ span.valid-msg, label.valid-msg {
     display: block;
 }
 .file_imgs .file_img{
+    position: relative;
     float: left;
-    width: 25%;
+    width: 28%;
     height: 0.8rem;
     border: 0.01rem solid #E2E2E2;
     margin-right: 2%;
-    padding:0.1rem;
-    position: relative;
+    padding: 0.05rem;
+    margin-bottom: 0.1rem;
 }
 .file_imgs .file_img:nth-child(3){
     margin-right: 0px;
@@ -3446,7 +3447,7 @@ span.valid-msg, label.valid-msg {
 }
 .file_imgs .file_img img{
     width: 100%;
-    height: 100%;
+    height: 0.8rem;
 }
 /*评论界面*/
 .comments_list {
@@ -3960,6 +3961,15 @@ span.valid-msg, label.valid-msg {
 .cart_title .name .sel_name{
     display: block;
     float: left;
+    width: 71%;
+}
+.cart_title .name .sel_name i{
+        display: block;
+    float: left;
+    width: 83%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 .cart_title .name .sel_name .vip_logo{
     position: relative !important;
