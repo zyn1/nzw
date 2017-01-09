@@ -58,15 +58,15 @@
 //提交表单检查
 function checkForm()
 {
+    if($('[name="order_goods_id[]"]:checked').length == 0)
+    {
+        alert('请选择要退款的商品');
+        return false;
+    }
+    
 	if($('#content').val() == '')
 	{
 		alert('请填写退款原因');
-		return false;
-	}
-
-	if($('[name="order_goods_id[]"]:checked').length == 0)
-	{
-		alert('请选择要退款的商品');
 		return false;
 	}
 	return true;

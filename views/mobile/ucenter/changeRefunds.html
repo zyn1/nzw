@@ -7,11 +7,11 @@
 </header>
 <section class="refunds_top">
 	<ul>
-		<li><a href="javascript:;" class="on">退货申请</a></li>
-		<li><a href="{url:ucenter/changeRefunds}">换货申请</a></li>
+		<li><a href="{url:ucenter/refunds}" >退货申请</a></li>
+		<li><a href="javascript:;" class="on">换货申请</a></li>
 	</ul>
 </section>
-{set:$queryRefundmentDocList = Api::run('getRefundmentDocList',$this->user['user_id'],1);$data = $queryRefundmentDocList->find();}
+{set:$queryRefundmentDocList = Api::run('getRefundmentDocList',$this->user['user_id'],2);$data = $queryRefundmentDocList->find();}
 {if:$data}
 <section class="refunds_list">
     {foreach:items = $data}
@@ -21,12 +21,11 @@
 				<span>订单号：{$item['order_no']}</span>
 			</div>
 			<div class="infor_div">
-				<span>处理状态：<em>{echo:Order_Class::refundmentText($item['pay_status'],1)}</em></span>
+				<span>处理状态：<em>{echo:Order_Class::refundmentText($item['pay_status'],2)}</em></span>
 			</div>
 		</a>
 		<div class="infor_div">
 			<span class="infor_date">{$item['time']}</span>
-			
             {if:$item['pay_status']==0}
             <label class="infor_qx"><input type="button" onclick='delModel({link:"{url:/ucenter/refunds_del/id/$item[id]}"})'/>取消</label>
             {else:}
@@ -37,10 +36,11 @@
     {/foreach}
 </section>
 {else:}	
- <section class="nodata">
-	您当前没有退款信息
-</section> 
+<section class="nodata">
+	您当前没有换货信息
+</section>
 {/if}
+
 <script>
 //DOM加载完毕
 $(function(){

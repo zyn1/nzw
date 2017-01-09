@@ -7,16 +7,37 @@
 <header class="header_login">
     <div class="header_title">
         <a class="return_a"onclick="window.history.back();"></a>
-        <h2>退款详情</h2>
+        <h2>{if:$this->data['type'] == 1}退款详情{else:}换货详情{/if}</h2>
     </div>
 </header>
 <div class="refunds_detail">
     <p>订单号：{$this->data['order_no']}</p>
-    <p>处理结果：<em class="">{echo:Order_Class::refundmentText($this->data['pay_status'])}</em>&nbsp;&nbsp;
-        <!-- 注：商家同意退货/换货出现此按钮 -->
-        <a class="refund_order_an" href="{url:ucenter/refund_order}">填写退货单</a>
+    <p>处理结果：<em class="">{echo:Order_Class::refundmentText($this->data['pay_status'],$this->data['type'])}</em>&nbsp;&nbsp;
+    {if:$this->data['pay_status'] == 3}
+        <a class="refund_order_an" href="{url:ucenter/refund_order/id/$this->data['id']}">填写退货单</a>
+    {/if}
     </p>
-    <p>自动处理倒计时：46小时30分06秒</p>
+    {if:$this->data['pay_status'] == 0}
+        &nbsp;&nbsp;&nbsp;
+        {if:$this->time > 0}
+        <p>自动处理倒计时：
+        {set:$free_time=$this->time;}
+        <time id="cd_hour_{$this->data['id']}">{echo:floor($free_time/3600);}</time><span>小时</span>
+        <time id="cd_minute_{$this->data['id']}">{echo:floor( ($free_time%3600)/60 );}</time><span>分钟</span>
+        <time id="cd_second_{$this->data['id']}">{echo:$free_time%60}</time><span>秒</span>
+        </p>
+        {else:}
+        <p>此订单金额已被商家结算完毕，请直接与商家客服联系</p>
+        {/if}
+    {/if}
+    {if:$this->data['pay_status'] == 4}
+        {query:name=refundment_extend where=refund_id eq $this->data['id']}
+        <p>快递公司：{$item['company']}</p>
+        <p>快递单号：{$item['delivery_code']}</p>
+        <p>退货地址：{$item['address']}</p>
+        <p>其他说明：{$item['info']}</p>
+        {/query}
+        {/if}
     <p>退款商品：
         {foreach:items = $this->data['goods']} {set:$goodsInfo = JSON::decode($item['goods_array'])}
             <a href="{url:/site/products/id/$item['goods_id']}">
@@ -24,8 +45,11 @@
             </a></br>
         {/foreach}
     </p>
-    <p>商家主页：<em class="b6">进入主页</em></p>
+    <p>商家主页：<em class="b6"><a href="{url:/site/home/id/$this->data['seller_id']}">进入主页</a></em></p>
     <p>申请时间：{$this->data['time']}</p>
+    {if:$this->data['amount'] > 0}
+    <p>退款金额：{$this->data['amount']}</p>
+    {/if}
     <p>处理时间：{echo:$this->data['dispose_time']?$this->data['dispose_time']:'未处理';}</p>
     <p>处理建议：{echo:$this->data['dispose_idea']?$this->data['dispose_idea']:'未回复'}</p>
     <p>退款原因：{$this->data['content']}</p>
@@ -35,5 +59,9 @@
 $(function(){
     // 隐藏底部导航
     hideNav();
+    
+    //倒计时
+    var cd_timer = new countdown();
+    cd_timer.add({$this->data['id']});
 })
 </script>
