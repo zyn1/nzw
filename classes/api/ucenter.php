@@ -131,7 +131,6 @@ class APIUcenter
         }
         elseif($status ==4)
         {
-           // $query->join = "inner join comment as c on c.order_no = o.order_no";
             $where .= ' and o.status = 5 and o.refunds_status != 1 and o.refunds_status != 2 and o.refunds_status != 3 and o.refunds_status != 4 and o.refunds_status != 5 and o.refunds_status != 6';
             $query->fields="o.*";
         }
