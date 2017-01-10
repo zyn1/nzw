@@ -1428,7 +1428,7 @@ a .icon-rotate-90:before, a .icon-rotate-180:before, a .icon-rotate-270:before, 
 .footer_nav ul span {
     display: block;
     text-align: center;
-    font-size: 0.11rem;
+    font-size: 0.14rem;
 }
 .footer_nav ul .on {
     background: #fff;
@@ -4822,10 +4822,10 @@ label.check:after{
 }
 /*商品列表*/
 .icon-angle-down{
-    background: url("../image/top/xia_s.png") no-repeat;
+    background: url("../image/top/xia_s.png") no-repeat 0 3px;
 }
 .icon-angle-up{
-    background: url("../image/top/shang@2x.png") no-repeat;
+    background: url("../image/top/shang@2x.png") no-repeat 0 3px;
 }
 .goods_sort .sort_btn{
     position: relative;
@@ -4842,7 +4842,7 @@ label.check:after{
     display: block;
 }
 .goods_sort .down_a{
-    background: url("../image/top/shang_s.png") no-repeat;
+    background: url("../image/top/shang_s.png") no-repeat 0px 3px;
 }
 /*.goods_sort .sp_px i.up_a{
     background: url("../image/top/xia@2x.png") no-repeat;top:12px;

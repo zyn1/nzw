@@ -116,14 +116,14 @@ $(function(){
         var img = document.createElement('img'), imgid = guid();;
         img.src = url;
         img.id = imgid;
-        var imgAdd = document.createElement("div");
+        var imgAdd = document.createElement("div");//增加div标签
                 imgAdd.setAttribute("class", "file_img");
                 imgAdd.appendChild(img);
-        var img_del = document.createElement("a");
+        var img_del = document.createElement("a");//创建a标签
         img_del.setAttribute("class","img_del");
-        imgAdd.appendChild(img_del);
-        img_del.innerHTML="删除"
-        document.getElementById("thumbnails").appendChild(imgAdd);
+        imgAdd.appendChild(img_del);//页面增加a标签
+        img_del.innerHTML="删除";//a标签添加内容
+        document.getElementById("thumbnails").appendChild(imgAdd);//div标签写入界面
         
         if (ie) {
             try {
