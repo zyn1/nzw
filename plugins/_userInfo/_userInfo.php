@@ -105,7 +105,7 @@ class _userInfo extends pluginBase
         $_captcha   = ISafe::get('captcha');
     	$is_auto   = IFilter::act(IReq::get('is_auto','post'));
 
-        if((!$_captcha || !$captcha || $captcha != $_captcha) && IClient::getDevice() == 'pc')
+        if((!$_captcha || !$captcha || $captcha != $_captcha) && IClient::getDevice() == IClient::PC)
         {
             return "图形验证码输入不正确";
         }
@@ -165,12 +165,12 @@ class _userInfo extends pluginBase
     		return "密码是字母，数字，下划线组成的6-32个字符";
     	}
 
-    	if($password != $repassword && IClient::getDevice() == 'pc')
+    	if($password != $repassword && IClient::getDevice() == IClient::PC)
     	{
     		return "2次密码输入不一致";
     	}
 
-    	if((!$_captcha || !$captcha || $captcha != $_captcha) && IClient::getDevice() == 'pc')
+    	if((!$_captcha || !$captcha || $captcha != $_captcha) && IClient::getDevice() == IClient::PC)
     	{
     		return "图形验证码输入不正确";
     	}
@@ -279,7 +279,7 @@ class _userInfo extends pluginBase
 		{
 			die("请填写正确的手机号码");
 		}
-		if((!$captcha || !$_captcha || $captcha != $_captcha) && IClient::getDevice() == 'pc')
+		if((!$captcha || !$_captcha || $captcha != $_captcha) && IClient::getDevice() == IClient::PC)
 		{
 			die("请填写正确的图形验证码");
 		}
