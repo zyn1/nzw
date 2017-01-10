@@ -3960,16 +3960,11 @@ span.valid-msg, label.valid-msg {
 }
 .cart_title .name .sel_name{
     display: block;
-    float: left;
-    width: 71%;
 }
 .cart_title .name .sel_name i{
-        display: block;
+    display: block;
     float: left;
-    width: 83%;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+   font-size: 0.12rem;
 }
 .cart_title .name .sel_name .vip_logo{
     position: relative !important;
@@ -3980,7 +3975,10 @@ span.valid-msg, label.valid-msg {
 
 .cart_title .name .sel_cz{
     display: block;
-    float: right;
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    font-size: 0.12rem;
 }
 label.box{
     display: block;
@@ -4506,12 +4504,13 @@ label.check:after{
 }
 .cart_2 .cart_sel .cart_title .name{
    display: block;
+   position: relative;
 }
 .cart_2 .cart_sel .cart_title .name img.sell_logo{
     width: 0.25rem;
     height: 0.25rem;
     position: absolute;
-    left: 0.1rem;
+    left: 0.0rem;
     top: 0.08rem;
 }
 .cart_2 .cart_sel .cart_list_goods{
