@@ -5,22 +5,25 @@
     </div>
 </header>
 <section class="refund_order">
-	<form>
+	<form action="{url:/ucenter/refunds_update2}" method="post" name='delivery_info'>
+        <input type="hidden" name="id" value="{$this->data['id']}">
+        <input type="hidden" name="num" value="{$this->data['order_no']}">
+        <input type="hidden" name="type" value="{$this->data['type']}">
 	 	<div class="ord_cont">
           	<span>快递公司</span>
-          	<span><input type="text" placeholder="请输入快递公司"/></span>
+          	<span><input type="text" placeholder="请输入快递公司" name="company" pattern="required" value="" alt="请填写快递公司"/></span>
         </div>
         <div class="ord_cont">
           	<span>快递单号</span>
-          	<span><input type="text" placeholder="请输入快递单号"/></span>
+          	<span><input type="text" placeholder="请输入快递单号" name="delivery_code" pattern="required" value="" alt="请填写快递单号"/></span>
         </div>
         <div class="ord_cont">
           	<span>退货地址</span>
-          	<span><input type="text" placeholder="请输入退货地址"/></span>
+          	<span><input type="text" placeholder="请输入退货地址" name="address" pattern="required" value="" alt="请填写退货地址"/></span>
         </div>
         <div class="ord_cont">
           	<span>其他说明</span>
-          	<span><textarea class="textare"></textarea></span>
+          	<span><textarea class="textare" name="info"></textarea></span>
         </div>
         <div class="ord_cont_but"><input type="submit" value="提交"/></div>
 	</form>

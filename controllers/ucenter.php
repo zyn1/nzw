@@ -635,6 +635,24 @@ class Ucenter extends IController implements userAuthorization
         	Util::showMessage("退款信息不存在");
         }
     }
+    
+    public function refund_order()
+    {
+        $id = IFilter::act( IReq::get('id'),'int' );
+        $refundDB = new IModel("refundment_doc");
+        $refundRow = $refundDB->getObj("id = ".$id." and user_id = ".$this->user['user_id']);
+        if($refundRow)
+        {
+            $this->data = $refundRow;
+            $this->redirect('refund_order');
+        }
+        else
+        {
+            $this->redirect('refunds',false);
+            Util::showMessage("退款信息不存在");
+        }
+    }
+    
     /**
      * @brief 查看退款申请详情
      */

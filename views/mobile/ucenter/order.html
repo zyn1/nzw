@@ -15,9 +15,16 @@
 	</ul>
 </section>
 <section class="user_order cart_2">
-{set:$user_id = $this->user['user_id'];$queryOrderList = Api::run('getOrderList',$user_id,$this->orderStatus);$orderList = $queryOrderList->find();}
+{set:$user_id = $this->user['user_id'];$queryOrderList = Api::run('getOrderList',$user_id,$this->orderStatus);$orderList = $queryOrderList->find();$commentDB = new IModel('comment');}
+{if:$this->orderStatus == 4}
+{foreach:items = $orderList}
+{if:!$commentDB->getObj("order_no = '".$item['order_no']."' and status != 2")}
+    {set:unset($orderList[$key])}
+{/if}
+{/foreach}
+{/if}
     {if:$orderList}
-    {set:$sellerObj = new IModel('seller');$commentDB = new IModel('comment');}
+    {set:$sellerObj = new IModel('seller');}
 	<div class="cart_sel">
     {foreach:items = $orderList}
     {set:$orderStatus = Order_Class::getOrderStatus($item);$orderObj = new order_class();$orderInfo = $orderObj->getOrderShow($item['id'],$user_id);$sellerRow = $sellerObj->getObj('id ='.$item['seller_id'], 'true_name, seller_logo');}

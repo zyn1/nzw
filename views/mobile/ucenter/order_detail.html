@@ -117,7 +117,7 @@
 <footer class="order_detail_bottom">
 	<div class="bottom_an">
         {if:in_array($orderStatus,array(1,2))}
-        <a class="E9" href="{url:/ucenter/order_status/order_id/$this->order_info['order_id']/op/cancel}">取消订单</a>
+        <a class="E9" href="{url:/ucenter/order_status/order_id/$this->order_info['order_id']/op/cancel/_call/1}">取消订单</a>
         {/if}
         {if:$orderStatus == 2}
         <a class="B6" href="javascript:;" {if:$this->order_info['pay_type'] == 1} onclick="payPass({$this->order_info['order_id']});" {else:} onclick="window.location.href='{url:/block/doPay/order_id/$this->order_info['order_id']}'" {/if}>立即付款</a>
