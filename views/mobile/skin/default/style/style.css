@@ -1380,15 +1380,15 @@ a .icon-rotate-90:before, a .icon-rotate-180:before, a .icon-rotate-270:before, 
 }
 
 .footer_nav {
-    height: 0.8rem;
-}
-.footer_nav ul {
     position: fixed;
     bottom: 0;
     left: 0;
     right: 0;
     height: 0.7rem;
     z-index: 2;
+}
+.footer_nav ul {
+    height: 0.7rem;
 }
 .footer_nav ul li {
     width: 25%;
@@ -1428,7 +1428,7 @@ a .icon-rotate-90:before, a .icon-rotate-180:before, a .icon-rotate-270:before, 
 .footer_nav ul span {
     display: block;
     text-align: center;
-    font-size: 0.11rem;
+    font-size: 0.14rem;
 }
 .footer_nav ul .on {
     background: #fff;
@@ -1529,7 +1529,7 @@ a .icon-rotate-90:before, a .icon-rotate-180:before, a .icon-rotate-270:before, 
 }
 .home_title strong {
     font-weight: normal;
-    font-size: 0.15px;
+    font-size: 0.15rem;
     color: #656565;
 }
 .home_title .more_a{
@@ -3338,6 +3338,7 @@ span.valid-msg, label.valid-msg {
     padding: 0.1rem;
     border:1px solid #E2E2E2;
     float: left;
+    position: relative;
 }
 .com_goods .good_img img{
     width: 100%;
@@ -3960,16 +3961,11 @@ span.valid-msg, label.valid-msg {
 }
 .cart_title .name .sel_name{
     display: block;
-    float: left;
-    width: 71%;
 }
 .cart_title .name .sel_name i{
-        display: block;
+    display: block;
     float: left;
-    width: 83%;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+   font-size: 0.12rem;
 }
 .cart_title .name .sel_name .vip_logo{
     position: relative !important;
@@ -3980,7 +3976,10 @@ span.valid-msg, label.valid-msg {
 
 .cart_title .name .sel_cz{
     display: block;
-    float: right;
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    font-size: 0.12rem;
 }
 label.box{
     display: block;
@@ -4506,12 +4505,13 @@ label.check:after{
 }
 .cart_2 .cart_sel .cart_title .name{
    display: block;
+   position: relative;
 }
 .cart_2 .cart_sel .cart_title .name img.sell_logo{
     width: 0.25rem;
     height: 0.25rem;
     position: absolute;
-    left: 0.1rem;
+    left: 0.0rem;
     top: 0.08rem;
 }
 .cart_2 .cart_sel .cart_list_goods{
@@ -4819,10 +4819,10 @@ label.check:after{
 }
 /*商品列表*/
 .icon-angle-down{
-    background: url("../image/top/xia_s.png") no-repeat;
+    background: url("../image/top/xia_s.png") no-repeat 0 3px;
 }
 .icon-angle-up{
-    background: url("../image/top/shang@2x.png") no-repeat;
+    background: url("../image/top/shang@2x.png") no-repeat 0 3px;
 }
 .goods_sort .sort_btn{
     position: relative;
@@ -4839,7 +4839,7 @@ label.check:after{
     display: block;
 }
 .goods_sort .down_a{
-    background: url("../image/top/shang_s.png") no-repeat;
+    background: url("../image/top/shang_s.png") no-repeat 0px 3px;
 }
 /*.goods_sort .sp_px i.up_a{
     background: url("../image/top/xia@2x.png") no-repeat;top:12px;
