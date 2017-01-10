@@ -1380,15 +1380,15 @@ a .icon-rotate-90:before, a .icon-rotate-180:before, a .icon-rotate-270:before, 
 }
 
 .footer_nav {
-    height: 0.8rem;
-}
-.footer_nav ul {
     position: fixed;
     bottom: 0;
     left: 0;
     right: 0;
     height: 0.7rem;
     z-index: 2;
+}
+.footer_nav ul {
+    height: 0.7rem;
 }
 .footer_nav ul li {
     width: 25%;
