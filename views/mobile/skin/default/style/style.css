@@ -3975,7 +3975,7 @@ span.valid-msg, label.valid-msg {
 .cart_title .name .sel_cz{
     display: block;
     position: absolute;
-    right: 0px;
+    right: 15px;
     top: 0px;
     font-size: 0.12rem;
 }
