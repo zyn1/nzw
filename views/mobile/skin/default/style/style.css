@@ -1384,34 +1384,34 @@ a .icon-rotate-90:before, a .icon-rotate-180:before, a .icon-rotate-270:before, 
     bottom: 0;
     left: 0;
     right: 0;
-    height: 0.7rem;
+    height: 0.55rem;
     z-index: 2;
 }
 .footer_nav ul {
-    height: 0.7rem;
+    height: 0.55rem;
 }
 .footer_nav ul li {
     width: 25%;
     float: left;
-    height: 0.7rem;
+    height: 0.55rem;
     outline: 1px solid #ededed;
     background: #F5F5F5;
     position: relative;
     z-index: 2;
+    padding-bottom: rem;
 }
 .footer_nav ul a {
     display: block;
-    height: 0.7rem;
+    height: 0.55rem;
 }
 .footer_nav ul i {
     display: block;
-    margin: 0.07rem auto 0.03rem;
+    margin: 0rem auto 0.0rem;
     width: 0.35rem;
     height: 0.35rem;
-    font-size: 0.15rem;
     color: #fff;
     text-align: center;
-    line-height: 0.24rem;
+    /* line-height: 0.24rem; */
 }
 .footer_nav ul i.icon-home{
     background: url("../image/top/shouye@2x.png") center no-repeat;
@@ -2791,7 +2791,7 @@ header{
 }
 header .header_so_btn i{
     display: block;
-    width: 0.3rem;
+    width: 0.19rem;
     height: 0.3rem;
     margin: 0 auto;
 }
