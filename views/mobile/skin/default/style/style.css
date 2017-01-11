@@ -4756,8 +4756,8 @@ label.check:after{
     position: relative;
     border-radius: 5px;
     background: #499C21;
-    height: 0.45rem;
-    line-height: 0.45rem;
+    height: 0.4rem;
+    line-height: 0.4rem;
     padding: 0 0.1rem;
     margin: 0 0.5rem 0 0.1rem;
 }
@@ -4785,7 +4785,7 @@ label.check:after{
     position: absolute;
     border: 0px;
     left: 21%;
-    height: 0.44rem;
+    height: 0.4rem;
     width: 78%;
     background: #499C21;
     color: #fff;
@@ -4940,7 +4940,7 @@ label.check:after{
     right: 0.05rem;
     z-index: 10;
     background: #404040;
-    top: 0.3rem;
+    top: 0.55rem;
     width: 0.9rem;
     display: none;
     border-radius: 5px;
