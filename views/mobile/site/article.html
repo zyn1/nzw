@@ -1,13 +1,27 @@
 {set:$articleList = $queryArticle->find()}
-
+<style type="text/css">
+    body{
+        background: #fff;
+    }
+    
+</style>
+<header class="header_login">
+    <div class="header_title">
+        <a class="return_a"onclick="window.history.back();"></a>
+        <h2 id="pageInfo" data-title="家装知识">家装知识</h2>
+    </div>
+</header>
 <div id="pageInfo" data-title="{if:$catRow}{$catRow['name']}{else:}最新资讯{/if}"></div>
 
-<section class="home_news_list">
+<section class="coupon_list">
     <ul>
         {foreach:items = $articleList}
         <li>
+            <a href="{url:/site/article_detail/id/$item[id]}">
+            <div class="title">{$item['title']}</div>
+            <div class="author">耐耐网推送</div>
             <time>{echo:date('m/d',strtotime($item['create_time']))}</time>
-            <a href="{url:/site/article_detail/id/$item[id]}">{$item['title']}</a>
+            </a>
         </li>
         {/foreach}
     </ul>

@@ -1,13 +1,32 @@
 
+<style type="text/css">
+    body{
+        background: #fff;
+    }
+    .coupon_list li{
+        border: 0;
+    }
+</style>
 <div id="pageInfo" data-title="资讯详情"></div>
-
-<section class="article_header">
-    <h1 class="title">{$this->articleRow['title']}</h1>
-    <div class="date">发布日期：{$this->articleRow['create_time']}</div>
+<header class="header_login">
+    <div class="header_title">
+        <a class="return_a"onclick="window.history.back();"></a>
+        <h2 id="pageInfo" data-title="家装知识详情">家装知识详情</h2>
+    </div>
+</header>
+<section class="coupon_list">
+    <ul>
+        <li class="read">
+            <div class="title" style="text-align:center">{$this->articleRow['title']}</div>
+            <div class="author">耐耐网推送</div>
+            <time>{$this->articleRow['create_time']}</time>
+        </li>
+        <li>
+            {$this->articleRow['content']} 
+        </li>
+    </ul>
+    
 </section>
-<article class="article_detail">
-    {$this->articleRow['content']}
-</article>
 <script>
 $(function(){
     // 隐藏底部导航
