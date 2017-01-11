@@ -1697,6 +1697,7 @@ class Order_Class
         $orderInfo['status'] = 2;
         $orderInfo['create_time'] = ITime::getDateTime();
         $orderInfo['distribution_status'] = 0;
+        $orderInfo['refunds_status'] = 0;
         $orderInfo['postscript'] = '';
         $orderInfo['exp'] = 0;
         $orderInfo['point'] = 0;
