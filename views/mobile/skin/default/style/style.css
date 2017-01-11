@@ -1818,8 +1818,8 @@ ul li .div_img{
     padding-left: 0.2rem;
     position: absolute;
     width: 23px;
-    height: 19px;
-    top: 0.1rem;
+    height: 0.45rem;
+    /* top: 0.1rem; */
 }
 
 .goods_select {
@@ -1931,8 +1931,9 @@ ul li .div_img{
     overflow: hidden;
     position: relative;
     float: none;
-    width: 100%;
+    width: 96%;
     display: block;
+    padding: 2%;
 }
 .goods_list ul li a{
     padding: 0px;
@@ -4677,7 +4678,7 @@ label.check:after{
     margin-top: 0.15rem !important;
     margin-bottom: 1px !important;
     font-weight: normal;
-    font-size: 0.18rem;
+    font-size: 0.14rem;
     background: #fff;
     height: 0.48rem;
     line-height: 0.48rem;
@@ -4818,10 +4819,10 @@ label.check:after{
 }
 /*商品列表*/
 .icon-angle-down{
-    background: url("../image/top/xia_s.png") no-repeat 0 3px;
+    background: url("../image/top/xia_s.png") no-repeat 0 center;
 }
 .icon-angle-up{
-    background: url("../image/top/shang@2x.png") no-repeat 0 3px;
+    background: url("../image/top/shang@2x.png") no-repeat 0 center;
 }
 .goods_sort .sort_btn{
     position: relative;
@@ -4838,7 +4839,7 @@ label.check:after{
     display: block;
 }
 .goods_sort .down_a{
-    background: url("../image/top/shang_s.png") no-repeat 0px 3px;
+    background: url("../image/top/shang_s.png") no-repeat 0px center;
 }
 /*.goods_sort .sp_px i.up_a{
     background: url("../image/top/xia@2x.png") no-repeat;top:12px;
