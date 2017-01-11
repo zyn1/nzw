@@ -632,12 +632,21 @@ input[type="number"]::-webkit-outer-spin-button {
     float: right;color: #6BB945;
 }
 .goods_chose .type > ul > li .num_add span{
-    background: #eee;display: inline-block;
-    width: 0.25rem;height: 0.25rem;text-align: center;
+    background: #eee;
+    display: inline-block;
+    width: 0.25rem;
+    height: 0.25rem;
+    line-height: 0.25rem;
+    text-align: center;
 }
 .goods_chose .type > ul > li .num_add input{
-    color: #878787;width: 0.5rem;
-    background: #eee;border: 0;line-height: 0.25rem;
+    color: #878787;
+    width: 0.5rem;
+    background: #eee;
+    border: 0;
+    line-height: 0.25rem;
+    position: relative;
+    top: -0.02rem;
     text-align: center;
 }
 .goods_chose .ok_button{
@@ -2481,8 +2490,8 @@ ul li .div_img{
     -o-text-overflow: ellipsis;
     overflow: hidden;
     padding-top: 0.1rem;
-    font-weight: bold;
     line-height: 0.18rem;
+    font-weight: normal;
 }
 .seller_info .sellers_xl{
     color: #AAAAAA;
@@ -4986,7 +4995,7 @@ label.check:after{
 }
 .goods_list .sellers_xl{
     line-height: 0.3rem;
-    color: #E6E6E6;
+    color: #aaa;
 }
 .goods_list .sellers_xl .xl1,.goods_list .sellers_xl .xl2{
     float: left;
