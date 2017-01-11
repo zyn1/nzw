@@ -83,7 +83,7 @@ class Ucenter extends IController implements userAuthorization
 		{
 			$result['message'] = '请选择图片';
 		}
-        if(IClient::getDevice() == 'pc')
+        if(IClient::getDevice() == IClient::PC)
         {
             echo '<script type="text/javascript">parent.callback_user_ico('.JSON::encode($result).');</script>';
         }
@@ -191,7 +191,7 @@ class Ucenter extends IController implements userAuthorization
 			}
 			break;
 		}
-        if(IClient::getDevice() == 'pc' || !is_null(IReq::get('_call')))
+        if(IClient::getDevice() == IClient::PC || !is_null(IReq::get('_call')))
         {
             $this->redirect("order_detail/id/$id");
         }
@@ -868,7 +868,7 @@ class Ucenter extends IController implements userAuthorization
     		'area'         => $areaArr ? ",".join(",",$areaArr)."," : "",
             'desc_info'    => $desc_info
     	);
-        if(IClient::getDevice() == 'pc')
+        if(IClient::getDevice() == IClient::PC)
         {
             $dataArray['email'] = $email;
             $dataArray['mobile'] = $mobile;
@@ -1392,7 +1392,7 @@ class Ucenter extends IController implements userAuthorization
             $_email = $email['email'];
             $captcha = IFilter::act(IReq::get('captcha'));
             $_captcha = ISafe::get('captcha');
-            if((!$captcha || !$_captcha || $captcha != $_captcha) && IClient::getDevice() == 'pc')
+            if((!$captcha || !$_captcha || $captcha != $_captcha) && IClient::getDevice() == IClient::PC)
             {
                 die("请填写正确的图形验证码");
             }
@@ -1426,7 +1426,7 @@ class Ucenter extends IController implements userAuthorization
         $code = IReq::get('email_code');
         $captcha = IFilter::act(IReq::get('captcha'));
         $_captcha = ISafe::get('captcha');
-        if((!$captcha || !$_captcha || $captcha != $_captcha) && IClient::getDevice() == 'pc')
+        if((!$captcha || !$_captcha || $captcha != $_captcha) && IClient::getDevice() == IClient::PC)
         {
             die("请填写正确的图形验证码");
         }
@@ -1515,7 +1515,7 @@ class Ucenter extends IController implements userAuthorization
             $_mobile = $mobile['mobile'];
             $captcha = IFilter::act(IReq::get('captcha'));
             $_captcha = ISafe::get('captcha');
-            if((!$captcha || !$_captcha || $captcha != $_captcha) && IClient::getDevice() == 'pc')
+            if((!$captcha || !$_captcha || $captcha != $_captcha) && IClient::getDevice() == IClient::PC)
             {
                 die("请填写正确的图形验证码");
             }
@@ -1546,7 +1546,7 @@ class Ucenter extends IController implements userAuthorization
         $code = IReq::get('phone_code');
         $captcha = IFilter::act(IReq::get('captcha'));
         $_captcha = ISafe::get('captcha');
-        if((!$captcha || !$_captcha || $captcha != $_captcha) && IClient::getDevice() == 'pc')
+        if((!$captcha || !$_captcha || $captcha != $_captcha) && IClient::getDevice() == IClient::PC)
         {
             IError::show(403,"请填写正确的图形验证码");
         }
@@ -1656,7 +1656,7 @@ class Ucenter extends IController implements userAuthorization
         $code = IReq::get('phone_code');
         $captcha = IFilter::act(IReq::get('captcha'));
         $_captcha = ISafe::get('captcha');
-        if((!$captcha || !$_captcha || $captcha != $_captcha) && IClient::getDevice() == 'pc')
+        if((!$captcha || !$_captcha || $captcha != $_captcha) && IClient::getDevice() == IClient::PC)
         {
             IError::show(403,"请填写正确的图形验证码");
         }

@@ -23,6 +23,14 @@
                 <dl class="comm_content">
                     <dd>{$this->comment['contents']}</dd>      
                 </dl>
+                {if:$this->photo}
+                <h3 class="level_nr">评论图片：</h3>
+                <dl class="comm_content">
+                    {foreach:items=$this->photo}
+                    <img src="{webroot:$item['img']}" style="width: 100px;margin-right: 10px;">
+                    {/foreach}      
+                </dl>
+                {/if}
                 <h3 class="level_nr">追评内容：</h3>
                 <dl class="comm_content">
                     <dd><input type="hidden" name="is_reply" value="1"><textarea class="input_textarea" name='second_contents' pattern='required' alt=''></textarea></dd>
@@ -42,50 +50,20 @@
                 </dl>
                 {else:}
 				<h3 class="level_pl">评论等级：</h3>	
-					<div class="grade_fl" id="review">
-                    <input type="hidden" name="point" value="5">
-						<dl>
-							<dd>
-								<ul class="review_ul">
-									<li class="on"></li>
-									<li class="on"></li>
-									<li class="on"></li>
-									<li class="on"></li>
-									<li class="on"></li>
-								</ul>
-							</dd>
-						</dl>
-					</div>
-<script>
-$(function(){
-	{
-	function score(oUl){
-		var aLi = oUl.getElementsByTagName('li');
-		for(var i = 0; i < aLi.length; i++){
-			aLi[i].index = i;
-			aLi[i].onclick = function(){
-				// this.index
-				for(var j=0; j<aLi.length; j++){
-					//j->0 1 2 3 4
-					if(j <= this.index){
-						aLi[j].className = 'on';
-					}else{
-						aLi[j].className = '';
-					}
-				}
-                $('input[name=point]').val(this.index+1);
-			}
-			}
-		}
-	var rEview = document.getElementById('review');
-	var oReVi = rEview.getElementsByTagName('ul'); 
-	for(var i=0; i<oReVi.length; i++){
-		score(oReVi[i])
-	}	
-}
-})
-
-</script>				
+				<div class="grade_fl" id="review">
+                <input type="hidden" name="point" value="5">
+					<dl>
+						<dd>
+							<ul class="review_ul">
+								<li class="on"></li>
+								<li class="on"></li>
+								<li class="on"></li>
+								<li class="on"></li>
+								<li class="on"></li>
+							</ul>
+						</dd>
+					</dl>
+				</div>			
 				<h3 class="level_sc">上传图片：</h3>	
 				<dl class="upload_pic">
                     <div class="chooice_btn">
@@ -159,11 +137,41 @@ $(function(){
 		<div class="bar_box">
 			<h3 class="bar_box_head">促销活动</h3>
 			<ul class="bar_nav">
-				<!-- {foreach:items=Api::run('getProrule',$seller_id)}
+				 {foreach:items=Api::run('getProrule',1)}
 				<li>{$item['info']}</li>
-				{/foreach} -->
-				<li>哈哈哈哈哈</li>
+				{/foreach} 
 			</ul>
 		</div>
 	</aside>
 </section>
+
+<script>
+$(function(){
+    {
+    function score(oUl){
+        var aLi = oUl.getElementsByTagName('li');
+        for(var i = 0; i < aLi.length; i++){
+            aLi[i].index = i;
+            aLi[i].onclick = function(){
+                // this.index
+                for(var j=0; j<aLi.length; j++){
+                    //j->0 1 2 3 4
+                    if(j <= this.index){
+                        aLi[j].className = 'on';
+                    }else{
+                        aLi[j].className = '';
+                    }
+                }
+                $('input[name=point]').val(this.index+1);
+            }
+            }
+        }
+    var rEview = document.getElementById('review');
+    var oReVi = rEview.getElementsByTagName('ul'); 
+    for(var i=0; i<oReVi.length; i++){
+        score(oReVi[i])
+    }    
+}
+})
+
+</script>    

@@ -463,7 +463,7 @@ class Site extends IController
         user_history::set_user_history($goods_id,$user_id);
         $this->setRenderData($goods_info);
         
-        if(IClient::getDevice() == 'mobile')
+        if(IClient::getDevice() == IClient::MOBILE)
         {
             //商品评论
             $commentDB = new IQuery('comment as c');
@@ -791,7 +791,7 @@ class Site extends IController
         else
         {
             $result = array('flag'=> $photo['flag']);
-        }                
+        }           
         echo JSON::encode($result);
     }
 
@@ -819,6 +819,8 @@ class Site extends IController
 		$this->comment      = $result;
 		$this->commentCount = Comment_Class::get_comment_info($result['goods_id']);
 		$this->goods        = Api::run('getGoodsInfo',array("#id#",$result['goods_id']));
+        $photo = new IModel('comment_photo');
+        $this->photo = $photo->query('comment_id = '.$this->comment['id'].' and is_reply = 0', 'img');
 		$this->redirect("comments");
 	}
 
@@ -841,6 +843,26 @@ class Site extends IController
 		{
 			IError::show(403,"未登录用户不能评论");
 		}
+        //手机端上传图片
+        if(IClient::getDevice() == IClient::MOBILE && $_FILES)
+        {
+            //获得配置文件中的数据
+            $config = new Config("site_config");
+
+             //调用文件上传类
+            $upObj = new IUpload("50000",array("gif","png","jpg"));
+            $dir    = IWeb::$app->config['upload'].'/'.date('Y')."/".date('m')."/".date('d');
+            $upObj->setDir($dir);
+            $photo    = current($upObj->execute()); 
+            foreach($photo as $v)
+            {
+                //判断上传是否成功，如果float=1则成功
+                if($v['flag'] == 1)
+                {
+                    $imgList[] = $dir.'/'.$v['name'];
+                }
+            }      
+        }
 
         if(!$is_reply && $content)
         {
@@ -915,7 +937,14 @@ class Site extends IController
                     $photo->add();
                 }
             }
-			$this->redirect("/site/comments_list/id/".$commentRow['goods_id']);
+            if(IClient::getDevice() == IClient::PC)
+            {
+			    $this->redirect("/site/comments_list/id/".$commentRow['goods_id']);
+            }
+            else
+            {
+                $this->redirect("/site/pro_pingjia/id/".$commentRow['goods_id']);
+            }
 		}
 		else
 		{

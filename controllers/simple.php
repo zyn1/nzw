@@ -273,7 +273,7 @@ class Simple extends IController
     	//$this->proReduce = $result['proReduce'];
     	$this->sum       = $result['sum'];
     	$this->goodsList = $result['goodsList'];
-        if(IClient::getDevice() == 'mobile')
+        if(IClient::getDevice() == IClient::MOBILE)
         {
             $sellerDB = new IModel('seller');
             $sellerGoods = array();
@@ -496,7 +496,7 @@ class Simple extends IController
     	$this->freeFreight = $result['freeFreight'];
     	$this->seller      = $result['seller'];
         
-        if(IClient::getDevice() == 'mobile')
+        if(IClient::getDevice() == IClient::MOBILE)
         {
             $sellerDB = new IModel('seller');
             $sellerGoods = array();
@@ -1361,7 +1361,7 @@ class Simple extends IController
 
         $captcha  = IReq::get('captcha');
         $_captcha = ISafe::get('captcha');
-        if((!$captcha || !$_captcha || $captcha != $_captcha) && IClient::getDevice() == 'pc')
+        if((!$captcha || !$_captcha || $captcha != $_captcha) && IClient::getDevice() == IClient::PC)
         {
             IError::show("请填写正确的图形验证码");
         }
@@ -1456,7 +1456,7 @@ class Simple extends IController
 		{
 			die("请输入正确的手机号码");
 		}
-        if((!$captcha || !$_captcha || $captcha != $_captcha) && IClient::getDevice() == 'pc')
+        if((!$captcha || !$_captcha || $captcha != $_captcha) && IClient::getDevice() == IClient::PC)
         {
             die("请填写正确的图形验证码");
         }

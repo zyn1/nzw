@@ -26,19 +26,72 @@
 </header>
 <!-- {js:kindeditor}
 {set:$swfloadObject = new Swfupload('site/comment_img_upload');$swfloadObject->show();} -->
-<form method="post" action="{url:/site/comment_add}">
+<form method="post" action="{url:/site/comment_add}" enctype="multipart/form-data" name="comment">
 <input type="hidden" name="id" value="{$this->comment['id']}" />
 <!-- 评价商品 -->
 <section class="comment_goods">
 	<div class="com_goods">
+        <a href="{url:/site/products/id/$this->goods['goods_id']}">
 		<div class="good_img">
-			<img src="{skin:image/top/gouwuche_kong@2x.png}"/>
+			<img alt="{$this->goods['name']}" src="{url:/pic/thumb/img/$this->goods['img']/w/180/h/180}"/>
+            {if:goods_class::getSellerPay($this->goods['seller_id'])}
+            <img src="/nzw/views/mobile/skin/default/image/sellerVip.png" class="vip_logo" style="right: 0px;bottom: 0px;">
+            {/if}
 		</div>
 		<div class="good_name">
 			<h3>{$this->goods['name']}</h3>
-			<p class="cola">颜色分类：黄色</p>
+			<p class="cola">优惠价：￥{$this->goods['sell_price']}</p>
 		</div>
+        </a>
 	</div>
+    {if:$this->comment['status'] == 1}
+    <div class="point_star">
+    <strong>评价等级：</strong>
+    <label>
+        {if:$this->comment['point']==5}好评！{elseif:$this->comment['point']>1 && $this->comment['point']<5}中评！{else:}差评！{/if}[{$this->comment['comment_time']}]
+    </label>
+    </div>
+    <div class="point_star">
+    <strong>评分：</strong>
+    <label>
+    {for:from=1 upto=$this->comment['point']}
+        <i class="icon-star on"></i>
+    {/for}
+    </label>
+    </div>
+    <div class="point_star">
+    <strong>评语：</strong>
+    <label>{$this->comment['contents']}</label>
+    </div>
+    {if:$this->photo}
+    <div class="point_star">
+    <strong>评论图片：</strong>
+    <label>
+    {foreach:items=$this->photo}
+    <img src="{webroot:$item['img']}" style="width: 100px;">
+    {/foreach}
+    </label>
+    </div>
+    {/if}
+    <div class="input_li">
+        <strong class="input_item">上传图片</strong>
+        <label id='uploadButton' class="file_an">选择文件<input type="file" accept="image/*" name="filesmul[]" multiple="multiple" onchange="filechange(this)"></label>
+        <span class="file_ts">可以上传多张图片，分辨率3000px以下，大小不得超过{echo:IUpload::getMaxSize()}</span>
+        <div id="thumbnails" class="file_imgs clear">
+            <!-- <div  class="file_img">
+                <img src="{skin:image/top/gouwuche_kong@2x.png}"/>
+                <a class="img_del">删除</a>
+            </div> -->
+        </div>
+
+        <strong class="input_item">追评内容：</strong>
+        <input type="hidden" name="is_reply" value="1">
+        <textarea class="input_textarea" name='second_contents' pattern='required' alt=''></textarea>
+        <div class="btn_bottom">
+            <input type="submit" value="立即评价" class="btn_submit">
+        </div>
+    </div>
+    {else:}
 	<div class="point_star">
 		<strong>评价等级：</strong>
 		<label>
@@ -52,7 +105,7 @@
 	</div>
 	<div class="input_li">
 		<strong class="input_item">上传图片</strong>
-		<label id='uploadButton' class="file_an">选择文件<input type="file" name="filesmul" multiple="multiple" onchange="filechange(this)"></label>
+		<label id='uploadButton' class="file_an">选择文件<input type="file" accept="image/*" name="filesmul[]" multiple="multiple" onchange="filechange(this)"></label>
 		<span class="file_ts">可以上传多张图片，分辨率3000px以下，大小不得超过{echo:IUpload::getMaxSize()}</span>
 		<div id="thumbnails" class="file_imgs clear">
 			<!-- <div  class="file_img">
@@ -62,21 +115,15 @@
 		</div>
 
 		<strong class="input_item">我的评价</strong>
-		<textarea name="contents" id="contents" class="input_textarea"></textarea>
+		<textarea name='contents' pattern='required' id="contents" class="input_textarea"></textarea>
 		<div class="btn_bottom">
 			<input type="submit" value="立即评价" class="btn_submit">
 		</div>
 	</div>
-	
+	{/if}
 </section>
 
 </form>
-<!-- 没评论内容 -->
-<div class="nodata">
-		<img src="{skin:image/top/com_no.png}"/>
-		没有更多内容！
-	</div>
-<script src='{theme:javascript/uplo.js}'></script>
 <script>
 $(function(){
 	// 隐藏底部导航
@@ -101,6 +148,14 @@ $(function(){
     function filechange(obj) {
         if (obj.files && obj.files.length) {
             for (var i = 0; i < obj.files.length; i++) {
+                var fileName = obj.files[i].name
+                    ,ext = fileName.substring(fileName.lastIndexOf(".")+1,fileName.length).toLowerCase();
+                if(ext != "gif" && ext != "png" && ext != "jpg" && ext != "jpeg")
+                {
+                    alert('您上传的图片格式不正确，请重新选择！');
+                    return;
+                }
+                $('form[name=comment]').append('<input type="file" name="filesmul[]" value="'+obj.files[i].name+'"');
                 appendImg(window.URL.createObjectURL(obj.files[i]));
             }
         } else {
@@ -121,10 +176,10 @@ $(function(){
                 imgAdd.appendChild(img);
         var img_del = document.createElement("a");//创建a标签
         img_del.setAttribute("class","img_del");
-        imgAdd.appendChild(img_del);//页面增加a标签
-        img_del.innerHTML="删除";//a标签添加内容
-        document.getElementById("thumbnails").appendChild(imgAdd);//div标签写入界面
-        
+        imgAdd.appendChild(img_del);
+        img_del.innerHTML="删除"
+        document.getElementById("thumbnails").appendChild(imgAdd);
+
         if (ie) {
             try {
                 var imgshow = document.getElementById(imgid);

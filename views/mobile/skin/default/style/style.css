@@ -1529,7 +1529,7 @@ a .icon-rotate-90:before, a .icon-rotate-180:before, a .icon-rotate-270:before, 
 }
 .home_title strong {
     font-weight: normal;
-    font-size: 0.15px;
+    font-size: 0.15rem;
     color: #656565;
 }
 .home_title .more_a{
@@ -1933,7 +1933,6 @@ ul li .div_img{
     float: none;
     width: 100%;
     display: block;
-  /*  padding: 0.1rem;*/
 }
 .goods_list ul li a{
     padding: 0px;
@@ -3338,6 +3337,7 @@ span.valid-msg, label.valid-msg {
     padding: 0.1rem;
     border:1px solid #E2E2E2;
     float: left;
+    position: relative;
 }
 .com_goods .good_img img{
     width: 100%;
