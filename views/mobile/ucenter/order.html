@@ -31,8 +31,8 @@
 		<div class="cart_goods" >
 			<div class="cart_title">
                 <a class="name clear" href="{url:/site/home/id/$item['seller_id']}">
-                    <img class="sell_logo" src="{webroot:$sellerRow['seller_logo']}"/>
-                    <span class="sel_name"><i>{$sellerRow['true_name']}</i>
+                    <img class="sell_logo" {if:isset($sellerRow)} src="{webroot:$sellerRow['seller_logo']}" {else:}src="{skin:image/top/gouwuche_kong@2x.png}"{/if}/>
+                    <span class="sel_name"><i>{if:isset($sellerRow)}{$sellerRow['true_name']}{else:}商家{/if}</i>
                     {if:goods_class::getSellerPay($item['seller_id'])}
                     <img src="{skin:image/sellerVip.png}" class="vip_logo"/>
                     {/if}
