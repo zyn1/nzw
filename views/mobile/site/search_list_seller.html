@@ -18,8 +18,19 @@
         <a class="a_gd"></a>
         <div class="s_nav">
             <ul>
-                <li><a href="{url:/}">首页</a></li>
-                <li><a href="javascript:location.reload()">刷新</a></li>
+                <li><a href="{url:/}"><i class="icon-home">首页</i></a></li>
+                <li><a href="{url:ucenter/message}">
+                {if:$this->user}
+                {set:$msgObj = new Mess($this->user['user_id']);$msgNum = $msgObj->needReadNum();}
+                {else:$msgNum = 0;}
+                {set:}
+                {/if}
+                {if:$msgNum > 0}
+                <i class="icon-comments-alt">消息</i>
+                {else:}
+                <i class="icon-comment-alt">消息</i>
+                {/if}
+                </a></li>
             </ul>
         </div>
    </div>
@@ -27,7 +38,7 @@
 {js:areaSelect}
 <aside class="goods_sort">
     {foreach:items=search_seller::getOrderType()}
-    <a class="sort_btn" href="{echo:search_goods::searchUrl(array('order','by'),array($key,search_goods::getOrderBy($key)))}">{$item}<i class="down_a"></i></a>
+    <span class="sort_btn" onclick="gourl('{echo:search_goods::searchUrl(array('order','by'),array($key,search_goods::getOrderBy($key)))}')">{$item}<i class="down_a"></i></span>
     {/foreach}
 </aside>
 <section class="goods_list">
@@ -67,7 +78,6 @@
 </section>
 <div class="down_g">下拉加载更多</div>
 <!-- <div class="down_g">没有更多数据</div> -->
-<!-- {$goodsObj->getPageBar()} -->
 {else:}
 <p class="no_tip">
     对不起，当前系统没有商家
@@ -81,24 +91,28 @@ $(function(){
 
     // 切换导航样式
     var order = getUrlParam("order");
+    var by = getUrlParam("by");
     var sortBtn = $(".goods_sort").children('.sort_btn');
-    sortBtn.eq(2).append('<i>');
-    if(order=="sale"){
-        sortBtn.eq(0).addClass('on').append('<i class="icon-angle-down"></i>');
-    }else if (order=="sale_toggle"){
-        sortBtn.eq(0).addClass('on').append('<i class="icon-angle-up"></i>');
-    }else if (order=="cpoint"){
-        sortBtn.eq(1).addClass('on').append('<i class="icon-angle-down"></i>');
-    }else if(order=="cpoint_toggle"){
+     if(order=="default"){
+        if(by=="desc"){
+            sortBtn.eq(0).addClass('on').append('<i class="icon-angle-down"></i>');
+        }else{
+            sortBtn.eq(0).addClass('on').append('<i class="icon-angle-up"></i>');
+        }
+        
+    }else if (order=="sale"){
+        if(by=="desc"){
+            sortBtn.eq(1).addClass('on').append('<i class="icon-angle-down"></i>');
+        }else{
         sortBtn.eq(1).addClass('on').append('<i class="icon-angle-up"></i>');
-    }else if(order=="price"){
+        }
+    }else if(order=="grade"){
+         if(by=="desc"){
         sortBtn.eq(2).addClass('on').append('<i class="icon-angle-down"></i>');
-    }else if(order=="price_toggle"){
+        }else{
         sortBtn.eq(2).addClass('on').append('<i class="icon-angle-up"></i>');
-    }else if(order=="new"){
-        sortBtn.eq(3).addClass('on').append('<i class="icon-angle-down"></i>');
-    }else if(order=="new_toggle"){
-        sortBtn.eq(3).addClass('on').append('<i class="icon-angle-up"></i>');
+        }
+       
     }else{
         sortBtn.eq(0).addClass('on').append('<i class="icon-angle-down"></i>');
     };

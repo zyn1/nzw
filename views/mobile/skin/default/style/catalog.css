@@ -1,6 +1,6 @@
 .l_left {
     position: absolute;
-    top: 0.85rem;
+    top: 0.56rem;
     left: 0;
     width: 25%;
     bottom: 0.71rem;
@@ -37,7 +37,7 @@
 }
 .l_right {
     position: absolute;
-    top: 0.85rem;
+    top: 0.56rem;
     right: 0;
     background: #fff;
     width: 75%;
@@ -45,25 +45,25 @@
     overflow: hidden;
 }
 .l_right .fr_ite li .ft_name{
-	height: 0.5rem;
-	line-height: 0.5rem;
-	color: #656565;
+    height: 0.5rem;
+    line-height: 0.5rem;
+    color: #656565;
 }
 .l_right .fr_ite{
-	padding: 0 0.2rem;
+    padding: 0 0.2rem;
 }
 .l_right .fr_ite ul li .ft_img a{
-	display: block;
-	float: left;
-	width: 30%;
-	border: 1px solid #DBDBDB;
+    display: block;
+    float: left;
+    width: 30%;
+    border: 1px solid #DBDBDB;
 }
 .fr_ite ul li .ft_img a:nth-child(2){
-	margin: 0 3%;
+    margin: 0 3%;
 }
 .fr_ite ul li .ft_img a img{
-	width: 100%;
+    width: 100%;
 }
 .disp{
-	display: none;
+    display: none;
 }

@@ -84,24 +84,35 @@ $(function(){
 
     // 切换导航样式
     var order = getUrlParam("order");
+    var by = getUrlParam("by");
     var sortBtn = $(".goods_sort").children('.sort_btn');
-    sortBtn.eq(2).append('<i>');
+    /*sortBtn.eq(2).append('<i>');*/
     if(order=="sale"){
-        sortBtn.eq(0).addClass('on').append('<i class="icon-angle-down"></i>');
-    }else if (order=="sale_toggle"){
-        sortBtn.eq(0).addClass('on').append('<i class="icon-angle-up"></i>');
+        if(by=="desc"){
+            sortBtn.eq(0).addClass('on').append('<i class="icon-angle-down"></i>');
+        }else{
+            sortBtn.eq(0).addClass('on').append('<i class="icon-angle-up"></i>');
+        }
+        
     }else if (order=="cpoint"){
-        sortBtn.eq(1).addClass('on').append('<i class="icon-angle-down"></i>');
-    }else if(order=="cpoint_toggle"){
+        if(by=="desc"){
+            sortBtn.eq(1).addClass('on').append('<i class="icon-angle-down"></i>');
+        }else{
         sortBtn.eq(1).addClass('on').append('<i class="icon-angle-up"></i>');
+        }
     }else if(order=="price"){
+         if(by=="desc"){
         sortBtn.eq(2).addClass('on').append('<i class="icon-angle-down"></i>');
-    }else if(order=="price_toggle"){
+        }else{
         sortBtn.eq(2).addClass('on').append('<i class="icon-angle-up"></i>');
+        }
+       
     }else if(order=="new"){
+        if(by=="desc"){
         sortBtn.eq(3).addClass('on').append('<i class="icon-angle-down"></i>');
-    }else if(order=="new_toggle"){
+        }else{
         sortBtn.eq(3).addClass('on').append('<i class="icon-angle-up"></i>');
+        }
     }else{
         sortBtn.eq(0).addClass('on').append('<i class="icon-angle-down"></i>');
     };
