@@ -13,8 +13,19 @@
         <div class="s_nav">
         	<div class="c-tip-arrow" style="left: 30px;"><em></em><ins></ins></div>
             <ul>
-                <li><a href="{url:/}">首页</a></li>
-                <li><a href="javascript:location.reload()">刷新</a></li>
+                <li><a href="{url:/}"><i class="icon-home">首页</i></a></li>
+                <li><a href="{url:/ucenter/message}">
+                {if:$this->user}
+                {set:$msgObj = new Mess($this->user['user_id']);$msgNum = $msgObj->needReadNum();}
+                {else:}
+                {set:$msgNum = 0;}
+                {/if}
+                {if:$msgNum > 0}
+                <i class="icon-comments-alt">消息</i>
+                {else:}
+                <i class="icon-comment-alt">消息</i>
+                {/if}
+                </a></li>
             </ul>
         </div>
 	</div>
@@ -31,13 +42,13 @@
                 {if:goods_class::getSellerPay($item['seller_id'])}
                 <img src="{skin:image/sellerVip.png}" class="vip_logo"/>
                 {/if}
-                </i></a>
+                </i>
                 <div class="name_price">
                     <h3 class="name"><strong>{$item['name']}</strong></h3>
                     
                     <em class="price">￥{$item['sell_price']}</em>
                     <span class="xl del_icon" onclick="delModel({link:'{url:/ucenter/favorite_del/id/$item[id]}',msg:'是否取消收藏？'});">删除</span>
-                </div>
+                </div></a>
             </div>                
         </li>
 		{/foreach}
