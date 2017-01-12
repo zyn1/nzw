@@ -1,6 +1,6 @@
 .l_left {
     position: absolute;
-    top: 0.56rem;
+    top: 0.55rem;
     left: 0;
     width: 25%;
     bottom: 0.71rem;
@@ -27,7 +27,7 @@
     display: block;
     text-align: center;
     border: 1px solid #e8e8e8;
-    border-left: 4px solid #6bb945;
+  /*  border-left: 4px solid #6bb945;*/
 }
 .l_left ul.job_sub li.off:first-child a {
     border-top: none;
@@ -37,7 +37,7 @@
 }
 .l_right {
     position: absolute;
-    top: 0.56rem;
+    top: 0.55rem;
     right: 0;
     background: #fff;
     width: 75%;

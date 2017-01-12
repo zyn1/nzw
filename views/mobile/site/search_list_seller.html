@@ -36,9 +36,9 @@
    </div>
 </header>
 {js:areaSelect}
-<aside class="goods_sort">
+<aside class="goods_sort" style="padding:0 0 0 7%">
     {foreach:items=search_seller::getOrderType()}
-    <span class="sort_btn" onclick="gourl('{echo:search_goods::searchUrl(array('order','by'),array($key,search_goods::getOrderBy($key)))}')">{$item}<i class="down_a"></i></span>
+    <span class="sort_btn sort_width" onclick="gourl('{echo:search_goods::searchUrl(array('order','by'),array($key,search_goods::getOrderBy($key)))}')">{$item}<i class="down_a"></i></span>
     {/foreach}
 </aside>
 <section class="goods_list">
@@ -90,9 +90,11 @@ $(function(){
     hideNav();
 
     // 切换导航样式
+
     var order = getUrlParam("order");
     var by = getUrlParam("by");
     var sortBtn = $(".goods_sort").children('.sort_btn');
+
      if(order=="default"){
         if(by=="desc"){
             sortBtn.eq(0).addClass('on').append('<i class="icon-angle-down"></i>');
@@ -117,4 +119,5 @@ $(function(){
         sortBtn.eq(0).addClass('on').append('<i class="icon-angle-down"></i>');
     };
 });
+   
 </script>

@@ -1,5 +1,10 @@
 {set:$favoriteObj = Api::run('getFavorite',$this->user['user_id'],IReq::get('cat_id'));$favoriteList = $favoriteObj->find()}
 <script src="{theme:javascript/style.js}"></script>
+<style type="text/css">
+    body{
+        background: #fff;
+    }
+</style>
 <header class="header_login">
 	<div class="header_title">
 		<a class="return_a"onclick="window.history.back();"></a>
