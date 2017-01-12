@@ -22,7 +22,7 @@
                     <img src="{skin:image/sellerVip.png}" class="vip_logo"/>
                     {/if}
                     </span>
-                    <span class="sel_cz sel_cz_bj">{echo:Order_Class::orderStatusText($orderStatus)}</span>
+                    <!-- <span class="sel_cz sel_cz_bj">{echo:Order_Class::orderStatusText($orderStatus)}</span> -->
                 </a>
             </div>
 			<ul>
@@ -59,14 +59,15 @@
 			<div class="good_price">
 				共{$num}件商品&nbsp;合计：￥{$this->order_info['order_amount']}（含运费￥{$this->order_info['real_freight']}）
 			</div>
+            {if:Order_Class::isRefundmentChangeApply($this->order_info) && !in_array($orderStatus,array(12,15))}
 			<div class="good_an">
-				{if:Order_Class::isRefundmentChangeApply($this->order_info) && !in_array($orderStatus,array(12,15))}
+				
                 <a class="quoder" href="{url:/ucenter/refunds_edit/order_id/$this->order_info['order_id']}">退换货</a>
                 {/if}
                 {if:$sellerRow['server_num']}
 				<a class="ljpay" href="mqqwpa://im/chat?chat_type=wpa&uin={$sellerRow['server_num']}&version=1&src_type=web&web_src=bjhuli.com">联系客服</a>
-                {/if}
 			</div>
+                {/if}
 		</div>
 	</div>
 	 <!--地址管理 开始-->

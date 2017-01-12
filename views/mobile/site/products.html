@@ -39,7 +39,7 @@
 	<ul>
 		{foreach:items=$photo}
 		<li>
-			<img src="{url:/pic/thumb/img/$item[img]/w/350/h/350}">
+			<img src="{url:/pic/thumb/img/$item[img]/w/350/h/350}" style="width:auto;height:100%;overflow:hidden;">
 		</li>
 		{/foreach}
 	</ul>
@@ -71,7 +71,7 @@
 			<!--当前用户普通价格-->
 			<li>
 				<em class="price">￥<span id="data_sellPrice">{$sell_price}</span></em>
-				<br>市场价：<em class="old_price">￥<span id="data_sellPrice">{$market_price}</span></em>
+				<br><br>市场价：<em class="old_price">￥<span id="data_sellPrice">{$market_price}</span></em>
 			</li>
 			{/if}
 		{/if}		
