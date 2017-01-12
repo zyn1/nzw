@@ -8,12 +8,12 @@
     z-index: 12;
 }
 .peis .ps_select,.zf_way .ps_select{
-	height: 1.2rem;
-/*    overflow: auto;*/
-    border-bottom: 0.01rem solid #ededed;
+	height: 1.25rem;
+	overflow: auto;
+	/* border-bottom: 0.01rem solid #ededed; */
 }
 .peis .ps_select ul,.zf_way .ps_select ul{
-	height: 1.2rem;
+	height: 1.25rem;
 	overflow: auto;
 }
 .peis ul li,.zf_way ul li{
@@ -25,7 +25,7 @@
 }
 
 .peis ul li .ps_cont,.zf_way ul li .ps_cont{
-	padding-left:0.25rem; 
+	padding-left:0.25rem;
 }
 .peis .close,.zf_way .close,.submit_ok .close,.w_paswd .close{
 	top: 0.15rem;
@@ -369,5 +369,5 @@ z-index: 11;
         font-size: 0.12rem;
     }
     #tab4 .del_but{
-        margin-top: 6rem;
+        margin-top: 4.6rem;
     }

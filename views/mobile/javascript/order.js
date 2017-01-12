@@ -5,9 +5,9 @@ $(document).ready(function(){
         var mask=$(".mask");
         var zf_way=$(".zf_way")
         var w_paswd=$(".w_paswd")
-        peis.animate({bottom: '-2.7rem'},"slow");
-        zf_way.animate({bottom: '-2.7rem'},"slow");
-        w_paswd.animate({bottom: '-2.7rem'},"slow");
+        peis.animate({bottom: '-4.7rem'},"slow");
+        zf_way.animate({bottom: '-4.7rem'},"slow");
+        w_paswd.animate({bottom: '-4.7rem'},"slow");
         mask.fadeOut(300);
     });
     //打开配送方式

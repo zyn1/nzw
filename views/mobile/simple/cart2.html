@@ -106,7 +106,7 @@ $(function(){
                     <a class="clear">
                         <div class="cart_list_photo"><img src="{url:/pic/thumb/img/$item[img]/w/66/h/66}" alt="{$item['name']}"></div>
                         <div class="cart_list_info">
-                            <h3 class="cart_list_info_title"><a href="{url:/site/products/id/$item['goods_id']}">{$item['name']}</a></h3>
+                            <h3 class="cart_list_info_title"><a class="prod_name" href="{url:/site/products/id/$item['goods_id']}">{$item['name']}</a></h3>
                             {if:isset($item['spec_array'])}
                             <p class="cart_list_info_info">
                             {set:$spec_array=Block::show_spec($item['spec_array']);}
@@ -286,7 +286,7 @@ $(function(){
             <span class="js_fapiao_info"></span>
         </div>
     </div>
-    <div class="ok_button js_pay_button">
+    <div class="ok_button js_pay_button" style="margin-top:0.3rem">
         <button class="type_ok js_pay_click">立即支付</button>
     </div>
 <div>

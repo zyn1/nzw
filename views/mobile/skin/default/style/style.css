@@ -178,9 +178,6 @@ hr {
     font-size: 0.13rem;
 }
 
-.fzssb, .article_detail h1 small, .article_detail h2 small, .article_detail h3 small, .article_detail h4 small, .article_detail h5 small, .article_detail h6 small, .article h1 small, .article h2 small, .article h3 small, .article h4 small, .article h5 small, .article h6 small, .about_page_tel span, .cart_footer .cart_footer_fixed .count span, .pay_status .tip_delivery {
-    font-size: 0.12rem;
-}
 
 .fzssm, .article_header .date, .cart_list .cart_list_info .cart_list_info_info, .trade_depot, .pay_status .tip_other {
     font-size: 0.11rem;
@@ -1981,7 +1978,7 @@ ul li .div_img{
 }
 .goods_list ul li .name {
     font-size: 0.14rem;
-    color: #000;
+    color: #656565;
     overflow: hidden;
     line-height: 0.2rem;
 }
@@ -2003,7 +2000,7 @@ ul li .div_img{
     font-size: 0.12rem;
     float: left;
     line-height: 0.14rem;
-    margin-top: 0.1rem;
+    margin-top: 0.15rem;
 }
 .goods_list ul li .del {
     margin: -0.1rem 0.1rem 0.1rem;
@@ -2021,6 +2018,7 @@ ul li .div_img{
     line-height: 0.3rem;
     height: 0.3rem;
     font-size: 0.13rem;
+    margin-top: 0.06rem;
 }
 
 .del_fav {
@@ -2236,7 +2234,7 @@ ul li .div_img{
 }
 .goods_info .seller_tel {
     color: #f60;
-    float: right;
+   /* float: right;*/
 }
 .goods_info .goods_favorite {
     color: #f60;
@@ -4005,9 +4003,10 @@ span.valid-msg, label.valid-msg {
 .cart_title .name .sel_cz{
     display: block;
     position: absolute;
-    right: 0px;
+    right: 15px;
     top: 0px;
     font-size: 0.12rem;
+    z-index: 20;
 }
 label.box{
     display: block;
@@ -4032,6 +4031,7 @@ label.check:after{
     line-height: 0.21rem;
     text-align: center;
     border-radius: 50%;
+    -webkit-appearance: none;
 }
 .cart_sel ul li label.box{
     top:0.5rem;
@@ -4064,13 +4064,17 @@ label.check:after{
     height: 1rem;
 }
 .cart_sel .cart_list_info .cart_list_info_title {
-    height: 0.38rem;
+    height: 0.3rem;
     line-height: 0.3rem;
     overflow: hidden;
     font-weight: normal;
     color: #222;
     font-size: 0.14rem;
 }
+.cart_sel .cart_list_info .cart_list_info_title .prod_name{
+    font-weight: bold;
+}
+
 .cart_sel .cart_list_info .cart_list_info_info {
     line-height: 1.4;
     height: 0.3rem;
@@ -4460,14 +4464,14 @@ label.check:after{
 .adder_img:before{
     content: ' ';
     position: absolute;
-    border: #999 solid;
+    border: #C7C7CC solid;
     border-width: 2px 0 0 2px;
-    width: 0.13rem;
-    height: 0.13rem;
+    width: 0.10rem;
+    height: 0.10rem;
     -webkit-transform: rotate(-225deg);
     -moz-transform: rotate(-225deg);
     right: 0.10rem;
-    margin-top:15px;
+    margin-top: 20px;
 }
 .adder_img{
     display: block;
@@ -4562,14 +4566,14 @@ label.check:after{
 .cart_2_delivery a:before {
     content: ' ';
     position: absolute;
-    border: #999 solid;
+    border: #C7C7CC solid;
     border-width: 2px 0 0 2px;
-    width: 0.10rem;
-    height: 0.10rem;
+    width: 0.08rem;
+    height: 0.08rem;
     -webkit-transform: rotate(-225deg);
     -moz-transform: rotate(-225deg);
     right: 0px;
-    top: 0.15rem;
+    top: 0.16rem;
 }
 .cart_2_delivery .sele_info{
     position: absolute;
@@ -4975,7 +4979,7 @@ label.check:after{
 .down_g{
     line-height: 0.4rem;
     text-align: center;
-    color: #eee;
+    color: #aaa;
 }
 /*商家列表*/
 .seller_name{
@@ -5403,7 +5407,7 @@ font-size: 0.13rem;
     color: #aaa;
 }
 .tab_content .content_list{
-    border-bottom: 1px solid #eee;
+   /* border-bottom: 1px solid #eee;*/
     margin-bottom:0.1rem; 
     padding:0.1rem 0; 
     position: relative;
