@@ -1285,8 +1285,8 @@ a .icon-rotate-90:before, a .icon-rotate-180:before, a .icon-rotate-270:before, 
     right: 0.1rem;
     border: #C7C7CC solid;
     border-width: 0.03rem 0 0 0.03rem;
-    width: 0.10rem;
-    height: 0.10rem;
+    width: 0.07rem;
+    height: 0.07rem;
     -webkit-transform: rotate(135deg);
     -moz-transform: rotate(135deg);
 }
@@ -1519,7 +1519,7 @@ a .icon-rotate-90:before, a .icon-rotate-180:before, a .icon-rotate-270:before, 
 }
 .home_nav li i {
     display: block;
-    width: 0.6rem;
+    width: 40px;
     height: 0.7rem;
     margin: 0 auto;
     border-radius: 50%;
@@ -4033,7 +4033,7 @@ label.box{
     height: 21px;
     border-radius: 50%;
     border: 1px solid #979797;
-    top: 0.08rem;
+    top: 0.07rem;
     z-index: 10;
 }
 label.check:after{
@@ -5255,6 +5255,7 @@ span.xl3 em{
 }
 .help_bar a{
     color: #555;
+	display:block;
 }
 .help_bar .article{    
     padding: 0 0.1rem;

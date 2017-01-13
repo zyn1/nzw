@@ -81,7 +81,7 @@
 }
 /*输入支付密码*/
 .w_paswd{
-z-index: 11;
+z-index: 110;
 }
 .w_paswd .passwd_cont{
 	padding: 0.15rem;
