@@ -489,23 +489,23 @@ input[type="number"]::-webkit-outer-spin-button {
     margin: 0.08rem 0 0.05rem;
 }
 .btn_bottom_goods .btn_ico li i.icon-kefu{
-    background: url("../image/top/kefu@2x.png") no-repeat;
+    background: url("../image/top/kefu@2x.png") no-repeat center;
     width: 16px;
-    height: 17px;
+    height: 0.18rem;
     display: block;
     margin: 0.06rem auto;
 } 
 .btn_bottom_goods .btn_ico li i.icon-guanzhu{
-    background: url("../image/top/guanzhu@2x.png") no-repeat;
+    background: url("../image/top/guanzhu@2x.png") no-repeat center;
     width: 16px;
-    height: 14px;
+    height: 0.16rem;
     display: block;
     margin: 0.07rem auto;
 } 
 .btn_bottom_goods .btn_ico li i.icon-jiarugouwuche{
-    background: url("../image/top/jiarugouwuche@2x.png") no-repeat;
-    width: 33%;
-    height: 16px;
+    background: url("../image/top/jiarugouwuche@2x.png") no-repeat center;
+    width: 16px;
+    height: 0.16rem;
     display: block;
     margin: 0.06rem auto;
 } 
@@ -1278,12 +1278,17 @@ a .icon-rotate-90:before, a .icon-rotate-180:before, a .icon-rotate-270:before, 
 .icon-comments-alt{
     background: url("../image/top/xiaoxi_1@2x.png") no-repeat 0px center;
 }
-.icon-more{
-    background: url("../image/top/gengduo @2x.png") no-repeat;
-    width: 0.12rem;
-    height: 0.2rem;
-    display: block;
-    float: right;
+.icon-more:after {
+    content: ' ';
+    position: absolute;
+    top: 0.14rem;
+    right: 0.1rem;
+    border: #C7C7CC solid;
+    border-width: 0.03rem 0 0 0.03rem;
+    width: 0.10rem;
+    height: 0.10rem;
+    -webkit-transform: rotate(135deg);
+    -moz-transform: rotate(135deg);
 }
 .icon-search{
     background: url("../image/top/shousuo@2x.png") no-repeat 0 center;
@@ -1489,7 +1494,7 @@ a .icon-rotate-90:before, a .icon-rotate-180:before, a .icon-rotate-270:before, 
 }
 
 .home_nav {
-    padding: 18px 0;
+    padding: 0px 0 18px 0;
     background: #fff;
 }
 .home_nav li {
@@ -1515,7 +1520,7 @@ a .icon-rotate-90:before, a .icon-rotate-180:before, a .icon-rotate-270:before, 
 .home_nav li i {
     display: block;
     width: 0.6rem;
-    height: 0.8rem;
+    height: 0.7rem;
     margin: 0 auto;
     border-radius: 50%;
     color: #fff;
@@ -2471,17 +2476,19 @@ ul li .div_img{
     margin: 0 3%;
 }
 .seller_info .info ul li:nth-child(3){
-    width: 14%;
+    width: 13%;
     text-align: center;
     border-left: 1px solid #e6e6e6;
-    height: 40px;
-    line-height: 40px;
+    height: 0.4rem;
+    line-height: 0.4rem;
 }
 .seller_info .info ul li:nth-child(3) i{
     display: block;
     width: 97%;
-    height: 35px;
-    background: url("../image/top/kefu@2x.png") center right no-repeat;
+    height: 0.4rem;
+    line-height: 0.6rem;
+    background: url("../image/top/kefu@2x.png") no-repeat 0.23rem 0.03rem;
+    padding-left: 0.1rem;
 }
 .seller_info ul li.seller_name h3{
     font-size: 0.15rem;
@@ -2516,8 +2523,8 @@ ul li .div_img{
 }
 .home_t{
     margin-top: 15px;
-    height: 40px;
-    line-height: 40px;
+    height: 0.4rem;
+    line-height: 0.4rem;
     padding: 0 10px;
     font-size: 0.15rem;
     background: #fff;
@@ -2810,7 +2817,7 @@ header{
 }
 header .header_so_btn i{
     display: block;
-    width: 0.25rem;
+    width: 0.26rem;
     height: 0.35rem;
     margin: 0 auto;
 }
@@ -3127,7 +3134,7 @@ header .info span{
     color: #fff;
     height: 0.3rem;
     line-height: 0.3rem;
-    margin: 0.5rem auto;
+    margin: 0.4rem auto 0.3rem;
     width: 90%;
     font-size: 0.18rem;
     border-radius: 0.05rem;
@@ -3232,7 +3239,6 @@ span.valid-msg, label.valid-msg {
 
 .address_list li {
     position: relative;
-    margin-bottom: 0.16rem;
     background: #fff;
     outline: 1px solid #ededed;
     border-bottom: 0.1rem solid #f2f2f2;
@@ -4023,19 +4029,19 @@ span.valid-msg, label.valid-msg {
 label.box{
     display: block;
     position: absolute;
-    width: 0.2rem;
-    height: 0.2rem;
+    width: 21px;
+    height: 21px;
     border-radius: 50%;
     border: 1px solid #979797;
     top: 0.08rem;
     z-index: 10;
 }
 label.check:after{
-   width: 0.21rem;
-    height: 0.21rem;
+    width: 23px;
+    height: 23px;
     display: block;
-    content: "\2714";
-    background: #6BB945;
+    content: "";
+    background: url(../image/top/select.png) no-repeat;
     position: relative;
     top: -0.01rem;
     left: -0.01rem;
@@ -4924,7 +4930,7 @@ label.check:after{
 }
 .main_head .sear_t a{
     width: 33%;display: block;float: left;
-    font-size: 0.2rem;color: #030303;
+    font-size: 0.18rem;color: #030303;
 }
 .main_head .sear_t a.active{
     color: #6BB945;
@@ -5106,7 +5112,7 @@ span.xl3 em{
 .header_login .s_nav {
     position: absolute;
     right: 0;
-    z-index: 10;
+    z-index: 30;
     background: #f2f2f2;
     width: 0.8rem;
     display: none;
@@ -5212,17 +5218,22 @@ span.xl3 em{
 
 /*帮助中心*/
 .help_bar{
-    margin-top:0.1rem;
+    margin-top:0.05rem;
 }
 .help_bar .bar{
     width: 33%;
     height: 1.2rem;
     background: #fff;
-    border: 1px solid #ccc;
-    border-left: 0;border-top:0; 
+    border-bottom: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+    border-left: 0;
+    border-top: 0;
     text-align: center;
-    display: inline-block;
+    display: block;
     float: left;
+}
+.help_bar .bar:nth-child(3),.help_bar .bar:nth-child(6),.help_bar .bar:nth-child(9){
+	border-right:0px;
 }
 .help_bar .bar img{
     width: 0.4rem;
@@ -5237,6 +5248,7 @@ span.xl3 em{
     padding: 0 0.1rem 0 0.2rem;
     text-align: left;
     border-bottom: 1px solid #E2E2E2;
+	position:relative;
 }
 .help_bar li .icon-more{
     margin-top: 0.11rem;
@@ -5443,30 +5455,37 @@ font-size: 0.13rem;
     display: none; 
 } 
  
-.chk_1 + label { 
-    background-color: #FFF; 
-    border: 1px solid #999; 
-    width: 0.14rem; 
-    height: 0.14rem;
-    color: #fff; 
+.chk_1 + label {
+    background-color: #FFF;
+    border: 1px solid #999;
+    width: 21px;
+    height: 21px;
+    color: #fff;
     padding: 0;
-    border-radius: 50%; 
-    display: inline-block; 
-    position: relative; 
-    margin-right: 0.1rem; 
-    text-align: center; 
+    border-radius: 50%;
+    display: inline-block;
+    position: relative;
+    margin-right: 0.1rem;
+    text-align: center;
+    top: 7px;
 } 
  
-.chk_1:checked + label { 
-    background-color: #6BB945; 
-    border: 1px solid #6BB945; 
+.chk_1:checked + label {
+    border: 1px solid #6BB945;
 } 
  
-.chk_1:checked + label:after { 
-    content: '\2714'; //勾选符号 
-    width: 100%; 
-    font-size: 0.12rem;  
-    vertical-align: text-top; 
+.chk_1:checked + label:after {
+    content: ''; //勾选符号
+    width: 100%;
+    font-size: 0.12rem;
+    vertical-align: text-top;
+    background: url(../image/top/select.png) no-repeat;
+    width: 0.24rem;
+    height: 0.24rem;
+    display: block;
+    position: relative;
+    top: -0.01rem;
+    left: -0.01rem;
 } 
 
 .container .check_del{
@@ -5479,11 +5498,12 @@ font-size: 0.13rem;
 }
 .container .check_del p.checkall{
     width: 50%;
-    padding-top: 0.2rem;
+    /* padding-top: 0.2rem; */
     padding-left: 0.1rem;
-    height: 0.25rem;
+    height: 0.5rem;
     background: #fff;
     float: left;
+    line-height: 0.5rem;
 }
 .container .check_del .del{
     height: 100%;width: 40%;
