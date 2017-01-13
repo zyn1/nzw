@@ -173,7 +173,7 @@ input[type="button"], input[type="submit"], input[type="reset"],input,input[type
 }
 
 .fzs, input, textarea, select, button, .formpost, .address_list .address_list_section {
-    font-size: 0.14rem;
+    font-size: 0.16rem;
 }
 
 .fzss, .article_detail, .article_header .title, .article, .goods_select .goods_select_box section dl dt, .goods_select .goods_select_son section dl dt, .goods_select .goods_select_box section li, .goods_select .goods_select_son section li, .del_fav, .address_list li.default .address_list_header:before, .address_list .address_list_header, .address_list .address_list_footer .address_btn, .cart_list .cart_list_info .cart_list_info_title, .cart_list .count, .cart_list .del, .cart_footer .cart_footer_fixed .select, .cart_footer .cart_footer_fixed .count em, .cart_footer .cart_footer_fixed .trade_count span, .trade_discount, .pay_status .tip_ok, .pay_bank dl dt h3, .pay_bank dl .pay_card {
@@ -820,7 +820,7 @@ input[type="number"]::-webkit-outer-spin-button {
 
 .article_detail {
     line-height: 1.8;
-    margin: 0.16rem;
+    margin: 0.1rem 0.2rem;
 }
 .article_detail h1, .article_detail h2, .article_detail h3, .article_detail h4, .article_detail h5, .article_detail h6 {
     color: #f60;
@@ -2119,7 +2119,7 @@ ul li .div_img{
     font-size: 0.13rem;
 }
 .goods_info > ul > li {
-    padding: 0.15rem;
+    padding: 0.15rem 0;
     line-height: 1.6;
 }
 .goods_info > ul > li.line {
@@ -2235,7 +2235,6 @@ ul li .div_img{
 }
 .goods_info .seller_tel {
     color: #f60;
-   /* float: right;*/
 }
 .goods_info .goods_favorite {
     color: #f60;
@@ -2973,6 +2972,7 @@ header .info span{
 .nodata img{
     display: block;
     margin: 0 auto;
+    margin-bottom:0.2rem; 
 }
 .nodata p{
     height: 40px;
@@ -3179,7 +3179,7 @@ header .info span{
 }
 
 textarea.invalid-text, input[type="text"].invalid-text, input[type="password"].invalid-text {
-   /* box-shadow: 0 0 0 1px #DD0000;*/
+    box-shadow: 0 0 0 1px #ccc;
     border: none !important;
 }
 
@@ -3189,7 +3189,7 @@ textarea.valid-text, input.valid-text {
 }
 
 span.invalid-msg, label.invalid-msg {
-    font-size: 0.12rem;
+    font-size: 0.14rem;
     text-indent: 0.25rem;
     background-color: #fff;
     background-size: 0.16rem auto !important;
@@ -4079,7 +4079,7 @@ label.check:after{
     height: 0.3rem;
     line-height: 0.3rem;
     overflow: hidden;
-    font-weight: normal;
+    font-weight: bold;
     color: #222;
     font-size: 0.14rem;
 }
@@ -4775,7 +4775,7 @@ label.check:after{
     position: absolute;
     top: 0.0rem;
     right: 0.2rem;
-    font-size: 0.13rem;
+    font-size: 0.14rem;
 }
 .clear:after{
     display: block;
@@ -4924,7 +4924,7 @@ label.check:after{
 }
 .main_head .sear_t a{
     width: 33%;display: block;float: left;
-    font-size: 0.15rem;color: #030303;
+    font-size: 0.2rem;color: #030303;
 }
 .main_head .sear_t a.active{
     color: #6BB945;
