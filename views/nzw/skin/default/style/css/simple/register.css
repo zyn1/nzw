@@ -22,7 +22,7 @@ blockquote, q { quotes: none; }
 
 blockquote:before, blockquote:after, q:before, q:after { content: ""; content: none; }
 
-a { text-decoration: none; cursor: pointer; color: #2d64b3; }
+a { text-decoration: none; cursor: pointer; color: #666; }
 a:hover, a:focus { outline: none; color: #6bb945; text-decoration: underline; }
 a, a * { cursor: pointer; }
 
@@ -92,7 +92,7 @@ a, a * { cursor: pointer; }
     margin-top: 55px;
 }
 .tab_reg{
-	width: 900px;
+	width: 1090px;
 	height: auto;
 	overflow: hidden;
 	margin: 25px auto 0 auto;
@@ -100,8 +100,8 @@ a, a * { cursor: pointer; }
 	border: 1px solid #f0f0f0;
 	background: #fff;
 }
-.tab_reg .reg_top{width: 900px; height: 100px; line-height: 100px;border-bottom: 1px solid #dadada;}
-.reg_top .tab_btn{width: 500px;}
+.tab_reg .reg_top{width: 1090px; height: 100px; line-height: 100px;border-bottom: 1px solid #dadada;}
+.reg_top .tab_btn{width: 600px;}
 .tab_btn h3{
     float: left;
     margin-left: 30px;
@@ -110,9 +110,9 @@ a, a * { cursor: pointer; }
     height: 60px;
     margin: 20px 0;
     line-height: 60px;
+    padding-bottom: 18px;
 }
-.tab_btn h3.reg_mob{border-right: 1px solid #dadada;}
-.tab_btn h3.color{color: #6bb945;}
+.tab_btn h3.color{color: #6bb945;border-bottom:3px solid #6bb945;}
 .tab_btn h3:hover{cursor: pointer;}
 .reg_top .tab_right{float: right; padding-right: 50px;}
 .reg_top .tab_right a{color: #6b6b6b;}
@@ -121,27 +121,27 @@ a, a * { cursor: pointer; }
 	padding: 35px 35px 35px 85px;
 }
 .conten .reg_content{
-	width: 360px;float: left;
+	width: 440px;float: left;margin-left: 16px;
 }
-.conten .ad_box{float: right;width: 420px;margin-bottom: 20px;}
+.conten .ad_box{float: right;width: 500px;margin-bottom: 20px;}
 .conten .ad_box img{
-	width: 420px;
+	width: 500px;
 }
 textarea.invalid-text, input[type="text"].invalid-text, input[type="password"].invalid-text{margin-top: -1px;}
-.reg_content div{position: relative; height: 42px;line-height: 42px; width: 304px;border: 1px solid #dbdbdb;margin-bottom: 30px;}
+.reg_content div{position: relative; height: 42px;line-height: 42px; width: 380px;border: 1px solid #dbdbdb;margin-bottom: 30px;}
 .reg_content div input{text-indent: 1em; position: absolute;right: 0; height: 41px;line-height: 42px;border: 0 none; margin-top: 0px; width: 244px; border: none; vertical-align: middle;outline: none;box-shadow: none;}
 .reg_content div.setPass input{width: 207px;}
-.reg_content div input.first{width: 212px;}
-.reg_content div input.two{width: 100px;}
-.reg_content div input.three{width: 212px;}
-.reg_content div input.four{width: 212px;}
+.reg_content div input.first{width: 300px;}
+.reg_content div input.two{width: 160px;}
+.reg_content div input.three{width: 300px;}
+.reg_content div input.four{width: 300px;}
 .reg_content div label{color: #848484; font-size: 15px;line-height: 26px; margin-left: 8px;}
-.reg_content .auth_code{width: 190px;float: left; }
+.reg_content .auth_code{width: 240px;float: left; }
 .reg_content .auth_code input{width: 100px;}
 .reg_content div.verfy{border: none;}
 .verfy .box_auth{
     float: left;
-    width: 104px;
+    width: 130px;
     margin-left: 6px;
     height: 42px;
     padding: 0;
@@ -158,13 +158,13 @@ textarea.invalid-text, input[type="text"].invalid-text, input[type="password"].i
 .reg_content .user_val label.user_nm{
 	line-height: 38px;width: 60px;position: relative; top: -3px;
 }
-.verfy .box_auth img{width: 104px; height: 38px;}
-.box_auth .gain{text-indent: 0; width: 104px;height: 42px; color: #8b8b8b; background: #ebebeb;cursor: pointer;padding: 0; margin: 0;position: absolute;left: 0;}
-.reg_content span.agreement{font-size: 14px; color: #a5a5a5;    position: relative;
-     display: block;clear: both;line-height: 24px;}
+.verfy .box_auth img{width: 130px; height: 38px;}
+.box_auth .gain{text-indent: 0; width: 130px;height: 42px; color: #8b8b8b; background: #ebebeb;cursor: pointer;padding: 0; margin: 0;position: absolute;left: 0;}
+.reg_content span.agreement{font-size: 14px; color: #a5a5a5; position: relative; display: block;clear: both;line-height: 16px;background: url("../../../image/register/check.png") no-repeat;padding-left: 20px;cursor: pointer;}
+.reg_content span.agreement.checked{background: url("../../../image/register/checked.png") no-repeat;}
 .reg_content .mob_btn {border: none;margin-top: 10px;}
 .reg_content .mob_btn input{display: block; background: #6bb945; height: 42px; cursor: pointer; line-height: 42px;
-						text-align: center; color: #fff;width: 300px;font-size: 16px;text-indent: 0;}
+						text-align: center; color: #fff;width: 380px;font-size: 16px;text-indent: 0;border-radius: 5px;}
 .reg_content .user label img,.reg_content .pass label img{width: 20px; height: 20px;}
 .reg_content .user input,.reg_content .pass input{padding-left: 20px;position: absolute;right: 0;}
 .reg_content div input+.invalid-msg,.reg_content div input+.invalid-msg{display: block;height: 23px;}
@@ -172,3 +172,10 @@ textarea.invalid-text, input[type="text"].invalid-text, input[type="password"].i
 .reg_content div.sava_pass{border: none;position: relative;top: -10px;line-height: 42px;}
 .reg_content div.sava_pass input{width: 16px; height: 16px;position: relative;}
 .reg_content div.sava_pass a{float: right; color: #848484;font-size: 14px;}
+
+
+/*注册完善信息*/
+.tab_main{width: 900px;height: auto;overflow: hidden;margin: 0 auto;border: 0;background: #fff;}
+.tab_main .reg_top{width: 900px; height: 100px; line-height: 100px;border-bottom: 1px solid #dadada;}
+.tab_main .reg_top .tab_btn{width: 600px;}
+.tab_main .tab_btn h3{float: left;margin-left: 30px;color: #5d5d5d;padding: 0 60px;height: 60px;margin: 20px 0;line-height: 60px;padding-bottom: 18px;}
