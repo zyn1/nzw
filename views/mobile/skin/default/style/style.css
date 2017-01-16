@@ -3222,8 +3222,8 @@ span.invalid-msg, label.invalid-msg {
     position: absolute;
     z-index: 10;
     /* border: 1px solid; */
-    left: 2.0rem;
-    padding: 0.1rem;
+    left: 1.95rem;
+    padding: 0.1rem 0;
     top: 5px;
     border-radius: 5px;
 }
