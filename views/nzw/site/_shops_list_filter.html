@@ -1,0 +1,246 @@
+
+
+<section class="goods_tag">
+	<!-- <h3 class="tag_head">检索条件</h3> -->
+	<!--区域筛选-->
+	{set:$brandList = search_goods::$brandSearch}
+	{if:$brandList}
+	<dl>
+		<dt>区域：</dt>
+		<dd class="brand_dd close">
+			<a class="current" href="{echo:search_goods::searchUrl('brand','')}">不限</a>
+			
+			<a href="" id=''>东城区</a>
+			<a href="" id=''>西城区</a>
+			<a href="" id=''>崇文区</a>
+			<a href="" id=''>东城区</a>
+			<a href="" id=''>西城区</a>
+			<a href="" id=''>崇文区</a>
+			<a href="" id=''>东城区</a>
+			<a href="" id=''>西城区</a>
+			<a href="" id=''>崇文区</a>
+			<a href="" id=''>东城区</a>
+			<a href="" id=''>西城区</a>
+			<a href="" id=''>崇文区</a>
+			<a href="" id=''>东城区</a>
+			<a href="" id=''>西城区</a>
+			<a href="" id=''>崇文区</a>
+			<a href="" id=''>东城区</a>
+			<a href="" id=''>西城区</a>
+			<a href="" id=''>崇文区</a>
+			<a href="" id=''>东城区</a>
+			<a href="" id=''>西城区</a>
+			<a href="" id=''>崇文区</a>
+			
+		</dd>
+		<dd class="open">
+			<img src="{url:views/nzw/skin/default/image/open.png}" class="open_icon">
+		</dd>
+	</dl>
+	{/if}
+	<!--区域筛选-->
+	<!-- 类型 -->
+	<dl>
+		<dt>类型：</dt>
+		<dd class="brand_dd close">
+			<a class="current" href="{echo:search_goods::searchUrl('brand','')}">不限</a>
+			
+			<a href="" id=''>普通住宅</a>
+			<a href="" id=''>小户型别墅</a>
+			<a href="" id=''>局部装修</a>
+			<a href="" id=''>东城区</a>
+			<a href="" id=''>西城区</a>
+			<a href="" id=''>崇文区</a>
+			<a href="" id=''>东城区</a>
+			<a href="" id=''>西城区</a>
+			<a href="" id=''>崇文区</a>
+			<a href="" id=''>东城区</a>
+			<a href="" id=''>西城区</a>
+			<a href="" id=''>崇文区</a>
+			<a href="" id=''>东城区</a>
+			<a href="" id=''>西城区</a>
+			<a href="" id=''>崇文区</a>
+			<a href="" id=''>东城区</a>
+			<a href="" id=''>西城区</a>
+			<a href="" id=''>崇文区</a>
+			
+		</dd>
+		<dd class="open" >
+			<img src="{url:views/nzw/skin/default/image/open.png}" class="open_icon">
+		</dd>
+	</dl>
+	<!-- 类型 -->
+	<!-- 风格 -->	
+	<dl>
+		<dt>风格：</dt>
+		<dd class="brand_dd close">
+			<a class="current" href="{echo:search_goods::searchUrl('brand','')}">不限</a>
+			
+			<a href="" id=''>简约</a>
+			<a href="" id=''>现代</a>
+			<a href="" id=''>中式</a>
+			<a href="" id=''>东城区</a>
+			<a href="" id=''>西城区</a>
+			<a href="" id=''>崇文区</a>
+			<a href="" id=''>东城区</a>
+			<a href="" id=''>西城区</a>
+			<a href="" id=''>崇文区</a>
+			<a href="" id=''>东城区</a>
+			<a href="" id=''>西城区</a>
+			<a href="" id=''>崇文区</a>
+			<a href="" id=''>东城区</a>
+			<a href="" id=''>西城区</a>
+			<a href="" id=''>崇文区</a>
+			<a href="" id=''>东城区</a>
+			<a href="" id=''>西城区</a>
+			<a href="" id=''>崇文区</a>
+			
+		</dd>
+		<dd class="open" >
+			<img src="{url:views/nzw/skin/default/image/open.png}" class="open_icon">
+		</dd>
+	</dl>
+	<!-- 风格 -->
+	<!-- 价位 -->	
+	<dl>
+		<dt>价位：</dt>
+		<dd class="brand_dd close">
+			<a class="current" href="{echo:search_goods::searchUrl('brand','')}">不限</a>
+			
+			<a href="" id=''>3万以下</a>
+			<a href="" id=''>3-5万</a>
+			<a href="" id=''>5-8万</a>
+			<a href="" id=''>东城区</a>
+			<a href="" id=''>西城区</a>
+			<a href="" id=''>崇文区</a>
+			<a href="" id=''>东城区</a>
+			<a href="" id=''>西城区</a>
+			<a href="" id=''>崇文区</a>
+			<a href="" id=''>东城区</a>
+			<a href="" id=''>西城区</a>
+			<a href="" id=''>崇文区</a>
+			<a href="" id=''>东城区</a>
+			<a href="" id=''>西城区</a>
+			<a href="" id=''>崇文区</a>
+			<a href="" id=''>东城区</a>
+			<a href="" id=''>西城区</a>
+			<a href="" id=''>崇文区</a>
+			<a href="" id=''>东城区</a>
+			<a href="" id=''>西城区</a>
+			<a href="" id=''>崇文区</a>
+			
+		</dd>
+		<dd class="open" >
+			<img src="{url:views/nzw/skin/default/image/open.png}" class="open_icon">
+		</dd>
+	</dl>
+	<!-- 价位 -->	
+
+</section>
+
+<section class="goods_sort">
+	<ul>
+        <!--{foreach:items=search_goods::getOrderType()}
+         <li id="order_{$key}">
+			<a href="{echo:search_goods::searchUrl(array('order','by'),array($key,search_goods::getOrderBy($key)))}">{$item}</a>
+        </li> 
+        {/foreach}-->        
+        <li id="" class="current">
+        	<a href="">综合排序</a>
+        </li>
+        <li class="line">&nbsp;</li>
+        <li >
+        	<a href="">好评数</a>
+        </li>
+    </ul>
+ <!--    <p>
+		<input type="text" name="min_price"> 至 <input type="text" name="max_price"> 元
+		<button onclick="priceLink();">确定</button>
+	</p> -->
+</section>
+
+
+<!--商品排序展示-->
+
+<!--商品排序展示-->
+
+<script type='text/javascript'>
+//价格跳转
+function priceLink(){
+	var minVal = $('input[name="min_price"]').val();
+	var maxVal = $('input[name="max_price"]').val();
+	if(isNaN(minVal) || isNaN(maxVal)){
+		alert('价格填写不正确');
+		return '';
+	}
+	var searchUrl = "{echo:search_goods::searchUrl(array('min_price','max_price'),array('__min_price__','__max_price__'))}";
+	searchUrl     = searchUrl.replace("__min_price__",minVal).replace("__max_price__",maxVal);
+	window.location.href = searchUrl;
+}
+
+//筛选条件按钮高亮
+$(function(){
+	//品牌模块高亮和预填充
+	{set:$brand = IFilter::act(IReq::get('brand'),'int');}
+	{if:$brand}
+	$('#brand_dd>*').removeClass('current');
+	$('#brand_{$brand}').addClass('current');
+	{/if}
+
+	//属性模块高亮和预填充
+	{set:$tempArray = IFilter::act(IReq::get('attr'))}
+	{if:$tempArray}
+		{set:$json = JSON::encode(array_map('md5',$tempArray))}
+		var attrArray = {$json};
+		for(val in attrArray)
+		{
+			if(attrArray[val])
+			{
+				$('#attr_dd_'+val+'>*').removeClass('current');
+				$('#attr_'+val+'_'+attrArray[val]).addClass('current');
+			}
+		}
+	{/if}
+
+	//价格模块高亮和预填充
+	{if:IReq::get('min_price') || IReq::get('max_price')}
+	{set:$priceId = IFilter::act(IReq::get('min_price'))."-".IFilter::act(IReq::get('max_price'))}
+	$('#price_dd>*').removeClass('current');
+	$('#{$priceId}').addClass('current');
+	$('input[name="min_price"]').val("{echo:IFilter::act(IReq::get('min_price'))}");
+	$('input[name="max_price"]').val("{echo:IFilter::act(IReq::get('max_price'))}");
+	{/if}
+
+	//排序字段
+	{set:$orderValue = IFilter::act(IReq::get('order'))}
+	{if:$orderValue}
+	$('#order_{$orderValue}').addClass('current');
+	{/if}
+
+	//顺序
+	{set:$byValue = IReq::get('by')}
+	{if:$byValue == "desc"}
+	$('#order_{$orderValue}').addClass('desc');
+	{else:}
+	$('#order_{$orderValue}').addClass('asc');
+	{/if}
+
+	//显示方式
+	{set:$showType = IReq::get('show_type');}
+	{if:$showType == "win"}
+	$('[name="goodsItems"]').attr({"class":"clearfix win"});
+	$('[name="goodsImage"]').css({"width":200,"height":200});
+	$('#winButton').addClass('active');
+	{elseif:$showType == "list"}
+	$('[name="goodsItems"]').attr({"class":"clearfix list"});
+	$('[name="goodsImage"]').css({"width":115,"height":115});
+	$('#listButton').addClass('active');
+	{/if}
+});
+
+// 筛选条件收缩展开
+$(".open").click(function () {
+	$(this).prev('.brand_dd').toggleClass('close');
+	$(this).children('.open_icon').toggleClass('rotate');
+});
+</script>
