@@ -3713,10 +3713,10 @@ span.valid-msg, label.valid-msg {
 .coupon_list li.read .title{
     color: #030303;
     font-size: 17px;
-    padding-top: 0.13rem;
+    padding-top: 0.02rem;
 }
 .coupon_list li.read{
-    padding-bottom: 0px;
+    /* padding-bottom: 0px; */
 }
 .coupon_list li.read .author{
     padding-top: 0.2rem;
