@@ -1,0 +1,199 @@
+{set:$breadGuide = goods_class::catRecursion($this->catId)}
+{set:$goodsObj = search_goods::find(array('category_extend' => $this->childId),20);$resultData = $goodsObj->find()}
+
+
+<section class="breadcrumb">
+	<span>您当前的位置：</span> <a href="{url:}">首页</a>
+	{foreach:items=$breadGuide} »
+	<a href='{url:/site/pro_list/cat/$item[id]}'>{$item['name']} </a>
+	{/foreach}
+</section>
+
+<section class="web">
+	<section class="shop_main">
+		<!-- 调用筛选 -->
+		{include:_shops_list_filter}
+		<!-- 商品列表 -->
+		<section class="goods_list">
+			{if:$resultData}
+			<ul>
+				{foreach:items=$resultData}
+				<li>
+					<a target="_blank" href="{url:/site/products/id/$item[id]}" class="img_link">
+						<img alt="{$item['name']}" src="{url:/pic/thumb/img/$item[img]/w/205/h/205}">
+                        
+					</a>
+					<div class="shop_content">
+						<h5>{$item['name']}
+		{if:goods_class::getSellerPay($item['seller_id'])}
+                        <img src="{url:views/nzw/skin/default/image/sellerVip.png}" class="vip_icon">{/if}</h5>
+                        
+						<em>案例：<span>44</span>套&nbsp;&nbsp;|&nbsp;&nbsp;设计师：<span>22</span>名&nbsp;&nbsp;|&nbsp;&nbsp;签单数：<span>82</span>单&nbsp;&nbsp;|&nbsp;&nbsp;咨询人数：<span>2652</span>条</em>
+						<p>地址：常州市怀德桥南益华景大厦12A楼1308室（兴业银行楼上）</p>
+						<!-- <del>￥{$item['market_price']}</del> -->
+						<a href="" target="_blank" class="shop_list_btn1">预约装修</a>
+						<a href="" target="_blank" class="shop_list_btn2">免费报价</a>
+					</div>
+					<div class="shop_comment">
+						<p class="comments">评价数量</p>
+						<p class="comments_num">999999</p>
+						<p class="comments_per">好评率：98%</p>
+					</div>
+				</li>
+				{/foreach}
+			</ul>
+			{$goodsObj->getPageBar()}
+
+			{else:}
+			<p class="no_tip">
+				对不起，没有找到相关商品
+			</p>
+			{/if}
+		</section>
+	</section>
+	<aside class="shop_bar">
+		{set:$catSide = goods_class::catTree($this->catId)} {if:$catSide}
+		<nav class="bar_box bar_goods_nav">
+			<h3 class="bar_box_head">预约装修</h3>
+			<p class="intro">施工报价全免费，轻松获取</p>
+			<input type="text" placeholder="您的姓名" class="normal">
+			<input type="text" placeholder="电话号码" class="normal">
+			<div class="city">
+				<input type="button" class="city_select" value="省/市">
+				<input type="hidden" name="type">
+				<ul id="city_list" style="display:none;" class="city_list">
+					<li js_data="1">太原市</li>
+					<li js_data="2">阳泉市</li>
+				</ul>
+			</div>
+			<div class="county">
+				<input type="button" class="area_select" value="省/市">
+				<input type="hidden" name="type">
+				<ul id="area_list" style="display:none;" class="area_list">
+					<li js_data="1">太原市</li>
+					<li js_data="2">阳泉市</li>
+					<li js_data="3">大同市</li>
+					<li js_data="4">忻州市</li>
+					<li js_data="5">平遥市</li>
+					<li js_data="6">晋中市</li>
+					<li js_data="7">澳门市</li>
+					<li js_data="8">长治市</li>
+					<li js_data="9">平遥市</li>
+					<li js_data="10">晋中市</li>
+					<li js_data="11">澳门市</li>
+					<li js_data="12">长治市</li>
+				</ul>
+			</div>
+			<input type="text" placeholder="房屋面积" class="normal"><span class="area">㎡</span>
+			<a href class="need_publish">免费发布</a>
+		</nav>
+		{/if}
+		<script>
+			$(function(){
+				$(".city_select").click(function(){
+					if($("#city_list").is(":hidden")){
+						$("#city_list").show()
+						$(".city_select").addClass('down');
+					}else{
+						$("#city_list").hide()
+						$(".city_select").removeClass('down');
+					}
+				})
+				$("#city_list li").each(function(){
+					$(this).hover(function(){
+						$(this).css('background','#f7f7f7');
+					},function(){
+						$(this).css('background','#FFF');
+					})
+
+				})
+				$("#city_list li").each(function(){
+					var _t = $(this)
+							,_v = _t.attr('js_data');
+					_t.click(function(){
+						$('.city_select').val(_t.text());
+						$('input[name=type]').val(_v);
+						$('#city_list').hide();
+						$(".city_select").removeClass('down');
+					})
+				})
+
+
+				$(".area_select").click(function(){
+					if($("#area_list").is(":hidden")){
+						$("#area_list").show()
+						$(".area_select").addClass('down');
+					}else{
+						$("#area_list").hide()
+						$(".area_select").removeClass('down');
+					}
+				})
+				$("#area_list li").each(function(){
+					$(this).hover(function(){
+						$(this).css('background','#f7f7f7');
+					},function(){
+						$(this).css('background','#FFF');
+					})
+
+				})
+				$("#area_list li").each(function(){
+					var _t = $(this)
+							,_v = _t.attr('js_data');
+					_t.click(function(){
+						$('.area_select').val(_t.text());
+						$('input[name=type]').val(_v);
+						$('#area_list').hide();
+						$(".area_select").removeClass('down');
+					})
+				})
+			});
+		</script>
+		<div class="ad-pic">
+			<img src="{url:views/nzw/skin/default/image/list/ad-pic.jpg}">
+		</div>
+		<div class="bar_box">
+			<h3 class="bar_box_rank_head">装修公司排行榜</h3>
+			<!-- 最多排10个 -->
+			<ul class="bar_rank">
+				<li>
+					<span class="grade">1</span><a href="{url:/site/products/id/$item[id]}">安居智源建筑装饰</a>
+				</li>
+				<li>
+					<span class="grade">2</span><a href="{url:/site/products/id/$item[id]}">安居智源建筑装饰</a>
+				</li>
+				<li>
+					<span class="grade">3</span><a href="{url:/site/products/id/$item[id]}">安居智源建筑装饰</a>
+				</li>
+				<li>
+					<span class="grade">4</span><a href="{url:/site/products/id/$item[id]}">安居智源建筑装饰</a>
+				</li>
+				<li>
+					<span class="grade">5</span><a href="{url:/site/products/id/$item[id]}">安居智源建筑装饰</a>
+				</li>
+			</ul>
+		</div>
+		<div class="bar_box">
+			<h3 class="bar_box_rank_head">设计师排行榜</h3>
+			<!-- 最多排6个 -->
+			<ul class="bar_rank">
+				<li>
+					<span class="grade">1</span><a href="{url:/site/products/id/$item[id]}">安居智源建筑装饰</a>
+				</li>
+				<li>
+					<span class="grade">2</span><a href="{url:/site/products/id/$item[id]}">安居智源建筑装饰</a>
+				</li>
+				<li>
+					<span class="grade">3</span><a href="{url:/site/products/id/$item[id]}">安居智源建筑装饰</a>
+				</li>
+				<li>
+					<span class="grade">4</span><a href="{url:/site/products/id/$item[id]}">安居智源建筑装饰</a>
+				</li>
+				<li>
+					<span class="grade">5</span><a href="{url:/site/products/id/$item[id]}">安居智源建筑装饰</a>
+				</li>
+			</ul>
+		</div>
+	</aside>
+</section>
+
+
