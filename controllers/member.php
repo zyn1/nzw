@@ -627,10 +627,275 @@ class Member extends IController implements adminAuthorization
 		}
 	}
 
+    /**
+     * @brief 商家修改页面
+     */
+    public function seller_edit()
+    {
+        $seller_id = IFilter::act(IReq::get('id'),'int');
+
+        //修改页面
+        if($seller_id)
+        {
+            $sellerDB        = new IModel('seller');
+            $this->sellerRow = $sellerDB->getObj('id = '.$seller_id);
+        }
+        $this->redirect('seller_edit');
+    }
+
+    /**
+     * @brief 商户的增加动作
+     */
+    public function seller_add()
+    {
+        $seller_id   = IFilter::act(IReq::get('id'),'int');
+        $seller_name = IFilter::act(IReq::get('seller_name'));
+        $email       = IFilter::act(IReq::get('email'));
+        $password    = IFilter::act(IReq::get('password'));
+        $repassword  = IFilter::act(IReq::get('repassword'));
+        $truename    = IFilter::act(IReq::get('true_name'));
+        $contacts_name    = IFilter::act(IReq::get('contacts_name'));
+        $phone       = IFilter::act(IReq::get('phone'));
+        $mobile      = IFilter::act(IReq::get('mobile'));
+        $province    = IFilter::act(IReq::get('province'),'int');
+        $city        = IFilter::act(IReq::get('city'),'int');
+        $area        = IFilter::act(IReq::get('area'),'int');
+        //$cash        = IFilter::act(IReq::get('cash'),'float');
+        $is_vip      = IFilter::act(IReq::get('is_vip'),'int');
+        $is_lock     = IFilter::act(IReq::get('is_lock'),'int');
+        $is_recomm   = IFilter::act(IReq::get('is_recomm'),'int');
+        $is_invoice   = IFilter::act(IReq::get('is_invoice'),'int');
+        $address     = IFilter::act(IReq::get('address'));
+        $account     = IFilter::act(IReq::get('account'));
+        $server_num  = IFilter::act(IReq::get('server_num'));
+        $home_url    = IFilter::act(IReq::get('home_url'));
+        $sort        = IFilter::act(IReq::get('sort'),'int');
+        $is_pay      = IFilter::act(IReq::get('is_pay'),'int');
+        $suggest      = IFilter::act(IReq::get('suggest'));
+
+        if(!$seller_id && $password == '')
+        {
+            $errorMsg = '请输入密码！';
+        }
+
+        if($password != $repassword)
+        {
+            $errorMsg = '两次输入的密码不一致！';
+        }
+
+        //创建商家操作类
+        $sellerDB = new IModel("seller");
+
+        if($sellerDB->getObj("seller_name = '{$seller_name}' and id != {$seller_id}"))
+        {
+            $errorMsg = "登录用户名重复";
+        }
+        else if($sellerDB->getObj("true_name = '{$truename}' and id != {$seller_id}"))
+        {
+            $errorMsg = "商户真实全称重复";
+        }
+
+        //操作失败表单回填
+        if(isset($errorMsg))
+        {
+            $this->sellerRow = $_POST;
+            $this->redirect('seller_edit',false);
+            Util::showMessage($errorMsg);
+        }
+
+        //待更新的数据
+        $sellerRow = array(
+            'true_name' => $truename,
+            'contacts_name' => $contacts_name,
+            'account'   => $account,
+            'phone'     => $phone,
+            'mobile'    => $mobile,
+            'email'     => $email,
+            'address'   => $address,
+            'is_vip'    => $is_vip,
+            'is_lock'   => $is_lock,
+            'is_recomm' => $is_recomm,
+            'is_invoice' => $is_invoice,
+            //'cash'      => $cash,
+            'province'  => $province,
+            'city'      => $city,
+            'area'      => $area,
+            'server_num'=> $server_num,
+            'home_url'  => $home_url,
+            'sort'      => $sort,
+            'is_pay'    => $is_pay
+        );
+
+        //商户资质上传
+        if((isset($_FILES['paper_img']['name']) && $_FILES['paper_img']['name']) || (isset($_FILES['seller_logo']['name']) && $_FILES['seller_logo']['name']) || (isset($_FILES['identity_card']['name']) && $_FILES['identity_card']['name']))
+        {
+            $uploadObj = new PhotoUpload();
+            $uploadObj->setIterance(false);
+            $photoInfo = $uploadObj->run();
+        }
+        if(isset($photoInfo['paper_img']['img']) && file_exists($photoInfo['paper_img']['img']))
+        {
+            $sellerRow['paper_img'] = $photoInfo['paper_img']['img'];
+        }
+        if(isset($photoInfo['seller_logo']['img']) && file_exists($photoInfo['seller_logo']['img']))
+        {
+            $sellerRow['seller_logo'] = $photoInfo['seller_logo']['img'];
+        }
+        if(isset($photoInfo['identity_card']['img']) && file_exists($photoInfo['identity_card']['img']))
+        {
+            $sellerRow['identity_card'] = $photoInfo['identity_card']['img'];
+        }
+        //添加新会员
+        if(!$seller_id)
+        {
+            $sellerRow['seller_name'] = $seller_name;
+            $sellerRow['password']    = md5($password);
+            $sellerRow['create_time'] = ITime::getDateTime();
+
+            $sellerDB->setData($sellerRow);
+            $sellerDB->add();
+        }
+        //编辑会员
+        else
+        {
+            //修改密码
+            if($password)
+            {
+                $sellerRow['password'] = md5($password);
+            }
+        
+            //查询商户原始开通状态
+            $data = $sellerDB->getObj('id = '.$seller_id, 'is_lock');
+
+            $sellerDB->setData($sellerRow);
+            $sellerDB->update("id = ".$seller_id);
+            $content = '';
+            if($data['is_lock'] == 2)
+            {
+                $title = "耐装网申请开店审核结果";
+                $content = $is_lock == 1 ? '未通过审核' : ($is_lock == 0 ? '审核通过' : '');
+            }
+            elseif($data['is_lock'] <> $is_lock)
+            {
+                $title = "耐装网";
+                $content = $is_lock == 1 ? '您的店铺被锁定' : '您的店铺已解锁';
+            }
+            if($content)
+            {
+                if($suggest)
+                {
+                    $msg = $content.',原因是：'.$suggest;
+                    if($data['is_lock'] == 2 && $is_lock == 1)
+                    {
+                        $temp = rand(100000,999999);
+                        $model = new IModel('seller_rej_sign');
+                        $model->setData(array('seller_id' => $seller_id, 'code' => $temp));
+                        $model->add();
+                        $url = IUrl::getHost().IUrl::creatUrl('/simple/sellerRej/_i/'.$seller_id.'/_c/'.$temp);
+                        $msg .= "<br/>点击下面这个链接重新编辑开店信息：<a href='{$url}'>{$url}</a>。<br />如果不能点击，请您把它复制到地址栏中打开。";
+                    }
+                }
+                else
+                {
+                    $msg = $content;
+                }
+                $smtp   = new SendMail();
+                $result = $smtp->send($email,$title,$msg);
+                if($result===false)
+                {
+                    Util::showMessage("发信失败,请重试！或者联系管理员查看邮件服务是否开启");
+                }
+            }
+            
+        }
+        $this->redirect('seller_list');
+    }
+    /**
+     * @brief 商户的删除动作
+     */
+    public function seller_del()
+    {
+        $id = IFilter::act(IReq::get('id'),'int');
+        $sellerDB = new IModel('seller');
+        $data = array('is_del' => 1);
+        $sellerDB->setData($data);
+
+        if(is_array($id))
+        {
+            $sellerDB->update('id in ('.join(",",$id).')');
+        }
+        else
+        {
+            $sellerDB->update('id = '.$id);
+        }
+        $this->redirect('seller_list');
+    }
+    /**
+     * @brief 商户的回收站删除动作
+     */
+    public function seller_recycle_del()
+    {
+        $id = IFilter::act(IReq::get('id'),'int');
+        $sellerDB = new IModel('seller');
+        $goodsDB  = new IModel('goods');
+        $merch_ship_infoDB = new IModel('merch_ship_info');
+        $specDB = new IModel('spec');
+
+        if(is_array($id))
+        {
+            $id = join(",",$id);
+        }
+
+        $sellerDB->del('id in ('.$id.')');
+        $goodsDB->del('seller_id in ('.$id.')');
+        $merch_ship_infoDB->del('seller_id in ('.$id.')');
+        $specDB->del('seller_id in ('.$id.')');
+
+        $this->redirect('seller_recycle_list');
+    }
+    /**
+     * @brief 商户的回收站恢复动作
+     */
+    public function seller_recycle_restore()
+    {
+        $id = IFilter::act(IReq::get('id'),'int');
+        $sellerDB = new IModel('seller');
+        $data = array('is_del' => 0);
+        $sellerDB->setData($data);
+        if(is_array($id))
+        {
+            $sellerDB->update('id in ('.join(",",$id).')');
+        }
+        else
+        {
+            $sellerDB->update('id = '.$id);
+        }
+
+        $this->redirect('seller_recycle_list');
+    }
+    //商户状态ajax
+    public function ajax_seller_lock()
+    {
+        $id   = IFilter::act(IReq::get('id'));
+        $lock = IFilter::act(IReq::get('lock'));
+        $sellerObj = new IModel('seller');
+        $sellerObj->setData(array('is_lock' => $lock));
+        $sellerObj->update("id = ".$id);
+
+        //短信通知状态修改
+        $sellerRow = $sellerObj->getObj('id = '.$id);
+        if(isset($sellerRow['mobile']) && $sellerRow['mobile'])
+        {
+            $result = $lock == 0 ? "正常" : "锁定";
+            $content = smsTemplate::sellerCheck(array('{result}' => $result));
+            $result = Hsms::send($sellerRow['mobile'],$content,0);
+        }
+    }
+
 	/**
 	 * @brief 商家修改页面
 	 */
-	public function seller_edit()
+	public function company_edit()
 	{
 		$seller_id = IFilter::act(IReq::get('id'),'int');
 
@@ -640,13 +905,13 @@ class Member extends IController implements adminAuthorization
 			$sellerDB        = new IModel('seller');
 			$this->sellerRow = $sellerDB->getObj('id = '.$seller_id);
 		}
-		$this->redirect('seller_edit');
+		$this->redirect('company_edit');
 	}
 
 	/**
 	 * @brief 商户的增加动作
 	 */
-	public function seller_add()
+	public function company_add()
 	{
 		$seller_id   = IFilter::act(IReq::get('id'),'int');
 		$seller_name = IFilter::act(IReq::get('seller_name'));
@@ -699,7 +964,7 @@ class Member extends IController implements adminAuthorization
 		if(isset($errorMsg))
 		{
 			$this->sellerRow = $_POST;
-			$this->redirect('seller_edit',false);
+			$this->redirect('company_edit',false);
 			Util::showMessage($errorMsg);
 		}
 
@@ -808,12 +1073,12 @@ class Member extends IController implements adminAuthorization
             }
             
 		}
-		$this->redirect('seller_list');
+		$this->redirect('company_list');
 	}
 	/**
 	 * @brief 商户的删除动作
 	 */
-	public function seller_del()
+	public function company_del()
 	{
 		$id = IFilter::act(IReq::get('id'),'int');
 		$sellerDB = new IModel('seller');
@@ -828,12 +1093,12 @@ class Member extends IController implements adminAuthorization
 		{
 			$sellerDB->update('id = '.$id);
 		}
-		$this->redirect('seller_list');
+		$this->redirect('company_list');
 	}
 	/**
 	 * @brief 商户的回收站删除动作
 	 */
-	public function seller_recycle_del()
+	public function company_recycle_del()
 	{
 		$id = IFilter::act(IReq::get('id'),'int');
 		$sellerDB = new IModel('seller');
@@ -851,12 +1116,12 @@ class Member extends IController implements adminAuthorization
 		$merch_ship_infoDB->del('seller_id in ('.$id.')');
 		$specDB->del('seller_id in ('.$id.')');
 
-		$this->redirect('seller_recycle_list');
+		$this->redirect('company_recycle_list');
 	}
 	/**
 	 * @brief 商户的回收站恢复动作
 	 */
-	public function seller_recycle_restore()
+	public function company_recycle_restore()
 	{
 		$id = IFilter::act(IReq::get('id'),'int');
 		$sellerDB = new IModel('seller');
@@ -871,10 +1136,10 @@ class Member extends IController implements adminAuthorization
 			$sellerDB->update('id = '.$id);
 		}
 
-		$this->redirect('seller_recycle_list');
+		$this->redirect('company_recycle_list');
 	}
 	//商户状态ajax
-	public function ajax_seller_lock()
+	public function ajax_company_lock()
 	{
 		$id   = IFilter::act(IReq::get('id'));
 		$lock = IFilter::act(IReq::get('lock'));

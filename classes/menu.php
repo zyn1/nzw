@@ -47,6 +47,10 @@ class Menu
                 /*'/member/seller_edit' => '添加商户',*/
                 '/comment/seller_message_list' => '商户消息'
             ),
+            '装修公司管理' => array(
+                '/member/company_list' => '商户列表',
+                '/comment/company_message_list' => '商户消息'
+            ),
 			'合同管理' => array(
 				'/member/contract_list' => '合同列表',
 				'/member/contract_edit' => '添加合同'

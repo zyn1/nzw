@@ -41,7 +41,7 @@
 					<th>用户名：</th><td align="left">{query:name=user fields=username where=id eq $user_id}{$item['username']}{/query}</td>
 				</tr>
 				<tr>
-					<th>联系方式：</th><td align="left">{query:name=member fields=mobile where=user_id eq $user_id}{$item['mobile']}{/query}</td>
+					<th>联系方式：</th><td align="left">{query:name=user fields=mobile where=id eq $user_id}{$item['mobile']}{/query}</td>
 				</tr>
 				<tr>
 					<th>申请时间：</th><td align="left">{$time}</td>
