@@ -5332,19 +5332,19 @@ span.xl3 em{
     position: absolute;  
     left: -9999px;  
 }  
-.choice .radio i{  
-    display: block;  
-    position: absolute;  
-    top: 0.17rem;  
-    left: 0;  
-    width: 0.15rem;  
-    height: 0.15rem;  
-    outline: 0;  
-    border: 1px solid #6BB945;  
-    background: #fff;  
-    border-radius: 50%;  
+.choice .radio i{
+    display: block;
+    position: absolute;
+    top: 0.17rem;
+    left: 0;
+    width: 14px;
+    height: 14px;
+    outline: 0;
+    border: 1px solid #6BB945;
+    background: #fff;
+    border-radius: 50%;
     transition: border-color .3s  
-    -webkit-transition: border-color .3s;  
+    -webkit-transition: border-color .3s;
 }  
 .choice .radio input:checked+i{  
     border-color: #6BB945;  
@@ -5356,8 +5356,8 @@ span.xl3 em{
     width: 100%;
     font-size: 0.12rem;
     border-radius: 50%;
-    width: 0.17rem;
-    height: 0.17rem;
+    width: 16px;
+    height: 16px;
     line-height: 0.14rem;
     color: #fff;
     vertical-align: text-top;
