@@ -2,14 +2,14 @@
 {js:areaSelect}
 
 <div class="headbar">
-	<div class="position"><span>会员</span><span>></span><span>商户管理</span><span>></span><span>编辑商户</span></div>
+	<div class="position"><span>会员</span><span>></span><span>装修公司管理</span><span>></span><span>编辑装修公司</span></div>
 </div>
 
 <div class="content_box">
 	<div class="content form_content">
-		<form action="{url:/member/seller_add}" method="post" name="sellerForm" enctype='multipart/form-data'>
+		<form action="{url:/member/company_add}" method="post" name="companyForm" enctype='multipart/form-data'>
 			<input name="id" value="" type="hidden" />
-            {if:$this->sellerRow['is_lock'] == 2}
+            {if:$this->companyInfo['is_lock'] == 2}
             <input type="hidden" name="is_lock" value="2">
             {/if}
 			<table class="form_table">
@@ -21,7 +21,7 @@
 				<tbody>
 					<tr>
 						<th>登陆用户名：</th>
-						<td><input class="normal" name="seller_name" type="text" value="" pattern="required" alt="用户名不能为空" /><label>* 用户名称（必填）</label></td>
+						<td><input class="normal" name="username" type="text" value="" pattern="required" alt="用户名不能为空" /><label>* 用户名称（必填）</label></td>
 					</tr>
 					<tr>
 						<th>密码：</th><td><input class="normal" name="password" type="password" bind='repassword' empty /><label>* 登录密码</label></td>
@@ -30,25 +30,19 @@
 						<th>确认密码：</th><td><input class="normal" name="repassword" type="password" bind='password' empty /><label>* 重复确认密码</label></td>
 					</tr>
                     <tr>
-                        <th>商户真实全称：</th>
+                        <th>公司名称：</th>
                         <td><input class="normal" name="true_name" type="text" value="" pattern="required" /></td>
                     </tr>
 					<tr>
 						<th>联系人：</th>
 						<td><input class="normal" name="contacts_name" type="text" value="" pattern="required" /></td>
 					</tr>
-                    {if:$this->sellerRow['type'] == 2}
-                    <tr>
-                        <th>合同编号：</th>
-                        <td><input class="normal" name="con_num" readonly="readonly" type="text" value="" alt="" /></td>
-                    </tr>
-                    {/if}
                     <tr>
                         <th>商户logo：</th>
                         <td>
-                            <input type='file' name='seller_logo' />
-                            {if:isset($this->sellerRow['seller_logo']) && $this->sellerRow['seller_logo']}
-                            <p><a target="_blank" href="{webroot:}{$this->sellerRow['seller_logo']}"><img src='{webroot:}{$this->sellerRow['seller_logo']}' style='width:180px;border:1px solid #ccc' /></a></p>
+                            <input type='file' name='head_ico' />
+                            {if:isset($this->companyInfo['head_ico']) && $this->companyInfo['head_ico']}
+                            <p><a target="_blank" href="{webroot:}{$this->companyInfo['head_ico']}"><img src='{webroot:}{$this->companyInfo['head_ico']}' style='width:180px;border:1px solid #ccc' /></a></p>
                             {/if}
                         </td>
                     </tr>
@@ -56,28 +50,15 @@
                         <th>商户营业执照：</th>
                         <td>
                             <input type='file' name='paper_img' />
-                            {if:isset($this->sellerRow['paper_img']) && $this->sellerRow['paper_img']}
-                            <p><a target="_blank" href="{webroot:}{$this->sellerRow['paper_img']}"><img src='{webroot:}{$this->sellerRow['paper_img']}' style='width:320px;border:1px solid #ccc' /></a></p>
+                            {if:isset($this->companyInfo['paper_img']) && $this->companyInfo['paper_img']}
+                            <p><a target="_blank" href="{webroot:}{$this->companyInfo['paper_img']}"><img src='{webroot:}{$this->companyInfo['paper_img']}' style='width:320px;border:1px solid #ccc' /></a></p>
                             {/if}
                         </td>
                     </tr>
-					<tr>
-						<th>负责人证件：</th>
-						<td>
-							<input type='file' name='identity_card' />
-							{if:isset($this->sellerRow['identity_card']) && $this->sellerRow['identity_card']}
-							<p><a target="_blank" href="{webroot:}{$this->sellerRow['identity_card']}"><img src='{webroot:}{$this->sellerRow['identity_card']}' style='width:320px;border:1px solid #ccc' /></a></p>
-							{/if}
-						</td>
-					</tr>
 					<!--<tr>
-						<th>保证金数额：</th>
-						<td><input type="text" class="normal" name="cash" pattern="float" empty /><label>人民币（元）</label></td>
-					</tr>-->
-					<tr>
 						<th>收款账号：</th>
 						<td><textarea class="normal" name="account" empty></textarea><label>标明开户行，卡号，账户名称等</label></td>
-					</tr>
+					</tr>-->
 					<tr>
 						<th>固定电话：</th>
 						<td><input type="text" class="normal" name="phone" pattern="phone" /></td>
@@ -101,14 +82,14 @@
 					<tr>
 						<th>详细地址：</th><td><input class="normal" name="address" type="text" empty value="" /></td>
 					</tr>
-					<tr>
+					<!--<tr>
 						<th>客服QQ号码：</th>
 						<td><input class="normal" name="server_num" type="text" empty value="" /><label>输入客服QQ号码，可以商品详情页面对客户进行解答</label></td>
 					</tr>
 					<tr>
 						<th>企业官网：</th>
 						<td><input class="normal" name="home_url" type="text" pattern="url" empty value="" alt="请填写完整的URL地址，比如：http://www.aircheng.com" /><label>填写完整的网址</label></td>
-					</tr>
+					</tr>-->
 					<tr>
 						<th>排序：</th>
 						<td><input type='text' class='small' name='sort' /></td>
@@ -117,7 +98,7 @@
 						<th>是否开通：</th>
 						<td>
 							<label class='attr'><input type='radio' name='is_lock' value='0' checked='checked' />开通</label>
-                            <label class='attr'><input type='radio' name='is_lock' value='1' />{if:$this->sellerRow['is_lock'] == 2}驳回{else:}锁定{/if}</label>
+                            <label class='attr'><input type='radio' name='is_lock' value='1' />{if:$this->companyInfo['is_lock'] == 2}驳回{else:}锁定{/if}</label>
 							<label class='attr'><input type='radio' name='is_lock' value='2' disabled="disabled" />新申请</label>
 							<label>锁定后商户无法登陆进行管理</label>
 						</td>
@@ -127,7 +108,7 @@
                         <td>
                             <textarea class="normal" name="suggest" empty maxlength="255"></textarea><label>不超过255个字符</label>
                         </td>
-                    </tr>
+                    </tr><!--
                     <tr>
                         <th>是否VIP：</th>
                         <td>
@@ -155,7 +136,7 @@
 							<label class='attr'><input type='radio' name='is_pay' value='0' checked='checked' />否</label>
 							<label class='attr'><input type='radio' name='is_pay' value='1' />是</label>
 						</td>
-					</tr>
+					</tr>-->
 					<tr>
 						<td></td><td><button class="submit" type="submit"><span>确 定</span></button></td>
 					</tr>
@@ -170,14 +151,14 @@
 $(function()
 {
 //修改模式
-{if:$this->sellerRow}
-var formObj = new Form('sellerForm');
-formObj.init({echo:JSON::encode($this->sellerRow)});
+{if:$this->companyInfo}
+var formObj = new Form('companyForm');
+formObj.init({echo:JSON::encode($this->companyInfo)});
 
 //锁定字段一旦注册无法修改
 if($('[name="id"]').val())
 {
-	var lockCols = ['seller_name'];
+	var lockCols = ['company_name'];
 	for(var index in lockCols)
 	{
 		$('input:text[name="'+lockCols[index]+'"]').addClass('readonly');
@@ -188,6 +169,6 @@ if($('[name="id"]').val())
 
 //地区联动插件
 var areaInstance = new areaSelect('province');
-areaInstance.init({echo:JSON::encode($this->sellerRow)});
+areaInstance.init({echo:JSON::encode($this->companyInfo)});
 });
 </script>
