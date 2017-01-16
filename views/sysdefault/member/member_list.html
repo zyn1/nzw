@@ -9,8 +9,8 @@
 				<select class="auto" name="search">
 					<option value="u.username">用户名</option>
 					<option value="m.true_name">姓名</option>
-					<option value="m.mobile">手机</option>
-					<option value="m.email">Email</option>
+					<option value="u.mobile">手机</option>
+					<option value="u.email">Email</option>
 				</select>
 				<input class="small" name="keywords" type="text" value="{$keywords}" />
 				<button class="btn" type="submit"><span class="sch">搜 索</span></button>
@@ -62,7 +62,7 @@
 
 			<tbody>
 				{set:$page= (isset($_GET['page'])&&(intval($_GET['page'])>0))?intval($_GET['page']):1;}
-				{query: name=user as u join=left join member as m on m.user_id eq u.id fields=m.*,u.username where=m.status neq 2 and $where order=m.user_id desc page=$page}
+				{query: name=user as u join=left join member as m on m.user_id eq u.id fields=m.*,u.username,u.email,u.mobile where=m.status neq 2 and $where order=m.user_id desc page=$page}
 				<tr>
 					<td><input name="check[]" type="checkbox" value="{$item['user_id']}" /></td>
 					<td title="{echo:htmlspecialchars($item['username'])}">{$item['username']}</td>

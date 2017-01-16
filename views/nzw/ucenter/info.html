@@ -47,12 +47,12 @@
 		</dl>
 		<dl>
 			<dt><span style="color: red;"></span> 手机号码：</dt>
-			<dd><input class="input_text" type="text" name='mobile' {if:$this->memberRow['mobile']} readonly="readonly" style="background: #f1f1f1;color:#bbb;" {else:} pattern="mobi" alt="请填写正确的手机格式" {/if}/></dd>
+			<dd><input class="input_text" type="text" name='mobile' value="{$this->userRow['mobile']}" {if:$this->userRow['mobile']} readonly="readonly" style="background: #f1f1f1;color:#bbb;" {else:} pattern="mobi" alt="请填写正确的手机格式" {/if}/></dd>
 		</dl>
 		<dl>
 			<dt><span style="color: red;"></span> 邮箱：</dt>
 			<dd>
-				<input type='text' class='input_text' name='email' {if:$this->memberRow['email']} readonly="readonly" style="background: #f1f1f1;color:#bbb;" {else:} pattern="email" alt="请填写正确的邮箱格式" {/if} />
+				<input type='text' class='input_text' name='email' value="{$this->userRow['email']}" {if:$this->userRow['email']} readonly="readonly" style="background: #f1f1f1;color:#bbb;" {else:} pattern="email" alt="请填写正确的邮箱格式" {/if} />
 			</dd>
 		</dl>
 		<dl>

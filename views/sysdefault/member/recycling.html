@@ -9,8 +9,8 @@
 				<option value="u.username" {if:$search=='u.username'}selected{/if}>用户名</option>
 				<option value="m.true_name" {if:$search=='m.true_name'}selected{/if}>姓名</option>
 				<option value="m.telephone" {if:$search=='m.telephone'}selected{/if}>电话</option>
-				<option value="m.mobile" {if:$search=='m.mobile'}selected{/if}>手机</option>
-				<option value="m.email" {if:$search=='u.email'}selected{/if}>Email</option>
+				<option value="u.mobile" {if:$search=='u.mobile'}selected{/if}>手机</option>
+				<option value="u.email" {if:$search=='u.email'}selected{/if}>Email</option>
 			</select><input class="small" name="keywords" type="text" value="{$keywords}" /><button class="btn" type="submit"><span class="sch">搜 索</span></button>
 		</form>
 		</div>
@@ -58,7 +58,7 @@
 
 			<tbody>
 				{set:$page= (isset($_GET['page'])&&(intval($_GET['page'])>0))?intval($_GET['page']):1;}
-				{query: name=member as m join=left join user as u on m.user_id eq u.id left join user_group as gp on m.group_id eq gp.id fields=m.*,u.username,gp.group_name where=m.status eq 2 and $where page=$page pagesize=20}
+				{query: name=member as m join=left join user as u on m.user_id eq u.id left join user_group as gp on m.group_id eq gp.id fields=m.*,u.username,u.email,u.mobile,gp.group_name where=m.status eq 2 and $where page=$page pagesize=20}
 				<tr>
 					<td><input name="check[]" type="checkbox" value="{$item['user_id']}" /></td>
 					<td>{$item['username']}</td>

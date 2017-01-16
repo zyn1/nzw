@@ -92,12 +92,12 @@ class Member extends IController implements adminAuthorization
 			$this->setError('用户名重复');
 		}
 
-		if($email && $memberDB->getObj("email='".$email."' and user_id != ".$user_id))
+		if($email && $userDB->getObj("email='".$email."' and id != ".$user_id))
 		{
 			$this->setError('邮箱重复');
 		}
 
-		if($mobile && $memberDB->getObj("mobile='".$mobile."' and user_id != ".$user_id))
+		if($mobile && $userDB->getObj("mobile='".$mobile."' and id != ".$user_id))
 		{
 			$this->setError('手机号码重复');
 		}
@@ -111,10 +111,8 @@ class Member extends IController implements adminAuthorization
 		}
 
 		$member = array(
-			'email'        => $email,
 			'true_name'    => $truename,
 			'telephone'    => $telephone,
-			'mobile'       => $mobile,
 			'area'         => $_POST['area'] ? ",".join(",",$_POST['area'])."," : "",
 			'contact_addr' => $contact_addr,
 			'qq'           => $qq,
@@ -131,6 +129,8 @@ class Member extends IController implements adminAuthorization
 		{
 			$user = array(
 				'username' => $user_name,
+                'email'        => $email,
+                'mobile'       => $mobile,
 				'password' => md5($password),
 			);
 			$userDB->setData($user);
@@ -147,6 +147,8 @@ class Member extends IController implements adminAuthorization
 		{
 			$user = array(
 				'username' => $user_name,
+                'email'        => $email,
+                'mobile'       => $mobile,
 			);
 			//修改密码
 			if($password)

@@ -182,8 +182,8 @@ class _userInfo extends pluginBase
 			{
 				return "邮箱格式不正确";
 			}
-			$memberObj = new IModel('member');
-			$memberRow = $memberObj->getObj('email = "'.$email.'"');
+			$memberObj = new IModel('user as u, member as m');
+			$memberRow = $memberObj->getObj('u.id = m.user_id and u.email = "'.$email.'"', 'm.status');
 			if($memberRow)
 			{
 				//再次发送激活邮件
@@ -209,9 +209,9 @@ class _userInfo extends pluginBase
 			return "手机号验证码不正确";
 		}
 
-		$memberObj = new IModel('member');
-		$memberRow = $memberObj->getObj('mobile = "'.$mobile.'"');
-		if($memberRow)
+		$userObj = new IModel('user');
+		$userRow = $userObj->getObj('mobile = "'.$mobile.'"');
+		if($userRow)
 		{
 			return "手机号已经被注册";
 		}
@@ -235,6 +235,8 @@ class _userInfo extends pluginBase
 		$userArray = array(
 			'username' => $username,
 			'password' => md5($password),
+            'mobile'  => $mobile,
+            'email'   => $email,
 		);
 		$userObj->setData($userArray);
 		$user_id = $userObj->add();
@@ -249,8 +251,6 @@ class _userInfo extends pluginBase
 			'time'    => ITime::getDateTime(),
 			'status'  => $reg_type == 1 ? 3 : 1,
             'true_name'  => $true_name,
-			'mobile'  => $mobile,
-			'email'   => $email,
 		);
 		$memberObj = new IModel('member');
 		$memberObj->setData($memberArray);
@@ -284,9 +284,9 @@ class _userInfo extends pluginBase
 			die("请填写正确的图形验证码");
 		}
 
-		$memberObj = new IModel('member');
-		$memberRow = $memberObj->getObj('mobile = "'.$mobile.'"');
-		if($memberRow)
+		$userObj = new IModel('user');
+		$userRow = $userObj->getObj('mobile = "'.$mobile.'"');
+		if($userRow)
 		{
 			die("手机号已经被注册");
 		}
@@ -363,7 +363,7 @@ class _userInfo extends pluginBase
 		$password   = IFilter::addSlash($password);
 
 		$userObj = new IModel('user as u,member as m');
-		$where   = "(u.username = '{$login_info}' or m.email = '{$login_info}' or m.mobile='{$login_info}') and m.status = 1 and u.id = m.user_id";
+		$where   = "(u.username = '{$login_info}' or u.email = '{$login_info}' or u.mobile='{$login_info}') and m.status = 1 and u.id = m.user_id";
 		$userRow = $userObj->getObj($where);
         
 		if($userRow)
@@ -426,13 +426,13 @@ class _userInfo extends pluginBase
 			IError::show(403,'邮件格式错误');
 		}
 
-		$memberDB  = new IModel('member');
-		$memberRow = $memberDB->getObj('email = "'.$email.'"');
-		if(!$memberRow)
+		$userDB  = new IModel('user');
+		$userRow = $userDB->getObj('email = "'.$email.'"');
+		if(!$userRow)
 		{
 			IError::show(403,'用户信息不存在');
 		}
-		$code    = base64_encode($memberRow['email']."|".$memberRow['user_id']);
+		$code    = base64_encode($userRow['email']."|".$userRow['id']);
 		$url     = IUrl::getHost().IUrl::creatUrl("/simple/check_mail/code/{$code}");
 		$content = mailTemplate::checkMail(array("{url}" => $url));
 
@@ -464,16 +464,16 @@ class _userInfo extends pluginBase
 			$email   = IFilter::act($email);
 			$user_id = IFilter::act($user_id,'int');
 
-			$memberObj = new IModel("member");
-			$memberRow = $memberObj->getObj(" email = '{$email}' and user_id = ".$user_id );
-			if($memberRow)
+            $memberObj = new IModel("member");
+			$userObj = new IModel("user");
+			$userRow = $userObj->getObj(" email = '{$email}' and id = ".$user_id );
+			if($userRow)
 			{
 				//更新用户状态
 				$memberObj->setData(array("status" => 1));
 				$memberObj->update("user_id = ".$user_id);
 
 				//获取用户信息
-				$userObj = new IModel('user');
 				$userRow = $userObj->getObj('id = '.$user_id);
 				$message = "恭喜，您的邮箱激活成功！";
 				$this->userLoginCallback($userRow);

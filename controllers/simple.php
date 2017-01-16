@@ -1366,9 +1366,9 @@ class Simple extends IController
             IError::show("请填写正确的图形验证码");
         }
         
-		$tb_user  = new IModel("user as u,member as m");
+		$tb_user  = new IModel("user");
 		$email    = IFilter::act($email);
-		$user     = $tb_user->getObj(" u.id = m.user_id AND m.email='{$email}' ");
+		$user     = $tb_user->getObj("email='{$email}' ");
 		if(!$user)
 		{
 			IError::show(403,"对不起，用户不存在");
@@ -1415,23 +1415,23 @@ class Simple extends IController
 			IError::show(403,"请输入短信校验码");
 		}
 
-		$userDB = new IModel('user as u , member as m');
-		$userRow = $userDB->getObj('m.mobile = "'.$mobile.'" and u.id = m.user_id');
+		$userDB = new IModel('user');
+		$userRow = $userDB->getObj('mobile = "'.$mobile.'"');
 		if($userRow)
 		{
 			$findPasswordDB = new IModel('find_password');
-			$dataRow = $findPasswordDB->getObj('user_id = '.$userRow['user_id'].' and hash = "'.$mobile_code.'"');
+			$dataRow = $findPasswordDB->getObj('user_id = '.$userRow['id'].' and hash = "'.$mobile_code.'"');
 			if($dataRow)
 			{
 				//短信验证码已经过期
 				if(time() - $dataRow['addtime'] > 3600)
 				{
-					$findPasswordDB->del("user_id = ".$userRow['user_id']);
+					$findPasswordDB->del("user_id = ".$userRow['id']);
 					IError::show(403,"您的短信校验码已经过期了，请重新找回密码");
 				}
 				else
 				{
-					$this->redirect('/simple/restore_password/hash/'.$mobile_code.'/user_id/'.$userRow['user_id']);
+					$this->redirect('/simple/restore_password/hash/'.$mobile_code.'/user_id/'.$userRow['id']);
 				}
 			}
 			else
@@ -1461,13 +1461,13 @@ class Simple extends IController
             die("请填写正确的图形验证码");
         }
 
-		$userDB = new IModel('user as u , member as m');
-		$userRow = $userDB->getObj('m.mobile = "'.$mobile.'" and u.id = m.user_id');
+		$userDB = new IModel('user');
+		$userRow = $userDB->getObj('mobile = "'.$mobile.'"');
 
 		if($userRow)
 		{
 			$findPasswordDB = new IModel('find_password');
-			$dataRow = $findPasswordDB->query('user_id = '.$userRow['user_id'],'*','addtime desc');
+			$dataRow = $findPasswordDB->query('user_id = '.$userRow['id'],'*','addtime desc');
 			$dataRow = current($dataRow);
 
 			//120秒是短信发送的间隔
@@ -1477,7 +1477,7 @@ class Simple extends IController
 			}
 			$mobile_code = rand(100000,999999);
 			$findPasswordDB->setData(array(
-				'user_id' => $userRow['user_id'],
+				'user_id' => $userRow['id'],
 				'hash'    => $mobile_code,
 				'addtime' => time(),
 			));

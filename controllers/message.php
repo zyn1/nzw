@@ -291,9 +291,9 @@ class Message extends IController implements adminAuthorization
 		$length = 50;
 		$succeed = 0;
 
-		$query = new IQuery("member");
+		$query = new IQuery("user");
 		$query->fields = "mobile";
-		$query->order  = "user_id DESC";
+		$query->order  = "id DESC";
 
 		if(!empty($toUser))
 		{
@@ -306,7 +306,7 @@ class Message extends IController implements adminAuthorization
 				$user_ids = array_slice($user_array, $offset, $length);
 				$user_id_string = implode(",", $user_ids);
 				$offset += $length;
-				$query->where  = "user_id IN ({$user_id_string}) AND `mobile` IS NOT NULL AND `mobile`!='' ";
+				$query->where  = "id IN ({$user_id_string}) AND `mobile` IS NOT NULL AND `mobile`!='' ";
 				$list = $query->find();
 				if (!empty($list))
 				{

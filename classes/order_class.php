@@ -439,7 +439,7 @@ class Order_Class
 	 		//获取用户信息
 	 		$query = new IQuery('user as u');
 	 		$query->join = ' left join member as m on u.id=m.user_id ';
-	 		$query->fields = 'u.username,m.email,m.mobile,m.contact_addr,m.true_name';
+	 		$query->fields = 'u.username,u.email,u.mobile,m.contact_addr,m.true_name';
 	 		$query->where = 'u.id='.$data['user_id'];
 	 		$user_info = $query->find();
 	 		if($user_info)
