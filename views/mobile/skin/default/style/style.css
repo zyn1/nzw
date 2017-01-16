@@ -4645,16 +4645,16 @@ label.check:after{
 .cart_2 .cart_2_bj em,.addre .default em{
     display: block;
     position: absolute;
-    width: 55px;
-    height: 37px;
-    top: 0.1rem;
+    width: 0.6rem;
+    height: 0.6rem;
+    top: 0;
     right: 0.15rem;
 }
 .cart_2 .cart_2_bj em.no,.addre .default em.no{
-    background: url("../image/top/tuidong.png") no-repeat;
+    background: url("../image/top/tuidong.png") no-repeat center;
 }
 .cart_2 .cart_2_bj em.on,.addre .default em.on{
-    background: url("../image/top/tuidong_s.png") no-repeat;
+    background: url("../image/top/tuidong_s.png") no-repeat center;
 }
 .cart_2 .count{
     padding: 0.15rem;
