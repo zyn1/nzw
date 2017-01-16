@@ -57,6 +57,9 @@ a {
 a:hover, a:focus {
     outline: none;
 }
+a:visited,a:link,a:hover,a:focus{
+    color: #656565;
+}
 
 a, input, textarea, button, select {
     /* -webkit-tap-highlight-color: rgba(255, 255, 255, 0.5); */
@@ -1255,7 +1258,7 @@ a .icon-rotate-90:before, a .icon-rotate-180:before, a .icon-rotate-270:before, 
 /*图标*/
 .header a i{
     display: block;
-    width: 0.4rem;
+    width: 0.3rem;
     height: 0.35rem;
     margin: 0 auto;
 }
@@ -1275,6 +1278,9 @@ a .icon-rotate-90:before, a .icon-rotate-180:before, a .icon-rotate-270:before, 
 .icon-comment-alt{
     background: url("../image/top/xiaoxi @2x.png") no-repeat 0 center;
 }
+.icon-comment-alts{
+    background: url("../image/top/xiaoxi2.png") no-repeat 0 center;
+}
 .icon-comments-alt{
     background: url("../image/top/xiaoxi_1@2x.png") no-repeat 0px center;
 }
@@ -1282,7 +1288,19 @@ a .icon-rotate-90:before, a .icon-rotate-180:before, a .icon-rotate-270:before, 
     content: ' ';
     position: absolute;
     top: 0.14rem;
-    right: 0.1rem;
+    right: 0.23rem;
+    border: #C7C7CC solid;
+    border-width: 0.03rem 0 0 0.03rem;
+    width: 0.07rem;
+    height: 0.07rem;
+    -webkit-transform: rotate(135deg);
+    -moz-transform: rotate(135deg);
+}
+.icon-mores:after{
+    content: ' ';
+    position: absolute;
+    top: 0.4rem;
+    right: 0.3rem;
     border: #C7C7CC solid;
     border-width: 0.03rem 0 0 0.03rem;
     width: 0.07rem;
@@ -1347,7 +1365,7 @@ a .icon-rotate-90:before, a .icon-rotate-180:before, a .icon-rotate-270:before, 
     line-height: 0.35rem;
     text-align: left;
     font-size: 0.16rem;
-    color: #fff;
+    color: #fff !important;
     font-family: PingFangSC-Light;
 }
 .search_wid{
@@ -3693,7 +3711,9 @@ span.valid-msg, label.valid-msg {
     padding: 0 0.05rem;
 }
 .coupon_list li.read .title{
-    color: #656565;
+    color: #030303;
+    font-size: 17px;
+    padding-top: 0.13rem;
 }
 .coupon_list li.read{
     padding-bottom: 0px;
@@ -5233,7 +5253,7 @@ span.xl3 em{
     float: left;
 }
 .help_bar .bar:nth-child(3),.help_bar .bar:nth-child(6),.help_bar .bar:nth-child(9){
-	border-right:0px;
+    border-right:0px;
 }
 .help_bar .bar img{
     width: 0.4rem;
@@ -5248,14 +5268,14 @@ span.xl3 em{
     padding: 0 0.1rem 0 0.2rem;
     text-align: left;
     border-bottom: 1px solid #E2E2E2;
-	position:relative;
+    position:relative;
 }
 .help_bar li .icon-more{
     margin-top: 0.11rem;
 }
 .help_bar a{
     color: #555;
-	display:block;
+    display:block;
 }
 .help_bar .article{    
     padding: 0 0.1rem;
@@ -5329,22 +5349,25 @@ span.xl3 em{
 .choice .radio input:checked+i{  
     border-color: #6BB945;  
 }  
-.choice .radio input+i:after{  
-    position: absolute; 
-    content: '\2714'; //勾选符号 
-    width: 100%; 
-    font-size: 0.12rem;  
+.choice .radio input+i:after{
+    position: absolute;
+    /*content: '\2714'; //勾选符号 */
+    content: "";
+    width: 100%;
+    font-size: 0.12rem;
     border-radius: 50%;
-    width: 0.15rem;
-    height: 0.15rem;
+    width: 0.17rem;
+    height: 0.17rem;
     line-height: 0.14rem;
     color: #fff;
-    vertical-align: text-top;  
+    vertical-align: text-top;
     text-align: center;
-    background-color: #6BB945;  
-    opacity: 0;  
-    transition: opacity .1s;  
-    -webkit-transition: opacity .1s;  
+    background: url(../image/top/s-select.png) no-repeat;
+    opacity: 0;
+    transition: opacity .1s;
+    -webkit-transition: opacity .1s;
+    top: -1px;
+    left: -1px;
 }  
 .choice .radio input:checked+i:after{  
     opacity: 1;  
@@ -5434,7 +5457,7 @@ font-size: 0.13rem;
     color: #aaa;
 }
 .tab_content .content_list{
-   /* border-bottom: 1px solid #eee;*/
+    border-bottom: 1px solid #eee;
     margin-bottom:0.1rem; 
     padding:0.1rem 0; 
     position: relative;
