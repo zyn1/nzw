@@ -9,7 +9,7 @@
  */
  /**
   * example:
-  * $message = new Mess($data['user_id']);
+  * $message = new Mess($data['user_id'],$data['type]);
   * $message->writeMessage('0',1);
  */
 class Mess
@@ -17,8 +17,11 @@ class Mess
 	//用户信息数据库实例
 	private $memberDB = null;
 
-	//用户id
-	private $user_id = '';
+    //用户id
+    private $user_id = '';
+
+	//用户类型
+	private $user_type = '';
 
 	//用户消息ID
 	private $messageIds = '';
@@ -27,29 +30,57 @@ class Mess
 	 * @brief 构造函数 用户id
 	 * @param string $user_id 用户id
 	 */
-	function __construct($user_id)
+	function __construct($user_id,$user_type)
 	{
-		$this->user_id  = $user_id;
-		$this->memberDB = new IModel('member');
-		$memberRow      = $this->memberDB->getObj('user_id = '.$user_id);
+        $this->user_id  = $user_id;
+		$this->user_type  = $user_type;
+        $this->messageIds = '';
+        if($this->user_type == 1)
+        {
+		    $this->memberDB = new IModel('member');
+		    $memberRow      = $this->memberDB->getObj('user_id = '.$user_id);
 
-		//过滤消息内容
-		if($memberRow['message_ids'])
-		{
-			$messObj   = new IModel('message');
-			$messArray = explode(',',$memberRow['message_ids']);
-			foreach($messArray as $key => $messId)
-			{
-				$mid = abs($messId);
-				if(!$messObj->getObj('id = '.$mid))
-				{
-					$memberRow['message_ids'] = str_replace(",".$messId.",",",",",".trim($memberRow['message_ids'],",").",");
-				}
-			}
-			$this->memberDB->setData(array('message_ids' => $memberRow['message_ids']));
-			$this->memberDB->update("user_id = ".$user_id);
-		}
-		$this->messageIds = $memberRow['message_ids'];
+		    //过滤消息内容
+		    if($memberRow['message_ids'])
+		    {
+			    $messObj   = new IModel('message');
+			    $messArray = explode(',',$memberRow['message_ids']);
+			    foreach($messArray as $key => $messId)
+			    {
+				    $mid = abs($messId);
+				    if(!$messObj->getObj('id = '.$mid))
+				    {
+					    $memberRow['message_ids'] = str_replace(",".$messId.",",",",",".trim($memberRow['message_ids'],",").",");
+				    }
+			    }
+			    $this->memberDB->setData(array('message_ids' => $memberRow['message_ids']));
+			    $this->memberDB->update("user_id = ".$user_id);
+		    }
+		    $this->messageIds = $memberRow['message_ids'];
+        }
+        elseif($this->user_type == 2)
+        {
+            $this->companyDB = new IModel('company');
+            $companyRow      = $this->companyDB->getObj('user_id = '.$user_id);
+
+            //过滤消息内容
+            if($companyRow['company_message_ids'])
+            {
+                $messObj   = new IModel('message');
+                $messArray = explode(',',$companyRow['company_message_ids']);
+                foreach($messArray as $key => $messId)
+                {
+                    $mid = abs($messId);
+                    if(!$messObj->getObj('id = '.$mid))
+                    {
+                        $companyRow['company_message_ids'] = str_replace(",".$messId.",",",",",".trim($companyRow['company_message_ids'],",").",");
+                    }
+                }
+                $this->companyDB->setData(array('company_message_ids' => $companyRow['company_message_ids']));
+                $this->companyDB->update("user_id = ".$user_id);
+            }
+            $this->messageIds = $companyRow['company_message_ids'];
+        }
 	}
 
 	/**

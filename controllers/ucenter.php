@@ -15,26 +15,31 @@ class Ucenter extends IController implements userAuthorization
     public function index()
     {
     	//获取用户基本信息
-		$user = Api::run('getMemberInfo',$this->user['user_id']);
+		$user = Api::run('getMemberInfo',$this->user['user_id'],$this->user['type']);
 
 		//获取用户各项统计数据
-		$statistics = Api::run('getMemberTongJi',$this->user['user_id']);
-
+		$statistics = Api::run('getMemberTongJi',$this->user['user_id'],$this->user['type']);
+             
 		//获取用户站内信条数
-		$msgObj = new Mess($this->user['user_id']);
+		$msgObj = new Mess($this->user['user_id'],$this->user['type']);
 		$msgNum = $msgObj->needReadNum();
 
-		//获取用户代金券
-		$propIds = trim($user['prop'],',');
-		$propIds = $propIds ? $propIds : 0;
-		$propData= Api::run('getPropTongJi',$propIds);
+        $data = array(
+            "user"       => $user,
+            "statistics" => $statistics,
+            "msgNum"     => $msgNum
+            );
+        if($this->user['type'] == 1)
+        {
+            //获取用户代金券
+            $propIds = trim($user['prop'],',');
+            $propIds = $propIds ? $propIds : 0;
+            $propData= Api::run('getPropTongJi',$propIds);
+            $data['propData'] = $propData;
+        }
+		
 
-		$this->setRenderData(array(
-			"user"       => $user,
-			"statistics" => $statistics,
-			"msgNum"     => $msgNum,
-			"propData"   => $propData,
-		));
+		$this->setRenderData($data);
 
         $this->initPayment();
         $this->redirect('index');
@@ -697,7 +702,7 @@ class Ucenter extends IController implements userAuthorization
     //站内消息
     public function message()
     {
-        $msgObj = new Mess($this->user['user_id']);
+        $msgObj = new Mess($this->user['user_id'],$this->user['type']);
         $msgIds = $msgObj->getAllMsgIds();
         $msgIds = $msgIds ? $msgIds : 0;
         $this->setRenderData(array('msgIds' => $msgIds,'msgObj' => $msgObj));
@@ -706,7 +711,7 @@ class Ucenter extends IController implements userAuthorization
     //站内消息编辑
     public function message_edit()
     {
-    	$msgObj = new Mess($this->user['user_id']);
+    	$msgObj = new Mess($this->user['user_id'],$this->user['type']);
     	$msgIds = $msgObj->getAllMsgIds();
     	$msgIds = $msgIds ? $msgIds : 0;
 		$this->setRenderData(array('msgIds' => $msgIds,'msgObj' => $msgObj));
@@ -719,7 +724,7 @@ class Ucenter extends IController implements userAuthorization
     public function message_del()
     {
         $id = IFilter::act( IReq::get('id') ,'int' );
-        $msg = new Mess($this->user['user_id']);
+        $msg = new Mess($this->user['user_id'],$this->user['type']);
         $msg->delMessage($id);
         $this->redirect('message');
     }
@@ -730,7 +735,7 @@ class Ucenter extends IController implements userAuthorization
     public function messages_del()
     {
         $ids = IFilter::act(IReq::get('sub') ,'int' );
-        $msg = new Mess($this->user['user_id']);
+        $msg = new Mess($this->user['user_id'],$this->user['type']);
         foreach($ids as $id)
         {
             $msg->delMessage($id);
@@ -740,7 +745,7 @@ class Ucenter extends IController implements userAuthorization
     public function message_read()
     {
         $id = IFilter::act( IReq::get('id'),'int' );
-        $msg = new Mess($this->user['user_id']);
+        $msg = new Mess($this->user['user_id'],$this->user['type']);
         echo $msg->writeMessage($id,1);
     }
 
@@ -1323,7 +1328,7 @@ class Ucenter extends IController implements userAuthorization
     //我的代金券
     function redpacket()
     {
-		$member_info = Api::run('getMemberInfo',$this->user['user_id']);
+		$member_info = Api::run('getMemberInfo',$this->user['user_id'],$this->user['type']);
 		$propIds     = trim($member_info['prop'],',');
 		$propIds     = $propIds ? $propIds : 0;
 		$this->setRenderData(array('propId' => $propIds));

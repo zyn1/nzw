@@ -237,6 +237,7 @@ class _userInfo extends pluginBase
 			'password' => md5($password),
             'mobile'  => $mobile,
             'email'   => $email,
+            'type'    => IReq::get('t') ? IFilter::act(IReq::get('t')) : 1
 		);
 		$userObj->setData($userArray);
 		$user_id = $userObj->add();
@@ -325,7 +326,7 @@ class _userInfo extends pluginBase
             $user = array(
                 'username' => ISafe::get('loginName'),
                 'user_pwd' => ISafe::get('loginPassword'),
-                'type'     => 1
+                't'     => 1
             );
         }
         else
@@ -333,15 +334,16 @@ class _userInfo extends pluginBase
 		    $user = array(
 			    'username' => ISafe::get('username','session'),
 			    'user_pwd' => ISafe::get('user_pwd','session'),
-                'type'     => 2
+                't'     => 2
 		    );
         }
 
-		if($userRow = self::isValidUser($user['username'],$user['user_pwd'],$user['type']))
+		if($userRow = self::isValidUser($user['username'],$user['user_pwd'],$user['t']))
 		{
 			$user['user_id'] = $userRow['id'];
-			$user['head_ico']= $userRow['head_ico'];
-            unset($user['type']);
+            $user['head_ico']= $userRow['head_ico'];
+			$user['type']= $userRow['type'];
+            unset($user['t']);
 			return $user;
 		}
 		else
@@ -360,23 +362,36 @@ class _userInfo extends pluginBase
 	public static function isValidUser($login_info,$password,$type = 2)
 	{
 		$login_info = IFilter::addSlash($login_info);
-		$password   = IFilter::addSlash($password);
-
-		$userObj = new IModel('user as u,member as m');
-		$where   = "(u.username = '{$login_info}' or u.email = '{$login_info}' or u.mobile='{$login_info}') and m.status = 1 and u.id = m.user_id";
-		$userRow = $userObj->getObj($where);
-        
-		if($userRow)
-		{
-            if(($type == 1 && (md5($userRow['password'].'nz826.com') == $password)) || ($type == 2 && ($userRow['password'] == $password)))
+		$password   = IFilter::addSlash($password); 
+        $userDB = new IModel('user');
+        $userDetail = $userDB->getObj("username = '{$login_info}' or email = '{$login_info}' or mobile='{$login_info}'");
+        if($userDetail)
+        {
+            if($userDetail['type'] == 1)
             {
-                return $userRow;   
+		        $memberObj = new IModel('member');
+		        $where   = "status = 1 and user_id = ".$userDetail['id'];
+		        $row = $memberObj->getObj($where);
             }
-            else
+            elseif($userDetail['type'] == 2)
             {
-                return false;
+                $companyObj = new IModel('company');
+                $where   = "is_lock = 1 and is_del = 0 and user_id = ".$userDetail['id'];
+                $row = $companyObj->getObj($where);
             }
-		}
+            $userRow = array_merge($userDetail,$row);                 
+		    if($userRow)
+		    {
+                if(($type == 1 && (md5($userRow['password'].'nz826.com') == $password)) || ($type == 2 && ($userRow['password'] == $password)))
+                {
+                    return $userRow;   
+                }
+                else
+                {
+                    return false;
+                }
+		    }
+        }
 		return false;
 	}
 
@@ -390,28 +405,43 @@ class _userInfo extends pluginBase
 		ISafe::set('user_id',$userRow['id'],'session');
 		ISafe::set('username',$userRow['username'],'session');
 		ISafe::set('user_pwd',$userRow['password'],'session');
-		ISafe::set('head_ico',isset($userRow['head_ico']) ? $userRow['head_ico'] : '');
+        ISafe::set('head_ico',isset($userRow['head_ico']) ? $userRow['head_ico'] : '');
+		ISafe::set('user_type',isset($userRow['type']) ? $userRow['type'] : 1);
 		ISafe::set('last_login',isset($userRow['last_login']) ? $userRow['last_login'] : '');
 
-		//更新最后一次登录时间
-		$memberObj = new IModel('member');
-		$dataArray = array(
-			'last_login' => ITime::getDateTime(),
-		);
-		$memberObj->setData($dataArray);
-		$where     = 'user_id = '.$userRow["id"];
-		$memberObj->update($where);
+        if(isset($userRow['type']) && $userRow['type'] == 1)
+        {
+		    //更新最后一次登录时间
+		    $memberObj = new IModel('member');
+		    $dataArray = array(
+			    'last_login' => ITime::getDateTime(),
+		    );
+		    $memberObj->setData($dataArray);
+		    $where     = 'user_id = '.$userRow["id"];
+		    $memberObj->update($where);
 
-		//根据经验值分会员组
-		$memberRow = $memberObj->getObj($where,'exp');
-		$groupObj  = new IModel('user_group');
-		$groupRow  = $groupObj->getObj($memberRow['exp'].' between minexp and maxexp and minexp > 0 and maxexp > 0','id','discount desc');
-		if($groupRow)
-		{
-			$dataArray = array('group_id' => $groupRow['id']);
-			$memberObj->setData($dataArray);
-			$memberObj->update($where);
-		}
+		    //根据经验值分会员组
+		    $memberRow = $memberObj->getObj($where,'exp');
+		    $groupObj  = new IModel('user_group');
+		    $groupRow  = $groupObj->getObj($memberRow['exp'].' between minexp and maxexp and minexp > 0 and maxexp > 0','id','discount desc');
+		    if($groupRow)
+		    {
+			    $dataArray = array('group_id' => $groupRow['id']);
+			    $memberObj->setData($dataArray);
+			    $memberObj->update($where);
+		    }
+        }
+        elseif(isset($userRow['type']) && $userRow['type'] == 2)
+        {
+            //更新最后一次登录时间
+            $companyObj = new IModel('company');
+            $dataArray = array(
+                'login_time' => ITime::getDateTime(),
+            );
+            $companyObj->setData($dataArray);
+            $where     = 'user_id = '.$userRow["id"];
+            $companyObj->update($where);
+        }
 	}
 
 

@@ -30,7 +30,7 @@ class Site extends IController
         $msgNum = 0;
         if($this->user)
         {
-            $msgObj = new Mess($this->user['user_id']);
+            $msgObj = new Mess($this->user['user_id'],$this->user['type']);
             $msgNum = $msgObj->needReadNum();
         }
         $this->setRenderData(array(
