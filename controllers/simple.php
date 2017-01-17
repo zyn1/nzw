@@ -55,6 +55,19 @@ class Simple extends IController
         }
         
     }
+    
+    function reg_identify()
+    {
+        if($this->user)
+        {
+            $this->redirect("/ucenter/index");
+        }
+        else{
+            $this->layout = 'site_log';
+            $this->redirect('reg_identify');
+        }
+        
+    }
 
     //用户注册
     function reg_act()
