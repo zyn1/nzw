@@ -100,16 +100,16 @@ a, a * { cursor: pointer; }
 	border: 1px solid #f0f0f0;
 	background: #fff;
 }
-.tab_reg .reg_top{width: 1090px; height: 100px; line-height: 100px;border-bottom: 1px solid #dadada;}
-.reg_top .tab_btn{width: 600px;}
+.tab_reg .reg_top{width: 1090px; height: 90px; line-height: 90px;border-bottom: 1px solid #dadada;}
+.reg_top .tab_btn{width: 600px;height: 90px;margin-left: 90px;float: left;}
 .tab_btn h3{
     float: left;
     margin-left: 30px;
     color: #5d5d5d;
-    padding: 0 60px;
-    height: 60px;
-    margin: 20px 0;
-    line-height: 60px;
+    padding:0;
+    height: 50px;
+    margin: 20px 40px 0 40px;
+    line-height: 50px;
     padding-bottom: 18px;
 }
 .tab_btn h3.color{color: #6bb945;border-bottom:3px solid #6bb945;}
@@ -128,14 +128,14 @@ a, a * { cursor: pointer; }
 	width: 500px;
 }
 textarea.invalid-text, input[type="text"].invalid-text, input[type="password"].invalid-text{margin-top: -1px;}
-.reg_content div{position: relative; height: 42px;line-height: 42px; width: 380px;border: 1px solid #dbdbdb;margin-bottom: 30px;}
+.reg_content div{position: relative; height: 42px;line-height: 42px; width: 380px;border: 1px solid #dbdbdb;margin-bottom: 21px;}
 .reg_content div input{text-indent: 1em; position: absolute;right: 0; height: 41px;line-height: 42px;border: 0 none; margin-top: 0px; width: 244px; border: none; vertical-align: middle;outline: none;box-shadow: none;}
 .reg_content div.setPass input{width: 207px;}
 .reg_content div input.first{width: 300px;}
 .reg_content div input.two{width: 160px;}
 .reg_content div input.three{width: 300px;}
 .reg_content div input.four{width: 300px;}
-.reg_content div label{color: #848484; font-size: 15px;line-height: 26px; margin-left: 8px;}
+.reg_content div label{color: #848484; font-size: 15px;line-height: 20px; margin-left: 8px;}
 .reg_content .auth_code{width: 240px;float: left; }
 .reg_content .auth_code input{width: 100px;}
 .reg_content div.verfy{border: none;}
@@ -167,11 +167,14 @@ textarea.invalid-text, input[type="text"].invalid-text, input[type="password"].i
 						text-align: center; color: #fff;width: 380px;font-size: 16px;text-indent: 0;border-radius: 5px;}
 .reg_content .user label img,.reg_content .pass label img{width: 20px; height: 20px;}
 .reg_content .user input,.reg_content .pass input{padding-left: 20px;position: absolute;right: 0;}
-.reg_content div input+.invalid-msg,.reg_content div input+.invalid-msg{display: block;height: 23px;}
-.reg_content div input+.valid-msg,.reg_content div input+.valid-msg{display: block;height: 23px;}
+.reg_content div input+.invalid-msg,.reg_content div input+.invalid-msg{display: block;height: 20px;color: #cc301b;font-size: 12px;}
+.reg_content div input+.valid-msg,.reg_content div input+.valid-msg{display: block;height: 20px;}
 .reg_content div.sava_pass{border: none;position: relative;top: -10px;line-height: 42px;}
 .reg_content div.sava_pass input{width: 16px; height: 16px;position: relative;}
 .reg_content div.sava_pass a{float: right; color: #848484;font-size: 14px;}
+.reg_content .reg_method{border: 0;}
+.reg_content .reg_method .radio_check{width: 100px;height: 20px;line-height: 20px;padding-left: 30px;background: url("../../../image/register/part1.png") no-repeat;margin-left: 50px;color: #666;cursor: pointer;}
+.reg_content .reg_method .radio_check.checked{background: url("../../../image/register/part2.png") no-repeat;}
 
 
 /*注册完善信息*/
