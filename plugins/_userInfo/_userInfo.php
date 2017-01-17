@@ -376,7 +376,7 @@ class _userInfo extends pluginBase
             elseif($userDetail['type'] == 2)
             {
                 $companyObj = new IModel('company');
-                $where   = "is_lock = 1 and is_del = 0 and user_id = ".$userDetail['id'];
+                $where   = "is_lock = 0 and is_del = 0 and user_id = ".$userDetail['id'];
                 $row = $companyObj->getObj($where);
             }
             $userRow = array_merge($userDetail,$row);                 
@@ -436,7 +436,7 @@ class _userInfo extends pluginBase
             //更新最后一次登录时间
             $companyObj = new IModel('company');
             $dataArray = array(
-                'login_time' => ITime::getDateTime(),
+                'last_login' => ITime::getDateTime(),
             );
             $companyObj->setData($dataArray);
             $where     = 'user_id = '.$userRow["id"];

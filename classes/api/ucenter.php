@@ -79,24 +79,17 @@ class APIUcenter
 	}
 	//用户中心-个人主页统计
 	public function getMemberTongJi($userid,$_type){
-		$result = array();
-        if($_type == 1)
-        {
-            $query = new IQuery('order');
-            $query->fields = "count(id) as num";
-            $query->where  = "user_id = ".$userid." and if_del = 0";
-            $info = $query->find();
-            $result['num'] = $info[0]['num'];
+		$result = array();  
+        $query = new IQuery('order');
+        $query->fields = "count(id) as num";
+        $query->where  = "user_id = ".$userid." and if_del = 0";
+        $info = $query->find();
+        $result['num'] = $info[0]['num'];
 
-            $query->fields = "sum(order_amount) as amount";
-            $query->where  = "user_id = ".$userid." and status = 5 and if_del = 0";
-            $info = $query->find();
-            $result['amount'] = $info[0]['amount'] ? $info[0]['amount'] : '0.00';
-        }
-		elseif($_type == 2)
-        {
-            
-        }
+        $query->fields = "sum(order_amount) as amount";
+        $query->where  = "user_id = ".$userid." and status = 5 and if_del = 0";
+        $info = $query->find();
+        $result['amount'] = $info[0]['amount'] ? $info[0]['amount'] : '0.00';        
 
 		return $result;
 	}

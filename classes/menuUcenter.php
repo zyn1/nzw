@@ -59,12 +59,17 @@ class menuUcenter
         if($userId)
         {
             $user  = new IModel("user");
-            $_user   = $user->getObj("id='{$userId}'", 'mobile,email');
+            $_user   = $user->getObj("id='{$userId}'", 'mobile,email,type');
             if(empty($_user['mobile'])){
                 unset(self::$menu['个人设置']['/ucenter/changePhone']);
             }
             if(empty($_user['email'])){
                 unset(self::$menu['个人设置']['/ucenter/changeEmail']);
+            }
+            if($_user['type'] != 1)
+            {
+                unset(self::$menu['应用中心']['/ucenter/message']);
+                unset(self::$menu['账户资金']['/ucenter/online_recharge']);
             }
         }
 		return self::$menu;

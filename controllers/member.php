@@ -946,9 +946,9 @@ class Member extends IController implements adminAuthorization
         $is_invoice   = IFilter::act(IReq::get('is_invoice'),'int');
         $is_pay      = IFilter::act(IReq::get('is_pay'),'int');
         $home_url    = IFilter::act(IReq::get('home_url'));
-        $account     = IFilter::act(IReq::get('account'));*/
-        $address     = IFilter::act(IReq::get('address'));
         $server_num  = IFilter::act(IReq::get('server_num'));
+        $account     = IFilter::act(IReq::get('account'));*/
+        $address     = IFilter::act(IReq::get('address'));   
         $sort        = IFilter::act(IReq::get('sort'),'int');
         $suggest      = IFilter::act(IReq::get('suggest'));
 
