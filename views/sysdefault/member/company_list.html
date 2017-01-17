@@ -1,0 +1,117 @@
+{set:
+$search = IFilter::act(IReq::get('search'),'strict');
+$search['province'] = IReq::get('province');
+$search['city'] = IReq::get('city');
+$search['area'] = IReq::get('area');
+$conditon = Util::search($search);
+$where = $conditon ? " and ".$conditon : "";
+}
+{js:areaSelect}
+<div class="headbar">
+	<div class="position">
+		<span>会员</span><span>></span><span>装修公司管理</span><span>></span><span>装修公司列表</span>
+	</div>
+	<div class="operating">
+		<div class="search f_r">
+			<form name="searchcompany" action="{url:/}" method="get">
+				<input type='hidden' name='controller' value='member' />
+				<input type='hidden' name='action' value='company_list' />
+                <select class="auto" name="province" child="city,area"></select>
+                <select class="auto" name="city" child="area"></select>
+                <select class="auto" name="area"></select>
+				<select class="auto" name="search[like]">
+					<option value="u.username">登录名</option>
+					<option value="c.true_name">真实名称</option>
+					<option value="u.mobile">手机</option>
+					<option value="u.email">Email</option>
+				</select>
+				<input class="small" name="search[likeValue]" type="text" value="" />
+				<button class="btn" type="submit"><span class="sch">搜 索</span></button>
+			</form>
+		</div>
+		<!--<a href="javascript:void(0);"><button class="operating_btn" type="button" onclick="window.location='{url:/member/seller_edit}'"><span class="addition">添加商户</span></button></a>-->
+		<a href="javascript:void(0);" onclick="selectAll('id[]')"><button class="operating_btn" type="button"><span class="sel_all">全选</span></button></a>
+		<a href="javascript:void(0);" onclick="delModel({form:'company_list',msg:'确定要删除所选中的装修公司吗？<br />删除的装修公司可以从回收站找回。'})"><button class="operating_btn" type="button"><span class="delete">批量删除</span></button></a>
+		<a href="javascript:void(0);"><button class="operating_btn" type="button" onclick="window.location='{url:/member/company_recycle_list}'"><span class="recycle">回收站</span></button></a>
+	</div>
+</div>
+
+<form action="{url:/member/company_del}" method="post" name="company_list" onsubmit="return checkboxCheck('id[]','尚未选中任何记录！')">
+	<div class="content">
+		<table class="list_table">
+			<colgroup>
+				<col width="40px" />
+				<col width="140px" />
+				<col width="140px" />
+				<col width="100px" />
+				<col width="110px" />
+				<col width="80px" />
+				<col width="150px"/>
+				<col width="80px" />
+			</colgroup>
+
+			<thead>
+				<tr>
+					<th>选择</th>
+					<th>登录用户名</th>
+					<th>真实名称</th>
+					<th>座机</th>
+					<th>移动电话</th>
+					<th>状态</th>
+					<th>注册日期</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				{set:$page=(isset($_GET['page'])&&(intval($_GET['page'])>0))?intval($_GET['page']):1;}
+				{query:name=company as c join=left join user as u on c.user_id eq u.id where=c.is_del eq 0 $where order=u.id desc page=$page pagesize=20}
+				<tr>
+					<td><input name="id[]" type="checkbox" value="{$item['id']}" /></td>
+					<td title="{echo:htmlspecialchars($item['username'])}">{$item['username']}</td>
+					<td title="{echo:htmlspecialchars($item['true_name'])}">{$item['true_name']}</td>
+					<td title="{echo:htmlspecialchars($item['phone'])}">{$item['phone']}</td>
+					<td title="{echo:htmlspecialchars($item['mobile'])}">{$item['mobile']}</td>
+					<td>
+						<select onchange="changeStatus({$item['id']},this)">
+							<option value="0" {if:$item['is_lock'] == 0}selected="selected"{/if}>正常</option>
+                            <option value="1" {if:$item['is_lock'] == 1}selected="selected"{/if}>锁定</option>
+							 {if:$item['is_lock'] == 2}<option value="2" selected="selected">待审核</option>{/if}
+						</select>
+					</td>
+					<td title="{$item['create_time']}">{$item['create_time']}</td>
+					<td>
+						<a href="{url:/member/company_edit/id/$item[id]}"><img class="operator" src="{skin:images/admin/icon_edit.gif}" alt="修改" /></a>
+						<a href="javascript:void(0)" onclick="delModel({link:'{url:/member/company_del/id/$item[id]}'})"><img class="operator" src="{skin:images/admin/icon_del.gif}" alt="删除" /></a>
+					</td>
+				</tr>
+				{/query}
+			</tbody>
+		</table>
+	</div>
+	{$query->getPageBar()}
+</form>
+
+<script language="javascript">
+//预加载
+$(function(){
+	var searchData = {echo:JSON::encode($search)};
+	for(var index in searchData)
+	{
+		$('[name="search['+index+']"]').val(searchData[index]);
+	}
+    //地区联动插件
+    var areaInstance = new areaSelect('province');
+    areaInstance.init({echo:JSON::encode($search)});
+})
+
+//商户状态修改
+function changeStatus(sid,obj)
+{
+	var lockVal = obj.value;
+    if(lockVal != 2)
+    {
+	    $.getJSON("{url:/member/ajax_company_lock}",{"id":sid,"lock":lockVal});
+    }
+}
+</script>

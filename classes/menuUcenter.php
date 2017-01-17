@@ -58,8 +58,8 @@ class menuUcenter
 		plugin::trigger("onUcenterMenuCreate");
         if($userId)
         {
-            $member  = new IModel("member");
-            $_user   = $member->getObj("user_id='{$userId}'", 'mobile,email');
+            $user  = new IModel("user");
+            $_user   = $user->getObj("id='{$userId}'", 'mobile,email');
             if(empty($_user['mobile'])){
                 unset(self::$menu['个人设置']['/ucenter/changePhone']);
             }

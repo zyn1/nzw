@@ -22,16 +22,18 @@
 	<ul>
 		{set:$queryMessageList = Api::run('getUcenterMessageList',$msgIds)}
 		{foreach:items = $queryMessageList->find()}
-        <a href="{url:ucenter/message_content/id/$item['id']}">
+        
 		<li {if:$msgObj->is_read($item['id'])} class="read"{/if}>
+			<a href="{url:ucenter/message_content/id/$item['id']}">
 			<div class="title">{$item['title']}</div>
 			<div class="author">耐耐网推送</div>
 			<time>{$item['time']}</time>
 			<!-- <i id="msg_id_{$item['id']}">
 				{if:$msgObj->is_read($item['id'])}已读{else:}未读{/if}
 			</i> -->
+			</a>
 		</li>
-        </a>
+        
 		{/foreach}
 	</ul>
 	{$queryMessageList->getPageBar()}

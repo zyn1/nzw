@@ -15,13 +15,11 @@
         </div>
         <a class="a_gd"></a>
         <div class="s_nav" style="display: none;">
-            <div class="c-tip-arrow" style="left: 30px;"><em></em><ins></ins></div>
-            <div class="s_nav">
             <ul>
                 <li><a href="{url:/}"><i class="icon-home">首页</i></a></li>
                 <li><a href="{url:ucenter/message}">
                 {if:$this->user}
-                {set:$msgObj = new Mess($this->user['user_id']);$msgNum = $msgObj->needReadNum();}
+                {set:$msgObj = new Mess($this->user['user_id'],$this->user['type']);$msgNum = $msgObj->needReadNum();}
                 {else:$msgNum = 0;}
                 {set:}
                 {/if}

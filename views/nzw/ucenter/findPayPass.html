@@ -4,7 +4,7 @@
 </header>
 
 <section class="user_form">
- {set:$user_id = $this->user['user_id'];$member = new IModel('member');$mobile = $member->getObj('user_id = '.$user_id, 'mobile');}
+ {set:$user_id = $this->user['user_id'];$user = new IModel('user');$mobile = $user->getObj('id = '.$user_id, 'mobile');}
  <form action="{url:/ucenter/findPayPass2}" method="post">
 	<div class="prog_info">
         {if:empty($mobile['mobile'])}

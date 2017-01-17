@@ -15,26 +15,31 @@ class Ucenter extends IController implements userAuthorization
     public function index()
     {
     	//获取用户基本信息
-		$user = Api::run('getMemberInfo',$this->user['user_id']);
+		$user = Api::run('getMemberInfo',$this->user['user_id'],$this->user['type']);
 
 		//获取用户各项统计数据
-		$statistics = Api::run('getMemberTongJi',$this->user['user_id']);
-
+		$statistics = Api::run('getMemberTongJi',$this->user['user_id'],$this->user['type']);
+             
 		//获取用户站内信条数
-		$msgObj = new Mess($this->user['user_id']);
+		$msgObj = new Mess($this->user['user_id'],$this->user['type']);
 		$msgNum = $msgObj->needReadNum();
 
-		//获取用户代金券
-		$propIds = trim($user['prop'],',');
-		$propIds = $propIds ? $propIds : 0;
-		$propData= Api::run('getPropTongJi',$propIds);
+        $data = array(
+            "user"       => $user,
+            "statistics" => $statistics,
+            "msgNum"     => $msgNum
+            );
+        if($this->user['type'] == 1)
+        {
+            //获取用户代金券
+            $propIds = trim($user['prop'],',');
+            $propIds = $propIds ? $propIds : 0;
+            $propData= Api::run('getPropTongJi',$propIds);
+            $data['propData'] = $propData;
+        }
+		
 
-		$this->setRenderData(array(
-			"user"       => $user,
-			"statistics" => $statistics,
-			"msgNum"     => $msgNum,
-			"propData"   => $propData,
-		));
+		$this->setRenderData($data);
 
         $this->initPayment();
         $this->redirect('index');
@@ -697,7 +702,7 @@ class Ucenter extends IController implements userAuthorization
     //站内消息
     public function message()
     {
-        $msgObj = new Mess($this->user['user_id']);
+        $msgObj = new Mess($this->user['user_id'],$this->user['type']);
         $msgIds = $msgObj->getAllMsgIds();
         $msgIds = $msgIds ? $msgIds : 0;
         $this->setRenderData(array('msgIds' => $msgIds,'msgObj' => $msgObj));
@@ -706,7 +711,7 @@ class Ucenter extends IController implements userAuthorization
     //站内消息编辑
     public function message_edit()
     {
-    	$msgObj = new Mess($this->user['user_id']);
+    	$msgObj = new Mess($this->user['user_id'],$this->user['type']);
     	$msgIds = $msgObj->getAllMsgIds();
     	$msgIds = $msgIds ? $msgIds : 0;
 		$this->setRenderData(array('msgIds' => $msgIds,'msgObj' => $msgObj));
@@ -719,7 +724,7 @@ class Ucenter extends IController implements userAuthorization
     public function message_del()
     {
         $id = IFilter::act( IReq::get('id') ,'int' );
-        $msg = new Mess($this->user['user_id']);
+        $msg = new Mess($this->user['user_id'],$this->user['type']);
         $msg->delMessage($id);
         $this->redirect('message');
     }
@@ -730,7 +735,7 @@ class Ucenter extends IController implements userAuthorization
     public function messages_del()
     {
         $ids = IFilter::act(IReq::get('sub') ,'int' );
-        $msg = new Mess($this->user['user_id']);
+        $msg = new Mess($this->user['user_id'],$this->user['type']);
         foreach($ids as $id)
         {
             $msg->delMessage($id);
@@ -740,7 +745,7 @@ class Ucenter extends IController implements userAuthorization
     public function message_read()
     {
         $id = IFilter::act( IReq::get('id'),'int' );
-        $msg = new Mess($this->user['user_id']);
+        $msg = new Mess($this->user['user_id'],$this->user['type']);
         echo $msg->writeMessage($id,1);
     }
 
@@ -832,11 +837,12 @@ class Ucenter extends IController implements userAuthorization
 
     	$user_id   = $this->user['user_id'];
     	$memberObj = new IModel('member');
+        $userObj = new IModel('user');
     	$where     = 'user_id = '.$user_id;
         if($email)
         {
-            $memberRow = $memberObj->getObj('user_id != '.$user_id.' and email = "'.$email.'"');
-            if($memberRow)
+            $userRow = $userObj->getObj('id != '.$user_id.' and email = "'.$email.'"');
+            if($userRow)
             {
                 IError::show('邮箱已经被注册');
             }
@@ -844,8 +850,8 @@ class Ucenter extends IController implements userAuthorization
 
         if($mobile)
         {
-            $memberRow = $memberObj->getObj('user_id != '.$user_id.' and mobile = "'.$mobile.'"');
-            if($memberRow)
+            $userRow = $userObj->getObj('id != '.$user_id.' and mobile = "'.$mobile.'"');
+            if($userRow)
             {
                 IError::show('手机已经被注册');
             }
@@ -870,8 +876,10 @@ class Ucenter extends IController implements userAuthorization
     	);
         if(IClient::getDevice() == IClient::PC)
         {
-            $dataArray['email'] = $email;
-            $dataArray['mobile'] = $mobile;
+            $data['email'] = $email;
+            $data['mobile'] = $mobile;
+            $userObj->setData($data);
+            $userObj->update('id = '.$user_id);
         }
 
     	$memberObj->setData($dataArray);
@@ -1020,7 +1028,7 @@ class Ucenter extends IController implements userAuthorization
 
     	$memberObj = new IModel('member');
     	$where     = 'user_id = '.$user_id;
-    	$this->memberRow = $memberObj->getObj($where);
+    	$this->memberRow = $memberObj->getObj($where, 'balance');
     	$this->redirect('account_log');
     }
 
@@ -1252,7 +1260,7 @@ class Ucenter extends IController implements userAuthorization
 		}
 
     	$memberObj = new IModel('member');
-    	$memberRow = $memberObj->getObj('user_id = '.$user_id);
+    	$memberRow = $memberObj->getObj('user_id = '.$user_id,'user_id,balance');
 
     	if(empty($memberRow))
     	{
@@ -1320,7 +1328,7 @@ class Ucenter extends IController implements userAuthorization
     //我的代金券
     function redpacket()
     {
-		$member_info = Api::run('getMemberInfo',$this->user['user_id']);
+		$member_info = Api::run('getMemberInfo',$this->user['user_id'],$this->user['type']);
 		$propIds     = trim($member_info['prop'],',');
 		$propIds     = $propIds ? $propIds : 0;
 		$this->setRenderData(array('propId' => $propIds));
@@ -1363,8 +1371,8 @@ class Ucenter extends IController implements userAuthorization
     function changeEmail()
     {
         $user_id = $this->user['user_id'];
-        $member = new IModel('member');
-        $email = $member->getObj('user_id = '.$user_id, 'email');
+        $user = new IModel('user');
+        $email = $user->getObj('id = '.$user_id, 'email');
         if(empty($email['email']))
         {
             $this->redirect('index');
@@ -1380,11 +1388,11 @@ class Ucenter extends IController implements userAuthorization
     function _sendChangeEmailCode()
     {
         $_email = IFilter::act(IReq::get('email'));
-        $member = new IModel('member');
+        $user = new IModel('user');
         if(!$_email)
         {
             $user_id = $this->user['user_id'];
-            $email = $member->getObj('user_id = '.$user_id, 'email');
+            $email = $user->getObj('id = '.$user_id, 'email');
             if(empty($email['email']))
             {
                 die("参数错误");
@@ -1402,7 +1410,7 @@ class Ucenter extends IController implements userAuthorization
             if(!IValidate::email($_email)){
                 die('邮箱格式错误');
             }
-            if($member->getObj('email = "'.$_email.'"', 'user_id'))
+            if($user->getObj('email = "'.$_email.'"', 'id'))
             {
                 die('该邮箱已注册');
             }
@@ -1431,8 +1439,8 @@ class Ucenter extends IController implements userAuthorization
             die("请填写正确的图形验证码");
         }
         $user_id = $this->user['user_id'];
-        $member = new IModel('member');
-        $email = $member->getObj('user_id = '.$user_id, 'email');
+        $user = new IModel('user');
+        $email = $user->getObj('id = '.$user_id, 'email');
         $checkRes = ISafe::get('emailValidate');
         if($checkRes && $email['email']==$checkRes['email'] &&time()- $checkRes['time']<1800 && $code == $checkRes['code']){
             $this->redirect('changeEmail1');
@@ -1446,8 +1454,8 @@ class Ucenter extends IController implements userAuthorization
     {
         $newEmail = IFilter::act(IReq::get('email','post'));
         $code =IFilter::act(IReq::get('email_code','post'));
-        $member = new IModel('member');
-        if($member->getObj('email="'.$newEmail.'"', 'user_id')){
+        $user = new IModel('user');
+        if($user->getObj('email="'.$newEmail.'"', 'id')){
             IError::show(403,"该邮箱已注册");
         }
         if(!IValidate::email($newEmail)){
@@ -1459,9 +1467,9 @@ class Ucenter extends IController implements userAuthorization
         $checkRes = ISafe::get('emailValidate');
         if($checkRes && $newEmail==$checkRes['email'] &&time()- $checkRes['time']<1800 && $code == $checkRes['code']){
                 $user_id = $this->user['user_id'];
-                $where         = 'user_id = '.$user_id;
-                $member->setData(array('email'=>$newEmail));
-                if($member->update($where)){
+                $where         = 'id = '.$user_id;
+                $user->setData(array('email'=>$newEmail));
+                if($user->update($where)){
                     ISafe::set('email',$newEmail);
                     $this->redirect('changeEmail2');
                 }else{
@@ -1476,8 +1484,8 @@ class Ucenter extends IController implements userAuthorization
     function changePhone()
     {
         $user_id = $this->user['user_id'];
-        $member = new IModel('member');
-        $mobile = $member->getObj('user_id = '.$user_id, 'mobile');
+        $user = new IModel('user');
+        $mobile = $user->getObj('id = '.$user_id, 'mobile');
         if(empty($mobile['mobile']))
         {
             $this->redirect('index');
@@ -1503,11 +1511,11 @@ class Ucenter extends IController implements userAuthorization
         $captcha = IFilter::act(IReq::get('captcha'));
         $_safeName = IReq::get('name') ? IReq::get('name') : 'phoneValidate';
         $_captcha = ISafe::get('captcha');
-        $member = new IModel('member');
+        $user = new IModel('user');
         if(!$_mobile)
         {
             $user_id = $this->user['user_id'];
-            $mobile = $member->getObj('user_id = '.$user_id, 'mobile');
+            $mobile = $user->getObj('id = '.$user_id, 'mobile');
             if(empty($mobile['mobile']))
             {
                 die("参数错误");
@@ -1526,7 +1534,7 @@ class Ucenter extends IController implements userAuthorization
             {
                 die("请输入正确的手机号码");
             }
-            if($member->getObj('mobile = "'.$_mobile.'"', 'user_id'))
+            if($user->getObj('mobile = "'.$_mobile.'"', 'id'))
             {
                 die('该手机号已注册');
             }
@@ -1551,8 +1559,8 @@ class Ucenter extends IController implements userAuthorization
             IError::show(403,"请填写正确的图形验证码");
         }
         $user_id = $this->user['user_id'];
-        $member = new IModel('member');
-        $mobile = $member->getObj('user_id = '.$user_id, 'mobile');
+        $user = new IModel('user');
+        $mobile = $user->getObj('id = '.$user_id, 'mobile');
         $checkRes = ISafe::get('phoneValidate');
         if($checkRes && $mobile['mobile']==$checkRes['mobile'] &&time()- $checkRes['time']<1800 && $code == $checkRes['code']){
             $this->redirect('changePhone1');
@@ -1566,8 +1574,8 @@ class Ucenter extends IController implements userAuthorization
     {
         $newPhone = IFilter::act(IReq::get('phone','post'));
         $code =IFilter::act(IReq::get('phone_code','post'));
-        $member = new IModel('member');
-        if($member->getObj('mobile="'.$newPhone.'"', 'user_id')){
+        $user = new IModel('user');
+        if($user->getObj('mobile="'.$newPhone.'"', 'id')){
             IError::show(403,"该手机号已注册");
         }
         if(!IValidate::mobi($newPhone)){
@@ -1579,9 +1587,9 @@ class Ucenter extends IController implements userAuthorization
         $checkRes = ISafe::get('phoneValidate');
         if($checkRes && $newPhone==$checkRes['mobile'] &&time()- $checkRes['time']<1800 && $code == $checkRes['code']){
                 $user_id = $this->user['user_id'];
-                $where         = 'user_id = '.$user_id;
-                $member->setData(array('mobile'=>$newPhone));
-                if($member->update($where)){
+                $where         = 'id = '.$user_id;
+                $user->setData(array('mobile'=>$newPhone));
+                if($user->update($where)){
                     ISafe::set('phone',$newPhone);
                     $this->redirect('changePhone2');
                 }else{
@@ -1661,8 +1669,8 @@ class Ucenter extends IController implements userAuthorization
             IError::show(403,"请填写正确的图形验证码");
         }
         $user_id = $this->user['user_id'];
-        $member = new IModel('member');
-        $mobile = $member->getObj('user_id = '.$user_id, 'mobile');
+        $user = new IModel('user');
+        $mobile = $user->getObj('id = '.$user_id, 'mobile');
         $checkRes = ISafe::get('findPassPhoneValidate');
         if($checkRes && $mobile['mobile']==$checkRes['mobile'] &&time()- $checkRes['time']<1800 && $code == $checkRes['code']){
             $this->code = $code;
@@ -1678,12 +1686,13 @@ class Ucenter extends IController implements userAuthorization
         $user_id = $this->user['user_id'];
         $memberObj       = new IModel('member');
         $where           = 'user_id = '.$user_id;
-        $member = $memberObj->getObj('user_id = '.$user_id, 'mobile, pay_password');
+        $userObj = new IModel('user');
+        $mobile = $userObj->getObj('id = '.$user_id, 'mobile');
         $password = IReq::get('password');
         $repassword = IReq::get('repassword');
         $code = IReq::get('code');
         $checkRes = ISafe::get('findPassPhoneValidate');
-        if(!$checkRes || $member['mobile']!=$checkRes['mobile'] || time()- $checkRes['time']>=1800 || $code != $checkRes['code']){
+        if(!$checkRes || $mobile['mobile']!=$checkRes['mobile'] || time()- $checkRes['time']>=1800 || $code != $checkRes['code']){
             $message = '验证错误或手机验证码已过期';
         }
         else if(!preg_match('|\w{6,32}|',$password))
@@ -1697,28 +1706,21 @@ class Ucenter extends IController implements userAuthorization
         else
         {
             $passwordMd5 = md5($password);
-            if($passwordMd5 == $member['pay_password'])
+            $dataArray = array(
+                'pay_password' => $passwordMd5,
+            );
+
+            $memberObj->setData($dataArray);
+            $result  = $memberObj->update($where);
+            if($result)
             {
-                $message = '新密码不能跟原始密码一样';
+                $res = 1;
+                $message = '支付密码重置成功';
+                $this->pay_pass = $passwordMd5;
             }
             else
             {
-                $dataArray = array(
-                    'pay_password' => $passwordMd5,
-                );
-
-                $memberObj->setData($dataArray);
-                $result  = $memberObj->update($where);
-                if($result)
-                {
-                    $res = 1;
-                    $message = '支付密码重置成功';
-                    $this->pay_pass = $passwordMd5;
-                }
-                else
-                {
-                    $message = '支付密码重置失败';
-                }
+                $message = '支付密码重置失败';
             }
         }
         if(isset($res))

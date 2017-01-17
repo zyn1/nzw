@@ -16,7 +16,7 @@
                 <li><a href="{url:/}"><i class="icon-home">首页</i></a></li>
                 <li><a href="{url:/ucenter/message}">
                 {if:$this->user}
-                {set:$msgObj = new Mess($this->user['user_id']);$msgNum = $msgObj->needReadNum();}
+                {set:$msgObj = new Mess($this->user['user_id'],$this->user['type']);$msgNum = $msgObj->needReadNum();}
                 {else:}
                 {set:$msgNum = 0;}
                 {/if}
@@ -47,8 +47,9 @@
                     <h3 class="name"><strong>{$item['name']}</strong></h3>
                     
                     <em class="price">￥{$item['sell_price']}</em>
-                    <span class="xl del_icon" onclick="delModel({link:'{url:/ucenter/favorite_del/id/$item[id]}',msg:'是否取消收藏？'});">删除</span>
+                    
                 </div></a>
+                <span class="xl del_icon" onclick="delModel({link:'{url:/ucenter/favorite_del/id/$item[id]}',msg:'是否取消收藏？'});">删除</span>
             </div>                
         </li>
 		{/foreach}

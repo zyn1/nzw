@@ -4,7 +4,7 @@
 		<h2 id="pageInfo" data-title="找回支付密码">找回支付密码</h2>
 	</div>
 </header>
-{set:$user_id = $this->user['user_id'];$member = new IModel('member');$mobile = $member->getObj('user_id = '.$user_id, 'mobile');}
+{set:$user_id = $this->user['user_id'];$user = new IModel('user');$mobile = $user->getObj('id = '.$user_id, 'mobile');}
 <section class="find_pw">
 	<!-- <ul class="tab">
 		<li class="on">短信找回</li>

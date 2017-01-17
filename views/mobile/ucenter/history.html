@@ -10,7 +10,7 @@
                 <li><a href="{url:/}"><i class="icon-home">首页</i></a></li>
                 <li><a href="{url:/ucenter/message}">
                 {if:$this->user}
-                {set:$msgObj = new Mess($this->user['user_id']);$msgNum = $msgObj->needReadNum();}
+                {set:$msgObj = new Mess($this->user['user_id'],$this->user['type']);$msgNum = $msgObj->needReadNum();}
                 {else:}
                 {set:$msgNum = 0;}
                 {/if}
@@ -42,8 +42,9 @@
                     <h3 class="name"><strong>{$item['name']}</strong></h3>
                     
                     <em class="price">￥{$item['sell_price']}</em>
-                    <span class="xl del_icon" onclick="delModel({link:'{url:/ucenter/history_del/id/$item[goods_id]}',msg:'确定删除浏览记录？'});">删除</span>
+                    
                 </div></a>
+                <span class="xl del_icon" onclick="delModel({link:'{url:/ucenter/history_del/id/$item[goods_id]}',msg:'确定删除浏览记录？'});">删除</span>
             </div>                
         </li>
 		<!-- <li>
