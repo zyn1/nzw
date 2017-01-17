@@ -1279,7 +1279,7 @@ a .icon-rotate-90:before, a .icon-rotate-180:before, a .icon-rotate-270:before, 
     background: url("../image/top/xiaoxi @2x.png") no-repeat 0 center;
 }
 .icon-comment-alts{
-    background: url("../image/top/xiaoxi2.png") no-repeat 0 center;
+    background: url("../image/top/xiaoxi2.png") no-repeat center;
 }
 .icon-comments-alt{
     background: url("../image/top/xiaoxi_1@2x.png") no-repeat 0px center;
