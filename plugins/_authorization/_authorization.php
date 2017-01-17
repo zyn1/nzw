@@ -15,7 +15,8 @@
  * iWebShop的权限分为3大类：
  * 1,admin （后台管理员）继承adminAuthorization接口
  * 2,seller（商家管理）  继承sellerAuthorization接口
- * 3,user  （注册用户）  继承userAuthorization接口
+ * 3,company（商家管理）  继承companyAuthorization接口
+ * 4,user  （注册用户）  继承userAuthorization接口
  *
  * 使用方法：
  * 1,权限校验基于控制器，在控制器里面通过 implements 继承接口的方式来确定访问控制器所需要的权限,比如 controllers/goods.php 的控制器是后台商品管理的相关操作
@@ -57,12 +58,19 @@ class _authorization extends pluginBase
 		'pic@*',
 	);
 
+    /**
+     * @brief 商家action校验
+     * 非session会话变量的校验，有些情境下比如flash调用时候，session不起作用，
+     * 需要通过其他方式校验身份权限
+     */
+    private static $sellerAction = array('seller@goods_img_upload' => 'sellerImageUpload');
+
 	/**
-	 * @brief 商家action校验
+	 * @brief 装修公司action校验
 	 * 非session会话变量的校验，有些情境下比如flash调用时候，session不起作用，
 	 * 需要通过其他方式校验身份权限
 	 */
-	private static $sellerAction = array('seller@goods_img_upload' => 'sellerImageUpload');
+	private static $companyAction = array('company@goods_img_upload' => 'companyImageUpload');
 
 	//管理员action校验 (同上商家action校验
 	private static $adminAction  = array('goods@goods_img_upload' => 'adminImageUpload');
@@ -117,10 +125,15 @@ class _authorization extends pluginBase
 		{
 			self::checkAdminRights($actionId);
 		}
-		//商家权限判断
-		else if($controller instanceof sellerAuthorization)
+        //商家权限判断
+        else if($controller instanceof sellerAuthorization)
+        {
+            self::checkSellerRights($actionId);
+        }
+		//装修公司权限判断
+		else if($controller instanceof companyAuthorization)
 		{
-			self::checkSellerRights($actionId);
+			self::checkCompanyRights($actionId);
 		}
 		//用户权限判断
 		else if($controller instanceof userAuthorization)
@@ -210,28 +223,64 @@ class _authorization extends pluginBase
 		$object->user = $userRow;
 	}
 
+    /**
+     * @brief seller权限拦截
+     * @param $actionId string 动作ID
+     */
+    public static function checkSellerRights($actionId)
+    {
+        $object       = IWeb::$app->getController();
+        $controllerId = $object->getId();
+
+        //1,针对独立配置的action检测
+        if(isset(self::$sellerAction[$controllerId."@".$actionId]) && method_exists(__CLASS__,self::$sellerAction[$controllerId."@".$actionId]))
+        {
+            call_user_func(array(__CLASS__,self::$sellerAction[$controllerId."@".$actionId]));
+            return;
+        }
+        //2,其余action检测
+        else
+        {
+            $sellerRow = self::getSeller();
+            if(!$sellerRow)
+            {
+                $object->redirect('/systemseller/index');
+                exit;
+            }
+
+            //角色权限校验
+            $rights = "";
+            if(self::checkRight($rights,$actionId) == false)
+            {
+                IError::show('503','no permission to access');
+                exit;
+            }
+            $object->seller = $sellerRow;
+        }
+    }
+
 	/**
-	 * @brief seller权限拦截
+	 * @brief company权限拦截
 	 * @param $actionId string 动作ID
 	 */
-	public static function checkSellerRights($actionId)
+	public static function checkCompanyRights($actionId)
 	{
 		$object       = IWeb::$app->getController();
 		$controllerId = $object->getId();
 
 		//1,针对独立配置的action检测
-		if(isset(self::$sellerAction[$controllerId."@".$actionId]) && method_exists(__CLASS__,self::$sellerAction[$controllerId."@".$actionId]))
+		if(isset(self::$companyAction[$controllerId."@".$actionId]) && method_exists(__CLASS__,self::$companyAction[$controllerId."@".$actionId]))
 		{
-			call_user_func(array(__CLASS__,self::$sellerAction[$controllerId."@".$actionId]));
+			call_user_func(array(__CLASS__,self::$companyAction[$controllerId."@".$actionId]));
 			return;
 		}
 		//2,其余action检测
 		else
 		{
-			$sellerRow = self::getSeller();
-			if(!$sellerRow)
+			$companyRow = self::getUser();
+			if(!$companyRow)
 			{
-				$object->redirect('/systemseller/index');
+				$object->redirect('/simple/login');
 				exit;
 			}
 
@@ -242,7 +291,7 @@ class _authorization extends pluginBase
 				IError::show('503','no permission to access');
 				exit;
 			}
-			$object->seller = $sellerRow;
+			$object->company = $companyRow;
 		}
 	}
 
@@ -449,6 +498,14 @@ interface adminAuthorization
  * @brief 管理员权限
  */
 interface sellerAuthorization
+{
+
+}
+
+/**
+ * @brief 管理员权限
+ */
+interface companyAuthorization
 {
 
 }

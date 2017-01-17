@@ -1,0 +1,79 @@
+{set:$com_id = $this->company['user_id']}
+<article class="module width_full">
+	<header>
+		<h3 class="tabs_involved">风格列表</h3>
+
+		<ul class="tabs">
+			<li><input type="button" class="alt_btn" onclick="addNewStyle();" value="添加风格" /></li>
+			<li><input type="button" class="alt_btn" onclick="selectAll('id[]')" value="全选" /></li>
+			<li><input type="button" class="alt_btn" onclick="delModel();" value="批量删除" /></li>
+		</ul>
+	</header>
+
+	<form action='{url:/company/style_del}' method='post' name='styleForm'>
+		<table class="tablesorter" cellspacing="0">
+			<colgroup>
+				<col width="60px" />
+                <col width="300px" />   
+				<col width="60px" />   
+				<col />
+			</colgroup>
+
+			<thead>
+				<tr>
+					<th class="header"></th>
+                    <th class="header">风格名称</th> 
+					<th class="header">排序</th> 
+					<th class="header">操作</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				{set:$page= (isset($_GET['page'])&&(intval($_GET['page'])>0))?intval($_GET['page']):1;}
+				{query:name=case_style where=user_id eq $com_id order=sort asc page=$page}
+				<tr>
+					<td><input type="checkbox" name="id[]" value="{$item['id']}" /></td>
+					<td>{$item['name']}</td>
+					<td>{$item['sort']}</td> 
+					<td>
+						<a href="javascript:addNewStyle({$item['id']});"><img src="{skin:images/main/icn_edit.png}" alt="修改" /></a>
+						<a href='javascript:void(0)' onclick="delModel({link:'{url:/company/style_del/id/$item[id]}'});"><img src="{skin:images/main/icn_del.png}" alt="删除" title="删除" /></a>
+					</td>
+				</tr>
+				{/query}
+			</tbody>
+		</table>
+	</form>
+	{$query->getPageBar()}
+</article>
+
+<script type='text/javascript'>
+//添加新规格
+function addNewStyle(style_id)
+{
+	var url = '{url:/company/style_edit/id/@style_id@/com_id/$com_id}';
+	url = url.replace('@style_id@',style_id?style_id:0);
+
+	art.dialog.open(url,{
+		id:'addStyleWin',
+	    title:'风格设置',
+	    okVal:'确定',
+        width:'600px',
+	    ok:function(iframeWin, topWin){
+	    	var formObject = iframeWin.document.forms['styleForm'];
+			$.post(formObject.action,$(formObject).serialize(),function(json){
+				if(json.flag == 'success')
+				{
+					window.location.reload();
+					return true;
+				}
+				else
+				{
+					alert(json.message);
+					return false;
+				}
+			},'json');
+	    }
+	});
+}
+</script>

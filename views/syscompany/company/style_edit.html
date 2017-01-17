@@ -1,0 +1,30 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>风格修改</title>
+<link rel="stylesheet" href="{skin:css/admin.css}" />
+{js:jquery}
+{js:dialog}
+{js:form}
+{js:validate}
+{js:artTemplate}
+</head>
+<body style="width:600px;min-height:400px;">
+<div class="pop_win">
+	<form action='{url:/company/style_update}' method='post' id='styleForm' name='styleForm'>
+    <input type="hidden" name="user_id" value="{$user_id}" />
+    <input type="hidden" name="id" value="{$id}" />
+        <div class="module_content">
+            <fieldset>
+                <label>风格名称：</label>
+                <div class="box"><input class="normal" name="name" value="{$name}" type="text" pattern="required" alt="名字不能为空" /><label>* 风格名称（必填）</label></div>
+            </fieldset>
+
+            <fieldset>
+                <label>排序：</label>
+                <div class="box"><input class="normal" type="text" name="sory" value="{$sort}" /><label>数字越小排序越靠前</label></div>
+            </fieldset>
+        </div>
+	</form>
+</div>
