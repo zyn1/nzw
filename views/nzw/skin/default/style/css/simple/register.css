@@ -175,7 +175,10 @@ textarea.invalid-text, input[type="text"].invalid-text, input[type="password"].i
 
 
 /*注册完善信息*/
-.tab_main{width: 900px;height: auto;overflow: hidden;margin: 0 auto;border: 0;background: #fff;}
-.tab_main .reg_top{width: 900px; height: 100px; line-height: 100px;border-bottom: 1px solid #dadada;}
-.tab_main .reg_top .tab_btn{width: 600px;}
-.tab_main .tab_btn h3{float: left;margin-left: 30px;color: #5d5d5d;padding: 0 60px;height: 60px;margin: 20px 0;line-height: 60px;padding-bottom: 18px;}
+.tab_main{width: 900px;height: auto;overflow: hidden;margin: 0 auto;border: 0;background: #f9f9f9;}
+.tab_main .reg_top{width: 900px; height: auto; line-height: 90px;border-bottom: none;}
+.tab_main .reg_top .tab_btn{width: 900px;text-align: center;}
+.tab_main .reg_top .tab_btn img{margin: 0 auto;}
+.tab_main .tab_btn h3{float: left;color: #5d5d5d;padding: 0 30px;height: 60px;margin:0;margin-top: 20px;line-height: 60px;font-size: 24px;}
+.tab_main .tab_btn h4{float: left;color: #aaa;height: 60px;margin-top: 20px;line-height: 60px;font-size: 14px;font-weight: normal;}
+.tab_main .tab_btn h5{float: left;color: #ccc;height: 40px;margin-top: 10px;line-height: 40px;font-weight: normal;padding-left: 40px;}
