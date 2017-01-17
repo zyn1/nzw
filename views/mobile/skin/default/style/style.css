@@ -1521,23 +1521,27 @@ a .icon-rotate-90:before, a .icon-rotate-180:before, a .icon-rotate-270:before, 
 }
 .home_nav li.map i {
     background: url("../image/top/chongzhi@2x.png") no-repeat center;
-
+    background-size: 98%;
 }
 .home_nav li.cart i {
     background: url("../image/top/jiahzuangzhishi@2x.png") no-repeat center;
+    background-size: 96%;
 }
 .home_nav li.groupon i {
     background: url("../image/top/shangchenggonggao@2x.png") no-repeat center;
+	background-size:100%;
 }
 .home_nav li.custom i {
     background: url("../image/top/zaixiankefu@2x.png") no-repeat center;
+    background-size: 98%;
 }
 .home_nav li.favorite i {
     background: url("../image/top/shoucang@2x.png") no-repeat center;
+    background-size: 96%;
 }
 .home_nav li i {
     display: block;
-    width: 40px;
+    width: 0.4rem;
     height: 0.7rem;
     margin: 0 auto;
     border-radius: 50%;
