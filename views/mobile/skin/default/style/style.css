@@ -1279,7 +1279,7 @@ a .icon-rotate-90:before, a .icon-rotate-180:before, a .icon-rotate-270:before, 
     background: url("../image/top/xiaoxi @2x.png") no-repeat 0 center;
 }
 .icon-comment-alts{
-    background: url("../image/top/xiaoxi2.png") no-repeat 0 center;
+    background: url("../image/top/xiaoxi2.png") no-repeat center;
 }
 .icon-comments-alt{
     background: url("../image/top/xiaoxi_1@2x.png") no-repeat 0px center;
@@ -3152,7 +3152,7 @@ header .info span{
     color: #fff;
     height: 0.3rem;
     line-height: 0.3rem;
-    margin: 0.4rem auto 0.3rem;
+    margin: 0.1rem auto 0.3rem;
     width: 90%;
     font-size: 0.18rem;
     border-radius: 0.05rem;
@@ -3167,6 +3167,7 @@ header .info span{
     margin: 0.15rem auto;
     text-align: center;
     border: 1px solid #CBCBCB;
+	border-radius:0.05rem;
 }
 .input_li .input_radio {
     display: block;
@@ -4620,7 +4621,7 @@ label.check:after{
 }
 .cart_2_delivery .info_head{
     position: relative;
-    color: #656565;
+   /*color: #656565;*/
 }
 .cart_2_delivery .input_text{
     border: 0;
