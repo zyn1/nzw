@@ -5,9 +5,9 @@
 		<h2>我的足迹</h2>
 		<a class="a_gd"></a>
         <div class="s_nav">
-        	<div class="c-tip-arrow" style="left: 30px;"><em></em><ins></ins></div>
+        	<div class="c-tip-arrow" style="left:0.3rem;"><em></em><ins></ins></div>
             <ul>
-                <li><a href="{url:/}"><i class="icon-home">首页</i></a></li>
+                <li><a href="{url:/}"><i class="icon-home"></i>首页</a></li>
                 <li><a href="{url:/ucenter/message}">
                 {if:$this->user}
                 {set:$msgObj = new Mess($this->user['user_id']);$msgNum = $msgObj->needReadNum();}
@@ -15,9 +15,9 @@
                 {set:$msgNum = 0;}
                 {/if}
                 {if:$msgNum > 0}
-                <i class="icon-comments-alt">消息</i>
+                <i class="icon-comments-alt"></i>消息
                 {else:}
-                <i class="icon-comment-alt">消息</i>
+                <i class="icon-comment-alt"></i>消息
                 {/if}
                 </a></li>
             </ul>
