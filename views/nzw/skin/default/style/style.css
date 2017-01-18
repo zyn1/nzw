@@ -2676,8 +2676,8 @@ section.count_down{margin: 13px 5px;}
 	margin-right: 5px;
 }
 .user_comment .user_content .reply_textarea{
-position: relative;
-margin-bottom:20px; 
+	position: relative;
+	margin-bottom:20px; 
 }
 .user_comment .user_content .reply_textarea textarea{
 	width: 758px;
