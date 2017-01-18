@@ -44,7 +44,7 @@
                                 <em>￥{$good['real_price']}</em>
                                 <del class="old_price">￥{$good['goods_price']}</del>
                                 {if:$commentRow}
-                                <a href="{url:/site/comments/id/$commentRow[id]}">
+                                <a class="commen_zp" href="{url:/site/comments/id/$commentRow[id]}">
                                 {if:$commentRow['status'] == 1}去追评{else:}去评价{/if}
                                 </a>
                                 {/if}
