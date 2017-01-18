@@ -2677,6 +2677,7 @@ section.count_down{margin: 13px 5px;}
 }
 .user_comment .user_content .reply_textarea{
 position: relative;
+margin-bottom:20px; 
 }
 .user_comment .user_content .reply_textarea textarea{
 	width: 758px;
@@ -2684,6 +2685,7 @@ position: relative;
 	line-height: 40px;
 	background:#f8f8f8;
 	padding: 0 80px 0 10px;
+	overflow: hidden;
 }
 .user_comment .user_content .reply_textarea i.reply_textarea_ts{
 	position: absolute;
