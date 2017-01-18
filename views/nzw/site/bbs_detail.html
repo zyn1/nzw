@@ -34,6 +34,7 @@
 			</div>
 		</section>
 		<section class="bbs_comment">
+			<form>
 			<div class="comment_num"><i>25</i>条评论</div>
 			<div class="comment_textare">
 				<textarea placeholder="我有话说..."></textarea>
@@ -41,7 +42,44 @@
 					<input class="sub_comment" type="submit" value="提交"/>
 				</p>
 			</div>
+			
+			<div class="user_comment">
+				<div class="user_comm_img"><img src="{url:views/nzw/skin/default/image/list/ad-pic.jpg}"/></div>
+				<div class="user_content">
+					<p class="comm_user_name">我就是wo</p>
+					<p class="comm_user_cont">这些设计让我们的家越来越整洁，舒服。我超级喜欢，真是聪明的脑子有这么多，爱的不要不要了这些设计让我们的家越来越整洁，舒服。我超级喜欢，真是聪明的脑子有这么多，爱的不要不要了</p>
+					<p class="comm_time">2016-12-13 &nbsp;&nbsp; 15:22
+						<a class="comm_reply"><i class="comm_reply_icon"></i>回复</a>
+					</p>
+					<p class="reply_textarea" style="display:none">
+						<textarea class="">
+						</textarea>
+						<i class="reply_textarea_ts">回复</i>
+						<input class="reply_textarea_input" type="submit" value="回复"/>
+					</p>
+				</div>
+			</div>
+			<div class="user_comment">
+				<div class="user_comm_img"><img src="{url:views/nzw/skin/default/image/list/ad-pic.jpg}"/></div>
+				<div class="user_content">
+					<p class="comm_user_name">我就是wo</p>
+					<p class="comm_user_cont">这些设计让我们的家越来越整洁，舒服。我超级喜欢，真是聪明的脑子有这么多，爱的不要不要了这些设计让我们的家越来越整洁，舒服。我超级喜欢，真是聪明的脑子有这么多，爱的不要不要了</p>
+					<p class="comm_time">2016-12-13 &nbsp;&nbsp; 15:22
+						<a class="comm_reply"><i class="comm_reply_icon"></i>回复</a>
+					</p>
+					<p class="reply_textarea" style="display:none">
+						<textarea class="">
+						</textarea>
+						<i class="reply_textarea_ts">回复</i>
+						<input class="reply_textarea_input" type="submit" value="回复"/>
+					</p>
+				</div>
+
+			</div>
+				<div class="comm_more"><a>加载更多</a></div>
+			</form>
 		</section>
+
 	</section>
 			<!-- 预约装修弹窗 -->
 			<!-- <div id="mask">&nbsp;</div>
@@ -126,6 +164,10 @@
 		{/if}
 		<script>
 			$(function(){
+				// 评论回复的显示和隐藏
+				$(".comm_time .comm_reply").click(function(){
+					$(this).parent().parent(".user_content").find(".reply_textarea").toggle();
+				})
 				// 弹窗
 				$("#city_select1").click(function(){
 					if($("#city_list1").is(":hidden")){
@@ -240,62 +282,7 @@
 						$("#area_select2").removeClass('down');
 					})
 				})
-				//筛选时间
-				$("#bbs_screen").click(function(){
-					if($("#bbs_screen_list").is(":hidden")){
-						$("#bbs_screen_list").show()
-						//$("#bbs_screen").addClass('down');
-					}else{
-						$("#bbs_screen_list").hide()
-						//$("#bbs_screen").removeClass('down');
-					}
-				})
-				$("#bbs_screen_list li").each(function(){
-					$(this).hover(function(){
-						$(this).css('background','#f7f7f7');
-					},function(){
-						$(this).css('background','#FFF');
-					})
-
-				})
-				$("#bbs_screen_list li").each(function(){
-					var _t = $(this)
-							,_v = _t.attr('js_data');
-					_t.click(function(){
-						$('#bbs_screen').val(_t.text());
-						$('input[name=type]').val(_v);
-						$('#bbs_screen_list').hide();
-						$("#bbs_screen").removeClass('down');
-					})
-				})
-				//默认排序
-				$("#bbs_sort").click(function(){
-					if($("#bbs_sort_list").is(":hidden")){
-						$("#bbs_sort_list").show()
-						//$("#bbs_screen").addClass('down');
-					}else{
-						$("#bbs_sort_list").hide()
-						//$("#bbs_screen").removeClass('down');
-					}
-				})
-				$("#bbs_sort_list li").each(function(){
-					$(this).hover(function(){
-						$(this).css('background','#f7f7f7');
-					},function(){
-						$(this).css('background','#FFF');
-					})
-
-				})
-				$("#bbs_sort_list li").each(function(){
-					var _t = $(this)
-							,_v = _t.attr('js_data');
-					_t.click(function(){
-						$('#bbs_sort').val(_t.text());
-						$('input[name=type]').val(_v);
-						$('#bbs_sort_list').hide();
-						$("#bbs_sort").removeClass('down');
-					})
-				})
+				
 				// 预约装修点击弹窗
 				/*$(".shop_list_btn1").click(function(){
 					$("#order").show();
