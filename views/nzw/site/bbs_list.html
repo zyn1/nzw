@@ -1,0 +1,389 @@
+{set:$breadGuide = goods_class::catRecursion($this->catId)}
+{set:$goodsObj = search_goods::find(array('category_extend' => $this->childId),20);$resultData = $goodsObj->find()}
+
+
+<section class="breadcrumb">
+	<span>您当前的位置：</span> <a href="{url:}">首页</a>
+	{foreach:items=$breadGuide} »
+	<a href='{url:/site/pro_list/cat/$item[id]}'>{$item['name']} </a>
+	{/foreach}
+</section>
+
+<section class="web">
+	<section class="shop_main">
+		<!-- 调用轮播图 -->
+		{include:_bbs_list_filter}
+		<!-- 商品列表 -->
+		<section class="goods_list">
+			<div class="bbs_select">
+				<dl class="bbs_sx">
+					<dt>筛选</li>
+					<dt class="">
+						<input type="button" class="bbs_sx_select" value="时间" id="bbs_screen">
+						<input type="hidden" name="type" value="2">
+						<ul style="display: none;" class="bbs_sort_list" id="bbs_screen_list">
+							<li js_data="1" style="background: rgb(255, 255, 255);">太原市</li>
+							<li js_data="2" style="background: rgb(255, 255, 255);">阳泉市</li>
+						</ul>
+					</dt>
+					<dt>排序</dt>
+					<dt class="">
+						<input type="button" class="bbs_sx_select" value="默认排序" id="bbs_sort">
+						<input type="hidden" name="type" value="2">
+						<ul style="display: none;" class="bbs_sort_list" id="bbs_sort_list">
+							<li js_data="1" style="background: rgb(255, 255, 255);">太原市</li>
+							<li js_data="2" style="background: rgb(255, 255, 255);">阳泉市</li>
+						</ul>
+					</dt>
+				</dl>
+			</div>
+			{if:$resultData}
+			<ul>
+				{foreach:items=$resultData}
+				<li>
+					<a target="_blank" href="{url:/site/products/id/$item[id]}" class="img_link">
+						<img alt="{$item['name']}" src="{url:/pic/thumb/img/$item[img]/w/205/h/205}">
+                        
+					</a>
+					<div class="bbs_content">
+						<h5>{$item['name']}
+		{if:goods_class::getSellerPay($item['seller_id'])}
+                        <img src="{url:views/nzw/skin/default/image/sellerVip.png}" class="vip_icon">{/if}</h5>
+						<p style="padding-top:0px;">建筑面积140平，以淡淡的天蓝色为墙面主色调，配上白色的线条，仿佛蓝天白云 ▲ 仿古砖加上角花铺地，吊顶采用九宫格造型，门洞做</p>
+						<!-- <del>￥{$item['market_price']}</del> -->
+						<a class="designer">
+							<div><img class="desig_img" src="{url:views/nzw/skin/default/image/list/ad-pic.jpg}"/></div>
+							<div>江南集水井</div>
+							<div><img class="grade_img" src="{url:views/nzw/skin/default/image/list/desig_grade.png}"/></div>
+						</a>
+						<a class="des_time">2016-12-30</a>
+						<a class="des_browse">2016</a>
+						<a class="des_new">20161</a>
+					</div>
+					
+				</li>
+				{/foreach}
+			</ul>
+			{$goodsObj->getPageBar()}
+
+			{else:}
+			<p class="no_tip">
+				对不起，没有找到符合条件的商家
+			</p>
+			{/if}
+		</section>
+	</section>
+			<!-- 预约装修弹窗 -->
+			<!-- <div id="mask">&nbsp;</div>
+			<div id="order">
+				<div class="order_head">预约装修</div>
+				<div style="padding:0 100px;">
+					<input type="text" placeholder="您的姓名" class="normal">
+					<input type="text" placeholder="电话号码" class="normal">
+					<div class="city">
+						<input type="button" class="city_select" value="省/市" id="city_select1">
+						<input type="hidden" name="type">
+						<ul style="display:none;" class="city_list" id="city_list1">
+							<li js_data="1">太原市</li>
+							<li js_data="2">阳泉市</li>
+						</ul>
+					</div>
+					<div class="county">
+						<input type="button" class="area_select" value="省/市" id="area_select1">
+						<input type="hidden" name="type">
+						<ul style="display:none;" class="area_list" id="area_list1">
+							<li js_data="1">太原市</li>
+							<li js_data="2">阳泉市</li>
+							<li js_data="3">大同市</li>
+							<li js_data="4">忻州市</li>
+							<li js_data="5">平遥市</li>
+							<li js_data="6">晋中市</li>
+							<li js_data="7">澳门市</li>
+							<li js_data="8">长治市</li>
+							<li js_data="9">平遥市</li>
+							<li js_data="10">晋中市</li>
+							<li js_data="11">澳门市</li>
+							<li js_data="12">长治市</li>
+						</ul>
+					</div>
+					<input type="text" placeholder="房屋面积" class="normal"><span class="area">㎡</span>
+					<a href class="need_publish" id="mask_close">免费发布</a>
+				</div>
+			</div> -->
+
+
+	<aside class="shop_bar">
+		<div class="bbs_right">
+			<a class="bbs_fs_an">我要发帖</a>
+			<div class="bbs_img"><img src="{url:views/nzw/skin/default/image/list/ad-pic.jpg}"></div>
+			<div class="bbs_img"><img src="{url:views/nzw/skin/default/image/list/ad-pic.jpg}"></div>
+		</div>
+		{set:$catSide = goods_class::catTree($this->catId)} {if:$catSide}
+		<nav class="bar_box bar_goods_nav">
+			<h3 class="bar_box_head">预约装修</h3>
+			<p class="intro">施工报价全免费，轻松获取</p>
+			<input type="text" placeholder="您的姓名" class="normal">
+			<input type="text" placeholder="电话号码" class="normal">
+			<div class="city">
+				<input type="button" class="city_select" value="省/市" id="city_select2">
+				<input type="hidden" name="type">
+				<ul style="display:none;" class="city_list" id="city_list2">
+					<li js_data="1">太原市</li>
+					<li js_data="2">阳泉市</li>
+				</ul>
+			</div>
+			<div class="county">
+				<input type="button" class="area_select" value="省/市" id="area_select2">
+				<input type="hidden" name="type">
+				<ul style="display:none;" class="area_list" id="area_list2">
+					<li js_data="1">太原市</li>
+					<li js_data="2">阳泉市</li>
+					<li js_data="3">大同市</li>
+					<li js_data="4">忻州市</li>
+					<li js_data="5">平遥市</li>
+					<li js_data="6">晋中市</li>
+					<li js_data="7">澳门市</li>
+					<li js_data="8">长治市</li>
+					<li js_data="9">平遥市</li>
+					<li js_data="10">晋中市</li>
+					<li js_data="11">澳门市</li>
+					<li js_data="12">长治市</li>
+				</ul>
+			</div>
+			<input type="text" placeholder="房屋面积" class="normal"><span class="area">㎡</span>
+			<a href class="need_publish">免费发布</a>
+		</nav>
+		{/if}
+		<script>
+			$(function(){
+				// 弹窗
+				$("#city_select1").click(function(){
+					if($("#city_list1").is(":hidden")){
+						$("#city_list1").show()
+						$("#city_select1").addClass('down');
+					}else{
+						$("#city_list1").hide()
+						$("#city_select1").removeClass('down');
+					}
+				})
+				$("#city_list1 li").each(function(){
+					$(this).hover(function(){
+						$(this).css('background','#f7f7f7');
+					},function(){
+						$(this).css('background','#FFF');
+					})
+
+				})
+				$("#city_list1 li").each(function(){
+					var _t = $(this)
+							,_v = _t.attr('js_data');
+					_t.click(function(){
+						$('#city_select1').val(_t.text());
+						$('input[name=type]').val(_v);
+						$('#city_list1').hide();
+						$("#city_select1").removeClass('down');
+					})
+				})
+
+
+				$("#area_select1").click(function(){
+					if($("#area_list1").is(":hidden")){
+						$("#area_list1").show()
+						$("#area_select1").addClass('down');
+					}else{
+						$("#area_list1").hide()
+						$("#area_select1").removeClass('down');
+					}
+				})
+				$("#area_list1 li").each(function(){
+					$(this).hover(function(){
+						$(this).css('background','#f7f7f7');
+					},function(){
+						$(this).css('background','#FFF');
+					})
+
+				})
+				$("#area_list1 li").each(function(){
+					var _t = $(this)
+							,_v = _t.attr('js_data');
+					_t.click(function(){
+						$('#area_select1').val(_t.text());
+						$('input[name=type]').val(_v);
+						$('#area_list1').hide();
+						$("#area_select1").removeClass('down');
+					})
+				})
+				// 右侧
+				$("#city_select2").click(function(){
+					if($("#city_list2").is(":hidden")){
+						$("#city_list2").show()
+						$("#city_select2").addClass('down');
+					}else{
+						$("#city_list2").hide()
+						$("#city_select2").removeClass('down');
+					}
+				})
+				$("#city_list2 li").each(function(){
+					$(this).hover(function(){
+						$(this).css('background','#f7f7f7');
+					},function(){
+						$(this).css('background','#FFF');
+					})
+
+				})
+				$("#city_list2 li").each(function(){
+					var _t = $(this)
+							,_v = _t.attr('js_data');
+					_t.click(function(){
+						$('#city_select2').val(_t.text());
+						$('input[name=type]').val(_v);
+						$('#city_list2').hide();
+						$("#city_select2").removeClass('down');
+					})
+				})
+
+
+				$("#area_select2").click(function(){
+					if($("#area_list2").is(":hidden")){
+						$("#area_list2").show()
+						$("#area_select2").addClass('down');
+					}else{
+						$("#area_list2").hide()
+						$("#area_select2").removeClass('down');
+					}
+				})
+				$("#area_list2 li").each(function(){
+					$(this).hover(function(){
+						$(this).css('background','#f7f7f7');
+					},function(){
+						$(this).css('background','#FFF');
+					})
+
+				})
+				$("#area_list2 li").each(function(){
+					var _t = $(this)
+							,_v = _t.attr('js_data');
+					_t.click(function(){
+						$('#area_select2').val(_t.text());
+						$('input[name=type]').val(_v);
+						$('#area_list2').hide();
+						$("#area_select2").removeClass('down');
+					})
+				})
+				//筛选时间
+				$("#bbs_screen").click(function(){
+					if($("#bbs_screen_list").is(":hidden")){
+						$("#bbs_screen_list").show()
+						//$("#bbs_screen").addClass('down');
+					}else{
+						$("#bbs_screen_list").hide()
+						//$("#bbs_screen").removeClass('down');
+					}
+				})
+				$("#bbs_screen_list li").each(function(){
+					$(this).hover(function(){
+						$(this).css('background','#f7f7f7');
+					},function(){
+						$(this).css('background','#FFF');
+					})
+
+				})
+				$("#bbs_screen_list li").each(function(){
+					var _t = $(this)
+							,_v = _t.attr('js_data');
+					_t.click(function(){
+						$('#bbs_screen').val(_t.text());
+						$('input[name=type]').val(_v);
+						$('#bbs_screen_list').hide();
+						$("#bbs_screen").removeClass('down');
+					})
+				})
+				//默认排序
+				$("#bbs_sort").click(function(){
+					if($("#bbs_sort_list").is(":hidden")){
+						$("#bbs_sort_list").show()
+						//$("#bbs_screen").addClass('down');
+					}else{
+						$("#bbs_sort_list").hide()
+						//$("#bbs_screen").removeClass('down');
+					}
+				})
+				$("#bbs_sort_list li").each(function(){
+					$(this).hover(function(){
+						$(this).css('background','#f7f7f7');
+					},function(){
+						$(this).css('background','#FFF');
+					})
+
+				})
+				$("#bbs_sort_list li").each(function(){
+					var _t = $(this)
+							,_v = _t.attr('js_data');
+					_t.click(function(){
+						$('#bbs_sort').val(_t.text());
+						$('input[name=type]').val(_v);
+						$('#bbs_sort_list').hide();
+						$("#bbs_sort").removeClass('down');
+					})
+				})
+				// 预约装修点击弹窗
+				/*$(".shop_list_btn1").click(function(){
+					$("#order").show();
+					$("#mask").show();
+				})
+				$("#mask_close").click(function(){
+					$("#order").hide();
+					$("#mask").hide();
+				})*/
+
+			});
+		</script>
+		<div class="ad-pic">
+			<img src="{url:views/nzw/skin/default/image/list/ad-pic.jpg}">
+		</div>
+		<div class="bar_box">
+			<h3 class="bar_box_rank_head">装修公司排行榜</h3>
+			<!-- 最多排10个 -->
+			<ul class="bar_rank">
+				<li>
+					<span class="grade">1</span><a href="{url:/site/products/id/$item[id]}">安居智源建筑装饰</a>
+				</li>
+				<li>
+					<span class="grade">2</span><a href="{url:/site/products/id/$item[id]}">安居智源建筑装饰</a>
+				</li>
+				<li>
+					<span class="grade">3</span><a href="{url:/site/products/id/$item[id]}">安居智源建筑装饰</a>
+				</li>
+				<li>
+					<span class="grade">4</span><a href="{url:/site/products/id/$item[id]}">安居智源建筑装饰</a>
+				</li>
+				<li>
+					<span class="grade">5</span><a href="{url:/site/products/id/$item[id]}">安居智源建筑装饰</a>
+				</li>
+			</ul>
+		</div>
+		<div class="bar_box">
+			<h3 class="bar_box_rank_head">设计师排行榜</h3>
+			<!-- 最多排6个 -->
+			<ul class="bar_rank">
+				<li>
+					<span class="grade">1</span><a href="{url:/site/products/id/$item[id]}">安居智源建筑装饰</a>
+				</li>
+				<li>
+					<span class="grade">2</span><a href="{url:/site/products/id/$item[id]}">安居智源建筑装饰</a>
+				</li>
+				<li>
+					<span class="grade">3</span><a href="{url:/site/products/id/$item[id]}">安居智源建筑装饰</a>
+				</li>
+				<li>
+					<span class="grade">4</span><a href="{url:/site/products/id/$item[id]}">安居智源建筑装饰</a>
+				</li>
+				<li>
+					<span class="grade">5</span><a href="{url:/site/products/id/$item[id]}">安居智源建筑装饰</a>
+				</li>
+			</ul>
+		</div>
+	</aside>
+</section>
+
+
