@@ -136,10 +136,20 @@ textarea.invalid-text, input[type="text"].invalid-text, input[type="password"].i
 .reg_content div input.two{width: 160px;}
 .reg_content div input.three{width: 300px;}
 .reg_content div input.four{width: 300px;}
+.reg_content div input.setpas{margin-top: -3px;}
+.reg_content div input.add{width: 100%;}
 .reg_content div label{color: #848484; font-size: 15px;line-height: 20px; margin-left: 8px;}
 .reg_content .auth_code{width: 240px;float: left; }
 .reg_content .auth_code input{width: 100px;}
 .reg_content div.verfy{border: none;}
+.reg_content div.setAddress .city,.reg_content div.setAddress .county,.reg_content div.setAddress .area{position: relative;width: 120px;height: 36px;float: left;background: #fff;margin-left:7px; display: inline-block;}
+.reg_content div.setAddress .city input,.reg_content div.setAddress .county input,.reg_content div.setAddress .area input{
+	width: 100%;background: #fff;}
+.reg_content div.setAddress .city input.city_select,.reg_content div.setAddress .county input.coun_select,.reg_content div.setAddress .area input.area_select{outline: none;height: 34px;padding: 0 5px 0 0px;border: 0;color: #999;width: 113px;background: url("../../../image/list/up.png") no-repeat 99px center #fff;appearance: none;-moz-appearance: none;-webkit-appearance: none;text-align: left;font-size: 15px;line-height: 34px;}
+.reg_content div.setAddress .city .city_list,.reg_content div.setAddress .county .coun_list,.reg_content div.setAddress .area .area_list{width: 118px;margin: 0 auto;border: 1px solid #ccc;border-top: none;display: none;overflow: auto;height: 160px;position: absolute;left:0;top: 37px;text-align: center;background: #fff;z-index: 2;}
+.reg_content div.setAddress .city .city_list li,.reg_content div.setAddress .county .coun_list li,.reg_content div.setAddress .area .area_list li{padding: 0 0 0 15px;color: #999;background: #FFF;width: 70px;height: 20px;line-height: 20px;clear: both;text-align: left;}
+
+
 .verfy .box_auth{
     float: left;
     width: 130px;
@@ -200,3 +210,4 @@ textarea.invalid-text, input[type="text"].invalid-text, input[type="password"].i
 .indenti_cont .upload_box.no{display: none;}
 .tab_main .button .next_but{display: block;width: 100px;height: 40px;line-height: 40px;text-align: center;background: #6bb945;border: 0;color: #fff;margin-left: 40px;margin-top: 30px;}
 
+.indenti_cont h1{color: #666;line-height: 100px;font-weight: normal;}
