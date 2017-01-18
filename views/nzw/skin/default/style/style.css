@@ -2601,12 +2601,14 @@ section.count_down{margin: 13px 5px;}
 	background: #f8f8f8;
 	border-bottom:1px solid #e4e4e4; 
 }
-.bbs_comment .comment_num b{
+.bbs_comment .comment_num i{
 	font-size: 24px;
 	color: #4d9a28;
 }
 .bbs_comment .comment_textare{
 	margin: 25px;
+	border-bottom:1px solid #e4e4e4;
+	padding-bottom: 5px; 
 }
 .bbs_comment .comment_textare textarea{
 	height: 110px;
@@ -2614,5 +2616,16 @@ section.count_down{margin: 13px 5px;}
 	padding: 10px 2%;
 }
 .bbs_comment .comment_textare .text_ts{
-	padding: 20px 0;
+    height:60px;
+    line-height: 60px;
+}
+.bbs_comment .comment_textare .text_ts .sub_comment{
+	border: 0px;
+	background: #4d9a28;
+	height: 40px;
+	width: 120px;
+	text-align: center;
+	color: #fff;
+	float: right;
+	margin-top: 10px;
 }
