@@ -2614,6 +2614,7 @@ section.count_down{margin: 13px 5px;}
 	height: 110px;
 	width: 96%;
 	padding: 10px 2%;
+	overflow: hidden;
 }
 .bbs_comment .comment_textare .text_ts{
     height:60px;
