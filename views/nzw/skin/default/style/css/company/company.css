@@ -1,0 +1,75 @@
+.company_top{
+	width: 1200px;
+	margin: 25px auto;
+}
+.company_top .company_logo,.company_top .company_infor{
+	float: left;
+} 
+.company_top .company_pj{
+	float: right;
+}
+.company_top .company_logo{
+	border: 1px solid #e4e4e4;
+}
+.company_infor .company_name{
+	font-size: 28px;
+    margin: 20px;
+}
+.company_infor .company_name .glory{
+	padding: 0 10px;
+}
+.company_infor .company_busines,.company_infor .company_addres{
+	margin: 0 20px;
+	line-height: 35px;
+	color: #999999;
+}
+.star_box .items{
+	 display: block;
+    float: left;
+    height: 15px;
+    line-height: 15px;
+    color: #999;
+    font-weight: normal;
+}
+.company_pj .star_box{
+	padding: 8px 35px 8px 0px;
+}
+.company_pj .pj_title{
+    padding: 15px 35px 10px 0px;
+}
+.company_nav{
+	margin: 25px 0px;
+	height: 41px;
+	line-height: 41px;
+	position: relative;
+}
+.company_nav ul{
+	height: 41px;
+	line-height: 41px;
+	border:1px solid #e4e4e4; 
+}
+.company_nav ul li{
+	height: 41px;
+	line-height: 41x;
+	width: 165px;
+	float: left;
+}
+.company_nav ul li a{
+	display: block;
+	text-align: center;
+	text-decoration: none;
+	color: #555;
+}
+.company_nav ul li a.on{
+	background: #4d9a28;
+	color: #fff;
+}
+.company_nav .nav_icon{
+	background: url("../../../image/company/company_icon.png") no-repeat;
+	display: block;
+	height: 50px;
+	width: 187px;
+	position: absolute;
+	right: 30px;
+	bottom:-2px;
+}
