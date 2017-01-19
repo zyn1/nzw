@@ -11,10 +11,32 @@
 
 <section class="web">
 	<section class="shop_main">
-		<!-- 调用筛选 -->
-		{include:_shops_list_filter}
+		<!-- 调用轮播图 -->
+		{include:_bbs_list_filter}
 		<!-- 商品列表 -->
 		<section class="goods_list">
+			<div class="bbs_select">
+				<dl class="bbs_sx">
+					<dt>筛选</li>
+					<dt class="">
+						<input type="button" class="bbs_sx_select" value="时间" id="bbs_screen">
+						<input type="hidden" name="type" value="2">
+						<ul style="display: none;" class="bbs_sort_list" id="bbs_screen_list">
+							<li js_data="1" style="background: rgb(255, 255, 255);">太原市</li>
+							<li js_data="2" style="background: rgb(255, 255, 255);">阳泉市</li>
+						</ul>
+					</dt>
+					<dt>排序</dt>
+					<dt class="">
+						<input type="button" class="bbs_sx_select" value="默认排序" id="bbs_sort">
+						<input type="hidden" name="type" value="2">
+						<ul style="display: none;" class="bbs_sort_list" id="bbs_sort_list">
+							<li js_data="1" style="background: rgb(255, 255, 255);">太原市</li>
+							<li js_data="2" style="background: rgb(255, 255, 255);">阳泉市</li>
+						</ul>
+					</dt>
+				</dl>
+			</div>
 			{if:$resultData}
 			<ul>
 				{foreach:items=$resultData}
@@ -23,22 +45,22 @@
 						<img alt="{$item['name']}" src="{url:/pic/thumb/img/$item[img]/w/205/h/205}">
                         
 					</a>
-					<div class="shop_content">
+					<div class="bbs_content">
 						<h5>{$item['name']}
 		{if:goods_class::getSellerPay($item['seller_id'])}
                         <img src="{url:views/nzw/skin/default/image/sellerVip.png}" class="vip_icon">{/if}</h5>
-                        
-						<em>案例：<span>44</span>套&nbsp;&nbsp;|&nbsp;&nbsp;设计师：<span>22</span>名&nbsp;&nbsp;|&nbsp;&nbsp;签单数：<span>82</span>单&nbsp;&nbsp;|&nbsp;&nbsp;咨询人数：<span>2652</span>条</em>
-						<p>地址：常州市怀德桥南益华景大厦12A楼1308室（兴业银行楼上）</p>
+						<p style="padding-top:0px;">建筑面积140平，以淡淡的天蓝色为墙面主色调，配上白色的线条，仿佛蓝天白云 ▲ 仿古砖加上角花铺地，吊顶采用九宫格造型，门洞做</p>
 						<!-- <del>￥{$item['market_price']}</del> -->
-						<a class="shop_list_btn1">预约装修</a>
-						<a href="" target="_blank" class="shop_list_btn2">免费报价</a>
+						<a class="designer">
+							<div><img class="desig_img" src="{url:views/nzw/skin/default/image/list/ad-pic.jpg}"/></div>
+							<div>江南集水井</div>
+							<div><img class="grade_img" src="{url:views/nzw/skin/default/image/list/desig_grade.png}"/></div>
+						</a>
+						<a class="des_time">2016-12-30</a>
+						<a class="des_browse">2016</a>
+						<a class="des_new">20161</a>
 					</div>
-					<div class="shop_comment">
-						<p class="comments">评价数量</p>
-						<p class="comments_num">999999</p>
-						<p class="comments_per">好评率：98%</p>
-					</div>
+					
 				</li>
 				{/foreach}
 			</ul>
@@ -52,7 +74,7 @@
 		</section>
 	</section>
 			<!-- 预约装修弹窗 -->
-			<div id="mask">&nbsp;</div>
+			<!-- <div id="mask">&nbsp;</div>
 			<div id="order">
 				<div class="order_head">预约装修</div>
 				<div style="padding:0 100px;">
@@ -87,10 +109,15 @@
 					<input type="text" placeholder="房屋面积" class="normal"><span class="area">㎡</span>
 					<a href class="need_publish" id="mask_close">免费发布</a>
 				</div>
-			</div>
+			</div> -->
 
 
 	<aside class="shop_bar">
+		<div class="bbs_right">
+			<a class="bbs_fs_an">我要发帖</a>
+			<div class="bbs_img"><img src="{url:views/nzw/skin/default/image/list/ad-pic.jpg}"></div>
+			<div class="bbs_img"><img src="{url:views/nzw/skin/default/image/list/ad-pic.jpg}"></div>
+		</div>
 		{set:$catSide = goods_class::catTree($this->catId)} {if:$catSide}
 		<nav class="bar_box bar_goods_nav">
 			<h3 class="bar_box_head">预约装修</h3>
@@ -145,6 +172,7 @@
 					},function(){
 						$(this).css('background','#FFF');
 					})
+
 				})
 				$("#city_list1 li").each(function(){
 					var _t = $(this)
@@ -173,6 +201,7 @@
 					},function(){
 						$(this).css('background','#FFF');
 					})
+
 				})
 				$("#area_list1 li").each(function(){
 					var _t = $(this)
@@ -241,16 +270,71 @@
 						$("#area_select2").removeClass('down');
 					})
 				})
+				//筛选时间
+				$("#bbs_screen").click(function(){
+					if($("#bbs_screen_list").is(":hidden")){
+						$("#bbs_screen_list").show()
+						//$("#bbs_screen").addClass('down');
+					}else{
+						$("#bbs_screen_list").hide()
+						//$("#bbs_screen").removeClass('down');
+					}
+				})
+				$("#bbs_screen_list li").each(function(){
+					$(this).hover(function(){
+						$(this).css('background','#f7f7f7');
+					},function(){
+						$(this).css('background','#FFF');
+					})
 
+				})
+				$("#bbs_screen_list li").each(function(){
+					var _t = $(this)
+							,_v = _t.attr('js_data');
+					_t.click(function(){
+						$('#bbs_screen').val(_t.text());
+						$('input[name=type]').val(_v);
+						$('#bbs_screen_list').hide();
+						$("#bbs_screen").removeClass('down');
+					})
+				})
+				//默认排序
+				$("#bbs_sort").click(function(){
+					if($("#bbs_sort_list").is(":hidden")){
+						$("#bbs_sort_list").show()
+						//$("#bbs_screen").addClass('down');
+					}else{
+						$("#bbs_sort_list").hide()
+						//$("#bbs_screen").removeClass('down');
+					}
+				})
+				$("#bbs_sort_list li").each(function(){
+					$(this).hover(function(){
+						$(this).css('background','#f7f7f7');
+					},function(){
+						$(this).css('background','#FFF');
+					})
+
+				})
+				$("#bbs_sort_list li").each(function(){
+					var _t = $(this)
+							,_v = _t.attr('js_data');
+					_t.click(function(){
+						$('#bbs_sort').val(_t.text());
+						$('input[name=type]').val(_v);
+						$('#bbs_sort_list').hide();
+						$("#bbs_sort").removeClass('down');
+					})
+				})
 				// 预约装修点击弹窗
-				$(".shop_list_btn1").click(function(){
+				/*$(".shop_list_btn1").click(function(){
 					$("#order").show();
 					$("#mask").show();
 				})
 				$("#mask_close").click(function(){
 					$("#order").hide();
 					$("#mask").hide();
-				})
+				})*/
 
 			});
 		</script>

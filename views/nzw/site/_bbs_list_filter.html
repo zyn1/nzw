@@ -1,0 +1,163 @@
+﻿<style type="text/css">
+
+#banner { position: relative; width: 100%; height: 395px;  overflow: hidden; top:-12px;}
+
+#banner_list img { border: 0px; width:960px;height: 395px }
+
+#banner_bg {     position: absolute;
+    bottom: 0;
+    background-color: #000;
+    filter: Alpha(Opacity=30);
+    opacity: 0.3;
+    z-index: 1000;
+    cursor: pointer;
+    width: 100%;
+    height: 50px;
+    line-height: 50px; }
+
+#banner_info {    
+ position: absolute;
+    bottom: 0;
+    left: 20px;
+    line-height: 50px;
+    color: #fff;
+    z-index: 1001;
+    cursor: pointer; }
+
+#banner_text { position: absolute; width: 120px; z-index: 1002; right: 3px; bottom: 3px; }
+
+#banner ul {     
+  position: absolute;
+    list-style-type: none;
+    z-index: 1002;
+    margin: 0;
+    padding: 0;
+    bottom: 18px;
+    right: 5px;
+     }
+
+#banner ul li {    
+    float: left;
+    display: block;
+    color: #FFF;
+    background: #fff;
+    cursor: pointer;
+    width: 10px;
+    height: 10px;
+    border-radius: 10px;
+    margin-right: 5px;
+}
+
+#banner ul li.on { width: 30px; }
+
+#banner_list a { position: absolute; }
+
+<!--
+
+让四张图片都可以重叠在一起-->
+
+</style>
+
+<script type="text/javascript">
+
+var t = n =0, count;
+
+$(document).ready(function(){ 
+
+count=$("#banner_list a").length;
+
+$("#banner_list a:not(:first-child)").hide();
+
+$("#banner_info").html($("#banner_list a:first-child").find("img").attr('alt'));
+
+$("#banner_info").click(function(){window.open($("#banner_list a:first-child").attr('href'), "_blank")});
+
+$("#banner li").click(function() {
+
+var i = $(this).index();//获取Li元素内的值，即1，2，3，4
+
+n = i;
+
+if (i >= count) return;
+
+$("#banner_info").html($("#banner_list a").eq(i).find("img").attr('alt'));
+
+$("#banner_info").unbind().click(function(){window.open($("#banner_list a").eq(i).attr('href'), "_blank")})
+
+$("#banner_list a").filter(":visible").fadeOut(500).parent().children().eq(i).fadeIn(1000);
+
+document.getElementById("banner").style.background="";
+
+$(this).toggleClass("on");
+
+$(this).siblings().removeAttr("class");
+
+});
+
+t = setInterval("showAuto()", 4000);
+
+$("#banner").hover(function(){clearInterval(t)}, function(){t = setInterval("showAuto()", 4000);});
+
+})
+
+
+
+function showAuto()
+
+{
+
+n = n >=(count -1) ?0 : ++n;
+
+$("#banner li").eq(n).trigger('click');
+
+}
+
+</script>
+
+</head>
+
+
+
+<body>
+
+<div id="banner">
+
+  <div id="banner_bg"></div>
+
+  <!--标题背景-->
+
+  <div id="banner_info"></div>
+
+  <!--标题-->
+
+  <ul>
+
+    <li class="on"></li>
+
+    <li></li>
+
+    <li></li>
+
+    <li></li>
+
+  </ul>
+
+  <div id="banner_list"> 
+
+  	<a href="#" target="_blank"><img src="{url:views/nzw/skin/default/image/list/ad-pic.jpg}" title="jquery插件库1" alt="jquery插件库1"/></a> 
+
+    <a href="#" target="_blank"><img src="{url:views/nzw/skin/default/image/list/ad-pic.jpg}" title="jquery插件库2" alt="jquery插件库2"/></a> 
+
+    <a href="#" target="_blank"><img src="{url:views/nzw/skin/default/image/list/ad-pic.jpg}" title="jquery插件库3" alt="jquery插件库3"/></a> 
+
+    <a href="#" target="_blank"><img src="{url:views/nzw/skin/default/image/list/ad-pic.jpg}" title="jquery插件库4" alt="jquery插件库4"/></a> 
+
+ </div>
+
+</div>
+
+
+</body>
+
+</html>
+

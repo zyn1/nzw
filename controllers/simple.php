@@ -55,7 +55,7 @@ class Simple extends IController
         }
         
     }
-    
+    // 企业用户认证
     function reg_identify()
     {
         if($this->user)
@@ -68,7 +68,18 @@ class Simple extends IController
         }
         
     }
-
+    function identify_success()
+    {
+        if($this->user)
+        {
+            $this->redirect("/ucenter/index");
+        }
+        else{
+            $this->layout = 'site_log';
+            $this->redirect('identify_success');
+        }
+        
+    }
     //用户注册
     function reg_act()
     {

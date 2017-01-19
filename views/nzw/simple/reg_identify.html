@@ -1,222 +1,153 @@
 <title>注册</title>
-	<main>	
-			<div class="tab_reg">
+	<main style="background:#f9f9f9;">	
+			<div class="tab_main">
 				<div class="reg_top">
 					<div class="tab_btn">
-						<h3 class="reg_person color">个人用户</h3>
-						<h3 class="reg_company">企业用户</h3>
-						<h3 class="reg_designer">设计师</h3>
+						<h3 class="reg_person">完善信息</h3>
+						<h4 class="reg_title">亲，欢迎加入耐装网！请耐心完善相关信息，参与我们吧！</h4>
+						<img src="{skin:/image/register/upload_title_1.png}">
+						<h5 class="reg_note">温馨提示：1、支持的文件格式是jpg/gif/png/jpeg &nbsp;2、文件大小应该小于100KB &nbsp;3、请不要上传裸体/版权/名誉相关的图片</h5>
 					</div>
-					<div class="tab_right"><a href="{url:/simple/login}">请登录</a></div>
 				</div>
 
 
-				<div class="conten">
-			<!--个人用户  -->
-					<div class="reg_content person">
-                        <form action='{url:/simple/reg_act}' method='post'>	
-                            <input type="hidden" name="reg_type" value="3">
-                            <div>
-                                <label for="true_name">联系人：</label>
-                                <input class="input_text text first" type="text" name='true_name' pattern="required" alt="请填写联系人">
-                            </div>
-							<div>
-								<label for="mobile">手机号：</label>
-                                <input class="input_text text first" type="text" name='mobile' pattern="mobi" alt="填写正确的手机格式" other="member" otheralt="该手机号已经注册">
-							</div>
-							<div class="verfy">
-								<div class="auth_code">
-									<label for="captcha">验证码：</label>
-                                    <input class='input_text text two' type='text' name='captcha' pattern='^\w{5,10}$' alt='填写图片所示的字符'>
-								</div>
-								<div class="box_auth">
-									<img src='{url:/simple/getCaptcha}' id='captchaImg' onclick="changeCaptcha();">
-								</div>
-							</div>
-							<div class="verfy">
-								<div class="auth_code">
-									<label for="mobile_code">验证码：</label>
-                                    <input class='input_text text two' type='text' name='mobile_code' alt="" pattern='^\w{4,6}$'>
-								</div>
-								<div class="box_auth">
-                                    <input class="input_button gain" onclick="_sendMobileCode(this);" type="button" value="获取手机验证码">
-								</div>
-							</div>
-                            <div class="user_val">
-                                <label class="user_nm" for="username">用户名：</label>
-                                <input class="input_text text first" name='username' type="text" pattern="^[\w\u0391-\uFFE5]{2,20}$" alt="填写2-20个字符，数字下划线和中文" other="user" otheralt="该用户名已经注册">
-                            </div>
-							<div class="setPass">
-								<label for="password">设置密码：</label>
-                                <input class="input_text setpas text three" type="password" name='password' pattern="^\S{6,32}$" bind='repassword' alt='填写6-32个字符' placeholder="填写6-32个字符">
-							</div>
-							<div class="setPass">
-								<label for="repassword">确认密码：</label>
-                                <input class="input_text text three" type="password" name='repassword' pattern="^\S{6,32}$" bind='password' alt='重复上面所填写的密码' placeholder="重复上面所填写的密码">
-							</div>
-							<span class="agreement"><img src="" class="check_box">点击注册，表示您同意耐装网<a href="{url:/simple/regSevice}" target="_blank"> 《耐装网用户注册协议》</a></span>	
-                            <div class="mob_btn">
-                                <input type="submit" value="注册">
-                            </div>
-                        </form>
-					</div> 
-
-<!-- 企业用户 -->
-					<div class="reg_content company" style="display:none;">
-						<form action='{url:/simple/reg_act}' method='post'>	
-                            <input type="hidden" name="reg_type" value="1">
-                            <div>
-                                <label for="true_name">联系人：</label>
-                                <input class="input_text text first" type="text" name='true_name' pattern="required" alt="请填写联系人">
-                            </div>
-                            <div>
-                                <label for="username">用户名：</label>
-                                <input class="input_text text first" name='username' type="text" pattern="^[\w\u0391-\uFFE5]{2,20}$" alt="填写2-20个字符，数字下划线和中文" other="user" otheralt="该用户名已经注册">
-                            </div>
-							<div>
-								<label for="email">邮箱：</label>
-                                <input class="input_text text four" type="text" name='email' pattern="email" alt="填写正确的邮箱格式" other="member" otheralt="该邮箱已经注册">
-							</div>
-                            <div>
-                                <label for="mobile">手机号：</label>
-                                <input class="input_text text first" type="text" name='mobile' pattern="mobi" alt="填写正确的手机格式" other="member" otheralt="该手机号已经注册">
-                            </div>
-                            <div class="verfy">
-                                <div class="auth_code">
-                                    <label for="captcha">验证码：</label>
-                                    <input class='input_text text two' type='text' name='captcha' pattern='^\w{5,10}$' alt='填写图片所示的字符'>
-                                </div>
-                                <div class="box_auth">
-                                    <img src='{url:/simple/getCaptcha}' id='captchaImgEmail' onclick="changeCaptcha(this);">
-                                </div>
-                            </div>
-                            <div class="verfy">
-                                <div class="auth_code">
-                                    <label for="mobile_code">验证码：</label>
-                                    <input class='input_text text two' type='text' name='mobile_code' alt="" pattern='^\w{4,6}$'>
-                                </div>
-                                <div class="box_auth">
-                                    <input class="input_button gain" onclick="_sendMobileCode(this);" type="button" value="获取验证码">
-                                </div>
-                            </div>
-                            <div class="setPass">
-                                <label for="password">设置密码：</label>
-                                <input class="input_text setpas text three" type="password" name='password' pattern="^\S{6,32}$" bind='repassword' alt='填写6-32个字符' placeholder="填写6-32个字符">
-                            </div>
-                            <div class="setPass">
-                                <label for="repassword">确认密码：</label>
-                                <input class="input_text text three" type="password" name='repassword' pattern="^\S{6,32}$" bind='password' alt='重复上面所填写的密码' placeholder="重复上面所填写的密码">
-                            </div>
-							
-							<span class="agreement" class="check_box">点击注册，表示您同意耐装网<a href="{url:/simple/regSevice}" target="_blank"> 《耐装网用户注册协议》</a></span>	
-							<div class="mob_btn">
-								<input type="submit" value="注册">
-							</div>
-                        </form>
+				<div class="indenti_cont">
+					<div class="upload_method">	
+						是否三证合一					
+						<span class="radio_check checked" id="yes">是</span>
+						<span class="radio_check" id="no">否</span>
 					</div>
 
-					<!-- 设计师 -->
-					<div class="reg_content designer" style="display:none;">
-						<form action='{url:/simple/reg_act}' method='post'>	
-                            <input type="hidden" name="reg_type" value="1">
-                            <div>
-                                <label for="true_name">设计师：</label>
-                                <input class="input_text text first" type="text" name='true_name' pattern="required" alt="请填写联系人">
-                            </div>
-                            <div>
-                                <label for="username">用户名：</label>
-                                <input class="input_text text first" name='username' type="text" pattern="^[\w\u0391-\uFFE5]{2,20}$" alt="填写2-20个字符，数字下划线和中文" other="user" otheralt="该用户名已经注册">
-                            </div>
-							<div>
-								<label for="email">邮箱：</label>
-                                <input class="input_text text four" type="text" name='email' pattern="email" alt="填写正确的邮箱格式" other="member" otheralt="该邮箱已经注册">
-							</div>
-                            <div>
-                                <label for="mobile">手机号：</label>
-                                <input class="input_text text first" type="text" name='mobile' pattern="mobi" alt="填写正确的手机格式" other="member" otheralt="该手机号已经注册">
-                            </div>
-                            <div class="verfy">
-                                <div class="auth_code">
-                                    <label for="captcha">验证码：</label>
-                                    <input class='input_text text two' type='text' name='captcha' pattern='^\w{5,10}$' alt='填写图片所示的字符'>
-                                </div>
-                                <div class="box_auth">
-                                    <img src='{url:/simple/getCaptcha}' id='captchaImgEmail' onclick="changeCaptcha(this);">
-                                </div>
-                            </div>
-                            <div class="verfy">
-                                <div class="auth_code">
-                                    <label for="mobile_code">验证码：</label>
-                                    <input class='input_text text two' type='text' name='mobile_code' alt="" pattern='^\w{4,6}$'>
-                                </div>
-                                <div class="box_auth">
-                                    <input class="input_button gain" onclick="_sendMobileCode(this);" type="button" value="获取验证码">
-                                </div>
-                            </div>
-                            <div class="setPass">
-                                <label for="password">设置密码：</label>
-                                <input class="input_text setpas text three" type="password" name='password' pattern="^\S{6,32}$" bind='repassword' alt='填写6-32个字符' placeholder="填写6-32个字符">
-                            </div>
-                            <div class="setPass">
-                                <label for="repassword">确认密码：</label>
-                                <input class="input_text text three" type="password" name='repassword' pattern="^\S{6,32}$" bind='password' alt='重复上面所填写的密码' placeholder="重复上面所填写的密码">
-                            </div>
-							
-							<span class="agreement">点击注册，表示您同意耐装网<a href="{url:/simple/regSevice}" target="_blank"> 《耐装网用户注册协议》</a></span>	
-							<div class="mob_btn">
-								<input type="submit" value="注册">
-							</div>
-                        </form>
+					<div class="upload_box">
+						<img class="pic_up" src="{skin:/image/register/picup_icon.png}" id="pic_up1">
+						<img src="{skin:/image/register/pic_del.png}" id="pic_del1" class="pic_del">
+						<input id="upload1" name="file" accept="image/*" type="file" style="display: none"/><p>营业执照</p>
 					</div>
-			<script>
-				$(function(){
-					var tabper = $(".tab_btn .reg_person");
-					var tabcom = $(".tab_btn .reg_company");
-					var tabdesi = $(".tab_btn .reg_designer");
-					var per = $(".reg_content.person");
-					var com = $(".reg_content.company");
-					var desi = $(".reg_content.designer");
-					tabcom.click(function(){
-						tabcom.addClass("color");
-						tabper.removeClass("color");
-						tabdesi.removeClass("color");
-						per.show().find('input').removeAttr('disabled');
-                       				per.find('img').trigger('click');
-						com.hide().find('input').attr('disabled', 'disabled');
-						desi.hide().find('input').attr('disabled', 'disabled');
-					});
-					tabper.click(function(){
-						tabcom.removeClass("color");
-						tabdesi.removeClass("color");
-						tabper.addClass("color");
-						per.hide().find('input').attr('disabled', 'disabled');
-						desi.hide().find('input').attr('disabled', 'disabled');
-						com.show().find('input').removeAttr('disabled');
-                        				com.find('img').trigger('click');
-					});
-					tabdesi.click(function(){
-						tabcom.removeClass("color");
-						tabper.removeClass("color");
-						tabdesi.addClass("color");
-						per.hide().find('input').attr('disabled', 'disabled');
-						com.hide().find('input').attr('disabled', 'disabled');
-						desi.show().find('input').removeAttr('disabled');
-                        				desi.find('img').trigger('click');
-					});
-					$(".agreement").click(function(){
-						$(this).toggleClass('checked');
-					});
+					<div class="upload_box no">
+						<img class="pic_up" src="{skin:/image/register/picup_icon.png}" id="pic_up2">
+						<img src="{skin:/image/register/pic_del.png}" id="pic_del2" class="pic_del">
+						<input id="upload2" name="file" accept="image/*" type="file" style="display: none"/><p>税务登记证</p>
+					</div>
+					<div class="upload_box no">
+						<img class="pic_up" src="{skin:/image/register/picup_icon.png}" id="pic_up3">
+						<img src="{skin:/image/register/pic_del.png}" id="pic_del3" class="pic_del">
+						<input id="upload3" name="file" accept="image/*" type="file" style="display: none"/><p>组织机构代码证</p>
+					</div>
+					<div class="upload_box">
+						<img class="pic_up" src="{skin:/image/register/picup_icon.png}" id="pic_up4">
+						<img src="{skin:/image/register/pic_del.png}" id="pic_del4" class="pic_del">
+						<input id="upload4" name="file" accept="image/*" type="file" style="display: none"/><p>法人身份证</p>
+					</div>
+					<div class="clear"></div>
 
-				})
-			</script>
+
+					<script type="text/javascript">
+						$(function() {
+							$("#pic_up1").click(function () {
+							$("#upload1").click(); //隐藏了input:file样式后，点击头像就可以本地上传
+								$("#upload1").on("change",function(){
+								var objUrl = getObjectURL(this.files[0]) ; //获取图片的路径，该路径不是图片在本地的路径
+								if (objUrl) {
+								$("#pic_up1").attr("src", objUrl) ; //将图片路径存入src中，显示出图片
+								$("#pic_del1").show();
+								}
+								});
+							});
+							$("#pic_del1").click(function(){
+								$("#pic_up1").attr("src","{skin:/image/register/picup_icon.png}");
+								$("#pic_del1").hide();
+							});
+						});
+						$(function() {
+							$("#pic_up2").click(function () {
+							$("#upload2").click(); //隐藏了input:file样式后，点击头像就可以本地上传
+								$("#upload2").on("change",function(){
+								var objUrl = getObjectURL(this.files[0]) ; //获取图片的路径，该路径不是图片在本地的路径
+								if (objUrl) {
+								$("#pic_up2").attr("src", objUrl) ; //将图片路径存入src中，显示出图片
+								$("#pic_del2").show();
+								}
+								});
+							});
+							$("#pic_del2").click(function(){
+								$("#pic_up2").attr("src","{skin:/image/register/picup_icon.png}");
+								$("#pic_del2").hide();
+							});
+						});
+						$(function() {
+							$("#pic_up3").click(function () {
+							$("#upload3").click(); //隐藏了input:file样式后，点击头像就可以本地上传
+								$("#upload3").on("change",function(){
+								var objUrl = getObjectURL(this.files[0]) ; //获取图片的路径，该路径不是图片在本地的路径
+								if (objUrl) {
+								$("#pic_up3").attr("src", objUrl) ; //将图片路径存入src中，显示出图片
+								$("#pic_del3").show();
+								}
+								});
+							});
+							$("#pic_del3").click(function(){
+								$("#pic_up3").attr("src","{skin:/image/register/picup_icon.png}");
+								$("#pic_del3").hide();
+							});
+						});
+						$(function() {
+							$("#pic_up4").click(function () {
+							$("#upload4").click(); //隐藏了input:file样式后，点击头像就可以本地上传
+								$("#upload4").on("change",function(){
+								var objUrl = getObjectURL(this.files[0]) ; //获取图片的路径，该路径不是图片在本地的路径
+								if (objUrl) {
+								$("#pic_up4").attr("src", objUrl) ; //将图片路径存入src中，显示出图片
+								$("#pic_del4").show();
+								}
+								});
+							});
+							$("#pic_del4").click(function(){
+								$("#pic_up4").attr("src","{skin:/image/register/picup_icon.png}");
+								$("#pic_del4").hide();
+							});
+						});
+						 
+						//建立一個可存取到該file的url
+						function getObjectURL(file) {
+						var url = null ;
+						if (window.createObjectURL!=undefined) { // basic
+						url = window.createObjectURL(file) ;
+						} else if (window.URL!=undefined) { // mozilla(firefox)
+						url = window.URL.createObjectURL(file) ;
+						} else if (window.webkitURL!=undefined) { // webkit or chrome
+						url = window.webkitURL.createObjectURL(file) ;
+						}
+						return url ;
+						}
+						$(function(){
+							$("#yes").click(function(){
+								$(this).addClass('checked');
+								$("#no").removeClass('checked');
+								$(".upload_box.no").hide();
+							});
+							$("#no").click(function(){
+								$(this).addClass('checked');
+								$("#yes").removeClass('checked');
+								$(".upload_box.no").show();
+							});
+
+						})
+					</script>
+
+
+					<p>
+						公司详细地址<span>北京市大兴区</span>
+					</p>
+					<p>
+						填写公司座机号码<span><input class="input_text text first" type="text" name='mobile'></span>
+					</p>
 				
-					<div class="ad_box">
-						<img src="{skin:/image/index/reg_r.png}" alt="">
-					</div>
+				</div>
+				
+				<div class="button">
+					<a href="{url:/simple/identify_success}" class="next_but">下一步</a>
 				</div>
 
 
-
-			</div>
-		    <div class="containt"></div>		
+			</div>	
 	</main>
