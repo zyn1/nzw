@@ -1838,7 +1838,7 @@ background-image: url("../image/icon_slides.png"); background-repeat: no-repeat;
 .goods_list ul li span { height: 20px; line-height: 20px; text-align: center; display: block; }
 .goods_list ul li em, .goods_list ul li del { position: absolute; bottom: 10px; }
 .goods_list ul li em { left: 10px; font-size: 15px; color: #FF8225; font-weight: bold; }
-.goods_list ul li del { right: 10px; text-decoration: line-through; color: #999; }
+.goods_list ul li del {left: 10px; text-decoration: line-through; color: #999; }
 .goods_list ul li .goods_list_btn { text-align: center; }
 .goods_list ul li .goods_list_btn .add_cart{ float: left; height: 36px; line-height: 36px; color: #6bb945; cursor: pointer; -webkit-transition: all 0.25s ease-in-out; transition: all 0.25s ease-in-out; overflow: hidden; margin-left: 3px;}
 .goods_list ul li .goods_list_btn .del_fav { float: right; height: 36px; line-height: 36px; color: #ccc; cursor: pointer; -webkit-transition: all 0.25s ease-in-out; transition: all 0.25s ease-in-out; overflow: hidden; margin-right: 3px;}
