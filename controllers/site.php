@@ -1071,11 +1071,14 @@ class Site extends IController
         $info = $sellerDB->getObj('id = '.$seller_id);
         echo $info ? JSON::encode($info) : '';
     }
-}
 
 
-    function _dec_commp_top()
+
+    function dec_company_index()
     {
             $this->layout = 'shop_detail';
-            $this->redirect('_dec_commp_top');
+            $this->redirect('dec_company_index');
      }
+
+     
+}

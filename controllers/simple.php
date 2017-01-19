@@ -68,14 +68,18 @@ class Simple extends IController
         }
         
     }
-
-
     function identify_success()
     {
-            $this->layout = 'shop_detail';
+        if($this->user)
+        {
+            $this->redirect("/ucenter/index");
+        }
+        else{
+            $this->layout = 'site_log';
             $this->redirect('identify_success');
-     }
-     
+        }
+        
+    }
     //用户注册
     function reg_act()
     {
