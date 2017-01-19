@@ -1,0 +1,297 @@
+{set:$breadGuide = goods_class::catRecursion($this->catId)}
+{set:$goodsObj = search_goods::find(array('category_extend' => $this->childId),20);$resultData = $goodsObj->find()}
+
+
+<section class="breadcrumb">
+	<span>您当前的位置：</span> <a href="{url:}">首页</a>
+	{foreach:items=$breadGuide} »
+	<a href='{url:/site/pro_list/cat/$item[id]}'>{$item['name']} </a>
+	{/foreach}
+</section>
+
+<section class="web">
+	<section class="shop_main">
+		<!-- bbs详情 -->
+		<section class="bbs_detail">
+			<div class="bbs_title">
+				<h5>欧式装修攻略“传统”还是“简约”</h5>
+				<a class="designer clear">
+					<div><img class="desig_img" src="{url:views/nzw/skin/default/image/list/ad-pic.jpg}"/></div>
+					<div>江南集水井</div>
+					<div><img class="grade_img" src="{url:views/nzw/skin/default/image/list/desig_grade.png}"/></div>
+				</a>
+				<a class="des_time">2016-12-30</a>
+				<a class="des_browse">2016</a>
+				<a class="des_new">20161</a>
+			</div>
+			<div class="bbs_con">
+				<p>欧式风格家装以浪漫、大气、高品质而著称，赢得很多人的青睐，有人喜欢传统欧式的奢华浪漫，有人喜欢简欧式的舒适大方。可是当自己准备</p>
+			</div>
+			<div class="bbs_page">
+				<p><span>上一篇：</span><a>冬季瓷砖铺贴有哪些注意的事项</a></p>
+				<p><span>下一篇：</span><a>冬季瓷砖铺贴有哪些注意的事项</a></p>
+			
+			</div>
+		</section>
+		<section class="bbs_comment">
+			<form>
+			<div class="comment_num"><i>25</i>条评论</div>
+			<div class="comment_textare">
+				<textarea placeholder="我有话说..."></textarea>
+				<p class="text_ts">还可以输入<i class="bg_da">150</i>个字
+					<input class="sub_comment" type="submit" value="提交"/>
+				</p>
+			</div>
+			
+			<div class="user_comment">
+				<div class="user_comm_img"><img src="{url:views/nzw/skin/default/image/list/ad-pic.jpg}"/></div>
+				<div class="user_content">
+					<p class="comm_user_name">我就是wo</p>
+					<p class="comm_user_cont">这些设计让我们的家越来越整洁，舒服。我超级喜欢，真是聪明的脑子有这么多，爱的不要不要了这些设计让我们的家越来越整洁，舒服。我超级喜欢，真是聪明的脑子有这么多，爱的不要不要了</p>
+					<p class="comm_time">2016-12-13 &nbsp;&nbsp; 15:22
+						<a class="comm_reply"><i class="comm_reply_icon"></i>回复</a>
+					</p>
+					<p class="reply_textarea" style="display:none">
+						<textarea class="">
+						</textarea>
+						<i class="reply_textarea_ts">回复</i>
+						<input class="reply_textarea_input" type="submit" value="回复"/>
+					</p>
+				</div>
+			</div>
+			<div class="user_comment">
+				<div class="user_comm_img"><img src="{url:views/nzw/skin/default/image/list/ad-pic.jpg}"/></div>
+				<div class="user_content">
+					<p class="comm_user_name">我就是wo</p>
+					<p class="comm_user_cont">这些设计让我们的家越来越整洁，舒服。我超级喜欢，真是聪明的脑子有这么多，爱的不要不要了这些设计让我们的家越来越整洁，舒服。我超级喜欢，真是聪明的脑子有这么多，爱的不要不要了</p>
+					<p class="comm_time">2016-12-13 &nbsp;&nbsp; 15:22
+						<a class="comm_reply"><i class="comm_reply_icon"></i>回复</a>
+					</p>
+					<p class="reply_textarea" style="display:none">
+						<textarea class="">
+						</textarea>
+						<i class="reply_textarea_ts">回复</i>
+						<input class="reply_textarea_input" type="submit" value="回复"/>
+					</p>
+				</div>
+
+			</div>
+				<div class="comm_more"><a>加载更多</a></div>
+			</form>
+		</section>
+
+	</section>
+
+	<aside class="shop_bar">
+		<div class="bbs_right">
+			<a class="bbs_fs_an">我要发帖</a>
+			<div class="bbs_img"><img src="{url:views/nzw/skin/default/image/list/ad-pic.jpg}"></div>
+			<div class="bbs_img"><img src="{url:views/nzw/skin/default/image/list/ad-pic.jpg}"></div>
+		</div>
+		{set:$catSide = goods_class::catTree($this->catId)} {if:$catSide}
+		<nav class="bar_box bar_goods_nav">
+			<h3 class="bar_box_head">预约装修</h3>
+			<p class="intro">施工报价全免费，轻松获取</p>
+			<input type="text" placeholder="您的姓名" class="normal">
+			<input type="text" placeholder="电话号码" class="normal">
+			<div class="city">
+				<input type="button" class="city_select" value="省/市" id="city_select2">
+				<input type="hidden" name="type">
+				<ul style="display:none;" class="city_list" id="city_list2">
+					<li js_data="1">太原市</li>
+					<li js_data="2">阳泉市</li>
+				</ul>
+			</div>
+			<div class="county">
+				<input type="button" class="area_select" value="省/市" id="area_select2">
+				<input type="hidden" name="type">
+				<ul style="display:none;" class="area_list" id="area_list2">
+					<li js_data="1">太原市</li>
+					<li js_data="2">阳泉市</li>
+					<li js_data="3">大同市</li>
+					<li js_data="4">忻州市</li>
+					<li js_data="5">平遥市</li>
+					<li js_data="6">晋中市</li>
+					<li js_data="7">澳门市</li>
+					<li js_data="8">长治市</li>
+					<li js_data="9">平遥市</li>
+					<li js_data="10">晋中市</li>
+					<li js_data="11">澳门市</li>
+					<li js_data="12">长治市</li>
+				</ul>
+			</div>
+			<input type="text" placeholder="房屋面积" class="normal"><span class="area">㎡</span>
+			<a href class="need_publish">免费发布</a>
+		</nav>
+		{/if}
+		<script>
+			$(function(){
+				// 评论回复的显示和隐藏
+				$(".comm_time .comm_reply").click(function(){
+					$(this).parent().parent(".user_content").find(".reply_textarea").toggle();
+				})
+				// 弹窗
+				$("#city_select1").click(function(){
+					if($("#city_list1").is(":hidden")){
+						$("#city_list1").show()
+						$("#city_select1").addClass('down');
+					}else{
+						$("#city_list1").hide()
+						$("#city_select1").removeClass('down');
+					}
+				})
+				$("#city_list1 li").each(function(){
+					$(this).hover(function(){
+						$(this).css('background','#f7f7f7');
+					},function(){
+						$(this).css('background','#FFF');
+					})
+
+				})
+				$("#city_list1 li").each(function(){
+					var _t = $(this)
+							,_v = _t.attr('js_data');
+					_t.click(function(){
+						$('#city_select1').val(_t.text());
+						$('input[name=type]').val(_v);
+						$('#city_list1').hide();
+						$("#city_select1").removeClass('down');
+					})
+				})
+
+
+				$("#area_select1").click(function(){
+					if($("#area_list1").is(":hidden")){
+						$("#area_list1").show()
+						$("#area_select1").addClass('down');
+					}else{
+						$("#area_list1").hide()
+						$("#area_select1").removeClass('down');
+					}
+				})
+				$("#area_list1 li").each(function(){
+					$(this).hover(function(){
+						$(this).css('background','#f7f7f7');
+					},function(){
+						$(this).css('background','#FFF');
+					})
+
+				})
+				$("#area_list1 li").each(function(){
+					var _t = $(this)
+							,_v = _t.attr('js_data');
+					_t.click(function(){
+						$('#area_select1').val(_t.text());
+						$('input[name=type]').val(_v);
+						$('#area_list1').hide();
+						$("#area_select1").removeClass('down');
+					})
+				})
+				// 右侧
+				$("#city_select2").click(function(){
+					if($("#city_list2").is(":hidden")){
+						$("#city_list2").show()
+						$("#city_select2").addClass('down');
+					}else{
+						$("#city_list2").hide()
+						$("#city_select2").removeClass('down');
+					}
+				})
+				$("#city_list2 li").each(function(){
+					$(this).hover(function(){
+						$(this).css('background','#f7f7f7');
+					},function(){
+						$(this).css('background','#FFF');
+					})
+
+				})
+				$("#city_list2 li").each(function(){
+					var _t = $(this)
+							,_v = _t.attr('js_data');
+					_t.click(function(){
+						$('#city_select2').val(_t.text());
+						$('input[name=type]').val(_v);
+						$('#city_list2').hide();
+						$("#city_select2").removeClass('down');
+					})
+				})
+
+
+				$("#area_select2").click(function(){
+					if($("#area_list2").is(":hidden")){
+						$("#area_list2").show()
+						$("#area_select2").addClass('down');
+					}else{
+						$("#area_list2").hide()
+						$("#area_select2").removeClass('down');
+					}
+				})
+				$("#area_list2 li").each(function(){
+					$(this).hover(function(){
+						$(this).css('background','#f7f7f7');
+					},function(){
+						$(this).css('background','#FFF');
+					})
+
+				})
+				$("#area_list2 li").each(function(){
+					var _t = $(this)
+							,_v = _t.attr('js_data');
+					_t.click(function(){
+						$('#area_select2').val(_t.text());
+						$('input[name=type]').val(_v);
+						$('#area_list2').hide();
+						$("#area_select2").removeClass('down');
+					})
+				})
+			});
+		</script>
+		<div class="ad-pic">
+			<img src="{url:views/nzw/skin/default/image/list/ad-pic.jpg}">
+		</div>
+		<div class="bar_box">
+			<h3 class="bar_box_rank_head">装修公司排行榜</h3>
+			<!-- 最多排10个 -->
+			<ul class="bar_rank">
+				<li>
+					<span class="grade">1</span><a href="#">安居智源建筑装饰</a>
+				</li>
+				<li>
+					<span class="grade">2</span><a href="#">安居智源建筑装饰</a>
+				</li>
+				<li>
+					<span class="grade">3</span><a href="#">安居智源建筑装饰</a>
+				</li>
+				<li>
+					<span class="grade">4</span><a href="#">安居智源建筑装饰</a>
+				</li>
+				<li>
+					<span class="grade">5</span><a href="#">安居智源建筑装饰</a>
+				</li>
+			</ul>
+		</div>
+		<div class="bar_box">
+			<h3 class="bar_box_rank_head">设计师排行榜</h3>
+			<!-- 最多排6个 -->
+			<ul class="bar_rank">
+				<li>
+					<span class="grade">1</span><a href="#">安居智源建筑装饰</a>
+				</li>
+				<li>
+					<span class="grade">2</span><a href="#">安居智源建筑装饰</a>
+				</li>
+				<li>
+					<span class="grade">3</span><a href="#">安居智源建筑装饰</a>
+				</li>
+				<li>
+					<span class="grade">4</span><a href="#">安居智源建筑装饰</a>
+				</li>
+				<li>
+					<span class="grade">5</span><a href="#">安居智源建筑装饰</a>
+				</li>
+			</ul>
+		</div>
+	</aside>
+</section>
+
+<!-- 增加footer -->
