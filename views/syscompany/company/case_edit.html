@@ -1,0 +1,142 @@
+{js:kindeditor}
+{js:my97date}
+{js:areaSelect}
+{set:$user_id = $this->company['user_id'];$styles = $this->caseRow ? explode(',',$this->caseRow['style']) : array();}
+<article class="module width_full">
+	<header>
+		<h3 class="tabs_involved">案例编辑</h3>
+	</header>
+
+	<form action="{url:/company/case_update}" name="caseForm" method="post" enctype="multipart/form-data">
+		<input type="hidden" name="id" />
+
+		<div class="module_content">
+			<fieldset>
+				<label>案例标题</label>
+				<input name="title" type="text" value="" initmsg="案例标题填写正确" pattern="required" alt="案例标题不能为空" />
+			</fieldset>
+
+			<fieldset>
+				<label>风格</label>
+                <div class="box">
+                {query:name=case_style where=user_id eq $user_id sort=sort asc}
+				<input type="checkbox" name="style[]" value="{$item['id']}" {if:in_array($item['id'],$styles)} checked="checked" {/if}>{$item['name']}&nbsp;&nbsp;
+                {/query}
+                </div>
+			</fieldset>
+
+            <fieldset>
+                <label>房屋面积</label>
+                <input name="size" type="text" {if:$this->caseRow} value="{$this->caseRow['house_size']}" {/if} pattern="float" alt="请填写正确的数据类型" empty />
+            </fieldset>
+
+            <fieldset>
+                <label>地区：</label>
+                <div class="box">
+                    <select name="province" child="city,area" class="auto"></select>
+                    <select name="city" child="area" class="auto"></select>
+                    <select name="area" class="auto"></select>
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <label>楼盘：</label>
+                <input name="address" type="text" empty value="" />
+            </fieldset>
+            
+            <fieldset>
+                <label>类型</label>
+                <div class="box">
+                    <select name="type">
+                        <option value="0">整体</option>
+                        <option value="1">客厅</option>
+                        <option value="2">卧室</option>
+                        <option value="3">厨房</option>
+                        <option value="4">卫生间</option>
+                        <option value="5">阳台</option>
+                    </select>
+                </div>
+            </fieldset>
+            
+			<fieldset>
+				<label>户型</label>
+				<div class="box">
+					<select name="house_type">
+                        <option value="1">小户型</option>
+                        <option value="2">二居</option>
+                        <option value="3">三居</option>
+                        <option value="4">四居</option>
+                        <option value="5">复式</option>
+                        <option value="6">别墅</option>
+                        <option value="7">其他</option>
+                    </select>
+				</div>
+			</fieldset>
+
+			<fieldset>
+				<label>价钱</label>
+				<input name="price" type="text" empty value="" />
+			</fieldset>
+
+            <fieldset>
+                <label>主图</label>
+                <div class="box">
+                    <input type="file" name="photo">
+                    {if:$this->caseRow}
+                    <img src="{webroot:$this->caseRow['photo']}" width="200px" alt="">
+                    {/if}
+                    <label class="tip">分辨率3000px以下，大小不得超过{echo:IUpload::getMaxSize()}</label>
+                </div>
+            </fieldset>
+            
+            <fieldset>
+                <label>设计理念</label>
+                <div class="box">
+                    <textarea name="intro" style="height:200px;"></textarea>
+                </div>
+            </fieldset>
+
+			<fieldset>
+				<label>详细介绍</label>
+				<textarea id="content" name="description" style="width:100%;height:400px;"></textarea>
+			</fieldset>
+		</div>
+
+		<footer>
+			<div class="submit_link">
+				<input type="submit" class="alt_btn" value="确 定" onclick="return checkForm()" />
+				<input type="reset" value="重 置" />
+			</div>
+		</footer>
+	</form>
+
+</article>
+
+<script language="javascript">
+//创建表单实例
+var formObj = new Form('caseForm');
+
+$(function()
+{
+	var cases = {echo:JSON::encode($this->caseRow)};
+
+	formObj.init(cases);
+
+	//编辑器载入
+	KindEditorObj = KindEditor.create('#content',{"filterMode":false});
+    var areaInstance = new areaSelect('province');
+    {if:$this->caseRow}
+    {set:$area = explode(',',trim($this->caseRow['area'],','))}
+    areaInstance.init({"province":"{$area[0]}","city":"{$area[1]}","area":"{$area[2]}"});
+    {else:}
+    areaInstance.init();
+    {/if}
+});
+    
+function checkForm(){
+    if ($('input[name=photo]').val() == '') {
+        alert('请上传主图');
+        return false;
+    }
+}
+</script>

@@ -1,0 +1,85 @@
+{js:kindeditor}  
+{set:$user_id = $this->company['user_id'];$styles = $this->caseRow ? explode(',',$this->caseRow['style']) : array();}
+<article class="module width_full">
+	<header>
+		<h3 class="tabs_involved">编辑设计师</h3>
+	</header>
+
+	<form action="{url:/company/designer_update}" name="designerForm" method="post" enctype="multipart/form-data">
+		<input type="hidden" name="id" />
+
+		<div class="module_content">
+			<fieldset>
+				<label>名称</label>
+				<input name="name" type="text" value="" initmsg="名称填写正确" pattern="required" alt="名称不能为空" />
+			</fieldset>
+
+			<fieldset>
+				<label>风格</label>
+                <div class="box">
+                {query:name=case_style where=user_id eq $user_id sort=sort asc}
+				<input type="checkbox" name="style[]" value="{$item['id']}" {if:in_array($item['id'],$styles)} checked="checked" {/if}>{$item['name']}&nbsp;&nbsp;
+                {/query}
+                </div>
+			</fieldset>
+
+            <fieldset>
+                <label>设计数量</label>
+                <input name="num" type="text" pattern="int" alt="请填写正确的数据类型" empty />
+            </fieldset>
+
+            <fieldset>
+                <label>头像</label>
+                <div class="box">
+                    <input type="file" name="photo">
+                    {if:$this->designerRow}
+                    <img class="designerImg" src="{webroot:$this->designerRow['photo']}" width="200px" alt="">
+                    {/if}
+                    <label class="tip">分辨率3000px以下，大小不得超过{echo:IUpload::getMaxSize()}</label>
+                </div>
+            </fieldset>
+            
+            <fieldset>
+                <label>介绍</label>
+                <div class="box">
+                    <textarea name="intro" style="height:200px;"></textarea>
+                </div>
+            </fieldset>
+
+			<fieldset>
+				<label>具体案例</label>
+				<textarea id="content" name="desc" style="width:100%;height:400px;"></textarea>
+			</fieldset>
+		</div>
+
+		<footer>
+			<div class="submit_link">
+				<input type="submit" class="alt_btn" value="确 定" onclick="return checkForm()" />
+				<input type="reset" value="重 置" />
+			</div>
+		</footer>
+	</form>
+
+</article>
+
+<script language="javascript">
+//创建表单实例
+var formObj = new Form('designerForm');
+
+$(function()
+{
+	var designer = {echo:JSON::encode($this->designerRow)};
+
+	formObj.init(designer);
+
+	//编辑器载入
+	KindEditorObj = KindEditor.create('#content',{"filterMode":false});
+});
+    
+function checkForm(){
+    if ($('img.designerImg').length == 0 && $('input[name=photo]').val() == '') {
+        alert('请上传头像');
+        return false;
+    }
+}
+</script>

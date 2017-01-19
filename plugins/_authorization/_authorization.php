@@ -70,7 +70,7 @@ class _authorization extends pluginBase
 	 * 非session会话变量的校验，有些情境下比如flash调用时候，session不起作用，
 	 * 需要通过其他方式校验身份权限
 	 */
-	private static $companyAction = array('company@goods_img_upload' => 'companyImageUpload');
+	private static $companyAction = array('company@img_upload' => 'companyImageUpload');
 
 	//管理员action校验 (同上商家action校验
 	private static $adminAction  = array('goods@goods_img_upload' => 'adminImageUpload');
