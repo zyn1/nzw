@@ -11,27 +11,142 @@
 				</div>
 
 
-				<div class="conten">
-				<!--个人用户  -->
-					<div class="reg_content person">
-                        
-					</div> 
+				<div class="indenti_cont">
+					<div class="upload_method">	
+						是否三证合一					
+						<span class="radio_check checked" id="yes">是</span>
+						<span class="radio_check" id="no">否</span>
+					</div>
+
+					<div class="upload_box">
+						<img class="pic_up" src="{skin:/image/register/picup_icon.png}" id="pic_up1">
+						<img src="{skin:/image/register/pic_del.png}" id="pic_del1" class="pic_del">
+						<input id="upload1" name="file" accept="image/*" type="file" style="display: none"/><p>营业执照</p>
+					</div>
+					<div class="upload_box no">
+						<img class="pic_up" src="{skin:/image/register/picup_icon.png}" id="pic_up2">
+						<img src="{skin:/image/register/pic_del.png}" id="pic_del2" class="pic_del">
+						<input id="upload2" name="file" accept="image/*" type="file" style="display: none"/><p>税务登记证</p>
+					</div>
+					<div class="upload_box no">
+						<img class="pic_up" src="{skin:/image/register/picup_icon.png}" id="pic_up3">
+						<img src="{skin:/image/register/pic_del.png}" id="pic_del3" class="pic_del">
+						<input id="upload3" name="file" accept="image/*" type="file" style="display: none"/><p>组织机构代码证</p>
+					</div>
+					<div class="upload_box">
+						<img class="pic_up" src="{skin:/image/register/picup_icon.png}" id="pic_up4">
+						<img src="{skin:/image/register/pic_del.png}" id="pic_del4" class="pic_del">
+						<input id="upload4" name="file" accept="image/*" type="file" style="display: none"/><p>法人身份证</p>
+					</div>
+					<div class="clear"></div>
 
 
-					<script>
+					<script type="text/javascript">
+						$(function() {
+							$("#pic_up1").click(function () {
+							$("#upload1").click(); //隐藏了input:file样式后，点击头像就可以本地上传
+								$("#upload1").on("change",function(){
+								var objUrl = getObjectURL(this.files[0]) ; //获取图片的路径，该路径不是图片在本地的路径
+								if (objUrl) {
+								$("#pic_up1").attr("src", objUrl) ; //将图片路径存入src中，显示出图片
+								$("#pic_del1").show();
+								}
+								});
+							});
+							$("#pic_del1").click(function(){
+								$("#pic_up1").attr("src","{skin:/image/register/picup_icon.png}");
+								$("#pic_del1").hide();
+							});
+						});
+						$(function() {
+							$("#pic_up2").click(function () {
+							$("#upload2").click(); //隐藏了input:file样式后，点击头像就可以本地上传
+								$("#upload2").on("change",function(){
+								var objUrl = getObjectURL(this.files[0]) ; //获取图片的路径，该路径不是图片在本地的路径
+								if (objUrl) {
+								$("#pic_up2").attr("src", objUrl) ; //将图片路径存入src中，显示出图片
+								$("#pic_del2").show();
+								}
+								});
+							});
+							$("#pic_del2").click(function(){
+								$("#pic_up2").attr("src","{skin:/image/register/picup_icon.png}");
+								$("#pic_del2").hide();
+							});
+						});
+						$(function() {
+							$("#pic_up3").click(function () {
+							$("#upload3").click(); //隐藏了input:file样式后，点击头像就可以本地上传
+								$("#upload3").on("change",function(){
+								var objUrl = getObjectURL(this.files[0]) ; //获取图片的路径，该路径不是图片在本地的路径
+								if (objUrl) {
+								$("#pic_up3").attr("src", objUrl) ; //将图片路径存入src中，显示出图片
+								$("#pic_del3").show();
+								}
+								});
+							});
+							$("#pic_del3").click(function(){
+								$("#pic_up3").attr("src","{skin:/image/register/picup_icon.png}");
+								$("#pic_del3").hide();
+							});
+						});
+						$(function() {
+							$("#pic_up4").click(function () {
+							$("#upload4").click(); //隐藏了input:file样式后，点击头像就可以本地上传
+								$("#upload4").on("change",function(){
+								var objUrl = getObjectURL(this.files[0]) ; //获取图片的路径，该路径不是图片在本地的路径
+								if (objUrl) {
+								$("#pic_up4").attr("src", objUrl) ; //将图片路径存入src中，显示出图片
+								$("#pic_del4").show();
+								}
+								});
+							});
+							$("#pic_del4").click(function(){
+								$("#pic_up4").attr("src","{skin:/image/register/picup_icon.png}");
+								$("#pic_del4").hide();
+							});
+						});
+						 
+						//建立一個可存取到該file的url
+						function getObjectURL(file) {
+						var url = null ;
+						if (window.createObjectURL!=undefined) { // basic
+						url = window.createObjectURL(file) ;
+						} else if (window.URL!=undefined) { // mozilla(firefox)
+						url = window.URL.createObjectURL(file) ;
+						} else if (window.webkitURL!=undefined) { // webkit or chrome
+						url = window.webkitURL.createObjectURL(file) ;
+						}
+						return url ;
+						}
 						$(function(){
-							$(".agreement").click(function(){
-								$(this).toggleClass('checked');
+							$("#yes").click(function(){
+								$(this).addClass('checked');
+								$("#no").removeClass('checked');
+								$(".upload_box.no").hide();
+							});
+							$("#no").click(function(){
+								$(this).addClass('checked');
+								$("#yes").removeClass('checked');
+								$(".upload_box.no").show();
 							});
 
 						})
 					</script>
-				
-					<div class="ad_box">
-						<img src="{skin:/image/index/reg_r.png}" alt="">
-					</div>
-				</div>
 
+
+					<p>
+						公司详细地址<span>北京市大兴区</span>
+					</p>
+					<p>
+						填写公司座机号码<span><input class="input_text text first" type="text" name='mobile'></span>
+					</p>
+				
+				</div>
+				
+				<div class="button">
+					<a href="{url:/simple/identify_success}" class="next_but">下一步</a>
+				</div>
 
 
 			</div>	
