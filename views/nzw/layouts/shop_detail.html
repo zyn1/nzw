@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link type="image/x-icon" href="{webroot:favicon.ico}" rel="icon">
+</head>
+<link rel="stylesheet" href="{skin:style/css/seller/seller.css}">
+{js:jquery}
+{js:dialog}
+{js:form}
+{js:validate}
+{js:artTemplate}
+<body>
+    <header>
+        <div class="header">
+            <div class="head_main">
+                <div class="head_left">
+                    <div class="logo_img" style="border:0;"><a href="{url:/}"><img src="{if:$this->_siteConfig->logo}{webroot:$this->_siteConfig->logo}{else:}{skin:image/logo.png}{/if}" alt=""></a></div>
+                    <ul>
+                        <li><a href="{url:/}">首页</a></li>
+                        <li class=""><a href="{url:/}">装修公司</a></li>
+                        <li><a href="{url:/}">设计师</a></li>
+                        <li><a href="{url:/}">建材商城</a></li>
+                        <li><a href="{url:/site/bbs_list}">家装论坛</a></li>
+                    </ul>
+                </div>
+                <div class="head_right">
+                    <ul>
+                        <li>客服热线：400-659-9591</li>
+                        <li>商家入驻</li>
+                        <li><a href="{url:/simple/reg}">注册</a></li>
+                        <li><a href="{url:/simple/login}">登录</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </header >
+    {viewcontent}
+    <div class="footer_bot">
+    {echo:IFilter::stripSlash($this->_siteConfig->site_footer_code)}
+    </div>
+</body>
+</html>
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1260508109'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s4.cnzz.com/z_stat.php%3Fid%3D1260508109%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));</script>

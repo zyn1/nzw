@@ -1072,3 +1072,10 @@ class Site extends IController
         echo $info ? JSON::encode($info) : '';
     }
 }
+
+
+    function _dec_commp_top()
+    {
+            $this->layout = 'shop_detail';
+            $this->redirect('_dec_commp_top');
+     }
