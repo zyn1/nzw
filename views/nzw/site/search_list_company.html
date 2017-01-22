@@ -1,18 +1,14 @@
-{set:$breadGuide = goods_class::catRecursion($this->catId)}
 {set:$goodsObj = search_goods::find(array('category_extend' => $this->childId),20);$resultData = $goodsObj->find()}
 
-
 <section class="breadcrumb">
-	<span>您当前的位置：</span> <a href="{url:}">首页</a>
-	{foreach:items=$breadGuide} »
-	<a href='{url:/site/pro_list/cat/$item[id]}'>{$item['name']} </a>
+	<span>您当前的位置：</span> <a href="{url:}">首页</a> » 装修公司列表
 	{/foreach}
 </section>
 
 <section class="web">
 	<section class="shop_main">
 		<!-- 调用筛选 -->
-		{include:_shops_list_filter}
+		{include:_company_list_filter}
 		<!-- 商品列表 -->
 		<section class="goods_list">
 			{if:$resultData}
