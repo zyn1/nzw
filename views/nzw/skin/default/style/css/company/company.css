@@ -122,8 +122,8 @@ a, a * { cursor: pointer; }
 .star_box .items{
 	 display: block;
     float: left;
-    height: 15px;
-    line-height: 15px;
+    height: 25px;
+    line-height: 25px;
     color: #999;
     font-weight: normal;
 }
@@ -364,6 +364,9 @@ ul.case_ul3 li .comm_name{
 	border-bottom: 1px solid #e4e4e4;
 	padding-bottom: 20px;
 }
+.case_content .user_comment .user_comm_img{
+	float: left;
+}
 .case_content .user_comment .user_comm_img img{
 	width: 40px;
 	height: 40px;
@@ -372,17 +375,32 @@ ul.case_ul3 li .comm_name{
     -webkit-border-radius: 50%;
 }
 .case_content .user_content{
-	width: 1070px;
+	width: 1070px;float: left;
+	padding-left: 15px;
+}
+.case_content  .comm_user_name{
+	height: 50px;line-height: 40px;
 }
 
 .case_content  .comm_user_name li{
 	float: left;
-	padding-right:20px; 
+	padding-right:20px; color: #666;
 }
+.case_content  .comm_user_name li:nth-child(3){
+	padding-left: 150px;
+} 
 .case_content  .comm_user_name li.star_box{
 	position: relative;
 	top:8px;
-	padding-left: 20px;
+}
+.case_content  .comm_user_name li.star_box .good_star{
+	display: block;height: 25px;background: url("../../../image/company/pj_strat.png") center 0px;position: absolute;z-index: 10;
+}
+.case_content  .comm_user_name li.star_box .bad_star{
+	width: 150px;display: block;height: 25px;background: url("../../../image/company/pj_strat.png") center 26px;position: absolute;z-index: 9;
+}
+.case_content  .comm_user_name li.star_box .good_star.star_3{
+	width: 90px;
 }
 .case_content .user_content .commpany_reply{
 	background: #f8f8f8;
@@ -400,6 +418,12 @@ ul.case_ul3 li .comm_name{
 	width: 189px;
 	height: 120px;
 	padding:20px 25px 0px 0px;
+}
+.case_content .user_content .comm_user_cont{
+	line-height: 25px;color: #333;
+}
+.case_content .user_content .comm_time{
+	line-height: 50px;color: #666;
 }
 .case_content .comm_more{
 	text-align: center;
@@ -434,9 +458,7 @@ ul.case_ul3 li .comm_name{
 	position: relative;
 }
 .company_suser_pj .review_uls{
-	position: absolute;
-	top:0px;
-	left: 70px;
+	float: left;
 }
 .company_suser_pj .review_uls li {
     width: 25px;
