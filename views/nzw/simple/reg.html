@@ -24,7 +24,7 @@
 								<label for="mobile">手机号：</label>
                                 <input class="input_text text first" type="text" name='mobile' pattern="mobi" alt="填写正确的手机格式" other="member" otheralt="该手机号已经注册" placeholder="请输入常用手机号">
 							</div>
-                            <div>
+                            <div class="setAddress" style="border:0;">
                                 <select class="input_select" name="province" child="city,area"></select>
                                 <select class="input_select" name="city" child="area"></select>
                                 <select class="input_select" name="area"></select>
@@ -72,8 +72,8 @@
                                 <input class="input_text text first" type="text" name='true_name' pattern="required" alt="请填写公司名称" placeholder="请输入公司名称">
                             </div>
                             <div>
-                                <label for="true_name">联系人：</label>
-                                <input class="input_text text first" type="text" name='true_name' pattern="required" alt="请填写联系人"placeholder="请输入联系人姓名">
+                                <label for="contacts_name">联系人：</label>
+                                <input class="input_text text first" type="text" name='contacts_name' pattern="required" alt="请填写联系人"placeholder="请输入联系人姓名">
                             </div>
                             <div>
                                 <label for="mobile">手机号：</label>
@@ -106,58 +106,16 @@
                                 <input class="input_text text three" type="password" name='repassword' pattern="^\S{6,32}$" bind='password' alt='重复上面所填写的密码' placeholder="重复上面所填写的密码">
                             </div>
                             <div class="setAddress" style="border:0;">
-
-                            	<div class="city" style="margin:0;">
-				<input type="button" class="city_select" value="省" id="city_select1">
-				<input type="hidden" name="type">
-				<ul style="display:none;" class="city_list" id="city_list1">
-					<li js_data="1">太原市</li>
-					<li js_data="2">阳泉市</li>
-				</ul>
-			</div>
-			<div class="county">
-				<input type="button" class="coun_select" value="市" id="coun_select1">
-				<input type="hidden" name="type">
-				<ul style="display:none;" class="coun_list" id="coun_list1">
-					<li js_data="1">太原市</li>
-					<li js_data="2">阳泉市</li>
-					<li js_data="3">大同市</li>
-					<li js_data="4">忻州市</li>
-					<li js_data="5">平遥市</li>
-					<li js_data="6">晋中市</li>
-					<li js_data="7">澳门市</li>
-					<li js_data="8">长治市</li>
-					<li js_data="9">平遥市</li>
-					<li js_data="10">晋中市</li>
-					<li js_data="11">澳门市</li>
-					<li js_data="12">长治市</li>
-				</ul>
-			</div>
-			<div class="area">
-				<input type="button" class="area_select" value="区" id="area_select1">
-				<input type="hidden" name="type">
-				<ul style="display:none;" class="area_list" id="area_list1">
-					<li js_data="1">太原市</li>
-					<li js_data="2">阳泉市</li>
-					<li js_data="3">大同市</li>
-					<li js_data="4">忻州市</li>
-					<li js_data="5">平遥市</li>
-					<li js_data="6">晋中市</li>
-					<li js_data="7">澳门市</li>
-					<li js_data="8">长治市</li>
-					<li js_data="9">平遥市</li>
-					<li js_data="10">晋中市</li>
-					<li js_data="11">澳门市</li>
-					<li js_data="12">长治市</li>
-				</ul>
-			</div>
+                                <select class="input_select" name="province" child="city,area"></select>
+                                <select class="input_select" name="city" child="area"></select>
+                                <select class="input_select" name="area"></select>
                             </div>
                             <div class="setAddress">              
                                 <label for="true_name"></label>
-                                <input class="input_text text add" type="text" name='true_name' pattern="required" alt="请输入详细地址" placeholder="请输入详细地址">
+                                <input class="input_text text add" type="text" name='address' pattern="required" alt="请输入详细地址" placeholder="请输入详细地址">
                             </div>
 							
-							<span class="agreement">点击注册，表示您同意耐装网<a href="{url:/simple/regSevice}" target="_blank"> 《耐装网用户注册协议》</a></span>	
+							<span class="agreement">点击注册，表示您同意耐装网<a href="{url:/simple/regSevice}" target="_blank"> 《服务协议》</a></span>	
 							<div class="mob_btn">
 								<input type="submit" value="注册">
 							</div>
@@ -187,28 +145,37 @@
 						tabcom.removeClass("color");
 						tabdesi.removeClass("color");
 						tabper.addClass("color");
-						per.show().find('input').removeAttr('disabled');
-                       				per.find('img').trigger('click');
-						com.hide().find('input').attr('disabled', 'disabled');
-						desi.hide().find('input').attr('disabled', 'disabled');
+                        per.show().find('input').removeAttr('disabled');
+						per.show().find('select').removeAttr('disabled');
+                       	per.find('img').trigger('click');
+                        com.hide().find('input').attr('disabled', 'disabled');
+						com.hide().find('select').attr('disabled', 'disabled');
+                        desi.hide().find('input').attr('disabled', 'disabled');
+						desi.hide().find('select').attr('disabled', 'disabled');
 					});
 					tabcom.click(function(){
 						tabcom.addClass("color");
 						tabper.removeClass("color");
 						tabdesi.removeClass("color");
-						per.hide().find('input').attr('disabled', 'disabled');
-						desi.hide().find('input').attr('disabled', 'disabled');
-						com.show().find('input').removeAttr('disabled');
-                        				com.find('img').trigger('click');
+                        per.hide().find('input').attr('disabled', 'disabled');
+						per.hide().find('select').attr('disabled', 'disabled');
+                        desi.hide().find('input').attr('disabled', 'disabled');
+						desi.hide().find('select').attr('disabled', 'disabled');
+                        com.show().find('input').removeAttr('disabled');
+						com.show().find('select').removeAttr('disabled');
+                        com.find('img').trigger('click');
 					});
 					tabdesi.click(function(){
 						tabcom.removeClass("color");
 						tabper.removeClass("color");
 						tabdesi.addClass("color");
-						per.hide().find('input').attr('disabled', 'disabled');
-						com.hide().find('input').attr('disabled', 'disabled');
-						desi.show().find('input').removeAttr('disabled');
-                        				desi.find('img').trigger('click');
+                        per.hide().find('input').attr('disabled', 'disabled');
+						per.hide().find('select').attr('disabled', 'disabled');
+                        com.hide().find('input').attr('disabled', 'disabled');
+						com.hide().find('select').attr('disabled', 'disabled');
+                        desi.show().find('input').removeAttr('disabled');
+						desi.show().find('select').removeAttr('disabled');
+                        desi.find('img').trigger('click');
 					});
 
 				})

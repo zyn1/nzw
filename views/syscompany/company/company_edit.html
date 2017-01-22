@@ -4,8 +4,7 @@
 	<header>
 		<h3>编辑装修公司</h3>
 	</header>
-
-	<form action="{url:/company/company_add}" method="post" name="companyForm">
+	<form action="{url:/company/company_add}" method="post" name="companyForm" enctype='multipart/form-data'>
 		<div class="module_content">
 			<fieldset>
 				<label>登录用户名：</label>
@@ -25,10 +24,9 @@
             <fieldset>
                 <label>商户logo：</label>
                 <div class="box">
+                    <input type="file" name="head_ico">
                     {if:isset($this->userRow['head_ico']) && $this->userRow['head_ico']}
                     <p><a target="_blank" href="{webroot:$this->userRow['head_ico']}"><img src='{webroot:$this->userRow['head_ico']}' style='width:180px;border:1px solid #ccc' /></a></p>
-                    {else:}
-                    暂无商户logo
                     {/if}
                 </div>
             </fieldset>
@@ -36,9 +34,25 @@
                 <label>营业执照：</label>
                 <div class="box">
                     {if:isset($this->companyRow['paper_img']) && $this->companyRow['paper_img']}
-                    <p><a target="_blank" href="{webroot:}{$this->companyRow['paper_img']}"><img src='{webroot:}{$this->companyRow['paper_img']}' style='width:320px;border:1px solid #ccc' /></a></p>
+                    {set:$paper_img_url = JSON::decode($this->companyRow['paper_img'])}
+                    <p>
+                    {foreach:items=$paper_img_url}
+                    <a target="_blank" href="{webroot:$item}"><img src='{webroot:$item}' style='width:320px;border:1px solid #ccc' /></a>
+                    {/foreach}
+                    </p>
                     {else:}
                     暂无营业执照
+                    {/if}
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <label>法人身份证：</label>
+                <div class="box">
+                    {if:isset($this->companyRow['identity_card']) && $this->companyRow['identity_card']}
+                    <p><a target="_blank" href="{webroot:$this->companyRow['identity_card']}"><img src='{webroot:$this->companyRow['identity_card']}' style='width:320px;border:1px solid #ccc' /></a></p>
+                    {else:}
+                    暂无
                     {/if}
                 </div>
             </fieldset>
@@ -55,7 +69,7 @@
 
 			<fieldset>
 				<label>邮箱：</label>
-				<input type="text" name='email' value="{$this->userRow['email']}" pattern="email" alt="请填写正确的邮箱格式"   {if:$this->userRow['mobile']}readonly="readonly" disabled="disabled"{/if}/>
+				<input type="text" name='email' value="{$this->userRow['email']}" pattern="email" alt="请填写正确的邮箱格式"   {if:$this->userRow['email']}readonly="readonly" disabled="disabled"{/if}/>
 			</fieldset>
 
 			<fieldset>

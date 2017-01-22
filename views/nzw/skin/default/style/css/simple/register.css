@@ -171,7 +171,7 @@ textarea.invalid-text, input[type="text"].invalid-text, input[type="password"].i
 }
 .verfy .box_auth img{width: 130px; height: 38px;}
 .box_auth .gain{text-indent: 0; width: 130px;height: 42px; color: #8b8b8b; background: #ebebeb;cursor: pointer;padding: 0; margin: 0;position: absolute;left: 0;}
-.reg_content span.agreement{font-size: 14px; color: #a5a5a5; position: relative; display: block;clear: both;line-height: 16px;background: url("../../../image/register/check.png") no-repeat;padding-left: 20px;cursor: pointer;}
+.reg_content span.agreement{font-size: 14px; color: #a5a5a5; position: relative; display: block;clear: both;line-height: 16px;padding-left: 20px;cursor: pointer;}
 .reg_content span.agreement.checked{background: url("../../../image/register/checked.png") no-repeat;}
 .reg_content .mob_btn {border: none;margin-top: 10px;}
 .reg_content .mob_btn input{display: block; background: #6bb945; height: 42px; cursor: pointer; line-height: 42px;

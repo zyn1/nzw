@@ -941,6 +941,7 @@ class Member extends IController implements adminAuthorization
         $city       = IFilter::act(IReq::get('city'),'int');
         $area       = IFilter::act(IReq::get('area'),'int');
         $is_lock     = IFilter::act(IReq::get('is_lock'),'int');
+        $card_type   = IFilter::act(IReq::get('card_type'),'int');
         /*$is_vip      = IFilter::act(IReq::get('is_vip'),'int');
         $is_recomm   = IFilter::act(IReq::get('is_recomm'),'int');
         $is_invoice   = IFilter::act(IReq::get('is_invoice'),'int');
@@ -1009,21 +1010,50 @@ class Member extends IController implements adminAuthorization
             'province'  => $province,
             'city'      => $city,
             'area'      => $area,
-            'server_num'=> $server_num,
             'sort'      => $sort
         );
         
         //文件上传
-        if((isset($_FILES['paper_img']['name']) && $_FILES['paper_img']['name']) || (isset($_FILES['head_ico']['name']) && $_FILES['head_ico']['name']))
+        if((isset($_FILES['paper_img']['name']) && $_FILES['paper_img']['name']) || (isset($_FILES['head_ico']['name']) && $_FILES['head_ico']['name']) || (isset($_FILES['paper_imgs']['name']) && $_FILES['paper_imgs']['name']) || (isset($_FILES['tax_img']['name']) && $_FILES['tax_img']['name']) || (isset($_FILES['code_img']['name']) && $_FILES['code_img']['name']) || (isset($_FILES['identity_card']['name']) && $_FILES['identity_card']['name']))
         {
             $uploadObj = new PhotoUpload();
             $uploadObj->setIterance(false);
             $photoInfo = $uploadObj->run();
         }
-
-        if(isset($photoInfo['paper_img']['img']) && file_exists($photoInfo['paper_img']['img']))
+        if($card_type == 1)
         {
-            $company['paper_img'] = $photoInfo['paper_img']['img'];
+            if(isset($photoInfo['paper_img']['img']) && file_exists($photoInfo['paper_img']['img']))
+            {
+                $company['paper_img'] = JSON::encode(array('paper_img' => $photoInfo['paper_img']['img']));
+            }
+        }
+        else
+        {
+            $paperData = array();
+            if($id)
+            {
+                $localData = $companyDB->getObj('user_id = '.$id, 'paper_img');
+                $paperData = JSON::decode($localData['paper_img']);
+            }
+            if(isset($photoInfo['paper_imgs']['img']) && file_exists($photoInfo['paper_imgs']['img']))
+            {
+                $paperData['paper_imgs'] = $photoInfo['paper_imgs']['img'];
+            }
+            if(isset($photoInfo['tax_img']['img']) && file_exists($photoInfo['tax_img']['img']))
+            {
+                $paperData['tax_img'] = $photoInfo['tax_img']['img'];
+            }
+            if(isset($photoInfo['code_img']['img']) && file_exists($photoInfo['code_img']['img']))
+            {
+                $paperData['code_img'] = $photoInfo['code_img']['img'];
+            }
+            unset($paperData['paper_img']);
+            $company['paper_img'] = JSON::encode($paperData);
+        }
+
+        if(isset($photoInfo['identity_card']['img']) && file_exists($photoInfo['identity_card']['img']))
+        {
+            $company['identity_card'] = $photoInfo['identity_card']['img'];
         }
         
         $user = array(

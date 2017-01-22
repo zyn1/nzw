@@ -64,21 +64,97 @@ class Simple extends IController
         }
         else{
             $this->layout = 'site_log';
+            $id = IReq::get('_i');
+            $this->code = IReq::get('_c');
+            $db = new IModel('company');
+            $data = $db->getObj('user_id = '.$id, 'address');
+            $this->id = $id ;
+            $this->address = $data['address'];
             $this->redirect('reg_identify');
         }
         
     }
     function identify_success()
     {
-        if($this->user)
+        $code = IFilter::act(IReq::get('code','post'));
+        $id = IFilter::act(IReq::get('id','post')); 
+        $address = IFilter::act(IReq::get('address', 'post'));
+        $_code   = ISafe::get('user_code_'.$id);
+        if($code != $_code)
         {
-            $this->redirect("/ucenter/index");
-        }
-        else{
-            $this->layout = 'site_log';
-            $this->redirect('identify_success');
+            $this->setError('参数错误');
+            $this->redirect('/simple/reg_identify/_i/'.$id.'/_c/'.$_code,false);
+            Util::showMessage('参数错误');
         }
         
+        $card_type   = IFilter::act(IReq::get('card_type'),'int');
+        
+        //文件上传
+        if((isset($_FILES['paper_img']['name']) && $_FILES['paper_img']['name']) || (isset($_FILES['head_ico']['name']) && $_FILES['head_ico']['name']) || (isset($_FILES['paper_imgs']['name']) && $_FILES['paper_imgs']['name']) || (isset($_FILES['tax_img']['name']) && $_FILES['tax_img']['name']) || (isset($_FILES['code_img']['name']) && $_FILES['code_img']['name']) || (isset($_FILES['identity_card']['name']) && $_FILES['identity_card']['name']))
+        {
+            $uploadObj = new PhotoUpload();
+            $uploadObj->setIterance(false);
+            $photoInfo = $uploadObj->run();
+        }
+        if($card_type == 1)
+        {
+            if(isset($photoInfo['paper_img']['img']) && file_exists($photoInfo['paper_img']['img']))
+            {
+                $company['paper_img'] = JSON::encode(array('paper_img' => $photoInfo['paper_img']['img']));
+            }
+            else
+            {
+                $this->setError('请上传营业执照');
+                $this->redirect('/simple/reg_identify/_i/'.$id.'/_c/'.$_code,false);
+                Util::showMessage('请上传营业执照');
+            }
+        }
+        else
+        {
+            $paperData = array();
+            if(isset($photoInfo['paper_imgs']['img']) && file_exists($photoInfo['paper_imgs']['img']))
+            {
+                $paperData['paper_imgs'] = $photoInfo['paper_imgs']['img'];
+            }
+            else
+            {
+                $this->setError('请上传营业执照');
+                $this->redirect('/simple/reg_identify/_i/'.$id.'/_c/'.$_code,false);
+                Util::showMessage('请上传营业执照');
+            }
+            if(isset($photoInfo['tax_img']['img']) && file_exists($photoInfo['tax_img']['img']))
+            {
+                $paperData['tax_img'] = $photoInfo['tax_img']['img'];
+            }
+            else
+            {
+                $this->setError('请上传税务登记证');
+                $this->redirect('/simple/reg_identify/_i/'.$id.'/_c/'.$_code,false);
+                Util::showMessage('请上传税务登记证');
+            }
+            if(isset($photoInfo['code_img']['img']) && file_exists($photoInfo['code_img']['img']))
+            {
+                $paperData['code_img'] = $photoInfo['code_img']['img'];
+            }
+            else
+            {
+                $this->setError('请上传组织机构代码证');
+                $this->redirect('/simple/reg_identify/_i/'.$id.'/_c/'.$_code,false);
+                Util::showMessage('请上传组织机构代码证');
+            }
+            $company['paper_img'] = JSON::encode($paperData);
+        }
+
+        if(isset($photoInfo['identity_card']['img']) && file_exists($photoInfo['identity_card']['img']))
+        {
+            $company['identity_card'] = $photoInfo['identity_card']['img'];
+        }
+        $company['phone'] = IFilter::act(IReq::get('phone','post'));
+        $companyDB = new IModel('company');
+        $companyDB->setData($company);
+        $companyDB->update('user_id = '.$id);
+        $this->layout = 'site_log';
+        $this->redirect('identify_success');        
     }
     //用户注册
     function reg_act()
@@ -88,7 +164,16 @@ class Simple extends IController
     	if(is_array($result))
     	{
 			//自定义跳转页面
-			$this->redirect('/site/success?message='.urlencode("注册成功！"));
+            if($_POST['t'] == 2)
+            {
+                $code = rand(100000,999999);
+                ISafe::set("user_code_".$result['id'],$code);
+                $this->redirect('/simple/reg_identify/_i/'.$result['id'].'/_c/'.$code);
+            }
+            else
+            {
+			    $this->redirect('/site/success?message='.urlencode("注册成功！"));
+            }
     	}
     	else
     	{

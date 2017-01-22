@@ -189,6 +189,19 @@ class Company extends IController implements companyAuthorization
             }
             $data['username'] = $username;
         }
+        
+        //文件上传
+        if(isset($_FILES['head_ico']['name']) && $_FILES['head_ico']['name'])
+        {
+            $uploadObj = new PhotoUpload();
+            $uploadObj->setIterance(false);
+            $photoInfo = $uploadObj->run();
+        }
+        
+        if(isset($photoInfo['head_ico']['img']) && file_exists($photoInfo['head_ico']['img']))
+        {
+            $data['head_ico'] = $photoInfo['head_ico']['img'];
+        }
         if($data)
         {
             $userObj->setData($data);

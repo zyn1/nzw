@@ -1,6 +1,8 @@
 {js:artTemplate}
 {js:areaSelect}
-
+{if:isset($this->companyInfo['paper_img']) && $this->companyInfo['paper_img']}
+{set:$paper_img_url = JSON::decode($this->companyInfo['paper_img']);$count=count($paper_img_url);}
+{/if}
 <div class="headbar">
 	<div class="position"><span>会员</span><span>></span><span>装修公司管理</span><span>></span><span>编辑装修公司</span></div>
 </div>
@@ -47,11 +49,59 @@
                         </td>
                     </tr>
                     <tr>
+                        <th>三证合一</th>
+                        <td>
+                            <input type="radio" name="card_type" value="1" {if:isset($count) && $count ==1} checked="checked" {/if}>是&nbsp;
+                            <input type="radio" name="card_type" value="2" {if:isset($count) && $count > 1} checked="checked" {/if}>否
+                        </td>
+                    </tr>
+                    
+                    <tr class="card_type_1" {if:isset($count) && $count >1} style="display: none;" {/if}>
                         <th>商户营业执照：</th>
                         <td>
                             <input type='file' name='paper_img' />
-                            {if:isset($this->companyInfo['paper_img']) && $this->companyInfo['paper_img']}
-                            <p><a target="_blank" href="{webroot:}{$this->companyInfo['paper_img']}"><img src='{webroot:}{$this->companyInfo['paper_img']}' style='width:320px;border:1px solid #ccc' /></a></p>
+                            {if:isset($paper_img_url['paper_img'])}
+                            <p><a target="_blank" href="{webroot:$paper_img_url['paper_img']}"><img src='{webroot:$paper_img_url['paper_img']}' style='width:320px;border:1px solid #ccc' /></a>
+                            </p>
+                            {/if}
+                        </td>
+                    </tr>
+                    <tr class="card_type_2" {if:isset($count) && $count == 1} style="display: none;" {/if}>
+                        <th>商户营业执照：</th>
+                        <td>
+                            <input type='file' name='paper_imgs' />
+                            {if:isset($paper_img_url['paper_imgs'])}
+                            <p><a target="_blank" href="{webroot:$paper_img_url['paper_imgs']}"><img src='{webroot:$paper_img_url['paper_imgs']}' style='width:320px;border:1px solid #ccc' /></a>
+                            </p>
+                            {/if}
+                        </td>
+                    </tr>
+                    <tr class="card_type_2" {if:isset($count) && $count == 1} style="display: none;" {/if}>
+                        <th>税务登记证：</th>
+                        <td>
+                            <input type='file' name='tax_img' />
+                            {if:isset($paper_img_url['tax_img'])}
+                            <p><a target="_blank" href="{webroot:$paper_img_url['tax_img']}"><img src='{webroot:$paper_img_url['tax_img']}' style='width:320px;border:1px solid #ccc' /></a>
+                            </p>
+                            {/if}
+                        </td>
+                    </tr>
+                    <tr class="card_type_2" {if:isset($count) && $count == 1} style="display: none;" {/if}>
+                        <th>组织机构代码证：</th>
+                        <td>
+                            <input type='file' name='code_img' />
+                            {if:isset($paper_img_url['code_img'])}
+                            <p><a target="_blank" href="{webroot:$paper_img_url['code_img']}"><img src='{webroot:$paper_img_url['code_img']}' style='width:320px;border:1px solid #ccc' /></a>
+                            </p>
+                            {/if}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>法人身份证：</th>
+                        <td>
+                            <input type='file' name='identity_card' />
+                            {if:isset($this->companyInfo['identity_card']) && $this->companyInfo['identity_card']}
+                            <p><a target="_blank" href="{webroot:}{$this->companyInfo['identity_card']}"><img src='{webroot:}{$this->companyInfo['identity_card']}' style='width:320px;border:1px solid #ccc' /></a></p>
                             {/if}
                         </td>
                     </tr>
@@ -170,5 +220,19 @@ if($('[name="id"]').val())
 //地区联动插件
 var areaInstance = new areaSelect('province');
 areaInstance.init({echo:JSON::encode($this->companyInfo)});
+
+$('input[name=card_type]').click(function(){
+    var _v = $(this).val();
+    if(_v == 1)
+    {
+        $('tr.card_type_1').show().find('input').removeAttr('disabled');
+        $('tr.card_type_2').hide().find('input').attr('disabled', 'disabled');
+    }
+    else
+    {
+        $('tr.card_type_2').show().find('input').removeAttr('disabled');
+        $('tr.card_type_1').hide().find('input').attr('disabled', 'disabled');
+    }
+})
 });
 </script>

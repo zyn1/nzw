@@ -84,10 +84,12 @@
         </dl>
         <dl>
             <dt>营业执照：</dt>
-            <dd>{set:$paper_img_url = $this->dataRow['paper_img']}
+            <dd>{set:$paper_img_url = JSON::decode($this->dataRow['paper_img'])}
+                {foreach:items=$paper_img_url}
                 <div class="user_ico">
-                    <img src="{webroot:$paper_img_url}" onerror="this.src='{skin:image/user_ico.gif}'">
+                    <img src="{webroot:$item}" onerror="this.src='{skin:image/user_ico.gif}'">
                 </div>
+                {/foreach}
             </dd>
         </dl>
         <dl>
