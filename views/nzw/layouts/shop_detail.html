@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <link type="image/x-icon" href="{webroot:favicon.ico}" rel="icon">
 </head>
-<link rel="stylesheet" href="{skin:style/css/seller/seller.css}">
 {js:jquery}
 {js:dialog}
 {js:form}
@@ -40,7 +39,16 @@
                             <p><a href="{url:/seller/index}">商家登录</a></p>
         </div>
         <script type="text/javascript">
-
+            $(function(){
+                $(".busiman a,.busioption").hover(function(){
+                    $(".busioption").show();
+                    $(".busiman a i").addClass("checked");
+                });
+                $(".busioption").mouseleave(function(){
+                    $(".busioption").hide();
+                    $(".busiman a i").removeClass("checked");
+                });
+            })
         </script>
     </header >
     {viewcontent}
