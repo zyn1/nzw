@@ -138,8 +138,7 @@ class _userInfo extends pluginBase
 
 	//用户注册
 	public function userRegAct()
-	{
-		$email      = IFilter::act(IReq::get('email','post'));
+	{                                                         
 		$mobile     = IFilter::act(IReq::get('mobile','post'));
 		$mobile_code= IFilter::act(IReq::get('mobile_code','post'));
         $true_name  = IFilter::act(IReq::get('true_name','post'));
@@ -152,7 +151,7 @@ class _userInfo extends pluginBase
     	//获取注册配置参数
 		$siteConfig = new Config('site_config');
 		$reg_option = $siteConfig->reg_option;
-        $reg_type = IReq::get('reg_type') ? IFilter::act(IReq::get('reg_type'), 'int') : 3;
+        $reg_type = IFilter::act(IReq::get('reg_type'), 'int');
 
 		/*注册信息校验*/
 		if($reg_option == 2)
@@ -174,30 +173,7 @@ class _userInfo extends pluginBase
     	{
     		return "图形验证码输入不正确";
     	}
-
-		//邮箱验证
-		if($reg_type == 1)
-		{
-			if(IValidate::email($email) == false)
-			{
-				return "邮箱格式不正确";
-			}
-			$memberObj = new IModel('user as u, member as m');
-			$memberRow = $memberObj->getObj('u.id = m.user_id and u.email = "'.$email.'"', 'm.status');
-			if($memberRow)
-			{
-				//再次发送激活邮件
-				if($memberRow['status'] == 3)
-				{
-					$this->send_check_mail($email);
-					exit;
-				}
-				else
-				{
-					return "邮箱已经被注册";
-				}
-			}
-		}
+        
 		if(IValidate::mobi($mobile) == false)
 		{
 			return "手机号格式不正确";
@@ -235,8 +211,7 @@ class _userInfo extends pluginBase
 		$userArray = array(
 			'username' => $username,
 			'password' => md5($password),
-            'mobile'  => $mobile,
-            'email'   => $email,
+            'mobile'  => $mobile,  
             'type'    => IReq::get('t') ? IFilter::act(IReq::get('t')) : 1
 		);
 		$userObj->setData($userArray);
@@ -250,19 +225,12 @@ class _userInfo extends pluginBase
 		$memberArray = array(
 			'user_id' => $user_id,
 			'time'    => ITime::getDateTime(),
-			'status'  => $reg_type == 1 ? 3 : 1,
+			'status'  => 1,
             'true_name'  => $true_name,
 		);
 		$memberObj = new IModel('member');
 		$memberObj->setData($memberArray);
-		$memberObj->add();
-
-		//邮箱激活帐号
-		if($reg_type == 1)
-		{
-			$this->send_check_mail($email);
-			return;
-		}
+		$memberObj->add();  
 
 		$userArray['id']       = $user_id;
 		$userArray['head_ico'] = "";
