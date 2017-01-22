@@ -16,9 +16,9 @@
             <div class="head_main">
                 <div class="head_left">
                     <div class="logo_img" style="border:0;"><a href="{url:/}"><img src="{if:$this->_siteConfig->logo}{webroot:$this->_siteConfig->logo}{else:}{skin:image/logo.png}{/if}" alt=""></a></div>
-                    <ul>
+                    <ul class="nav">
                         <li><a href="{url:/}">首页</a></li>
-                        <li class=""><a href="{url:/}">装修公司</a></li>
+                        <li class="current"><a href="{url:/}">装修公司</a></li>
                         <li><a href="{url:/}">设计师</a></li>
                         <li><a href="{url:/}">建材商城</a></li>
                         <li><a href="{url:/site/bbs_list}">家装论坛</a></li>
@@ -27,13 +27,21 @@
                 <div class="head_right">
                     <ul>
                         <li>客服热线：400-659-9591</li>
-                        <li>商家入驻</li>
+                        <li class="busiman"><a href="{url:/seller/index}">商家入驻<i></i></a></li>
+                        
                         <li><a href="{url:/simple/reg}">注册</a></li>
                         <li><a href="{url:/simple/login}">登录</a></li>
                     </ul>
                 </div>
             </div>
         </div>
+        <div class="busioption">
+                            <p><a href="{url:/simple/seller}">申请开店</a></p>
+                            <p><a href="{url:/seller/index}">商家登录</a></p>
+        </div>
+        <script type="text/javascript">
+
+        </script>
     </header >
     {viewcontent}
     <div class="footer_bot">

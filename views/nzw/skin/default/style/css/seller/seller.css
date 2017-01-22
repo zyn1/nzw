@@ -92,7 +92,7 @@ a, a * { cursor: pointer; }
     background: #ffffff;
     width: 100%;
     overflow: hidden;
-    border-bottom: 1px #d9d9d9 solid;
+    border-bottom: 1px #d9d9d9 solid;position: relative;
 }
 .header .head_main{width: 1200px; height: 80px; margin:0 auto;}
 .head_main .head_left{
@@ -113,23 +113,31 @@ a, a * { cursor: pointer; }
     width: 142px;
     height: 56px;
 }
-.head_main .head_left .word_img{
-    float: left;
-    margin-left: 20px;
+.head_main .head_left ul.nav{
+    width: 700px;height: 80px;
 }
-.head_main .head_left .word_img{
-    width: 212px; height: 26px;
+.head_main .head_left ul.nav li{
+    display: block;float: left;width: 100px;color: #333;text-align: center;
 }
+.head_main .head_left ul.nav li.current a { color: #6bb945; text-decoration: none; font-weight: normal;  }
 .head_main .head_right{
     text-align: center;
     line-height: 80px;
-    float: right;
+    float: right;font-size: 14px;
+    z-index: 10;
 }
+.busioption{display: block;width: 65px;position: absolute;top: 55px;right: 230px;font-size: 14px;}
+.busioption p a{color: #3c3c3c;display: block;clear: both;text-align: center;width: 80px;height: 26px;line-height: 26px;}
+.busioption p a:hover{color: #fff;background-color: #6bb945;display: block;clear: both;}
 .head_main .head_right ul li{
     float: right;
     margin-left: 30px;
+}
+.head_main .head_right ul li.busiman a i{
+    
 }
 .head_main .head_right ul li a{
     color: #3c3c3c; font-size: 14px;
 }
 .head_main .head_right ul li a:hover{ text-decoration: none;}
+
