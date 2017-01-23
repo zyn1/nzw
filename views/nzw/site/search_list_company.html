@@ -1,8 +1,7 @@
-{set:$goodsObj = search_goods::find(array('category_extend' => $this->childId),20);$resultData = $goodsObj->find()}
+{set:$companyObj = search_company::find(array('search' => $this->word),20);$resultData = $companyObj->find()}
 
 <section class="breadcrumb">
 	<span>您当前的位置：</span> <a href="{url:}">首页</a> » 装修公司列表
-	{/foreach}
 </section>
 
 <section class="web">
@@ -15,34 +14,31 @@
 			<ul>
 				{foreach:items=$resultData}
 				<li>
-					<a target="_blank" href="{url:/site/products/id/$item[id]}" class="img_link">
-						<img alt="{$item['name']}" src="{url:/pic/thumb/img/$item[img]/w/205/h/205}">
-                        
+					<a target="_blank" href="{url:/site/company/id/$item[user_id]}" class="img_link">
+						<img alt="{$item['true_name']}" src="{url:/pic/thumb/img/$item[head_ico]/w/205/h/205}">
 					</a>
 					<div class="shop_content">
-						<h5>{$item['name']}
-		{if:goods_class::getSellerPay($item['seller_id'])}
-                        <img src="{url:views/nzw/skin/default/image/sellerVip.png}" class="vip_icon">{/if}</h5>
+						<h5>{$item['true_name']}</h5>
                         
-						<em>案例：<span>44</span>套&nbsp;&nbsp;|&nbsp;&nbsp;设计师：<span>22</span>名&nbsp;&nbsp;|&nbsp;&nbsp;签单数：<span>82</span>单&nbsp;&nbsp;|&nbsp;&nbsp;咨询人数：<span>2652</span>条</em>
-						<p>地址：常州市怀德桥南益华景大厦12A楼1308室（兴业银行楼上）</p>
+						<em>案例：<span>{echo:statistics::caseCount($item['user_id'])}</span>套&nbsp;&nbsp;|&nbsp;&nbsp;设计师：<span>{echo:statistics::designerCount($item['user_id'])}</span>名&nbsp;&nbsp;|&nbsp;&nbsp;签单数：<span>0</span>单&nbsp;&nbsp;|&nbsp;&nbsp;咨询人数：<span>0</span>条</em>
+						<p>地址：{$item['address']}</p>
 						<!-- <del>￥{$item['market_price']}</del> -->
-						<a class="shop_list_btn1">预约装修</a>
-						<a href="" target="_blank" class="shop_list_btn2">免费报价</a>
+						<a class="shop_list_btn1" href="javascript:;" onclick="alert('模块开发中，敬请期待。。。')">预约装修</a>
+						<!--<a href="" target="_blank" class="shop_list_btn2">免费报价</a>-->
 					</div>
 					<div class="shop_comment">
 						<p class="comments">评价数量</p>
-						<p class="comments_num">999999</p>
-						<p class="comments_per">好评率：98%</p>
+						<p class="comments_num">{echo:rand(100,500)}</p>
+						<p class="comments_per">好评率：{echo:rand(80,98)}%</p>
 					</div>
 				</li>
 				{/foreach}
 			</ul>
-			{$goodsObj->getPageBar()}
+			{$companyObj->getPageBar()}
 
 			{else:}
 			<p class="no_tip">
-				对不起，没有找到符合条件的商家
+				对不起，没有找到符合条件的装修公司
 			</p>
 			{/if}
 		</section>
@@ -87,7 +83,6 @@
 
 
 	<aside class="shop_bar">
-		{set:$catSide = goods_class::catTree($this->catId)} {if:$catSide}
 		<nav class="bar_box bar_goods_nav">
 			<h3 class="bar_box_head">预约装修</h3>
 			<p class="intro">施工报价全免费，轻松获取</p>
@@ -122,8 +117,7 @@
 			<input type="text" placeholder="房屋面积" class="normal"><span class="area">㎡</span>
 			<a href class="need_publish">免费发布</a>
 		</nav>
-		{/if}
-		<script>
+		<!--<script>
 			$(function(){
 				// 弹窗
 				$("#city_select1").click(function(){
@@ -249,34 +243,47 @@
 				})
 
 			});
-		</script>
+		</script>--> 
 		<div class="ad-pic">
 			<img src="{url:views/nzw/skin/default/image/list/ad-pic.jpg}">
 		</div>
-		<div class="bar_box">
+		<!--<div class="bar_box">
 			<h3 class="bar_box_rank_head">装修公司排行榜</h3>
-			<!-- 最多排10个 -->
 			<ul class="bar_rank">
+                <li>
+                    <span class="grade">1</span><a href="{url:/site/products/id/$item[id]}">安居智源建筑装饰</a>
+                </li>
+                <li>
+                    <span class="grade">2</span><a href="{url:/site/products/id/$item[id]}">安居智源建筑装饰</a>
+                </li>
+                <li>
+                    <span class="grade">3</span><a href="{url:/site/products/id/$item[id]}">安居智源建筑装饰</a>
+                </li>
+                <li>
+                    <span class="grade">4</span><a href="{url:/site/products/id/$item[id]}">安居智源建筑装饰</a>
+                </li>
+                <li>
+                    <span class="grade">5</span><a href="{url:/site/products/id/$item[id]}">安居智源建筑装饰</a>
+                </li>
 				<li>
-					<span class="grade">1</span><a href="{url:/site/products/id/$item[id]}">安居智源建筑装饰</a>
+					<span class="grade">6</span><a href="{url:/site/products/id/$item[id]}">安居智源建筑装饰</a>
 				</li>
 				<li>
-					<span class="grade">2</span><a href="{url:/site/products/id/$item[id]}">安居智源建筑装饰</a>
+					<span class="grade">7</span><a href="{url:/site/products/id/$item[id]}">安居智源建筑装饰</a>
 				</li>
 				<li>
-					<span class="grade">3</span><a href="{url:/site/products/id/$item[id]}">安居智源建筑装饰</a>
+					<span class="grade">8</span><a href="{url:/site/products/id/$item[id]}">安居智源建筑装饰</a>
 				</li>
 				<li>
-					<span class="grade">4</span><a href="{url:/site/products/id/$item[id]}">安居智源建筑装饰</a>
+					<span class="grade">9</span><a href="{url:/site/products/id/$item[id]}">安居智源建筑装饰</a>
 				</li>
 				<li>
-					<span class="grade">5</span><a href="{url:/site/products/id/$item[id]}">安居智源建筑装饰</a>
+					<span class="grade">10</span><a href="{url:/site/products/id/$item[id]}">安居智源建筑装饰</a>
 				</li>
 			</ul>
 		</div>
 		<div class="bar_box">
 			<h3 class="bar_box_rank_head">设计师排行榜</h3>
-			<!-- 最多排6个 -->
 			<ul class="bar_rank">
 				<li>
 					<span class="grade">1</span><a href="{url:/site/products/id/$item[id]}">安居智源建筑装饰</a>
@@ -290,11 +297,14 @@
 				<li>
 					<span class="grade">4</span><a href="{url:/site/products/id/$item[id]}">安居智源建筑装饰</a>
 				</li>
+                <li>
+                    <span class="grade">5</span><a href="{url:/site/products/id/$item[id]}">安居智源建筑装饰</a>
+                </li>
 				<li>
-					<span class="grade">5</span><a href="{url:/site/products/id/$item[id]}">安居智源建筑装饰</a>
+					<span class="grade">6</span><a href="{url:/site/products/id/$item[id]}">安居智源建筑装饰</a>
 				</li>
 			</ul>
-		</div>
+		</div>-->
 	</aside>
 </section>
 

@@ -7,15 +7,10 @@
  * @version 1.0
  */
 class company_case
-{   
-    /**
-     * 获取案例类型文字
-     * @param $typeCode int 类型码
-     * @return string 类型说明
-     */
-    public static function typeText($typeCode)
+{
+    public static function typeList()
     {
-        $result = array(
+        return  array(
             0 => '整体',     
             1 => '客厅',     
             2 => '卧室',
@@ -23,6 +18,40 @@ class company_case
             4 => '卫生间',
             5 => '阳台'
         );
+    }
+    public static function houseTypeList()
+    {
+        return  array( 
+            1 => '小户型',
+            2 => '二居',
+            3 => '三居',
+            4 => '四居',
+            5 => '复式',
+            6 => '别墅'
+        );
+    }
+    public static function priceList()
+    {                               
+        return  array( 
+            1 => '3万以下',
+            2 => '3-5万',
+            3 => '5-8万',
+            4 => '8-12万',
+            5 => '12-18万',
+            6 => '18-30万',
+            7 => '30-100万',
+            8 => '100万以上',
+        );
+    }
+   
+    /**
+     * 获取案例类型文字
+     * @param $typeCode int 类型码
+     * @return string 类型说明
+     */
+    public static function typeText($typeCode)
+    {
+        $result =  self::typeList();
         return isset($result[$typeCode]) ? $result[$typeCode] : '';
     }
     
@@ -33,14 +62,7 @@ class company_case
      */
     public static function houseTypeText($typeCode)
     {
-        $result = array( 
-            1 => '小户型',
-            2 => '二居',
-            3 => '三居',
-            4 => '四居',
-            5 => '复式',
-            6 => '别墅'
-        );
+        $result = self::houseTypeList();
         return isset($result[$typeCode]) ? $result[$typeCode] : '';
     }
     

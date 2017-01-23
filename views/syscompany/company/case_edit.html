@@ -48,12 +48,9 @@
                 <label>类型</label>
                 <div class="box">
                     <select name="type">
-                        <option value="0">整体</option>
-                        <option value="1">客厅</option>
-                        <option value="2">卧室</option>
-                        <option value="3">厨房</option>
-                        <option value="4">卫生间</option>
-                        <option value="5">阳台</option>
+                        {foreach:items=company_case::typeList() item=$type}
+                        <option value="{$key}">{$type}</option>
+                        {/foreach} 
                     </select>
                 </div>
             </fieldset>
@@ -62,20 +59,17 @@
 				<label>户型</label>
 				<div class="box">
 					<select name="house_type">
-                        <option value="1">小户型</option>
-                        <option value="2">二居</option>
-                        <option value="3">三居</option>
-                        <option value="4">四居</option>
-                        <option value="5">复式</option>
-                        <option value="6">别墅</option>
-                        <option value="7">其他</option>
+                        {foreach:items=company_case::houseTypeList() item=$type}
+                        <option value="{$key}">{$type}</option>
+                        {/foreach}
                     </select>
 				</div>
 			</fieldset>
 
 			<fieldset>
 				<label>价钱</label>
-				<input name="price" type="text" empty value="" />
+				<input class="small" name="price" type="text" pattern="float" value="" alt="请填写正确的数据" />
+                <span>单位为 万</span>
 			</fieldset>
 
             <fieldset>
