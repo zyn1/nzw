@@ -616,6 +616,14 @@ ul.case_ul3 li .comm_name{
 .company_main .breadcrumb{
 	font-size: 12px;
 }
+.breadcrumb .right_icon:after{
+	content: "";
+	display: block;
+	float: left;
+	width: 12px;
+	height: 16px;
+	background: url("../../../image/company/right_icon.png") no-repeat center;
+}
 .company_main .case_left{
 	float: left;
 	width: 930px;
