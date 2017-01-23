@@ -1,0 +1,289 @@
+  <!-- <div id="header">头部</div> -->
+<div id="main">
+    <div class="louceng">
+        <section class="home_1">
+            <!-- 通栏焦点图 -->
+            <!-- <section id="home_fouse" class="home_fouse" style="background:#ccc;">
+                {if:$this->index_slide}
+                <ul style="width:1200px;margin:0 auto;">
+                    {foreach:items=$this->index_slide}
+                    <li><a href="{url:$item[url]}"><img src="{url:/pic/thumb/img/$item['img']}"></a></li>
+                    {/foreach}
+                </ul>
+                {/if}
+            </section> -->
+<!--bn-->
+<div class="home_fouse" id="home_fouse" style="background:#ccc;height:380px;">
+        <!--轮播开始-->
+            <script type='text/javascript' >
+                var tId;
+                startScroll();
+                $(function(){
+                    $('#ad_index li').each(function(){
+                        $(this).click(function(){
+                            slideHere($(this));
+                        }).mouseover(function(){
+                            stopHere($(this));
+                        }).mouseout(function(){
+                            startScroll();
+                        });
+                    });
+                });
+                function startScroll(){
+                    tId = setInterval(function(){
+                        var nextImg = $('#ad_index .nonce').next('.initial');
+                        if(nextImg.length==0){
+                            nextImg = $($('#ad_index li')[0]);
+                        }
+                        slideHere($(nextImg));
+                    }, 3000);
+                }
+                function stopScroll(){
+                    clearInterval(tId);
+                }
+                function slideHere(imgObj){
+                    $('#ad_index li').removeClass('nonce');
+                    $('#ad_index li').addClass('initial');
+                    imgObj.removeClass('initial');
+                    imgObj.addClass('nonce');
+                    if($('#ad_index img').length)
+                    {
+                        $('#ad_index .pic img')
+                            .attr('src', imgObj.attr('target_src'))
+                            .css('display', 'none')
+                            .fadeIn('normal')
+                            .parent().attr('href', imgObj.attr('target_link'))
+                            .attr('target', '_blank');
+                        $('#scroll').css('background-color',imgObj.attr('target_color'))
+                   }
+                }
+                function stopHere(imgObj){
+                    slideHere(imgObj);
+                    stopScroll();
+                }
+            </script>
+        {if:$this->index_slide}
+        <div id='scroll' style="background-color:{$this->index_slide[0]['bgColor']}" >
+            
+            <div class="ad_cycle ad_index" id='ad_index'>
+                <div class="number" >
+                    <ul style=''>
+                        {foreach:$items=$this->index_slide }
+                            {set:$key=$key+1}
+                            {if:strstr($item['url'], 'http://')}
+                            {set:$linkUrl = $item['url']}
+                            {else:}
+                            {set:unset($linkUrl)}
+                            {/if}
+                            {if:$key==1}
+                            {set:$fUrl=$item['url'];$fImg=$item['img'];}
+                                <li class="nonce" alt="{$key}" target_color="{$item['bgColor']}" {if:isset($linkUrl)} target_link="{$linkUrl}" {else:} target_link="{webroot:$item['url']}" {/if} target_src="{webroot:$item['img']}"></li>
+                            {else:}
+                                <li class="initial" alt="1" target_color="{$item['bgColor']}" {if:isset($linkUrl)} target_link="{$linkUrl}" {else:} target_link="{webroot:$item['url']}" {/if} target_src="{webroot:$item['img']}"></li>
+                            {/if}
+                        {/foreach}
+                    </ul>
+                    
+                </div>
+                
+                <div class='pic'>
+                    <a href="{webroot:$fUrl}" target="_blank">
+                        <img src="{webroot:$fImg}" style="width:100%;height:390px;">
+                    </a>
+                </div>
+                <div style="width: 231px;float:right;height:10px;display:inline-block;"></div>
+            </div>
+            
+        </div>
+        {/if}
+        <!--轮播结束-->
+</div>
+            
+             <section class="promise" id="header">
+             <div id="home_article" class="home_article">
+                <ul class="tab">
+                    <li><a href="{url:/site/notice}">商城公告</a></li>
+                    <li><a href="{url:/site/article}">家装知识</a></li>
+                </ul>
+                <div class="con">
+                    <ul>
+                        {foreach:items=Api::run('getAnnouncementList',6)}
+                        <li><a href="{url:/site/notice_detail/id/$item['id']}">{$item['title']}</a></li>
+                        {/foreach}
+                    </ul>
+                    <ul>
+                        <ul class="news-list">
+                            {foreach:items=Api::run('getArtList',6)}
+                            <li><a href="{url:/site/article_detail/id/$item['id']}">{echo:Article::showTitle($item['title'],$item['color'],$item['style'])}</a></li>
+                            {/foreach}
+                        </ul>
+                    </ul>
+                </div>
+                <div class="show">
+                    {echo:Ad::show("首页商城公告下方广告_240*140")}
+                </div>
+            </div> 
+            </section>
+
+            <section class="home_1_show">
+                <header class="floor_head">
+                <h2>商家推荐</h2>
+                <nav class="floor_nav">
+                    <a href="{url:/site/search_list_seller}">更多</a>
+                </nav>
+              </header>
+                <ul>
+                    {foreach:items=Api::run('getRecommendSeller',6)}
+                    <li>
+                        <a href="{url:/site/home/id/$item['id']}">
+                            <img src="{webroot:}{$item['seller_logo']}">
+                            <!-- 收费商家的图标 -->
+                            {if:$item['is_pay']}
+                            <img src="{url:views/nzw/skin/default/image/sellerVip.png}" class="vip_icon">
+                            {/if}
+                        </a>
+                    </li>
+                    {/foreach}
+                </ul>
+            </section> 
+        </section>
+    </div>
+    <div class="louceng">
+        <section class="home_2">
+        <div id="hot_goods" class="hot_goods">
+            <ul class="special">
+                <li>
+                    <h2>特价商品</h2>
+                    <nav class="floor_more">
+                     <!--<a href="/.php">更多</a>-->
+                    </nav>    
+                </li>
+            </ul>
+            <div class="sale_price">
+                <ul class="hot_goods_list">
+                    {foreach:items=Api::run('getCommendPrice',6)}
+                    <li>
+                        <a href="{url:/site/products/id/$item['id']}">
+                            <img src="{url:/pic/thumb/img/$item['img']/w/170/h/170}">
+                            <h4>{$item['name']}</h4>
+                            <em>￥{$item['sell_price']}</em>
+                            <del>￥{$item['market_price']}</del>
+                            
+                            {if:goods_class::getSellerPay($item['seller_id'])}
+                            <img src="{url:views/nzw/skin/default/image/sellerVip.png}" class="vip_icon">
+                            {/if}
+                        </a>
+
+                    </li>
+                    {/foreach}
+                </ul>
+            </div>
+        </div>
+
+    </section>
+    </div>
+    {foreach:items=Api::run('getCategoryListTop') item=$first }
+    <div class="louceng">
+        <!-- 开始循环楼层 -->
+    <section class="home_floor">
+        <header class="floor_head">
+            <h2>{$first['name']}</h2>
+            <nav class="floor_nav">
+                <ul>
+                    <li><a href="{url:/site/pro_list/cat/$first[id]}">更多</a></li>
+                </ul>
+            </nav>
+        </header>
+        <section class="floor_body">
+            
+            <div class="floor_show">
+                <div class="classify">
+                    <ul>
+                        {foreach:items=Api::run('getCategoryByParentid',array('#parent_id#',$first['id'])) item=$second}
+                        <li><a href="{url:/site/pro_list/cat/$second[id]}">{$second['name']}</a></li>
+                        {/foreach}
+                    </ul>
+                </div>
+                <div class="ad_classify">
+                        {echo:Ad::show("首页分类广告228*300",$first['id'])}
+                </div>
+            </div>
+            <div class="floor_goods">
+                <ul>
+                {set:$cateId=goods_class::catChild($first['id'])}
+                    {foreach:items=Api::run('getCategoryExtendList',array('#categroy_id#',$cateId),10)}
+                    <li>
+                        <a href="{url:/site/products/id/$item['id']}">
+                            <img src="{url:/pic/thumb/img/$item['img']/w/170/h/170}">
+                            {if:goods_class::getSellerPay($item['seller_id'])}
+                            <img src="{url:views/nzw/skin/default/image/sellerVip.png}" class="vip_icon">
+                            {/if}
+                            <h4>{$item['name']}</h4>
+                            <em>￥{$item['sell_price']}</em>
+                            <del>￥{$item['market_price']}</del>
+                        </a>
+                    </li>
+                    {/foreach}
+                </ul>
+            </div>
+        </section>
+    </section>
+    </div>
+    {/foreach}
+    <div class="louceng">
+        <section class="service">
+        <div class="serve_list">
+            <img src="{webroot:}{echo:IFilter::addSlash($this->_siteConfig->site_help_code)}" alt="" style="width: 1200px;">
+        </div>
+        </section>
+    </div>    
+        
+</div>    
+
+
+
+<section class="friend_link">
+    <h2>友情链接</h2>
+    <ul>
+        {foreach:items=Api::run('getLinkList') item=$link}
+            <li>
+            <a href="{$link['link']}" target="_blank" rel="nofollow">{$link['name']}</a>
+            </li>
+        {/foreach}
+    </ul>
+</section>
+
+<script>
+//dom载入完毕执行
+$(function(){
+    // 热门商品等选项卡
+    $("#hot_goods").FengTab();
+    // 通知选项卡
+    $("#home_article").FengTab();
+    //显示抢购倒计时
+    var cd_timer = new countdown();
+    {if:isset($countNumsItem) && $countNumsItem}
+    {foreach:items = $countNumsItem}
+        cd_timer.add({$item});
+    {/foreach}
+    {/if}
+});
+</script>
+
+
+<!-- 楼层滚动开始 -->
+        <ul id="LoutiNav">
+            <li class="active">
+            <img src="{skin:/image/index/slide_sj_h.png}" js_data_src="{skin:/image/index/slide_sj_h.png}" js_data="{skin:/image/index/slide_sj_b.png}" alt=""><p>商家推荐</p></li>            
+            <li><img src="{skin:/image/index/slide_sj_h1.png}" js_data_src="{skin:/image/index/slide_tj_h.png}" js_data="{skin:/image/index/slide_tj_b.png}" alt=""><p>特价商品</p></li>
+            {foreach:items=Api::run('getCategoryListTop')  item=$first}
+            <li><img src="{webroot:}{$first['img']}" js_data_src="{webroot:}{$first['img']}" js_data="{webroot:}{$first['imghover']}" alt="{$first['name']}"><p>{$first['name']}</p></li>
+            {/foreach}
+        </ul>
+
+        <!-- <div id="goTop">
+            <span id="erweima">返回顶部</span>
+            Top
+        </div> -->
+<!-- 楼层滚动结束 -->
+

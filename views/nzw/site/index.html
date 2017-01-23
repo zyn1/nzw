@@ -1,4 +1,9 @@
   <!-- <div id="header">头部</div> -->
+<script type="text/javascript">
+$(function(){
+    $(".header_nav ul li a").eq(0).addClass("on");
+})
+</script>
 <div id="main">
     <div class="louceng">
         <section class="home_1">
@@ -15,115 +20,11 @@
 <!--bn-->
 <div class="home_fouse" id="home_fouse" style="background:#ccc;height:380px;">
         <!--轮播开始-->
-            <script type='text/javascript' >
-                var tId;
-                startScroll();
-                $(function(){
-                    $('#ad_index li').each(function(){
-                        $(this).click(function(){
-                            slideHere($(this));
-                        }).mouseover(function(){
-                            stopHere($(this));
-                        }).mouseout(function(){
-                            startScroll();
-                        });
-                    });
-                });
-                function startScroll(){
-                    tId = setInterval(function(){
-                        var nextImg = $('#ad_index .nonce').next('.initial');
-                        if(nextImg.length==0){
-                            nextImg = $($('#ad_index li')[0]);
-                        }
-                        slideHere($(nextImg));
-                    }, 3000);
-                }
-                function stopScroll(){
-                    clearInterval(tId);
-                }
-                function slideHere(imgObj){
-                    $('#ad_index li').removeClass('nonce');
-                    $('#ad_index li').addClass('initial');
-                    imgObj.removeClass('initial');
-                    imgObj.addClass('nonce');
-                    if($('#ad_index img').length)
-                    {
-                        $('#ad_index .pic img')
-                            .attr('src', imgObj.attr('target_src'))
-                            .css('display', 'none')
-                            .fadeIn('normal')
-                            .parent().attr('href', imgObj.attr('target_link'))
-                            .attr('target', '_blank');
-                        $('#scroll').css('background-color',imgObj.attr('target_color'))
-                   }
-                }
-                function stopHere(imgObj){
-                    slideHere(imgObj);
-                    stopScroll();
-                }
-            </script>
-        {if:$this->index_slide}
-        <div id='scroll' style="background-color:{$this->index_slide[0]['bgColor']}" >
             
-            <div class="ad_cycle ad_index" id='ad_index'>
-                <div class="number" >
-                    <ul style=''>
-                        {foreach:$items=$this->index_slide }
-                            {set:$key=$key+1}
-                            {if:strstr($item['url'], 'http://')}
-                            {set:$linkUrl = $item['url']}
-                            {else:}
-                            {set:unset($linkUrl)}
-                            {/if}
-                            {if:$key==1}
-                            {set:$fUrl=$item['url'];$fImg=$item['img'];}
-                                <li class="nonce" alt="{$key}" target_color="{$item['bgColor']}" {if:isset($linkUrl)} target_link="{$linkUrl}" {else:} target_link="{webroot:$item['url']}" {/if} target_src="{webroot:$item['img']}"></li>
-                            {else:}
-                                <li class="initial" alt="1" target_color="{$item['bgColor']}" {if:isset($linkUrl)} target_link="{$linkUrl}" {else:} target_link="{webroot:$item['url']}" {/if} target_src="{webroot:$item['img']}"></li>
-                            {/if}
-                        {/foreach}
-                    </ul>
-                    
-                </div>
-                
-                <div class='pic'>
-                    <a href="{webroot:$fUrl}" target="_blank">
-                        <img src="{webroot:$fImg}" style="width:100%;height:390px;">
-                    </a>
-                </div>
-                <div style="width: 231px;float:right;height:10px;display:inline-block;"></div>
-            </div>
-            
-        </div>
-        {/if}
         <!--轮播结束-->
 </div>
             
-             <section class="promise" id="header">
-             <div id="home_article" class="home_article">
-                <ul class="tab">
-                    <li><a href="{url:/site/notice}">商城公告</a></li>
-                    <li><a href="{url:/site/article}">家装知识</a></li>
-                </ul>
-                <div class="con">
-                    <ul>
-                        {foreach:items=Api::run('getAnnouncementList',6)}
-                        <li><a href="{url:/site/notice_detail/id/$item['id']}">{$item['title']}</a></li>
-                        {/foreach}
-                    </ul>
-                    <ul>
-                        <ul class="news-list">
-                            {foreach:items=Api::run('getArtList',6)}
-                            <li><a href="{url:/site/article_detail/id/$item['id']}">{echo:Article::showTitle($item['title'],$item['color'],$item['style'])}</a></li>
-                            {/foreach}
-                        </ul>
-                    </ul>
-                </div>
-                <div class="show">
-                    {echo:Ad::show("首页商城公告下方广告_240*140")}
-                </div>
-            </div> 
-            </section>
+             
 
             <section class="home_1_show">
                 <header class="floor_head">
@@ -253,37 +154,5 @@
     </ul>
 </section>
 
-<script>
-//dom载入完毕执行
-$(function(){
-    // 热门商品等选项卡
-    $("#hot_goods").FengTab();
-    // 通知选项卡
-    $("#home_article").FengTab();
-    //显示抢购倒计时
-    var cd_timer = new countdown();
-    {if:isset($countNumsItem) && $countNumsItem}
-    {foreach:items = $countNumsItem}
-        cd_timer.add({$item});
-    {/foreach}
-    {/if}
-});
-</script>
 
-
-<!-- 楼层滚动开始 -->
-        <ul id="LoutiNav">
-            <li class="active">
-            <img src="{skin:/image/index/slide_sj_h.png}" js_data_src="{skin:/image/index/slide_sj_h.png}" js_data="{skin:/image/index/slide_sj_b.png}" alt=""><p>商家推荐</p></li>            
-            <li><img src="{skin:/image/index/slide_sj_h1.png}" js_data_src="{skin:/image/index/slide_tj_h.png}" js_data="{skin:/image/index/slide_tj_b.png}" alt=""><p>特价商品</p></li>
-            {foreach:items=Api::run('getCategoryListTop')  item=$first}
-            <li><img src="{webroot:}{$first['img']}" js_data_src="{webroot:}{$first['img']}" js_data="{webroot:}{$first['imghover']}" alt="{$first['name']}"><p>{$first['name']}</p></li>
-            {/foreach}
-        </ul>
-
-        <!-- <div id="goTop">
-            <span id="erweima">返回顶部</span>
-            Top
-        </div> -->
-<!-- 楼层滚动结束 -->
 

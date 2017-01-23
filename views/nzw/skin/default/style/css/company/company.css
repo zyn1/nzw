@@ -315,15 +315,15 @@ body{
 .project_content .project_content_right{width: 150px;height: 200px;float: right;}
 .project_content .project_content_right a{display: block;width: 130px;height: 40px;font-size: 16px;color: #fff;background: #e75d19;margin: 80px auto;text-align: center;line-height: 40px;}
 
-.project_plan{width:1200px;height:500px;margin:10px auto;background:#fff;}
+.project_plan{width:1200px;margin:10px auto;background:#fff;}
 .project_plan .tab{overflow:hidden;background:#fafafa;}
 .project_plan .tab a{display:block;width:100px;height:60px;line-height: 60px;text-align: center; float:left;text-decoration:none;color:#333;background: #fafafa;border: 1px solid #e8e8e8;}
 .project_plan .tab a:hover{background:#fff;color:#333;text-decoration:none;}
 .project_plan .tab a.on{background:#fff;color:#6bb945;text-decoration:none;border-top: 2px solid #6bb945;border-bottom: 0;}
 .project_plan .tab .space{width: 893px;height: 60px;float: left;border-bottom: 1px solid #e8e8e8;border-right: 1px solid #e8e8e8;border-top: 1px solid #e8e8e8;}
-.project_plan .content{overflow:hidden;width:500px;height:100px;position:relative;}
-.project_plan .content ul{position:absolute;left:0;top:0;height:100px;}
-.project_plan .content li{width:500px;height:100px;float:left;}
+.project_plan .content{overflow:hidden;width:1200px;position:relative;}
+.project_plan .content ul{position:relative;left:0;top:0;}
+.project_plan .content li{width:1200px;float:left;}
 .project_plan .content li p{padding:10px;}
 /*翻页*/
 .pages_bar { margin: 20px; text-align: center; color: #555; }

@@ -166,13 +166,44 @@
 		</script>
 	</div>
 	<nav class="header_nav">
+		<div class="goods_nav">
+			<h2>全部商品分类</h2>
+			<ul class="cat_list none">
+				{foreach:items=Api::run('getCategoryListTop')  item=$first}
+				<li id="icon_list">
+					<!--
+						这里使用了CSS雪碧图的设计来制作导航的小图标.因为每个商城的图标是不一样的,因此这些小图标需要自己制作.
+						我提供了小图标的 PSD文件 位于 skin/default/image/ico_cat.psd 文件
+						请仿照 PSD源文件制作属于你的小图标 图标尺寸为 18*18 以20px为区间 靠左上角作图
+					 -->
+					<h3 class="cat_type_{echo:$key+1}">
+						<img class="pc_show_red" src="{webroot:}{$first['img']}" alt="">
+						<img class="pc_hide_white" style="display:none;" src="{webroot:}{$first['imghover']}" alt="">
+						<a href="{url:/site/pro_list/cat/$first[id]}">{$first['name']}</a>
+					</h3>
+					<div class="cat_second">
+						{foreach:items=Api::run('getCategoryByParentid',array('#parent_id#',$first['id']))  item=$second}
+						<a href="{url:/site/pro_list/cat/$second[id]}">{$second['name']}</a>
+						{/foreach}
+					</div>
+					<div class="cat_more">
+						{foreach:items=Api::run('getCategoryByParentid',array('#parent_id#',$first['id']))  item=$second}
+						<dl>
+							<dt><a href="{url:/site/pro_list/cat/$second[id]}">{$second['name']}</a></dt>
+							<dd>
+								{foreach:items=Api::run('getCategoryByParentid',array('#parent_id#',$second['id']))  item=$third}
+								<a href="{url:/site/pro_list/cat/$third[id]}">{$third['name']}</a>
+								{/foreach}
+							</dd>
+						</dl>
+						{/foreach}
+					</div>
+				</li>
+				{/foreach}
+			</ul>
+		</div>
 		<ul class="site_nav">
 			<li><a href="{url:/site/index}">首页</a></li>
-			<li><a href="{url:/site/index}">装修公司</a></li>
-			<li><a href="{url:/site/index}">设计师</a></li>
-			<li><a href="{url:/site/index}">建材商城</a></li>
-			<li><a href="{url:/site/index}">装修论坛</a></li>
-
 			{foreach:items=Api::run('getGuideList')}
 			<li><a href="{url:$item[link]}">{$item['name']}</a></li>
 			{/foreach}
@@ -263,4 +294,20 @@
 
 </body>
 </html>
+<script>
+//当首页时隐藏分类
+{if:IWeb::$app->getController()->getId() == 'site' && IWeb::$app->getController()->getAction()->getId() == 'product_index'}
+$('.cat_list').removeClass('none');
+{/if}
+
+$(function(){
+	$('input:text[name="word"]').val("{$this->word}");
+    var _type = '{$this->type}';
+    if(_type == 2)
+    {
+        $('.search_select').val('商家');
+        $('input[name=type]').val(_type);
+    }
+});
+</script>
 <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1260508109'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s4.cnzz.com/z_stat.php%3Fid%3D1260508109%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));</script>
