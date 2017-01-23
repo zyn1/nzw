@@ -273,16 +273,31 @@ a, a * { cursor: pointer; }
 	float: left;color: #666;display: inline-block;width: 70px;height: 25px;line-height:25px;text-align: center;margin: 0 15px;
 }
 .case_list .project_list{
-	width: 1160px;height: 300px;border-bottom: 1px solid #666;padding: 20px 0;
+	width: 1160px;padding-bottom: 20px;
 }
+.case_list .project_list ul li.project_content{border-bottom: 1px solid #ccc;height: 200px;padding: 20px 0;}
 .case_list .project_list .img_link{width: 280px;height: 200px;display: inline-block;float: left;margin-right: 10px;}
 .case_list .project_list .img_link img{width: 280px;height: 200px;}
 .case_list .project_list .project_content_left{width: 700px;height: 200px;padding-left: 10px;float: left;}
 .case_list .project_list .project_content_left h2{font-size: 20px;font-weight: normal;}
-.case_list .project_list .project_content_left 
+.case_list .project_list .project_content_left p{color: #999;margin: 10px 0;}
+.case_list .project_list .project_content_left ul{margin: 30px 0;}
+.case_list .project_list .project_content_left ul li {display: inline-block;float: left;width: 120px;height: 50px;text-align: center;line-height: 25px;}
+.case_list .project_list .project_content_left p span{display: inline-block;width: 100px;text-align: center;height: 30px;line-height: 30px;}
+.case_list .project_list .project_content_left p span i{display: block;line-height: 20px;height: 20px;color: #333;}
+.case_list .project_list .project_content_left p.small{font-size: 12px;}
+.case_list .project_list .project_content_left p .line{width: 1px;height: 40px;background: #ccc;display: inline-block;}
+.case_list .project_list .project_content_left ul li i{display: block;width: 120px;height: 16px;background: url("../../../image/company/project_step.png") no-repeat;}
+.case_list .project_list .project_content_left ul li.on p{color: #6bb945;}
+.case_list .project_list .project_content_left ul li.on i{background: url("../../../image/company/project_step1.png") no-repeat;}
 
 .case_list .project_list .project_content_right{width: 150px;height: 200px;float: right;}
 .case_list .project_list .project_content_right a{display: block;width: 130px;height: 40px;font-size: 16px;color: #fff;background: #e75d19;margin: 80px auto;text-align: center;line-height: 40px;}
+/*翻页*/
+.pages_bar { margin: 20px; text-align: center; color: #555; }
+.pages_bar a, .pages_bar span {color: #8c8a8b; background: #f5f5f5; display: inline-block; border: 1px #e5e5e5 solid; margin: 0 3px; padding: 5px 8px; text-align: center;}
+.pages_bar a.current_page { border: 1px solid #6bb945; background: #6bb945; color: #fff; }
+.pages_bar span { color: #999; }
 
 /*设计师*/
 .case_content .case_ul2 li{
