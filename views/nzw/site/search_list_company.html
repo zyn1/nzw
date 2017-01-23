@@ -28,8 +28,8 @@
 					</div>
 					<div class="shop_comment">
 						<p class="comments">评价数量</p>
-						<p class="comments_num">{echo:rand(100,500)}</p>
-						<p class="comments_per">好评率：{echo:rand(80,98)}%</p>
+						<p class="comments_num">{echo:(ITime::getNow("H")+$key)*10-$key}</p>
+						<p class="comments_per">好评率：{echo:100-($key+ITime::getNow("H"))}%</p>
 					</div>
 				</li>
 				{/foreach}
@@ -83,7 +83,7 @@
 
 
 	<aside class="shop_bar">
-		<nav class="bar_box bar_goods_nav">
+		<!--<nav class="bar_box bar_goods_nav">
 			<h3 class="bar_box_head">预约装修</h3>
 			<p class="intro">施工报价全免费，轻松获取</p>
 			<input type="text" placeholder="您的姓名" class="normal">
@@ -117,7 +117,7 @@
 			<input type="text" placeholder="房屋面积" class="normal"><span class="area">㎡</span>
 			<a href class="need_publish">免费发布</a>
 		</nav>
-		<!--<script>
+		<script>
 			$(function(){
 				// 弹窗
 				$("#city_select1").click(function(){
@@ -244,9 +244,15 @@
 
 			});
 		</script>--> 
-		<div class="ad-pic">
-			<img src="{url:views/nzw/skin/default/image/list/ad-pic.jpg}">
-		</div>
+        <div class="ad-pic">
+            <img src="{url:views/nzw/skin/default/image/list/guanggao1.jpg}">
+        </div>
+        <div class="ad-pic">
+            <img src="{url:views/nzw/skin/default/image/list/guanggao2.jpg}">
+        </div>
+        <div class="ad-pic">
+            <img src="{url:views/nzw/skin/default/image/list/ad-pic.jpg}">
+        </div>
 		<!--<div class="bar_box">
 			<h3 class="bar_box_rank_head">装修公司排行榜</h3>
 			<ul class="bar_rank">

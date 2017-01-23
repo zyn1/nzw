@@ -1074,11 +1074,37 @@ class Site extends IController
 
 
 
-    function dec_company_index()
+    function company()
     {
-            $this->layout = 'shop_detail';
-            $this->redirect('dec_company_index');
-     }
+        $this->layout = 'shop_detail';
+        
+        $id = IReq::get('id');
+        if(!$id)
+        {
+            IError::show('参数错误','403');
+            return;
+        }
+        $db = new IModel('user as u,company as c');
+        $dataRow = $db->getObj('u.id = c.user_id and c.is_del = 0 and c.is_lock = 0 and u.id = '.$id, 'u.head_ico,c.user_id,c.true_name,c.desc,c.address,c.paper_img');
+        if(!$dataRow)
+        {
+             IError::show('参数错误','403');
+             return;
+        }
+        preg_match ("<img.*src=[\"](.*?)[\"].*?>",$dataRow['desc'],$match);
+        if(!empty($match))
+        {
+            $dataRow['img'] = $match[1];
+            $dataRow['desc'] = preg_replace("/<img.*src=[\"](.*?)[\"].*?>/",'',$dataRow['desc']);
+        }
+        else
+        {
+            $temp = JSON::decode($dataRow['paper_img']);
+            $dataRow['img'] = isset($temp['paper_img']) ? $temp['paper_img'] : $temp['paper_imgs'];
+        }
+        $this->setRenderData($dataRow);
+        $this->redirect('company');
+    }
     function dec_company_pj()
     {
             $this->layout = 'shop_detail';

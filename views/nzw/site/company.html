@@ -3,17 +3,17 @@
 		$(".company_nav ul li a").eq(0).addClass("on");
 	})
 </script>
+{include:_dec_commp_top}
 <div class="company_backg">
 	<div class="company_main">
 		<div class="company_profile">
 			<div class="profile_left">
 				<p><b>公司简介</b></p>
-				<p class="profile_content">北京柏雅装饰有限公司是一家集装饰设计、工程施工、材料配送、木门、地板、家具、装饰品开发为一体的装饰企业。主要从事住宅、公寓、办公、商业、酒店、学校、医院等场所的装修设计和施工。公司经北京市工商管理局正式批准注册、北京市建委审核认定，已取得国家正规资质，为中国建筑装饰协会、北京市装饰协会、中国室内装饰协会的会员单位。</br> 
-				多年来公司持续稳步发展，下设市场部、设计部、工程部、企划部、财务部、客户服务部、人力资源部和材料配料中心八个部门。建立了从方案设计、工程施工、 质量监督到售后服务等一整套细致合理的服务流程体系。由经验丰富、时尚创新的设计精英、正规培训、技艺娴熟的南方技工、施工人员主要来自安徽、江苏；资深专业的管理人员共同组建成一支诚信、敬业、务实、创新的精英团队。 先进的办公及施工、检测设备；人文、科学的企业管理模式，为工程质量和公司发展提供了有力的保障。创新的精英团队。 先进的办公及施工、检测设备；人文、科学的企业管理模式，为工程质量和公司发展提供了有力的保障创新的精英团队。 先进的办公及施工、检测设备；人文、科学的企业管理模式，为工程质量和公司发展提供了有力的保障</p>
-				<a class="profile_a">查看更多>></a>
+				<div class="profile_content" style="max-height: 200px; overflow: hidden;">{$desc}</div>
+				<a class="profile_a" href="{url:/}">查看更多>></a>
 			</div>
 			<div class="profile_right">
-				<img src="{url:views/nzw/skin/default/image/warn.png}">
+				<img src="{webroot:$img}" onerror="this.src='{$img}'" style="width: 360px; height: 247px;">
 			</div>
 			<div class="clear"></div>
 		</div>
@@ -21,70 +21,31 @@
 		<div class="case_list">
 			<div class="case_title">
 				<span class="case_name">装修案例</span>
-				<a class="case_gd">+查看更多</a>
+				<a class="case_gd" href="{url:/}">+查看更多</a>
 			</div>
 			<div class="case_content">
 				<ul class="case_ul1 clear">
+                    {query:name=case where=user_id eq $user_id limit=6}
 					<li>
 						<a class="case_ul1_a">
-							<img src="{url:views/nzw/skin/default/image/warn.png}">
-							<p class="goods_name">欧式大气奢华风格</p>
+							<img src="{webroot:$item['photo']}" style="width: 374px;height: 270px;">
+							<p class="goods_name">{$item['title']}</p>
 							<p class="goods_pro">
-								<span>大气奢华</span>&nbsp;&nbsp;|&nbsp;
-								<span>面积150m</span>&nbsp;&nbsp;|&nbsp;
-								<span>20万</span>
-								<span class="time">2016-12-12</span>
+								<span>
+                                    {set:$db = new IModel('case_style');$list = $db->query('id in ('.$item['style'].')', 'name');}
+                                    {if:$list}
+                                    {foreach:items=$list item=$style}
+                                        {$style['name']}&nbsp;
+                                    {/foreach}
+                                    {/if}
+                                </span>&nbsp;&nbsp;|&nbsp;
+								<span>面积{$item['house_size']}m</span>&nbsp;&nbsp;|&nbsp;
+								<span>{$item['price']}万</span>
+								<span class="time">{$item['time']}</span>
 							</p>
 						</a>
 					</li>
-					<li>
-						<a class="case_ul1_a">
-							<img src="{url:views/nzw/skin/default/image/warn.png}">
-							<p class="goods_name">欧式大气奢华风格</p>
-							<p class="goods_pro">
-								<span>大气奢华</span>&nbsp;&nbsp;|&nbsp;
-								<span>面积150m</span>&nbsp;&nbsp;|&nbsp;
-								<span>20万</span>
-								<span class="time">2016-12-12</span>
-							</p>
-						</a>
-					</li>
-					<li>
-						<a class="case_ul1_a">
-							<img src="{url:views/nzw/skin/default/image/warn.png}">
-							<p class="goods_name">欧式大气奢华风格</p>
-							<p class="goods_pro">
-								<span>大气奢华</span>&nbsp;&nbsp;|&nbsp;
-								<span>面积150m</span>&nbsp;&nbsp;|&nbsp;
-								<span>20万</span>
-								<span class="time">2016-12-12</span>
-							</p>
-						</a>
-					</li>
-					<li>
-						<a class="case_ul1_a">
-							<img src="{url:views/nzw/skin/default/image/warn.png}">
-							<p class="goods_name">欧式大气奢华风格</p>
-							<p class="goods_pro">
-								<span>大气奢华</span>&nbsp;&nbsp;|&nbsp;
-								<span>面积150m</span>&nbsp;&nbsp;|&nbsp;
-								<span>20万</span>
-								<span class="time">2016-12-12</span>
-							</p>
-						</a>
-					</li>
-					<li>
-						<a class="case_ul1_a">
-							<img src="{url:views/nzw/skin/default/image/warn.png}">
-							<p class="goods_name">欧式大气奢华风格</p>
-							<p class="goods_pro">
-								<span>大气奢华</span>&nbsp;&nbsp;|&nbsp;
-								<span>面积150m</span>&nbsp;&nbsp;|&nbsp;
-								<span>20万</span>
-								<span class="time">2016-12-12</span>
-							</p>
-						</a>
-					</li>
+                    {/query}
 				</ul>
 			</div>
 		</div>
@@ -93,113 +54,34 @@
 		<div class="case_list">
 			<div class="case_title">
 				<span class="case_name">设计师</span>
-				<a class="case_gd">+查看更多</a>
+				<a class="case_gd" href="{url:/}">+查看更多</a>
 			</div>
 			<div class="case_content">
 				<ul class="case_ul2 clear">
+                    {query:name=designer where=user_id eq $user_id fields=name,num,photo limit=6}
 					<li>
 						<a class="case_ul2_a">
 							<div class="design_img">
-								<img src="{url:views/nzw/skin/default/image/warn.png}">
+								<img src="{webroot:$item['photo']}">
 								<div class="case_num">
-									<div class="design_bag"><!-- 透明背景图 --></div>
+									<div class="design_bag"></div>
 									<div class="design_num">
 										<p>设计</p>
-										<p>12&nbsp;套</p>
+										<p>{$item['num']}&nbsp;套</p>
 									</div>
 								</div>
 							</div>
-							<p class="designe_name">张三</p>
+							<p class="designe_name">{$item['name']}</p>
 							<p class="designe_pro">首席设计师</p>
 						</a>
 					</li>
-					<li>
-						<a class="case_ul2_a">
-							<div class="design_img">
-								<img src="{url:views/nzw/skin/default/image/warn.png}">
-								<div class="case_num">
-									<div class="design_bag"><!-- 透明背景图 --></div>
-									<div class="design_num">
-										<p>设计</p>
-										<p>12&nbsp;套</p>
-									</div>
-								</div>
-							</div>
-							<p class="designe_name">张三</p>
-							<p class="designe_pro">首席设计师</p>
-						</a>
-					</li>
-					<li>
-						<a class="case_ul2_a">
-							<div class="design_img">
-								<img src="{url:views/nzw/skin/default/image/warn.png}">
-								<div class="case_num">
-									<div class="design_bag"><!-- 透明背景图 --></div>
-									<div class="design_num">
-										<p>设计</p>
-										<p>12&nbsp;套</p>
-									</div>
-								</div>
-							</div>
-							<p class="designe_name">张三</p>
-							<p class="designe_pro">首席设计师</p>
-						</a>
-					</li>
-					<li>
-						<a class="case_ul2_a">
-							<div class="design_img">
-								<img src="{url:views/nzw/skin/default/image/warn.png}">
-								<div class="case_num">
-									<div class="design_bag"><!-- 透明背景图 --></div>
-									<div class="design_num">
-										<p>设计</p>
-										<p>12&nbsp;套</p>
-									</div>
-								</div>
-							</div>
-							<p class="designe_name">张三</p>
-							<p class="designe_pro">首席设计师</p>
-						</a>
-					</li>
-					<li>
-						<a class="case_ul2_a">
-							<div class="design_img">
-								<img src="{url:views/nzw/skin/default/image/warn.png}">
-								<div class="case_num">
-									<div class="design_bag"><!-- 透明背景图 --></div>
-									<div class="design_num">
-										<p>设计</p>
-										<p>12&nbsp;套</p>
-									</div>
-								</div>
-							</div>
-							<p class="designe_name">张三</p>
-							<p class="designe_pro">首席设计师</p>
-						</a>
-					</li>
-					<li>
-						<a class="case_ul2_a">
-							<div class="design_img">
-								<img src="{url:views/nzw/skin/default/image/warn.png}">
-								<div class="case_num">
-									<div class="design_bag"><!-- 透明背景图 --></div>
-									<div class="design_num">
-										<p>设计</p>
-										<p>12&nbsp;套</p>
-									</div>
-								</div>
-							</div>
-							<p class="designe_name">张三</p>
-							<p class="designe_pro">首席设计师</p>
-						</a>
-					</li>
-
+                    {/query}
 				</ul>
 			</div>
 		</div>
 		<!-- 设计师 end -->
 		<!-- 业主评论 显示三个-->
-		<div class="case_list">
+		<!--<div class="case_list">
 			<div class="case_title">
 				<span class="case_name">业主评论</span>
 				<a class="case_gd">+查看更多</a>
@@ -325,10 +207,10 @@
 				<div><input class="sub_company" type="submit" value="提交"/></div>
 				</form>
 			</div>
-		</div>
+		</div>-->
 	</div>
 </div>
-<script type="text/javascript">
+<!--<script type="text/javascript">
 $(function(){
 	// 切换星星
 	$(".star_box .review_uls ").on('click', 'li', function(){
@@ -394,4 +276,4 @@ $(function(){
             return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
         };
     })();
-</script>
+</script>-->
