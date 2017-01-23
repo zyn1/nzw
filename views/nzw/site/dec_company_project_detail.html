@@ -1,0 +1,99 @@
+<script type="text/javascript">
+	$(function(){
+		$(".company_nav ul li a").eq(3).addClass("on");
+	})
+</script>
+<style type="text/css">
+	.project_content{border: 0;padding: 20px;}
+</style>
+<div class="company_backg">
+	<div class="company_main">
+		
+		<section class="project_content">							
+			<a target="_blank" href class="img_link">
+				<img alt="" src="{url:views/nzw/skin/default/image/warn.png}">
+                
+			</a>
+			<div class="project_content_left">
+				<h2>月亮湾曹小姐新家</h2>
+				<p class="small">深圳&nbsp;&nbsp;月亮湾山庄&nbsp;&nbsp;30万&nbsp;&nbsp;半包&nbsp;&nbsp;300㎡&nbsp;&nbsp;简欧</p>
+				<ul>
+					<li class="on">
+						<i></i>
+						<p>准备开工</p>
+					</li>
+					<li class="on">
+						<i></i>
+						<p>水电阶段</p>
+					</li>
+					<li class="on">
+						<i></i>
+						<p>泥木阶段</p>
+					</li>
+					<li class="on">
+						<i></i>
+						<p>油漆阶段</p>
+					</li>
+					<li class="on">
+						<i></i>
+						<p>竣工阶段</p>
+					</li>
+				</ul>
+				<div class="clear"></div>
+				<p class="small">
+					<span>
+						设计图<i>5</i>
+					</span>
+					<span class="line"></span>
+					<span>
+						施工图<i>5<i>
+					</span>
+					<span class="line"></span>
+					<span>
+						业主评论<i>1</i>
+					</span>
+				</p>
+			</div>
+		</section>
+
+		<section class="project_plan">
+			<div class="tab">
+				<a href="javascript:;" class="on">设计方案</a>
+				<a href="javascript:;">施工流程</a>
+				<a href="javascript:;">业主评价</a>
+				<div class="space"></div>
+			</div>
+			<div class="content">
+				<ul>
+					<li><p>tab1内容1</p></li>
+					<li><p>tab1内容2</p></li>
+					<li><p>tab1内容3</p></li>
+				</ul>
+			</div>
+		</section>	
+			
+	</div>
+</div>
+<script type="text/javascript">
+$(function(){
+	// 第一种显示效果
+	$('.project_plan .content ul').width(500*$('.project_plan .content li').length+'px');
+	$(".project_plan .tab a").click(function(){
+		$(this).addClass('on').siblings().removeClass('on');
+		var index = $(this).index();
+		number = index;
+		var distance = -500*index;
+		$('.project_plan .content ul').stop().animate({
+			left:distance
+		});
+	});
+	// 第二种显示效果
+	// $(".project_plan .tab a").mouseover(function(){
+	// 	$(this).addClass('on').siblings().removeClass('on');
+	// 	var index = $(this).index();
+	// 	number = index;
+	// 	$('.project_plan .content li').hide();
+	// 	$('.project_plan .content li:eq('+index+')').show();
+	// });	
+});
+</script>

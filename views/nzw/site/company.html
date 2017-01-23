@@ -201,7 +201,7 @@
 				</div>
 				<div class="file_img clear">
 					<div id="thumbnails"></div>
-					<label id="uploadButton" class="file_an"><input type="file" accept="image/*" name="filesmul[]" multiple="multiple" onchange="filechange(this)"></label>
+					<label id="uploadButton" class="file_an"><input type="file"  accept=".jpg,.png,.bmp"  accept="image/*" name="filesmul[]" multiple="multiple" onchange="filechange(this)"></label>
 				</div>
 				<p class="a99">最多上传5张图片，单张图片不超过10MB,尺寸不小于300*300px,支持jpg,png和bmp.</p>
 				<div><input class="sub_company" type="submit" value="提交"/></div>
@@ -210,8 +210,57 @@
 		</div>-->
 	</div>
 </div>
+<!-- 预约装修弹窗 -->
+			<div id="mask">&nbsp;</div>
+			<div id="order">
+				<div class="order_head">预约装修</div>
+				<div style="padding:0 100px;">
+					<input type="text" placeholder="您的姓名" class="normal">
+					<input type="text" placeholder="电话号码" class="normal">
+					<div class="city">
+						<input type="button" class="city_select" value="省/市" id="city_select1">
+						<input type="hidden" name="type">
+						<ul style="display:none;" class="city_list" id="city_list1">
+							<li js_data="1">太原市</li>
+							<li js_data="2">阳泉市</li>
+						</ul>
+					</div>
+					<div class="county">
+						<input type="button" class="area_select" value="省/市" id="area_select1">
+						<input type="hidden" name="type">
+						<ul style="display:none;" class="area_list" id="area_list1">
+							<li js_data="1">太原市</li>
+							<li js_data="2">阳泉市</li>
+							<li js_data="3">大同市</li>
+							<li js_data="4">忻州市</li>
+							<li js_data="5">平遥市</li>
+							<li js_data="6">晋中市</li>
+							<li js_data="7">澳门市</li>
+							<li js_data="8">长治市</li>
+							<li js_data="9">平遥市</li>
+							<li js_data="10">晋中市</li>
+							<li js_data="11">澳门市</li>
+							<li js_data="12">长治市</li>
+						</ul>
+					</div>
+					<input type="text" placeholder="房屋面积" class="normal"><span class="area">㎡</span>
+					<a href class="need_publish" id="mask_close">免费发布</a>
+				</div>
+			</div>
+<!-- 预约装修 end -->
 <!--<script type="text/javascript">
 $(function(){
+	// 预约装修点击弹窗
+				$(".nav_icon").click(function(){
+					$("#order").show();
+					$("#order").css("top","20%");
+					$("#mask").show();
+				});
+				$("#mask").click(function(){
+					$("#order").hide();
+					$("#mask").hide();
+				});
+
 	// 切换星星
 	$(".star_box .review_uls ").on('click', 'li', function(){
 		var t = $(this),i = t.index()+1;
@@ -225,25 +274,28 @@ $(function(){
 	});
 
 })
-	//下面用于多图片上传预览功能
-
-    function filechange(obj) {
+ function filechange(obj) {
         if (obj.files && obj.files.length) {
             for (var i = 0; i < obj.files.length; i++) {
                 var fileName = obj.files[i].name
-                    ,ext = fileName.substring(fileName.lastIndexOf(".")+1,fileName.length).toLowerCase();
-                if(ext != "gif" && ext != "png" && ext != "jpg" && ext != "jpeg")
+                    ,ext = fileName.substring(fileName.lastIndexOf(".")+1,fileName.length).toLowerCase()
+                  var fileSize =  obj.files[i].size;
+	            if(fileSize>102400){
+	                alert("亲，图片不能超过10MB哦！");
+	                return;
+                }
+                if(ext != "jpg" && ext != "png" && ext != "bmp")
                 {
                     alert('您上传的图片格式不正确，请重新选择！');
                     return;
                 }
+
                 $('form[name=comment]').append('<input type="file" name="filesmul[]" value="'+obj.files[i].name+'"');
                 appendImg(window.URL.createObjectURL(obj.files[i]));
             }
         } else {
             obj.select();
             obj.blur();
-
             var imgSrc = document.selection.createRange().text;
             appendImg(imgSrc, true);
         }
@@ -254,6 +306,13 @@ $(function(){
         img.src = url;
         img.id = imgid;
         document.getElementById("thumbnails").appendChild(img);
+  /*     var width = img.width;
+       var height = img.height;
+        if(width<300 && height<300){
+            alert("亲图片不能小于300*300")
+            document.getElementById("thumbnails").removeChild(img);
+        }*/
+        
 
         if (ie) {
             try {
