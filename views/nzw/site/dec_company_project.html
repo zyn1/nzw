@@ -1,0 +1,109 @@
+<script type="text/javascript">
+	$(function(){
+		$(".company_nav ul li a").eq(3).addClass("on");
+	})
+</script>
+<div class="company_backg">
+	<div class="company_main">
+		
+		<!-- 业主评论 显示三个-->
+		<div class="case_list">
+			<div class="case_title">
+				<span class="case_name">装修项目</span>
+				<a class="case_step checked">全部项目</a>
+				<a class="case_step">在建项目</a>
+				<a class="case_step">竣工项目</a>
+			</div>
+			<div class="project_list">
+				<ul>
+					<li>							
+						<a target="_blank" href class="img_link">
+							<img alt="" src="{url:views/nzw/skin/default/image/warn.png}">
+	                        
+						</a>
+						<div class="project_content_left">
+							<h2>月亮湾曹小姐新家</h2>
+							<p>深圳&nbsp;月亮湾山庄&nbsp;30万&nbsp;半包&nbsp;300㎡&nbsp;简欧</p>
+							<ul>
+								<li>
+									<i></i>
+									<p>准备开工</p>
+								</li>
+							</ul>
+						</div>
+						<div class="project_content_right">
+							<a href>项目详情</a>
+						</div>
+					</li>
+				</ul>				
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+$(function(){
+	// 切换星星
+	$(".star_box .review_uls ").on('click', 'li', function(){
+		var t = $(this),i = t.index()+1;
+		$(this).parent(".review_uls").find("li").each(function(index){
+			if (index<i) {
+				$(this).addClass('on');
+			}else{
+				$(this).removeClass('on');
+			}
+		});
+	});
+
+})
+	//下面用于多图片上传预览功能
+
+    function filechange(obj) {
+        if (obj.files && obj.files.length) {
+            for (var i = 0; i < obj.files.length; i++) {
+                var fileName = obj.files[i].name
+                    ,ext = fileName.substring(fileName.lastIndexOf(".")+1,fileName.length).toLowerCase();
+                if(ext != "gif" && ext != "png" && ext != "jpg" && ext != "jpeg")
+                {
+                    alert('您上传的图片格式不正确，请重新选择！');
+                    return;
+                }
+                $('form[name=comment]').append('<input type="file" name="filesmul[]" value="'+obj.files[i].name+'"');
+                appendImg(window.URL.createObjectURL(obj.files[i]));
+            }
+        } else {
+            obj.select();
+            obj.blur();
+
+            var imgSrc = document.selection.createRange().text;
+            appendImg(imgSrc, true);
+        }
+
+    }
+    function appendImg(url, ie) {
+        var img = document.createElement('img'), imgid = guid();;
+        img.src = url;
+        img.id = imgid;
+        document.getElementById("thumbnails").appendChild(img);
+
+        if (ie) {
+            try {
+                var imgshow = document.getElementById(imgid);
+                imgshow.style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale)";
+                imgshow.filters.item("DXImageTransform.Microsoft.AlphaImageLoader").src = url;
+            } catch (e) {
+                alert("您上传的图片格式不正确，请重新选择！");
+                return false;
+            }
+        }
+
+    }
+
+    var guid = (function () {
+        function s4() {
+            return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
+        }
+        return function () {
+            return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
+        };
+    })();
+</script>

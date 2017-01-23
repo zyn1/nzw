@@ -2711,9 +2711,15 @@ section.count_down{margin: 13px 5px;}
 	padding: 30px 0;
 }
 .bbs_comment .comm_more a{
-	padding: 10px 73px;
-	border: 1px solid #4d9a28;
-	color: #4d9a28;
-	border-radius:20px; 
-	text-decoration: none;
+	display: block;
+	width: 200px;
+	height: 50px;
+	line-height: 50px;
+    border: 1px solid #4d9a28;
+    color: #4d9a28;
+    border-radius: 50px;
+    -moz-border-radius: 50px;
+    -webkit-border-radius: 50px;
+    text-decoration: none;
+    margin: 0px auto 0px;
 }

@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <link type="image/x-icon" href="{webroot:favicon.ico}" rel="icon">
+    <link rel="stylesheet" href="{skin:style/css/company/company.css}">
 </head>
-<link rel="stylesheet" href="{skin:style/css/seller/seller.css}">
 {js:jquery}
 {js:dialog}
 {js:form}
@@ -16,9 +16,9 @@
             <div class="head_main">
                 <div class="head_left">
                     <div class="logo_img" style="border:0;"><a href="{url:/}"><img src="{if:$this->_siteConfig->logo}{webroot:$this->_siteConfig->logo}{else:}{skin:image/logo.png}{/if}" alt=""></a></div>
-                    <ul>
+                    <ul class="nav">
                         <li><a href="{url:/}">首页</a></li>
-                        <li class=""><a href="{url:/}">装修公司</a></li>
+                        <li class="current"><a href="{url:/}">装修公司</a></li>
                         <li><a href="{url:/}">设计师</a></li>
                         <li><a href="{url:/}">建材商城</a></li>
                         <li><a href="{url:/site/bbs_list}">家装论坛</a></li>
@@ -27,18 +27,112 @@
                 <div class="head_right">
                     <ul>
                         <li>客服热线：400-659-9591</li>
-                        <li>商家入驻</li>
+                        <li class="busiman"><a href="{url:/seller/index}">商家入驻<i></i></a></li>
+                        <div class="busioption">
+                                            <p><a href="{url:/simple/seller}">申请开店</a></p>
+                                            <p><a href="{url:/seller/index}">商家登录</a></p>
+                        </div>
+                        
                         <li><a href="{url:/simple/reg}">注册</a></li>
                         <li><a href="{url:/simple/login}">登录</a></li>
                     </ul>
                 </div>
             </div>
         </div>
+        <script type="text/javascript">
+            $(function(){
+                $(".busiman a,.busioption").hover(function(){
+                    $(".busioption").show();
+                    $(".busiman a i").addClass("checked");
+                });
+                $(".busioption").mouseleave(function(){
+                    $(".busioption").hide();
+                    $(".busiman a i").removeClass("checked");
+                });
+            })
+        </script>
     </header >
+    <section class="company_top">
+        <div class="company_logo">
+            <img src="{url:views/nzw/skin/default/image/company/commp_logo.jpg}">
+        </div>
+        <div class="company_infor">
+            <h3 class="company_name">北京博雅装饰有限公司<img class="glory" src="{url:views/nzw/skin/default/image/company/company_glory.png}"></h3>
+            <div class="company_busines">
+                <span>案例：<i class="bg_da">44</i>套</span>&nbsp;&nbsp;|&nbsp;
+                <span>设计师：<i class="bg_da">22</i>名</span>&nbsp;&nbsp;|&nbsp;
+                <span>签单数：<i class="bg_da">82</i>单</span> 
+            </div>
+            <div class="company_addres">地址：北京市怀德桥南逸华景大厦12A楼1308室（兴业银行楼上）</div>
+        </div>
+        <div class="company_pj">
+            <p class="pj_title">业主评分</p>
+            <div class="star_box">
+                <strong class="items">设计水平：</strong>
+                <span class="red_star"></span>
+                <span class="red_star"></span>
+                <span class="red_star"></span>
+                <span class="red_star"></span>
+                <span class="red_star"></span>
+                <!-- 有几个星输出几个span -->
+            </div>
+
+            <div class="star_box">
+                <strong class="items">服务态度：</strong>
+                <span class="red_star"></span>
+                <span class="red_star"></span>
+                <span class="red_star"></span>
+                <span class="red_star"></span>
+            </div>
+            <div class="star_box">
+                <strong class="items">施工质量：</strong>
+                <span class="red_star"></span>
+                <span class="red_star"></span>
+                <span class="red_star"></span>
+            </div>
+        </div>
+        <div class="clear"></div>
+        <nav class="company_nav">
+            <ul>
+                <li><a>首页</a></li>
+                <li><a>公司简介</a></li>
+                <li><a>装修案例</a></li>
+                <li><a>装修项目</a></li>
+                <li><a>设计师</a></li>
+                <li><a>业主评论</a></li>
+            </ul>
+            <a class="nav_icon"></a>
+        </nav>
+    </section>
     {viewcontent}
-    <div class="footer_bot">
-    {echo:IFilter::stripSlash($this->_siteConfig->site_footer_code)}
-    </div>
+    <!-- 底部文件 -->
+    <footer class="foot">
+        <section class="help">
+            {set:$catIco = array('help-new','help-delivery','help-pay','help-user','help-service')}
+            {foreach:items=Api::run('getHelpCategoryFoot') item=$helpCat}
+            <dl class="help_{echo:$key+1}">
+                <dt>{$helpCat['name']}</dt>
+                {foreach:items=Api::run('getHelpListByCatidAll',array('#cat_id#',$helpCat['id']))}
+                <dd><a href="{url:/site/help/id/$item[id]}">{$item['name']}</a></dd>
+                {/foreach}
+            </dl>
+            {/foreach}
+            <div class="contact">
+                <div class="tel">扫码关注耐装网</div>
+                <div class="mail"><img src="{skin:/image/index/code.png}" alt=""></div>
+            </div>
+        </section>
+        
+        <section class="copy border">
+            <!-- {echo:IFilter::stripSlash($this->_siteConfig->site_footer_code)} -->
+            <div class="footer" style="text-align:center;">
+                <p class="copyright">copyright @ 2014-2017 耐装网络科技（大连）有限公司版权所有 网站备案/许可证号：<a >沪ICP备16014698号</a></p>
+                <p class="copyright">服务电话：4006599591 地址：上海浦东新区唐镇上丰路977号B座</p>
+                <p class="copyright">违法信息举报信箱：shensu@nainaiwang.com</p>
+                <p class="copyright">技术支持：耐耐云商科技有限公司技术研发中心</p>
+            </div>
+        </section>
+    </footer>
 </body>
 </html>
 <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1260508109'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s4.cnzz.com/z_stat.php%3Fid%3D1260508109%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));</script>
