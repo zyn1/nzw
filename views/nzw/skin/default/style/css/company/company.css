@@ -273,9 +273,9 @@ a, a * { cursor: pointer; }
 	float: left;color: #666;display: inline-block;width: 70px;height: 25px;line-height:25px;text-align: center;margin: 0 15px;
 }
 .case_list .project_list{
-	width: 1160px;padding-bottom: 20px;
+	width: 1160px;padding: 0 20px;padding-bottom: 20px;
 }
-.case_list .project_list ul li.project_content{border-bottom: 1px solid #ccc;height: 200px;padding: 20px 0;}
+.project_content{border-bottom: 1px solid #ccc;height: 200px;padding: 20px 0;background: #fff;}
 .project_content .img_link{width: 280px;height: 200px;display: inline-block;float: left;margin-right: 10px;}
 .project_content .img_link img{width: 280px;height: 200px;}
 .project_content .project_content_left{width: 700px;height: 200px;padding-left: 10px;float: left;}

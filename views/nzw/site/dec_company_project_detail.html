@@ -1,0 +1,100 @@
+<script type="text/javascript">
+	$(function(){
+		$(".company_nav ul li a").eq(3).addClass("on");
+	})
+</script>
+<style type="text/css">
+	.project_content{border: 0;padding: 20px;}
+</style>
+<div class="company_backg">
+	<div class="company_main">
+		
+		<section class="project_content">							
+			<a target="_blank" href class="img_link">
+				<img alt="" src="{url:views/nzw/skin/default/image/warn.png}">
+                
+			</a>
+			<div class="project_content_left">
+				<h2>月亮湾曹小姐新家</h2>
+				<p class="small">深圳&nbsp;&nbsp;月亮湾山庄&nbsp;&nbsp;30万&nbsp;&nbsp;半包&nbsp;&nbsp;300㎡&nbsp;&nbsp;简欧</p>
+				<ul>
+					<li class="on">
+						<i></i>
+						<p>准备开工</p>
+					</li>
+					<li class="on">
+						<i></i>
+						<p>水电阶段</p>
+					</li>
+					<li class="on">
+						<i></i>
+						<p>泥木阶段</p>
+					</li>
+					<li class="on">
+						<i></i>
+						<p>油漆阶段</p>
+					</li>
+					<li class="on">
+						<i></i>
+						<p>竣工阶段</p>
+					</li>
+				</ul>
+				<div class="clear"></div>
+				<p class="small">
+					<span>
+						设计图<i>5</i>
+					</span>
+					<span class="line"></span>
+					<span>
+						施工图<i>5<i>
+					</span>
+					<span class="line"></span>
+					<span>
+						业主评论<i>1</i>
+					</span>
+				</p>
+			</div>
+		</section>
+<style>
+
+.project_plan{width:1200px;height:500px;margin:10px auto;background:#fff;}
+.project_plan .tab{overflow:hidden;background:#ccc;}
+.project_plan .tab a{display:block;padding:20px 20px;float:left;text-decoration:none;color:#333;background: #fafafa;border: 1px solid #e8e8e8;}
+.project_plan .tab a:hover{background:#fff;color:#333;text-decoration:none;}
+.project_plan .tab a.on{background:#fff;color:#6bb945;text-decoration:none;border-top: 2px solid #6bb945;}
+.project_plan .content{overflow:hidden;width:500px;height:100px;position:relative;}
+.project_plan .content ul{position:absolute;left:0;top:0;height:100px;}
+.project_plan .content li{width:500px;height:100px;float:left;}
+.project_plan .content li p{padding:10px;}
+</style>
+		<section class="project_plan">
+			<div class="tab">
+				<a href="javascript:;" class="on">设计方案</a>
+				<a href="javascript:;">施工流程</a>
+				<a href="javascript:;">业主评价</a>
+			</div>
+			<div class="content">
+				<ul>
+					<li><p>tab1内容1</p></li>
+					<li><p>tab1内容2</p></li>
+					<li><p>tab1内容3</p></li>
+				</ul>
+			</div>
+		</section>	
+			
+	</div>
+</div>
+<script type="text/javascript">
+$(function(){
+	$('.project_plan .content ul').width(500*$('.project_plan .content li').length+'px');
+	$(".project_plan .tab a").click(function(){
+		$(this).addClass('on').siblings().removeClass('on');
+		var index = $(this).index();
+		number = index;
+		var distance = -500*index;
+		$('.project_plan .content ul').stop().animate({
+			left:distance
+		});
+	});	
+});
+</script>
