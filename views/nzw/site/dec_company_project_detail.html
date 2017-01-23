@@ -76,6 +76,7 @@
 </div>
 <script type="text/javascript">
 $(function(){
+	// 第一种显示效果
 	$('.project_plan .content ul').width(500*$('.project_plan .content li').length+'px');
 	$(".project_plan .tab a").click(function(){
 		$(this).addClass('on').siblings().removeClass('on');
@@ -85,6 +86,14 @@ $(function(){
 		$('.project_plan .content ul').stop().animate({
 			left:distance
 		});
-	});	
+	});
+	// 第二种显示效果
+	// $(".project_plan .tab a").mouseover(function(){
+	// 	$(this).addClass('on').siblings().removeClass('on');
+	// 	var index = $(this).index();
+	// 	number = index;
+	// 	$('.project_plan .content li').hide();
+	// 	$('.project_plan .content li:eq('+index+')').show();
+	// });	
 });
 </script>
