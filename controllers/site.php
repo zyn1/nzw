@@ -1079,6 +1079,21 @@ class Site extends IController
             $this->layout = 'shop_detail';
             $this->redirect('dec_company_index');
      }
+    function dec_company_pj()
+    {
+            $this->layout = 'shop_detail';
+            $this->redirect('dec_company_pj');
+     }
+    function dec_company_designer()
+    {
+            $this->layout = 'shop_detail';
+            $this->redirect('dec_company_designer');
+     }
+    function dec_company_project()
+    {
+            $this->layout = 'shop_detail';
+            $this->redirect('dec_company_project');
+     }
 
  	function dec_company_introduc()
     {
