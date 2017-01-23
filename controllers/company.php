@@ -238,7 +238,7 @@ class Company extends IController implements companyAuthorization
     {
         $user_id = $this->company['user_id'];
         $companyDB = new IModel('company');
-        $desc = IFilter::act(IReq::get('content'),'text');
+        $desc = IFilter::act(IReq::get('content'));
         if($desc)
         {
             $data['desc'] = $desc;
