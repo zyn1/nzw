@@ -148,8 +148,8 @@ a, a * { cursor: pointer; }
 }
 .company_nav ul li{
 	height: 41px;
-	line-height: 41x;
-	width: 165px;
+	line-height: 41px;
+	width: 150px;
 	float: left;
 }
 .company_nav ul li a{
@@ -214,7 +214,7 @@ a, a * { cursor: pointer; }
 	margin: 20px 0px;
 }
 .case_list .case_title{
-	padding: 10px 20px;
+	padding: 10px 20px;width: 1160px;height: 25px;
 	border-bottom: 1px solid #e4e4e4;
 }
 .case_list .case_title .case_name{
@@ -222,7 +222,10 @@ a, a * { cursor: pointer; }
 	height: 25px;
 	border-left: 3px solid #4d9a28;
 	padding: 0 15px;
-	color: #4d9a28;
+	color: #4d9a28;float: left;margin-right:20px; 
+}
+.case_list .case_title .case_step.checked{
+	color: #fff;background: #6bb945;border-radius: 3px;
 }
 .case_list .case_title .case_gd{
 	height: 25px;
@@ -265,6 +268,22 @@ a, a * { cursor: pointer; }
 .case_ul1 li a.case_ul1_a p.goods_pro .time{
 	float: right;
 }
+/*装修项目*/
+.case_list .case_title .case_step{
+	float: left;color: #666;display: inline-block;width: 70px;height: 25px;line-height:25px;text-align: center;margin: 0 15px;
+}
+.case_list .project_list{
+	width: 1160px;height: 300px;border-bottom: 1px solid #666;padding: 20px 0;
+}
+.case_list .project_list .img_link{width: 280px;height: 200px;display: inline-block;float: left;margin-right: 10px;}
+.case_list .project_list .img_link img{width: 280px;height: 200px;}
+.case_list .project_list .project_content_left{width: 700px;height: 200px;padding-left: 10px;float: left;}
+.case_list .project_list .project_content_left h2{font-size: 20px;font-weight: normal;}
+.case_list .project_list .project_content_left 
+
+.case_list .project_list .project_content_right{width: 150px;height: 200px;float: right;}
+.case_list .project_list .project_content_right a{display: block;width: 130px;height: 40px;font-size: 16px;color: #fff;background: #e75d19;margin: 80px auto;text-align: center;line-height: 40px;}
+
 /*设计师*/
 .case_content .case_ul2 li{
 	float: left;
