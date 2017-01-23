@@ -4,17 +4,16 @@
 		$(".company_nav ul li a").eq(1).addClass("on");
 	})
 </script>
+{include:_dec_commp_top}
 <div class="company_backg">
 	<div class="company_main">
 		<!-- 公司介绍-->
 		<div class="case_list case_lists">
 			<div class="case_title">
-				<span class="case_name">企业证书</span>
+				<span class="case_name">公司简介</span>
 			</div>
 			<div class="case_content">
-				<p class="introduction">北京柏雅装饰有限公司是一家集装饰设计、工程施工、材料配送、木门、地板、家具、装饰品开发为一体的装饰企业。主要从事住宅、公寓、办公、商业、酒店、学校、医院等场所的装修设计和施工。公司经北京市工商管理局正式批准注册、北京市建委审核认定，已取得国家正规资质， 为中国建筑装饰协会、北京市装饰协会、中国室内装饰协会的会员单位。 
-多年来公司持续稳步发展，下设市场部、设计部、工程部、企划部、财务部、客户服务部、人力资源部和材料配料中心八个部门。建立了从方案设计、工程施工、 质量监督到售后服务等一整套细致合理的服务流程体系。由经验丰富、时尚创新的设计精英、正规培训、技艺娴熟的南方技工、施工人员主要来自安徽、江苏；资深专业的管理人员共同组建成一支诚信、敬业、务实、创新的精英团队。 先进的办公及施工、检测设备；人文、科学的企业管理模式，为工程质量和公司发展提供了有力的保障。
-      面对几年来激烈的市场竞争，公司全体员工一直秉承“以质量求生存，以信誉求发展”的经营理念， 把“客户的满意是评价我们工作的唯一标准”作为服务宗旨，始终坚持以客户的需求和满意为核心，从而使公司不断发展壮大，并赢得了较大的市场份额，成为装饰行业中的佼佼者。 公司将一如既往的致力于为社会各界提供更完善、更完美的装修服务，精心铸造"柏雅装饰"品牌！并愿与业界同仁携手，共建行业自律，维护市场环境，树立行业新风，推动行业发展，引领装修新潮流，构建和谐社会之和谐装修新篇章！ </p>
+				<p class="introduction">{$desc}</p>
 			</div>
 		</div>
 		<!-- 公司介绍 end -->
@@ -25,24 +24,15 @@
 			</div>
 			<div class="case_content">
 				<ul class="case_ul1 clear">
+                    {set:$paper = JSON::decode($paper_img)}
+                    {foreach:items=$paper}
 					<li>
 						<a class="case_ul1_a">
-							<img src="{url:views/nzw/skin/default/image/warn.png}">
-							<p class="company_zs">资质证书 </p>
+							<img src="{webroot:$item}" style="width: 374px;height: 270px;">
+							<p class="company_zs">{if:$key == 'paper_img' || $key == 'paper_imgs'}营业执照 {elseif:$key == 'tax_img'}税务登记证{else:}组织机构代码证{/if}</p>
 						</a>
 					</li>
-					<li>
-						<a class="case_ul1_a">
-							<img src="{url:views/nzw/skin/default/image/warn.png}">
-							<p class="company_zs">营业执照 </p>
-						</a>
-					</li>
-					<li>
-						<a class="case_ul1_a">
-							<img src="{url:views/nzw/skin/default/image/warn.png}">
-							<p class="company_zs">2011年度建筑装修行业先进企业 </p>
-						</a>
-					</li>
+                    {/foreach}
 				</ul>
 			</div>
 		</div>
@@ -54,10 +44,10 @@
 			</div>
 			<div class="case_content">
 				<div class="intro_div">
-					<p class="com_intro">公司：北京博雅装饰有限公司</p>
-					<p class="com_intro">电话：010-89720090</p>
-					<p class="com_intro">QQ：1697253782</p>
-					<p class="com_intro">地址：北京市怀德桥南逸华景大厦12A楼1308室（兴业银行楼上）</p>
+					<p class="com_intro">公司：{$true_name}</p>
+					<p class="com_intro">电话：{$phone}</p>
+					<!--<p class="com_intro">QQ：1697253782</p>-->
+					<p class="com_intro">地址：{$address}</p>
 				</div>
 			</div>
 		</div>

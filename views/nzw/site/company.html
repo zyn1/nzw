@@ -10,7 +10,7 @@
 			<div class="profile_left">
 				<p><b>公司简介</b></p>
 				<div class="profile_content" style="max-height: 200px; overflow: hidden;">{$desc}</div>
-				<a class="profile_a" href="{url:/}">查看更多>></a>
+				<a class="profile_a" href="{url:/site/company_desc/id/$user_id}">查看更多>></a>
 			</div>
 			<div class="profile_right">
 				<img src="{webroot:$img}" onerror="this.src='{$img}'" style="width: 360px; height: 247px;">
@@ -21,13 +21,13 @@
 		<div class="case_list">
 			<div class="case_title">
 				<span class="case_name">装修案例</span>
-				<a class="case_gd" href="{url:/}">+查看更多</a>
+				<a class="case_gd" href="{url:/site/company_case/id/$user_id}">+查看更多</a>
 			</div>
 			<div class="case_content">
 				<ul class="case_ul1 clear">
                     {query:name=case where=user_id eq $user_id limit=6}
 					<li>
-						<a class="case_ul1_a">
+						<a class="case_ul1_a" href="{url:/site/company_case_detail/id/$user_id/cid/$item['id']}">
 							<img src="{webroot:$item['photo']}" style="width: 374px;height: 270px;">
 							<p class="goods_name">{$item['title']}</p>
 							<p class="goods_pro">
@@ -39,7 +39,7 @@
                                     {/foreach}
                                     {/if}
                                 </span>&nbsp;&nbsp;|&nbsp;
-								<span>面积{$item['house_size']}m</span>&nbsp;&nbsp;|&nbsp;
+								<span>面积{$item['house_size']}㎡</span>&nbsp;&nbsp;|&nbsp;
 								<span>{$item['price']}万</span>
 								<span class="time">{$item['time']}</span>
 							</p>
@@ -54,13 +54,13 @@
 		<div class="case_list">
 			<div class="case_title">
 				<span class="case_name">设计师</span>
-				<a class="case_gd" href="{url:/}">+查看更多</a>
+				<a class="case_gd" href="{url:/site/company_designer/id/$user_id}">+查看更多</a>
 			</div>
 			<div class="case_content">
 				<ul class="case_ul2 clear">
                     {query:name=designer where=user_id eq $user_id fields=name,num,photo limit=6}
 					<li>
-						<a class="case_ul2_a">
+						<a class="case_ul2_a" href="javascript:;">
 							<div class="design_img">
 								<img src="{webroot:$item['photo']}">
 								<div class="case_num">

@@ -4,6 +4,7 @@
 		$(".company_nav ul li a").eq(2).addClass("on");
 	})
 </script>
+{include:_dec_commp_top}
 <div class="company_backg">
 	<div class="company_main">
 		<!-- 装修案例-->
@@ -13,100 +14,33 @@
 			</div>
 			<div class="case_content">
 				<ul class="case_ul1 clear">
+                    {set:$page= (isset($_GET['page'])&&(intval($_GET['page'])>0))?intval($_GET['page']):1;}
+                    {query:name=case where=user_id eq $user_id page=$page}
 					<li>
-						<a class="case_ul1_a">
-							<img src="{url:views/nzw/skin/default/image/warn.png}">
-							<p class="goods_name">欧式大气奢华风格</p>
+						<a class="case_ul1_a" href="{url:/site/company_case_detail/id/$user_id/cid/$item['id']}">
+							<img src="{webroot:$item['photo']}" style="width: 374px;height: 270px;">
+							<p class="goods_name">{$item['title']}</p>
 							<p class="goods_pro">
-								<span>大气奢华</span>&nbsp;&nbsp;|&nbsp;
-								<span>面积150m</span>&nbsp;&nbsp;|&nbsp;
-								<span>20万</span>
-								<span class="time">2016-12-12</span>
+								<span>
+                                    {set:$db = new IModel('case_style');$list = $db->query('id in ('.$item['style'].')', 'name');}
+                                    {if:$list}
+                                    {foreach:items=$list item=$style}
+                                        {$style['name']}&nbsp;
+                                    {/foreach}
+                                    {/if}
+                                </span>&nbsp;&nbsp;|&nbsp;
+								<span>面积{$item['house_size']}㎡</span>&nbsp;&nbsp;|&nbsp;
+								<span>{$item['price']}万</span>
+								<span class="time">{$item['time']}</span>
 							</p>
 						</a>
 					</li>
-					<li>
-						<a class="case_ul1_a">
-							<img src="{url:views/nzw/skin/default/image/warn.png}">
-							<p class="goods_name">欧式大气奢华风格</p>
-							<p class="goods_pro">
-								<span>大气奢华</span>&nbsp;&nbsp;|&nbsp;
-								<span>面积150m</span>&nbsp;&nbsp;|&nbsp;
-								<span>20万</span>
-								<span class="time">2016-12-12</span>
-							</p>
-						</a>
-					</li>
-					<li>
-						<a class="case_ul1_a">
-							<img src="{url:views/nzw/skin/default/image/warn.png}">
-							<p class="goods_name">欧式大气奢华风格</p>
-							<p class="goods_pro">
-								<span>大气奢华</span>&nbsp;&nbsp;|&nbsp;
-								<span>面积150m</span>&nbsp;&nbsp;|&nbsp;
-								<span>20万</span>
-								<span class="time">2016-12-12</span>
-							</p>
-						</a>
-					</li>
-					<li>
-						<a class="case_ul1_a">
-							<img src="{url:views/nzw/skin/default/image/warn.png}">
-							<p class="goods_name">欧式大气奢华风格</p>
-							<p class="goods_pro">
-								<span>大气奢华</span>&nbsp;&nbsp;|&nbsp;
-								<span>面积150m</span>&nbsp;&nbsp;|&nbsp;
-								<span>20万</span>
-								<span class="time">2016-12-12</span>
-							</p>
-						</a>
-					</li>
-					<li>
-						<a class="case_ul1_a">
-							<img src="{url:views/nzw/skin/default/image/warn.png}">
-							<p class="goods_name">欧式大气奢华风格</p>
-							<p class="goods_pro">
-								<span>大气奢华</span>&nbsp;&nbsp;|&nbsp;
-								<span>面积150m</span>&nbsp;&nbsp;|&nbsp;
-								<span>20万</span>
-								<span class="time">2016-12-12</span>
-							</p>
-						</a>
-					</li>
-					<li>
-						<a class="case_ul1_a">
-							<img src="{url:views/nzw/skin/default/image/warn.png}">
-							<p class="goods_name">欧式大气奢华风格</p>
-							<p class="goods_pro">
-								<span>大气奢华</span>&nbsp;&nbsp;|&nbsp;
-								<span>面积150m</span>&nbsp;&nbsp;|&nbsp;
-								<span>20万</span>
-								<span class="time">2016-12-12</span>
-							</p>
-						</a>
-					</li>
-					<li>
-						<a class="case_ul1_a">
-							<img src="{url:views/nzw/skin/default/image/warn.png}">
-							<p class="goods_name">欧式大气奢华风格</p>
-							<p class="goods_pro">
-								<span>大气奢华</span>&nbsp;&nbsp;|&nbsp;
-								<span>面积150m</span>&nbsp;&nbsp;|&nbsp;
-								<span>20万</span>
-								<span class="time">2016-12-12</span>
-							</p>
-						</a>
-					</li>
+                    {/query} 
 				</ul>
 			</div>
 			<!-- 分页 -->
-			<div class="page">
-				<a class="page_a">47条记录</a>
-				<a class="page_a page_up">上一页</a>
-				<a class="page_a page_num">1</a>
-				<a class="page_a page_num on">2</a>
-				<a class="page_a page_num">3</a>
-				<a class="page_a page_down">下一页</a>
+			<div class="page">                
+				{$query->getPageBar()}
 			</div>
 		</div>
 		<!-- 装修案例 end -->

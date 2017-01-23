@@ -1,0 +1,46 @@
+<script type="text/javascript">
+	$(function(){
+		$(".company_nav ul li a").eq(3).addClass("on");
+	})
+</script>
+{include:_dec_commp_top}
+<div class="company_backg">
+	<div class="company_main">
+		
+		<!-- 设计师 显示六个-->
+		<div class="case_list">
+			<div class="case_title">
+				<span class="case_name">设计师</span>      
+			</div>
+			<div class="case_content">
+				<ul class="case_ul2 clear">
+                    {set:$page= (isset($_GET['page'])&&(intval($_GET['page'])>0))?intval($_GET['page']):1;}
+                    {query:name=designer where=user_id eq $user_id fields=name,num,photo page=$page}
+					<li>
+						<a class="case_ul2_a">
+							<div class="design_img">
+								<img src="{webroot:$item['photo']}">
+								<div class="case_num">
+									<div class="design_bag"><!-- 透明背景图 --></div>
+									<div class="design_num">
+										<p>设计</p>
+										<p>{$item['num']}&nbsp;套</p>
+									</div>
+								</div>
+							</div>
+							<p class="designe_name">{$item['name']}</p>
+							<p class="designe_pro">首席设计师</p>
+						</a>
+					</li>
+                    {/query}
+				</ul>
+			</div>
+            
+            <div class="page">                
+                {$query->getPageBar()}
+            </div>
+		</div>
+		<!-- 设计师 end -->
+		
+	</div>
+</div>

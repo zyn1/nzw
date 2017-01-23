@@ -1,43 +1,56 @@
-
+{include:_dec_commp_top}
+{set:$caseRow = $this->caseRow;}
 <script type="text/javascript">
 	$(function(){
 		$(".company_nav ul li a").eq(2).addClass("on");
+        $('.case_detail_content').find('img').css('max-width', '885px')
 	})
 </script>
 <div class="company_backg">
 	<div class="company_main clear">
 		<div class="breadcrumb">
-		<span>您当前的位置：</span> <a class="ab6" href="#">装修公司</a>
+		<span>您当前的位置：</span> <a class="ab6" href="{url:/site/search_list_company}">装修公司</a>
 		 »
-		<a class="ab6"  href="#">装修案例 </a>
+		<a class="ab6"  href="{url:/site/company_case/id/$user_id}">装修案例 </a>
 		 »
-		<a class="ab6"  href="#">案例详情</a>
+		<a class="ab6"  href="javascript:;">案例详情</a>
 		</div>
 		<div class="case_left clear">
 			<div class="case_detail_title">
-				<h3>福景佳苑150平简约风格装修设计</h3>
-				<span>大气奢华</span> &nbsp;|&nbsp;
-				<span>面积150㎡ &nbsp;|&nbsp;
-				<span>20万</span>
+				<h3>{$caseRow['title']}</h3>
+				<span>
+                {set:$db = new IModel('case_style');$list = $db->query('id in ('.$caseRow['style'].')', 'name');}
+                {if:$list}
+                {foreach:items=$list item=$style}
+                    {$style['name']}&nbsp;
+                {/foreach}
+                {/if}
+                </span> &nbsp;|&nbsp;
+				<span>面积{$caseRow['house_size']}㎡ &nbsp;|&nbsp;
+				<span>{$caseRow['price']}万</span>
 			</div>
 			<div  class="case_detail_content">
-				<img src="{url:views/nzw/skin/default/image/warn.png}" style="width:100%">
-				<p class="cont_line">【客厅】客厅墙面用石膏线压边及贴壁纸处理</p>
+				{echo:htmlspecialchars_decode($caseRow['description'])}
 			</div>
 			<div class="left_adver"><img src="{url:views/nzw/skin/default/image/company/case_img.jpg}"/></div>
 		</div>
 		<div class="case_right">
 			<div class="right_cont">
-				<h4>福景佳苑150㎡</h4>
-				<p>地区：山东济南</p>
-				<p>楼盘：济南福景佳苑</p>
-				<p>风格：美式</p>
-				<p>预售：16万</p>
-				<p>面积：150平米</p>
-				<p>户型：三层</p>
+				<h4>{$caseRow['title']}</h4>
+				<p>地区：{$caseRow['area_addr']}</p>
+				<p>楼盘：{$caseRow['address']}</p>
+				<p>风格：
+                {if:$list}
+                {foreach:items=$list item=$style}
+                    {$style['name']}&nbsp;
+                {/foreach}
+                {/if}</p>
+				<p>预售：{$caseRow['price']}万</p>
+				<p>面积：{$caseRow['house_size']}平米</p>
+				<p>户型：{echo:company_case::houseTypeText($caseRow['house_type'])}</p>
 				<div class="desig_ln">
 					<p class="desigh_title">设计理念</p>
-					<p class="design_ln_con">本案客户追求简约、大气、温馨、舒适的感觉。在设计上，实木的家具搭配棉麻的布艺家具，一深一浅，一重一亮，从颜色到质感都是采用性价比最高的，摒弃华而不实的装饰，注重整体空间的合理规划，带着一丝丝小情调，让整个空间充满温馨的感觉。 </p>
+					<p class="design_ln_con">{$caseRow['intro']}</p>
 				</div>
 			</div>
 			<div class="right_cont">
