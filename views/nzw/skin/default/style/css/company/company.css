@@ -1,3 +1,98 @@
+
+/*装修公司首页*/
+
+body, ul, ol, dl, dd, h1, h2, h3, h4, h5, h6, pre, form, fieldset, legend, input, button, textarea, p, blockquote, table, th, td, menu { margin: 0; padding: 0; resize: none;font-family: "Microsoft YaHei"; }
+
+table { border-collapse: collapse; border-spacing: 0; }
+
+body,form,div,ul,ol,li,h1,h2,h3,h4,h5,h6,table,tr,th,td,p,input,dl,dt,dd,ul,ol,li,input,textarea { font-family:"微软雅黑"!important;}
+
+ul, ol, menu { list-style: none; text-align: left; }
+
+fieldset, img { border: none; }
+
+img, object, select, input, textarea, button { vertical-align: middle; box-sizing: content-box; }
+
+input, textarea, select, address, caption, cite, code, dfn, em, i, b, strong, small, th, var, abbr, button, u, s, del { font-style: normal; text-decoration: none; }
+
+article, aside, footer, header, hgroup, nav, section, figure, figcaption { display: block; }
+
+code, kbd, pre, samp, tt { font-family: Consolas,"Courier New", Courier, monospace; }
+
+address, cite, dfn, em, var, i { font-style: normal; }
+
+blockquote, q { quotes: none; }
+
+blockquote:before, blockquote:after, q:before, q:after { content: ""; content: none; }
+
+a { text-decoration: none; cursor: pointer; color: #666; }
+a:hover, a:focus { outline: none; color: #6bb945; text-decoration: underline; }
+a, a * { cursor: pointer; }
+
+
+.clear{clear:both;}
+
+
+.header{
+    height: 80px;
+    background: #ffffff;
+    width: 100%;
+    overflow: hidden;
+    border-bottom: 2px #6bb945 solid;position: relative;
+}
+.header .head_main{width: 1200px; height: 80px; margin:0 auto;}
+.head_main .head_left{
+    text-align: center;
+    line-height: 80px;
+    float: left;
+    width: 500px;
+}
+.head_main .head_left .logo_img{
+    width: 200px;
+    height: 50px;
+    border-right: 1px solid #cdcdcd;
+    margin: 15px 0;
+    line-height: 50px;
+    float: left;
+}
+.head_main .head_left .logo_img img{
+    width: 142px;
+    height: 56px;
+}
+.head_main .head_left ul.nav{
+    width: 700px;height: 80px;
+}
+.head_main .head_left ul.nav li{
+    display: block;float: left;width: 100px;color: #333;text-align: center;
+}
+.head_main .head_left ul.nav li.current a { color: #6bb945; text-decoration: none; font-weight: normal;  }
+.head_main .head_right{
+    text-align: center;
+    line-height: 80px;
+    float: right;font-size: 14px;
+    z-index: 10;
+}
+.busioption{display: none;width: 65px;position: absolute;top: 55px;right: 237px;font-size: 14px;}
+.busioption p a{color: #3c3c3c;display: block;clear: both;text-align: center;width: 80px;height: 26px;line-height: 26px;}
+.busioption p a:hover{color: #fff;background-color: #6bb945;display: block;clear: both;}
+.head_main .head_right ul li{
+    float: right;
+    margin-left: 30px;
+}
+.head_main .head_right ul li.busiman a i{
+    background: url("../../../image/company/down.png") no-repeat;width: 16px;height: 16px;display: inline-block;
+}
+.head_main .head_right ul li.busiman a i.checked{
+    background: url("../../../image/company/up.png") no-repeat;width: 16px;height: 16px;display: inline-block;
+}
+.head_main .head_right ul li a{
+    color: #3c3c3c; font-size: 14px;
+}
+.head_main .head_right ul li a:hover{ text-decoration: none;}
+
+
+
+
 .company_top{
 	width: 1200px;
 	margin: 25px auto;
@@ -23,16 +118,17 @@
 	line-height: 35px;
 	color: #999999;
 }
+.company_infor .company_busines span .bg_da{color: #6bb945;}
 .star_box .items{
 	 display: block;
     float: left;
-    height: 15px;
-    line-height: 15px;
+    height: 25px;
+    line-height: 25px;
     color: #999;
     font-weight: normal;
 }
 .company_pj .star_box{
-	padding: 8px 35px 8px 0px;
+	height: 30px;line-height: 30px;font-size: 14px;
 }
 .company_pj .pj_title{
     padding: 15px 35px 10px 0px;
@@ -93,7 +189,7 @@
 }
 .company_profile .profile_left p.profile_content{
 	text-indent: 20px;
-	max-height: 207px;
+	max-height: 205px;
 	overflow: hidden;
 }
 .company_profile .profile_left a.profile_a{
@@ -268,6 +364,9 @@ ul.case_ul3 li .comm_name{
 	border-bottom: 1px solid #e4e4e4;
 	padding-bottom: 20px;
 }
+.case_content .user_comment .user_comm_img{
+	float: left;
+}
 .case_content .user_comment .user_comm_img img{
 	width: 40px;
 	height: 40px;
@@ -276,17 +375,32 @@ ul.case_ul3 li .comm_name{
     -webkit-border-radius: 50%;
 }
 .case_content .user_content{
-	width: 1070px;
+	width: 1070px;float: left;
+	padding-left: 15px;
+}
+.case_content  .comm_user_name{
+	height: 50px;line-height: 40px;
 }
 
 .case_content  .comm_user_name li{
 	float: left;
-	padding-right:20px; 
+	padding-right:20px; color: #666;
 }
+.case_content  .comm_user_name li:nth-child(3){
+	padding-left: 150px;
+} 
 .case_content  .comm_user_name li.star_box{
 	position: relative;
 	top:8px;
-	padding-left: 20px;
+}
+.case_content  .comm_user_name li.star_box .good_star{
+	display: block;height: 25px;background: url("../../../image/company/pj_strat.png") center 0px;position: absolute;z-index: 10;
+}
+.case_content  .comm_user_name li.star_box .bad_star{
+	width: 150px;display: block;height: 25px;background: url("../../../image/company/pj_strat.png") center 26px;position: absolute;z-index: 9;
+}
+.case_content  .comm_user_name li.star_box .good_star.star_3{
+	width: 90px;
 }
 .case_content .user_content .commpany_reply{
 	background: #f8f8f8;
@@ -304,6 +418,12 @@ ul.case_ul3 li .comm_name{
 	width: 189px;
 	height: 120px;
 	padding:20px 25px 0px 0px;
+}
+.case_content .user_content .comm_user_cont{
+	line-height: 25px;color: #333;
+}
+.case_content .user_content .comm_time{
+	line-height: 50px;color: #666;
 }
 .case_content .comm_more{
 	text-align: center;
@@ -338,9 +458,7 @@ ul.case_ul3 li .comm_name{
 	position: relative;
 }
 .company_suser_pj .review_uls{
-	position: absolute;
-	top:0px;
-	left: 70px;
+	float: left;
 }
 .company_suser_pj .review_uls li {
     width: 25px;
