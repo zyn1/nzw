@@ -580,13 +580,13 @@ ul.case_ul3 li .comm_name{
 }
 .company_main .case_left{
 	float: left;
-	width: 960px;
-	margin-right: 20px;	
+	width: 930px;
+	margin-right: 20px;
 	margin-top: 20px;
 }
 .company_main .case_right{
 	float: left;
-	width: 220px;
+	width: 250px;
 	margin-top: 20px;
 }
 .company_main  .case_detail_title{
@@ -653,7 +653,7 @@ ul.case_ul3 li .comm_name{
   	display: block;
   	float: left;
   	padding: 0px 10px 20px 0;
-  	width: 85px;
+  	width: 100px;
   }
 .right_cont .right_recommend a.recom_img img{
     	width: 100%;
