@@ -1,0 +1,136 @@
+{include:_dec_commp_top}
+<script type="text/javascript">
+	$(function(){
+		$(".company_nav ul li a").eq(2).addClass("on");
+	})
+</script>
+<div class="company_backg">
+	<div class="company_main clear">
+		<div class="breadcrumb">
+		<span>您当前的位置：</span> <a class="ab6" href="#">装修公司</a>
+		 »
+		<a class="ab6"  href="#">装修案例 </a>
+		 »
+		<a class="ab6"  href="#">案例详情</a>
+		</div>
+		<div class="case_left clear">
+			<div class="case_detail_title">
+				<h3>福景佳苑150平简约风格装修设计</h3>
+				<span>大气奢华</span> &nbsp;|&nbsp;
+				<span>面积150㎡ &nbsp;|&nbsp;
+				<span>20万</span>
+			</div>
+			<div  class="case_detail_content">
+				<img src="{url:views/nzw/skin/default/image/warn.png}" style="width:100%">
+				<p class="cont_line">【客厅】客厅墙面用石膏线压边及贴壁纸处理</p>
+			</div>
+			<div class="left_adver"><img src="{url:views/nzw/skin/default/image/company/case_img.jpg}"/></div>
+		</div>
+		<div class="case_right">
+			<div class="right_cont">
+				<h4>福景佳苑150㎡</h4>
+				<p>地区：山东济南</p>
+				<p>楼盘：济南福景佳苑</p>
+				<p>风格：美式</p>
+				<p>预售：16万</p>
+				<p>面积：150平米</p>
+				<p>户型：三层</p>
+				<div class="desig_ln">
+					<p class="desigh_title">设计理念</p>
+					<p class="design_ln_con">本案客户追求简约、大气、温馨、舒适的感觉。在设计上，实木的家具搭配棉麻的布艺家具，一深一浅，一重一亮，从颜色到质感都是采用性价比最高的，摒弃华而不实的装饰，注重整体空间的合理规划，带着一丝丝小情调，让整个空间充满温馨的感觉。 </p>
+				</div>
+			</div>
+			<div class="right_cont">
+				<h4>相似推荐</h4>
+				<div class="right_recommend clear">
+					<a class="recom_img"><img src="{url:views/nzw/skin/default/image/warn.png}"></a>
+					<a class="recom_img"><img src="{url:views/nzw/skin/default/image/warn.png}"></a>
+					<a class="recom_img"><img src="{url:views/nzw/skin/default/image/warn.png}"></a>
+					<a class="recom_img"><img src="{url:views/nzw/skin/default/image/warn.png}"></a>
+				</div>
+			</div>
+			<div class="right_cont">
+					<img class="right_adver" src="{url:views/nzw/skin/default/image/warn.png}">
+				</div>
+				<div class="right_cont">
+					<img class="right_adver" src="{url:views/nzw/skin/default/image/warn.png}">
+				</div>
+		</div>
+	</div>
+</div>
+<!-- 预约装修弹窗 -->
+			<div id="mask">&nbsp;</div>
+			<div id="order">
+				<div class="order_head">预约装修</div>
+				<div style="padding:0 100px;">
+					<input type="text" placeholder="您的姓名" class="normal">
+					<input type="text" placeholder="电话号码" class="normal">
+					<div class="city">
+						<input type="button" class="city_select" value="省/市" id="city_select1">
+						<input type="hidden" name="type">
+						<ul style="display:none;" class="city_list" id="city_list1">
+							<li js_data="1">太原市</li>
+							<li js_data="2">阳泉市</li>
+						</ul>
+					</div>
+					<div class="county">
+						<input type="button" class="area_select" value="省/市" id="area_select1">
+						<input type="hidden" name="type">
+						<ul style="display:none;" class="area_list" id="area_list1">
+							<li js_data="1">太原市</li>
+							<li js_data="2">阳泉市</li>
+							<li js_data="3">大同市</li>
+							<li js_data="4">忻州市</li>
+							<li js_data="5">平遥市</li>
+							<li js_data="6">晋中市</li>
+							<li js_data="7">澳门市</li>
+							<li js_data="8">长治市</li>
+							<li js_data="9">平遥市</li>
+							<li js_data="10">晋中市</li>
+							<li js_data="11">澳门市</li>
+							<li js_data="12">长治市</li>
+						</ul>
+					</div>
+					<input type="text" placeholder="房屋面积" class="normal"><span class="area">㎡</span>
+					<a href class="need_publish" id="mask_close">免费发布</a>
+				</div>
+			</div>
+<!-- 预约装修 end -->
+<script type="text/javascript">
+$(function(){
+	// 预约装修点击弹窗
+	$(".nav_icon").click(function(){
+		$("#order").show();
+		$("#order").css("top","20%");
+		$("#mask").show();
+	});
+	$("#mask").click(function(){
+		$("#order").hide();
+		$("#mask").hide();
+	});
+	//分页选择效果
+	$(".page .page_num").click(function(){
+		$(".page .page_num").removeClass("on");
+		$(this).addClass("on");
+	})
+	//上一页
+	$(".page .page_up").click(function(){
+		var index = $(".page .page_num.on").index();//获取当前页
+			if(index > 2){
+				$(".page .page_num").removeClass("on");//清除所有选中
+				$(".page .page_a").eq(index-1).addClass("on");//选中上一页
+			}
+	})
+	//下一页
+	$(".page .page_down").click(function(){
+		var index = $(".page .page_num.on").index();//获取当前页
+			if(index>1 && index<4){
+				alert(index)
+				$(".page .page_num").removeClass("on");//清除所有选中
+				$(".page .page_a").eq(index+1).addClass("on");//选中上一页
+			}
+	})
+});
+
+
+</script>
