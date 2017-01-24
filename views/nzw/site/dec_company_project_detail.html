@@ -61,23 +61,14 @@
 				</p>
 			</div>
 		</section>
-<style>
 
-.project_plan{width:1200px;margin:10px auto;background:#fff;}
-.project_plan .tab{overflow:hidden;background:#ccc;}
-.project_plan .tab a{display:block;padding:20px 20px;float:left;text-decoration:none;color:#333;background: #fafafa;border: 1px solid #e8e8e8;}
-.project_plan .tab a:hover{background:#fff;color:#333;text-decoration:none;}
-.project_plan .tab a.on{border-bottom: 0px; background:#fff;color:#6bb945;text-decoration:none;border-top: 2px solid #6bb945;}
-.project_plan .content{overflow:hidden;width:1200px;position:relative;}
-.project_plan .content ul{position:relative;left:0;top:0;}
-.project_plan .content li{width:1200px;float:left;}
-.project_plan .content li p{padding:10px;}
-</style>
+
 		<section class="project_plan clear">
 			<div class="tab">
 				<a href="javascript:;" class="on">设计方案</a>
 				<a href="javascript:;">施工流程</a>
 				<a href="javascript:;">业主评价</a>
+				<div class="space"></div>
 			</div>
 			<div class="content">
 				<ul>
@@ -195,7 +186,6 @@
 <script type="text/javascript">
 $(function(){
 	$('.project_plan .content ul').width(1200*$('.project_plan .content li').length+'px');
-	$('.project_plan .content').height($('.project_plan .content').height+'px');
 	$(".project_plan .tab a").click(function(){
 		$(this).addClass('on').siblings().removeClass('on');
 		var index = $(this).index();
@@ -204,6 +194,14 @@ $(function(){
 		$('.project_plan .content ul').stop().animate({
 			left:distance
 		});
-	});	
+	});
+	// 第二种显示效果
+	// $(".project_plan .tab a").mouseover(function(){
+	// 	$(this).addClass('on').siblings().removeClass('on');
+	// 	var index = $(this).index();
+	// 	number = index;
+	// 	$('.project_plan .content li').hide();
+	// 	$('.project_plan .content li:eq('+index+')').show();
+	// });	
 });
 </script>
