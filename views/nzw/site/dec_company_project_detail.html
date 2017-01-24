@@ -77,12 +77,12 @@
 <script type="text/javascript">
 $(function(){
 	// 第一种显示效果
-	$('.project_plan .content ul').width(500*$('.project_plan .content li').length+'px');
+	$('.project_plan .content ul').width(1200*$('.project_plan .content li').length+'px');
 	$(".project_plan .tab a").click(function(){
 		$(this).addClass('on').siblings().removeClass('on');
 		var index = $(this).index();
 		number = index;
-		var distance = -500*index;
+		var distance = -1200*index;
 		$('.project_plan .content ul').stop().animate({
 			left:distance
 		});
