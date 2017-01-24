@@ -106,6 +106,7 @@
 				<a class="page_a page_num">1</a>
 				<a class="page_a page_num on">2</a>
 				<a class="page_a page_num">3</a>
+				<a class="page_a page_num">4</a>
 				<a class="page_a page_down">下一页</a>
 			</div>
 		</div>
@@ -179,7 +180,8 @@ $(function(){
 	//下一页
 	$(".page .page_down").click(function(){
 		var index = $(".page .page_num.on").index();//获取当前页
-			if(index>1 && index<4){
+		var lenght= $(".page .page_num").length+1;//获取有几页
+			if(index>1 && index<lenght){
 				//alert(index)
 				$(".page .page_num").removeClass("on");//清除所有选中
 				$(".page .page_a").eq(index+1).addClass("on");//选中上一页
