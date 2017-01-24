@@ -1310,4 +1310,69 @@ class Member extends IController implements adminAuthorization
         }
         $this->redirect('contract_list');
     }
+
+    //修改风格页面
+    function style_edit()
+    {
+        $this->layout = '';
+
+        $id        = IFilter::act(IReq::get('id'),'int');    
+
+        $dataRow = array(
+            'id'        => '',
+            'name'      => '',
+            'sort'      => ''
+        );
+
+        if($id)
+        {
+            $obj     = new IModel('case_style');
+            $dataRow = $obj->getObj("id = {$id}");
+        }
+
+        $this->setRenderData($dataRow);
+        $this->redirect('style_edit');
+    }
+    
+    //增加或者修改风格
+    function style_update()
+    {
+        $id         = IFilter::act(IReq::get('id'),'int');
+        $name       = IFilter::act(IReq::get('name')); 
+        $sort       = IFilter::act(IReq::get('sort'));       
+
+        $editData = array(
+            'id'        => $id,
+            'name'      => $name, 
+            'sort'      => $sort
+        );
+
+        //执行操作
+        $obj = new IModel('case_style');
+        $obj->setData($editData);
+
+        //更新修改
+        if($id)
+        {
+            $where = 'id = '.$id;   
+            $result = $obj->update($where);
+        }
+        //添加插入
+        else
+        {
+            $result = $obj->add();
+        }
+
+        //执行状态
+        if($result===false)
+        {
+            die( JSON::encode(array('flag' => 'fail','message' => '数据库更新失败')) );
+        }
+        else
+        {
+            //获取自动增加ID
+            $editData['id'] = $id ? $id : $result;
+            die( JSON::encode(array('flag' => 'success','data' => $editData)) );
+        }
+    }
 }

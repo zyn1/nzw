@@ -34,8 +34,7 @@ class menuCompany
 		"配置模块" => array(                  
 			/*"/company/message_list" => "消息通知", */ 
             "/company/company_edit" => "资料修改",
-            "/company/company_desc" => "公司简介",
-			"/company/style_list" => "风格管理"
+            "/company/company_desc" => "公司简介"
 		),
 	);
 

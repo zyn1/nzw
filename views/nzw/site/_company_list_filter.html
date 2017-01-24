@@ -21,7 +21,7 @@
 		<dt>风格：</dt>
 		<dd class="brand_dd close" id="style_m">
 			<a class="current" href="{echo:search_company::searchUrl('style','')}" id="style_0">不限</a>
-			{query:name=case_style order=sort asc fields=id,name}
+			{query:name=case_style where=is_del eq 0 order=sort asc fields=id,name}
 			<a href="{echo:search_company::searchUrl('style',$item['id'])}" id="style_{$item['id']}">{$item['name']}</a>
             {/query}
 		</dd>

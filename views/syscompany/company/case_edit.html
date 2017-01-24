@@ -19,7 +19,7 @@
 			<fieldset>
 				<label>风格</label>
                 <div class="box">
-                {query:name=case_style where=user_id eq $user_id sort=sort asc}
+                {query:name=case_style where=is_del eq 0 where=is_del eq 0 sort=sort asc}
 				<input type="checkbox" name="style[]" value="{$item['id']}" {if:in_array($item['id'],$styles)} checked="checked" {/if}>{$item['name']}&nbsp;&nbsp;
                 {/query}
                 </div>
@@ -128,7 +128,7 @@ $(function()
 });
     
 function checkForm(){
-    if ($('input[name=photo]').val() == '') {
+    if ($('input[name=photo]').val() == '' && $('input[name=id]').val() == '') {
         alert('请上传主图');
         return false;
     }

@@ -63,6 +63,9 @@ class Menu
 				'/message/registry_list'    => '邮件订阅',*/
 				'/message/marketing_sms_list'=> '营销短信',
 			),
+            '风格管理' => array(
+                '/member/style_list' => '风格列表'
+            )
 		),
 
 	   '订单'=>array(
