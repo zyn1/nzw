@@ -85,4 +85,30 @@ class company_case
         }
         return $result;
     }
+    
+    //相关推荐
+    public static function getRecommList($user_id, $style, $id=null, $limit=4)
+    {                      
+        $caseDB = new IModel('case');
+        $temp = explode(',',$style);
+        $where = 'user_id = '.$user_id;
+        if($id)
+        {
+            $where .= ' and id !='.$id;
+        }
+        $_where = array();
+        foreach($temp as $v)
+        {
+            $_where[] = 'find_in_set("'.$v.'",style)';
+        }
+        $where .= ' and ('.implode(' or ', $_where).')';
+        $data = $caseDB->query($where,'id,title,photo','id desc', $limit);
+        $count = count($data);
+        if($id && $count > 0 && $count < $limit)
+        {
+            $localData = $caseDB->getObj('id = '.$id,'id,title,photo');
+            $data[] = $localData;
+        }              
+        return $data;
+    }
 }

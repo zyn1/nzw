@@ -32,7 +32,7 @@
 			<div  class="case_detail_content">
 				{echo:htmlspecialchars_decode($caseRow['description'])}
 			</div>
-			<div class="left_adver"><img src="{url:views/nzw/skin/default/image/company/case_img.jpg}"/></div>
+			<div class="left_adver">{echo:Ad::show('装修案例详情页左下方930*100')}</div>
 		</div>
 		<div class="case_right">
 			<div class="right_cont">
@@ -53,20 +53,22 @@
 					<p class="design_ln_con">{$caseRow['intro']}</p>
 				</div>
 			</div>
+            {set:$data = company_case::getRecommList($user_id,$caseRow['style'],$caseRow['id'])}
+            {if:$data}
 			<div class="right_cont">
 				<h4>相似推荐</h4>
 				<div class="right_recommend clear">
-					<a class="recom_img"><img src="{url:views/nzw/skin/default/image/warn.png}"></a>
-					<a class="recom_img"><img src="{url:views/nzw/skin/default/image/warn.png}"></a>
-					<a class="recom_img"><img src="{url:views/nzw/skin/default/image/warn.png}"></a>
-					<a class="recom_img"><img src="{url:views/nzw/skin/default/image/warn.png}"></a>
+                    {foreach:items=$data}
+					<a href="{url:/site/company_case_detail/id/$user_id/cid/$item['id']}" class="recom_img"><img src="{webroot:$item['photo']}"></a>
+                    {/foreach}
 				</div>
 			</div>
+            {/if}
 			<div class="right_cont">
-					<img class="right_adver" src="{url:views/nzw/skin/default/image/warn.png}">
+					{echo:Ad::show('装修案例详情页右下一250*150')}
 				</div>
 				<div class="right_cont">
-					<img class="right_adver" src="{url:views/nzw/skin/default/image/warn.png}">
+					{echo:Ad::show('装修案例详情页右下二250*150')}
 				</div>
 		</div>
 	</div>
@@ -109,7 +111,7 @@
 				</div>
 			</div>
 <!-- 预约装修 end -->
-<script type="text/javascript">
+<!--<script type="text/javascript">
 $(function(){
 	// 预约装修点击弹窗
 	$(".nav_icon").click(function(){
@@ -146,4 +148,4 @@ $(function(){
 });
 
 
-</script>
+</script>-->
