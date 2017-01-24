@@ -180,7 +180,7 @@ $(function(){
 	$(".page .page_down").click(function(){
 		var index = $(".page .page_num.on").index();//获取当前页
 			if(index>1 && index<4){
-				alert(index)
+				//alert(index)
 				$(".page .page_num").removeClass("on");//清除所有选中
 				$(".page .page_a").eq(index+1).addClass("on");//选中上一页
 			}

@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <link type="image/x-icon" href="{webroot:favicon.ico}" rel="icon">
     <link rel="stylesheet" href="{skin:style/css/company/company.css}">
+
 </head>
 {js:jquery}
 {js:dialog}
@@ -52,7 +53,7 @@
             })
         </script>
     </header >
-    <section class="company_top">
+    <div class="company_top">
         <div class="company_logo">
             <img src="{url:views/nzw/skin/default/image/company/commp_logo.jpg}">
         </div>
@@ -103,11 +104,11 @@
             </ul>
             <a class="nav_icon"></a>
         </nav>
-    </section>
+    </div>
     {viewcontent}
     <!-- 底部文件 -->
-    <footer class="foot">
-        <section class="help">
+    <div class="foot">
+        <div class="help">
             {set:$catIco = array('help-new','help-delivery','help-pay','help-user','help-service')}
             {foreach:items=Api::run('getHelpCategoryFoot') item=$helpCat}
             <dl class="help_{echo:$key+1}">
@@ -121,9 +122,9 @@
                 <div class="tel">扫码关注耐装网</div>
                 <div class="mail"><img src="{skin:/image/index/code.png}" alt=""></div>
             </div>
-        </section>
+        </div>
         
-        <section class="copy border">
+        <div class="copy border">
             <!-- {echo:IFilter::stripSlash($this->_siteConfig->site_footer_code)} -->
             <div class="footer" style="text-align:center;">
                 <p class="copyright">copyright @ 2014-2017 耐装网络科技（大连）有限公司版权所有 网站备案/许可证号：<a >沪ICP备16014698号</a></p>
@@ -131,8 +132,8 @@
                 <p class="copyright">违法信息举报信箱：shensu@nainaiwang.com</p>
                 <p class="copyright">技术支持：耐耐云商科技有限公司技术研发中心</p>
             </div>
-        </section>
-    </footer>
+        </div>
+    </div>
 </body>
 </html>
 <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1260508109'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s4.cnzz.com/z_stat.php%3Fid%3D1260508109%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));</script>
