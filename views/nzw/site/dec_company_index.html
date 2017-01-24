@@ -398,7 +398,7 @@ $(function(){
                 var fileName = obj.files[i].name
                     ,ext = fileName.substring(fileName.lastIndexOf(".")+1,fileName.length).toLowerCase()
                   var fileSize =  obj.files[i].size;
-	            if(fileSize>102400){
+	            if(fileSize>1024000){
 	                alert("亲，图片不能超过10MB哦！");
 	                return;
                 }
@@ -423,14 +423,25 @@ $(function(){
         var img = document.createElement('img'), imgid = guid();;
         img.src = url;
         img.id = imgid;
-        document.getElementById("thumbnails").appendChild(img);
-  /*     var width = img.width;
-       var height = img.height;
-        if(width<300 && height<300){
-            alert("亲图片不能小于300*300")
-            document.getElementById("thumbnails").removeChild(img);
-        }*/
-        
+        img.setAttribute("name", "img_name");
+       // document.getElementById("thumbnails").appendChild(img);
+        img.onload = function(){ //加载图片后才能获取图片的宽高
+       var img_length=document.getElementsByName("img_name").length+1
+        var width = img.width;
+        var height = img.height;
+        if(width>=300 && height>=300){
+        	//alert(img_length);
+            if(img_length>5){
+                 alert("亲不能超过五张啊");
+                 return;
+             }else{
+               document.getElementById("thumbnails").appendChild(img);
+             }
+        }else if(width<300){
+            alert("亲图片不能小于300*300哦！");
+            return;
+        }
+    };
 
         if (ie) {
             try {
