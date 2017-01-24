@@ -1100,14 +1100,12 @@ class Member extends IController implements adminAuthorization
             $content = '';
             if($data['is_lock'] == 2)
             {
-                $title = "耐装网注册装修公司审核结果";
-                $content = $is_lock == 1 ? '未通过审核' : ($is_lock == 0 ? '审核通过' : '');
+                $content = $is_lock == 1 ? '您在耐装网开通的装修公司未通过审核' : ($is_lock == 0 ? '您在耐装网开通的装修公司审核通过' : '');
             }
-            elseif($data['is_lock'] <> $is_lock)
+            /*elseif($data['is_lock'] <> $is_lock)
             {
-                $title = "耐装网";
-                $content = $is_lock == 1 ? '您的装修公司被锁定' : '您的装修公司已解锁';
-            }
+                $content = $is_lock == 1 ? '您在耐装网开通的装修公司被锁定' : '您在耐装网开通的装修公司已解锁';
+            }*/
             if($content)
             {
                 if($suggest)
@@ -1116,23 +1114,13 @@ class Member extends IController implements adminAuthorization
                     if($data['is_lock'] == 2 && $is_lock == 1)
                     {
                         $temp = rand(100000,999999);
-                        /*$model = new IModel('seller_rej_sign');
-                        $model->setData(array('seller_id' => $seller_id, 'code' => $temp));
-                        $model->add();
-                        $url = IUrl::getHost().IUrl::creatUrl('/simple/sellerRej/_i/'.$seller_id.'/_c/'.$temp);
-                        $msg .= "<br/>点击下面这个链接重新编辑开店信息：<a href='{$url}'>{$url}</a>。<br />如果不能点击，请您把它复制到地址栏中打开。";*/
                     }
                 }
                 else
                 {
                     $msg = $content;
                 }
-                $smtp   = new SendMail();
-                $result = $smtp->send($email,$title,$msg);
-                if($result===false)
-                {
-                    Util::showMessage("发信失败,请重试！或者联系管理员查看邮件服务是否开启");
-                }
+                $result = Hsms::send($mobile,$msg);
             }
         }
         $this->redirect('company_list');
