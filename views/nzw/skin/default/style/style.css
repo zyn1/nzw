@@ -2432,7 +2432,7 @@ section.count_down{margin: 13px 5px;}
 .shop_main .main_head.lgl{height: 38px;line-height: 38px;text-align: center;color: #bd4327;font-size: 15px;}
 .shop_main .main_head mark { padding: 0 5px; background: none; color: #F85D92; }
 .shop_main .main_head .barnd_web { float: right; margin-right: 15px; text-decoration: none; -webkit-transition: all 0.25s ease-in-out; transition: all 0.25s ease-in-out; }
-.shop_main .goods_tag { border: 1px solid #ddd; border-bottom: 0 none; }
+.shop_main .goods_tag { border: 1px solid #ddd; /*border-bottom: 0 none; */}
 .shop_main .goods_tag .tag_head { height: 38px; line-height: 38px; text-indent: 15px; color: #9b5d09; background: #fafafa; background-image: -webkit-linear-gradient(0deg, #f0f0f0, #fff); background-image: linear-gradient(0deg, #f0f0f0, #fff); border-bottom: 1px solid #ddd; font-size: 14px; }
 .shop_main .goods_tag dl { border-bottom: 1px dotted #ddd; margin: 0 10px; padding: 8px 0; line-height: 24px; }
 .shop_main .goods_tag dl:last-child { border: none; }
@@ -2455,7 +2455,7 @@ section.count_down{margin: 13px 5px;}
 .shop_main .goods_tag dl dd p button { height: 22px; border: 1px solid #ddd; background: #fafafa; background-image: -webkit-linear-gradient(0deg, #f0f0f0, #fafafa); background-image: linear-gradient(0deg, #f0f0f0, #fafafa); border-radius: 4px; width: 40px; box-shadow: 0 0 0 1px #fff inset; cursor: pointer; margin-left: 5px; }
 .shop_main .goods_sort p button { line-height: 22px; height: 22px; border: 1px solid #ddd; background: #fafafa; background-image: -webkit-linear-gradient(0deg, #f0f0f0, #fafafa); background-image: linear-gradient(0deg, #f0f0f0, #fafafa); border-radius: 4px; width: 40px; box-shadow: 0 0 0 1px #fff inset; cursor: pointer; margin-left: 5px; }
 
-.shop_main .goods_sort { padding: 0 10px; background: #ffffff; border: 1px solid #e4e4e4; height: 38px; line-height: 38px; font-size: 13px; }
+.shop_main .goods_sort { padding: 0 10px; background: #ffffff; border: 1px solid #e4e4e4;border-top:0px; height: 38px; line-height: 38px; font-size: 13px; }
 .shop_main .goods_sort strong { display: block; float: left; width: 50px; text-align: center; font-weight: normal; }
 .shop_main .goods_sort ul { float: left; }
 .shop_main .goods_sort li { float: left; position: relative; margin-right: 0px; }
@@ -2929,3 +2929,199 @@ section.count_down{margin: 13px 5px;}
 
 .louceng5 .home_2 .hot_goods .product_list p .area{float: left;font-size: 14px;}
 .louceng5 .home_2 .hot_goods .product_list p .price{float: right;font-size: 14px;}
+/*设计师 列表*/
+.clear:after{
+	display: block;
+	content: "";
+	clear: both;
+}
+.a99{
+	color: #999;
+}
+.a00{
+	color: #000;
+}
+.desig_goods_sort{
+	margin-top: 20px;
+	border-top: 1px solid #e4e4e4 !important;
+	background: #f8f8f8 !important;
+}
+.desig_goods_sort .current{
+	background: #f8f8f8 !important;
+} 
+.design_goods_list{
+    width: 958px;
+    overflow: hidden;
+    background: #fff;
+    border: 1px solid #e4e4e4;
+    border-top: none;
+}
+.design_goods_list ul li{
+	padding:30px 20px;
+	border-bottom: 1px solid #e4e4e4;
+}
+.design_goods_list .deigner_img,.design_goods_list .deigner_img img{
+	width: 80px;
+	height: 80px;
+	border-radius: 50%;
+	-moz-border-radius: 50%; 
+	-webkit-border-radius: 50%; 
+}
+.design_goods_list a.deigner_img{
+	display: block;
+	float: left;
+}
+.design_goods_list .shop_content {
+	float: left;
+	width: 698px;
+	padding: 0 20px;
+}
+.design_goods_list .shop_content h5{
+	    color: #555;
+    font-weight: bold;
+    font-size: 20px;
+    height: 50px;
+    line-height: 50px
+}
+.design_goods_list .shop_content h5 .gold_icon{
+	width: 80px;
+	height: 20px;
+	padding: 8px 10px 10px;
+}
+.design_goods_list .shop_content em{
+	font-size: 16px;
+	color: #000;
+}
+.design_goods_list .shop_content .design_list_p{
+	padding-top:15px; 
+	line-height: 20px;
+	color: #999;
+}
+.design_goods_list .shop_content .design_list_p i{
+	padding-left: 10px;
+}
+.design_goods_list .design_btn{
+	float: left;
+	width: 100px
+}
+.design_goods_list .design_btn .design_ts{
+	color:#ea411f;
+	padding: 30px 20px 30px;
+}
+.design_goods_list .design_btn .design_btn_zx{
+	background: #6BB945;
+	color: #fff;
+	padding: 10px 20px;
+	border-radius: 5px;
+	-moz-border-radius: 5px; 
+	-webkit-border-radius: 5px; 
+}
+li .design_case .design_case_img{
+	display: block;
+	float: left;
+	padding-left: 20px;
+	padding-top:30px;
+}
+li .design_case .design_case_img:nth-child(1){
+	padding-left: 0px;
+}
+li .design_case .design_case_img img{
+	width: 292px;
+	height: 300px;
+}
+.bar_goods_nav .textare_bz{
+	width: 196px;
+    padding: 5px;
+    height: 100px;
+    border: 1px solid #ccc;
+    margin-top: 10px;
+}
+.room_size{
+	position: relative;
+}
+.room_size .area{
+	bottom: 15px !important;
+}
+.shop_bar .province,.shop_bar .countys,.shop_bar .citys{
+    position: relative;
+    width: 63px;
+    height: 36px;
+    float: left;
+    margin-left: 10px;
+    margin-top: 10px; 
+    	z-index: 10;
+}
+.shop_bar .area_select{
+	width: 43px;
+	height: 36px;
+	background: url("../image/list/up.png") no-repeat right center  #f4f4f4;
+	border: 0px;
+	text-align: left;
+	padding: 0 10px;
+}
+.shop_bar .province .area_list li,.shop_bar .countys .area_list li,.shop_bar .citys .area_list li{
+	background: #fff;
+	border:1px solid #e4e4e4;
+	border-top:0px; 
+	line-height: 25px;
+	text-align: center;
+}
+.shop_bar .province .area_list li:hover,.shop_bar .countys .area_list li:hover,.shop_bar .citys .area_list li:hover{
+	background: #f8f8f8;
+}
+.bar_box .design_rank_title{
+	line-height: 50px;
+	background: #26c395;
+	color:#fff;
+}
+.bar_box  ul.design_bar_rank li{
+	position: relative;
+	padding:25px 10px;
+	border-top: 1px solid #e4e4e4;
+}
+.bar_box  ul.design_bar_rank li:nth-child(1){
+	background: #fbfbfb;
+}
+.bar_box  ul.design_bar_rank li .design_head_img{
+	float: left;
+	width: 50px;
+	height: 50px;
+	border-radius:50%; 
+	-moz-border-radius: 50%; 
+	-webkit-border-radius: 50%; 
+}
+.bar_box  ul.design_bar_rank li .design_infor{
+	float: left;
+	width: 158px;
+}
+ul.design_bar_rank li .design_infor h5{
+	font-size: 18px;
+	padding-left: 15px;
+	position: relative;
+}
+ul.design_bar_rank li .design_infor h5 .gold_icon{
+	width: 60px;
+	height: 20px;
+	padding-left: 15px;
+}
+ul.design_bar_rank li .design_infor .word_case_num{
+	padding: 20px 0px 10px;
+}
+ul.design_bar_rank li .rank_num{
+	position: absolute;
+	bottom: 10px;
+	display: block;
+	width: 20px;
+	height: 20px;
+	line-height: 20px;
+	text-align: center;
+	border-radius:50%; 
+	-moz-border-radius: 50%; 
+	-webkit-border-radius: 50%; 
+	background:#a6a6a6; 
+	color: #fff;
+}
+ul.design_bar_rank li  i.on{
+	background: #ff9c00
+}
+/*设计师 列表end*/
