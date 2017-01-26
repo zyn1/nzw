@@ -1,3 +1,7 @@
+  <style type="text/css">
+    .foot .copy.border{background: #626262}.foot .copy{color: #fff;}.foot .copy a {color: #fff;}
+  </style>
+  <script src='{theme:javascript/index_slide.js}'></script>
   <!-- <div id="header">头部</div> -->
 <script type="text/javascript">
 $(function(){
@@ -18,119 +22,451 @@ $(function(){
                 {/if}
             </section> -->
 <!--bn-->
-<div class="home_fouse" id="home_fouse" style="background:#ccc;height:380px;">
+    <div class="home_fouse1" style="background:#ccc;">
         <!--轮播开始-->
             
-        <!--轮播结束-->
-</div>
+        <div class="pub_c">
+           <div class="m_banner">
+                <div class="banner b1" style=" background-image:url(images_2/banner_2.jpg);" id="banner1">
+                  
+                </div>
+                <div class="banner b5" style=" background-image:url(images_2/banner_17.jpg);display:none;" id="banner5">
+                
+                </div>
+                <div class="banner b2" style=" background-image:url(images_2/banner_12.jpg);display:none;" id="banner2"></div>
+                <div class="banner b3" style=" background-image:url(images_2/banner_3.jpg);display:none;" id="banner3"> </div>
+                <div class="banner b4" style=" background-image:url(images_2/banner_4.jpg);display:none;" id="banner4">  </div>
+                <div class="banner_ctrl"> <a href="#" class="prev" title=""></a> <a href="javascript:;" class="next" title=""></a> </div>
+
+
+                <div id="tabbox">
+                    <div class="tabbox">
+                        <div class="tab">
+                            <a href="javascript:;" class="on">免费报价</a>
+                            <a href="javascript:;">免费设计</a>
+                        </div>
+                        <div class="content">
+                            <ul>
+                                <li style="display:block;">
+                                    <form>
+                                        <input type="text" placeholder="请输入您的姓名" class="free_text" style="margin-top:0;">
+                                        <input type="text" placeholder="请输入您的手机号" class="free_text">
+                                              <div class="container" >
+                                                 <select name="" class="select">
+                                                     <option selected="selected">省</option>
+                                                        <option>北京</option>
+                                                        <option>天津</option>
+                                                        <option>上海</option>
+                                                        <option>重庆</option>
+                                                     </select>
+                                                 </div>
+                                                 <div class="container" >
+                                                 <select name="" class="select">
+                                                        <option selected="selected">省</option>
+                                                        <option>北京</option>
+                                                        <option>天津</option>
+                                                        <option>上海</option>
+                                                        <option>重庆</option>
+                                                 </select>
+                                                 </div>
+                                                 <div class="container" >
+                                                 <select name="" class="select">
+                                                     <option selected="selected">省</option>
+                                                        <option>北京</option>
+                                                        <option>天津</option>
+                                                        <option>上海</option>
+                                                        <option>重庆</option>
+                                                     </select>
+                                                 </div>
+                                        <input type="text" placeholder="房屋面积" class="free_text"><span class="area">㎡</span>
+                                        <input type="textarea" placeholder="备注" class="free_textarea">
+                                        <a href class="button">立即报价</a>
+                                    </form>
+                                </li>
+                                <li>                        
+                                    <form>
+                                        <input type="text" placeholder="请输入您的姓名" class="free_text" style="margin-top:0;">
+                                        <input type="text" placeholder="请输入您的手机号" class="free_text" >
+                                            <div class="container" >
+                                                 <select name="" class="select">
+                                                     <option selected="selected">省</option>
+                                                        <option>北京</option>
+                                                        <option>天津</option>
+                                                        <option>上海</option>
+                                                        <option>重庆</option>
+                                                     </select>
+                                                 </div>
+                                                 <div class="container" >
+                                                 <select name="" class="select">
+                                                        <option selected="selected">省</option>
+                                                        <option>北京</option>
+                                                        <option>天津</option>
+                                                        <option>上海</option>
+                                                        <option>重庆</option>
+                                                 </select>
+                                                 </div>
+                                                 <div class="container" >
+                                                 <select name="" class="select">
+                                                     <option selected="selected">省</option>
+                                                        <option>北京</option>
+                                                        <option>天津</option>
+                                                        <option>上海</option>
+                                                        <option>重庆</option>
+                                                     </select>
+                                                 </div>
+                                        <input type="text" placeholder="房屋面积" class="free_text" ><span class="area" style="bottom:71px;bottom:68px\0;">㎡</span>
+                                        <a href class="button">立即报价</a>
+                                    </form>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+         
+
+            <script>
+                $(function(){
+                    $(".tabbox .tab a").click(function(){
+                        $(this).addClass('on').siblings().removeClass('on');
+                        var index = $(this).index();
+                        number = index;
+                        $('.tabbox .content li').hide();
+                        $('.tabbox .content li:eq('+index+')').show();
+                    }); 
+                });
+            </script>
+
+          </div>
+         
+                <!--轮播结束-->
+        </div>
             
              
 
-            <section class="home_1_show">
-                <header class="floor_head">
-                <h2>商家推荐</h2>
-                <nav class="floor_nav">
-                    <a href="{url:/site/search_list_seller}">更多</a>
-                </nav>
-              </header>
-                <ul>
-                    {foreach:items=Api::run('getRecommendSeller',6)}
-                    <li>
-                        <a href="{url:/site/home/id/$item['id']}">
-                            <img src="{webroot:}{$item['seller_logo']}">
-                            <!-- 收费商家的图标 -->
-                            {if:$item['is_pay']}
-                            <img src="{url:views/nzw/skin/default/image/sellerVip.png}" class="vip_icon">
-                            {/if}
-                        </a>
-                    </li>
-                    {/foreach}
-                </ul>
-            </section> 
         </section>
     </div>
-    <div class="louceng">
+    <div class="louceng1">
         <section class="home_2">
-        <div id="hot_goods" class="hot_goods">
-            <ul class="special">
-                <li>
-                    <h2>特价商品</h2>
-                    <nav class="floor_more">
-                     <!--<a href="/.php">更多</a>-->
-                    </nav>    
-                </li>
-            </ul>
-            <div class="sale_price">
-                <ul class="hot_goods_list">
-                    {foreach:items=Api::run('getCommendPrice',6)}
+            <div id="hot_goods" class="hot_goods">
+                <ul class="special">
                     <li>
-                        <a href="{url:/site/products/id/$item['id']}">
-                            <img src="{url:/pic/thumb/img/$item['img']/w/170/h/170}">
-                            <h4>{$item['name']}</h4>
-                            <em>￥{$item['sell_price']}</em>
-                            <del>￥{$item['market_price']}</del>
-                            
-                            {if:goods_class::getSellerPay($item['seller_id'])}
-                            <img src="{url:views/nzw/skin/default/image/sellerVip.png}" class="vip_icon">
-                            {/if}
-                        </a>
-
+                        <h2>&nbsp;</h2>
                     </li>
-                    {/foreach}
                 </ul>
-            </div>
-        </div>
-
-    </section>
-    </div>
-    {foreach:items=Api::run('getCategoryListTop') item=$first }
-    <div class="louceng">
-        <!-- 开始循环楼层 -->
-    <section class="home_floor">
-        <header class="floor_head">
-            <h2>{$first['name']}</h2>
-            <nav class="floor_nav">
-                <ul>
-                    <li><a href="{url:/site/pro_list/cat/$first[id]}">更多</a></li>
-                </ul>
-            </nav>
-        </header>
-        <section class="floor_body">
-            
-            <div class="floor_show">
-                <div class="classify">
-                    <ul>
-                        {foreach:items=Api::run('getCategoryByParentid',array('#parent_id#',$first['id'])) item=$second}
-                        <li><a href="{url:/site/pro_list/cat/$second[id]}">{$second['name']}</a></li>
-                        {/foreach}
+                <div class="sale_step">
+                    <ul class="step_list">
+                        <li>
+                            <a href class="step1">收房量房</a>
+                        </li>
+                        <li>
+                            <a href class="step2">前期准备</a>
+                        </li>
+                        <li>
+                            <a href class="step3">选装修公司</a>
+                        </li>
+                        <li>
+                            <a href class="step4">设计阶段</a>
+                        </li>
+                        <li>
+                            <a href class="step5">材料选购</a>
+                        </li>
+                        <li>
+                            <a href class="step6">施工阶段</a>
+                        </li>
+                        <li>
+                            <a href class="step7">竣工验收</a>
+                        </li>
+                        <li>
+                            <a href class="step8">软装配饰</a>
+                        </li>
+                        <li style="margin-right:0;">
+                            <a href class="step9">装修保障</a>
+                        </li>
                     </ul>
                 </div>
-                <div class="ad_classify">
-                        {echo:Ad::show("首页分类广告228*300",$first['id'])}
+                <ul class="special1">
+                    <li>
+                        <h2>&nbsp;</h2>
+                        <nav class="floor_more">
+                         <a href>&nbsp;</a>
+                        </nav>    
+                    </li>
+                </ul>
+            </div>
+
+        </section>
+    </div>
+
+    <div class="louceng2">
+        <section class="home_2">
+            <div id="hot_goods" class="hot_goods">
+                <div class="case_price">
+                    <div class="case_list">
+                            <a href><img src="{url:views/nzw/skin/default/image/index/case_pic_01.png}" alt="北欧宜家 简约 清新 小户型 一居室" title="北欧宜家 简约 清新 小户型 一居室"></a>
+                      
+                        <p>
+                            <a href>北欧宜家 简约 清新 小户型 一居室</a>
+                        </p>
+                        <p>
+                            <span class="area">面积：100㎡</span>
+                            <span class="price">售价：8万/全包</span>
+                        </p>
+                    </div>
+                    <div class="case_list" style="border:0;">
+                        <div class="case_list_small">                            
+                                <a href><img src="{url:views/nzw/skin/default/image/index/case_pic_02.png}" alt="北欧宜家 简约 清新 小户型 一居室" title="北欧宜家 简约 清新 小户型 一居室"></a>
+                          
+                            <p>
+                                <a href>北欧宜家 简约 清新 小户型 一居室</a>
+                            </p>
+                            <p>
+                                <span class="area">面积：100㎡</span>
+                                <span class="price">售价：8万/全包</span>
+                            </p>
+                        </div>
+                        <div class="case_list_small">                            
+                                <img src="{url:views/nzw/skin/default/image/index/case_pic_02.png}" alt="北欧宜家 简约 清新 小户型 一居室" title="北欧宜家 简约 清新 小户型 一居室">
+                          
+                            <p>
+                                北欧宜家 简约 清新 小户型 一居室
+                            </p>
+                            <p>
+                                <span class="area">面积：100㎡</span>
+                                <span class="price">售价：8万/全包</span>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="case_list" style="margin-right:0;">
+                            <img src="{url:views/nzw/skin/default/image/index/case_pic_01.png}" alt="北欧宜家 简约 清新 小户型 一居室" title="北欧宜家 简约 清新 小户型 一居室">
+                      
+                        <p>
+                            北欧宜家 简约 清新 小户型 一居室
+                        </p>
+                        <p>
+                            <span class="area">面积：100㎡</span>
+                            <span class="price">售价：8万/全包</span>
+                        </p>                        
+                    </div>
+                </div>
+                <div class="case_price">
+                    <div class="case_list">
+                            <a href><img src="{url:views/nzw/skin/default/image/index/case_pic_01.png}" alt="北欧宜家 简约 清新 小户型 一居室" title="北欧宜家 简约 清新 小户型 一居室"></a>
+                      
+                        <p>
+                            <a href>北欧宜家 简约 清新 小户型 一居室</a>
+                        </p>
+                        <p>
+                            <span class="area">面积：100㎡</span>
+                            <span class="price">售价：8万/全包</span>
+                        </p>
+                    </div>
+                    <div class="case_list" style="border:0;">
+                        <div class="case_list_small">                            
+                                <a href><img src="{url:views/nzw/skin/default/image/index/case_pic_02.png}" alt="北欧宜家 简约 清新 小户型 一居室" title="北欧宜家 简约 清新 小户型 一居室"></a>
+                          
+                            <p>
+                                <a href>北欧宜家 简约 清新 小户型 一居室</a>
+                            </p>
+                            <p>
+                                <span class="area">面积：100㎡</span>
+                                <span class="price">售价：8万/全包</span>
+                            </p>
+                        </div>
+                        <div class="case_list_small" style="margin-bottom:0px;">                            
+                                <img src="{url:views/nzw/skin/default/image/index/case_pic_02.png}" alt="北欧宜家 简约 清新 小户型 一居室" title="北欧宜家 简约 清新 小户型 一居室">
+                          
+                            <p>
+                                北欧宜家 简约 清新 小户型 一居室
+                            </p>
+                            <p>
+                                <span class="area">面积：100㎡</span>
+                                <span class="price">售价：8万/全包</span>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="case_list" style="margin-right:0;">
+                            <img src="{url:views/nzw/skin/default/image/index/case_pic_01.png}" alt="北欧宜家 简约 清新 小户型 一居室" title="北欧宜家 简约 清新 小户型 一居室">
+                      
+                        <p>
+                            北欧宜家 简约 清新 小户型 一居室
+                        </p>
+                        <p>
+                            <span class="area">面积：100㎡</span>
+                            <span class="price">售价：8万/全包</span>
+                        </p>                        
+                    </div>
+                </div>
+                <!-- 广告图片 -->
+                <div class="ad">
+                    <img src="{url:views/nzw/skin/default/image/index/ad.png}">
                 </div>
             </div>
-            <div class="floor_goods">
-                <ul>
-                {set:$cateId=goods_class::catChild($first['id'])}
-                    {foreach:items=Api::run('getCategoryExtendList',array('#categroy_id#',$cateId),10)}
+
+        </section>
+    </div>
+    <div class="louceng3">        
+        <section class="home_2">
+            <div id="hot_goods" class="hot_goods">                
+                <ul class="special1">
                     <li>
-                        <a href="{url:/site/products/id/$item['id']}">
-                            <img src="{url:/pic/thumb/img/$item['img']/w/170/h/170}">
-                            {if:goods_class::getSellerPay($item['seller_id'])}
-                            <img src="{url:views/nzw/skin/default/image/sellerVip.png}" class="vip_icon">
-                            {/if}
-                            <h4>{$item['name']}</h4>
-                            <em>￥{$item['sell_price']}</em>
-                            <del>￥{$item['market_price']}</del>
-                        </a>
+                        <h2>&nbsp;</h2>
+                        <nav class="floor_more">
+                         <a href>&nbsp;</a>
+                        </nav>   
                     </li>
-                    {/foreach}
+                </ul>
+                <!-- 广告图片 -->
+                <div class="company_ad">
+                    <img src="{url:views/nzw/skin/default/image/index/ad.png}">
+                    <img src="{url:views/nzw/skin/default/image/index/ad.png}">
+                </div>
+                <!-- 企业logo -->
+                <div class="company_list">
+                    <img src="{url:views/nzw/skin/default/image/index/ad.png}">
+                    <img src="{url:views/nzw/skin/default/image/index/ad.png}">
+                    <img src="{url:views/nzw/skin/default/image/index/ad.png}">
+                    <img src="{url:views/nzw/skin/default/image/index/ad.png}">
+                    <img src="{url:views/nzw/skin/default/image/index/ad.png}">
+                    <img src="{url:views/nzw/skin/default/image/index/ad.png}">                    
+                </div>
+                <div class="clear"></div>
+                <ul class="special1" id="louceng4">
+                    <li>
+                        <h2>&nbsp;</h2>
+                        <nav class="floor_more">
+                         <a href>&nbsp;</a>
+                        </nav>   
+                    </li>
                 </ul>
             </div>
         </section>
-    </section>
     </div>
-    {/foreach}
+    <div class="louceng4">        
+        <section class="home_2">
+            <div id="hot_goods" class="hot_goods">                
+                
+                <!-- 设计师列表 -->
+                <div class="designer_list">
+                    <!-- 放四个 -->
+                    <div class="designer" style="margin-left:0;">
+                        <img src="{url:views/nzw/skin/default/image/index/designer.jpg}">
+                        <div class="intro">
+                            <div class="space">&nbsp;</div>
+                            <h4>蓝湾国际设计师：寒冬</h4>
+                            <p>擅长空间、家居住宅、别墅豪宅</p>
+                        </div>
+                    </div>
+                    <div class="designer">
+                        <img src="{url:views/nzw/skin/default/image/index/designer.jpg}">
+                        <div class="intro">
+                            <div class="space">&nbsp;</div>
+                            <h4>蓝湾国际设计师：寒冬</h4>
+                            <p>擅长空间、家居住宅、别墅豪宅</p>
+                        </div>
+                    </div>
+                    <div class="designer">
+                        <img src="{url:views/nzw/skin/default/image/index/designer.jpg}">
+                        <div class="intro">
+                            <div class="space">&nbsp;</div>
+                            <h4>蓝湾国际设计师：寒冬</h4>
+                            <p>擅长空间、家居住宅、别墅豪宅</p>
+                        </div>
+                    </div>
+                    <div class="designer">
+                        <img src="{url:views/nzw/skin/default/image/index/designer.jpg}">
+                        <div class="intro">
+                            <div class="space">&nbsp;</div>
+                            <h4>蓝湾国际设计师：寒冬</h4>
+                            <p>擅长空间、家居住宅、别墅豪宅</p>
+                        </div>
+                    </div>
+                <div class="clear"></div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <div class="louceng5">        
+        <section class="home_2">
+            <div id="hot_goods" class="hot_goods">                
+                <ul class="special1">
+                    <li>
+                        <h2>&nbsp;</h2>
+                        <nav class="floor_more">
+                         <a href>&nbsp;</a>
+                        </nav>   
+                    </li>
+                </ul>
+                <!-- 广告图片 -->
+                <div class="product_ad">
+                    <img src="{url:views/nzw/skin/default/image/index/ad.png}">
+                </div>
+                <!-- 企业logo -->
+                <div class="product_list">
+                    <div class="product">                        
+                            <img src="{url:views/nzw/skin/default/image/index/case_pic_01.png}" alt="惠人（HUROM）原汁机" title="惠人（HUROM）原汁机">                      
+                        <p>
+                            <a href>惠人（HUROM）原汁机</a>
+                        </p>
+                        <p>
+                            <span class="area">特价：<span class="red">2388</span></span>
+                            <span class="price">原价：5288</span>
+                        </p> 
+                    </div>   
+                    <div class="product">                        
+                            <img src="{url:views/nzw/skin/default/image/index/case_pic_01.png}" alt="惠人（HUROM）原汁机" title="惠人（HUROM）原汁机">                      
+                        <p>
+                            <a href>惠人（HUROM）原汁机</a>
+                        </p>
+                        <p>
+                            <span class="area">特价：<span class="red">2388</span></span>
+                            <span class="price">原价：5288</span>
+                        </p> 
+                    </div>   
+                    <div class="product">                        
+                            <img src="{url:views/nzw/skin/default/image/index/case_pic_01.png}" alt="惠人（HUROM）原汁机" title="惠人（HUROM）原汁机">                      
+                        <p>
+                            <a href>惠人（HUROM）原汁机</a>
+                        </p>
+                        <p>
+                            <span class="area">特价：<span class="red">2388</span></span>
+                            <span class="price">原价：5288</span>
+                        </p> 
+                    </div>   
+                    <div class="product">                        
+                            <img src="{url:views/nzw/skin/default/image/index/case_pic_01.png}" alt="惠人（HUROM）原汁机" title="惠人（HUROM）原汁机">                      
+                        <p>
+                            <a href>惠人（HUROM）原汁机</a>
+                        </p>
+                        <p>
+                            <span class="area">特价：<span class="red">2388</span></span>
+                            <span class="price">原价：5288</span>
+                        </p> 
+                    </div>   
+                    <div class="product">                        
+                            <img src="{url:views/nzw/skin/default/image/index/case_pic_01.png}" alt="惠人（HUROM）原汁机" title="惠人（HUROM）原汁机">                      
+                        <p>
+                            <a href>惠人（HUROM）原汁机</a>
+                        </p>
+                        <p>
+                            <span class="area">特价：<span class="red">2388</span></span>
+                            <span class="price">原价：5288</span>
+                        </p> 
+                    </div>   
+                    <div class="product">                        
+                            <img src="{url:views/nzw/skin/default/image/index/case_pic_01.png}" alt="惠人（HUROM）原汁机" title="惠人（HUROM）原汁机">                      
+                        <p>
+                            <a href>惠人（HUROM）原汁机</a>
+                        </p>
+                        <p>
+                            <span class="area">特价：<span class="red">2388</span></span>
+                            <span class="price">原价：5288</span>
+                        </p> 
+                    </div>                 
+                </div>
+                <div class="clear"></div>
+            </div>
+        </section>
+    </div>
     <div class="louceng">
         <section class="service">
         <div class="serve_list">
