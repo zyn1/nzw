@@ -235,7 +235,7 @@ body{
 	margin-top:0px;
 }
 .case_list .case_title{
-	padding: 10px 20px;width: 1160px;height: 25px;
+	padding: 10px 20px;/*width: 1160px;*/height: 25px;
 	border-bottom: 1px solid #e4e4e4;
 }
 .case_list .case_title .case_name{
@@ -265,8 +265,7 @@ body{
 .case_content .case_ul1 li{
 	float: left;
 	width: 374px;
-	margin-left:20px; 
-	padding: 20px 0;
+	margin: 20px 0 20px 20px; 
 }
 .case_content .case_ul1 li a,.case_content .case_ul2 li a,.comment_top ul.case_ul3 li a{
 	display: block;

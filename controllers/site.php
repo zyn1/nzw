@@ -1116,6 +1116,10 @@ class Site extends IController
             $this->layout = 'shop_detail';
             $this->redirect('dec_company_case_detail');
      }
-
-     
+//设计师界面
+      function design_index()
+    {
+            $this->layout = 'design_top';
+            $this->redirect('design_index');
+     }
 }
