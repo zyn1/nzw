@@ -120,7 +120,7 @@ background: -o-linear-gradient(top, #fff, #dfdfdf);  /*Opera 11.10+*/
 }
 .design_main .design_left{
     float: left;
-    width: 960px;
+    width: 950px;
 }
 .design_main .design_right {
     width: 230px;
@@ -318,11 +318,11 @@ background: -o-linear-gradient(top, #fff, #dfdfdf);  /*Opera 11.10+*/
 .design_list .design_content .comm_right a.design_bbs_com{
     margin-right: 40px;
     padding-left: 26px;
-    background: url("../../../image/designer/discuss.png") no-repeat;
+    background: url("../../../image/designer/discuss.png") no-repeat 0px center;
 }
 .design_list .design_content .comm_right a.design_bbs_dz{
     padding-left: 26px;
-    background: url("../../../image/designer/good.png") no-repeat;
+    background: url("../../../image/designer/good.png") no-repeat 0px center;
 }
 
 

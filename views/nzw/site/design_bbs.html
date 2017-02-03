@@ -1,0 +1,222 @@
+<script type="text/javascript">
+	$(function(){
+		$(".nav_top .design_nav ul li a").eq(3).addClass("on");
+		$(".design_list .design_case_class li a").click(function(){
+			$(".design_list .design_case_class li a").removeClass("on");
+			$(this).addClass("on");
+		})
+	})
+</script>
+<div class="design_backg">
+	<div class="design_main clear">
+		<div class="design_left">
+			<!-- 发布帖子 -->
+			<div class="case_list design_list">
+				<div class="case_title">
+					<span class="design_case_name"><b>TA发表的讨论贴（86）</b></span>
+					<!-- <a class="case_gd">+查看更多</a> -->
+				</div>
+				<div class="case_content case_comment">
+					<div class="user_comment clear">
+						<div class="user_content design_content">
+							<h3 class="design_bbs bg_da">说一说装修中那些你不知道的事</h3>
+							<p class="comm_user_cont">这些设计让我们的家越来越整洁，舒服。我超级喜欢，真是聪明的脑子有这么多，爱的不要不要了这些设计让我们的家越来越整洁，舒服。我超级喜欢，真是聪明的脑子有这么多，爱的不要不要了</p>
+							<p class="comm_time">2016-12-13 &nbsp;&nbsp;</p>
+							<p class="comm_right"><a class="design_bbs_com">评论</a><a class="design_bbs_dz">点赞</a></p>
+						</div>
+					</div>
+					<div class="user_comment clear">
+						<div class="user_content design_content">
+							<h3 class="design_bbs bg_da">说一说装修中那些你不知道的事</h3>
+							<p class="comm_user_cont">这些设计让我们的家越来越整洁，舒服。我超级喜欢，真是聪明的脑子有这么多，爱的不要不要了这些设计让我们的家越来越整洁，舒服。我超级喜欢，真是聪明的脑子有这么多，爱的不要不要了</p>
+							<p class="comm_time">2016-12-13 &nbsp;&nbsp;</p>
+							<p class="comm_right"><a class="design_bbs_com">评论</a><a class="design_bbs_dz">点赞</a></p>
+						</div>
+					</div>
+					<div class="user_comment clear">
+						<div class="user_content design_content">
+							<h3 class="design_bbs bg_da">说一说装修中那些你不知道的事</h3>
+							<p class="comm_user_cont">这些设计让我们的家越来越整洁，舒服。我超级喜欢，真是聪明的脑子有这么多，爱的不要不要了这些设计让我们的家越来越整洁，舒服。我超级喜欢，真是聪明的脑子有这么多，爱的不要不要了</p>
+							<p class="comm_time">2016-12-13 &nbsp;&nbsp;</p>
+							<p class="comm_right"><a class="design_bbs_com">评论</a><a class="design_bbs_dz">点赞</a></p>
+						</div>
+					</div>
+				
+					<!-- 分页 -->
+					<div class="page">
+						<a class="page_a">47条记录</a>
+						<a class="page_a page_up">上一页</a>
+						<a class="page_a page_num">1</a>
+						<a class="page_a page_num on">2</a>
+						<a class="page_a page_num">3</a>
+						<a class="page_a page_num">4</a>
+						<a class="page_a page_down">下一页</a>
+					</div>
+				</div>
+			</div>
+			<!-- 发布帖子 end -->
+		</div>
+		<aside class="shop_bar">
+			{set:$catSide = goods_class::catTree($this->catId)} {if:$catSide}
+			<nav class="bar_box bar_goods_nav">
+				<h3 class="bar_box_head">发布设计需求</h3>
+				<input type="text" placeholder="您的姓名" class="normal">
+				<input type="text" placeholder="电话号码" class="normal">
+				<div class="province">
+					<input type="button" class="area_select" value="省" id="province_select2">
+					<input type="hidden" name="type">
+					<ul style="display:none;" class="area_list" id="province_list2">
+						<li js_data="1">太原市</li>
+						<li js_data="2">阳泉市</li>
+					</ul>
+				</div>
+				<div class="citys">
+					<input type="button" class="area_select" value="市" id="city_select2">
+					<input type="hidden" name="type">
+					<ul style="display:none;" class="area_list" id="city_list2">
+						<li js_data="1">太原市</li>
+						<li js_data="2">阳泉市</li>
+						<li js_data="3">大同市</li>
+						<li js_data="4">忻州市</li>
+						<li js_data="5">平遥市</li>
+						<li js_data="6">晋中市</li>
+						<li js_data="7">澳门市</li>
+						<li js_data="8">长治市</li>
+						<li js_data="9">平遥市</li>
+						<li js_data="10">晋中市</li>
+						<li js_data="11">澳门市</li>
+						<li js_data="12">长治市</li>
+					</ul>
+				</div>
+				<div class="countys">
+					<input type="button" class="area_select" value="县" id="county_select2">
+					<input type="hidden" name="type">
+					<ul style="display:none;" class="area_list" id="county_list2">
+						<li js_data="1">太原市</li>
+						<li js_data="2">阳泉市</li>
+						<li js_data="3">大同市</li>
+						<li js_data="4">忻州市</li>
+						<li js_data="5">平遥市</li>
+						<li js_data="6">晋中市</li>
+						<li js_data="7">澳门市</li>
+						<li js_data="8">长治市</li>
+						<li js_data="9">平遥市</li>
+						<li js_data="10">晋中市</li>
+						<li js_data="11">澳门市</li>
+						<li js_data="12">长治市</li>
+					</ul>
+				</div>
+				<div class="room_size"><input type="text" placeholder="房屋面积" class="normal"/><span class="area">㎡</span></div>
+				<textarea placeholder="备注" class="textare_bz"></textarea>
+				<a href class="need_publish">立即发布</a>
+			</nav>
+			{/if}
+			<script>
+				$(function(){
+					
+					/*省市县*/
+					$("#province_select2").click(function(){
+						if($("#province_list2").is(":hidden")){
+							$("#province_list2").show()
+							/*$("#province_select2").addClass('down');*/
+						}else{
+							$("#province_list2").hide()
+							/*$("#province_select2").removeClass('down');*/
+						}
+					})
+
+
+					$("#province_list2 li").each(function(){
+						var _t = $(this)
+								,_v = _t.attr('js_data');
+						_t.click(function(){
+							$('#province_select2').val(_t.text());
+							$('input[name=type]').val(_v);
+							$('#province_list2').hide();
+							$("#province_select2").removeClass('down');
+						})
+					})
+					$("#city_select2").click(function(){
+						if($("#city_list2").is(":hidden")){
+							$("#city_list2").show()
+							/*$("#province_select2").addClass('down');*/
+						}else{
+							$("#city_list2").hide()
+							/*$("#province_select2").removeClass('down');*/
+						}
+					})
+					$("#city_list2 li").each(function(){
+						var _t = $(this)
+								,_v = _t.attr('js_data');
+						_t.click(function(){
+							$('#city_select2').val(_t.text());
+							$('input[name=type]').val(_v);
+							$('#city_list2').hide();
+							$("#city_select2").removeClass('down');
+						})
+					})
+				
+					
+					$("#county_select2").click(function(){
+						if($("#county_list2").is(":hidden")){
+							$("#county_list2").show()
+							/*$("#province_select2").addClass('down');*/
+						}else{
+							$("#county_list2").hide()
+							/*$("#province_select2").removeClass('down');*/
+						}
+					})
+					$("#county_list2 li").each(function(){
+						var _t = $(this)
+								,_v = _t.attr('js_data');
+						_t.click(function(){
+							$('#county_select2').val(_t.text());
+							$('input[name=type]').val(_v);
+							$('#county_list2').hide();
+							$("#county_select2").removeClass('down');
+						})
+					})
+					/*$("body").not("#province, #citys,#countys").click(function(){
+						$('#province_list2').hide();
+						$('#county_list2').hide();
+						$('#county_list2').hide();
+					})*/
+					/*省市县 end*/
+				})
+					
+			</script>
+			<div class="ad-pic">
+				<img src="{url:views/nzw/skin/default/image/list/ad-pic.jpg}">
+			</div>
+		</aside>
+	</div>
+	
+</div>
+
+<script type="text/javascript">
+$(function(){
+	//分页选择效果
+	$(".page .page_num").click(function(){
+		$(".page .page_num").removeClass("on");
+		$(this).addClass("on");
+	})
+	//上一页
+	$(".page .page_up").click(function(){
+		var index = $(".page .page_num.on").index();//获取当前页
+			if(index > 2){
+				$(".page .page_num").removeClass("on");//清除所有选中
+				$(".page .page_a").eq(index-1).addClass("on");//选中上一页
+			}
+	})
+	//下一页
+	$(".page .page_down").click(function(){
+		var index = $(".page .page_num.on").index();//获取当前页
+		var lenght= $(".page .page_num").length+1;//获取有几页
+			if(index>1 && index<lenght){
+				//alert(index)
+				$(".page .page_num").removeClass("on");//清除所有选中
+				$(".page .page_a").eq(index+1).addClass("on");//选中上一页
+			}
+	})
+});
+</script>
