@@ -1122,4 +1122,9 @@ class Site extends IController
             $this->layout = 'design_top';
             $this->redirect('design_index');
      }
+      function design_discuss()
+    {
+            $this->layout = 'design_top';
+            $this->redirect('design_discuss');
+     }
 }
