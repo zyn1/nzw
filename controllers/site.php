@@ -1122,6 +1122,7 @@ class Site extends IController
             $this->layout = 'design_top';
             $this->redirect('design_index');
      }
+
       function design_case()
     {
             $this->layout = 'design_top';
@@ -1132,9 +1133,9 @@ class Site extends IController
             $this->layout = 'design_top';
             $this->redirect('design_comment');
     }
-      function design_discuss()
+      function design_bbs()
     {
             $this->layout = 'design_top';
-            $this->redirect('design_discuss');
+            $this->redirect('design_bbs');
      }
 }
