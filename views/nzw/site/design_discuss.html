@@ -10,6 +10,7 @@
 <div class="design_backg">
 	<div class="design_main clear">
 		<div class="design_left">
+			
 			<!-- 发布帖子 -->
 			<div class="case_list design_list">
 				<div class="case_title">
@@ -56,7 +57,9 @@
 			</div>
 			<!-- 发布帖子 end -->
 		</div>
-		<aside class="shop_bar">
+		<div class="design_right">
+			
+			<aside class="shop_bar">
 			{set:$catSide = goods_class::catTree($this->catId)} {if:$catSide}
 			<nav class="bar_box bar_goods_nav">
 				<h3 class="bar_box_head">发布设计需求</h3>
@@ -189,34 +192,144 @@
 				<img src="{url:views/nzw/skin/default/image/list/ad-pic.jpg}">
 			</div>
 		</aside>
+		</div>
 	</div>
 	
 </div>
-
+<!-- 预约装修弹窗 -->
+			<div id="mask">&nbsp;</div>
+			<div id="order">
+				<div class="order_head">预约装修</div>
+				<div style="padding:0 100px;">
+					<input type="text" placeholder="您的姓名" class="normal">
+					<input type="text" placeholder="电话号码" class="normal">
+					<div class="city">
+						<input type="button" class="city_select" value="省/市" id="city_select1">
+						<input type="hidden" name="type">
+						<ul style="display:none;" class="city_list" id="city_list1">
+							<li js_data="1">太原市</li>
+							<li js_data="2">阳泉市</li>
+						</ul>
+					</div>
+					<div class="county">
+						<input type="button" class="area_select" value="省/市" id="area_select1">
+						<input type="hidden" name="type">
+						<ul style="display:none;" class="area_list" id="area_list1">
+							<li js_data="1">太原市</li>
+							<li js_data="2">阳泉市</li>
+							<li js_data="3">大同市</li>
+							<li js_data="4">忻州市</li>
+							<li js_data="5">平遥市</li>
+							<li js_data="6">晋中市</li>
+							<li js_data="7">澳门市</li>
+							<li js_data="8">长治市</li>
+							<li js_data="9">平遥市</li>
+							<li js_data="10">晋中市</li>
+							<li js_data="11">澳门市</li>
+							<li js_data="12">长治市</li>
+						</ul>
+					</div>
+					<input type="text" placeholder="房屋面积" class="normal"><span class="area">㎡</span>
+					<a href class="need_publish" id="mask_close">免费发布</a>
+				</div>
+			</div>
+<!-- 预约装修 end -->
 <script type="text/javascript">
 $(function(){
-	//分页选择效果
-	$(".page .page_num").click(function(){
-		$(".page .page_num").removeClass("on");
-		$(this).addClass("on");
-	})
-	//上一页
-	$(".page .page_up").click(function(){
-		var index = $(".page .page_num.on").index();//获取当前页
-			if(index > 2){
-				$(".page .page_num").removeClass("on");//清除所有选中
-				$(".page .page_a").eq(index-1).addClass("on");//选中上一页
+	// 预约装修点击弹窗
+				$(".nav_icon").click(function(){
+					$("#order").show();
+					$("#order").css("top","20%");
+					$("#mask").show();
+				});
+				$("#mask").click(function(){
+					$("#order").hide();
+					$("#mask").hide();
+				});
+
+	// 切换星星
+	$(".star_box .review_uls ").on('click', 'li', function(){
+		var t = $(this),i = t.index()+1;
+		$(this).parent(".review_uls").find("li").each(function(index){
+			if (index<i) {
+				$(this).addClass('on');
+			}else{
+				$(this).removeClass('on');
 			}
-	})
-	//下一页
-	$(".page .page_down").click(function(){
-		var index = $(".page .page_num.on").index();//获取当前页
-		var lenght= $(".page .page_num").length+1;//获取有几页
-			if(index>1 && index<lenght){
-				//alert(index)
-				$(".page .page_num").removeClass("on");//清除所有选中
-				$(".page .page_a").eq(index+1).addClass("on");//选中上一页
-			}
-	})
-});
+		});
+	});
+
+})
+ function filechange(obj) {
+        if (obj.files && obj.files.length) {
+            for (var i = 0; i < obj.files.length; i++) {
+                var fileName = obj.files[i].name
+                    ,ext = fileName.substring(fileName.lastIndexOf(".")+1,fileName.length).toLowerCase()
+                  var fileSize =  obj.files[i].size;
+	            if(fileSize>1024000){
+	                alert("亲，图片不能超过10MB哦！");
+	                return;
+                }
+                if(ext != "jpg" && ext != "png" && ext != "bmp")
+                {
+                    alert('您上传的图片格式不正确，请重新选择！');
+                    return;
+                }
+
+                $('form[name=comment]').append('<input type="file" name="filesmul[]" value="'+obj.files[i].name+'"');
+                appendImg(window.URL.createObjectURL(obj.files[i]));
+            }
+        } else {
+            obj.select();
+            obj.blur();
+            var imgSrc = document.selection.createRange().text;
+            appendImg(imgSrc, true);
+        }
+
+    }
+    function appendImg(url, ie) {
+        var img = document.createElement('img'), imgid = guid();;
+        img.src = url;
+        img.id = imgid;
+        img.setAttribute("name", "img_name");
+       // document.getElementById("thumbnails").appendChild(img);
+        img.onload = function(){ //加载图片后才能获取图片的宽高
+       var img_length=document.getElementsByName("img_name").length+1
+        var width = img.width;
+        var height = img.height;
+        if(width>=300 && height>=300){
+        	//alert(img_length);
+            if(img_length>5){
+                 alert("亲不能超过五张啊");
+                 return;
+             }else{
+               document.getElementById("thumbnails").appendChild(img);
+             }
+        }else if(width<300){
+            alert("亲图片不能小于300*300哦！");
+            return;
+        }
+    };
+
+        if (ie) {
+            try {
+                var imgshow = document.getElementById(imgid);
+                imgshow.style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale)";
+                imgshow.filters.item("DXImageTransform.Microsoft.AlphaImageLoader").src = url;
+            } catch (e) {
+                alert("您上传的图片格式不正确，请重新选择！");
+                return false;
+            }
+        }
+
+    }
+
+    var guid = (function () {
+        function s4() {
+            return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
+        }
+        return function () {
+            return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
+        };
+    })();
 </script>

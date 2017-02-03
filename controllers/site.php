@@ -1132,9 +1132,9 @@ class Site extends IController
             $this->layout = 'design_top';
             $this->redirect('design_comment');
     }
-    function design_bbs()
+      function design_discuss()
     {
             $this->layout = 'design_top';
-            $this->redirect('design_bbs');
+            $this->redirect('design_discuss');
      }
 }

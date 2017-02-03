@@ -1,18 +1,18 @@
 .design_top_bag{
     padding: 60px 0;
-FILTER: progid:DXImageTransform.Microsoft.Gradient(gradientType=0,startColorStr=#fff,endColorStr=#f3f3f3); /*IE 6 7 8*/ 
+FILTER: progid:DXImageTransform.Microsoft.Gradient(gradientType=0,startColorStr=#fff,endColorStr=#dfdfdf); /*IE 6 7 8*/ 
 
-background: -ms-linear-gradient(top, #fff，#f3f3f3);        /* IE 10 */
+background: -ms-linear-gradient(top, #fff，#dfdfdf);        /* IE 10 */
 
-background:-moz-linear-gradient(top,#fff,  #f3f3f3);/*火狐*/ 
+background:-moz-linear-gradient(top,#fff,  #dfdfdf);/*火狐*/ 
 
-background:-webkit-gradient(linear, 0% 0%, 0% 100%,from(#fff), to(#f3f3f3));/*谷歌*/ 
+background:-webkit-gradient(linear, 0% 0%, 0% 100%,from(#fff), to(#dfdfdf));/*谷歌*/ 
 
-background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#fff), to(#f3f3f3));      /* Safari 4-5, Chrome 1-9*/
+background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#fff), to(#dfdfdf));      /* Safari 4-5, Chrome 1-9*/
 
-background: -webkit-linear-gradient(top, #fff, #f3f3f3);   /*Safari5.1 Chrome 10+*/
+background: -webkit-linear-gradient(top, #fff, #dfdfdf);   /*Safari5.1 Chrome 10+*/
 
-background: -o-linear-gradient(top, #fff, #f3f3f3);  /*Opera 11.10+*/
+background: -o-linear-gradient(top, #fff, #dfdfdf);  /*Opera 11.10+*/
  
 }
 .design_top {
@@ -65,7 +65,7 @@ background: -o-linear-gradient(top, #fff, #f3f3f3);  /*Opera 11.10+*/
     height: 30px;line-height: 30px;font-size: 14px;width: 170px;
 }
 .design_pj .star_box .red_star{
-    display: inline-block; background: url("../../../image/company/pj_start.png") no-repeat;width: 16px;height: 17px;
+    display: inline-block; background: url("../../../image/designer/point_star.png") no-repeat;width: 16px;height: 16px;
 }
 .design_pj .pj_title{
     padding: 15px 35px 10px 0px;
@@ -166,6 +166,7 @@ background: -o-linear-gradient(top, #fff, #f3f3f3);  /*Opera 11.10+*/
     padding-bottom: 10px;
     color: #333 !important;
 }
+
 .a5{
     color: #555 !important;
 }
@@ -199,7 +200,7 @@ background: -o-linear-gradient(top, #fff, #f3f3f3);  /*Opera 11.10+*/
     border-bottom: 1px solid #e4e4e4;
     box-shadow: 0 0 0;
     font-size: 18px;
-    font-weight: normal;
+    font-weight: bold;
     margin: auto 10px;
 }
 .shop_bar .bar_box input.normal {
@@ -271,6 +272,7 @@ background: -o-linear-gradient(top, #fff, #f3f3f3);  /*Opera 11.10+*/
 }
 .ad-pic{
     width: 230px;
+    margin-bottom: 20px;
 }
 .ad-pic img{
     width: 100%;
@@ -315,11 +317,16 @@ background: -o-linear-gradient(top, #fff, #f3f3f3);  /*Opera 11.10+*/
 }
 .design_list .design_content .comm_right a.design_bbs_com{
     margin-right: 40px;
-    padding-left: 23px;
-    background: url("../../../image/company/icon_com.png") no-repeat 0px center;
+    padding-left: 26px;
+    background: url("../../../image/designer/discuss.png") no-repeat 0 center;
 }
 .design_list .design_content .comm_right a.design_bbs_dz{
-    margin-right: 40px;
-    padding-left: 20px;
-    background: url("../../../image/company/dz_icon.png") no-repeat 0px center;
+    padding-left: 26px;
+    background: url("../../../image/designer/good.png") no-repeat 0 center;
+}
+
+
+.case_list .case_title{
+    padding: 15px 20px;/*width: 1160px;*/height: 25px;
+    border-bottom: 1px solid #e4e4e4;
 }

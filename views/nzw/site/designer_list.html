@@ -1,6 +1,8 @@
 {set:$breadGuide = goods_class::catRecursion($this->catId)}
 {set:$goodsObj = search_goods::find(array('category_extend' => $this->childId),20);$resultData = $goodsObj->find()}
 
+    <link rel="stylesheet" type="text/css" href="{skin:style/css/company/design.css}">
+    
 <section class="breadcrumb">
 	<span>您当前的位置：</span> <a href="{url:}">首页</a>
 	{foreach:items=$breadGuide} »
