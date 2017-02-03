@@ -166,3 +166,5 @@ background: -o-linear-gradient(top, #fff, #f3f3f3);  /*Opera 11.10+*/
     padding-bottom: 10px;
     color: #333 !important;
 }
+
+.shop_bar .area_select{background: url("../../../image/list/up1.png") no-repeat right center #f4f4f4;}
