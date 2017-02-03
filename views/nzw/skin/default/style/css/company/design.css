@@ -120,7 +120,7 @@ background: -o-linear-gradient(top, #fff, #f3f3f3);  /*Opera 11.10+*/
 }
 .design_main .design_left{
     float: left;
-    width: 960px;
+    width: 950px;
 }
 .design_main .design_right {
     width: 230px;
@@ -223,7 +223,7 @@ background: -o-linear-gradient(top, #fff, #f3f3f3);  /*Opera 11.10+*/
 .shop_bar .area_select {
     width: 43px;
     height: 36px;
-    background: url("../../../image/list/up.png") no-repeat right center #f4f4f4;
+    background: url("../../../image/list/up1.png") no-repeat right center #f4f4f4;
     border: 0px;
     text-align: left;
     padding: 0 10px;
@@ -315,6 +315,11 @@ background: -o-linear-gradient(top, #fff, #f3f3f3);  /*Opera 11.10+*/
 }
 .design_list .design_content .comm_right a.design_bbs_com{
     margin-right: 40px;
+    padding-left: 23px;
+    background: url("../../../image/company/icon_com.png") no-repeat 0px center;
+}
+.design_list .design_content .comm_right a.design_bbs_dz{
+    margin-right: 40px;
     padding-left: 20px;
-    background: url("../../../");
+    background: url("../../../image/company/dz_icon.png") no-repeat 0px center;
 }

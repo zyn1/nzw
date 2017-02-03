@@ -3054,7 +3054,7 @@ li .design_case .design_case_img img{
 .shop_bar .area_select{
 	width: 43px;
 	height: 36px;
-	background: url("../image/list/up.png") no-repeat right center  #f4f4f4;
+	background: url("../image/list/up1.png") no-repeat right center  #f4f4f4;
 	border: 0px;
 	text-align: left;
 	padding: 0 10px;
@@ -3125,3 +3125,167 @@ ul.design_bar_rank li  i.on{
 	background: #ff9c00
 }
 /*设计师 列表end*/
+/*设计师 详情*/
+.design_detail_bag{
+	background: #f2f2f2;
+}
+.breadcrumb .left-icon{
+	padding-left: 15px;
+	background: url("../image/company/right_icon.png") no-repeat left center;
+}
+.design_main{
+	width: 1200px;
+	margin: 0 auto;
+}
+.design_detail_header{
+	background: #fff;
+	padding: 40px 30px;
+
+}
+.design_detail_header .header_img_left{
+	float: left;
+	width: 150px;
+	text-align: center;
+}
+.design_detail_header .header_img_left .img_designer{
+	width: 80px;
+	height: 80px;
+	border-radius: 50%;
+	-moz-border-radius: 50%; 
+	-webkit-border-radius: 50%;
+	margin: 0 auto; 
+}
+.design_detail_header .header_img_left .img_designer img{
+	width: 80px;
+	height: 80px;
+	border-radius: 50%;
+	-moz-border-radius: 50%; 
+	-webkit-border-radius: 50%; 
+}
+.design_detail_header .header_img_left .designer_name{
+	padding-top: 15px;
+}
+.design_detail_header .header_img_left .designer_name b{
+	font-size: 16px;
+}
+.design_detail_header .header_img_left .designer_name .gold_icon{
+	width: 80px;
+	height: 25px;
+	padding-left: 10px;
+}
+.design_detail_header .designer_title{
+	float: left;
+	width: 950px;
+	padding: 0 20px;
+}
+.design_detail_header .designer_title h3.design_brief{
+	font-size: 20px;
+	height: 40px;
+	padding: 15px 0px 0px;
+}
+.design_detail_header .designer_title  p{
+	color: #999;
+}
+.design_detail_header .designer_title  p i{
+	padding-right: 10px;
+}
+.color_b4{
+	color: #45b847;
+}
+.design_center{
+	margin: 20px 0px;
+}
+.design_center_left{
+	float: left;
+	width: 950px;
+}
+.design_center_list{
+	background: #fff;
+	padding:25px;
+	margin-bottom: 20px;
+}
+.design_center_left .detail_title{
+	font-size: 16px;
+	height: 30px;
+}
+.design_center_left p.conter_infor{
+	line-height: 25px;
+	color: #999;
+	padding: 10px 0 30px;
+}
+
+.design_center_left .design_content .img_title{
+	color: #ff8846;
+	padding: 30px 0px;
+	border-top: 1px solid #e4e4e4;
+}
+.design_center_left .design_content .desing_con_ifor{
+	padding: 30px 0px;
+	color: #999;
+}
+.design_center_left .design_content .case_img{
+	width: 100%;
+}
+.design_center_list .design_comment{
+	padding-bottom: 20px;
+}
+.design_center_list .design_comment i{
+	font-size: 20px;
+	padding-right: 5px;
+}
+.design_center_list .star_box {
+    padding-left: 5px;
+    position: relative;
+}
+.star_box .items {
+    display: block;
+    float: left;
+    height: 25px;
+    line-height: 25px;
+    color: #333;
+    font-weight: normal;
+}
+.design_center_list .review_uls {
+    float: left;
+}
+
+.design_center_list  .review_uls li {
+    width: 25px;
+    height: 25px;
+    background: url("../image/company/pj_strat.png") center 25px;
+    float: left;
+}
+.design_center_list  .review_uls li.on {
+    background-position: 0 -1px;
+}
+.design_center_list  .reply_textarea{
+	padding-top: 20px;
+}
+.design_center_list  .reply_textarea textarea {
+    border: 1px solid #e4e4e4;
+    width: 813px;
+    height: 80px;
+    overflow: hidden;
+    padding: 20px;
+}
+.design_center_list  .reply_textarea .textale_ts{
+	padding-top:20px;
+}
+.design_comment_button{
+	text-align: right;
+}
+.design_center_list .sub_company {
+    width: 100px;
+    height:50px;
+    line-height: 50px;
+    text-align: center;
+    color: #fff;
+    background: #4bb945;
+    border: 0;
+    border-radius: 5px;
+    outline: none;
+    margin: 30px 0 20px;
+
+}
+
+/*设计师 详情 end*/
