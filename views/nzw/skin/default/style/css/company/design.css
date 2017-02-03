@@ -224,7 +224,7 @@ background: -o-linear-gradient(top, #fff, #f3f3f3);  /*Opera 11.10+*/
 .shop_bar .area_select {
     width: 43px;
     height: 36px;
-    background: url("../../../image/list/up.png") no-repeat right center #f4f4f4;
+    background: url("../../../image/list/up1.png") no-repeat right center #f4f4f4;
     border: 0px;
     text-align: left;
     padding: 0 10px;
@@ -316,6 +316,10 @@ background: -o-linear-gradient(top, #fff, #f3f3f3);  /*Opera 11.10+*/
 }
 .design_list .design_content .comm_right a.design_bbs_com{
     margin-right: 40px;
-    padding-left: 20px;
-    background: url("../../../");
+    padding-left: 26px;
+    background: url("../../../image/designer/discuss.png") no-repeat;
+}
+.design_list .design_content .comm_right a.design_bbs_dz{
+    padding-left: 26px;
+    background: url("../../../image/designer/good.png") no-repeat;
 }
