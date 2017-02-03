@@ -166,3 +166,155 @@ background: -o-linear-gradient(top, #fff, #f3f3f3);  /*Opera 11.10+*/
     padding-bottom: 10px;
     color: #333 !important;
 }
+.a5{
+    color: #555 !important;
+}
+.padd_top{
+    padding-top: 30px;
+}
+.padd_top2{
+    padding-top: 15px;
+
+}
+/*设计师右侧内容*/
+.shop_bar {
+    width: 230px;
+    float: right;
+}
+.shop_bar .bar_box {
+    border: 1px solid #e4e4e4;
+    margin-bottom: 10px;
+    background: #fff;
+    text-align: center;
+    position: relative;
+}
+.shop_bar .bar_box .bar_box_head {
+    text-align: center;
+    height: 55px;
+    line-height: 55px;
+    text-indent: 0px;
+    color: #666;
+    background-image: -webkit-linear-gradient(0deg, #fff, #fff);
+    background-image: linear-gradient(0deg, #fff, #fff);
+    border-bottom: 1px solid #e4e4e4;
+    box-shadow: 0 0 0;
+    font-size: 18px;
+    font-weight: normal;
+    margin: auto 10px;
+}
+.shop_bar .bar_box input.normal {
+    width: 196px;
+    padding: 5px;
+    height: 30px;
+    border: 1px solid #ccc;
+    line-height: 35px;
+    margin-top: 10px;
+    color: #666;
+}
+.shop_bar .province, .shop_bar .countys, .shop_bar .citys {
+    position: relative;
+    width: 63px;
+    height: 36px;
+    float: left;
+    margin-left: 10px;
+    margin-top: 10px;
+    z-index: 10;
+}
+.shop_bar .area_select {
+    width: 43px;
+    height: 36px;
+    background: url("../../../image/list/up.png") no-repeat right center #f4f4f4;
+    border: 0px;
+    text-align: left;
+    padding: 0 10px;
+}
+.shop_bar .province .area_list li, .shop_bar .countys .area_list li, .shop_bar .citys .area_list li {
+    background: #fff;
+    border: 1px solid #e4e4e4;
+    border-top: 0px;
+    line-height: 25px;
+    text-align: center;
+}
+.shop_bar .province .area_list li:hover, .shop_bar .countys .area_list li:hover, .shop_bar .citys .area_list li:hover {
+    background: #f8f8f8;
+    cursor: pointer;
+}
+.room_size {
+    position: relative;
+}
+.shop_bar .bar_box .area {
+    position: absolute;
+    right: 15px;
+    bottom: 12px;
+    color: #ccc;
+}
+.bar_goods_nav .textare_bz {
+    width: 196px;
+    padding: 5px;
+    height: 100px;
+    border: 1px solid #ccc;
+    margin-top: 10px;
+}
+.shop_bar .bar_box .need_publish {
+    width: 206px;
+    height: 45px;
+    background: #e75d19;
+    border-radius: 5px;
+    color: #fff;
+    text-align: center;
+    line-height: 45px;
+    font-size: 16px;
+    border: 0;
+    margin: 10px auto;
+    display: block;
+    text-decoration: none;
+}
+.ad-pic{
+    width: 230px;
+}
+.ad-pic img{
+    width: 100%;
+}
+/*业主评论*/
+.design_list .case_title{
+    border: 0px;
+}
+.case_list .case_title .design_case_name {
+    line-height: 25px;
+    height: 25px;
+    padding: 0 15px;
+    float: left;
+    margin-right: 20px;
+}
+.design_list .comment_top{
+    border-bottom:1px solid #e4e4e4; 
+}
+.design_list .comment_top ul{
+    background: #fff;
+}
+.design_list .design_content{
+        width: 835px;
+}
+.design_list .case_comment{
+    border-bottom:0px; 
+}
+.design_list .design_content .design_bbs{
+    color: #72bc4f;
+    font-size:18px;
+    position: relative;
+    top:-20px;
+    font-weight: 0px;
+}
+.design_list .design_content .comm_time{
+    float: left;
+}
+.design_list .design_content .comm_right{
+    float: right;
+    color: #999;
+    line-height: 50px;
+}
+.design_list .design_content .comm_right a.design_bbs_com{
+    margin-right: 40px;
+    padding-left: 20px;
+    background: url("../../../");
+}
