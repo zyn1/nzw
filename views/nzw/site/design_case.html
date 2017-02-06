@@ -1,0 +1,220 @@
+<script type="text/javascript">
+	$(function(){
+		$(".nav_top .design_nav ul li a").eq(1).addClass("on");
+		$(".design_list .design_case_class li a").click(function(){
+			$(".design_list .design_case_class li a").removeClass("on");
+			$(this).addClass("on");
+		})
+	})
+</script>
+<div class="design_backg">
+	<div class="design_main clear">
+		<div class="design_left">
+			<!-- 装修案例-->
+			<div class="case_list design_list">
+				<div class="case_top clear">
+					<ul class="design_case_class clear">
+						<li><a class="on">全部(12)</a></li>
+						<li><a>现代(8)</a></li>
+						<li><a>日式(4)</a></li>
+					</ul>
+				</div>
+				<div class="case_content">
+					<ul class="case_ul1 clear">
+						<li>
+							<a class="case_ul1_a">
+								<img src="{url:views/nzw/skin/default/image/warn.png}">
+								<p class="goods_name">欧式大气奢华风格</p>
+								<p class="goods_pro">
+									<span>现代</span>&nbsp;&nbsp;&nbsp;
+									<span>300㎡</span>&nbsp;&nbsp;
+									<span class="time">2016-12-12</span>
+								</p>
+							</a>
+						</li>
+						<li>
+							<a class="case_ul1_a">
+								<img src="{url:views/nzw/skin/default/image/warn.png}">
+								<p class="goods_name">欧式大气奢华风格</p>
+								<p class="goods_pro">
+									<span>现代</span>&nbsp;&nbsp;&nbsp;
+									<span>300㎡</span>&nbsp;&nbsp;
+									<span class="time">2016-12-12</span>
+								</p>
+							</a>
+						</li>
+						<li>
+							<a class="case_ul1_a">
+								<img src="{url:views/nzw/skin/default/image/warn.png}">
+								<p class="goods_name">欧式大气奢华风格</p>
+								<p class="goods_pro">
+									<span>现代</span>&nbsp;&nbsp;&nbsp;
+									<span>300㎡</span>&nbsp;&nbsp;
+									<span class="time">2016-12-12</span>
+								</p>
+							</a>
+						</li>
+						<li>
+							<a class="case_ul1_a">
+								<img src="{url:views/nzw/skin/default/image/warn.png}">
+								<p class="goods_name">欧式大气奢华风格</p>
+								<p class="goods_pro">
+									<span>现代</span>&nbsp;&nbsp;&nbsp;
+									<span>300㎡</span>&nbsp;&nbsp;
+									<span class="time">2016-12-12</span>
+								</p>
+							</a>
+						</li>
+						<li>
+							<a class="case_ul1_a">
+								<img src="{url:views/nzw/skin/default/image/warn.png}">
+								<p class="goods_name">欧式大气奢华风格</p>
+								<p class="goods_pro">
+									<span>现代</span>&nbsp;&nbsp;&nbsp;
+									<span>300㎡</span>&nbsp;&nbsp;
+									<span class="time">2016-12-12</span>
+								</p>
+							</a>
+						</li>
+					</ul>
+					<div class="comm_more"><a>查看更多</a></div>
+				</div>
+			</div>
+			<!-- 装修案例 end -->
+		</div>
+		<aside class="shop_bar">
+			{set:$catSide = goods_class::catTree($this->catId)} {if:$catSide}
+			<nav class="bar_box bar_goods_nav">
+				<h3 class="bar_box_head">发布设计需求</h3>
+				<input type="text" placeholder="您的姓名" class="normal">
+				<input type="text" placeholder="电话号码" class="normal">
+				<div class="province">
+					<input type="button" class="area_select" value="省" id="province_select2">
+					<input type="hidden" name="type">
+					<ul style="display:none;" class="area_list" id="province_list2">
+						<li js_data="1">太原市</li>
+						<li js_data="2">阳泉市</li>
+					</ul>
+				</div>
+				<div class="citys">
+					<input type="button" class="area_select" value="市" id="city_select2">
+					<input type="hidden" name="type">
+					<ul style="display:none;" class="area_list" id="city_list2">
+						<li js_data="1">太原市</li>
+						<li js_data="2">阳泉市</li>
+						<li js_data="3">大同市</li>
+						<li js_data="4">忻州市</li>
+						<li js_data="5">平遥市</li>
+						<li js_data="6">晋中市</li>
+						<li js_data="7">澳门市</li>
+						<li js_data="8">长治市</li>
+						<li js_data="9">平遥市</li>
+						<li js_data="10">晋中市</li>
+						<li js_data="11">澳门市</li>
+						<li js_data="12">长治市</li>
+					</ul>
+				</div>
+				<div class="countys">
+					<input type="button" class="area_select" value="县" id="county_select2">
+					<input type="hidden" name="type">
+					<ul style="display:none;" class="area_list" id="county_list2">
+						<li js_data="1">太原市</li>
+						<li js_data="2">阳泉市</li>
+						<li js_data="3">大同市</li>
+						<li js_data="4">忻州市</li>
+						<li js_data="5">平遥市</li>
+						<li js_data="6">晋中市</li>
+						<li js_data="7">澳门市</li>
+						<li js_data="8">长治市</li>
+						<li js_data="9">平遥市</li>
+						<li js_data="10">晋中市</li>
+						<li js_data="11">澳门市</li>
+						<li js_data="12">长治市</li>
+					</ul>
+				</div>
+				<div class="room_size"><input type="text" placeholder="房屋面积" class="normal"/><span class="area">㎡</span></div>
+				<textarea placeholder="备注" class="textare_bz"></textarea>
+				<a href class="need_publish">立即发布</a>
+			</nav>
+			{/if}
+			<script>
+				$(function(){
+					
+					/*省市县*/
+					$("#province_select2").click(function(){
+						if($("#province_list2").is(":hidden")){
+							$("#province_list2").show()
+							/*$("#province_select2").addClass('down');*/
+						}else{
+							$("#province_list2").hide()
+							/*$("#province_select2").removeClass('down');*/
+						}
+					})
+
+
+					$("#province_list2 li").each(function(){
+						var _t = $(this)
+								,_v = _t.attr('js_data');
+						_t.click(function(){
+							$('#province_select2').val(_t.text());
+							$('input[name=type]').val(_v);
+							$('#province_list2').hide();
+							$("#province_select2").removeClass('down');
+						})
+					})
+					$("#city_select2").click(function(){
+						if($("#city_list2").is(":hidden")){
+							$("#city_list2").show()
+							/*$("#province_select2").addClass('down');*/
+						}else{
+							$("#city_list2").hide()
+							/*$("#province_select2").removeClass('down');*/
+						}
+					})
+					$("#city_list2 li").each(function(){
+						var _t = $(this)
+								,_v = _t.attr('js_data');
+						_t.click(function(){
+							$('#city_select2').val(_t.text());
+							$('input[name=type]').val(_v);
+							$('#city_list2').hide();
+							$("#city_select2").removeClass('down');
+						})
+					})
+				
+					
+					$("#county_select2").click(function(){
+						if($("#county_list2").is(":hidden")){
+							$("#county_list2").show()
+							/*$("#province_select2").addClass('down');*/
+						}else{
+							$("#county_list2").hide()
+							/*$("#province_select2").removeClass('down');*/
+						}
+					})
+					$("#county_list2 li").each(function(){
+						var _t = $(this)
+								,_v = _t.attr('js_data');
+						_t.click(function(){
+							$('#county_select2').val(_t.text());
+							$('input[name=type]').val(_v);
+							$('#county_list2').hide();
+							$("#county_select2").removeClass('down');
+						})
+					})
+					/*$("body").not("#province, #citys,#countys").click(function(){
+						$('#province_list2').hide();
+						$('#county_list2').hide();
+						$('#county_list2').hide();
+					})*/
+					/*省市县 end*/
+				})
+					
+			</script>
+			<div class="ad-pic">
+				<img src="{url:views/nzw/skin/default/image/list/ad-pic.jpg}">
+			</div>
+		</aside>
+	</div>
+	
+</div>

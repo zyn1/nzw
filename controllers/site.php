@@ -1184,7 +1184,7 @@ class Site extends IController
         $this->redirect('company_case');
     }
      function company_case_detail()
-    {
+    {          
         $this->layout = 'shop_detail';
         $id = IReq::get('id');
         if(!$id)
@@ -1208,6 +1208,27 @@ class Site extends IController
         $this->caseRow = $caseRow;
         $this->redirect('company_case_detail');
     }
+      
+    //设计师界面
+    function design_index()
+    {
+        $this->layout = 'design_top';
+        $this->redirect('design_index');
+    }               
 
-     
+    function design_case()
+    {
+        $this->layout = 'design_top';
+        $this->redirect('design_case');
+    }
+    function design_comment()
+    {
+        $this->layout = 'design_top';
+        $this->redirect('design_comment');
+    }
+    function design_bbs()
+    {
+        $this->layout = 'design_top';
+        $this->redirect('design_bbs');
+    }
 }

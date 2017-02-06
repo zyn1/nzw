@@ -1,0 +1,252 @@
+{set:$breadGuide = goods_class::catRecursion($this->catId)}
+{set:$goodsObj = search_goods::find(array('category_extend' => $this->childId),20);$resultData = $goodsObj->find()}
+
+    <link rel="stylesheet" type="text/css" href="{skin:style/css/company/design.css}">
+    
+<section class="breadcrumb">
+	<span>您当前的位置：</span> <a href="{url:}">首页</a>
+	{foreach:items=$breadGuide} »
+	<a href='{url:/site/pro_list/cat/$item[id]}'>{$item['name']} </a>
+	{/foreach}
+</section>
+
+<section class="web">
+	<section class="shop_main">
+		<!-- 调用筛选 -->
+		{include:_company_list_filter}
+		<!-- 商品排序筛选 -->
+		<section class="goods_sort desig_goods_sort">
+			<ul>
+		        <!--{foreach:items=search_goods::getOrderType()}
+		         <li id="order_{$key}">
+					<a href="{echo:search_goods::searchUrl(array('order','by'),array($key,search_goods::getOrderBy($key)))}">{$item}</a>
+		        </li> 
+		        {/foreach}-->        
+		        <li id="" class="current">
+		        	<a href="">默认排序</a>
+		        </li>
+		        <li class="line">&nbsp;</li>
+		        <li >
+		        	<a href="">好评榜</a>
+		        </li>
+		    </ul>
+		 <!--    <p>
+				<input type="text" name="min_price"> 至 <input type="text" name="max_price"> 元
+				<button onclick="priceLink();">确定</button>
+			</p> -->
+		</section>	
+		<!-- 商品排序筛选 -->
+		<!-- 商品列表 -->
+		<section class="design_goods_list">
+			{if:$resultData}
+			<ul>
+				{foreach:items=$resultData}
+				<li class="clear">
+					<a target="_blank" href="" class="deigner_img">
+						<img alt="{$item['name']}" src="{url:views/nzw/skin/default/image/list/ad-pic.jpg}">
+					</a>
+					<div class="shop_content">
+						<h5>金鸣 <img src="{url:views/nzw/skin/default/image/list/ad-pic.jpg}" class="gold_icon"></h5>
+						<em>杭州&nbsp;&nbsp;|&nbsp;&nbsp;擅长欧式古延伸，典风格、东南亚风格、地中海风格</em>
+						<p class="design_list_p">个人签名：肉体是灵魂的居所，家是自我的延伸，好的空间呈现，是使用者与设计师沟通合作的成果</p>
+						<p class="design_list_p">作品<i class="a00">12套</i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;评价数量<i class="a00">2200</i></p>
+					</div>
+					<div class="design_btn">
+						<p class="design_ts">收费面议</p>
+						<a class="design_btn_zx">立即咨询</a>
+					</div>
+					<div class="design_case">
+						<!-- 限制为3张 -->
+						<a class="design_case_img"><img src="{url:views/nzw/skin/default/image/warn.png}"/></a>
+						<a class="design_case_img"><img src="{url:views/nzw/skin/default/image/warn.png}"/></a>
+						<a class="design_case_img"><img src="{url:views/nzw/skin/default/image/warn.png}"/></a>
+					</div>
+				</li>
+				{/foreach}
+			</ul>
+			{$goodsObj->getPageBar()}
+
+			{else:}
+			<p class="no_tip">
+				对不起，没有找到符合条件的商家
+			</p>
+			{/if}
+		</section>
+	</section>
+
+
+	<aside class="shop_bar">
+		{set:$catSide = goods_class::catTree($this->catId)} {if:$catSide}
+		<nav class="bar_box bar_goods_nav">
+			<h3 class="bar_box_head">发布设计需求</h3>
+			<input type="text" placeholder="您的姓名" class="normal">
+			<input type="text" placeholder="电话号码" class="normal">
+			<div class="province">
+				<input type="button" class="area_select" value="省" id="province_select2">
+				<input type="hidden" name="type">
+				<ul style="display:none;" class="area_list" id="province_list2">
+					<li js_data="1">太原市</li>
+					<li js_data="2">阳泉市</li>
+				</ul>
+			</div>
+			<div class="citys">
+				<input type="button" class="area_select" value="市" id="city_select2">
+				<input type="hidden" name="type">
+				<ul style="display:none;" class="area_list" id="city_list2">
+					<li js_data="1">太原市</li>
+					<li js_data="2">阳泉市</li>
+					<li js_data="3">大同市</li>
+					<li js_data="4">忻州市</li>
+					<li js_data="5">平遥市</li>
+					<li js_data="6">晋中市</li>
+					<li js_data="7">澳门市</li>
+					<li js_data="8">长治市</li>
+					<li js_data="9">平遥市</li>
+					<li js_data="10">晋中市</li>
+					<li js_data="11">澳门市</li>
+					<li js_data="12">长治市</li>
+				</ul>
+			</div>
+			<div class="countys">
+				<input type="button" class="area_select" value="县" id="county_select2">
+				<input type="hidden" name="type">
+				<ul style="display:none;" class="area_list" id="county_list2">
+					<li js_data="1">太原市</li>
+					<li js_data="2">阳泉市</li>
+					<li js_data="3">大同市</li>
+					<li js_data="4">忻州市</li>
+					<li js_data="5">平遥市</li>
+					<li js_data="6">晋中市</li>
+					<li js_data="7">澳门市</li>
+					<li js_data="8">长治市</li>
+					<li js_data="9">平遥市</li>
+					<li js_data="10">晋中市</li>
+					<li js_data="11">澳门市</li>
+					<li js_data="12">长治市</li>
+				</ul>
+			</div>
+			<div class="room_size"><input type="text" placeholder="房屋面积" class="normal"/><span class="area">㎡</span></div>
+			<textarea placeholder="备注" class="textare_bz"></textarea>
+			<a href class="need_publish">立即发布</a>
+		</nav>
+		{/if}
+		<script>
+			$(function(){
+				
+				/*省市县*/
+				$("#province_select2").click(function(){
+					if($("#province_list2").is(":hidden")){
+						$("#province_list2").show()
+						/*$("#province_select2").addClass('down');*/
+					}else{
+						$("#province_list2").hide()
+						/*$("#province_select2").removeClass('down');*/
+					}
+				})
+
+
+				$("#province_list2 li").each(function(){
+					var _t = $(this)
+							,_v = _t.attr('js_data');
+					_t.click(function(){
+						$('#province_select2').val(_t.text());
+						$('input[name=type]').val(_v);
+						$('#province_list2').hide();
+						$("#province_select2").removeClass('down');
+					})
+				})
+				$("#city_select2").click(function(){
+					if($("#city_list2").is(":hidden")){
+						$("#city_list2").show()
+						/*$("#province_select2").addClass('down');*/
+					}else{
+						$("#city_list2").hide()
+						/*$("#province_select2").removeClass('down');*/
+					}
+				})
+				$("#city_list2 li").each(function(){
+					var _t = $(this)
+							,_v = _t.attr('js_data');
+					_t.click(function(){
+						$('#city_select2').val(_t.text());
+						$('input[name=type]').val(_v);
+						$('#city_list2').hide();
+						$("#city_select2").removeClass('down');
+					})
+				})
+			
+				
+				$("#county_select2").click(function(){
+					if($("#county_list2").is(":hidden")){
+						$("#county_list2").show()
+						/*$("#province_select2").addClass('down');*/
+					}else{
+						$("#county_list2").hide()
+						/*$("#province_select2").removeClass('down');*/
+					}
+				})
+				$("#county_list2 li").each(function(){
+					var _t = $(this)
+							,_v = _t.attr('js_data');
+					_t.click(function(){
+						$('#county_select2').val(_t.text());
+						$('input[name=type]').val(_v);
+						$('#county_list2').hide();
+						$("#county_select2").removeClass('down');
+					})
+				})
+				/*$("body").not("#province, #citys,#countys").click(function(){
+					$('#province_list2').hide();
+					$('#county_list2').hide();
+					$('#county_list2').hide();
+				})*/
+				/*省市县 end*/
+			})
+				
+		</script>
+		<div class="ad-pic">
+			<img src="{url:views/nzw/skin/default/image/list/ad-pic.jpg}">
+		</div>
+		<div class="bar_box">
+			<h3 class="design_rank_title">设计师活跃排名</h3>
+			<!-- 最多排10个 -->
+			<ul class="design_bar_rank">
+				<li class="clear">
+					<img class="design_head_img" src="{url:views/nzw/skin/default/image/list/ad-pic.jpg}"/>
+					<div class="design_infor">
+						<h5>刘萌萌<img src="/nzw/views/nzw/skin/default/image/list/ad-pic.jpg" class="gold_icon"></h5>
+						<p class="word_case_num"><i>作品：10套</i>&nbsp;<i>点击量：2000</i></p>
+					</div>
+					<i class="rank_num on">1</i>
+				</li>
+				<li class="clear">
+					<img class="design_head_img" src="{url:views/nzw/skin/default/image/warn.png}"/>
+					<div class="design_infor">
+						<h5>刘萌萌<img src="/nzw/views/nzw/skin/default/image/list/ad-pic.jpg" class="gold_icon"></h5>
+						<p class="word_case_num"><i>作品：10套</i>&nbsp;<i>点击量：2000</i></p>
+					</div>
+					<i class="rank_num on">2</i>
+				</li>
+				<li class="clear">
+					<img class="design_head_img" src="{url:views/nzw/skin/default/image/warn.png}"/>
+					<div class="design_infor">
+						<h5>刘萌萌<img src="/nzw/views/nzw/skin/default/image/list/ad-pic.jpg" class="gold_icon"></h5>
+						<p class="word_case_num"><i>作品：10套</i>&nbsp;<i>点击量：2000</i></p>
+					</div>
+					<i class="rank_num on">3</i>
+				</li>
+				<li class="clear">
+					<img class="design_head_img" src="{url:views/nzw/skin/default/image/warn.png}"/>
+					<div class="design_infor">
+						<h5>刘萌萌<img src="/nzw/views/nzw/skin/default/image/list/ad-pic.jpg" class="gold_icon"></h5>
+						<p class="word_case_num"><i>作品：10套</i>&nbsp;<i>点击量：2000</i></p>
+					</div>
+					<i class="rank_num">4</i>
+				</li>
+			</ul>
+		</div>
+		
+	</aside>
+</section>
+
+

@@ -2,10 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{echo:$this->_siteConfig->name}</title>
     <link type="image/x-icon" href="{webroot:favicon.ico}" rel="icon">
     <link rel="stylesheet" href="{skin:style/css/company/company.css}">
-
+    <link rel="stylesheet" type="text/css" href="{skin:style/css/company/design.css}">
 </head>
 {js:jquery}
 {js:dialog}
@@ -20,10 +19,10 @@
                     <div class="logo_img" style="border:0;"><a href="{url:/}"><img src="{if:$this->_siteConfig->logo}{webroot:$this->_siteConfig->logo}{else:}{skin:image/logo.png}{/if}" alt=""></a></div>
                     <ul class="nav">
                         <li><a href="{url:/}">首页</a></li>
-                        <li class="current"><a href="{url:/site/search_list_company}">装修公司</a></li>
-                        <!--<li><a href="{url:/}">设计师</a></li>-->
+                        <li class="current"><a href="{url:/}">装修公司</a></li>
+                        <li><a href="{url:/}">设计师</a></li>
                         <li><a href="{url:/}">建材商城</a></li>
-                        <!--<li><a href="{url:/site/bbs_list}">家装论坛</a></li>-->
+                        <li><a href="{url:/site/bbs_list}">家装论坛</a></li>
                     </ul>
                 </div>
                 <div class="head_right">
@@ -34,13 +33,9 @@
                                             <p><a href="{url:/simple/seller}">申请开店</a></p>
                                             <p><a href="{url:/seller/index}">商家登录</a></p>
                         </div>
-                        {if:$this->user}
-                            <!--<li><a href="{url:/simple/logout}">退出</a></li>-->
-                            <li><a href="{url:/ucenter/index}">个人中心</a></li>
-                        {else:}
-                            <li><a href="{url:/simple/reg}">注册</a></li>
-                            <li><a href="{url:/simple/login}">登录</a></li>
-                        {/if}
+                        
+                        <li><a href="{url:/simple/reg}">注册</a></li>
+                        <li><a href="{url:/simple/login}">登录</a></li>
                     </ul>
                 </div>
             </div>
@@ -57,59 +52,53 @@
                 });
             })
         </script>
-    </header >
-
-    <div class="company_top">
-        <div class="company_logo">
-            <img src="{webroot:$head_ico}" width="150" height="150">
+    </header>
+<div class="design_top_bag">
+    <div class="design_top">
+        <div class="design_img">
+            <img src="{url:views/nzw/skin/default/image/company/commp_logo.jpg}">
         </div>
-        <div class="company_infor">
-            <h3 class="company_name">{$true_name}<img class="glory" src="{url:views/nzw/skin/default/image/company/company_glory.png}"></h3>
-            <div class="company_busines">
-                <span>案例：<i class="bg_da">{echo:statistics::caseCount($user_id)}</i>套</span>&nbsp;&nbsp;|&nbsp;
-                <span>设计师：<i class="bg_da">{echo:statistics::designerCount($user_id)}</i>名</span>&nbsp;&nbsp;|&nbsp;
-                <span>签单数：<i class="bg_da">0</i>单</span> 
+        <div class="designer_infor">
+            <h3 class="company_name">张洋<img class="glory" src="{url:views/nzw/skin/default/image/company/company_glory.png}"></h3>
+            <div class="design_busines">
+                <span>杭州</span>&nbsp;&nbsp;|&nbsp;
+                <span>擅长现代简约风格、日式风格、地中海风格</span>
             </div>
-            <div class="company_addres">地址：{$address}</div>
+            <div class="design_qm">个人签名：肉体是灵魂的居所，家是自我的延伸，好的空间呈现，是使用者与设计师沟通合作的成功</div>
+            <p class="design_case_p"><span>作品<i>12套</i></span> <span>评价数量<i>2200</i></span></p>
         </div>
-        <!--<div class="company_pj">
-            <p class="pj_title">业主评分</p>
-            <div class="star_box">
-                <strong class="items">设计水平：</strong>
+        <div class="design_pj">
+            <div class="star_box padd_top">
+                <strong class="items a5">设计水平：</strong>
                 <span class="red_star"></span>
                 <span class="red_star"></span>
                 <span class="red_star"></span>
                 <span class="red_star"></span>
                 <span class="red_star"></span>
+                <!-- 有几个星输出几个span -->
             </div>
 
-            <div class="star_box">
-                <strong class="items">服务态度：</strong>
+            <div class="star_box padd_top2">
+                <strong class="items a5">服务态度：</strong>
                 <span class="red_star"></span>
                 <span class="red_star"></span>
                 <span class="red_star"></span>
                 <span class="red_star"></span>
             </div>
-            <div class="star_box">
-                <strong class="items">施工质量：</strong>
-                <span class="red_star"></span>
-                <span class="red_star"></span>
-                <span class="red_star"></span>
-            </div>
-        </div>-->
+        </div>
         <div class="clear"></div>
-        <nav class="company_nav">
-            <ul>
-                <li><a href="{url:/site/company/id/$user_id}">首页</a></li>
-                <li><a href="{url:/site/company_desc/id/$user_id}">公司简介</a></li>
-                <li><a href="{url:/site/company_case/id/$user_id}">装修案例</a></li>
-                <!--<li><a>装修项目</a></li>-->
-                <li><a href="{url:/site/company_designer/id/$user_id}">设计师</a></li>
-                <!--<li><a>业主评论</a></li>-->
-            </ul>
-            <a class="nav_icon" href="javascript:;" onclick="alert('模块开发中，敬请期待。。。')"></a>
-        </nav>
     </div>
+</div>
+<div class="nav_top">
+    <nav class="design_nav">
+            <ul>
+                <li><a>主页</a></li>
+                <li><a>设计作品</a></li>
+                <li><a>业主评价</a></li>
+                <li><a>讨论贴</a></li>
+            </ul>
+        </nav>
+</div>
     {viewcontent}
     <!-- 底部文件 -->
     <div class="foot">

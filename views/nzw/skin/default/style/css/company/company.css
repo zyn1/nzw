@@ -235,7 +235,7 @@ body{
 	margin-top:0px;
 }
 .case_list .case_title{
-	padding: 10px 20px;width: 1160px;height: 25px;
+	padding: 10px 20px;/*width: 1160px;*/height: 25px;
 	border-bottom: 1px solid #e4e4e4;
 }
 .case_list .case_title .case_name{
@@ -265,8 +265,7 @@ body{
 .case_content .case_ul1 li{
 	float: left;
 	width: 374px;
-	margin-left:20px; 
-	padding: 20px 0;
+	margin: 20px 0 20px 20px; 
 }
 .case_content .case_ul1 li a,.case_content .case_ul2 li a,.comment_top ul.case_ul3 li a{
 	display: block;
@@ -296,7 +295,7 @@ body{
 .case_list .project_list{
 	width: 1160px;padding: 0 20px;padding-bottom: 20px;
 }
-.project_content{border-bottom: 1px solid #ccc;height: 200px;padding: 20px 0;background: #fff;}
+.project_content{border-bottom: 1px solid #ccc;height: 200px;padding: 20px 0;background: #fff;margin-top: 20px;}
 .project_content .img_link{width: 280px;height: 200px;display: inline-block;float: left;margin-right: 10px;}
 .project_content .img_link img{width: 280px;height: 200px;}
 .project_content .project_content_left{width: 700px;height: 200px;padding-left: 10px;float: left;}
@@ -745,3 +744,169 @@ ul.case_ul3 li .comm_name{
 .foot .copy a:hover{text-decoration: none; cursor: default;}
 .foot .copy .footer .links{/*background: #626262; padding: 30px;*/}
 .foot .copy.border{border-top: 1px solid #ddd;margin: 30px 0;padding-top: 30px;}
+.project_plan .content .li1_title{
+	padding: 30px 20px;
+}
+.project_plan .content .li1_title .title_img , li .li1_title .li1_con{
+	float: left;
+}
+.project_plan .content .li1_title .title_img,.title_img img{
+	width: 80px;
+	height: 80px;
+	border-radius: 50%;
+	-webkit-border-radius:  50%; 
+	-moz-border-radius:  50%;
+}
+li .li1_title .li1_con{
+	padding: 10px 20px;
+	width: 1040px
+}
+li .li1_title .li1_con .sjiln{
+	padding: 10px 0px;
+}
+li .li1_title .li1_con .sjiln span{
+	float: left;
+	display: block;
+}
+li .li1_title .li1_con .sjiln span:nth-child(1){
+	width: 75px;
+}
+li .li1_title .li1_con .sjiln span:nth-child(2){
+	width: 965px;
+}
+li .design_img{
+	padding: 20px;
+}
+li .design_img .li_design_title span{
+	background: #e1e1e1;
+	color: #999;
+	padding:3px 5px;
+	text-align: center;
+}
+li .design_img .li_design_img {
+	width: 100%;
+	margin: 20px 0px;
+}
+.li2_left,.li3_evaluate{
+	position: relative;
+}
+.sequence{
+
+	margin: 20px 50px;
+}
+.sequence .sequence_strat{
+	padding: 20px 40px;
+	border-left:1px solid #e4e4e4;
+	border-bottom: 1px solid #e4e4e4; 
+	position: relative;
+}
+.sequence .sequence_strat .sequence_i{
+	position: absolute;
+	display: block;
+	top:15px;
+	left: -25px;
+	width: 30px;
+	height: 30px;
+	background: #4d9a28;
+	color: #fff;
+	text-align:center;
+	border-radius: 60px; 
+	-webkit-border-radius: 60px; 
+	-moz-border-radius: 60px;
+	padding: 10px;
+	font-size: 12px;
+}
+.sequence .sequence_strat .img_title{
+	padding:10px 0;
+}
+.small_sequence{
+	position: absolute;
+	right: 40px;
+	top:15px;
+}
+.small_sequence dl.small_sequence_dl dd{
+	margin:3px 0px;
+	position: relative;
+	height: 50px;
+	padding:0 15px; 
+}
+.small_sequence dl.small_sequence_dl dd.on{
+	border-left: 1px solid #e4e4e4;
+}
+.small_sequence dl.small_sequence_dl dd i.dd_i{
+	position: absolute;
+	top:0px;
+	left: -4px;
+	width: 10px;
+	height: 10px;
+	border-radius:10px;
+	-webkit-border-radius: 10px; 
+	-moz-border-radius: 10px;
+	background: #e4e4e4;
+}
+.small_sequence dl.small_sequence_dl dd.on i.dd_i{
+	border: 2px solid #4d9a28;
+	background: #fff;
+	left: -8px
+}
+
+.sequence .comm_user_name{
+	height: 50px;
+    line-height: 45px;
+}
+.sequence .comm_user_name dd{
+	float: left;
+    padding-right: 20px;
+    color: #999;
+}
+.sequence  dd.star_box {
+    position: relative;
+    top: 8px;
+    width: 133px;
+    height: 40px;
+}
+.sequence  .comm_user_name dd.star_box .good_star {
+    display: block;
+    height: 25px;
+    background: url("../../../image/company/pj_strat.png") center 0px;
+    position: absolute;
+    z-index: 10;
+}
+.sequence  .comm_user_name dd.star_box .bad_star {
+    width: 133px;
+    display: block;
+    height: 25px;
+    background: url("../../../image/company/pj_strat.png") center 26px;
+    position: absolute;
+    z-index: 9;
+}
+.sequence  .comm_user_name dd.star_box .good_star.star_1{
+	width: 20px
+}
+.sequence  .comm_user_name dd.star_box .good_star.star_2{
+	width: 40px
+}
+.sequence  .comm_user_name dd.star_box .good_star.star_3 {
+    width: 73px;
+}
+.sequence  .user_content .comm_user_cont{
+	line-height: 25px;
+}
+.sequence  .user_content .comm_time{
+	padding: 10px 0px 0px;
+}
+.sequence .user_content .commpany_reply{
+	background: #f8f8f8;
+	border: 1px solid #e4e4e4;
+	padding: 20px;
+	margin-top:10px; 
+}
+.sequence .user_content .commpany_reply .reply_name{
+	padding-bottom: 10px;
+}
+.sequence .user_content .commpany_reply .reply_content{
+	line-height: 20px;
+}
+.sequence_strat .sequence_doing{
+	padding:15px 0px 30px;
+}
