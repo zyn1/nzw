@@ -219,11 +219,14 @@ class _userInfo extends pluginBase
 
         //插入user表
         $userArray = array(
-            'username' => $username,
             'password' => md5($password),
             'mobile'  => $mobile,  
             'type'    => IReq::get('t') ? IFilter::act(IReq::get('t')) : 1
         );
+        if($userArray['type'] == 1)
+        {
+            $userArray['username'] = $username;
+        }
         if($userArray['type'] == 2 && empty($address))
         {
             return "请填写地址";
