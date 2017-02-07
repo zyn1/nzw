@@ -1,17 +1,17 @@
 {js:artTemplate}
 {js:areaSelect}
-{if:isset($this->companyInfo['paper_img']) && $this->companyInfo['paper_img']}
-{set:$paper_img_url = JSON::decode($this->companyInfo['paper_img']);$count=count($paper_img_url);}
+{if:isset($this->operatorInfo['paper_img']) && $this->operatorInfo['paper_img']}
+{set:$paper_img_url = JSON::decode($this->operatorInfo['paper_img']);$count=count($paper_img_url);}
 {/if}
 <div class="headbar">
-	<div class="position"><span>会员</span><span>></span><span>装修公司管理</span><span>></span><span>编辑装修公司</span></div>
+	<div class="position"><span>会员</span><span>></span><span>运营中心管理</span><span>></span><span>编辑运营中心</span></div>
 </div>
 
 <div class="content_box">
 	<div class="content form_content">
-		<form action="{url:/member/company_add}" method="post" name="companyForm" enctype='multipart/form-data'>
+		<form action="{url:/member/operator_add}" method="post" name="operatorForm" enctype='multipart/form-data'>
 			<input name="id" value="" type="hidden" />
-            {if:$this->companyInfo['is_lock'] == 2}
+            {if:$this->operatorInfo['is_lock'] == 2}
             <input type="hidden" name="is_lock" value="2">
             {/if}
 			<table class="form_table">
@@ -32,7 +32,7 @@
 						<th>确认密码：</th><td><input class="normal" name="repassword" type="password" bind='password' empty /><label>* 重复确认密码</label></td>
 					</tr>
                     <tr>
-                        <th>公司名称：</th>
+                        <th>运营中心名称：</th>
                         <td><input class="normal" name="true_name" type="text" value="" pattern="required" /></td>
                     </tr>
 					<tr>
@@ -40,15 +40,15 @@
 						<td><input class="normal" name="contacts_name" type="text" value="" pattern="required" /></td>
 					</tr>
                     <tr>
-                        <th>装修公司logo：</th>
+                        <th>运营中心logo：</th>
                         <td>
                             <input type='file' name='head_ico' />
-                            {if:isset($this->companyInfo['head_ico']) && $this->companyInfo['head_ico']}
-                            <p><a target="_blank" href="{webroot:}{$this->companyInfo['head_ico']}"><img src='{webroot:}{$this->companyInfo['head_ico']}' style='width:180px;border:1px solid #ccc' /></a></p>
+                            {if:isset($this->operatorInfo['head_ico']) && $this->operatorInfo['head_ico']}
+                            <p><a target="_blank" href="{webroot:}{$this->operatorInfo['head_ico']}"><img src='{webroot:}{$this->operatorInfo['head_ico']}' style='width:180px;border:1px solid #ccc' /></a></p>
                             {/if}
                         </td>
                     </tr>
-                    <tr>
+                    <!--<tr>
                         <th>三证合一</th>
                         <td>
                             <input type="radio" name="card_type" value="1" {if:isset($count) && $count ==1} checked="checked" {/if}>是&nbsp;
@@ -57,7 +57,7 @@
                     </tr>
                     
                     <tr class="card_type_1" {if:isset($count) && $count >1} style="display: none;" {/if}>
-                        <th>装修公司营业执照：</th>
+                        <th>商户营业执照：</th>
                         <td>
                             <input type='file' name='paper_img' />
                             {if:isset($paper_img_url['paper_img'])}
@@ -67,7 +67,7 @@
                         </td>
                     </tr>
                     <tr class="card_type_2" {if:isset($count) && $count == 1} style="display: none;" {/if}>
-                        <th>装修公司营业执照：</th>
+                        <th>商户营业执照：</th>
                         <td>
                             <input type='file' name='paper_imgs' />
                             {if:isset($paper_img_url['paper_imgs'])}
@@ -95,13 +95,13 @@
                             </p>
                             {/if}
                         </td>
-                    </tr>
+                    </tr>-->
                     <tr>
                         <th>法人身份证：</th>
                         <td>
                             <input type='file' name='identity_card' />
-                            {if:isset($this->companyInfo['identity_card']) && $this->companyInfo['identity_card']}
-                            <p><a target="_blank" href="{webroot:}{$this->companyInfo['identity_card']}"><img src='{webroot:}{$this->companyInfo['identity_card']}' style='width:320px;border:1px solid #ccc' /></a></p>
+                            {if:isset($this->operatorInfo['identity_card']) && $this->operatorInfo['identity_card']}
+                            <p><a target="_blank" href="{webroot:}{$this->operatorInfo['identity_card']}"><img src='{webroot:}{$this->operatorInfo['identity_card']}' style='width:320px;border:1px solid #ccc' /></a></p>
                             {/if}
                         </td>
                     </tr>
@@ -148,45 +148,10 @@
 						<th>是否开通：</th>
 						<td>
 							<label class='attr'><input type='radio' name='is_lock' value='0' checked='checked' />开通</label>
-                            <label class='attr'><input type='radio' name='is_lock' value='1' />{if:$this->companyInfo['is_lock'] == 2}驳回{else:}锁定{/if}</label>
-							<label class='attr'><input type='radio' name='is_lock' value='2' disabled="disabled" />新申请</label>
-							<label>锁定后装修公司无法登陆进行管理</label>
+                            <label class='attr'><input type='radio' name='is_lock' value='1' />锁定</label>
+							<label>锁定后运营中心无法登陆进行管理</label>
 						</td>
 					</tr>
-                    <tr>
-                        <th>审核意见：</th>
-                        <td>
-                            <textarea class="normal" name="suggest" empty maxlength="255"></textarea><label>不超过255个字符</label>
-                        </td>
-                    </tr><!--
-                    <tr>
-                        <th>是否VIP：</th>
-                        <td>
-                            <label class='attr'><input type='radio' name='is_vip' value='0' checked='checked' />否</label>
-                            <label class='attr'><input type='radio' name='is_vip' value='1' />是</label>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>是否推荐：</th>
-                        <td>
-                            <label class='attr'><input type='radio' name='is_recomm' value='0' checked='checked' />否</label>
-                            <label class='attr'><input type='radio' name='is_recomm' value='1' />是</label>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>是否已开发票：</th>
-                        <td>
-                            <label class='attr'><input type='radio' name='is_invoice' value='0' checked='checked' />否</label>
-                            <label class='attr'><input type='radio' name='is_invoice' value='1' />是</label>
-                        </td>
-                    </tr>
-					<tr>
-						<th>是否付费：</th>
-						<td>
-							<label class='attr'><input type='radio' name='is_pay' value='0' checked='checked' />否</label>
-							<label class='attr'><input type='radio' name='is_pay' value='1' />是</label>
-						</td>
-					</tr>-->
 					<tr>
 						<td></td><td><button class="submit" type="submit"><span>确 定</span></button></td>
 					</tr>
@@ -201,14 +166,14 @@
 $(function()
 {
 //修改模式
-{if:$this->companyInfo}
-var formObj = new Form('companyForm');
-formObj.init({echo:JSON::encode($this->companyInfo)});
+{if:$this->operatorInfo}
+var formObj = new Form('operatorForm');
+formObj.init({echo:JSON::encode($this->operatorInfo)});
 
 //锁定字段一旦注册无法修改
 if($('[name="id"]').val())
 {
-	var lockCols = ['company_name'];
+	var lockCols = ['true_name'];
 	for(var index in lockCols)
 	{
 		$('input:text[name="'+lockCols[index]+'"]').addClass('readonly');
@@ -219,9 +184,9 @@ if($('[name="id"]').val())
 
 //地区联动插件
 var areaInstance = new areaSelect('province');
-areaInstance.init({echo:JSON::encode($this->companyInfo)});
+areaInstance.init({echo:JSON::encode($this->operatorInfo)});
 
-$('input[name=card_type]').click(function(){
+/*$('input[name=card_type]').click(function(){
     var _v = $(this).val();
     if(_v == 1)
     {
@@ -233,6 +198,6 @@ $('input[name=card_type]').click(function(){
         $('tr.card_type_2').show().find('input').removeAttr('disabled');
         $('tr.card_type_1').hide().find('input').attr('disabled', 'disabled');
     }
-})
+})*/
 });
 </script>

@@ -70,10 +70,15 @@ class APIUcenter
                 $info['group_name'] = $groupRow ? $groupRow['group_name'] : "";
             }
         } 
-		else if($_type == 2)
+        else if($_type == 2)
         {
             $tb_company = new IModel('company as c,user as u');
             $info = $tb_company->getObj("c.user_id = u.id and c.user_id=".$userid);
+        }
+		else if($_type == 4)
+        {
+            $tb_operator = new IModel('operator as o,user as u');
+            $info = $tb_operator->getObj("o.user_id = u.id and o.user_id=".$userid);
         }
 		return $info;
 	}

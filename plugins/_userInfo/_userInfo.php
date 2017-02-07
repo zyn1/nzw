@@ -389,6 +389,12 @@ class _userInfo extends pluginBase
                 $where   = "is_lock = 0 and is_del = 0 and user_id = ".$userDetail['id'];
                 $row = $companyObj->getObj($where);
             }
+            elseif($userDetail['type'] == 4)
+            {
+                $operatorObj = new IModel('operator');
+                $where   = "is_lock = 0 and is_del = 0 and user_id = ".$userDetail['id'];
+                $row = $operatorObj->getObj($where);
+            }
             $userRow = array_merge($userDetail,$row);                 
 		    if(isset($row) && !empty($row))
 		    {

@@ -50,6 +50,9 @@ class Menu
             '装修公司管理' => array(
                 '/member/company_list' => '装修公司列表',
             ),
+            '运营中心管理' => array(
+                '/member/operator_list' => '运营中心列表',
+            ),
 			'合同管理' => array(
 				'/member/contract_list' => '合同列表',
 				'/member/contract_edit' => '添加合同'

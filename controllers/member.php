@@ -894,11 +894,11 @@ class Member extends IController implements adminAuthorization
         }
     }
 
-	/**
-	 * @brief 商家修改页面
-	 */
-	public function company_edit()
-	{
+    /**
+     * @brief 装修公司修改页面
+     */
+    public function company_edit()
+    {
         $id  = IFilter::act(IReq::get('id'),'int');
 
         //编辑装修公司信息读取装修公司信息
@@ -921,13 +921,13 @@ class Member extends IController implements adminAuthorization
             }
         }
         $this->redirect('company_edit');
-	}
+    }
 
-	/**
-	 * @brief 装修公司的增加动作
-	 */
-	public function company_add()
-	{
+    /**
+     * @brief 装修公司的增加动作
+     */
+    public function company_add()
+    {
         $id   = IFilter::act(IReq::get('id'),'int');
         $user_name  = IFilter::act(IReq::get('username'));
         $email      = IFilter::act(IReq::get('email'));
@@ -1124,82 +1124,306 @@ class Member extends IController implements adminAuthorization
             }
         }
         $this->redirect('company_list');
+    }
+    /**
+     * @brief 装修公司的删除动作
+     */
+    public function company_del()
+    {
+        $id = IFilter::act(IReq::get('id'),'int');
+        $companyDB = new IModel('company');
+        $data = array('is_del' => 1);
+        $companyDB->setData($data);
+
+        if(is_array($id))
+        {
+            $companyDB->update('user_id in ('.join(",",$id).')');
+        }
+        else
+        {
+            $companyDB->update('user_id = '.$id);
+        }
+        $this->redirect('company_list');
+    }
+    /**
+     * @brief 装修公司的回收站删除动作
+     */
+    public function company_recycle_del()
+    {
+        $id = IFilter::act(IReq::get('id'),'int');
+        $companyDB = new IModel('company');
+
+        if(is_array($id))
+        {
+            $id = join(",",$id);
+        }
+
+        $companyDB->del('user_id in ('.$id.')');
+
+        $this->redirect('company_recycle_list');
+    }
+    /**
+     * @brief 装修公司的回收站恢复动作
+     */
+    public function company_recycle_restore()
+    {
+        $id = IFilter::act(IReq::get('id'),'int');
+        $companyDB = new IModel('company');
+        $data = array('is_del' => 0);
+        $companyDB->setData($data);
+        if(is_array($id))
+        {
+            $companyDB->update('user_id in ('.join(",",$id).')');
+        }
+        else
+        {
+            $companyDB->update('user_id = '.$id);
+        }
+
+        $this->redirect('company_recycle_list');
+    }
+    //装修公司状态ajax
+    public function ajax_company_lock()
+    {
+        $id   = IFilter::act(IReq::get('id'));
+        $lock = IFilter::act(IReq::get('lock'));
+        $companyObj = new IModel('company');
+        $companyObj->setData(array('is_lock' => $lock));
+        $companyObj->update("user_id = ".$id);
+
+        //短信通知状态修改
+        $userObj = new IModel('user');
+        $userRow = $userObj->getObj('id = '.$id);
+        if(isset($userRow['mobile']) && $userRow['mobile'])
+        {
+            $result = $lock == 0 ? "正常" : "锁定";
+            $content = smsTemplate::sellerCheck(array('{result}' => $result));
+            $result = Hsms::send($userRow['mobile'],$content,0);
+        }
+    }
+
+	/**
+	 * @brief 运营中心修改页面
+	 */
+	public function operator_edit()
+	{
+        $id  = IFilter::act(IReq::get('id'),'int');
+
+        //编辑装修公司信息读取装修公司信息
+        if($id)
+        {
+            $userDB = new IQuery('user as u');
+            $userDB->join = 'left join operator as o on u.id = o.user_id';
+            $userDB->where= 'u.id = '.$id;
+            $operatorInfo = $userDB->find();
+
+            if($operatorInfo)
+            {
+                $this->operatorInfo = current($operatorInfo);
+            }
+            else
+            {
+                $this->redirect('operator_list');
+                Util::showMessage("没有找到相关记录！");
+                exit;
+            }
+        }
+        $this->redirect('operator_edit');
+	}
+
+	/**
+	 * @brief 运营中心的增加动作
+	 */
+	public function operator_add()
+	{
+        $id   = IFilter::act(IReq::get('id'),'int');
+        $user_name  = IFilter::act(IReq::get('username'));
+        $email      = IFilter::act(IReq::get('email'));
+        $password   = IFilter::act(IReq::get('password'));
+        $repassword = IFilter::act(IReq::get('repassword'));
+        $truename   = IFilter::act(IReq::get('true_name'));
+        $contacts_name    = IFilter::act(IReq::get('contacts_name'));
+        $phone       = IFilter::act(IReq::get('phone'));
+        $mobile     = IFilter::act(IReq::get('mobile'));
+        $province   = IFilter::act(IReq::get('province'),'int');
+        $city       = IFilter::act(IReq::get('city'),'int');
+        $area       = IFilter::act(IReq::get('area'),'int');
+        $is_lock     = IFilter::act(IReq::get('is_lock'),'int');
+        $address     = IFilter::act(IReq::get('address'));   
+        $sort        = IFilter::act(IReq::get('sort'),'int');
+
+
+        if(!$id && $password == '')
+        {
+            $errorMsg = '请输入密码！';
+        }
+
+        if($password != $repassword)
+        {
+            $errorMsg = '两次输入的密码不一致！';
+        }
+
+        //创建操作类
+        $userDB   = new IModel("user");
+        $operatorDB = new IModel("operator");
+
+        if($userDB->getObj("username='".$user_name."' and id != ".$id))
+        {
+            $errorMsg = '登录用户名重复';
+        }
+
+        if($email && $userDB->getObj("email='".$email."' and id != ".$id))
+        {
+            $errorMsg = '邮箱重复';
+        }
+
+        if($mobile && $userDB->getObj("mobile='".$mobile."' and id != ".$id))
+        {
+            $errorMsg = '手机号码重复';
+        }
+        if($truename && $operatorDB->getObj("true_name = '{$truename}' and user_id != {$id}"))
+        {
+            $errorMsg = "运营中心名称重复";
+        }
+
+        //操作失败表单回填
+        if(isset($errorMsg))
+        {
+            $this->operatorInfo = $_POST;
+            $this->redirect('operator_edit',false);
+            Util::showMessage($errorMsg);
+        }
+
+        $operator = array(
+            'true_name' => $truename,
+            'contacts_name' => $contacts_name,
+            'phone'     => $phone,
+            'address'   => $address,
+            'is_lock'   => $is_lock,
+            'province'  => $province,
+            'city'      => $city,
+            'area'      => $area,
+            'sort'      => $sort
+        );
+        
+        //文件上传
+        if((isset($_FILES['head_ico']['name']) && $_FILES['head_ico']['name']) || (isset($_FILES['identity_card']['name']) && $_FILES['identity_card']['name']))
+        {
+            $uploadObj = new PhotoUpload();
+            $uploadObj->setIterance(false);
+            $photoInfo = $uploadObj->run();
+        }
+        if(isset($photoInfo['identity_card']['img']) && file_exists($photoInfo['identity_card']['img']))
+        {
+            $operator['identity_card'] = $photoInfo['identity_card']['img'];
+        }
+        
+        $user = array(
+            'username' => $user_name,
+            'email'        => $email,
+            'mobile'       => $mobile
+        );
+        
+        if(isset($photoInfo['head_ico']['img']) && file_exists($photoInfo['head_ico']['img']))
+        {
+            $user['head_ico'] = $photoInfo['head_ico']['img'];
+        }
+        
+        //添加新运营中心
+        if(!$id)
+        {
+            $user['password'] = md5($password);
+            $user['type'] = 4;
+            $userDB->setData($user);
+            $user_id = $userDB->add();
+
+            $operator['user_id'] = $user_id;
+            $operator['create_time']    = ITime::getDateTime();
+
+            $operatorDB->setData($operator);
+            $operatorDB->add();
+        }
+        //编辑运营中心
+        else
+        {
+            //修改密码
+            if($password)
+            {
+                $user['password'] = md5($password);
+            }
+            $userDB->setData($user);
+            $userDB->update('id = '.$id);
+
+            $operatorDB->setData($operator);
+            $operatorDB->update("user_id = ".$id);
+        }
+        $this->redirect('operator_list');
 	}
 	/**
-	 * @brief 装修公司的删除动作
+	 * @brief 运营中心的删除动作
 	 */
-	public function company_del()
+	public function operator_del()
 	{
 		$id = IFilter::act(IReq::get('id'),'int');
-		$companyDB = new IModel('company');
+		$operatorDB = new IModel('operator');
 		$data = array('is_del' => 1);
-		$companyDB->setData($data);
+		$operatorDB->setData($data);
 
 		if(is_array($id))
 		{
-			$companyDB->update('user_id in ('.join(",",$id).')');
+			$operatorDB->update('user_id in ('.join(",",$id).')');
 		}
 		else
 		{
-			$companyDB->update('user_id = '.$id);
+			$operatorDB->update('user_id = '.$id);
 		}
-		$this->redirect('company_list');
+		$this->redirect('operator_list');
 	}
 	/**
-	 * @brief 装修公司的回收站删除动作
+	 * @brief 运营中心的回收站删除动作
 	 */
-	public function company_recycle_del()
+	public function operator_recycle_del()
 	{
 		$id = IFilter::act(IReq::get('id'),'int');
-		$companyDB = new IModel('company');
+		$operatorDB = new IModel('operator');
 
 		if(is_array($id))
 		{
 			$id = join(",",$id);
 		}
 
-		$companyDB->del('user_id in ('.$id.')');
+		$operatorDB->del('user_id in ('.$id.')');
 
-		$this->redirect('company_recycle_list');
+		$this->redirect('operator_recycle_list');
 	}
 	/**
-	 * @brief 装修公司的回收站恢复动作
+	 * @brief 运营中心的回收站恢复动作
 	 */
-	public function company_recycle_restore()
+	public function operator_recycle_restore()
 	{
 		$id = IFilter::act(IReq::get('id'),'int');
-		$companyDB = new IModel('company');
+		$operatorDB = new IModel('operator');
 		$data = array('is_del' => 0);
-		$companyDB->setData($data);
+		$operatorDB->setData($data);
 		if(is_array($id))
 		{
-			$companyDB->update('user_id in ('.join(",",$id).')');
+			$operatorDB->update('user_id in ('.join(",",$id).')');
 		}
 		else
 		{
-			$companyDB->update('user_id = '.$id);
+			$operatorDB->update('user_id = '.$id);
 		}
 
-		$this->redirect('company_recycle_list');
+		$this->redirect('operator_recycle_list');
 	}
-	//装修公司状态ajax
-	public function ajax_company_lock()
+	//运营中心状态ajax
+	public function ajax_operator_lock()
 	{
 		$id   = IFilter::act(IReq::get('id'));
 		$lock = IFilter::act(IReq::get('lock'));
-		$companyObj = new IModel('company');
-		$companyObj->setData(array('is_lock' => $lock));
-		$companyObj->update("user_id = ".$id);
-
-		//短信通知状态修改
-        $userObj = new IModel('user');
-		$userRow = $userObj->getObj('id = '.$id);
-		if(isset($userRow['mobile']) && $userRow['mobile'])
-		{
-			$result = $lock == 0 ? "正常" : "锁定";
-			$content = smsTemplate::sellerCheck(array('{result}' => $result));
-			$result = Hsms::send($userRow['mobile'],$content,0);
-		}
+		$operatorObj = new IModel('operator');
+		$operatorObj->setData(array('is_lock' => $lock));
+		$operatorObj->update("user_id = ".$id);
 	}
 
     /**

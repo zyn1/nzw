@@ -816,6 +816,10 @@ class Ucenter extends IController implements userAuthorization
         {
             $model = new IModel('company');
         }
+        elseif($type == 4)
+        {
+            $model = new IModel('operator');
+        }
         $where           = 'user_id = '.$user_id;
         $this->dataRow = $model->getObj($where);
         $this->redirect('info');
@@ -905,6 +909,20 @@ class Ucenter extends IController implements userAuthorization
             );
             $companyObj->setData($dataArray);
             $companyObj->update('user_id = '.$user_id);
+        } 
+        elseif($type == 4)
+        {
+            $operatorObj = new IModel('operator');
+            $dataArray = array(
+                'contacts_name' => IFilter::act(IReq::get('contacts_name')),  
+                'phone' => IFilter::act(IReq::get('phone')),
+                'province' => IFilter::act(IReq::get('province'),'int'),
+                'city' => IFilter::act(IReq::get('city'),'int'),
+                'area' => IFilter::act(IReq::get('area'),'int'),     
+                'address' => IFilter::act(IReq::get('address'))
+            );
+            $operatorObj->setData($dataArray);
+            $operatorObj->update('user_id = '.$user_id);
         }                                          
     	$this->info();
     }
@@ -1062,6 +1080,10 @@ class Ucenter extends IController implements userAuthorization
         elseif($type == 2)
         {
             $model = new IModel('company');
+        }
+        elseif($type == 4)
+        {
+            $model = new IModel('operator');
         }
         $where     = 'user_id = '.$user_id;
         $this->data = $model->getObj($where, 'balance'); 
@@ -1661,6 +1683,10 @@ class Ucenter extends IController implements userAuthorization
         {
             $model = new IModel('company');
         }
+        elseif($type == 4)
+        {
+            $model = new IModel('operator');
+        }
         $where = 'user_id = '.$user_id;
         $pay_pass = $model->getObj($where, 'pay_password');
         $this->pay_pass = $pay_pass['pay_password'];
@@ -1679,6 +1705,10 @@ class Ucenter extends IController implements userAuthorization
         elseif($type == 2)
         {
             $model = new IModel('company');
+        }
+        elseif($type == 4)
+        {
+            $model = new IModel('operator');
         }
         $where = 'user_id = '.$user_id;
         $pay_pass = $model->getObj($where, 'pay_password');
@@ -1756,6 +1786,10 @@ class Ucenter extends IController implements userAuthorization
         elseif($type == 2)
         {
             $model = new IModel('company');
+        }
+        elseif($type == 4)
+        {
+            $model = new IModel('operator');
         }
         $where = 'user_id = '.$user_id;
         $userObj = new IModel('user');
