@@ -164,7 +164,7 @@ class Simple extends IController
     	if(is_array($result))
     	{
 			//自定义跳转页面
-            if($_POST['t'] == 2)
+            if(isset($_POST['t']) && $_POST['t'] == 2)
             {
                 $code = rand(100000,999999);
                 ISafe::set("user_code_".$result['id'],$code);
