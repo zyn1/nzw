@@ -1,0 +1,76 @@
+{set:$items=$this->comment;}
+<article class="module width_full">
+	<header>
+		<h3 class="tabs_involved">商品评价回复</h3>
+	</header>
+
+	<form action="{url:/seller/comment_update}" method="post" name="comment_edit">
+		<input type="hidden" value="{$items['id']}" name="id" />
+		<div class="module_content">
+			<fieldset>
+				<label>评论人：</label>
+				<div class="box"><a href="{url:/member/member_edit/uid/$items[user_id]}">{$items['username']}</a></div>
+			</fieldset>
+
+			<fieldset>
+				<label>评价时间：</label>
+				<div class="box">{$items['time']}</div>
+			</fieldset>
+
+			<fieldset>
+				<label>评价商品：</label>
+				<div class="box"><a href="{url:/goods/products/id/$items['goods_id']}" target="_blank">{$items['name']}</a></div>
+			</fieldset>
+
+			<fieldset>
+				<label>评价内容：</label>
+				<div class="box">{$items['contents']}</div>
+			</fieldset>
+
+            {if:$items['photo']}
+            <fieldset>
+                <label>晒图：</label>
+                <div class="box">
+                {foreach:items=$items['photo']}
+                <img src="{webroot:$item['img']}" style="width: 100px;" alt="">
+                {/foreach}
+                </div>
+            </fieldset>
+            {/if}
+			<fieldset>
+				<label>评价分数：</label>
+				<div class="box">{$items['point']}分</div>
+			</fieldset>
+            {if:$items['second_contents']}
+            <fieldset>
+                <label>追评内容：</label><div class="box">{$items['second_contents']}</div>
+            </fieldset>
+            <fieldset>
+                <label>追评时间：</label><div class="box">{$items['second_content_time']}</div>
+            </fieldset>
+            {if:$items['reply_photo']}
+            <fieldset>
+                <label>追评图片：</label>
+                <div class="box">
+                {foreach:items=$items['reply_photo']}
+                <img src="{webroot:$item['img']}" style="width: 100px;" alt="">
+                {/foreach}
+                </div>
+            </fieldset>
+            {/if}
+            {/if}
+			<fieldset>
+				<label>回复评价：</label>
+				<textarea name='recontents' style='height:100px;'>{$items['recontents']}</textarea>
+				<label class="tip">卖家对买家评论的回复</label>
+			</fieldset>
+		</div>
+
+		<footer>
+			<div class="submit_link">
+				<input type="submit" class="alt_btn" value="确 定" />
+				<input type="reset" value="重 置" />
+			</div>
+		</footer>
+	</form>
+</article>

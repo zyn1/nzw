@@ -1185,7 +1185,7 @@ a .icon-rotate-90:before, a .icon-rotate-180:before, a .icon-rotate-270:before, 
 .header .header_nav .site_nav li a:hover { background: #6bb945; box-shadow: 1px 0 #6bb945;color: #fff; }
 .header .header_nav .site_nav li:not(:first-child):before { content: ""; position: absolute; left: 0; height: 12px; width: 1px; background: #fff; top: 9px; opacity: .5; }
 
-.foot { margin-top: 20px; box-shadow: 0 -1px #fff, 0 -2px #ddd; }
+.foot { margin-top: 0px; box-shadow: 0 -1px #fff, 0 -2px #ddd; }
 .foot .help dl { float: left; width: 150px; position: relative; padding: 25px 0 25px 30px; }
 .foot .help dl dt { font-size: 14px; font-weight: bold; }
 .foot .help dl .icon { width: 18px; height: 18px; position: absolute; left: 0; top: 22px; font-size: 18px; color: #ba1813; }
@@ -2471,7 +2471,7 @@ section.count_down{margin: 13px 5px;}
 
 .shop_main .goods_list { width: 958px; overflow: hidden; background: #fff;    border: 1px solid #e4e4e4;border-top: none;}
 .shop_main .goods_list ul { width: 1000px; }
-.shop_main .goods_list ul li { width: 926px; float: left; padding: 16px; margin: 0; border-bottom:1px solid #ccc; position: relative;}
+.shop_main .goods_list ul li { width: 926px; float: left; padding: 16px; margin: 0; border-bottom:1px solid #e4e4e4; position: relative;}
 .shop_main .goods_list ul li a {display: inline-block;border: 1px solid #ddd;text-decoration: none;position: relative;height: auto;padding: 10px;float: left;}
 .shop_main .goods_list ul li a:hover { border: 1px solid #ddd; }
 .shop_main .goods_list ul li img { display: inline-block; width: 150px; height: 150px; margin: 6px auto; }
@@ -2494,10 +2494,12 @@ section.count_down{margin: 13px 5px;}
 .shop_bar { width: 230px; float: right; }
 .shop_bar .bar_box { border: 1px solid #e4e4e4; margin-bottom: 10px;background: #fff; text-align: center;position: relative;}
 .shop_bar .bar_box .bar_box_head { text-align: center; height: 55px; line-height: 55px; text-indent: 0px; color: #666; background-image: -webkit-linear-gradient(0deg, #fff, #fff); background-image: linear-gradient(0deg, #fff, #fff); border-bottom: 1px solid #e4e4e4; box-shadow: 0 0 0; font-size: 18px; font-weight: normal;margin: auto 10px;}
+.shop_bar .bar_box .bar_rank a{color: #666;} 
+.shop_bar .bar_box .bar_rank a:hover{color: #6bb945;}
 .shop_bar .bar_box .intro{padding: 10px;text-align: center;color: #999;}
 .shop_bar .bar_box input.normal{width: 196px;padding: 5px;height: 30px;border: 1px solid #ccc;line-height: 35px;margin-top: 10px; color: #666;}
 .shop_bar .bar_box .city,.shop_bar .bar_box .county{position: relative;width: 97px;height: 36px;float: left;margin-left: 10px;margin-top: 10px;}
-.shop_bar .bar_box .city input.city_select,.shop_bar .bar_box .county input.area_select{outline: none;height: 34px;padding: 0 5px 0 10px;border: 0;color: #999;width: 84px;background: url("../image/list/up.png") no-repeat 80px center #fff;appearance: none;-moz-appearance: none;-webkit-appearance: none;border: 1px solid #ccc;text-align: left;}
+.shop_bar .bar_box .city input.city_select,.shop_bar .bar_box .county input.area_select{outline: none;height: 34px;padding: 0 5px 0 10px;border: 0;color: #999;width: 84px;background: url("../image/list/up.png") no-repeat 75px center #fff;appearance: none;-moz-appearance: none;-webkit-appearance: none;border: 1px solid #ccc;text-align: left;}
 .shop_bar .bar_box .city .city_list,.shop_bar .bar_box .county .area_list{width: 99px;margin: 0 auto;border: 1px solid #ccc;border-top: none;display: none;overflow: auto;height: 160px;position: absolute;left:0;top: 35px;text-align: center;background: #fff;z-index: 2;}
 .shop_bar .bar_box .city .city_list li,.shop_bar .bar_box .county .area_list li{padding: 0 0 0 15px;color: #999;background: #FFF;width: 70px;height: 20px;line-height: 20px;clear: both;text-align: left;}
 .shop_bar .bar_box .area{position: absolute; right: 15px; bottom: 80px; color: #ccc;}
@@ -2723,6 +2725,7 @@ section.count_down{margin: 13px 5px;}
 	width: 96%;
 	padding: 10px 2%;
 	overflow: hidden;
+	border: 1px solid #ccc;
 }
 .bbs_comment .comment_textare .text_ts{
     height:60px;
@@ -3191,7 +3194,7 @@ ul.design_bar_rank li  i.on{
 	color: #45b847;
 }
 .design_center{
-	margin: 20px 0px;
+	margin: 20px 0px;margin-bottom: 0;
 }
 .design_center_left{
 	float: left;

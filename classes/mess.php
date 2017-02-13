@@ -81,6 +81,29 @@ class Mess
             }
             $this->messageIds = $companyRow['company_message_ids'];
         }
+        elseif($this->user_type == 4)
+        {
+            $this->operatorDB = new IModel('operator');
+            $operatorRow      = $this->operatorDB->getObj('user_id = '.$user_id);
+
+            //过滤消息内容
+            if($operatorRow['operator_message_ids'])
+            {
+                $messObj   = new IModel('message');
+                $messArray = explode(',',$operatorRow['operator_message_ids']);
+                foreach($messArray as $key => $messId)
+                {
+                    $mid = abs($messId);
+                    if(!$messObj->getObj('id = '.$mid))
+                    {
+                        $operatorRow['operator_message_ids'] = str_replace(",".$messId.",",",",",".trim($operatorRow['operator_message_ids'],",").",");
+                    }
+                }
+                $this->operatorDB->setData(array('operator_message_ids' => $operatorRow['operator_message_ids']));
+                $this->operatorDB->update("user_id = ".$user_id);
+            }
+            $this->messageIds = $operatorRow['operator_message_ids'];
+        }
 	}
 
 	/**

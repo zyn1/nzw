@@ -458,6 +458,17 @@ class _userInfo extends pluginBase
             $where     = 'user_id = '.$userRow["id"];
             $companyObj->update($where);
         }
+        elseif(isset($userRow['type']) && $userRow['type'] == 4)
+        {
+            //更新最后一次登录时间
+            $operatorObj = new IModel('operator');
+            $dataArray = array(
+                'last_login' => ITime::getDateTime(),
+            );
+            $operatorObj->setData($dataArray);
+            $where     = 'user_id = '.$userRow["id"];
+            $operatorObj->update($where);
+        }
 	}
 
 
