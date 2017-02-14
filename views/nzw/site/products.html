@@ -160,13 +160,14 @@
 					</div>
 				</dd>
 			</dl>
-
+            {if:$this->user['type'] <> 4 || ($this->user['type'] == 4 && $seller_id <> ISafe::get('seller_id', 'session'))}
 			<div class="btn_submit_buy" id="buyNowButton">
 				<span>立即购买</span>
 			</div>
 			<div class="btn_add_cart" id="joinCarButton">
 				<span>加入购物车</span>
 			</div>
+            {/if}
 		{/if}
 		</div>
 	</section>

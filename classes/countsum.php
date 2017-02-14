@@ -183,7 +183,7 @@ class CountSum
 	    		//购物车中的商品数据
 	    		$goodsIdStr = join(',',$buyInfo['goods']['id']);
 	    		$goodsObj   = new IModel('goods as go');
-	    		$goodsList  = $goodsObj->query('go.id in ('.$goodsIdStr.')','go.name,go.cost_price,go.id as goods_id,go.img,go.sell_price,go.market_price,go.point,go.weight,go.store_nums,go.exp,go.goods_no,0 as product_id,go.seller_id');
+	    		$goodsList  = $goodsObj->query('go.id in ('.$goodsIdStr.')','go.name,go.cost_price,go.channel_price,go.id as goods_id,go.img,go.sell_price,go.market_price,go.point,go.weight,go.store_nums,go.exp,go.goods_no,0 as product_id,go.seller_id');
 
 	    		//开始优惠情况判断
 	    		foreach($goodsList as $key => $val)
@@ -225,7 +225,7 @@ class CountSum
 	    		$productIdStr = join(',',$buyInfo['product']['id']);
 	    		$productObj   = new IQuery('products as pro,goods as go');
 	    		$productObj->where  = 'pro.id in ('.$productIdStr.') and go.id = pro.goods_id';
-	    		$productObj->fields = 'pro.sell_price,pro.market_price,pro.cost_price,pro.weight,pro.id as product_id,pro.spec_array,pro.goods_id,pro.store_nums,pro.products_no as goods_no,go.name,go.point,go.exp,go.img,go.seller_id';
+	    		$productObj->fields = 'pro.sell_price,pro.market_price,pro.cost_price,pro.channel_price,pro.weight,pro.id as product_id,pro.spec_array,pro.goods_id,pro.store_nums,pro.products_no as goods_no,go.name,go.point,go.exp,go.img,go.seller_id';
 	    		$productList  = $productObj->find();
 
 	    		//开始优惠情况判断
@@ -308,20 +308,41 @@ class CountSum
 	public function cart_count($id = '',$type = '',$buy_num = 1,$promo='',$active_id='', $buyInfo = array())
 	{
 		//单品购买
+        $goodsDB = new IModel('goods');
+        $productsDB = new IModel('products');
 		if($id && $type)
 		{
 			$type = ($type == "goods") ? "goods" : "product";
 
+            $userDB = new IModel('user');
+            $userRow = $userDB->getObj('id = '.$this->user_id, 'type,relate_id');
 			//规格必填
 			if($type == "goods")
 			{
-				$productsDB = new IModel('products');
 				if($productsDB->getObj('goods_id = '.$id))
 				{
 					$this->error .= '请先选择商品的规格';
 					return $this->error;
 				}
+                
+                //判断是否是自己店铺的商品
+                $seller = $goodsDB->getObj('id = '.$id, 'seller_id');
+                if($userRow['type'] == 4 && $seller['seller_id'] == $userRow['relate_id'])
+                {
+                    $this->error .= '不能购买自己店铺的商品';
+                    return $this->error;
+                }
 			}
+            else
+            {
+                $goods = $productsDB->getObj('id = '.$id, 'goods_id');
+                $seller = $goodsDB->getObj('id = '.$goods['goods_id'], 'seller_id');
+                if($userRow['type'] == 4 && $seller['seller_id'] == $userRow['relate_id'])
+                {
+                    $this->error .= '不能购买自己店铺的商品';
+                    return $this->error;
+                }
+            }
 
     		$buyInfo = array(
     			$type => array('id' => array($id),'data' => array($id => array('count' => $buy_num)),'count' => $buy_num)

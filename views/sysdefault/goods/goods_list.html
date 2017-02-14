@@ -196,7 +196,8 @@
 		<tr>
 			<th>商品</th>
 			<th>市场价</th>
-			<th>销售价</th>
+            <th>销售价</th>
+			<th>渠道价</th>
 			<th>成本价</th>
 		</tr>
 	</thead>
@@ -222,6 +223,7 @@
 			</td>
 			<td><input type="text" class="small" name="data[<%=item['id']%>][market_price]" value="<%=item['market_price']%>" /></td>
 			<td><input type="text" class="small" name="data[<%=item['id']%>][sell_price]" value="<%=item['sell_price']%>" /></td>
+            <td><input type="text" class="small" name="data[<%=item['id']%>][channel_price]" value="<%=item['channel_price']%>" /></td>
 			<td><input type="text" class="small" name="data[<%=item['id']%>][cost_price]" value="<%=item['cost_price']%>" /></td>
 		</tr>
 	<%}%>

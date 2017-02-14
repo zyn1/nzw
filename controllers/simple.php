@@ -371,8 +371,10 @@ class Simple extends IController
     	header("Cache-Control: no-store, no-cache, must-revalidate");
 		header("Cache-Control: post-check=0, pre-check=0", false);
 
+        $user_id       = ($this->user['user_id'] == null) ? 0 : $this->user['user_id'];
+         
 		//开始计算购物车中的商品价格
-    	$countObj = new CountSum();
+    	$countObj = new CountSum($user_id);
     	$result   = $countObj->cart_count();
 
     	if(is_string($result))

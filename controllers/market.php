@@ -1000,7 +1000,7 @@ class Market extends IController implements adminAuthorization
 			//获取订单数据
 			$db        = new IQuery('order_goods as og');
 			$db->join  = "left join goods as go on go.id = og.goods_id left join products as p on p.id = og.product_id ";
-			$db->fields= "og.*,go.cost_price as go_cost,p.cost_price as p_cost";
+			$db->fields= "og.*,go.cost_price as go_cost,p.cost_price as p_cost,go.channel_price as go_channel,p.channel_price as p_channel";
 			$db->order = "og.order_id asc";
 			foreach($ids as $ctime => $idArray)
 			{

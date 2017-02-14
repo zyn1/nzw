@@ -96,15 +96,25 @@
             </a>
         </li>
         <li>
+            {if:$this->user['type'] <> 4 || ($this->user['type'] == 4 && $seller_id <> ISafe::get('seller_id', 'session'))}
             <a href="javascript:;" onclick="showChooseSpec('joinCarButton')">
                 <i class="icon-jiarugouwuche"></i>
 				<span>加入购物车</span>
             </a>
+            {else:}
+            <a href="javascript:;" onclick="alert('不能购买自己店铺的商品！');return false;">
+                <i class="icon-jiarugouwuche"></i>
+                <span>加入购物车</span>
+            </a>
+            {/if}
         </li>
     </ul>
     <div class="btn_tab">
-        
+        {if:$this->user['type'] <> 4 || ($this->user['type'] == 4 && $seller_id <> ISafe::get('seller_id', 'session'))}   
         <span class="btn_tab_submit pink"  onclick="showChooseSpec('buyNowButton')">立即购买</span>
+        {else:}
+        <span class="btn_tab_submit pink"  onclick="alert('不能购买自己店铺的商品！');return false;">立即购买</span>
+        {/if}
     </div>
 </div>
 
