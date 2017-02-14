@@ -35,7 +35,7 @@ class Mess
         $this->user_id  = $user_id;
 		$this->user_type  = $user_type;
         $this->messageIds = '';
-        if($this->user_type == 1)
+        if($this->user_type == 1 || $this->user_type == 4)
         {
 		    $this->memberDB = new IModel('member');
 		    $memberRow      = $this->memberDB->getObj('user_id = '.$user_id);
@@ -60,49 +60,26 @@ class Mess
         }
         elseif($this->user_type == 2)
         {
-            $this->companyDB = new IModel('company');
-            $companyRow      = $this->companyDB->getObj('user_id = '.$user_id);
+            $this->memberDB = new IModel('company');
+            $companyRow      = $this->memberDB->getObj('user_id = '.$user_id);
 
             //过滤消息内容
-            if($companyRow['company_message_ids'])
+            if($companyRow['message_ids'])
             {
                 $messObj   = new IModel('message');
-                $messArray = explode(',',$companyRow['company_message_ids']);
+                $messArray = explode(',',$companyRow['message_ids']);
                 foreach($messArray as $key => $messId)
                 {
                     $mid = abs($messId);
                     if(!$messObj->getObj('id = '.$mid))
                     {
-                        $companyRow['company_message_ids'] = str_replace(",".$messId.",",",",",".trim($companyRow['company_message_ids'],",").",");
+                        $companyRow['message_ids'] = str_replace(",".$messId.",",",",",".trim($companyRow['message_ids'],",").",");
                     }
                 }
-                $this->companyDB->setData(array('company_message_ids' => $companyRow['company_message_ids']));
-                $this->companyDB->update("user_id = ".$user_id);
+                $this->memberDB->setData(array('message_ids' => $companyRow['message_ids']));
+                $this->memberDB->update("user_id = ".$user_id);
             }
-            $this->messageIds = $companyRow['company_message_ids'];
-        }
-        elseif($this->user_type == 4)
-        {
-            $this->operatorDB = new IModel('operator');
-            $operatorRow      = $this->operatorDB->getObj('user_id = '.$user_id);
-
-            //过滤消息内容
-            if($operatorRow['operator_message_ids'])
-            {
-                $messObj   = new IModel('message');
-                $messArray = explode(',',$operatorRow['operator_message_ids']);
-                foreach($messArray as $key => $messId)
-                {
-                    $mid = abs($messId);
-                    if(!$messObj->getObj('id = '.$mid))
-                    {
-                        $operatorRow['operator_message_ids'] = str_replace(",".$messId.",",",",",".trim($operatorRow['operator_message_ids'],",").",");
-                    }
-                }
-                $this->operatorDB->setData(array('operator_message_ids' => $operatorRow['operator_message_ids']));
-                $this->operatorDB->update("user_id = ".$user_id);
-            }
-            $this->messageIds = $operatorRow['operator_message_ids'];
+            $this->messageIds = $companyRow['message_ids'];
         }
 	}
 
@@ -117,7 +94,7 @@ class Mess
 	}
 
 	/**
-	 * @brief 将messageid写入member表中
+	 * @brief 将messageid写入表中
 	 * @param $message_id int 消息的id
 	 * @param $read int 0:未读(追加到用户id串后面)，1:已读(把用户id串增加‘-’负号)
 	 * @return int or boolean
@@ -205,16 +182,31 @@ class Mess
 		else
 		{
 			$db = IDBFactory::getDB();
-			$tableName = IWeb::$app->config['DB']['tablePre']."member";
+            $tableName = IWeb::$app->config['DB']['tablePre']."member";
+            $tableNameC = IWeb::$app->config['DB']['tablePre']."company";
 			if($userIds)
 			{
-				$sql = "UPDATE `{$tableName}` SET message_ids = CONCAT( IFNULL(message_ids,'') ,'{$id},') WHERE user_id in ({$userIds})";
+                $sql[] = "UPDATE `{$tableName}` SET message_ids = CONCAT( IFNULL(message_ids,'') ,'{$id},') WHERE user_id in ({$userIds})";
+                $sql[] = "UPDATE `{$tableNameC}` SET message_ids = CONCAT( IFNULL(message_ids,'') ,'{$id},') WHERE user_id in ({$userIds})";
 			}
 			else
 			{
-				$sql = "UPDATE `{$tableName}` SET message_ids = CONCAT( IFNULL(message_ids,'') ,'{$id},')";
+                $sql[] = "UPDATE `{$tableName}` SET message_ids = CONCAT( IFNULL(message_ids,'') ,'{$id},')";
+                $sql[] = "UPDATE `{$tableNameC}` SET message_ids = CONCAT( IFNULL(message_ids,'') ,'{$id},')";
 			}
-			return $db->query($sql);
+            foreach($sql as $s)
+            {
+                $res = $db->query($s);
+                if($res)
+                {
+                    continue;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+			return true;
 		}
 	}
 

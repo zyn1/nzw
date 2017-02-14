@@ -58,7 +58,7 @@ class APIUcenter
 	//用户中心-用户信息
 	public function getMemberInfo($userid,$_type){
         $info = array();
-        if($_type == 1)
+        if($_type == 1 || $_type == 4)
         {
             $tb_member = new IModel('member as m,user as u');
             $info = $tb_member->getObj("m.user_id = u.id and m.user_id=".$userid);
@@ -74,11 +74,6 @@ class APIUcenter
         {
             $tb_company = new IModel('company as c,user as u');
             $info = $tb_company->getObj("c.user_id = u.id and c.user_id=".$userid);
-        }
-		else if($_type == 4)
-        {
-            $tb_operator = new IModel('operator as o,user as u');
-            $info = $tb_operator->getObj("o.user_id = u.id and o.user_id=".$userid);
         }
 		return $info;
 	}

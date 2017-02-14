@@ -67,8 +67,7 @@ class menuUcenter
                 unset(self::$menu['个人设置']['/ucenter/changeEmail']);
             }
             if($_user['type'] != 1)
-            {
-                unset(self::$menu['应用中心']['/ucenter/message']);
+            {                                                       
                 unset(self::$menu['账户资金']['/ucenter/online_recharge']);
             }
         }

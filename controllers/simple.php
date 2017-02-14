@@ -40,6 +40,10 @@ class Simple extends IController
     function logout()
     {
     	plugin::trigger('clearUser');
+        if($this->user['type'] == 4)
+        {
+            plugin::trigger('clearSeller');
+        }
     	$this->redirect('login');
     }
     

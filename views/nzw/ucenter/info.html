@@ -8,13 +8,13 @@
 
 <section class="user_form">
 	<form action='{url:/ucenter/info_edit_act}' method='post' name='user_info'>
-        {if:$type == 1}
+        {if:$type == 1 || $type == 4}
         <dl>
             <dt>头像：</dt>
             <dd>{set:$user_ico = $this->user['head_ico']}
                 <div class="user_ico">
                     <img id="user_ico_img" src="{webroot:$user_ico}" onerror="this.src='{skin:image/user_ico.gif}'">
-                    <span onclick="select_ico()">修改头像</span>
+                    {if:$type == 1}<span onclick="select_ico()">修改头像</span>{/if}
                 </div>
             </dd>
         </dl>
@@ -126,49 +126,6 @@
             <dt>详细地址：</dt>
             <dd><input type='text' class='input_text' name='address' alt='请填写详细地址' /></dd>
         </dl>
-        {elseif:$type == 4}
-        <dl>
-            <dt>logo：</dt>
-            <dd>{set:$user_ico = $this->user['head_ico']}
-                <div class="user_ico">
-                    <img src="{webroot:$user_ico}" onerror="this.src='{skin:image/user_ico.gif}'">
-                </div>
-            </dd>
-        </dl>  
-        <dl>
-            <dt> 运营中心名称：</dt>
-            <dd><input class="input_text" type="text" name="true_name" alt='运营中心名称' pattern="required" alt="运营中心名称不能为空" readonly="readonly" disabled="disabled" /></dd>
-        </dl>
-		<dl>
-			<dt><span style="color: red;">*</span> 联系人：</dt>
-			<dd><input class="input_text" type="text" name="contacts_name" pattern="required" alt='请填写联系人' /></dd>
-		</dl>
-        <dl>
-            <dt>固定电话：</dt>
-            <dd><input class="input_text" type="text" name='phone' pattern='phone' empty alt='请填写正确的固定电话' /></dd>
-        </dl> 
-        <dl>
-            <dt><span style="color: red;"></span> 手机号码：</dt>
-            <dd><input class="input_text" type="text" name='mobile' value="{$this->userRow['mobile']}" {if:$this->userRow['mobile']} readonly="readonly" style="background: #f1f1f1;color:#bbb;" {else:} pattern="mobi" alt="请填写正确的手机格式" {/if}/></dd>
-        </dl>
-        <dl>
-            <dt><span style="color: red;"></span> 邮箱：</dt>
-            <dd>
-                <input type='text' class='input_text' name='email' value="{$this->userRow['email']}" {if:$this->userRow['email']} readonly="readonly" style="background: #f1f1f1;color:#bbb;" {else:} pattern="email" alt="请填写正确的邮箱格式" {/if} />
-            </dd>
-        </dl>  
-		<dl>
-			<dt>地区：</dt>
-			<dd>
-				<select class="input_select" name="province" child="city,area"></select>
-				<select class="input_select" name="city" child="area"></select>
-				<select class="input_select" name="area"></select>
-			</dd>
-		</dl>
-		<dl>
-			<dt>详细地址：</dt>
-			<dd><input type='text' class='input_text' name='address' alt='请填写详细地址' /></dd>
-		</dl> 
         {/if}
 		<dl>
 			<dt></dt>
@@ -212,12 +169,10 @@ function callback_user_ico(content)
 
 //表单回填
 var areaInstance = new areaSelect('province');
-{if:$this->dataRow && $type == 1}
+{if:$this->dataRow && ($type == 1 || $type == 4)}
 {set:$area = explode(',',trim($this->dataRow['area'],','))}
 areaInstance.init({"province":"{$area[0]}","city":"{$area[1]}","area":"{$area[2]}"});
 {elseif:$this->dataRow && $type == 2}
-areaInstance.init({"province":"{$this->dataRow['province']}","city":"{$this->dataRow['city']}","area":"{$this->dataRow['area']}"});
-{elseif:$this->dataRow && $type == 4}
 areaInstance.init({"province":"{$this->dataRow['province']}","city":"{$this->dataRow['city']}","area":"{$this->dataRow['area']}"});
 {else:}
 areaInstance.init();

@@ -808,17 +808,13 @@ class Ucenter extends IController implements userAuthorization
         $where         = 'id = '.$user_id;
         $this->userRow = $userObj->getObj($where);
 
-        if($type == 1)
+        if($type == 1 || $type == 4)
         {
             $model = new IModel('member');
         }
         elseif($type == 2)
         {
             $model = new IModel('company');
-        }
-        elseif($type == 4)
-        {
-            $model = new IModel('operator');
         }
         $where           = 'user_id = '.$user_id;
         $this->dataRow = $model->getObj($where);
@@ -873,7 +869,7 @@ class Ucenter extends IController implements userAuthorization
             $userObj->update('id = '.$user_id);
         }         
         $type = $this->user['type'];
-        if($type == 1)
+        if($type == 1 || $type == 4)
         {
             $memberObj = new IModel('member');
             
@@ -895,6 +891,26 @@ class Ucenter extends IController implements userAuthorization
     	    );
             $memberObj->setData($dataArray);
             $memberObj->update('user_id = '.$user_id);
+            if($type == 4)
+            {
+                $sellerId = $userObj->getObj('id = '.$user_id, 'relate_id');
+                $sellerDB = new IModel('seller');
+                $sellerRow = array(
+                        'true_name'    => IFilter::act( IReq::get('true_name') ,'string'),
+                        'address' => IFilter::act( IReq::get('contact_addr'), 'string'),
+                        'phone'    => IFilter::act( IReq::get('telephone'),'string'),
+                        'province' => $province,
+                        'city' => $city,
+                        'area' => $area,
+                    );
+                if(IClient::getDevice() == IClient::PC)
+                {
+                    $sellerRow['email'] = $email;
+                    $sellerRow['mobile'] = $mobile;
+                }
+                $sellerDB->setData($sellerRow);
+                $sellerDB->update('id = '.$sellerId['relate_id']);
+            }
         }    
         elseif($type == 2)
         {
@@ -909,21 +925,7 @@ class Ucenter extends IController implements userAuthorization
             );
             $companyObj->setData($dataArray);
             $companyObj->update('user_id = '.$user_id);
-        } 
-        elseif($type == 4)
-        {
-            $operatorObj = new IModel('operator');
-            $dataArray = array(
-                'contacts_name' => IFilter::act(IReq::get('contacts_name')),  
-                'phone' => IFilter::act(IReq::get('phone')),
-                'province' => IFilter::act(IReq::get('province'),'int'),
-                'city' => IFilter::act(IReq::get('city'),'int'),
-                'area' => IFilter::act(IReq::get('area'),'int'),     
-                'address' => IFilter::act(IReq::get('address'))
-            );
-            $operatorObj->setData($dataArray);
-            $operatorObj->update('user_id = '.$user_id);
-        }                                          
+        }                                           
     	$this->info();
     }
 
@@ -1073,17 +1075,13 @@ class Ucenter extends IController implements userAuthorization
     {
         $user_id   = $this->user['user_id'];
         $type   = $this->user['type'];
-        if($type == 1)
+        if($type == 1 || $type == 4)
         {
             $model = new IModel('member');                  
         }
         elseif($type == 2)
         {
             $model = new IModel('company');
-        }
-        elseif($type == 4)
-        {
-            $model = new IModel('operator');
         }
         $where     = 'user_id = '.$user_id;
         $this->data = $model->getObj($where, 'balance'); 
@@ -1675,17 +1673,13 @@ class Ucenter extends IController implements userAuthorization
     {
         $user_id = $this->user['user_id'];
         $type = $this->user['type'];
-        if($type == 1)
+        if($type == 1 || $type == 4)
         {
             $model = new IModel('member');
         }
         elseif($type == 2)
         {
             $model = new IModel('company');
-        }
-        elseif($type == 4)
-        {
-            $model = new IModel('operator');
         }
         $where = 'user_id = '.$user_id;
         $pay_pass = $model->getObj($where, 'pay_password');
@@ -1698,17 +1692,13 @@ class Ucenter extends IController implements userAuthorization
     {
         $user_id = $this->user['user_id'];
         $type = $this->user['type'];
-        if($type == 1)
+        if($type == 1 || $type == 4)
         {
             $model = new IModel('member');
         }
         elseif($type == 2)
         {
             $model = new IModel('company');
-        }
-        elseif($type == 4)
-        {
-            $model = new IModel('operator');
         }
         $where = 'user_id = '.$user_id;
         $pay_pass = $model->getObj($where, 'pay_password');
@@ -1779,17 +1769,13 @@ class Ucenter extends IController implements userAuthorization
     {
         $user_id = $this->user['user_id'];
         $type = $this->user['type'];
-        if($type == 1)
+        if($type == 1 || $type == 4)
         {
             $model = new IModel('member');
         }
         elseif($type == 2)
         {
             $model = new IModel('company');
-        }
-        elseif($type == 4)
-        {
-            $model = new IModel('operator');
         }
         $where = 'user_id = '.$user_id;
         $userObj = new IModel('user');

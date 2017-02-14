@@ -513,6 +513,32 @@ class Seller extends IController implements sellerAuthorization
 
 		$sellerDB->setData($sellerRow);
 		$sellerDB->update("id = ".$seller_id);
+        
+        if(ISafe::get('user_type') == 4)
+        {
+            $userDB = new IModel('user');
+            $memberDB = new IModel('member');
+            $userRow = array(
+                    'mobile'    => $mobile,
+                    'email'     => $email,
+                );
+                
+            if($password)
+            {
+                $userRow['password'] = md5($password);
+            }
+            $userDB->setData($userRow);
+            $userDB->update('relate_id = '.$seller_id);
+            $user_id = $userDB->getObj('relate_id = '.$seller_id, 'id');
+            $areaArr = array($province,$city,$area);
+            $memberRow = array(
+                    'telephone' => $phone,
+                    'contact_addr' => $address,
+                    'area'      => $areaArr ? ",".join(",",$areaArr)."," : "",
+                );
+            $memberDB->setData($memberRow);
+            $memberDB->update('user_id = '.$user_id['id']);
+        }
 
 		$this->redirect('seller_edit');
 	}

@@ -371,44 +371,4 @@ class statistics
 		$propCount = $propObj->getObj($where,'count(*) as count');
 		return $propCount['count'];
 	}
-    
-    /**
-     * @brief 获取运营中心销售额统计数据
-     * @param int $user_id ID
-     * @param string $start 开始日期 Y-m-d
-     * @param string $end   结束日期 Y-m-d
-     * @return array key => 日期时间,value => 销售金额
-     */
-    public static function operatorAmount($user_id,$start = '',$end = '')
-    {
-        $db = new IQuery('order_goods as og');
-        $db->join   = 'left join order as o on o.id = og.order_id';
-        $db->fields = 'sum(og.real_price * og.goods_nums) as yValue,`pay_time`';
-        $db->where  = "og.is_send = 1 and og.seller_id = {$user_id} and o.pay_status = 1";
-        return self::ParseCondition($db,'pay_time',$start,$end);
-    }
-
-    /**
-     * @brief 运营中心的商品销售量
-     * @param int $user_id ID
-     * @return int
-     */
-    public static function sellCountOperator($user_id)
-    {
-        $operatorDB = new IModel('operator');
-        $dataRow = $operatorDB->getObj("user_id = {$user_id}",'sale');
-        return isset($dataRow['sale']) ? intval($dataRow['sale']) : 0;
-    }
-
-    /**
-     * @brief 运营中心的评分
-     * @param int $user_id ID
-     * @return int
-     */
-    public static function gradeOperator($user_id)
-    {
-        $operatorDB = new IModel('operator');
-        $dataRow = $operatorDB->getObj("user_id = {$user_id}",'(grade/comments) as num');
-        return isset($dataRow['num']) ? round($dataRow['num']) : 0;
-    }
 }

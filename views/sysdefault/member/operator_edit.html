@@ -1,8 +1,5 @@
 {js:artTemplate}
 {js:areaSelect}
-{if:isset($this->operatorInfo['paper_img']) && $this->operatorInfo['paper_img']}
-{set:$paper_img_url = JSON::decode($this->operatorInfo['paper_img']);$count=count($paper_img_url);}
-{/if}
 <div class="headbar">
 	<div class="position"><span>会员</span><span>></span><span>运营中心管理</span><span>></span><span>编辑运营中心</span></div>
 </div>
@@ -10,10 +7,8 @@
 <div class="content_box">
 	<div class="content form_content">
 		<form action="{url:/member/operator_add}" method="post" name="operatorForm" enctype='multipart/form-data'>
+            <input name="uid" value="" type="hidden" />
 			<input name="id" value="" type="hidden" />
-            {if:$this->operatorInfo['is_lock'] == 2}
-            <input type="hidden" name="is_lock" value="2">
-            {/if}
 			<table class="form_table">
 				<colgroup>
 					<col width="150px" />
@@ -23,7 +18,7 @@
 				<tbody>
 					<tr>
 						<th>登陆用户名：</th>
-						<td><input class="normal" name="username" type="text" value="" /></td>
+						<td><input class="normal" name="seller_name" type="text" value="" pattern="required" alt="用户名不能为空" /><label>* 用户名称（必填）</label></td>
 					</tr>
 					<tr>
 						<th>密码：</th><td><input class="normal" name="password" type="password" bind='repassword' empty /><label>* 登录密码</label></td>
@@ -42,69 +37,30 @@
                     <tr>
                         <th>运营中心logo：</th>
                         <td>
-                            <input type='file' name='head_ico' />
-                            {if:isset($this->operatorInfo['head_ico']) && $this->operatorInfo['head_ico']}
-                            <p><a target="_blank" href="{webroot:}{$this->operatorInfo['head_ico']}"><img src='{webroot:}{$this->operatorInfo['head_ico']}' style='width:180px;border:1px solid #ccc' /></a></p>
+                            <input type='file' name='seller_logo' />
+                            {if:isset($this->sellerRow['seller_logo']) && $this->sellerRow['seller_logo']}
+                            <p><a target="_blank" href="{webroot:}{$this->sellerRow['seller_logo']}"><img src='{webroot:}{$this->sellerRow['seller_logo']}' style='width:180px;border:1px solid #ccc' /></a></p>
                             {/if}
                         </td>
                     </tr>
-                    <!--<tr>
-                        <th>三证合一</th>
-                        <td>
-                            <input type="radio" name="card_type" value="1" {if:isset($count) && $count ==1} checked="checked" {/if}>是&nbsp;
-                            <input type="radio" name="card_type" value="2" {if:isset($count) && $count > 1} checked="checked" {/if}>否
-                        </td>
-                    </tr>
-                    
-                    <tr class="card_type_1" {if:isset($count) && $count >1} style="display: none;" {/if}>
+                    <tr>
                         <th>商户营业执照：</th>
                         <td>
                             <input type='file' name='paper_img' />
-                            {if:isset($paper_img_url['paper_img'])}
-                            <p><a target="_blank" href="{webroot:$paper_img_url['paper_img']}"><img src='{webroot:$paper_img_url['paper_img']}' style='width:320px;border:1px solid #ccc' /></a>
-                            </p>
+                            {if:isset($this->sellerRow['paper_img']) && $this->sellerRow['paper_img']}
+                            <p><a target="_blank" href="{webroot:}{$this->sellerRow['paper_img']}"><img src='{webroot:}{$this->sellerRow['paper_img']}' style='width:320px;border:1px solid #ccc' /></a></p>
                             {/if}
                         </td>
                     </tr>
-                    <tr class="card_type_2" {if:isset($count) && $count == 1} style="display: none;" {/if}>
-                        <th>商户营业执照：</th>
-                        <td>
-                            <input type='file' name='paper_imgs' />
-                            {if:isset($paper_img_url['paper_imgs'])}
-                            <p><a target="_blank" href="{webroot:$paper_img_url['paper_imgs']}"><img src='{webroot:$paper_img_url['paper_imgs']}' style='width:320px;border:1px solid #ccc' /></a>
-                            </p>
-                            {/if}
-                        </td>
-                    </tr>
-                    <tr class="card_type_2" {if:isset($count) && $count == 1} style="display: none;" {/if}>
-                        <th>税务登记证：</th>
-                        <td>
-                            <input type='file' name='tax_img' />
-                            {if:isset($paper_img_url['tax_img'])}
-                            <p><a target="_blank" href="{webroot:$paper_img_url['tax_img']}"><img src='{webroot:$paper_img_url['tax_img']}' style='width:320px;border:1px solid #ccc' /></a>
-                            </p>
-                            {/if}
-                        </td>
-                    </tr>
-                    <tr class="card_type_2" {if:isset($count) && $count == 1} style="display: none;" {/if}>
-                        <th>组织机构代码证：</th>
-                        <td>
-                            <input type='file' name='code_img' />
-                            {if:isset($paper_img_url['code_img'])}
-                            <p><a target="_blank" href="{webroot:$paper_img_url['code_img']}"><img src='{webroot:$paper_img_url['code_img']}' style='width:320px;border:1px solid #ccc' /></a>
-                            </p>
-                            {/if}
-                        </td>
-                    </tr>-->
-                    <tr>
-                        <th>法人身份证：</th>
-                        <td>
-                            <input type='file' name='identity_card' />
-                            {if:isset($this->operatorInfo['identity_card']) && $this->operatorInfo['identity_card']}
-                            <p><a target="_blank" href="{webroot:}{$this->operatorInfo['identity_card']}"><img src='{webroot:}{$this->operatorInfo['identity_card']}' style='width:320px;border:1px solid #ccc' /></a></p>
-                            {/if}
-                        </td>
-                    </tr>
+					<tr>
+						<th>负责人证件：</th>
+						<td>
+							<input type='file' name='identity_card' />
+							{if:isset($this->sellerRow['identity_card']) && $this->sellerRow['identity_card']}
+							<p><a target="_blank" href="{webroot:}{$this->sellerRow['identity_card']}"><img src='{webroot:}{$this->sellerRow['identity_card']}' style='width:320px;border:1px solid #ccc' /></a></p>
+							{/if}
+						</td>
+					</tr>
 					<!--<tr>
 						<th>收款账号：</th>
 						<td><textarea class="normal" name="account" empty></textarea><label>标明开户行，卡号，账户名称等</label></td>
@@ -132,14 +88,6 @@
 					<tr>
 						<th>详细地址：</th><td><input class="normal" name="address" type="text" empty value="" /></td>
 					</tr>
-					<!--<tr>
-						<th>客服QQ号码：</th>
-						<td><input class="normal" name="server_num" type="text" empty value="" /><label>输入客服QQ号码，可以商品详情页面对客户进行解答</label></td>
-					</tr>
-					<tr>
-						<th>企业官网：</th>
-						<td><input class="normal" name="home_url" type="text" pattern="url" empty value="" alt="请填写完整的URL地址，比如：http://www.aircheng.com" /><label>填写完整的网址</label></td>
-					</tr>-->
 					<tr>
 						<th>排序：</th>
 						<td><input type='text' class='small' name='sort' /></td>
@@ -166,14 +114,14 @@
 $(function()
 {
 //修改模式
-{if:$this->operatorInfo}
+{if:$this->sellerRow}
 var formObj = new Form('operatorForm');
-formObj.init({echo:JSON::encode($this->operatorInfo)});
+formObj.init({echo:JSON::encode($this->sellerRow)});
 
 //锁定字段一旦注册无法修改
 if($('[name="id"]').val())
 {
-	var lockCols = ['true_name'];
+	var lockCols = ['seller_name'];
 	for(var index in lockCols)
 	{
 		$('input:text[name="'+lockCols[index]+'"]').addClass('readonly');
@@ -184,20 +132,6 @@ if($('[name="id"]').val())
 
 //地区联动插件
 var areaInstance = new areaSelect('province');
-areaInstance.init({echo:JSON::encode($this->operatorInfo)});
-
-/*$('input[name=card_type]').click(function(){
-    var _v = $(this).val();
-    if(_v == 1)
-    {
-        $('tr.card_type_1').show().find('input').removeAttr('disabled');
-        $('tr.card_type_2').hide().find('input').attr('disabled', 'disabled');
-    }
-    else
-    {
-        $('tr.card_type_2').show().find('input').removeAttr('disabled');
-        $('tr.card_type_1').hide().find('input').attr('disabled', 'disabled');
-    }
-})*/
+areaInstance.init({echo:JSON::encode($this->sellerRow)});
 });
 </script>

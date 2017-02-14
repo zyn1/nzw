@@ -377,7 +377,7 @@ class _userInfo extends pluginBase
         $userDetail = $userDB->getObj("username = '{$login_info}' or email = '{$login_info}' or mobile='{$login_info}'");
         if($userDetail)
         {
-            if($userDetail['type'] == 1)
+            if($userDetail['type'] == 1 || $userDetail['type'] == 4)
             {
 		        $memberObj = new IModel('member');
 		        $where   = "status = 1 and user_id = ".$userDetail['id'];
@@ -388,12 +388,6 @@ class _userInfo extends pluginBase
                 $companyObj = new IModel('company');
                 $where   = "is_lock = 0 and is_del = 0 and user_id = ".$userDetail['id'];
                 $row = $companyObj->getObj($where);
-            }
-            elseif($userDetail['type'] == 4)
-            {
-                $operatorObj = new IModel('operator');
-                $where   = "is_lock = 0 and is_del = 0 and user_id = ".$userDetail['id'];
-                $row = $operatorObj->getObj($where);
             }
             $userRow = array_merge($userDetail,$row);                 
 		    if(isset($row) && !empty($row))
@@ -425,12 +419,13 @@ class _userInfo extends pluginBase
 		ISafe::set('user_type',isset($userRow['type']) ? $userRow['type'] : 1);
 		ISafe::set('last_login',isset($userRow['last_login']) ? $userRow['last_login'] : '');
 
-        if(isset($userRow['type']) && $userRow['type'] == 1)
+        if(isset($userRow['type']) && ($userRow['type'] == 1 || $userRow['type'] == 4))
         {
+            $time = ITime::getDateTime();
 		    //更新最后一次登录时间
 		    $memberObj = new IModel('member');
 		    $dataArray = array(
-			    'last_login' => ITime::getDateTime(),
+			    'last_login' => $time,
 		    );
 		    $memberObj->setData($dataArray);
 		    $where     = 'user_id = '.$userRow["id"];
@@ -446,6 +441,20 @@ class _userInfo extends pluginBase
 			    $memberObj->setData($dataArray);
 			    $memberObj->update($where);
 		    }
+            
+            if($userRow['type'] == 4)
+            {
+                $userDB = new IModel('user');
+                $sellerId = $userDB->getObj('id = '.$userRow['id'], 'relate_id');
+                $sellerDB = new IModel('seller');
+                $sellerRow['login_time'] = $time;
+                $sellerDB->setData($sellerRow);
+                $sellerDB->update('id = '.$sellerId['relate_id']);
+                
+                ISafe::set('seller_id',$sellerId['relate_id'],'session');
+                ISafe::set('seller_name',$userRow['username'],'session');
+                ISafe::set('seller_pwd',$userRow['password'],'session');
+            }
         }
         elseif(isset($userRow['type']) && $userRow['type'] == 2)
         {
@@ -458,19 +467,7 @@ class _userInfo extends pluginBase
             $where     = 'user_id = '.$userRow["id"];
             $companyObj->update($where);
         }
-        elseif(isset($userRow['type']) && $userRow['type'] == 4)
-        {
-            //更新最后一次登录时间
-            $operatorObj = new IModel('operator');
-            $dataArray = array(
-                'last_login' => ITime::getDateTime(),
-            );
-            $operatorObj->setData($dataArray);
-            $where     = 'user_id = '.$userRow["id"];
-            $operatorObj->update($where);
-        }
 	}
-
 
 	/**
 	 * @brief 发送验证邮箱邮件

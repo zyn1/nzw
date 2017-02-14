@@ -16,7 +16,6 @@
  * 1,admin （后台管理员）继承adminAuthorization接口
  * 2,seller（商家管理）  继承sellerAuthorization接口
  * 3,company（装修公司管理）  继承companyAuthorization接口
- * 4,operator（运营中心管理）  继承operatorAuthorization接口
  * 5,user  （注册用户）  继承userAuthorization接口
  *
  * 使用方法：
@@ -72,7 +71,6 @@ class _authorization extends pluginBase
      * 非session会话变量的校验，有些情境下比如flash调用时候，session不起作用，
      * 需要通过其他方式校验身份权限
      */
-    private static $operatorAction = array('operator@goods_img_upload' => 'operatorImageUpload');
 
 	/**
 	 * @brief 装修公司action校验
@@ -101,7 +99,8 @@ class _authorization extends pluginBase
         ISafe::clear('loginName');
 		ISafe::clear('loginPassword');
 		ISafe::clear('head_ico');
-		ISafe::clear('user_pwd','session');
+        ISafe::clear('user_pwd','session');
+		ISafe::clear('user_type');
 	}
 
 	//清除管理员权限
@@ -144,11 +143,6 @@ class _authorization extends pluginBase
         {
             self::checkCompanyRights($actionId);
         }
-		//运营中心权限判断
-		else if($controller instanceof operatorAuthorization)
-		{
-			self::checkOperatorRights($actionId);
-		}
 		//用户权限判断
 		else if($controller instanceof userAuthorization)
 		{
@@ -308,43 +302,6 @@ class _authorization extends pluginBase
             $object->company = $companyRow;
         }
     }
-
-
-	/**
-	 * @brief company权限拦截
-	 * @param $actionId string 动作ID
-	 */
-	public static function checkOperatorRights($actionId)
-	{
-		$object       = IWeb::$app->getController();
-		$controllerId = $object->getId();
-
-		//1,针对独立配置的action检测
-		if(isset(self::$operatorAction[$controllerId."@".$actionId]) && method_exists(__CLASS__,self::$operatorAction[$controllerId."@".$actionId]))
-		{
-			call_user_func(array(__CLASS__,self::$operatorAction[$controllerId."@".$actionId]));
-			return;
-		}
-		//2,其余action检测
-		else
-		{
-			$operatorRow = self::getUser();
-			if(!$operatorRow)
-			{
-				$object->redirect('/simple/login');
-				exit;
-			}
-
-			//角色权限校验
-			$rights = "";
-			if(self::checkRight($rights,$actionId) == false)
-			{
-				IError::show('503','no permission to access');
-				exit;
-			}
-			$object->operator = $operatorRow;
-		}
-	}
 
 	/**
 	 * @brief admin权限拦截
@@ -557,15 +514,6 @@ interface sellerAuthorization
  * @brief 管理员权限
  */
 interface companyAuthorization
-{
-
-}
-
-
-/**
- * @brief 管理员权限
- */
-interface operatorAuthorization
 {
 
 }

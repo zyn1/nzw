@@ -1213,13 +1213,14 @@ class Member extends IController implements adminAuthorization
         if($id)
         {
             $userDB = new IQuery('user as u');
-            $userDB->join = 'left join operator as o on u.id = o.user_id';
+            $userDB->join = 'left join seller as s on u.relate_id = s.id';
+            $userDB->fields = 'u.id as uid,s.*';
             $userDB->where= 'u.id = '.$id;
-            $operatorInfo = $userDB->find();
+            $info = $userDB->find();
 
-            if($operatorInfo)
+            if($info)
             {
-                $this->operatorInfo = current($operatorInfo);
+                $this->sellerRow = current($info);
             }
             else
             {
@@ -1236,24 +1237,25 @@ class Member extends IController implements adminAuthorization
 	 */
 	public function operator_add()
 	{
-        $id   = IFilter::act(IReq::get('id'),'int');
-        $user_name  = IFilter::act(IReq::get('username'));
-        $email      = IFilter::act(IReq::get('email'));
-        $password   = IFilter::act(IReq::get('password'));
-        $repassword = IFilter::act(IReq::get('repassword'));
-        $truename   = IFilter::act(IReq::get('true_name'));
+        $user_id   = IFilter::act(IReq::get('uid'),'int');
+        $seller_id   = IFilter::act(IReq::get('id'),'int');
+        $seller_name = IFilter::act(IReq::get('seller_name'));
+        $email       = IFilter::act(IReq::get('email'));
+        $password    = IFilter::act(IReq::get('password'));
+        $repassword  = IFilter::act(IReq::get('repassword'));
+        $truename    = IFilter::act(IReq::get('true_name'));
         $contacts_name    = IFilter::act(IReq::get('contacts_name'));
         $phone       = IFilter::act(IReq::get('phone'));
-        $mobile     = IFilter::act(IReq::get('mobile'));
-        $province   = IFilter::act(IReq::get('province'),'int');
-        $city       = IFilter::act(IReq::get('city'),'int');
-        $area       = IFilter::act(IReq::get('area'),'int');
+        $mobile      = IFilter::act(IReq::get('mobile'));
+        $province    = IFilter::act(IReq::get('province'),'int');
+        $city        = IFilter::act(IReq::get('city'),'int');
+        $area        = IFilter::act(IReq::get('area'),'int');
         $is_lock     = IFilter::act(IReq::get('is_lock'),'int');
-        $address     = IFilter::act(IReq::get('address'));   
+        $address     = IFilter::act(IReq::get('address'));
         $sort        = IFilter::act(IReq::get('sort'),'int');
 
 
-        if(!$id && $password == '')
+        if(!$seller_id && $password == '')
         {
             $errorMsg = '请输入密码！';
         }
@@ -1264,84 +1266,108 @@ class Member extends IController implements adminAuthorization
         }
 
         //创建操作类
-        $userDB   = new IModel("user");
-        $operatorDB = new IModel("operator");
+        $sellerDB = new IModel("seller");
+        $userDB = new IModel("user");
+        $memberDB = new IModel("member");
 
-        if($userDB->getObj("username='".$user_name."' and id != ".$id))
+        if($sellerDB->getObj("seller_name = '{$seller_name}' and id != {$seller_id}"))
         {
-            $errorMsg = '登录用户名重复';
+            $errorMsg = "登录用户名重复";
         }
-
-        if($email && $userDB->getObj("email='".$email."' and id != ".$id))
-        {
-            $errorMsg = '邮箱重复';
-        }
-
-        if($mobile && $userDB->getObj("mobile='".$mobile."' and id != ".$id))
-        {
-            $errorMsg = '手机号码重复';
-        }
-        if($truename && $operatorDB->getObj("true_name = '{$truename}' and user_id != {$id}"))
+        else if($sellerDB->getObj("true_name = '{$truename}' and id != {$seller_id}"))
         {
             $errorMsg = "运营中心名称重复";
         }
-
+        else if($userDB->getObj("email = '{$email}' and id != {$user_id}"))
+        {
+            $errorMsg = "邮箱重复";
+        }
+        else if($userDB->getObj("mobile = '{$mobile}' and id != {$user_id}"))
+        {
+            $errorMsg = "手机号码重复";
+        }
+        
         //操作失败表单回填
         if(isset($errorMsg))
         {
-            $this->operatorInfo = $_POST;
+            $this->sellerRow = $_POST;
             $this->redirect('operator_edit',false);
             Util::showMessage($errorMsg);
         }
 
-        $operator = array(
+        //待更新的数据
+        $sellerRow = array(
             'true_name' => $truename,
             'contacts_name' => $contacts_name,
             'phone'     => $phone,
+            'mobile'    => $mobile,
+            'email'     => $email,
             'address'   => $address,
             'is_lock'   => $is_lock,
             'province'  => $province,
             'city'      => $city,
             'area'      => $area,
-            'sort'      => $sort
+            'sort'      => $sort,
         );
         
-        //文件上传
-        if((isset($_FILES['head_ico']['name']) && $_FILES['head_ico']['name']) || (isset($_FILES['identity_card']['name']) && $_FILES['identity_card']['name']))
+        $userRow = array(
+            'email'        => $email,
+            'mobile'       => $mobile
+        );
+        
+        $areaData = "";
+        if($province && $city && $area)
+        {
+            $areaData = array($province,$city,$area);
+        }
+        $memberRow = array(
+            'true_name'    => $truename,
+            'telephone'    => $phone,
+            'area'         => $areaData ? ",".join(",",$areaData)."," : "",
+            'contact_addr' => $address,
+            'status'       => $is_lock == 0 ? 1 : 3,
+        );
+
+        //运营中心资质上传
+        if((isset($_FILES['paper_img']['name']) && $_FILES['paper_img']['name']) || (isset($_FILES['seller_logo']['name']) && $_FILES['seller_logo']['name']) || (isset($_FILES['identity_card']['name']) && $_FILES['identity_card']['name']))
         {
             $uploadObj = new PhotoUpload();
             $uploadObj->setIterance(false);
             $photoInfo = $uploadObj->run();
         }
+        if(isset($photoInfo['paper_img']['img']) && file_exists($photoInfo['paper_img']['img']))
+        {
+            $sellerRow['paper_img'] = $photoInfo['paper_img']['img'];
+        }
+        if(isset($photoInfo['seller_logo']['img']) && file_exists($photoInfo['seller_logo']['img']))
+        {
+            $sellerRow['seller_logo'] = $photoInfo['seller_logo']['img'];
+            $userRow['head_ico'] = $photoInfo['seller_logo']['img'];
+        }
         if(isset($photoInfo['identity_card']['img']) && file_exists($photoInfo['identity_card']['img']))
         {
-            $operator['identity_card'] = $photoInfo['identity_card']['img'];
+            $sellerRow['identity_card'] = $photoInfo['identity_card']['img'];
         }
-        
-        $user = array(
-            'username' => $user_name,
-            'email'        => $email,
-            'mobile'       => $mobile
-        );
-        
-        if(isset($photoInfo['head_ico']['img']) && file_exists($photoInfo['head_ico']['img']))
+        //添加运营中心
+        if(!$seller_id)
         {
-            $user['head_ico'] = $photoInfo['head_ico']['img'];
-        }
-        
-        //添加新运营中心
-        if(!$id)
-        {
-            $user['password'] = md5($password);
-            $user['type'] = 4;
-            $userDB->setData($user);
+            $time = ITime::getDateTime();
+            $sellerRow['seller_name'] = $seller_name;
+            $sellerRow['password']    = md5($password);
+            $sellerRow['create_time'] = $time;
+
+            $sellerDB->setData($sellerRow);
+            $sId = $sellerDB->add();
+            $userRow['username'] = $seller_name;
+            $userRow['password'] = md5($password);
+            $userRow['type'] = 4;
+            $userRow['relate_id'] = $sId;
+            $userDB->setData($userRow);
             $user_id = $userDB->add();
-
-            $operator['user_id'] = $user_id;
-            $operator['create_time']    = ITime::getDateTime();
-
-            $operatorDB->setData($operator);
-            $operatorDB->add();
+            $memberRow['user_id'] = $user_id;
+            $memberRow['time']    = $time;
+            $memberDB->setData($memberRow);
+            $memberDB->add();
         }
         //编辑运营中心
         else
@@ -1349,13 +1375,16 @@ class Member extends IController implements adminAuthorization
             //修改密码
             if($password)
             {
-                $user['password'] = md5($password);
+                $sellerRow['password'] = md5($password);
+                $userRow['password'] = md5($password);
             }
-            $userDB->setData($user);
-            $userDB->update('id = '.$id);
 
-            $operatorDB->setData($operator);
-            $operatorDB->update("user_id = ".$id);
+            $sellerDB->setData($sellerRow);
+            $sellerDB->update("id = ".$seller_id);
+            $userDB->setData($userRow);
+            $userDB->update("id = ".$user_id);
+            $memberDB->setData($memberRow);
+            $memberDB->update("user_id = ".$user_id);
         }
         $this->redirect('operator_list');
 	}
@@ -1365,17 +1394,35 @@ class Member extends IController implements adminAuthorization
 	public function operator_del()
 	{
 		$id = IFilter::act(IReq::get('id'),'int');
-		$operatorDB = new IModel('operator');
+        $memberDB = new IModel('member');
+        $data = array('status' => 2);
+        $memberDB->setData($data);
+		$sellerDB = new IModel('seller');    
 		$data = array('is_del' => 1);
-		$operatorDB->setData($data);
+		$sellerDB->setData($data);
+        $userDB = new IModel('user');
 
 		if(is_array($id))
 		{
-			$operatorDB->update('user_id in ('.join(",",$id).')');
+            $memberDB->update('user_id in ('.join(",",$id).')');
+            $dataRow = $userDB->query('id in ('.join(",",$id).')', 'relate_id');
+            if($dataRow)
+            {
+                foreach($dataRow as $v)
+                {
+                    $ids[] = $v['relate_id'];
+                }                                  
+			    $sellerDB->update('id in ('.join(",",$ids).')');
+            }
 		}
 		else
-		{
-			$operatorDB->update('user_id = '.$id);
+		{   
+            $memberDB->update('user_id = '.$id);
+            $dataRow = $userDB->getObj('id = '.$id, 'relate_id');
+            if($dataRow)
+            {                                 
+                $sellerDB->update('id = '.$dataRow['relate_id']);
+            }
 		}
 		$this->redirect('operator_list');
 	}
@@ -1385,14 +1432,25 @@ class Member extends IController implements adminAuthorization
 	public function operator_recycle_del()
 	{
 		$id = IFilter::act(IReq::get('id'),'int');
-		$operatorDB = new IModel('operator');
+        $userDB = new IModel('user');
+        $memberDB = new IModel('member');
+		$sellerDB = new IModel('seller');
 
 		if(is_array($id))
 		{
 			$id = join(",",$id);
 		}
 
-		$operatorDB->del('user_id in ('.$id.')');
+        $dataRow = $userDB->query('id in ('.$id.')', 'relate_id');
+        if($dataRow)
+        {
+            foreach($dataRow as $v)
+            {
+                $sellerDB->del('id = '.$v['relate_id']);
+            }
+        }
+        $userDB->del('id in ('.$id.')');
+		$memberDB->del('user_id in ('.$id.')');
 
 		$this->redirect('operator_recycle_list');
 	}
@@ -1401,29 +1459,39 @@ class Member extends IController implements adminAuthorization
 	 */
 	public function operator_recycle_restore()
 	{
-		$id = IFilter::act(IReq::get('id'),'int');
-		$operatorDB = new IModel('operator');
-		$data = array('is_del' => 0);
-		$operatorDB->setData($data);
-		if(is_array($id))
-		{
-			$operatorDB->update('user_id in ('.join(",",$id).')');
-		}
-		else
-		{
-			$operatorDB->update('user_id = '.$id);
-		}
+        $id = IFilter::act(IReq::get('id'),'int');
+        $memberDB = new IModel('member');
+        $data = array('status' => 1);
+        $memberDB->setData($data);
+        $sellerDB = new IModel('seller');    
+        $data = array('is_del' => 0);
+        $sellerDB->setData($data);
+        $userDB = new IModel('user');
+        
+        if(is_array($id))
+        {
+            $memberDB->update('user_id in ('.join(",",$id).')');
+            $dataRow = $userDB->query('id in ('.join(",",$id).')', 'relate_id');
+            if($dataRow)
+            {
+                foreach($dataRow as $v)
+                {
+                    $ids[] = $v['relate_id'];
+                }                                  
+                $sellerDB->update('id in ('.join(",",$ids).')');
+            }
+        }
+        else
+        {   
+            $memberDB->update('user_id = '.$id);
+            $dataRow = $userDB->getObj('id = '.$id, 'relate_id');
+            if($dataRow)
+            {                                 
+                $sellerDB->update('id = '.$dataRow['relate_id']);
+            }
+        }
 
 		$this->redirect('operator_recycle_list');
-	}
-	//运营中心状态ajax
-	public function ajax_operator_lock()
-	{
-		$id   = IFilter::act(IReq::get('id'));
-		$lock = IFilter::act(IReq::get('lock'));
-		$operatorObj = new IModel('operator');
-		$operatorObj->setData(array('is_lock' => $lock));
-		$operatorObj->update("user_id = ".$id);
 	}
 
     /**
