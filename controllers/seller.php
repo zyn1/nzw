@@ -1861,4 +1861,22 @@ class Seller extends IController implements sellerAuthorization
             IError::show("没有找到相关品牌记录！", 403);
         }
     }
+    
+    /**
+     * @brief 运营商删除绑定用户/商家
+     */
+    function bind_del()
+    {
+        $id = IFilter::act(IReq::get('id'),'int');
+        $type = IReq::get('type') ? IFilter::act(IReq::get('type'),'int') : 1;
+        $redirectUrl = $type == 1 ? 'bind_user_list' : 'bind_seller_list';
+        if(!id)
+        {
+            $this->redirect($redirectUrl);
+            IError::show("参数错误！", 403);
+        }
+        $model = new IModel('operational_user');
+        $model->del($id);
+        $this->redirect($redirectUrl);
+    }
 }

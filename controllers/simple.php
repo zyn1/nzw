@@ -2184,6 +2184,21 @@ class Simple extends IController
 
 		$sellerDB->setData($sellerRow);
 		$seller_id = $sellerDB->add();
+        
+        //绑定运营中心
+        $sellerObj = new IModel('user as u, seller as s');
+        if($row = $sellerObj->getObj('u.type = 4 and s.is_del = 0 and s.is_lock = 0 and s.area = '.$area.' and u.relate_id = s.id', 's.id'))
+        {
+            $obj = new IModel('operational_user');
+            $data = array(
+                        'object_id' => $seller_id,
+                        'operation_id' => $row['id'],
+                        'type' => 2,
+                        'time' => ITime::getDateTime()
+                    );
+            $obj->setData($data);
+            $obj->add();
+        }
 
 		//短信通知商城平台
 		if($this->_siteConfig->mobile)

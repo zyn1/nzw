@@ -1,0 +1,45 @@
+{set:$seller_id = $this->seller['seller_id'];$DB=new IModel('seller');$area = $DB->getObj('id = '.$seller_id, 'area');$area = $area['area']}
+<article class="module width_full">
+    <header>
+        <h3 class="tabs_involved">绑定商家</h3>
+    </header>
+
+    <table class="tablesorter" cellspacing="0">
+        <colgroup>
+            <col width="300px" />
+            <col width="200px" />
+            <col width="100px" />
+            <col />
+        </colgroup>
+
+        <thead>
+            <tr>
+                <th>商家名</th>
+                <th>注册时间</th>
+                <th>状态</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            {set:$page= (isset($_GET['page'])&&(intval($_GET['page'])>0))?intval($_GET['page']):1;}
+            {query:name=seller where=is_del eq 0 and is_lock eq 0 and area eq $area fields=id,seller_name,create_time page=$page}
+            <tr>
+                <td>{$item['seller_name']}</td>
+                <td>{$item['create_time']}</td>
+                {set:$model=new IModel('operational_user');$row=$model->getObj('object_id='.$item['id'], 'id');}
+                {if:$row}
+                <td>已绑定</td>
+                {else:}
+                <td>未绑定</td>
+                {/if}
+                <td>
+                {if:!$row}
+                <a href="{url:/seller/bind_seller/id/$item[id]}"><img src="{skin:images/main/icn_bind.png}" title="绑定" /></a>
+                {/if}
+                </td>
+            </tr>
+            {/query}
+        </tbody>
+    </table>
+    {$query->getPageBar()}
+</article>

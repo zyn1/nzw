@@ -251,6 +251,21 @@ class _userInfo extends pluginBase
             $memberObj = new IModel('member');
             $memberObj->setData($memberArray);
             $memberObj->add();
+            
+            //绑定运营中心
+            $sellerObj = new IModel('user as u, seller as s');
+            if($row = $sellerObj->getObj('u.type = 4 and s.is_del = 0 and s.is_lock = 0 and s.area = '.$area.' and u.relate_id = s.id', 's.id'))
+            {
+                $obj = new IModel('operational_user');
+                $data = array(
+                            'object_id' => $user_id,
+                            'operation_id' => $row['id'],
+                            'type' => 1,
+                            'time' => ITime::getDateTime()
+                        );
+                $obj->setData($data);
+                $obj->add();
+            }
         }
         elseif($userArray['type'] == 2)
         {
