@@ -21,12 +21,12 @@
 
         <tbody>
             {set:$page= (isset($_GET['page'])&&(intval($_GET['page'])>0))?intval($_GET['page']):1;}
-            {query:name=operational_user as ou join=left join seller as s on s.id eq ou.object_id where=ou.type eq 2 and operation_id eq $seller_id and s.is_del eq 0 and s.is_lock eq 0 fields=s.seller_name,ou.* page=$page}
+            {query:name=operational_user as ou join=left join seller as s on s.id eq ou.object_id where=ou.type eq 2 and operation_id eq $seller_id and s.is_del eq 0 and s.is_lock eq 0 order=id desc fields=s.seller_name,ou.* page=$page}
             <tr>
                 <td>{$item['seller_name']}</td>
                 <td>{$item['time']}</td>
                 <td>
-                <a href="javascript:delModel({link:'{url:/seller/bind_del/id/$item[id]/type/2}'})"><img src="{skin:images/main/icn_del.png}" title="解绑" /></a>
+                <a href="javascript:delModel({link:'{url:/seller/bind_del/id/$item[id]}',msg:'确定要解除绑定么？'})"><img src="{skin:images/main/icn_del.png}" title="解绑" /></a>
                 </td>
             </tr>
             {/query}

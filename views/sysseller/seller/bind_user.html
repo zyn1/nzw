@@ -22,7 +22,7 @@
         </thead>
         <tbody>
             {set:$page= (isset($_GET['page'])&&(intval($_GET['page'])>0))?intval($_GET['page']):1;}
-            {query:name=user as u join=left join member as m on u.id eq m.user_id where=m.status eq 1 and FIND_IN_SET($area,area) fields=u.username,u.id,m.time page=$page}
+            {query:name=user as u join=left join member as m on u.id eq m.user_id where=m.status eq 1 and FIND_IN_SET($area,area) and u.type neq 4 fields=u.username,u.id,m.time page=$page}
             <tr>
                 <td>{$item['username']}</td>
                 <td>{$item['time']}</td>
@@ -34,7 +34,7 @@
                 {/if}
                 <td>
                 {if:!$row}
-                <a href="{url:/seller/bind_seller/id/$item[id]}"><img src="{skin:images/main/icn_bind.png}" title="绑定" /></a>
+                <a href="{url:/seller/bind_user_act/id/$item[id]}"><img src="{skin:images/main/icn_bind.png}" title="绑定" /></a>
                 {/if}
                 </td>
             </tr>

@@ -1866,17 +1866,61 @@ class Seller extends IController implements sellerAuthorization
      * @brief 运营商删除绑定用户/商家
      */
     function bind_del()
-    {
+    {                    
         $id = IFilter::act(IReq::get('id'),'int');
-        $type = IReq::get('type') ? IFilter::act(IReq::get('type'),'int') : 1;
+        $model = new IModel('operational_user');
+        $where =  'id = '.$id.' and operation_id ='.$this->seller['seller_id'];
+        $row = $model->getObj($where, 'type');
+        $type = $row ? $row['type'] : 1;
         $redirectUrl = $type == 1 ? 'bind_user_list' : 'bind_seller_list';
-        if(!id)
+        if(!$row)
         {
             $this->redirect($redirectUrl);
             IError::show("参数错误！", 403);
-        }
-        $model = new IModel('operational_user');
-        $model->del($id);
+        }                                
+        $model->del($where);
         $this->redirect($redirectUrl);
     }
+    
+    /**
+     * @brief 运营商绑定用户/商家
+     */
+     function bind_act($id,$type=1)
+     {
+        $redirectUrl = $type == 1 ? 'bind_user_list' : 'bind_seller_list';
+        $msg = $type == 1 ? '该用户' : '该商家';
+        $model = new IModel('operational_user');
+        if($model->getObj('object_id = '.$id.' and type ='.$type))
+        {
+            $this->redirect($redirectUrl);
+            IError::show($msg."已被绑定！", 403);
+        }
+        $data = array(
+                     'object_id' => $id,
+                     'operation_id' => $this->seller['seller_id'],
+                     'type' => $type ,
+                     'time' => ITime::getDateTime()
+                );
+        $model->setData($data);
+        $model->add();
+        $this->redirect($redirectUrl);
+     }
+    
+    /**
+     * @brief 运营商绑定用户
+     */
+     function bind_user_act()
+     {
+        $id = IReq::get('id');
+        $this->bind_act($id, 1);
+     }
+    
+    /**
+     * @brief 运营商绑定商家
+     */
+     function bind_seller_act()
+     {
+        $id = IReq::get('id');
+        $this->bind_act($id, 2);
+     }
 }

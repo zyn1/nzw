@@ -22,7 +22,7 @@
         </thead>
         <tbody>
             {set:$page= (isset($_GET['page'])&&(intval($_GET['page'])>0))?intval($_GET['page']):1;}
-            {query:name=seller where=is_del eq 0 and is_lock eq 0 and area eq $area fields=id,seller_name,create_time page=$page}
+            {query:name=seller where=is_del eq 0 and is_lock eq 0 and area eq $area and id neq $seller_id fields=id,seller_name,create_time page=$page}
             <tr>
                 <td>{$item['seller_name']}</td>
                 <td>{$item['create_time']}</td>
@@ -34,7 +34,7 @@
                 {/if}
                 <td>
                 {if:!$row}
-                <a href="{url:/seller/bind_seller/id/$item[id]}"><img src="{skin:images/main/icn_bind.png}" title="绑定" /></a>
+                <a href="{url:/seller/bind_seller_act/id/$item[id]}"><img src="{skin:images/main/icn_bind.png}" title="绑定" /></a>
                 {/if}
                 </td>
             </tr>
