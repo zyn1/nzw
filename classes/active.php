@@ -69,6 +69,9 @@ class Active
         $userRow = $userDB->getObj('id = '.$this->user_id, 'type,relate_id');
         if($userRow && $userRow['type'] == 4 && $goodsData['seller_id'] == $userRow['relate_id'])
         {
+            //清除购物车
+            $cartObj = new Cart();
+            $cartObj->clear();
             $this->error .= '不能购买自己店铺的商品';
             return $this->error;
         }
