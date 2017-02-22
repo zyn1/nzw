@@ -11,6 +11,7 @@
 	<div class="form">
 		<form action="{url:/ucenter/payPass_update}" method="POST" role="form">
 			<ul>
+                {if:$this->pay_pass}
 				<li>
 					
 					<input type='password' name="fpassword" class="input_text" pattern="^\S{6,32}$" alt='6-16位字母数字组合' placeholder="请输入原支付密码">
@@ -28,6 +29,17 @@
 				<li>
 					<input type="submit" class="input_submit" value="确定修改">
 				</li>
+                {else:}
+                <li>
+                    <input class="input_text" type="password" name='password' pattern="^\S{6,32}$" bind='repassword' alt='密码由英文字母、数字组成，长度6-32位' autocomplete="off" placeholder="设置支付密码">
+                </li>
+                <li>
+                    <input class="input_text" type="password" name='repassword' pattern="^\S{6,32}$" bind='password' alt='重复上面所填写的密码' autocomplete="off"  placeholder="确认支付密码">
+                </li>
+                <li>
+                    <input class="input_submit" type="submit" value="设置支付密码" /> 
+                </li>
+                {/if}
 			</ul>
 		</form>
 	</div>
