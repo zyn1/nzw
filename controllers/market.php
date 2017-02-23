@@ -1275,9 +1275,9 @@ class Market extends IController implements adminAuthorization
         $model = new IModel('bonus_bill');
         if(ITime::getDateTime('d') >= $bonus_bill_date)
         {                         
-            $start_time=date('Y-m-01');
-            $end_time=date('Y-m-t');       
-            $create_time = '2017-03-05';      
+            $start_time=date('Y-m-01', strtotime('-1 month'));
+            $end_time=date('Y-m-t', strtotime('-1 month'));       
+            $create_time = ITime::getDateTime('Y-m-'.sprintf("%02d", $bonus_bill_date));  
             if(!$model->getObj('create_time = "'.$create_time.'"', 'id'))
             {
                 $where  = "o.status in (5,6,7) and o.pay_type != 0 and o.pay_status = 1 and o.distribution_status in (1,2)";
