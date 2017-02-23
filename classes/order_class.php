@@ -1891,4 +1891,44 @@ class Order_Class
         }
         return $statusText;
     }
+    
+    /**
+     * 获取订单分红信息
+     * @$order_id int 订单号
+     */
+    public static function getBonusInfo($order_id)
+    {
+        $data = array();
+        $model = new IModel('order_extend');
+        $data = $model->getObj('order_id = '.$order_id); 
+        if($data)
+        {       
+            $temp = JSON::decode($data['para']); 
+            $userDB = new IModel('user');
+            $arr = array();
+            foreach($temp as $k => $v)
+            {
+                if($v)
+                {
+                    //运营中心
+                    if($k == 'sales' || $k == 'buys')
+                    {
+                        $arr[$k] = $userDB->getObj('type = 4 and relate_id = '.$v, 'id,username,relate_id');  
+                    }
+                    //签约装修公司
+                    elseif($k == 'companys')
+                    {
+                        $arr[$k] = $userDB->getObj('type = 2 and id in ('.implode(',',$v).')', 'id,username');  
+                    }
+                    //签约设计师
+                    elseif($k == 'designers')
+                    {
+                        $arr[$k] = $userDB->getObj('type = 3 and id in ('.implode(',',$v).')', 'id,username');  
+                    }
+                }  
+            }              
+            $data['arr'] = $arr;     
+        }  
+        return $data;
+    }
 }

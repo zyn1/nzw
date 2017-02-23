@@ -1,0 +1,56 @@
+{js:my97date}
+{set:$start = IReq::get('start') ? IFilter::act(IReq::get('start')) : '';$end = IReq::get('end') ? IFilter::act(IReq::get('end')) : '';}
+
+<div class="headbar">
+	<div class="position"><span>统计</span><span>></span><span>分红账单统计</span></div>
+	<div class="operating">
+		<div class="search f_l">
+			<form name="searchOrderGoods" action="{url:/}" method="get">
+				<input type='hidden' name='controller' value='market' />
+				<input type='hidden' name='action' value='bonus_bill_list' />
+				账期：从 <input type="text" name='start' value='{$start}' class="Wdate" pattern='date' alt='' onFocus="WdatePicker()" empty/> 到 <input type="text" name='end' value='{$end}' empty pattern='date' class="Wdate" onFocus="WdatePicker()" />
+				<button class="btn" type="submit"><span class="sch">搜 索</span></button>
+			</form>
+		</div>
+	</div>
+</div>
+<div class="content">
+	<table class="list_table">
+		<colgroup>
+			<col width="200px" />
+			<col width="400px" />
+			<col width="120px" />
+			<col/>
+		</colgroup>
+
+		<thead>
+			<tr>
+				<th>账期</th>
+                <th>账单周期</th>
+				<th>账单金额</th>
+				<th>详情</th>
+			</tr>
+		</thead>
+
+		<tbody>
+			{set:$where = ''}
+            {if:$start !== ""}{set:$where .= " and create_time >= '".$start."'"}{/if}
+            {if:$end !== ""}{set:$where .= " and create_time <= '".$end}{/if}
+
+			{set:$page = (isset($_GET['page'])&&(intval($_GET['page'])>0))?intval($_GET['page']):1;}
+			{query:name=bonus_bill order=id desc page=$page}
+			<tr>
+				<td>{$item['create_time']}</td>
+				<td>{$item['start_time']}-{$item['end_time']}</td>
+                <td>{$item['amount']}</td>
+				<td>
+					<a href="{url:/order/bonus_bill_show/id/$item[id]}">
+						<img class="operator" src="{skin:images/admin/icon_check.gif}" alt="查看" title="查看" />
+					</a>
+				</td>
+			</tr>
+			{/query}
+		</tbody>
+	</table>
+</div>
+{$query->getPageBar()}

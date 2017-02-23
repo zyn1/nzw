@@ -981,17 +981,19 @@ class Simple extends IController
                 //卖方运营中心
                 if($userDB->getObj('relate_id = '.$seller_id.' and type = 4','id'))
                 {
-                    $para['sales'] = array($seller_id);
+                    $para['sales'] = $seller_id;
                 }
                 else
                 {
-                    $para['sales'] = $model->getObj('object_id = '.$seller_id.' and type = 2', 'operation_id');
+                    $sales = $model->getObj('object_id = '.$seller_id.' and type = 2', 'operation_id');
+                    $sales ? $para['sales'] = $sales['operation_id'] : '';
                 }
                 
                 //买方运营中心
                 $para['buys'] = $model->getObj('object_id = '.$user_id.' and type = 1', 'operation_id');
                 
                 //预约装修及预约设计师功能未做，做完相关功能后可在此添加所签约装修公司和签约设计师参与分红
+                //companys  装修公司   designers  设计师
                 
                 $data['para'] = JSON::encode($para);
                 $orderExtendDB->setData($data);
@@ -1401,6 +1403,41 @@ class Simple extends IController
                 }
                 $db_fapiao->setData($fapiao_data);
                 $db_fapiao->add();
+            }
+            
+            //渠道商购买材料记录分红数据
+            if($goodsResult['extendRe'])
+            {
+                $orderExtendDB = new IModel('order_extend');
+                $data = array(
+                            'order_id' => $order_id,
+                            'bonus_amount' => $goodsResult['reduce']
+                        );
+                $userDB = new IModel('user');
+                $model = new IModel('operational_user');
+                $userRow = $userDB->getObj('id = '.$user_id, 'type,relate_id');
+                $para = array();
+                
+                //卖方运营中心
+                if($userDB->getObj('relate_id = '.$seller_id.' and type = 4','id'))
+                {
+                    $para['sales'] = $seller_id;
+                }
+                else
+                {
+                    $sales = $model->getObj('object_id = '.$seller_id.' and type = 2', 'operation_id');
+                    $sales ? $para['sales'] = $sales['operation_id'] : '';
+                }
+                
+                //买方运营中心
+                $para['buys'] = $model->getObj('object_id = '.$user_id.' and type = 1', 'operation_id');
+                
+                //预约装修及预约设计师功能未做，做完相关功能后可在此添加所签约装修公司和签约设计师参与分红 
+                //companys  装修公司   designers  设计师
+                
+                $data['para'] = JSON::encode($para);
+                $orderExtendDB->setData($data);
+                $orderExtendDB->add();                
             }
 		}
 

@@ -1265,4 +1265,44 @@ class Market extends IController implements adminAuthorization
         $fapiaoDB->update('id = '.$id);
         $this->redirect('bill_fapiao_list');
     }
+    
+    //分红账单列表
+    public function bonus_bill_list()
+    {   
+        $siteConfigObj = new Config("site_config");
+        $site_config   = $siteConfigObj->getInfo();
+        $bonus_bill_date = isset($site_config['bonus_bill_date']) ? $site_config['bonus_bill_date'] : 5;
+        $model = new IModel('bonus_bill');
+        if(ITime::getDateTime('d') >= $bonus_bill_date)
+        {                         
+            $start_time=date('Y-m-01');
+            $end_time=date('Y-m-t');       
+            $create_time = '2017-03-05';      
+            if(!$model->getObj('create_time = "'.$create_time.'"', 'id'))
+            {
+                $where  = "o.status in (5,6,7) and o.pay_type != 0 and o.pay_status = 1 and o.distribution_status in (1,2)";
+                $where .= $start_time         ? " and o.create_time >= '{$start_time}' " : "";
+                //可以结算所选结束日期当天完成的订单
+                $where .= $end_time           ? " and o.create_time <= '{$end_time} 23:59:59' "   : "";
+
+                $orderGoodsDB = new IQuery('order_extend as od');
+                $orderGoodsDB->join = 'left join order as o on o.id = od.order_id';
+                $orderGoodsDB->fields = 'sum(od.bonus_amount) as amount'; 
+                $orderGoodsDB->where = $where;
+                $amount = $orderGoodsDB->find();
+                if($amount[0]['amount'] > 0)
+                {
+                    $data = array(
+                                'create_time' => $create_time,
+                                'start_time' => $start_time,
+                                'end_time' => $end_time,
+                                'amount' => $amount[0]['amount']
+                            );
+                    $model->setData($data);
+                    $model->add();
+                }
+            }
+        }              
+        $this->redirect('bonus_bill_list');
+    }
 }

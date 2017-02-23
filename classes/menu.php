@@ -114,10 +114,14 @@ class Menu
 				'/market/system_account_list'   => '系统资金操作记录',
 				'/market/operation_list' => '后台操作记录',
 			),
-			'商户数据统计'=>array(
-				'/market/order_goods_list' => '货款明细列表',
+            '商户数据统计'=>array(
+                '/market/order_goods_list' => '货款明细列表',
                 '/market/bill_list' => '货款结算申请',
-				'/market/bill_fapiao_list' => '商户发票申请',
+                '/market/bill_fapiao_list' => '商户发票申请',
+            ),
+			'分红数据统计'=>array(
+				'/market/bonus_order_list' => '分红明细列表',
+				'/market/bonus_bill_list' => '分红账单列表',
 			)
 		),
 

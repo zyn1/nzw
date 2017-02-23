@@ -541,27 +541,27 @@ class CountSum
 		return 0;
     }
 
-	/**
-	 * @brief 获取商户订单货款结算
-	 * @param int $seller_id 商户ID
-	 * @param datetime $start_time 订单开始时间
-	 * @param datetime $end_time 订单结束时间
-	 * @param string $is_checkout 是否已经结算 0:未结算; 1:已结算; null:不限
-	 * @param IQuery 结果集对象
-	 */
+    /**
+     * @brief 获取商户订单货款结算
+     * @param int $seller_id 商户ID
+     * @param datetime $start_time 订单开始时间
+     * @param datetime $end_time 订单结束时间
+     * @param string $is_checkout 是否已经结算 0:未结算; 1:已结算; null:不限
+     * @param IQuery 结果集对象
+     */
     public static function getSellerGoodsFeeQuery($seller_id = '',$start_time = '',$end_time = '',$is_checkout = '')
     {
-    	$where  = "status in (5,6,7) and pay_type != 0 and pay_status = 1 and distribution_status in (1,2)";
-    	$where .= $is_checkout !== '' ? " and is_checkout = ".$is_checkout : "";
-    	$where .= $seller_id          ? " and seller_id = ".$seller_id : "";
-    	$where .= $start_time         ? " and create_time >= '{$start_time}' " : "";
+        $where  = "status in (5,6,7) and pay_type != 0 and pay_status = 1 and distribution_status in (1,2)";
+        $where .= $is_checkout !== '' ? " and is_checkout = ".$is_checkout : "";
+        $where .= $seller_id          ? " and seller_id = ".$seller_id : "";
+        $where .= $start_time         ? " and create_time >= '{$start_time}' " : "";
         //可以结算所选结束日期当天完成的订单
-    	$where .= $end_time           ? " and create_time <= '{$end_time} 23:59:59' "   : "";
+        $where .= $end_time           ? " and create_time <= '{$end_time} 23:59:59' "   : "";
 
-    	$orderGoodsDB = new IQuery('order');
-    	$orderGoodsDB->order = "id desc";
-    	$orderGoodsDB->where = $where;
-    	return $orderGoodsDB;
+        $orderGoodsDB = new IQuery('order');
+        $orderGoodsDB->order = "id desc";
+        $orderGoodsDB->where = $where;
+        return $orderGoodsDB;
     }
 
 	/**
@@ -657,5 +657,26 @@ class CountSum
 		$result['countFee'] = $result['orgCountFee'] - $result['commission'];
 
     	return $result;
+    }
+
+    /**
+     * @brief 获取分红商户订单
+     * @param datetime $start_time 订单开始时间
+     * @param datetime $end_time 订单结束时间
+     * @param IQuery 结果集对象
+     */
+    public static function getSellerGoodsBonusQuery($start_time = '',$end_time = '')
+    {
+        $where  = "o.status in (5,6,7) and o.pay_type != 0 and o.pay_status = 1 and o.distribution_status in (1,2)";
+        $where .= $start_time         ? " and o.create_time >= '{$start_time}' " : "";
+        //可以结算所选结束日期当天完成的订单
+        $where .= $end_time           ? " and o.create_time <= '{$end_time} 23:59:59' "   : "";
+
+        $orderGoodsDB = new IQuery('order_extend as od');
+        $orderGoodsDB->join = 'left join order as o on o.id = od.order_id';
+        $orderGoodsDB->fields = 'od.*,o.order_no,o.seller_id,o.user_id,o.create_time,o.completion_time,o.order_amount'; 
+        $orderGoodsDB->order = "o.id desc";
+        $orderGoodsDB->where = $where;
+        return $orderGoodsDB;
     }
 }
