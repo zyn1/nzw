@@ -1423,8 +1423,7 @@ class Ucenter extends IController implements userAuthorization
     
     //绑定新邮箱
     function changeEmail1()
-    {     
-        $user_id = $this->user['user_id'];                            
+    {                                  
         if(ISafe::get('CheakLocalEmail_'.$user_id))
         {
              $this->redirect('changeEmail1');
@@ -1437,7 +1436,8 @@ class Ucenter extends IController implements userAuthorization
             if((!$captcha || !$_captcha || $captcha != $_captcha) && IClient::getDevice() == IClient::PC)
             {
                 die("请填写正确的图形验证码");
-            }                                 
+            }
+            $user_id = $this->user['user_id'];
             $member = new IModel('member');
             $email = $member->getObj('user_id = '.$user_id, 'email');
             $checkRes = ISafe::get('emailValidate');
