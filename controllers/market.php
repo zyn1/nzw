@@ -1305,4 +1305,24 @@ class Market extends IController implements adminAuthorization
         }              
         $this->redirect('bonus_bill_list');
     }
+    
+    //分红账单详情
+    public function bonus_bill_show()
+    {
+        $id = IReq::get('id');
+        if(!$id)
+        {
+            IError::show('参数错误！',403);
+        }
+        $model = new IModel('bonus_bill');
+        if($row = $model->getObj('id = '.$id))
+        {
+            $this->setRenderData($row);
+        }
+        else
+        {
+            IError::show('参数错误！',403);
+        }
+        $this->redirect('bonus_bill_show');
+    }
 }
