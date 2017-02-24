@@ -33,7 +33,7 @@
         </div>
    </div>
 </header>
-    {set:$memberDB = new IModel('member');$memberRow = $memberDB->getObj('user_id = '.$user_id, 'mobile,email');}
+    {set:$user_id = $this->user['user_id'];$memberDB = new IModel('member');$memberRow = $memberDB->getObj('user_id = '.$user_id, 'mobile,email');}
 	<section class="help_bar">
 		<div class="article_list">
 			<ul>
