@@ -1367,7 +1367,7 @@ class Ucenter extends IController implements userAuthorization
         $email = $member->getObj('user_id = '.$user_id, 'email');
         if(empty($email['email']))
         {
-            $this->changeEmail1(false);
+            $this->redirect('index');
         }
         else
         {
@@ -1421,30 +1421,23 @@ class Ucenter extends IController implements userAuthorization
     }
     
     //绑定新邮箱
-    function changeEmail1($ver = true)
-    {                                  
-        if($ver)
+    function changeEmail1()
+    {
+        $code = IReq::get('email_code');
+        $captcha = IFilter::act(IReq::get('captcha'));
+        $_captcha = ISafe::get('captcha');
+        if((!$captcha || !$_captcha || $captcha != $_captcha) && IClient::getDevice() == IClient::PC)
         {
-            $code = IReq::get('email_code');
-            $captcha = IFilter::act(IReq::get('captcha'));
-            $_captcha = ISafe::get('captcha');
-            if((!$captcha || !$_captcha || $captcha != $_captcha) && IClient::getDevice() == IClient::PC)
-            {
-                die("请填写正确的图形验证码");
-            }
-            $user_id = $this->user['user_id'];
-            $member = new IModel('member');
-            $email = $member->getObj('user_id = '.$user_id, 'email');
-            $checkRes = ISafe::get('emailValidate');
-            if($checkRes && $email['email']==$checkRes['email'] &&time()- $checkRes['time']<1800 && $code == $checkRes['code']){
-                $this->redirect('changeEmail1');
-            }else{
-                IError::show(403,"邮箱验证码不正确或已过期");
-            }
+            die("请填写正确的图形验证码");
         }
-        else
-        {
-             $this->redirect('changeEmail1');
+        $user_id = $this->user['user_id'];
+        $member = new IModel('member');
+        $email = $member->getObj('user_id = '.$user_id, 'email');
+        $checkRes = ISafe::get('emailValidate');
+        if($checkRes && $email['email']==$checkRes['email'] &&time()- $checkRes['time']<1800 && $code == $checkRes['code']){
+            $this->redirect('changeEmail1');
+        }else{
+            IError::show(403,"邮箱验证码不正确或已过期");
         }
     }
     
