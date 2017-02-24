@@ -1367,7 +1367,6 @@ class Ucenter extends IController implements userAuthorization
         $email = $member->getObj('user_id = '.$user_id, 'email');
         if(empty($email['email']))
         {
-            ISafe::set('CheakLocalEmail_'.$user_id, 1);
             $this->changeEmail1(false);
         }
         else
@@ -1422,13 +1421,9 @@ class Ucenter extends IController implements userAuthorization
     }
     
     //绑定新邮箱
-    function changeEmail1()
+    function changeEmail1($ver = true)
     {                                  
-        if(ISafe::get('CheakLocalEmail_'.$user_id))
-        {
-             $this->redirect('changeEmail1');
-        }
-        else
+        if($ver)
         {
             $code = IReq::get('email_code');
             $captcha = IFilter::act(IReq::get('captcha'));
@@ -1446,6 +1441,10 @@ class Ucenter extends IController implements userAuthorization
             }else{
                 IError::show(403,"邮箱验证码不正确或已过期");
             }
+        }
+        else
+        {
+             $this->redirect('changeEmail1');
         }
     }
     
@@ -1471,7 +1470,6 @@ class Ucenter extends IController implements userAuthorization
                 $member->setData(array('email'=>$newEmail));
                 if($member->update($where)){
                     ISafe::set('email',$newEmail);
-                    ISafe::clear('CheakLocalEmail_'.$user_id, 'cookie');
                     $this->redirect('changeEmail2');
                 }else{
                     IError::show(403,"邮箱更新失败");
