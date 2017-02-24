@@ -4,7 +4,7 @@
         background: #fff;
     }
     .main_head .sear_t a{
-    	width: 100%;
+        width: 100%;
     }
 </style>
 {if:$this->user}
@@ -34,27 +34,27 @@
         </div>
    </div>
 </header>
-    {set:$userDB = new IModel('user');$userRow = $userDB->getObj('id = '.$user_id);}
-	<section class="help_bar">
-		<div class="article_list">
-			<ul>
-				<li><a href="{url:ucenter/info}">个人信息设置<i class="icon-more"></i></a></li>
-				<li><a href="{url:ucenter/payPass_edit}">支付密码设置<i class="icon-more"></a></i></li>
+    {set:$memberDB = new IModel('member');$memberRow = $memberDB->getObj('user_id = '.$user_id, 'mobile,email');}
+    <section class="help_bar">
+        <div class="article_list">
+            <ul>
+                <li><a href="{url:ucenter/info}">个人信息设置<i class="icon-more"></i></a></li>
+                <li><a href="{url:ucenter/payPass_edit}">支付密码设置<i class="icon-more"></a></i></li>
                 <li><a href="{url:ucenter/password}">登录密码设置<i class="icon-more"></i></a></li>
-                {if:$userRow['mobile']}
+                {if:$memberRow['mobile']}
                 <li><a href="{url:ucenter/changePhone}">修改手机号<i class="icon-more"></i></a></li>
                 {else:}
                 <li><a href="{url:ucenter/changePhone}">绑定手机号<i class="icon-more"></i></a></li>
                 {/if}
-                {if:$userRow['email']}
+                {if:$memberRow['email']}
                 <li><a href="{url:ucenter/changeEmail}">修改邮箱号<i class="icon-more"></i></a></li>
                 {else:}
                 <li><a href="{url:ucenter/changeEmail1}">绑定邮箱<i class="icon-more"></i></a></li>
                 {/if}
                 <li><a href="{url:ucenter/address}">管理收货地址</a><i class="icon-more"></i></li>
-			</ul>
-		</div>
-	</section>
+            </ul>
+        </div>
+    </section>
     <section class="input_li">
         <input type="submit" class="input_submit" value="退出" onclick="window.location = '{url:/simple/logout}'">
     </section>
