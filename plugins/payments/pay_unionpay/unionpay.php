@@ -23,8 +23,8 @@ class unionpay extends paymentPlugin
 	 */
 	public function getSubmitUrl()
 	{
-		//return 'https://101.231.204.80:5000/gateway/api/frontTransReq.do'; //测试环境请求地址
-		return 'https://gateway.95516.com/gateway/api/frontTransReq.do'; //生产环境
+		return 'https://gateway.test.95516.com/gateway/api/frontTransReq.do'; //测试环境请求地址
+		//return 'https://gateway.95516.com/gateway/api/frontTransReq.do'; //生产环境
 	}
 
 	/**
