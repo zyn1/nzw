@@ -752,7 +752,7 @@ class Block extends IController
     public function payPass()
     {
         $user_id = $this->user['user_id'];
-        $user_type = $this->user['user_type'];
+        $user_type = $this->user['type'];
         if($user_type == 1 || $user_type == 4)
         {
             $model  = new IModel('member');    
@@ -771,7 +771,7 @@ class Block extends IController
     public function validatePayPass()
     {
         $user_id = $this->user['user_id'];
-        $user_type = $this->user['user_type'];
+        $user_type = $this->user['type'];
         if($user_type == 1 || $user_type == 4)
         {
             $model  = new IModel('member');    
