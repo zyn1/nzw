@@ -17,14 +17,16 @@
 		<div class="case_left clear">
 			<div class="case_detail_title">
 				<h3>{$caseRow['title']}</h3>
+                {if:$caseRow['style']}
 				<span>
                 {set:$db = new IModel('case_style');$list = $db->query('id in ('.$caseRow['style'].')', 'name');}
-                {if:$list}
+                {if:isset($list) && $list}
                 {foreach:items=$list item=$style}
                     {$style['name']}&nbsp;
                 {/foreach}
                 {/if}
                 </span> &nbsp;|&nbsp;
+                {/if}
 				<span>面积{$caseRow['house_size']}㎡ &nbsp;|&nbsp;
 				<span>{$caseRow['price']}万</span>
 			</div>
@@ -39,7 +41,7 @@
 				<p>地区：{$caseRow['area_addr']}</p>
 				<p>楼盘：{$caseRow['address']}</p>
 				<p>风格：
-                {if:$list}
+                {if:isset($list) && $list}
                 {foreach:items=$list item=$style}
                     {$style['name']}&nbsp;
                 {/foreach}
