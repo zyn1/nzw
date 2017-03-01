@@ -103,7 +103,7 @@ class _userInfo extends pluginBase
         $password   = IReq::get('password','post');
     	$captcha    = IFilter::act(IReq::get('captcha','post'));
         $_captcha   = ISafe::get('captcha');
-    	$is_auto   = IFilter::act(IReq::get('is_auto','post'));
+    	$is_auto   = IFilter::act(IReq::get('is_auto','post'), 'int');
 
         if((!$_captcha || !$captcha || $captcha != $_captcha) && IClient::getDevice() == IClient::PC)
         {
@@ -123,16 +123,15 @@ class _userInfo extends pluginBase
     	$password = md5($password);
 		if($userRow = plugin::trigger("isValidUser",array($login_info,$password)))
 		{
+            //记住帐号
+            if($is_auto == 1)
+            {
+                ISafe::set('loginName',$login_info);
+                ISafe::set('loginPassword',$password);
+            }
 			$this->userLoginCallback($userRow);
-
-			//记住帐号
-			if($is_auto == 1)
-			{
-                ICookie::set('loginName',$login_info);
-				ICookie::set('loginPassword',md5($password.'nz826.com'));
-			}
 			return $userRow;
-		}
+		} 
 		return "用户名或密码错误";
 	}
 
@@ -350,25 +349,21 @@ class _userInfo extends pluginBase
             //自动登录
             $user = array(
                 'username' => ISafe::get('loginName'),
-                'user_pwd' => ISafe::get('loginPassword'),
-                't'     => 1
+                'user_pwd' => ISafe::get('loginPassword')
             );
         }
         else
         {
 		    $user = array(
 			    'username' => ISafe::get('username','session'),
-			    'user_pwd' => ISafe::get('user_pwd','session'),
-                't'     => 2
+			    'user_pwd' => ISafe::get('user_pwd','session')
 		    );
         }
-
-		if($userRow = self::isValidUser($user['username'],$user['user_pwd'],$user['t']))
+		if($userRow = self::isValidUser($user['username'],$user['user_pwd']))
 		{
 			$user['user_id'] = $userRow['id'];
             $user['head_ico']= $userRow['head_ico'];
 			$user['type']= $userRow['type'];
-            unset($user['t']);
 			return $user;
 		}
 		else
@@ -384,12 +379,12 @@ class _userInfo extends pluginBase
 	 * @param  string $password   用户名的md5密码
 	 * @return array or false 如果合法则返回用户数据;不合法返回false
 	 */
-	public static function isValidUser($login_info,$password,$type = 2)
+	public static function isValidUser($login_info,$password)
 	{
 		$login_info = IFilter::addSlash($login_info);
 		$password   = IFilter::addSlash($password); 
         $userDB = new IModel('user');
-        $userDetail = $userDB->getObj("username = '{$login_info}' or email = '{$login_info}' or mobile='{$login_info}'");
+        $userDetail = $userDB->getObj("(username = '{$login_info}' or email = '{$login_info}' or mobile='{$login_info}') and password = '{$password}'");
         if($userDetail)
         {
             if($userDetail['type'] == 1 || $userDetail['type'] == 4)
@@ -407,14 +402,7 @@ class _userInfo extends pluginBase
             $userRow = array_merge($userDetail,$row);                 
 		    if(isset($row) && !empty($row))
 		    {
-                if(($type == 1 && (md5($userRow['password'].'nz826.com') == $password)) || ($type == 2 && ($userRow['password'] == $password)))
-                {
-                    return $userRow;   
-                }
-                else
-                {
-                    return false;
-                }
+                return $userRow;
 		    }
         }
 		return false;
