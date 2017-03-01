@@ -31,12 +31,14 @@
 							<p class="goods_name">{$item['title']}</p>
 							<p class="goods_pro">
 								<span>
+                                {if:$item['style']}
                                     {set:$db = new IModel('case_style');$list = $db->query('id in ('.$item['style'].')', 'name');}
                                     {if:$list}
                                     {foreach:items=$list item=$style}
                                         {$style['name']}&nbsp;
                                     {/foreach}
                                     {/if}
+                                {/if}
                                 </span>&nbsp;&nbsp;|&nbsp;
 								<span>面积{$item['house_size']}㎡</span>&nbsp;&nbsp;|&nbsp;
 								<span>{$item['price']}万</span>
