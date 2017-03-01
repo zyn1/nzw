@@ -428,7 +428,7 @@ class _userInfo extends pluginBase
 	{
 		//用户私密数据
 		ISafe::set('user_id',$userRow['id'],'session');
-		ISafe::set('username',$userRow['username'],'session');
+		ISafe::set('username',$userRow['username'] ? $userRow['username'] : ($userRow['mobile'] ? $userRow['mobile'] : $userRow['email']),'session');
 		ISafe::set('user_pwd',$userRow['password'],'session');
         ISafe::set('head_ico',isset($userRow['head_ico']) ? $userRow['head_ico'] : '');
 		ISafe::set('user_type',isset($userRow['type']) ? $userRow['type'] : 1);

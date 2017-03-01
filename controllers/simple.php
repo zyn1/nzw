@@ -1889,7 +1889,7 @@ class Simple extends IController
     	//存在绑定账号oauth_user与user表同步正常！
     	if(isset($tempRow) && $tempRow)
     	{
-    		$userRow = plugin::trigger("isValidUser",array($tempRow['username'],$tempRow['password']));
+    		$userRow = plugin::trigger("isValidUser",array($tempRow['username'] ? $tempRow['username'] : ($tempRow['mobile'] ? $tempRow['mobile'] : $tempRow['email']),$tempRow['password']));
     		plugin::trigger("userLoginCallback",$userRow);
     		$callback = plugin::trigger('getCallback');
     		$callback = $callback ? $callback : "/ucenter/index";
