@@ -1538,6 +1538,10 @@ class Ucenter extends IController implements userAuthorization
                 $where         = 'id = '.$user_id;
                 $user->setData(array('email'=>$newEmail));
                 if($user->update($where)){
+                    if(IValidate::email(ISafe::get('username', 'session')))
+                    {
+                        ISafe::set('username', $newEmail, 'session');
+                    }
                     ISafe::set('email',$newEmail);
                     $this->redirect('changeEmail2');
                 }else{
@@ -1658,6 +1662,10 @@ class Ucenter extends IController implements userAuthorization
                 $where         = 'id = '.$user_id;
                 $user->setData(array('mobile'=>$newPhone));
                 if($user->update($where)){
+                    if(IValidate::mobi(ISafe::get('username', 'session')))
+                    {
+                        ISafe::set('username', $newPhone, 'session');
+                    }
                     ISafe::set('phone',$newPhone);
                     $this->redirect('changePhone2');
                 }else{
