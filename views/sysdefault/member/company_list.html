@@ -29,7 +29,7 @@ $where = $conditon ? " and ".$conditon : "";
 				<button class="btn" type="submit"><span class="sch">搜 索</span></button>
 			</form>
 		</div>
-		<!--<a href="javascript:void(0);"><button class="operating_btn" type="button" onclick="window.location='{url:/member/seller_edit}'"><span class="addition">添加商户</span></button></a>-->
+		<!--<a href="javascript:void(0);"><button class="operating_btn" type="button" onclick="window.location='{url:/member/seller_edit}'"><span class="addition">添加装修公司</span></button></a>-->
 		<a href="javascript:void(0);" onclick="selectAll('id[]')"><button class="operating_btn" type="button"><span class="sel_all">全选</span></button></a>
 		<a href="javascript:void(0);" onclick="delModel({form:'company_list',msg:'确定要删除所选中的装修公司吗？<br />删除的装修公司可以从回收站找回。'})"><button class="operating_btn" type="button"><span class="delete">批量删除</span></button></a>
 		<a href="javascript:void(0);"><button class="operating_btn" type="button" onclick="window.location='{url:/member/company_recycle_list}'"><span class="recycle">回收站</span></button></a>
@@ -105,7 +105,7 @@ $(function(){
     areaInstance.init({echo:JSON::encode($search)});
 })
 
-//商户状态修改
+//装修公司状态修改
 function changeStatus(sid,obj)
 {
 	var lockVal = obj.value;

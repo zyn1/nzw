@@ -50,6 +50,9 @@ class Menu
             '装修公司管理' => array(
                 '/member/company_list' => '装修公司列表',
             ),
+            '运营中心管理' => array(
+                '/member/operator_list' => '运营中心列表',
+            ),
 			'合同管理' => array(
 				'/member/contract_list' => '合同列表',
 				'/member/contract_edit' => '添加合同'
@@ -63,6 +66,9 @@ class Menu
 				'/message/registry_list'    => '邮件订阅',*/
 				'/message/marketing_sms_list'=> '营销短信',
 			),
+            '风格管理' => array(
+                '/member/style_list' => '风格列表'
+            )
 		),
 
 	   '订单'=>array(
@@ -108,10 +114,14 @@ class Menu
 				'/market/system_account_list'   => '系统资金操作记录',
 				'/market/operation_list' => '后台操作记录',
 			),
-			'商户数据统计'=>array(
-				'/market/order_goods_list' => '货款明细列表',
+            '商户数据统计'=>array(
+                '/market/order_goods_list' => '货款明细列表',
                 '/market/bill_list' => '货款结算申请',
-				'/market/bill_fapiao_list' => '商户发票申请',
+                '/market/bill_fapiao_list' => '商户发票申请',
+            ),
+			'分红数据统计'=>array(
+				'/market/bonus_order_list' => '分红明细列表',
+				'/market/bonus_bill_list' => '分红账单列表',
 			)
 		),
 

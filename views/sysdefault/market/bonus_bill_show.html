@@ -1,0 +1,57 @@
+<div class="headbar">
+	<div class="position"><span>统计</span><span>></span><span>分红账单统计</span><span>></span><span>分红账单详情</span></div>
+</div>
+
+<div class="content_box">
+	<div class="content form_content">
+        <table class="form_table" style="border: 1px #ccc solid;">
+            <tr style="border: 1px #ccc solid;">
+                <td>账单周期：</td>
+                <td colspan="5">{$start_time}~{$end_time}</td>
+            </tr>
+            <tr>
+                <td>账单日：</td>
+                <td colspan="5">{$create_time}</td>
+            </tr>
+            <tr>
+                <td>账单总额：</td>
+                <td colspan="5">{$amount}</td>
+            </tr>
+            <tr>
+                <td colspan="6" style="text-align: center;"><strong>本账单明细</strong></td>
+            </tr>
+            <tr>
+                <td>订单号</td>
+                <td>下单用户</td>
+                <td>下单时间</td>
+                <td>确认收货时间</td>
+                <td>分红金额</td>
+                <td>详情</td>
+            </tr>
+
+            {set:
+            $orderGoodsQuery = CountSum::getSellerGoodsBonusQuery();
+            $orderGoodsQuery->where = 'create_time >= "'.$start_time.'" and create_time <= "'.$end_time.' 23:59:59"';
+
+            }
+            {foreach:items  = $orderGoodsQuery->find()}
+            <tr>
+                <td>{$item['order_no']}</td>
+                <td>{query:name=user where=id eq $item[user_id] fields=username,type item=$userRow}{$userRow['username']}({if:$userRow['type'] == 1}签约业主{elseif:$userRow['type'] == 2}装修公司{elseif:$userRow['type'] == 3}设计师{else:}运营中心{/if}){/query}</td>
+                <td>{$item['create_time']}</td>
+                <td>{$item['completion_time']}</td>
+                <td>￥{$item['bonus_amount']}</td>
+                <td>
+                <a href="{url:/order/order_show/id/$item[order_id]/_tem/1}">
+                <img class="operator" src="{skin:images/admin/icon_check.gif}" alt="查看" title="查看" />
+                </a>
+                </td>
+            </tr>
+            {/foreach} 
+        </table>
+	</div>
+</div>
+
+<style type="text/css">
+td{border: 1px #ccc solid;}
+</style>

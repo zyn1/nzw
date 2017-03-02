@@ -51,6 +51,13 @@ class menuSeller
 			"/seller/ship_info_list" => "发货地址",
 			"/seller/seller_edit" => "资料修改",
 		),
+        
+        "用户模块" => array(
+            "/seller/bind_user_list" => "绑定用户列表",
+            "/seller/bind_user" => "绑定用户",
+            "/seller/bind_seller_list" => "绑定商家列表",
+            "/seller/bind_seller" => "绑定商家",
+        ),
 	);
 
     /**
@@ -62,6 +69,11 @@ class menuSeller
     {
 		//菜单创建事件触发
 		plugin::trigger("onSellerMenuCreate");
+        
+        if(ISafe::get('user_type') != 4)
+        {
+            unset(self::$menu['用户模块']);
+        }
 		return self::$menu;
     }
 }

@@ -1,0 +1,110 @@
+
+
+<section class="goods_tag">
+	<!-- <h3 class="tag_head">检索条件</h3> -->
+	<!-- 类型 -->
+	<dl>
+		<dt>类型：</dt>
+		<dd class="brand_dd close" id="type_m">
+			<a class="current" href="{echo:search_company::searchUrl('type','')}" id="type_n">不限</a>
+			{foreach:items=company_case::typeList() item=$type}
+            <a href="{echo:search_company::searchUrl('type',$key)}" id="type_{$key}">{$type}</a>
+            {/foreach}			
+		</dd>
+		<!--<dd class="open" >
+			<img src="{url:views/nzw/skin/default/image/open.png}" class="open_icon">
+		</dd>-->
+	</dl>
+	<!-- 类型 -->
+	<!-- 风格 -->	
+	<dl>
+		<dt>风格：</dt>
+		<dd class="brand_dd close" id="style_m">
+			<a class="current" href="{echo:search_company::searchUrl('style','')}" id="style_0">不限</a>
+			{query:name=case_style where=is_del eq 0 order=sort asc fields=id,name}
+			<a href="{echo:search_company::searchUrl('style',$item['id'])}" id="style_{$item['id']}">{$item['name']}</a>
+            {/query}
+		</dd>
+		<!--<dd class="open" >
+			<img src="{url:views/nzw/skin/default/image/open.png}" class="open_icon">
+		</dd>-->
+	</dl>
+	<!-- 风格 -->
+	<!-- 价位 -->	
+	<dl>
+		<dt>价位：</dt>
+		<dd class="brand_dd close" id="price_m">
+			<a class="current" href="{echo:search_company::searchUrl('price','')}" id="price_0">不限</a>
+			{foreach:items=company_case::priceList() item=$price}
+            <a href="{echo:search_company::searchUrl('price',$key)}" id="price_{$key}">{$price}</a>
+            {/foreach}
+		</dd>
+		<!--<dd class="open" >
+			<img src="{url:views/nzw/skin/default/image/open.png}" class="open_icon">
+		</dd>-->
+	</dl>
+	<!-- 价位 -->	
+
+</section>
+
+<section class="goods_sort">
+	<ul>
+        {foreach:items=search_company::getOrderType()}
+         <li id="order_{$key}">
+			<a href="{echo:search_company::searchUrl(array('order','by'),array($key,search_company::getOrderBy($key)))}">{$item}</a>
+        </li> 
+        {/foreach}
+    </ul>
+ <!--    <p>
+		<input type="text" name="min_price"> 至 <input type="text" name="max_price"> 元
+		<button onclick="priceLink();">确定</button>
+	</p> -->
+</section>
+
+
+<!--商品排序展示-->
+
+<!--商品排序展示-->
+
+<script type='text/javascript'>
+
+//筛选条件按钮高亮
+$(function(){
+    //风格模块高亮和预填充
+    {set:$style = IFilter::act(IReq::get('style'),'int');}
+    $('#style_m>*').removeClass('current');
+    $('#style_{$style}').addClass('current');
+    //类型模块高亮和预填充
+    {set:$type = IReq::get('type');}
+    $('#type_m>*').removeClass('current');
+    {if:$type !== null}
+    $('#type_{$type}').addClass('current');
+    {else:}
+    $('#type_n').addClass('current');
+    {/if}
+	//价格模块高亮和预填充
+	{set:$price = IFilter::act(IReq::get('price'),'int');}
+    $('#price_m>*').removeClass('current')
+	$('#price_{$price}').addClass('current');
+
+	//排序字段
+	{set:$orderValue = IFilter::act(IReq::get('order'))}
+	{if:$orderValue}
+	$('#order_{$orderValue}').addClass('current');
+	{/if}
+
+	//顺序
+	{set:$byValue = IReq::get('by')}
+	{if:$byValue == "desc"}
+	$('#order_{$orderValue}').addClass('desc');
+	{else:}
+	$('#order_{$orderValue}').addClass('asc');
+	{/if}
+});
+
+// 筛选条件收缩展开
+$(".open").click(function () {
+	$(this).prev('.brand_dd').toggleClass('close');
+	$(this).children('.open_icon').toggleClass('rotate');
+});
+</script>

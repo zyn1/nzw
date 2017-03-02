@@ -1,0 +1,36 @@
+{set:$seller_id = $this->seller['seller_id']}
+<article class="module width_full">
+    <header>
+        <h3 class="tabs_involved">绑定商家列表</h3>
+    </header>
+
+    <table class="tablesorter" cellspacing="0">
+        <colgroup>
+            <col width="300px" />
+            <col width="200px" />
+            <col />
+        </colgroup>
+
+        <thead>
+            <tr>
+                <th>商家名</th>
+                <th>绑定时间</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {set:$page= (isset($_GET['page'])&&(intval($_GET['page'])>0))?intval($_GET['page']):1;}
+            {query:name=operational_user as ou join=left join seller as s on s.id eq ou.object_id where=ou.type eq 2 and operation_id eq $seller_id and s.is_del eq 0 and s.is_lock eq 0 order=id desc fields=s.seller_name,ou.* page=$page}
+            <tr>
+                <td>{$item['seller_name']}</td>
+                <td>{$item['time']}</td>
+                <td>
+                <a href="javascript:delModel({link:'{url:/seller/bind_del/id/$item[id]}',msg:'确定要解除绑定么？'})"><img src="{skin:images/main/icn_del.png}" title="解绑" /></a>
+                </td>
+            </tr>
+            {/query}
+        </tbody>
+    </table>
+    {$query->getPageBar()}
+</article>

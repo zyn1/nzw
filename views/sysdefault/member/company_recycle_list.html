@@ -64,11 +64,11 @@
 function company_del()
 {
 	$("form[name='company_list']").attr('action','{url:/member/company_recycle_del}');
-	confirm('确定要删除所选中的商户吗？<br />删除的商户不可以找回。','formSubmit(\'company_list\')');
+	confirm('确定要删除所选中的装修公司吗？<br />删除的装修公司不可以找回。','formSubmit(\'company_list\')');
 }
 function company_restore()
 {
 	$("form[name='company_list']").attr('action','{url:/member/company_recycle_restore}');
-	confirm('确定要还原所选中的商户吗？','formSubmit(\'company_list\')');
+	confirm('确定要还原所选中的装修公司吗？','formSubmit(\'company_list\')');
 }
 </script>

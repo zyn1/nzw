@@ -33,8 +33,8 @@ class _userInfo extends pluginBase
 		plugin::reg("onCreateView@simple@reg",$this,"initUserReg");
 		plugin::reg("onCreateView@simple@bind_user",$this,"initUserReg");
 
-		//用户注册方法
-		plugin::reg("userRegAct",$this,"userRegAct");
+        //用户注册方法
+        plugin::reg("userRegAct",$this,"userRegAct");      
 
 		//手机注册验证码
 		plugin::reg("onBeforeCreateAction@simple@_sendMobileCode",function(){
@@ -103,7 +103,7 @@ class _userInfo extends pluginBase
         $password   = IReq::get('password','post');
     	$captcha    = IFilter::act(IReq::get('captcha','post'));
         $_captcha   = ISafe::get('captcha');
-    	$is_auto   = IFilter::act(IReq::get('is_auto','post'));
+    	$is_auto   = IFilter::act(IReq::get('is_auto','post'), 'int');
 
         if((!$_captcha || !$captcha || $captcha != $_captcha) && IClient::getDevice() == IClient::PC)
         {
@@ -123,152 +123,176 @@ class _userInfo extends pluginBase
     	$password = md5($password);
 		if($userRow = plugin::trigger("isValidUser",array($login_info,$password)))
 		{
+            //记住帐号
+            if($is_auto == 1)
+            {
+                ISafe::set('loginName',$login_info);
+                ISafe::set('loginPassword',$password);
+            }
 			$this->userLoginCallback($userRow);
-
-			//记住帐号
-			if($is_auto == 1)
-			{
-                ICookie::set('loginName',$login_info);
-				ICookie::set('loginPassword',md5($password.'nz826.com'));
-			}
 			return $userRow;
-		}
+		} 
 		return "用户名或密码错误";
 	}
 
-	//用户注册
-	public function userRegAct()
-	{
-		$email      = IFilter::act(IReq::get('email','post'));
-		$mobile     = IFilter::act(IReq::get('mobile','post'));
-		$mobile_code= IFilter::act(IReq::get('mobile_code','post'));
+    //用户注册
+    public function userRegAct()
+    {                                                         
+        $mobile     = IFilter::act(IReq::get('mobile','post'));
+        $mobile_code= IFilter::act(IReq::get('mobile_code','post'));
         $true_name  = IFilter::act(IReq::get('true_name','post'));
-    	$username   = IFilter::act(IReq::get('username','post'));
-    	$password   = IFilter::act(IReq::get('password','post'));
-    	$repassword = IFilter::act(IReq::get('repassword','post'));
-    	$captcha    = IFilter::act(IReq::get('captcha','post'));
-    	$_captcha   = ISafe::get('captcha');
+        $username   = IFilter::act(IReq::get('username','post'));
+        $contacts_name = IFilter::act(IReq::get('contacts_name', 'post'));
+        $password   = IFilter::act(IReq::get('password','post'));
+        $repassword = IFilter::act(IReq::get('repassword','post'));
+        $captcha    = IFilter::act(IReq::get('captcha','post'));
+        $address = IFilter::act(IReq::get('address', 'post'));
+        $_captcha   = ISafe::get('captcha');
+        
+        $province = IReq::get('province');
+        $city = IReq::get('city');
+        $area = IReq::get('area');
+        if(!$province || !$city || !$area)
+        {
+            return "请选择地区";
+        }
 
-    	//获取注册配置参数
-		$siteConfig = new Config('site_config');
-		$reg_option = $siteConfig->reg_option;
-        $reg_type = IReq::get('reg_type') ? IFilter::act(IReq::get('reg_type'), 'int') : 3;
+        //获取注册配置参数
+        $siteConfig = new Config('site_config');
+        $reg_option = $siteConfig->reg_option;
+        $reg_type = IFilter::act(IReq::get('reg_type'), 'int');
 
-		/*注册信息校验*/
-		if($reg_option == 2)
-		{
-			return "当前网站禁止新用户注册";
-		}
+        /*注册信息校验*/
+        if($reg_option == 2)
+        {
+            return "当前网站禁止新用户注册";
+        }
 
-    	if(!preg_match('|\S{6,32}|',$password))
-    	{
-    		return "密码是字母，数字，下划线组成的6-32个字符";
-    	}
+        if(!preg_match('|\S{6,32}|',$password))
+        {
+            return "密码是字母，数字，下划线组成的6-32个字符";
+        }
 
-    	if($password != $repassword && IClient::getDevice() == IClient::PC)
-    	{
-    		return "2次密码输入不一致";
-    	}
+        if($password != $repassword && IClient::getDevice() == IClient::PC)
+        {
+            return "2次密码输入不一致";
+        }
 
-    	if((!$_captcha || !$captcha || $captcha != $_captcha) && IClient::getDevice() == IClient::PC)
-    	{
-    		return "图形验证码输入不正确";
-    	}
+        if((!$_captcha || !$captcha || $captcha != $_captcha) && IClient::getDevice() == IClient::PC)
+        {
+            return "图形验证码输入不正确";
+        }
+        
+        if(IValidate::mobi($mobile) == false)
+        {
+            return "手机号格式不正确";
+        }
 
-		//邮箱验证
-		if($reg_type == 1)
-		{
-			if(IValidate::email($email) == false)
-			{
-				return "邮箱格式不正确";
-			}
-			$memberObj = new IModel('user as u, member as m');
-			$memberRow = $memberObj->getObj('u.id = m.user_id and u.email = "'.$email.'"', 'm.status');
-			if($memberRow)
-			{
-				//再次发送激活邮件
-				if($memberRow['status'] == 3)
-				{
-					$this->send_check_mail($email);
-					exit;
-				}
-				else
-				{
-					return "邮箱已经被注册";
-				}
-			}
-		}
-		if(IValidate::mobi($mobile) == false)
-		{
-			return "手机号格式不正确";
-		}
+        $_mobileCode = ISafe::get('code'.$mobile);
+        if(!$mobile_code || !$_mobileCode || $mobile_code != $_mobileCode)
+        {
+            return "手机号验证码不正确";
+        }
 
-		$_mobileCode = ISafe::get('code'.$mobile);
-		if(!$mobile_code || !$_mobileCode || $mobile_code != $_mobileCode)
-		{
-			return "手机号验证码不正确";
-		}
+        $userObj = new IModel('user');
+        $userRow = $userObj->getObj('mobile = "'.$mobile.'"');
+        if($userRow)
+        {
+            return "手机号已经被注册";
+        }
 
-		$userObj = new IModel('user');
-		$userRow = $userObj->getObj('mobile = "'.$mobile.'"');
-		if($userRow)
-		{
-			return "手机号已经被注册";
-		}
+        //用户名检查
+        if($username && IValidate::name($username) == false)
+        {
+            return "用户名必须是由2-20个字符，可以为字数，数字下划线和中文";
+        }
+        elseif($username)
+        {
+            $userObj = new IModel('user');
+            $userRow = $userObj->getObj('username = "'.$username.'"');
+            if($userRow)
+            {
+                return "用户名已经被注册";
+            }
+        }
 
-		//用户名检查
-    	if(IValidate::name($username) == false)
-    	{
-    		return "用户名必须是由2-20个字符，可以为字数，数字下划线和中文";
-    	}
-    	else
-    	{
-			$userObj = new IModel('user');
-			$userRow = $userObj->getObj('username = "'.$username.'"');
-			if($userRow)
-			{
-				return "用户名已经被注册";
-			}
-    	}
-
-		//插入user表
-		$userArray = array(
-			'username' => $username,
-			'password' => md5($password),
-            'mobile'  => $mobile,
-            'email'   => $email,
+        //插入user表
+        $userArray = array(
+            'password' => md5($password),
+            'mobile'  => $mobile,  
             'type'    => IReq::get('t') ? IFilter::act(IReq::get('t')) : 1
-		);
-		$userObj->setData($userArray);
-		$user_id = $userObj->add();
-		if(!$user_id)
-		{
-			return "用户创建失败";
-		}
+        );
+        if($userArray['type'] == 1)
+        {
+            $userArray['username'] = $username;
+        }
+        if($userArray['type'] == 2 && empty($address))
+        {
+            return "请填写地址";
+        }
+        $userObj->setData($userArray);
+        $user_id = $userObj->add();
+        if(!$user_id)
+        {
+            return "用户创建失败";
+        }
 
-		//插入member表
-		$memberArray = array(
-			'user_id' => $user_id,
-			'time'    => ITime::getDateTime(),
-			'status'  => $reg_type == 1 ? 3 : 1,
-            'true_name'  => $true_name,
-		);
-		$memberObj = new IModel('member');
-		$memberObj->setData($memberArray);
-		$memberObj->add();
+        if($userArray['type'] == 1)
+        {
+            //插入member表
+            $memberArray = array(
+                'user_id' => $user_id,
+                'time'    => ITime::getDateTime(),
+                'status'  => 1,
+                'area' => $province.','.$city.','.$area,
+                'true_name'  => $true_name,
+            );
+            $memberObj = new IModel('member');
+            $memberObj->setData($memberArray);
+            $memberObj->add();
+            
+            //绑定运营中心
+            $sellerObj = new IModel('user as u, seller as s');
+            if($row = $sellerObj->getObj('u.type = 4 and s.is_del = 0 and s.is_lock = 0 and s.area = '.$area.' and u.relate_id = s.id', 's.id'))
+            {
+                $obj = new IModel('operational_user');
+                $data = array(
+                            'object_id' => $user_id,
+                            'operation_id' => $row['id'],
+                            'type' => 1,
+                            'time' => ITime::getDateTime()
+                        );
+                $obj->setData($data);
+                $obj->add();
+            }
+        }
+        elseif($userArray['type'] == 2)
+        {
+            //插入member表
+            $companyArray = array(
+                'user_id' => $user_id,
+                'contacts_name' => $contacts_name,
+                'create_time'    => ITime::getDateTime(),
+                'is_lock'  => 2,
+                'province'  => $province,
+                'city'  => $city,
+                'area'  => $area,
+                'true_name'  => $true_name,
+                'address' => $address
+            );
+            $companyObj = new IModel('company');
+            $companyObj->setData($companyArray);
+            $companyObj->add();
+        }  
 
-		//邮箱激活帐号
-		if($reg_type == 1)
-		{
-			$this->send_check_mail($email);
-			return;
-		}
-
-		$userArray['id']       = $user_id;
-		$userArray['head_ico'] = "";
-		$this->userLoginCallback($userArray);
-		return $userArray;
-	}
+        $userArray['id']       = $user_id;
+        $userArray['head_ico'] = "";
+        if($userArray['type'] == 1)
+        {
+            $this->userLoginCallback($userArray);
+        }
+        return $userArray;
+    }
 
 	//发送注册验证码
 	public function sendRegMobileCode()
@@ -325,25 +349,21 @@ class _userInfo extends pluginBase
             //自动登录
             $user = array(
                 'username' => ISafe::get('loginName'),
-                'user_pwd' => ISafe::get('loginPassword'),
-                't'     => 1
+                'user_pwd' => ISafe::get('loginPassword')
             );
         }
         else
         {
 		    $user = array(
 			    'username' => ISafe::get('username','session'),
-			    'user_pwd' => ISafe::get('user_pwd','session'),
-                't'     => 2
+			    'user_pwd' => ISafe::get('user_pwd','session')
 		    );
         }
-
-		if($userRow = self::isValidUser($user['username'],$user['user_pwd'],$user['t']))
+		if($userRow = self::isValidUser($user['username'],$user['user_pwd']))
 		{
 			$user['user_id'] = $userRow['id'];
             $user['head_ico']= $userRow['head_ico'];
 			$user['type']= $userRow['type'];
-            unset($user['t']);
 			return $user;
 		}
 		else
@@ -359,15 +379,15 @@ class _userInfo extends pluginBase
 	 * @param  string $password   用户名的md5密码
 	 * @return array or false 如果合法则返回用户数据;不合法返回false
 	 */
-	public static function isValidUser($login_info,$password,$type = 2)
+	public static function isValidUser($login_info,$password)
 	{
 		$login_info = IFilter::addSlash($login_info);
 		$password   = IFilter::addSlash($password); 
         $userDB = new IModel('user');
-        $userDetail = $userDB->getObj("username = '{$login_info}' or email = '{$login_info}' or mobile='{$login_info}'");
+        $userDetail = $userDB->getObj("(username = '{$login_info}' or email = '{$login_info}' or mobile='{$login_info}') and password = '{$password}'");
         if($userDetail)
         {
-            if($userDetail['type'] == 1)
+            if($userDetail['type'] == 1 || $userDetail['type'] == 4)
             {
 		        $memberObj = new IModel('member');
 		        $where   = "status = 1 and user_id = ".$userDetail['id'];
@@ -376,20 +396,13 @@ class _userInfo extends pluginBase
             elseif($userDetail['type'] == 2)
             {
                 $companyObj = new IModel('company');
-                $where   = "is_lock = 1 and is_del = 0 and user_id = ".$userDetail['id'];
+                $where   = "is_lock = 0 and is_del = 0 and user_id = ".$userDetail['id'];
                 $row = $companyObj->getObj($where);
             }
             $userRow = array_merge($userDetail,$row);                 
-		    if($userRow)
+		    if(isset($row) && !empty($row))
 		    {
-                if(($type == 1 && (md5($userRow['password'].'nz826.com') == $password)) || ($type == 2 && ($userRow['password'] == $password)))
-                {
-                    return $userRow;   
-                }
-                else
-                {
-                    return false;
-                }
+                return $userRow;
 		    }
         }
 		return false;
@@ -403,18 +416,19 @@ class _userInfo extends pluginBase
 	{
 		//用户私密数据
 		ISafe::set('user_id',$userRow['id'],'session');
-		ISafe::set('username',$userRow['username'],'session');
+		ISafe::set('username',$userRow['username'] ? $userRow['username'] : ($userRow['mobile'] ? $userRow['mobile'] : $userRow['email']),'session');
 		ISafe::set('user_pwd',$userRow['password'],'session');
         ISafe::set('head_ico',isset($userRow['head_ico']) ? $userRow['head_ico'] : '');
 		ISafe::set('user_type',isset($userRow['type']) ? $userRow['type'] : 1);
 		ISafe::set('last_login',isset($userRow['last_login']) ? $userRow['last_login'] : '');
 
-        if(isset($userRow['type']) && $userRow['type'] == 1)
+        if(isset($userRow['type']) && ($userRow['type'] == 1 || $userRow['type'] == 4))
         {
+            $time = ITime::getDateTime();
 		    //更新最后一次登录时间
 		    $memberObj = new IModel('member');
 		    $dataArray = array(
-			    'last_login' => ITime::getDateTime(),
+			    'last_login' => $time,
 		    );
 		    $memberObj->setData($dataArray);
 		    $where     = 'user_id = '.$userRow["id"];
@@ -430,20 +444,33 @@ class _userInfo extends pluginBase
 			    $memberObj->setData($dataArray);
 			    $memberObj->update($where);
 		    }
+            
+            if($userRow['type'] == 4)
+            {
+                $userDB = new IModel('user');
+                $sellerId = $userDB->getObj('id = '.$userRow['id'], 'relate_id');
+                $sellerDB = new IModel('seller');
+                $sellerRow['login_time'] = $time;
+                $sellerDB->setData($sellerRow);
+                $sellerDB->update('id = '.$sellerId['relate_id']);
+                
+                ISafe::set('seller_id',$sellerId['relate_id'],'session');
+                ISafe::set('seller_name',$userRow['username'],'session');
+                ISafe::set('seller_pwd',$userRow['password'],'session');
+            }
         }
         elseif(isset($userRow['type']) && $userRow['type'] == 2)
         {
             //更新最后一次登录时间
             $companyObj = new IModel('company');
             $dataArray = array(
-                'login_time' => ITime::getDateTime(),
+                'last_login' => ITime::getDateTime(),
             );
             $companyObj->setData($dataArray);
             $where     = 'user_id = '.$userRow["id"];
             $companyObj->update($where);
         }
 	}
-
 
 	/**
 	 * @brief 发送验证邮箱邮件

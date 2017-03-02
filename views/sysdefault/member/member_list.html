@@ -62,7 +62,7 @@
 
 			<tbody>
 				{set:$page= (isset($_GET['page'])&&(intval($_GET['page'])>0))?intval($_GET['page']):1;}
-				{query: name=user as u join=left join member as m on m.user_id eq u.id fields=m.*,u.username,u.email,u.mobile where=m.status neq 2 and $where order=m.user_id desc page=$page}
+				{query: name=user as u join=left join member as m on m.user_id eq u.id fields=m.*,u.username,u.email,u.mobile where=m.status neq 2 and u.type eq 1 and $where order=m.user_id desc page=$page}
 				<tr>
 					<td><input name="check[]" type="checkbox" value="{$item['user_id']}" /></td>
 					<td title="{echo:htmlspecialchars($item['username'])}">{$item['username']}</td>

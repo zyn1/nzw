@@ -1,0 +1,275 @@
+{set:$companyObj = search_company::find(array('search' => $this->word),20);$resultData = $companyObj->find()}
+
+<section class="breadcrumb">
+	<span>您当前的位置：</span> <a href="{url:}">首页</a> » 装修公司列表
+</section>
+
+<section class="web">
+	<section class="shop_main">
+		<!-- 调用筛选 -->
+		{include:_company_list_filter}
+		<!-- 商品列表 -->
+		<section class="goods_list">
+			{if:$resultData}
+			<ul>
+				{foreach:items=$resultData}
+				<li>
+					<a target="_blank" href="{url:/site/company/id/$item[user_id]}" class="img_link">
+						<img alt="{$item['true_name']}" src="{url:/pic/thumb/img/$item[head_ico]/w/205/h/205}">
+					</a>
+					<div class="shop_content">
+						<h5>{$item['true_name']}</h5>
+                        
+						<em>案例：<span>{echo:statistics::caseCount($item['user_id'])}</span>套&nbsp;&nbsp;|&nbsp;&nbsp;设计师：<span>{echo:statistics::designerCount($item['user_id'])}</span>名&nbsp;&nbsp;|&nbsp;&nbsp;签单数：<span>0</span>单&nbsp;&nbsp;|&nbsp;&nbsp;咨询人数：<span>0</span>条</em>
+						<p>地址：{$item['address']}</p>
+						<!-- <del>￥{$item['market_price']}</del> -->
+						<a class="shop_list_btn1" href="javascript:;" onclick="alert('模块开发中，敬请期待。。。')">预约装修</a>
+						<!--<a href="" target="_blank" class="shop_list_btn2">免费报价</a>-->
+					</div>
+					<div class="shop_comment">
+						<p class="comments">评价数量</p>
+						<p class="comments_num">{echo:(ITime::getNow("H")+$key)*10-$key}</p>
+						<p class="comments_per">好评率：{echo:100-($key+ITime::getNow("H"))}%</p>
+					</div>
+				</li>
+				{/foreach}
+			</ul>
+			{$companyObj->getPageBar()}
+
+			{else:}
+			<p class="no_tip">
+				对不起，没有找到符合条件的装修公司
+			</p>
+			{/if}
+		</section>
+	</section>
+			<!-- 预约装修弹窗 -->
+			<div id="mask">&nbsp;</div>
+			<div id="order">
+				<div class="order_head">预约装修</div>
+				<div style="padding:0 100px;">
+					<input type="text" placeholder="您的姓名" class="normal">
+					<input type="text" placeholder="电话号码" class="normal">
+					<div class="city">
+						<input type="button" class="city_select" value="省/市" id="city_select1">
+						<input type="hidden" name="type">
+						<ul style="display:none;" class="city_list" id="city_list1">
+							<li js_data="1">太原市</li>
+							<li js_data="2">阳泉市</li>
+						</ul>
+					</div>
+					<div class="county">
+						<input type="button" class="area_select" value="省/市" id="area_select1">
+						<input type="hidden" name="type">
+						<ul style="display:none;" class="area_list" id="area_list1">
+							<li js_data="1">太原市</li>
+							<li js_data="2">阳泉市</li>
+							<li js_data="3">大同市</li>
+							<li js_data="4">忻州市</li>
+							<li js_data="5">平遥市</li>
+							<li js_data="6">晋中市</li>
+							<li js_data="7">澳门市</li>
+							<li js_data="8">长治市</li>
+							<li js_data="9">平遥市</li>
+							<li js_data="10">晋中市</li>
+							<li js_data="11">澳门市</li>
+							<li js_data="12">长治市</li>
+						</ul>
+					</div>
+					<input type="text" placeholder="房屋面积" class="normal"><span class="area">㎡</span>
+					<a href class="need_publish" id="mask_close">免费发布</a>
+				</div>
+			</div>
+
+
+	<aside class="shop_bar">
+		<!--<nav class="bar_box bar_goods_nav">
+			<h3 class="bar_box_head">预约装修</h3>
+			<p class="intro">施工报价全免费，轻松获取</p>
+			<input type="text" placeholder="您的姓名" class="normal">
+			<input type="text" placeholder="电话号码" class="normal">
+			<div class="city">
+				<input type="button" class="city_select" value="省/市" id="city_select2">
+				<input type="hidden" name="type">
+				<ul style="display:none;" class="city_list" id="city_list2">
+					<li js_data="1">太原市</li>
+					<li js_data="2">阳泉市</li>
+				</ul>
+			</div>
+			<div class="county">
+				<input type="button" class="area_select" value="省/市" id="area_select2">
+				<input type="hidden" name="type">
+				<ul style="display:none;" class="area_list" id="area_list2">
+					<li js_data="1">太原市</li>
+					<li js_data="2">阳泉市</li>
+					<li js_data="3">大同市</li>
+					<li js_data="4">忻州市</li>
+					<li js_data="5">平遥市</li>
+					<li js_data="6">晋中市</li>
+					<li js_data="7">澳门市</li>
+					<li js_data="8">长治市</li>
+					<li js_data="9">平遥市</li>
+					<li js_data="10">晋中市</li>
+					<li js_data="11">澳门市</li>
+					<li js_data="12">长治市</li>
+				</ul>
+			</div>
+			<input type="text" placeholder="房屋面积" class="normal"><span class="area">㎡</span>
+			<a href class="need_publish">免费发布</a>
+		</nav>
+		<script>
+			$(function(){
+				// 弹窗
+				$("#city_select1").click(function(){
+					if($("#city_list1").is(":hidden")){
+						$("#city_list1").show()
+						$("#city_select1").addClass('down');
+					}else{
+						$("#city_list1").hide()
+						$("#city_select1").removeClass('down');
+					}
+				})
+				$("#city_list1 li").each(function(){
+					$(this).hover(function(){
+						$(this).css('background','#f7f7f7');
+					},function(){
+						$(this).css('background','#FFF');
+					})
+				})
+				$("#city_list1 li").each(function(){
+					var _t = $(this)
+							,_v = _t.attr('js_data');
+					_t.click(function(){
+						$('#city_select1').val(_t.text());
+						$('input[name=type]').val(_v);
+						$('#city_list1').hide();
+						$("#city_select1").removeClass('down');
+					})
+				})
+
+
+				$("#area_select1").click(function(){
+					if($("#area_list1").is(":hidden")){
+						$("#area_list1").show()
+						$("#area_select1").addClass('down');
+					}else{
+						$("#area_list1").hide()
+						$("#area_select1").removeClass('down');
+					}
+				})
+				$("#area_list1 li").each(function(){
+					$(this).hover(function(){
+						$(this).css('background','#f7f7f7');
+					},function(){
+						$(this).css('background','#FFF');
+					})
+				})
+				$("#area_list1 li").each(function(){
+					var _t = $(this)
+							,_v = _t.attr('js_data');
+					_t.click(function(){
+						$('#area_select1').val(_t.text());
+						$('input[name=type]').val(_v);
+						$('#area_list1').hide();
+						$("#area_select1").removeClass('down');
+					})
+				})
+				// 右侧
+				$("#city_select2").click(function(){
+					if($("#city_list2").is(":hidden")){
+						$("#city_list2").show()
+						$("#city_select2").addClass('down');
+					}else{
+						$("#city_list2").hide()
+						$("#city_select2").removeClass('down');
+					}
+				})
+				$("#city_list2 li").each(function(){
+					$(this).hover(function(){
+						$(this).css('background','#f7f7f7');
+					},function(){
+						$(this).css('background','#FFF');
+					})
+
+				})
+				$("#city_list2 li").each(function(){
+					var _t = $(this)
+							,_v = _t.attr('js_data');
+					_t.click(function(){
+						$('#city_select2').val(_t.text());
+						$('input[name=type]').val(_v);
+						$('#city_list2').hide();
+						$("#city_select2").removeClass('down');
+					})
+				})
+
+
+				$("#area_select2").click(function(){
+					if($("#area_list2").is(":hidden")){
+						$("#area_list2").show()
+						$("#area_select2").addClass('down');
+					}else{
+						$("#area_list2").hide()
+						$("#area_select2").removeClass('down');
+					}
+				})
+				$("#area_list2 li").each(function(){
+					$(this).hover(function(){
+						$(this).css('background','#f7f7f7');
+					},function(){
+						$(this).css('background','#FFF');
+					})
+
+				})
+				$("#area_list2 li").each(function(){
+					var _t = $(this)
+							,_v = _t.attr('js_data');
+					_t.click(function(){
+						$('#area_select2').val(_t.text());
+						$('input[name=type]').val(_v);
+						$('#area_list2').hide();
+						$("#area_select2").removeClass('down');
+					})
+				})
+
+				// 预约装修点击弹窗
+				$(".nav_icon").click(function(){
+					$("#order").show();
+					$("#mask").show();
+				})
+				$("#mask_close").click(function(){
+					$("#order").hide();
+					$("#mask").hide();
+				})
+
+			});
+		</script>--> 
+        <div class="ad-pic">
+            <img src="{url:views/nzw/skin/default/image/list/guanggao1.jpg}">
+        </div>
+        <div class="ad-pic">
+            <img src="{url:views/nzw/skin/default/image/list/guanggao2.jpg}">
+        </div>
+        <div class="ad-pic">
+            {echo:Ad::show('装修公司列表页广告230*287')}
+        </div>
+		<!--<div class="bar_box">
+			<h3 class="bar_box_rank_head">装修公司排行榜</h3>
+			<ul class="bar_rank">
+                <li>
+                    <span class="grade">10</span><a href="{url:/site/products/id/}">安居智源建筑装饰</a>
+                </li>
+			</ul>
+		</div>
+		<div class="bar_box">
+			<h3 class="bar_box_rank_head">设计师排行榜</h3>
+			<ul class="bar_rank">
+				<li>
+					<span class="grade">6</span><a href="{url:/site/products/id/}">安居智源建筑装饰</a>
+				</li>   
+			</ul>
+		</div>-->
+	</aside>
+</section>
+
+

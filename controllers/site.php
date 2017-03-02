@@ -1074,21 +1074,85 @@ class Site extends IController
 
 
 
-    function dec_company_index()
+    function company()
     {
-            $this->layout = 'shop_detail';
-            $this->redirect('dec_company_index');
-     }
+        $this->layout = 'shop_detail';
+        
+        $id = IReq::get('id');
+        if(!$id)
+        {
+            IError::show('参数错误','403');
+            return;
+        }
+        $db = new IModel('user as u,company as c');
+        $dataRow = $db->getObj('u.id = c.user_id and c.is_del = 0 and c.is_lock = 0 and u.id = '.$id, 'u.head_ico,c.user_id,c.true_name,c.desc,c.address,c.paper_img');
+        if(!$dataRow)
+        {
+             IError::show('参数错误','403');
+             return;
+        }
+        $desc = html_entity_decode($dataRow['desc']);
+        preg_match ("<img.*src=[\"](.*?)[\"].*?>",$desc,$match);
+        if(!empty($match))
+        {
+            $dataRow['img'] = $match[1];
+            $dataRow['desc'] = preg_replace("/<img.*src=[\"](.*?)[\"].*?>/",'',$desc);
+        }
+        else
+        {
+            $temp = JSON::decode($dataRow['paper_img']);
+            $dataRow['img'] = isset($temp['paper_img']) ? $temp['paper_img'] : $temp['paper_imgs'];
+        }
+        $this->setRenderData($dataRow);
+        $this->redirect('company');
+    }
+
+    function company_desc()
+    {
+        $this->layout = 'shop_detail';
+        
+        $id = IReq::get('id');
+        if(!$id)
+        {
+            IError::show('参数错误','403');
+            return;
+        }
+        $db = new IModel('user as u,company as c');
+        $dataRow = $db->getObj('u.id = c.user_id and c.is_del = 0 and c.is_lock = 0 and u.id = '.$id, 'u.head_ico,c.user_id,c.true_name,c.desc,c.address,c.paper_img,c.phone');
+        if(!$dataRow)
+        {
+             IError::show('参数错误','403');
+             return;
+        }
+        $dataRow['desc'] = htmlspecialchars_decode($dataRow['desc']);
+        $this->setRenderData($dataRow);
+        $this->redirect('company_desc');
+    }
+    
     function dec_company_pj()
     {
             $this->layout = 'shop_detail';
             $this->redirect('dec_company_pj');
      }
-    function dec_company_designer()
+    function company_designer()
     {
-            $this->layout = 'shop_detail';
-            $this->redirect('dec_company_designer');
-     }
+        $this->layout = 'shop_detail';
+        $id = IReq::get('id');
+        if(!$id)
+        {
+            IError::show('参数错误','403');
+            return;
+        }
+        $db = new IModel('user as u,company as c');
+        $dataRow = $db->getObj('u.id = c.user_id and c.is_del = 0 and c.is_lock = 0 and u.id = '.$id, 'u.head_ico,c.user_id,c.true_name,c.address');
+        if(!$dataRow)
+        {
+             IError::show('参数错误','403');
+             return;
+        }
+        $this->setRenderData($dataRow);
+        $this->redirect('company_designer');
+    }
     function dec_company_project()
     {
             $this->layout = 'shop_detail';
@@ -1100,42 +1164,66 @@ class Site extends IController
             $this->redirect('dec_company_project_detail');
      }
 
- 	function dec_company_introduc()
+ 	function company_case()
     {
-            $this->layout = 'shop_detail';
-            $this->redirect('dec_company_introduc');
-     }
-
- 	function dec_company_case()
+        $this->layout = 'shop_detail';
+        $id = IReq::get('id');
+        if(!$id)
+        {
+            IError::show('参数错误','403');
+            return;
+        }
+        $db = new IModel('user as u,company as c');
+        $dataRow = $db->getObj('u.id = c.user_id and c.is_del = 0 and c.is_lock = 0 and u.id = '.$id, 'u.head_ico,c.user_id,c.true_name,c.address');
+        if(!$dataRow)
+        {
+             IError::show('参数错误','403');
+             return;
+        }
+        $this->setRenderData($dataRow);
+        $this->redirect('company_case');
+    }
+     function company_case_detail()
+    {          
+        $this->layout = 'shop_detail';
+        $id = IReq::get('id');
+        if(!$id)
+        {
+            IError::show('参数错误','403');
+            return;
+        }
+        $db = new IModel('user as u,company as c');
+        $dataRow = $db->getObj('u.id = c.user_id and c.is_del = 0 and c.is_lock = 0 and u.id = '.$id, 'u.head_ico,c.user_id,c.true_name,c.address');
+        if(!$dataRow)
+        {
+             IError::show('参数错误','403');
+             return;
+        }
+        $this->setRenderData($dataRow);
+        $cid = IReq::get('cid');
+        $caseDB = new IModel('case');
+        $caseRow = $caseDB->getObj('id = '.$cid);
+        $data = explode(',',$caseRow['area']);
+        $caseRow['area_addr'] = join('&nbsp;',area::name($data[0],$data[1],$data[2]));
+        $this->caseRow = $caseRow;
+        $this->redirect('company_case_detail');
+    }
+      
+    //设计师界面
+    function design_index()
+    
     {
-            $this->layout = 'shop_detail';
-            $this->redirect('dec_company_case');
-     }
-     function dec_company_case_detail()
-    {
-            $this->layout = 'shop_detail';
-            $this->redirect('dec_company_case_detail');
-     }
-//设计师界面
-      function design_index()
-    {
-            $this->layout = 'design_top';
-            $this->redirect('design_index');
-     }
-
-      function design_case()
-    {
-            $this->layout = 'design_top';
-            $this->redirect('design_case');
-     }
+        $this->layout = 'design_top';
+        $this->redirect('design_case');
+    }
     function design_comment()
     {
-            $this->layout = 'design_top';
-            $this->redirect('design_comment');
+        $this->layout = 'design_top';
+        $this->redirect('design_comment');
     }
       function design_bbs()
     {
-            $this->layout = 'design_top';
-            $this->redirect('design_bbs');
-     }
+        $this->layout = 'design_top';
+        $this->redirect('design_bbs');
+    }
 }

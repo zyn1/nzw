@@ -894,11 +894,11 @@ class Member extends IController implements adminAuthorization
         }
     }
 
-	/**
-	 * @brief 商家修改页面
-	 */
-	public function company_edit()
-	{
+    /**
+     * @brief 装修公司修改页面
+     */
+    public function company_edit()
+    {
         $id  = IFilter::act(IReq::get('id'),'int');
 
         //编辑装修公司信息读取装修公司信息
@@ -921,13 +921,13 @@ class Member extends IController implements adminAuthorization
             }
         }
         $this->redirect('company_edit');
-	}
+    }
 
-	/**
-	 * @brief 装修公司的增加动作
-	 */
-	public function company_add()
-	{
+    /**
+     * @brief 装修公司的增加动作
+     */
+    public function company_add()
+    {
         $id   = IFilter::act(IReq::get('id'),'int');
         $user_name  = IFilter::act(IReq::get('username'));
         $email      = IFilter::act(IReq::get('email'));
@@ -941,14 +941,15 @@ class Member extends IController implements adminAuthorization
         $city       = IFilter::act(IReq::get('city'),'int');
         $area       = IFilter::act(IReq::get('area'),'int');
         $is_lock     = IFilter::act(IReq::get('is_lock'),'int');
+        $card_type   = IFilter::act(IReq::get('card_type'),'int');
         /*$is_vip      = IFilter::act(IReq::get('is_vip'),'int');
         $is_recomm   = IFilter::act(IReq::get('is_recomm'),'int');
         $is_invoice   = IFilter::act(IReq::get('is_invoice'),'int');
         $is_pay      = IFilter::act(IReq::get('is_pay'),'int');
         $home_url    = IFilter::act(IReq::get('home_url'));
-        $account     = IFilter::act(IReq::get('account'));*/
-        $address     = IFilter::act(IReq::get('address'));
         $server_num  = IFilter::act(IReq::get('server_num'));
+        $account     = IFilter::act(IReq::get('account'));*/
+        $address     = IFilter::act(IReq::get('address'));   
         $sort        = IFilter::act(IReq::get('sort'),'int');
         $suggest      = IFilter::act(IReq::get('suggest'));
 
@@ -1009,21 +1010,50 @@ class Member extends IController implements adminAuthorization
             'province'  => $province,
             'city'      => $city,
             'area'      => $area,
-            'server_num'=> $server_num,
             'sort'      => $sort
         );
         
         //文件上传
-        if((isset($_FILES['paper_img']['name']) && $_FILES['paper_img']['name']) || (isset($_FILES['head_ico']['name']) && $_FILES['head_ico']['name']))
+        if((isset($_FILES['paper_img']['name']) && $_FILES['paper_img']['name']) || (isset($_FILES['head_ico']['name']) && $_FILES['head_ico']['name']) || (isset($_FILES['paper_imgs']['name']) && $_FILES['paper_imgs']['name']) || (isset($_FILES['tax_img']['name']) && $_FILES['tax_img']['name']) || (isset($_FILES['code_img']['name']) && $_FILES['code_img']['name']) || (isset($_FILES['identity_card']['name']) && $_FILES['identity_card']['name']))
         {
             $uploadObj = new PhotoUpload();
             $uploadObj->setIterance(false);
             $photoInfo = $uploadObj->run();
         }
-
-        if(isset($photoInfo['paper_img']['img']) && file_exists($photoInfo['paper_img']['img']))
+        if($card_type == 1)
         {
-            $company['paper_img'] = $photoInfo['paper_img']['img'];
+            if(isset($photoInfo['paper_img']['img']) && file_exists($photoInfo['paper_img']['img']))
+            {
+                $company['paper_img'] = JSON::encode(array('paper_img' => $photoInfo['paper_img']['img']));
+            }
+        }
+        else
+        {
+            $paperData = array();
+            if($id)
+            {
+                $localData = $companyDB->getObj('user_id = '.$id, 'paper_img');
+                $paperData = JSON::decode($localData['paper_img']);
+            }
+            if(isset($photoInfo['paper_imgs']['img']) && file_exists($photoInfo['paper_imgs']['img']))
+            {
+                $paperData['paper_imgs'] = $photoInfo['paper_imgs']['img'];
+            }
+            if(isset($photoInfo['tax_img']['img']) && file_exists($photoInfo['tax_img']['img']))
+            {
+                $paperData['tax_img'] = $photoInfo['tax_img']['img'];
+            }
+            if(isset($photoInfo['code_img']['img']) && file_exists($photoInfo['code_img']['img']))
+            {
+                $paperData['code_img'] = $photoInfo['code_img']['img'];
+            }
+            unset($paperData['paper_img']);
+            $company['paper_img'] = JSON::encode($paperData);
+        }
+
+        if(isset($photoInfo['identity_card']['img']) && file_exists($photoInfo['identity_card']['img']))
+        {
+            $company['identity_card'] = $photoInfo['identity_card']['img'];
         }
         
         $user = array(
@@ -1070,14 +1100,12 @@ class Member extends IController implements adminAuthorization
             $content = '';
             if($data['is_lock'] == 2)
             {
-                $title = "耐装网注册装修公司审核结果";
-                $content = $is_lock == 1 ? '未通过审核' : ($is_lock == 0 ? '审核通过' : '');
+                $content = $is_lock == 1 ? '您在耐装网开通的装修公司未通过审核' : ($is_lock == 0 ? '您在耐装网开通的装修公司审核通过' : '');
             }
-            elseif($data['is_lock'] <> $is_lock)
+            /*elseif($data['is_lock'] <> $is_lock)
             {
-                $title = "耐装网";
-                $content = $is_lock == 1 ? '您的装修公司被锁定' : '您的装修公司已解锁';
-            }
+                $content = $is_lock == 1 ? '您在耐装网开通的装修公司被锁定' : '您在耐装网开通的装修公司已解锁';
+            }*/
             if($content)
             {
                 if($suggest)
@@ -1086,102 +1114,384 @@ class Member extends IController implements adminAuthorization
                     if($data['is_lock'] == 2 && $is_lock == 1)
                     {
                         $temp = rand(100000,999999);
-                        /*$model = new IModel('seller_rej_sign');
-                        $model->setData(array('seller_id' => $seller_id, 'code' => $temp));
-                        $model->add();
-                        $url = IUrl::getHost().IUrl::creatUrl('/simple/sellerRej/_i/'.$seller_id.'/_c/'.$temp);
-                        $msg .= "<br/>点击下面这个链接重新编辑开店信息：<a href='{$url}'>{$url}</a>。<br />如果不能点击，请您把它复制到地址栏中打开。";*/
                     }
                 }
                 else
                 {
                     $msg = $content;
                 }
-                $smtp   = new SendMail();
-                $result = $smtp->send($email,$title,$msg);
-                if($result===false)
-                {
-                    Util::showMessage("发信失败,请重试！或者联系管理员查看邮件服务是否开启");
-                }
+                $result = Hsms::send($mobile,$msg);
             }
         }
         $this->redirect('company_list');
+    }
+    /**
+     * @brief 装修公司的删除动作
+     */
+    public function company_del()
+    {
+        $id = IFilter::act(IReq::get('id'),'int');
+        $companyDB = new IModel('company');
+        $data = array('is_del' => 1);
+        $companyDB->setData($data);
+
+        if(is_array($id))
+        {
+            $companyDB->update('user_id in ('.join(",",$id).')');
+        }
+        else
+        {
+            $companyDB->update('user_id = '.$id);
+        }
+        $this->redirect('company_list');
+    }
+    /**
+     * @brief 装修公司的回收站删除动作
+     */
+    public function company_recycle_del()
+    {
+        $id = IFilter::act(IReq::get('id'),'int');
+        $companyDB = new IModel('company');
+
+        if(is_array($id))
+        {
+            $id = join(",",$id);
+        }
+
+        $companyDB->del('user_id in ('.$id.')');
+
+        $this->redirect('company_recycle_list');
+    }
+    /**
+     * @brief 装修公司的回收站恢复动作
+     */
+    public function company_recycle_restore()
+    {
+        $id = IFilter::act(IReq::get('id'),'int');
+        $companyDB = new IModel('company');
+        $data = array('is_del' => 0);
+        $companyDB->setData($data);
+        if(is_array($id))
+        {
+            $companyDB->update('user_id in ('.join(",",$id).')');
+        }
+        else
+        {
+            $companyDB->update('user_id = '.$id);
+        }
+
+        $this->redirect('company_recycle_list');
+    }
+    //装修公司状态ajax
+    public function ajax_company_lock()
+    {
+        $id   = IFilter::act(IReq::get('id'));
+        $lock = IFilter::act(IReq::get('lock'));
+        $companyObj = new IModel('company');
+        $companyObj->setData(array('is_lock' => $lock));
+        $companyObj->update("user_id = ".$id);
+
+        //短信通知状态修改
+        $userObj = new IModel('user');
+        $userRow = $userObj->getObj('id = '.$id);
+        if(isset($userRow['mobile']) && $userRow['mobile'])
+        {
+            $result = $lock == 0 ? "正常" : "锁定";
+            $content = smsTemplate::sellerCheck(array('{result}' => $result));
+            $result = Hsms::send($userRow['mobile'],$content,0);
+        }
+    }
+
+	/**
+	 * @brief 运营中心修改页面
+	 */
+	public function operator_edit()
+	{
+        $id  = IFilter::act(IReq::get('id'),'int');
+
+        //编辑装修公司信息读取装修公司信息
+        if($id)
+        {
+            $userDB = new IQuery('user as u');
+            $userDB->join = 'left join seller as s on u.relate_id = s.id';
+            $userDB->fields = 'u.id as uid,s.*';
+            $userDB->where= 'u.id = '.$id;
+            $info = $userDB->find();
+
+            if($info)
+            {
+                $this->sellerRow = current($info);
+            }
+            else
+            {
+                $this->redirect('operator_list');
+                Util::showMessage("没有找到相关记录！");
+                exit;
+            }
+        }
+        $this->redirect('operator_edit');
+	}
+
+	/**
+	 * @brief 运营中心的增加动作
+	 */
+	public function operator_add()
+	{
+        $user_id   = IFilter::act(IReq::get('uid'),'int');
+        $seller_id   = IFilter::act(IReq::get('id'),'int');
+        $seller_name = IFilter::act(IReq::get('seller_name'));
+        $email       = IFilter::act(IReq::get('email'));
+        $password    = IFilter::act(IReq::get('password'));
+        $repassword  = IFilter::act(IReq::get('repassword'));
+        $truename    = IFilter::act(IReq::get('true_name'));
+        $contacts_name    = IFilter::act(IReq::get('contacts_name'));
+        $phone       = IFilter::act(IReq::get('phone'));
+        $mobile      = IFilter::act(IReq::get('mobile'));
+        $province    = IFilter::act(IReq::get('province'),'int');
+        $city        = IFilter::act(IReq::get('city'),'int');
+        $area        = IFilter::act(IReq::get('area'),'int');
+        $is_lock     = IFilter::act(IReq::get('is_lock'),'int');
+        $address     = IFilter::act(IReq::get('address'));
+        $sort        = IFilter::act(IReq::get('sort'),'int');
+
+
+        if(!$seller_id && $password == '')
+        {
+            $errorMsg = '请输入密码！';
+        }
+
+        if($password != $repassword)
+        {
+            $errorMsg = '两次输入的密码不一致！';
+        }
+
+        //创建操作类
+        $sellerDB = new IModel("seller");
+        $userDB = new IModel("user");
+        $memberDB = new IModel("member");
+
+        if($sellerDB->getObj("seller_name = '{$seller_name}' and id != {$seller_id}"))
+        {
+            $errorMsg = "登录用户名重复";
+        }
+        else if($sellerDB->getObj("true_name = '{$truename}' and id != {$seller_id}"))
+        {
+            $errorMsg = "运营中心名称重复";
+        }
+        else if($userDB->getObj("email = '{$email}' and id != {$user_id}"))
+        {
+            $errorMsg = "邮箱重复";
+        }
+        else if($userDB->getObj("mobile = '{$mobile}' and id != {$user_id}"))
+        {
+            $errorMsg = "手机号码重复";
+        }
+        
+        //操作失败表单回填
+        if(isset($errorMsg))
+        {
+            $this->sellerRow = $_POST;
+            $this->redirect('operator_edit',false);
+            Util::showMessage($errorMsg);
+        }
+
+        //待更新的数据
+        $sellerRow = array(
+            'true_name' => $truename,
+            'contacts_name' => $contacts_name,
+            'phone'     => $phone,
+            'mobile'    => $mobile,
+            'email'     => $email,
+            'address'   => $address,
+            'is_lock'   => $is_lock,
+            'province'  => $province,
+            'city'      => $city,
+            'area'      => $area,
+            'sort'      => $sort,
+        );
+        
+        $userRow = array(
+            'email'        => $email,
+            'mobile'       => $mobile
+        );
+        
+        $areaData = "";
+        if($province && $city && $area)
+        {
+            $areaData = array($province,$city,$area);
+        }
+        $memberRow = array(
+            'true_name'    => $truename,
+            'telephone'    => $phone,
+            'area'         => $areaData ? ",".join(",",$areaData)."," : "",
+            'contact_addr' => $address,
+            'status'       => $is_lock == 0 ? 1 : 3,
+        );
+
+        //运营中心资质上传
+        if((isset($_FILES['paper_img']['name']) && $_FILES['paper_img']['name']) || (isset($_FILES['seller_logo']['name']) && $_FILES['seller_logo']['name']) || (isset($_FILES['identity_card']['name']) && $_FILES['identity_card']['name']))
+        {
+            $uploadObj = new PhotoUpload();
+            $uploadObj->setIterance(false);
+            $photoInfo = $uploadObj->run();
+        }
+        if(isset($photoInfo['paper_img']['img']) && file_exists($photoInfo['paper_img']['img']))
+        {
+            $sellerRow['paper_img'] = $photoInfo['paper_img']['img'];
+        }
+        if(isset($photoInfo['seller_logo']['img']) && file_exists($photoInfo['seller_logo']['img']))
+        {
+            $sellerRow['seller_logo'] = $photoInfo['seller_logo']['img'];
+            $userRow['head_ico'] = $photoInfo['seller_logo']['img'];
+        }
+        if(isset($photoInfo['identity_card']['img']) && file_exists($photoInfo['identity_card']['img']))
+        {
+            $sellerRow['identity_card'] = $photoInfo['identity_card']['img'];
+        }
+        //添加运营中心
+        if(!$seller_id)
+        {
+            $time = ITime::getDateTime();
+            $sellerRow['seller_name'] = $seller_name;
+            $sellerRow['password']    = md5($password);
+            $sellerRow['create_time'] = $time;
+
+            $sellerDB->setData($sellerRow);
+            $sId = $sellerDB->add();
+            $userRow['username'] = $seller_name;
+            $userRow['password'] = md5($password);
+            $userRow['type'] = 4;
+            $userRow['relate_id'] = $sId;
+            $userDB->setData($userRow);
+            $user_id = $userDB->add();
+            $memberRow['user_id'] = $user_id;
+            $memberRow['time']    = $time;
+            $memberDB->setData($memberRow);
+            $memberDB->add();
+        }
+        //编辑运营中心
+        else
+        {
+            //修改密码
+            if($password)
+            {
+                $sellerRow['password'] = md5($password);
+                $userRow['password'] = md5($password);
+            }
+
+            $sellerDB->setData($sellerRow);
+            $sellerDB->update("id = ".$seller_id);
+            $userDB->setData($userRow);
+            $userDB->update("id = ".$user_id);
+            $memberDB->setData($memberRow);
+            $memberDB->update("user_id = ".$user_id);
+        }
+        $this->redirect('operator_list');
 	}
 	/**
-	 * @brief 装修公司的删除动作
+	 * @brief 运营中心的删除动作
 	 */
-	public function company_del()
+	public function operator_del()
 	{
 		$id = IFilter::act(IReq::get('id'),'int');
-		$companyDB = new IModel('company');
+        $memberDB = new IModel('member');
+        $data = array('status' => 2);
+        $memberDB->setData($data);
+		$sellerDB = new IModel('seller');    
 		$data = array('is_del' => 1);
-		$companyDB->setData($data);
+		$sellerDB->setData($data);
+        $userDB = new IModel('user');
 
 		if(is_array($id))
 		{
-			$companyDB->update('user_id in ('.join(",",$id).')');
+            $memberDB->update('user_id in ('.join(",",$id).')');
+            $dataRow = $userDB->query('id in ('.join(",",$id).')', 'relate_id');
+            if($dataRow)
+            {
+                foreach($dataRow as $v)
+                {
+                    $ids[] = $v['relate_id'];
+                }                                  
+			    $sellerDB->update('id in ('.join(",",$ids).')');
+            }
 		}
 		else
-		{
-			$companyDB->update('user_id = '.$id);
+		{   
+            $memberDB->update('user_id = '.$id);
+            $dataRow = $userDB->getObj('id = '.$id, 'relate_id');
+            if($dataRow)
+            {                                 
+                $sellerDB->update('id = '.$dataRow['relate_id']);
+            }
 		}
-		$this->redirect('company_list');
+		$this->redirect('operator_list');
 	}
 	/**
-	 * @brief 装修公司的回收站删除动作
+	 * @brief 运营中心的回收站删除动作
 	 */
-	public function company_recycle_del()
+	public function operator_recycle_del()
 	{
 		$id = IFilter::act(IReq::get('id'),'int');
-		$companyDB = new IModel('company');
+        $userDB = new IModel('user');
+        $memberDB = new IModel('member');
+		$sellerDB = new IModel('seller');
 
 		if(is_array($id))
 		{
 			$id = join(",",$id);
 		}
 
-		$companyDB->del('user_id in ('.$id.')');
+        $dataRow = $userDB->query('id in ('.$id.')', 'relate_id');
+        if($dataRow)
+        {
+            foreach($dataRow as $v)
+            {
+                $sellerDB->del('id = '.$v['relate_id']);
+            }
+        }
+        $userDB->del('id in ('.$id.')');
+		$memberDB->del('user_id in ('.$id.')');
 
-		$this->redirect('company_recycle_list');
+		$this->redirect('operator_recycle_list');
 	}
 	/**
-	 * @brief 装修公司的回收站恢复动作
+	 * @brief 运营中心的回收站恢复动作
 	 */
-	public function company_recycle_restore()
+	public function operator_recycle_restore()
 	{
-		$id = IFilter::act(IReq::get('id'),'int');
-		$companyDB = new IModel('company');
-		$data = array('is_del' => 0);
-		$companyDB->setData($data);
-		if(is_array($id))
-		{
-			$companyDB->update('user_id in ('.join(",",$id).')');
-		}
-		else
-		{
-			$companyDB->update('user_id = '.$id);
-		}
+        $id = IFilter::act(IReq::get('id'),'int');
+        $memberDB = new IModel('member');
+        $data = array('status' => 1);
+        $memberDB->setData($data);
+        $sellerDB = new IModel('seller');    
+        $data = array('is_del' => 0);
+        $sellerDB->setData($data);
+        $userDB = new IModel('user');
+        
+        if(is_array($id))
+        {
+            $memberDB->update('user_id in ('.join(",",$id).')');
+            $dataRow = $userDB->query('id in ('.join(",",$id).')', 'relate_id');
+            if($dataRow)
+            {
+                foreach($dataRow as $v)
+                {
+                    $ids[] = $v['relate_id'];
+                }                                  
+                $sellerDB->update('id in ('.join(",",$ids).')');
+            }
+        }
+        else
+        {   
+            $memberDB->update('user_id = '.$id);
+            $dataRow = $userDB->getObj('id = '.$id, 'relate_id');
+            if($dataRow)
+            {                                 
+                $sellerDB->update('id = '.$dataRow['relate_id']);
+            }
+        }
 
-		$this->redirect('company_recycle_list');
-	}
-	//装修公司状态ajax
-	public function ajax_company_lock()
-	{
-		$id   = IFilter::act(IReq::get('id'));
-		$lock = IFilter::act(IReq::get('lock'));
-		$companyObj = new IModel('company');
-		$companyObj->setData(array('is_lock' => $lock));
-		$companyObj->update("user_id = ".$id);
-
-		//短信通知状态修改
-        $userObj = new IModel('user');
-		$userRow = $userObj->getObj('id = '.$id);
-		if(isset($userRow['mobile']) && $userRow['mobile'])
-		{
-			$result = $lock == 0 ? "正常" : "锁定";
-			$content = smsTemplate::sellerCheck(array('{result}' => $result));
-			$result = Hsms::send($userRow['mobile'],$content,0);
-		}
+		$this->redirect('operator_recycle_list');
 	}
 
     /**
@@ -1279,5 +1589,70 @@ class Member extends IController implements adminAuthorization
             $contractDB->update('id = '.$id);
         }
         $this->redirect('contract_list');
+    }
+
+    //修改风格页面
+    function style_edit()
+    {
+        $this->layout = '';
+
+        $id        = IFilter::act(IReq::get('id'),'int');    
+
+        $dataRow = array(
+            'id'        => '',
+            'name'      => '',
+            'sort'      => ''
+        );
+
+        if($id)
+        {
+            $obj     = new IModel('case_style');
+            $dataRow = $obj->getObj("id = {$id}");
+        }
+
+        $this->setRenderData($dataRow);
+        $this->redirect('style_edit');
+    }
+    
+    //增加或者修改风格
+    function style_update()
+    {
+        $id         = IFilter::act(IReq::get('id'),'int');
+        $name       = IFilter::act(IReq::get('name')); 
+        $sort       = IFilter::act(IReq::get('sort'));       
+
+        $editData = array(
+            'id'        => $id,
+            'name'      => $name, 
+            'sort'      => $sort
+        );
+
+        //执行操作
+        $obj = new IModel('case_style');
+        $obj->setData($editData);
+
+        //更新修改
+        if($id)
+        {
+            $where = 'id = '.$id;   
+            $result = $obj->update($where);
+        }
+        //添加插入
+        else
+        {
+            $result = $obj->add();
+        }
+
+        //执行状态
+        if($result===false)
+        {
+            die( JSON::encode(array('flag' => 'fail','message' => '数据库更新失败')) );
+        }
+        else
+        {
+            //获取自动增加ID
+            $editData['id'] = $id ? $id : $result;
+            die( JSON::encode(array('flag' => 'success','data' => $editData)) );
+        }
     }
 }

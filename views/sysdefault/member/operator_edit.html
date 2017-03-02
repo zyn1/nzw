@@ -1,0 +1,137 @@
+{js:artTemplate}
+{js:areaSelect}
+<div class="headbar">
+	<div class="position"><span>会员</span><span>></span><span>运营中心管理</span><span>></span><span>编辑运营中心</span></div>
+</div>
+
+<div class="content_box">
+	<div class="content form_content">
+		<form action="{url:/member/operator_add}" method="post" name="operatorForm" enctype='multipart/form-data'>
+            <input name="uid" value="" type="hidden" />
+			<input name="id" value="" type="hidden" />
+			<table class="form_table">
+				<colgroup>
+					<col width="150px" />
+					<col />
+				</colgroup>
+
+				<tbody>
+					<tr>
+						<th>登陆用户名：</th>
+						<td><input class="normal" name="seller_name" type="text" value="" pattern="required" alt="用户名不能为空" /><label>* 用户名称（必填）</label></td>
+					</tr>
+					<tr>
+						<th>密码：</th><td><input class="normal" name="password" type="password" bind='repassword' empty /><label>* 登录密码</label></td>
+					</tr>
+					<tr>
+						<th>确认密码：</th><td><input class="normal" name="repassword" type="password" bind='password' empty /><label>* 重复确认密码</label></td>
+					</tr>
+                    <tr>
+                        <th>运营中心名称：</th>
+                        <td><input class="normal" name="true_name" type="text" value="" pattern="required" /></td>
+                    </tr>
+					<tr>
+						<th>联系人：</th>
+						<td><input class="normal" name="contacts_name" type="text" value="" pattern="required" /></td>
+					</tr>
+                    <tr>
+                        <th>运营中心logo：</th>
+                        <td>
+                            <input type='file' name='seller_logo' />
+                            {if:isset($this->sellerRow['seller_logo']) && $this->sellerRow['seller_logo']}
+                            <p><a target="_blank" href="{webroot:}{$this->sellerRow['seller_logo']}"><img src='{webroot:}{$this->sellerRow['seller_logo']}' style='width:180px;border:1px solid #ccc' /></a></p>
+                            {/if}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>商户营业执照：</th>
+                        <td>
+                            <input type='file' name='paper_img' />
+                            {if:isset($this->sellerRow['paper_img']) && $this->sellerRow['paper_img']}
+                            <p><a target="_blank" href="{webroot:}{$this->sellerRow['paper_img']}"><img src='{webroot:}{$this->sellerRow['paper_img']}' style='width:320px;border:1px solid #ccc' /></a></p>
+                            {/if}
+                        </td>
+                    </tr>
+					<tr>
+						<th>负责人证件：</th>
+						<td>
+							<input type='file' name='identity_card' />
+							{if:isset($this->sellerRow['identity_card']) && $this->sellerRow['identity_card']}
+							<p><a target="_blank" href="{webroot:}{$this->sellerRow['identity_card']}"><img src='{webroot:}{$this->sellerRow['identity_card']}' style='width:320px;border:1px solid #ccc' /></a></p>
+							{/if}
+						</td>
+					</tr>
+					<!--<tr>
+						<th>收款账号：</th>
+						<td><textarea class="normal" name="account" empty></textarea><label>标明开户行，卡号，账户名称等</label></td>
+					</tr>-->
+					<tr>
+						<th>固定电话：</th>
+						<td><input type="text" class="normal" name="phone" pattern="phone" /></td>
+					</tr>
+					<tr>
+						<th>手机号码：</th>
+						<td><input type="text" class="normal" name="mobile" pattern="mobi" /></td>
+					</tr>
+					<tr>
+						<th>邮箱：</th>
+						<td><input type="text" class="normal" empty name="email" pattern="email" /></td>
+					</tr>
+					<tr>
+						<th>地区：</th>
+						<td>
+							<select name="province" child="city,area"></select>
+							<select name="city" child="area"></select>
+							<select name="area"></select>
+						</td>
+					</tr>
+					<tr>
+						<th>详细地址：</th><td><input class="normal" name="address" type="text" empty value="" /></td>
+					</tr>
+					<tr>
+						<th>排序：</th>
+						<td><input type='text' class='small' name='sort' /></td>
+					</tr>
+					<tr>
+						<th>是否开通：</th>
+						<td>
+							<label class='attr'><input type='radio' name='is_lock' value='0' checked='checked' />开通</label>
+                            <label class='attr'><input type='radio' name='is_lock' value='1' />锁定</label>
+							<label>锁定后运营中心无法登陆进行管理</label>
+						</td>
+					</tr>
+					<tr>
+						<td></td><td><button class="submit" type="submit"><span>确 定</span></button></td>
+					</tr>
+				</tbody>
+			</table>
+		</form>
+	</div>
+</div>
+
+<script language="javascript">
+//DOM加载完毕
+$(function()
+{
+//修改模式
+{if:$this->sellerRow}
+var formObj = new Form('operatorForm');
+formObj.init({echo:JSON::encode($this->sellerRow)});
+
+//锁定字段一旦注册无法修改
+if($('[name="id"]').val())
+{
+	var lockCols = ['seller_name'];
+	for(var index in lockCols)
+	{
+		$('input:text[name="'+lockCols[index]+'"]').addClass('readonly');
+		$('input:text[name="'+lockCols[index]+'"]').attr('readonly',true);
+	}
+}
+{/if}
+
+//地区联动插件
+var areaInstance = new areaSelect('province');
+areaInstance.init({echo:JSON::encode($this->sellerRow)});
+});
+</script>

@@ -21,7 +21,9 @@
 				<del>￥{$item['market_price']}</del>
 			</a>
 			<div class="goods_list_btn">
-				<div class="add_cart" onclick="joinCart_list({$item['goods_id']});">加入购物车</div>
+                {if:$this->user['type'] <> 4 || ($this->user['type'] == 4 && $item['seller_id'] <> ISafe::get('seller_id', 'session'))}
+                <div class="add_cart" onclick="joinCart_list({$item['goods_id']});">加入购物车</div>
+                {/if}
 				<div class="del_fav" onclick="delModel({link:'{url:/ucenter/favorite_del/id/$item[id]}',msg:'是否取消收藏？'});">取消收藏</div>
 			</div>
 		</li>

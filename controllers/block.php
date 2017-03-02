@@ -752,9 +752,17 @@ class Block extends IController
     public function payPass()
     {
         $user_id = $this->user['user_id'];
-        $memberObj       = new IModel('member');
+        $user_type = $this->user['type'];
+        if($user_type == 1 || $user_type == 4)
+        {
+            $model  = new IModel('member');    
+        }
+        elseif($user_type == 4)
+        {
+            $model = new IModel('company');
+        }        
         $where           = 'user_id = '.$user_id;
-        $pay_pass = $memberObj->getObj($where, 'pay_password');
+        $pay_pass = $model->getObj($where, 'pay_password');
         $this->payPass = $pay_pass['pay_password'];
         $this->redirect('payPass');
     }
@@ -763,9 +771,17 @@ class Block extends IController
     public function validatePayPass()
     {
         $user_id = $this->user['user_id'];
-        $memberObj       = new IModel('member');
+        $user_type = $this->user['type'];
+        if($user_type == 1 || $user_type == 4)
+        {
+            $model  = new IModel('member');    
+        }
+        elseif($user_type == 4)
+        {
+            $model = new IModel('company');
+        }                                        
         $where           = 'user_id = '.$user_id;
-        $memberRow = $memberObj->getObj($where, 'pay_password');
+        $row = $model->getObj($where, 'pay_password');
         $result = array(
                         'result' => false,
                         'msg' => ''
@@ -776,7 +792,7 @@ class Block extends IController
         {
             $result['msg'] = '请输入支付密码';
         }
-        elseif(md5($pay_pwd) != $memberRow['pay_password'])
+        elseif(md5($pay_pwd) != $row['pay_password'])
         {
             $result['msg'] = '支付密码输入错误';
         }

@@ -54,10 +54,16 @@
 						<label>新用户注册配置<!--，邮箱和手机验证要确保系统与验证接口对接正确--></label>
 					</td>
 				</tr>
+                <tr>
+                    <th>库存预警数量：</th>
+                    <td>
+                        <input type='text' class='small' name='store_num_warning' pattern='int' alt='请填写整数' /> <label>当商品数量少于X件时，会在系统后台首页<a href="{url:/system/default}"><库存预警></a>显示</label>
+                    </td>
+                </tr>
 				<tr>
-					<th>库存预警数量：</th>
+					<th>分红账单生成时间：</th>
 					<td>
-						<input type='text' class='small' name='store_num_warning' pattern='int' alt='请填写整数' /> <label>当商品数量少于X件时，会在系统后台首页<a href="{url:/system/default}"><库存预警></a>显示</label>
+						<input type='text' class='small' name='bonus_bill_date' pattern='int' alt='请填写正确的日期' /> <label>每个月指定日期生成上个月的分红账单</label>
 					</td>
 				</tr>
 				<tr>

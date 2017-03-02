@@ -1,0 +1,33 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>风格修改</title>
+<link rel="stylesheet" href="{skin:css/admin.css}" />
+{js:jquery}
+{js:dialog}
+{js:form}
+{js:validate}
+{js:artTemplate}
+<script type='text/javascript' src="{theme:javascript/admin.js}"></script>
+</head>
+<body style="width:600px;min-height:400px;">
+<div class="pop_win">
+	<form action='{url:/member/style_update}' method='post' id='specForm' name='styleForm'>
+        <input type="hidden" name="id" value="{$id}" />
+		<table class="form_table" style="width:95%"> 
+            <colgroup>
+                <col width="120px" />
+                <col />
+            </colgroup>                  
+			<tr>
+				<td style='text-align:right'>风格名称：</td>
+				<td><input class="normal" name="name" value="{$name}" type="text" pattern="required" alt="名字不能为空" /><label>* 风格名称（必填）</label></td>
+			</tr>
+			<tr>
+				<td style='text-align:right'>排序：</td>
+				<td><input class="normal" type="text" name="sort" value="{$sort}" /><label>数字越小排序越靠前</label></td>
+			</tr>
+		</table>
+	</form>
+</div>

@@ -146,6 +146,7 @@ class goods_class
 		$goodsUpdateData['store_nums']   = array_sum($postData['_store_nums']);
 		$goodsUpdateData['market_price'] = isset($postData['_market_price']) ? current($postData['_market_price']) : 0;
 		$goodsUpdateData['sell_price']   = isset($postData['_sell_price'])   ? current($postData['_sell_price'])   : 0;
+        $goodsUpdateData['channel_price']= isset($postData['_channel_price'])   ? current($postData['_channel_price'])   : 0;
 		$goodsUpdateData['cost_price']   = isset($postData['_cost_price'])   ? current($postData['_cost_price'])   : 0;
 		$goodsUpdateData['weight']       = isset($postData['_weight'])       ? current($postData['_weight'])       : 0;
 
@@ -213,6 +214,7 @@ class goods_class
 					'store_nums' => $postData['_store_nums'][$key],
 					'market_price' => $postData['_market_price'][$key],
 					'sell_price' => $postData['_sell_price'][$key],
+                    'channel_price' => $postData['_channel_price'][$key],
 					'cost_price' => $postData['_cost_price'][$key],
 					'weight' => $postData['_weight'][$key],
 					'spec_array' => "[".join(',',$postData['_spec_array'][$key])."]"
@@ -903,12 +905,19 @@ class goods_class
 			$market_price_operator = $this->getOperator($paramData['market_price_type']);
 			$updateData['market_price'] = "market_price".$market_price_operator.$market_price;
 		}
-		// 销售价格
-		$sell_price = IFilter::act($paramData['sell_price'], 'float');
-		if (0 < $sell_price)
+        // 销售价格
+        $sell_price = IFilter::act($paramData['sell_price'], 'float');
+        if (0 < $sell_price)
+        {
+            $sell_price_operator = $this->getOperator($paramData['sell_price_type']);
+            $updateData['sell_price'] = "sell_price".$sell_price_operator.$sell_price;
+        }
+		// 渠道价格
+		$channel_price = IFilter::act($paramData['channel_price'], 'float');
+		if (0 < $channel_price)
 		{
-			$sell_price_operator = $this->getOperator($paramData['sell_price_type']);
-			$updateData['sell_price'] = "sell_price".$sell_price_operator.$sell_price;
+			$channel_price_operator = $this->getOperator($paramData['channel_price_type']);
+			$updateData['channel_price'] = "channel_price".$channel_price_operator.$channel_price;
 		}
 		// 成本价格
 		$cost_price = IFilter::act($paramData['cost_price'], 'float');
@@ -947,7 +956,7 @@ class goods_class
 		// 批量更新商品
 		if (!empty($updateData))
 		{
-			$except = array('market_price','sell_price','cost_price','store_nums','point','exp');
+			$except = array('market_price','sell_price','channel_price','cost_price','store_nums','point','exp');
 			$goodsDB = new IModel('goods');
 			$goodsDB->setData($updateData);
 			$where = "id in (".$goods_id.")";
@@ -955,7 +964,7 @@ class goods_class
 			$result = $goodsDB->update($where,$except);
 
 			// 批量更新货品表
-			$exceptProducts = array('store_nums','market_price','sell_price','cost_price');
+			$exceptProducts = array('store_nums','market_price','sell_price','channel_price','cost_price');
 			$updateDataProducts = array();
 			foreach ($updateData as $key => $value)
 			{
@@ -973,7 +982,7 @@ class goods_class
 
 				$productObj = new IQuery('products as pro');
 				$productObj->where = $whereProducts;
-				$productObj->fields = "pro.goods_id, sum(pro.store_nums) AS sum_store_nums, min(pro.market_price) as min_market_price, min(pro.sell_price) as min_sell_price, min(pro.cost_price) as min_cost_price";
+				$productObj->fields = "pro.goods_id, sum(pro.store_nums) AS sum_store_nums, min(pro.market_price) as min_market_price, min(pro.sell_price) as min_sell_price, min(pro.cost_price) as min_cost_price, min(pro.channel_price) as min_channel_price";
 				$productObj->group = "pro.goods_id";
 
 				$productList = $productObj->find();
@@ -984,6 +993,7 @@ class goods_class
 						'store_nums' => $val['sum_store_nums'],
 						'market_price' => $val['min_market_price'],
 						'sell_price' => $val['min_sell_price'],
+                        'channel_price' => $val['min_channel_price'],
 						'cost_price' => $val['min_cost_price']
 					);
 					$goodsDB->setData($tempData);

@@ -236,7 +236,7 @@ class search_goods
 			$goodsAttrDB->fields = "goAttr.attribute_id,goAttr.attribute_value,att.name";
 			$goodsAttrDB->join   = "left join goods as go on go.id = goAttr.goods_id left join attribute as att on att.id = goAttr.attribute_id ".join("  ",$join);
 			$goodsAttrDB->where  = join(" and ",$where)." and att.search = 1";
-			$goodsAttrData       = $goodsAttrDB->find();
+			$goodsAttrData       = $goodsAttrDB->find(); 
 			foreach($goodsAttrData as $key => $val)
 			{
 				//属性存在

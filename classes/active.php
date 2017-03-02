@@ -63,6 +63,19 @@ class Active
 			return "商品ID不存在";
 		}
 		$goodsData = ($this->type == 'product') ? Api::run('getProductInfo',array('#id#',$this->id)) : Api::run('getGoodsInfo',array('#id#',$this->id));
+        
+        //不能购买自己家的商品
+        $userDB = new IModel('user');
+        $userRow = $userDB->getObj('id = '.$this->user_id, 'type,relate_id');
+        if($userRow && $userRow['type'] == 4 && $goodsData['seller_id'] == $userRow['relate_id'])
+        {
+            //清除购物车
+            $cartObj = new Cart();
+            $cartObj->clear();
+            $this->error .= '不能购买自己店铺的商品';
+            return $this->error;
+        }
+        
 
 		//库存判断
 		if(!$goodsData || $this->buy_num <= 0 || $this->buy_num > $goodsData['store_nums'])

@@ -15,10 +15,10 @@
 class ICookie
 {
 	//cookie前缀
-	private static $pre = 'iweb_';
+	private static $pre = 'nzw_';
 
 	//默认cookie密钥
-	private static $defaultKey = 'iwebshop';
+	private static $defaultKey = 'nzwcom';
 
 	//获取配置的前缀
 	private static function getPre()
@@ -114,7 +114,7 @@ class ICookie
 	{
 		self::$pre = self::getPre();
 		if(isset($_COOKIE[self::$pre.'safecode']))
-		{
+		{           
 			if( self::cookieId() == ICrypt::decode($_COOKIE[self::$pre.'safecode'],self::getKey()))
 			{
 				return 1;
