@@ -1,8 +1,10 @@
 
 <header class="uc_head_tab">
-	<span class="money">账户余额：<em>￥{$this->memberRow['balance']}</em></span>
+	<span class="money">账户余额：<em>￥{$this->data['balance']}</em></span>
 	<h3>交易记录</h3>
+    {if:$this->user['type'] == 1}
 	<a href='{url:/ucenter/withdraw}'>提现申请</a>
+    {/if}
 </header>
 
 <section class="uc_table">

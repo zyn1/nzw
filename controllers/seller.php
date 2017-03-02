@@ -513,6 +513,32 @@ class Seller extends IController implements sellerAuthorization
 
 		$sellerDB->setData($sellerRow);
 		$sellerDB->update("id = ".$seller_id);
+        
+        if(ISafe::get('user_type') == 4)
+        {
+            $userDB = new IModel('user');
+            $memberDB = new IModel('member');
+            $userRow = array(
+                    'mobile'    => $mobile,
+                    'email'     => $email,
+                );
+                
+            if($password)
+            {
+                $userRow['password'] = md5($password);
+            }
+            $userDB->setData($userRow);
+            $userDB->update('relate_id = '.$seller_id);
+            $user_id = $userDB->getObj('relate_id = '.$seller_id, 'id');
+            $areaArr = array($province,$city,$area);
+            $memberRow = array(
+                    'telephone' => $phone,
+                    'contact_addr' => $address,
+                    'area'      => $areaArr ? ",".join(",",$areaArr)."," : "",
+                );
+            $memberDB->setData($memberRow);
+            $memberDB->update('user_id = '.$user_id['id']);
+        }
 
 		$this->redirect('seller_edit');
 	}
@@ -1835,4 +1861,66 @@ class Seller extends IController implements sellerAuthorization
             IError::show("没有找到相关品牌记录！", 403);
         }
     }
+    
+    /**
+     * @brief 运营商删除绑定用户/商家
+     */
+    function bind_del()
+    {                    
+        $id = IFilter::act(IReq::get('id'),'int');
+        $model = new IModel('operational_user');
+        $where =  'id = '.$id.' and operation_id ='.$this->seller['seller_id'];
+        $row = $model->getObj($where, 'type');
+        $type = $row ? $row['type'] : 1;
+        $redirectUrl = $type == 1 ? 'bind_user_list' : 'bind_seller_list';
+        if(!$row)
+        {
+            $this->redirect($redirectUrl);
+            IError::show("参数错误！", 403);
+        }                                
+        $model->del($where);
+        $this->redirect($redirectUrl);
+    }
+    
+    /**
+     * @brief 运营商绑定用户/商家
+     */
+     function bind_act($id,$type=1)
+     {
+        $redirectUrl = $type == 1 ? 'bind_user_list' : 'bind_seller_list';
+        $msg = $type == 1 ? '该用户' : '该商家';
+        $model = new IModel('operational_user');
+        if($model->getObj('object_id = '.$id.' and type ='.$type))
+        {
+            $this->redirect($redirectUrl);
+            IError::show($msg."已被绑定！", 403);
+        }
+        $data = array(
+                     'object_id' => $id,
+                     'operation_id' => $this->seller['seller_id'],
+                     'type' => $type ,
+                     'time' => ITime::getDateTime()
+                );
+        $model->setData($data);
+        $model->add();
+        $this->redirect($redirectUrl);
+     }
+    
+    /**
+     * @brief 运营商绑定用户
+     */
+     function bind_user_act()
+     {
+        $id = IReq::get('id');
+        $this->bind_act($id, 1);
+     }
+    
+    /**
+     * @brief 运营商绑定商家
+     */
+     function bind_seller_act()
+     {
+        $id = IReq::get('id');
+        $this->bind_act($id, 2);
+     }
 }

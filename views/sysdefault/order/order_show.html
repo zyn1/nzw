@@ -181,7 +181,7 @@
 			</tbody>
 		</table>
 
-		<table style="width:300px;margin-right:20px;clear:both;" class="border_table f_l">
+		<table style="width:300px;margin-right:20px;" class="border_table f_l">
 			<col width="80px" />
 			<col />
 			<thead>
@@ -207,7 +207,7 @@
 		</table>
 
 		{set:$orderInstance = new Order_Class();$orderRow = $orderInstance->getOrderShow($id)}
-		<table style="width:300px;margin-right:20px;" class="border_table f_l">
+		<table style="width:300px;margin-right:20px; clear: left;" class="border_table f_l">
             <col width="80px" />
             <col />
             <thead>
@@ -288,6 +288,40 @@
                 {/if}
 			</tbody>
 		</table>
+        {/if}
+        {set:$orderBonusRow = $orderInstance->getBonusInfo($id);$tem = IReq::get('_tem')}
+        {if:$tem !== null && $orderBonusRow}
+        {set:$userDB = new IModel('user');}
+        <table style="width:300px;margin-right:20px;" class="border_table f_l">
+            <col width="80px" />
+            <col />
+            <thead>
+                <tr><th colspan="2">分红信息</th></tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th>分红金额:</th><td>{$orderBonusRow['bonus_amount']}</td>
+                </tr>
+                <tr><th colspan="2" style="text-align: center;">分红账户</th></tr>
+                <tr><th>系统:</th><td>平台</td></tr>    
+                {if:isset($orderBonusRow['arr'])}
+                {foreach:items=$orderBonusRow['arr'] key=$kk item=$v}       
+                <tr>
+                    <th>{if:$kk == 'sales'}卖方运营中心{elseif:$kk == 'buys'}买方运营中心{elseif:$kk == 'companys'}签约装修公司{elseif:$kk == 'designers'}签约设计师{/if}:</th>
+                    <td>
+                    {if:$kk == 'sales' || $kk == 'buys'}
+                    <a href="{url:/site/home/id/$v[relate_id]}">{$v['username']}</a>
+                    {elseif:$kk == 'designers'}
+                    <!--设计师-->
+                    {elseif:$kk == 'companys'}
+                    <a href="{url:/site/company/id/$v[id]}">{$v['username']}</a>
+                    {/if}
+                    </td>
+                </tr>
+                {/if}
+                {/foreach}  
+            </tbody>
+        </table>
         {/if}
 	</div>
 </div>

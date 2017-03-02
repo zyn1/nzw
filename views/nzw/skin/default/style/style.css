@@ -1207,7 +1207,7 @@ a .icon-rotate-90:before, a .icon-rotate-180:before, a .icon-rotate-270:before, 
 .foot .copy .footer .links{/*background: #626262; padding: 30px;*/}
 .foot .copy.border{border-top: 1px solid #ddd;margin-top: 30px;padding-top: 40px;}
 .service{
-	width: 100%; background: #f4f4f4; height: 222px;
+	width: 100%; background: #f4f4f4; height: 150px;
 }
 .service .serve_list{width: 1200px; margin: 0 auto; text-align:center;line-height: 150px;}
 .service .serve_list div{ float: left;width: 300px;}
@@ -1559,19 +1559,17 @@ background-image: url("../image/icon_slides.png"); background-repeat: no-repeat;
 .home_2 .hot_goods .special li{
 	width: 1200px;
     height: 40px;
- /*   border-bottom: 1px solid #6bb945;*/
+    border-bottom: 1px solid #6bb945;
     position: relative;
     margin-bottom: 20px;
 }
 .home_2 .hot_goods .special li h2 {
-    font-size: 28px;
-    line-height: 38px;
-    width: 1200px;
+    font-size: 16px;
+    line-height: 40px;
     padding: 0 5px;
-    font-weight: bold;
-    display: block;background: url("../image/index/title_1.png") no-repeat;
+    font-weight: normal;
 }
-.home_2 .hot_goods .special1{
+/*.home_2 .hot_goods .special1{
 	position: relative;
 }
 .home_2 .hot_goods .special1 li h2 {
@@ -1581,9 +1579,9 @@ background-image: url("../image/icon_slides.png"); background-repeat: no-repeat;
     padding: 0 5px;
     font-weight: bold;
     display: block;background: url("../image/index/title_2.png") no-repeat;
-}
+}*/
 
-.home_2 .hot_goods .special1 .floor_more{
+.home_2 .hot_goods .special .floor_more{
     position: absolute;
     right: 0;
     bottom: 0;
@@ -1597,7 +1595,7 @@ background-image: url("../image/icon_slides.png"); background-repeat: no-repeat;
 .home_2 .hot_goods .special1 .floor_more a:hover{text-decoration: none;}
 
 .home_2 .hot_goods .sale_price ul{
-    width: 1200px;
+    width: 1250px;
 }
 .home_2 .hot_goods .sale_step{
 	height: 200px;
@@ -2839,7 +2837,7 @@ section.count_down{margin: 13px 5px;}
 
 
 /*首页新样式*/
-.home_2 .hot_goods .case_price{
+/*.home_2 .hot_goods .case_price{
 	width: 1200px;
 } 
 .home_2 .hot_goods .case_price .case_list{
@@ -2931,9 +2929,9 @@ section.count_down{margin: 13px 5px;}
 .louceng5 .home_2 .hot_goods .product_list a{color: #441b05;}
 
 .louceng5 .home_2 .hot_goods .product_list p .area{float: left;font-size: 14px;}
-.louceng5 .home_2 .hot_goods .product_list p .price{float: right;font-size: 14px;}
+.louceng5 .home_2 .hot_goods .product_list p .price{float: right;font-size: 14px;}*/
 /*设计师 列表*/
-.clear:after{
+/*.clear:after{
 	display: block;
 	content: "";
 	clear: both;
@@ -3126,7 +3124,7 @@ ul.design_bar_rank li .rank_num{
 }
 ul.design_bar_rank li  i.on{
 	background: #ff9c00
-}
+}*/
 /*设计师 列表end*/
 /*设计师 详情*/
 .design_detail_bag{

@@ -40,6 +40,10 @@ class Simple extends IController
     function logout()
     {
     	plugin::trigger('clearUser');
+        if($this->user['type'] == 4)
+        {
+            plugin::trigger('clearSeller');
+        }
     	$this->redirect('login');
     }
     
@@ -64,21 +68,97 @@ class Simple extends IController
         }
         else{
             $this->layout = 'site_log';
+            $id = IReq::get('_i');
+            $this->code = IReq::get('_c');
+            $db = new IModel('company');
+            $data = $db->getObj('user_id = '.$id, 'address');
+            $this->id = $id ;
+            $this->address = $data['address'];
             $this->redirect('reg_identify');
         }
         
     }
     function identify_success()
     {
-        if($this->user)
+        $code = IFilter::act(IReq::get('code','post'));
+        $id = IFilter::act(IReq::get('id','post')); 
+        $address = IFilter::act(IReq::get('address', 'post'));
+        $_code   = ISafe::get('user_code_'.$id);
+        if($code != $_code)
         {
-            $this->redirect("/ucenter/index");
-        }
-        else{
-            $this->layout = 'site_log';
-            $this->redirect('identify_success');
+            $this->setError('参数错误');
+            $this->redirect('/simple/reg_identify/_i/'.$id.'/_c/'.$_code,false);
+            Util::showMessage('参数错误');
         }
         
+        $card_type   = IFilter::act(IReq::get('card_type'),'int');
+        
+        //文件上传
+        if((isset($_FILES['paper_img']['name']) && $_FILES['paper_img']['name']) || (isset($_FILES['head_ico']['name']) && $_FILES['head_ico']['name']) || (isset($_FILES['paper_imgs']['name']) && $_FILES['paper_imgs']['name']) || (isset($_FILES['tax_img']['name']) && $_FILES['tax_img']['name']) || (isset($_FILES['code_img']['name']) && $_FILES['code_img']['name']) || (isset($_FILES['identity_card']['name']) && $_FILES['identity_card']['name']))
+        {
+            $uploadObj = new PhotoUpload();
+            $uploadObj->setIterance(false);
+            $photoInfo = $uploadObj->run();
+        }
+        if($card_type == 1)
+        {
+            if(isset($photoInfo['paper_img']['img']) && file_exists($photoInfo['paper_img']['img']))
+            {
+                $company['paper_img'] = JSON::encode(array('paper_img' => $photoInfo['paper_img']['img']));
+            }
+            else
+            {
+                $this->setError('请上传营业执照');
+                $this->redirect('/simple/reg_identify/_i/'.$id.'/_c/'.$_code,false);
+                Util::showMessage('请上传营业执照');
+            }
+        }
+        else
+        {
+            $paperData = array();
+            if(isset($photoInfo['paper_imgs']['img']) && file_exists($photoInfo['paper_imgs']['img']))
+            {
+                $paperData['paper_imgs'] = $photoInfo['paper_imgs']['img'];
+            }
+            else
+            {
+                $this->setError('请上传营业执照');
+                $this->redirect('/simple/reg_identify/_i/'.$id.'/_c/'.$_code,false);
+                Util::showMessage('请上传营业执照');
+            }
+            if(isset($photoInfo['tax_img']['img']) && file_exists($photoInfo['tax_img']['img']))
+            {
+                $paperData['tax_img'] = $photoInfo['tax_img']['img'];
+            }
+            else
+            {
+                $this->setError('请上传税务登记证');
+                $this->redirect('/simple/reg_identify/_i/'.$id.'/_c/'.$_code,false);
+                Util::showMessage('请上传税务登记证');
+            }
+            if(isset($photoInfo['code_img']['img']) && file_exists($photoInfo['code_img']['img']))
+            {
+                $paperData['code_img'] = $photoInfo['code_img']['img'];
+            }
+            else
+            {
+                $this->setError('请上传组织机构代码证');
+                $this->redirect('/simple/reg_identify/_i/'.$id.'/_c/'.$_code,false);
+                Util::showMessage('请上传组织机构代码证');
+            }
+            $company['paper_img'] = JSON::encode($paperData);
+        }
+
+        if(isset($photoInfo['identity_card']['img']) && file_exists($photoInfo['identity_card']['img']))
+        {
+            $company['identity_card'] = $photoInfo['identity_card']['img'];
+        }
+        $company['phone'] = IFilter::act(IReq::get('phone','post'));
+        $companyDB = new IModel('company');
+        $companyDB->setData($company);
+        $companyDB->update('user_id = '.$id);
+        $this->layout = 'site_log';
+        $this->redirect('identify_success');        
     }
     //用户注册
     function reg_act()
@@ -88,7 +168,16 @@ class Simple extends IController
     	if(is_array($result))
     	{
 			//自定义跳转页面
-			$this->redirect('/site/success?message='.urlencode("注册成功！"));
+            if(isset($_POST['t']) && $_POST['t'] == 2)
+            {
+                $code = rand(100000,999999);
+                ISafe::set("user_code_".$result['id'],$code);
+                $this->redirect('/simple/reg_identify/_i/'.$result['id'].'/_c/'.$code);
+            }
+            else
+            {
+			    $this->redirect('/site/success?message='.urlencode("注册成功！"));
+            }
     	}
     	else
     	{
@@ -282,8 +371,10 @@ class Simple extends IController
     	header("Cache-Control: no-store, no-cache, must-revalidate");
 		header("Cache-Control: post-check=0, pre-check=0", false);
 
+        $user_id       = ($this->user['user_id'] == null) ? 0 : $this->user['user_id'];
+         
 		//开始计算购物车中的商品价格
-    	$countObj = new CountSum();
+    	$countObj = new CountSum($user_id);
     	$result   = $countObj->cart_count();
 
     	if(is_string($result))
@@ -519,7 +610,6 @@ class Simple extends IController
     	$this->weight      = $result['weight'];
     	$this->freeFreight = $result['freeFreight'];
     	$this->seller      = $result['seller'];
-        
         if(IClient::getDevice() == IClient::MOBILE)
         {
             $sellerDB = new IModel('seller');
@@ -873,6 +963,41 @@ class Simple extends IController
                 }
                 $db_fapiao->setData($fapiao_data);
                 $db_fapiao->add();
+            }
+            
+            //渠道商购买材料记录分红数据
+            if($goodsResult['extendRe'])
+            {
+                $orderExtendDB = new IModel('order_extend');
+                $data = array(
+                            'order_id' => $order_id,
+                            'bonus_amount' => $goodsResult['reduce']
+                        );
+                $userDB = new IModel('user');
+                $model = new IModel('operational_user');
+                $userRow = $userDB->getObj('id = '.$user_id, 'type,relate_id');
+                $para = array();
+                
+                //卖方运营中心
+                if($userDB->getObj('relate_id = '.$seller_id.' and type = 4','id'))
+                {
+                    $para['sales'] = $seller_id;
+                }
+                else
+                {
+                    $sales = $model->getObj('object_id = '.$seller_id.' and type = 2', 'operation_id');
+                    $sales ? $para['sales'] = $sales['operation_id'] : '';
+                }
+                
+                //买方运营中心
+                $para['buys'] = $model->getObj('object_id = '.$user_id.' and type = 1', 'operation_id');
+                
+                //预约装修及预约设计师功能未做，做完相关功能后可在此添加所签约装修公司和签约设计师参与分红
+                //companys  装修公司   designers  设计师
+                
+                $data['para'] = JSON::encode($para);
+                $orderExtendDB->setData($data);
+                $orderExtendDB->add();                
             }
         }
 
@@ -1278,6 +1403,41 @@ class Simple extends IController
                 }
                 $db_fapiao->setData($fapiao_data);
                 $db_fapiao->add();
+            }
+            
+            //渠道商购买材料记录分红数据
+            if($goodsResult['extendRe'])
+            {
+                $orderExtendDB = new IModel('order_extend');
+                $data = array(
+                            'order_id' => $order_id,
+                            'bonus_amount' => $goodsResult['reduce']
+                        );
+                $userDB = new IModel('user');
+                $model = new IModel('operational_user');
+                $userRow = $userDB->getObj('id = '.$user_id, 'type,relate_id');
+                $para = array();
+                
+                //卖方运营中心
+                if($userDB->getObj('relate_id = '.$seller_id.' and type = 4','id'))
+                {
+                    $para['sales'] = $seller_id;
+                }
+                else
+                {
+                    $sales = $model->getObj('object_id = '.$seller_id.' and type = 2', 'operation_id');
+                    $sales ? $para['sales'] = $sales['operation_id'] : '';
+                }
+                
+                //买方运营中心
+                $para['buys'] = $model->getObj('object_id = '.$user_id.' and type = 1', 'operation_id');
+                
+                //预约装修及预约设计师功能未做，做完相关功能后可在此添加所签约装修公司和签约设计师参与分红 
+                //companys  装修公司   designers  设计师
+                
+                $data['para'] = JSON::encode($para);
+                $orderExtendDB->setData($data);
+                $orderExtendDB->add();                
             }
 		}
 
@@ -1729,7 +1889,7 @@ class Simple extends IController
     	//存在绑定账号oauth_user与user表同步正常！
     	if(isset($tempRow) && $tempRow)
     	{
-    		$userRow = plugin::trigger("isValidUser",array($tempRow['username'],$tempRow['password']));
+    		$userRow = plugin::trigger("isValidUser",array($tempRow['username'] ? $tempRow['username'] : ($tempRow['mobile'] ? $tempRow['mobile'] : $tempRow['email']),$tempRow['password']));
     		plugin::trigger("userLoginCallback",$userRow);
     		$callback = plugin::trigger('getCallback');
     		$callback = $callback ? $callback : "/ucenter/index";
@@ -2093,6 +2253,21 @@ class Simple extends IController
 
 		$sellerDB->setData($sellerRow);
 		$seller_id = $sellerDB->add();
+        
+        //绑定运营中心
+        $sellerObj = new IModel('user as u, seller as s');
+        if($row = $sellerObj->getObj('u.type = 4 and s.is_del = 0 and s.is_lock = 0 and s.area = '.$area.' and u.relate_id = s.id', 's.id'))
+        {
+            $obj = new IModel('operational_user');
+            $data = array(
+                        'object_id' => $seller_id,
+                        'operation_id' => $row['id'],
+                        'type' => 2,
+                        'time' => ITime::getDateTime()
+                    );
+            $obj->setData($data);
+            $obj->add();
+        }
 
 		//短信通知商城平台
 		if($this->_siteConfig->mobile)

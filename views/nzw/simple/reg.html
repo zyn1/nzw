@@ -1,3 +1,4 @@
+{js:areaSelect}
 <title>注册</title>
 	<main>	
 			<div class="tab_reg">
@@ -12,25 +13,22 @@
 
 				<div class="conten">   
 				<!--个人用户  -->
-					<div class="reg_content person">
-						<div class="reg_method">
-							<span class="radio_check checked" style="margin:0;" id="moblie">手机注册</span>
-							<span class="radio_check" id="mail">邮箱注册</span>
-						</div>
+					<div class="reg_content person">    
                         <form action='{url:/simple/reg_act}' method='post' id="mobtab">	
                             <input type="hidden" name="reg_type" value="3">
                             <div class="user_val">
-                                <label for="true_name">用户名：</label>
+                                <label for="username">用户名：</label>
                                 <input class="input_text text first" name='username' type="text" pattern="^[\w\u0391-\uFFE5]{2,20}$" alt="填写2-20个字符，数字下划线和中文" other="user" otheralt="该用户名已经注册" placeholder="请输入用户名">
                             </div>
 							<div>
 								<label for="mobile">手机号：</label>
                                 <input class="input_text text first" type="text" name='mobile' pattern="mobi" alt="填写正确的手机格式" other="member" otheralt="该手机号已经注册" placeholder="请输入常用手机号">
 							</div>
-							<div>
-								<label for="mobile">联系人：</label>
-                                <input class="input_text text first" type="text" name='true_name' pattern="required" alt="请输入联系人姓名"  placeholder="请输入联系人姓名">
-							</div>
+                            <div class="setAddress" style="border:0;">
+                                <select class="input_select" name="province" child="city,area"></select>
+                                <select class="input_select" name="city" child="area"></select>
+                                <select class="input_select" name="area"></select>
+                            </div>
 							<div class="verfy">
 								<div class="auth_code">
 									<label for="captcha">验证码：</label>
@@ -46,53 +44,7 @@
                                     <input class='input_text text two' type='text' name='mobile_code' alt="" pattern='^\w{4,6}$'>
 								</div>
 								<div class="box_auth">
-                                    <input class="input_button gain" onclick="_sendMobileCode(this);" type="button" value="获取手机验证码">
-								</div>
-							</div>
-                         
-							<div class="setPass">
-								<label for="password">设置密码：</label>
-                                <input class="input_text setpas text three" type="password" name='password' pattern="^\S{6,32}$" bind='repassword' alt='填写6-32个字符' placeholder="填写6-32个字符">
-							</div>
-							<div class="setPass">
-								<label for="repassword">确认密码：</label>
-                                <input class="input_text text three" type="password" name='repassword' pattern="^\S{6,32}$" bind='password' alt='重复上面所填写的密码' placeholder="重复上面所填写的密码">
-							</div>
-							<span class="agreement">点击注册，表示您同意耐装网<a href="{url:/simple/regSevice}" target="_blank"> 《耐装网用户注册协议》</a></span>	
-                            <div class="mob_btn">
-                                <input type="submit" value="注册">
-                            </div>
-                        </form>
-                        <form action='{url:/simple/reg_act}' method='post' id="mailtab" style="display:none;">	
-                            <input type="hidden" name="reg_type" value="3">
-                            <div class="user_val">
-                                <label for="true_name">用户名：</label>
-                                <input class="input_text text first" name='username' type="text" pattern="^[\w\u0391-\uFFE5]{2,20}$" alt="填写2-20个字符，数字下划线和中文" other="user" otheralt="该用户名已经注册" placeholder="请输入用户名">
-                            </div>
-							<div>
-								<label for="mobile">邮箱号：</label>
-                                <input class="input_text text four" type="text" name='email' pattern="email" alt="填写正确的邮箱格式" other="member" otheralt="该邮箱已经注册" placeholder="请输入常用邮箱">
-							</div>
-							<div>
-								<label for="mobile">联系人：</label>
-                                <input class="input_text text first" type="text" name='true_name' pattern="required" alt="请输入联系人姓名"  placeholder="请输入联系人姓名">
-							</div>
-							<div class="verfy">
-								<div class="auth_code">
-									<label for="captcha">验证码：</label>
-                                    <input class='input_text text two' type='text' name='captcha' pattern='^\w{5,10}$' alt='填写图片所示的字符'>
-								</div>
-								<div class="box_auth">
-									<img src='{url:/simple/getCaptcha}' id='captchaImg' onclick="changeCaptcha();">
-								</div>
-							</div>
-							<div class="verfy">
-								<div class="auth_code">
-									<label for="mobile_code">验证码：</label>
-                                    <input class='input_text text two' type='text' name='mobile_code' alt="" pattern='^\w{4,6}$'>
-								</div>
-								<div class="box_auth">
-                                    <input class="input_button gain" onclick="_sendMobileCode(this);" type="button" value="获取手机验证码">
+                                    <input class="input_button gain" onclick="_sendMobileCode(this,1);" type="button" value="获取手机验证码">
 								</div>
 							</div>
                          
@@ -113,15 +65,15 @@
 
 <!-- 装修公司 -->
 					<div class="reg_content company" style="display:none;">
-						<form action='{url:/simple/reg_act}' method='post'>	
-                            <input type="hidden" name="reg_type" value="1">
+						<form action='{url:/simple/reg_act}' method='post'>
+                            <input type="hidden" name="t" value="2">	
                             <div>
                                 <label for="true_name">公司名称：</label>
                                 <input class="input_text text first" type="text" name='true_name' pattern="required" alt="请填写公司名称" placeholder="请输入公司名称">
                             </div>
                             <div>
-                                <label for="true_name">联系人：</label>
-                                <input class="input_text text first" type="text" name='true_name' pattern="required" alt="请填写联系人"placeholder="请输入联系人姓名">
+                                <label for="contacts_name">联系人：</label>
+                                <input class="input_text text first" type="text" name='contacts_name' pattern="required" alt="请填写联系人"placeholder="请输入联系人姓名">
                             </div>
                             <div>
                                 <label for="mobile">手机号：</label>
@@ -142,7 +94,7 @@
                                     <input class='input_text text two' type='text' name='mobile_code' alt="" pattern='^\w{4,6}$'>
                                 </div>
                                 <div class="box_auth">
-                                    <input class="input_button gain" onclick="_sendMobileCode(this);" type="button" value="获取手机验证码">
+                                    <input class="input_button gain" onclick="_sendMobileCode(this,1);" type="button" value="获取手机验证码">
                                 </div>
                             </div>
                             <div class="setPass">
@@ -154,148 +106,16 @@
                                 <input class="input_text text three" type="password" name='repassword' pattern="^\S{6,32}$" bind='password' alt='重复上面所填写的密码' placeholder="重复上面所填写的密码">
                             </div>
                             <div class="setAddress" style="border:0;">
-
-                            	<div class="city" style="margin:0;">
-				<input type="button" class="city_select" value="省" id="city_select1">
-				<input type="hidden" name="type">
-				<ul style="display:none;" class="city_list" id="city_list1">
-					<li js_data="1">太原市</li>
-					<li js_data="2">阳泉市</li>
-				</ul>
-			</div>
-			<div class="county">
-				<input type="button" class="coun_select" value="市" id="coun_select1">
-				<input type="hidden" name="type">
-				<ul style="display:none;" class="coun_list" id="coun_list1">
-					<li js_data="1">太原市</li>
-					<li js_data="2">阳泉市</li>
-					<li js_data="3">大同市</li>
-					<li js_data="4">忻州市</li>
-					<li js_data="5">平遥市</li>
-					<li js_data="6">晋中市</li>
-					<li js_data="7">澳门市</li>
-					<li js_data="8">长治市</li>
-					<li js_data="9">平遥市</li>
-					<li js_data="10">晋中市</li>
-					<li js_data="11">澳门市</li>
-					<li js_data="12">长治市</li>
-				</ul>
-			</div>
-			<div class="area">
-				<input type="button" class="area_select" value="区" id="area_select1">
-				<input type="hidden" name="type">
-				<ul style="display:none;" class="area_list" id="area_list1">
-					<li js_data="1">太原市</li>
-					<li js_data="2">阳泉市</li>
-					<li js_data="3">大同市</li>
-					<li js_data="4">忻州市</li>
-					<li js_data="5">平遥市</li>
-					<li js_data="6">晋中市</li>
-					<li js_data="7">澳门市</li>
-					<li js_data="8">长治市</li>
-					<li js_data="9">平遥市</li>
-					<li js_data="10">晋中市</li>
-					<li js_data="11">澳门市</li>
-					<li js_data="12">长治市</li>
-				</ul>
-			</div>
+                                <select class="input_select" name="province" child="city,area"></select>
+                                <select class="input_select" name="city" child="area"></select>
+                                <select class="input_select" name="area"></select>
                             </div>
-                            <script type="text/javascript">
-                            	$(function(){
-                            		// 省
-                            		$("#city_select1").click(function(){
-					if($("#city_list1").is(":hidden")){
-						$("#city_list1").show()
-						$("#city_select1").addClass('down');
-					}else{
-						$("#city_list1").hide()
-						$("#city_select1").removeClass('down');
-					}
-				})
-				$("#city_list1 li").each(function(){
-					$(this).hover(function(){
-						$(this).css('background','#f7f7f7');
-					},function(){
-						$(this).css('background','#FFF');
-					})
-
-				})
-				$("#city_list1 li").each(function(){
-					var _t = $(this)
-							,_v = _t.attr('js_data');
-					_t.click(function(){
-						$('#city_select1').val(_t.text());
-						$('input[name=type]').val(_v);
-						$('#city_list1').hide();
-						$("#city_select1").removeClass('down');
-					})
-				})
-
-				// 市
-				$("#coun_select1").click(function(){
-					if($("#coun_list1").is(":hidden")){
-						$("#coun_list1").show()
-						$("#coun_select1").addClass('down');
-					}else{
-						$("#coun_list1").hide()
-						$("#coun_select1").removeClass('down');
-					}
-				})
-				$("#coun_list1 li").each(function(){
-					$(this).hover(function(){
-						$(this).css('background','#f7f7f7');
-					},function(){
-						$(this).css('background','#FFF');
-					})
-
-				})
-				$("#coun_list1 li").each(function(){
-					var _t = $(this)
-							,_v = _t.attr('js_data');
-					_t.click(function(){
-						$('#coun_select1').val(_t.text());
-						$('input[name=type]').val(_v);
-						$('#coun_list1').hide();
-						$("#coun_select1").removeClass('down');
-					})
-				})
-
-				// 区、县
-				$("#area_select1").click(function(){
-					if($("#area_list1").is(":hidden")){
-						$("#area_list1").show()
-						$("#area_select1").addClass('down');
-					}else{
-						$("#area_list1").hide()
-						$("#area_select1").removeClass('down');
-					}
-				})
-				$("#area_list1 li").each(function(){
-					$(this).hover(function(){
-						$(this).css('background','#f7f7f7');
-					},function(){
-						$(this).css('background','#FFF');
-					})
-
-				})
-				$("#area_list1 li").each(function(){
-					var _t = $(this)
-							,_v = _t.attr('js_data');
-					_t.click(function(){
-						$('#area_select1').val(_t.text());
-						$('input[name=type]').val(_v);
-						$('#area_list1').hide();
-						$("#area_select1").removeClass('down');
-					})
-				})
-                            	})
-                            </script>
                             <div class="setAddress">              
                                 <label for="true_name"></label>
-                                <input class="input_text text add" type="text" name='true_name' pattern="required" alt="请输入详细地址" placeholder="请输入详细地址">
+                                <input class="input_text text add" type="text" name='address' pattern="required" alt="请输入详细地址" placeholder="请输入详细地址">
                             </div>
 							
-							<span class="agreement">点击注册，表示您同意耐装网<a href="{url:/simple/regSevice}" target="_blank"> 《耐装网用户注册协议》</a></span>	
+							<span class="agreement">点击注册，表示您同意耐装网<a href="{url:/simple/regSevice}" target="_blank"> 《服务协议》</a></span>	
 							<div class="mob_btn">
 								<input type="submit" value="注册">
 							</div>
@@ -325,56 +145,44 @@
 						tabcom.removeClass("color");
 						tabdesi.removeClass("color");
 						tabper.addClass("color");
-						per.show().find('input').removeAttr('disabled');
-                       				per.find('img').trigger('click');
-						com.hide().find('input').attr('disabled', 'disabled');
-						desi.hide().find('input').attr('disabled', 'disabled');
+                        per.show().find('input').removeAttr('disabled');
+						per.show().find('select').removeAttr('disabled');
+                       	per.find('img').trigger('click');
+                        com.hide().find('input').attr('disabled', 'disabled');
+						com.hide().find('select').attr('disabled', 'disabled');
+                        desi.hide().find('input').attr('disabled', 'disabled');
+						desi.hide().find('select').attr('disabled', 'disabled');
 					});
 					tabcom.click(function(){
 						tabcom.addClass("color");
 						tabper.removeClass("color");
 						tabdesi.removeClass("color");
-						per.hide().find('input').attr('disabled', 'disabled');
-						desi.hide().find('input').attr('disabled', 'disabled');
-						com.show().find('input').removeAttr('disabled');
-                        				com.find('img').trigger('click');
+                        per.hide().find('input').attr('disabled', 'disabled');
+						per.hide().find('select').attr('disabled', 'disabled');
+                        desi.hide().find('input').attr('disabled', 'disabled');
+						desi.hide().find('select').attr('disabled', 'disabled');
+                        com.show().find('input').removeAttr('disabled');
+						com.show().find('select').removeAttr('disabled');
+                        com.find('img').trigger('click');
 					});
 					tabdesi.click(function(){
 						tabcom.removeClass("color");
 						tabper.removeClass("color");
 						tabdesi.addClass("color");
-						per.hide().find('input').attr('disabled', 'disabled');
-						com.hide().find('input').attr('disabled', 'disabled');
-						desi.show().find('input').removeAttr('disabled');
-                        				desi.find('img').trigger('click');
+                        per.hide().find('input').attr('disabled', 'disabled');
+						per.hide().find('select').attr('disabled', 'disabled');
+                        com.hide().find('input').attr('disabled', 'disabled');
+						com.hide().find('select').attr('disabled', 'disabled');
+                        desi.show().find('input').removeAttr('disabled');
+						desi.show().find('select').removeAttr('disabled');
+                        desi.find('img').trigger('click');
 					});
 
 				})
-					$(".agreement").click(function(){
-						$(this).toggleClass('checked');
-					});
-					// 手机邮箱注册
-					$("#moblie").click(function(){
-						$(this).addClass("checked");
-						$("#mail").removeClass("checked");
-						$("#mailtab").hide();
-						$("#mobtab").show();
-						$("#mailtab .box_auth img").removeAttr("id");
-						$("#mobtab .box_auth img").attr("id","captchaImg");
-					});
-					$("#mail").click(function(){
-						$(this).addClass("checked");
-						$("#moblie").removeClass("checked");
-						$("#mobtab").hide();
-						$("#mailtab").show();
-						$("#mobtab .box_auth img").removeAttr("id");
-						$("#mailtab .box_auth img").attr("id","captchaImg");
-					});
-			</script>
-
-		
-				
-					<div class="ad_box">
+                var areaInstance = new areaSelect('province');
+                areaInstance.init();
+			</script> 
+                    <div class="ad_box">
 						<img src="{skin:/image/index/reg_r.png}" alt="">
 					</div>
 				</div>

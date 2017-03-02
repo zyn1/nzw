@@ -123,6 +123,9 @@ class CountSum
 		$group_id     = $this->group_id;
     	$goodsList    = array();
     	$productList  = array();
+        
+        $userDB = new IModel('user');
+        $userRow = $userDB->getObj('id = '.$this->user_id, 'type,relate_id');
 
 		//活动购买情况
     	if($promo && $active_id)
@@ -169,7 +172,8 @@ class CountSum
 	    	}
     	}
     	else
-    	{
+    	{            
+            $cartObj = new Cart();
 			/*开始计算goods和product的优惠信息 , 会根据条件分析出执行以下哪一种情况:
 			 *(1)查看此商品(货品)是否已经根据不同会员组设定了优惠价格;
 			 *(2)当前用户是否属于某个用户组中的成员，并且此用户组享受折扣率;
@@ -183,11 +187,36 @@ class CountSum
 	    		//购物车中的商品数据
 	    		$goodsIdStr = join(',',$buyInfo['goods']['id']);
 	    		$goodsObj   = new IModel('goods as go');
-	    		$goodsList  = $goodsObj->query('go.id in ('.$goodsIdStr.')','go.name,go.cost_price,go.id as goods_id,go.img,go.sell_price,go.market_price,go.point,go.weight,go.store_nums,go.exp,go.goods_no,0 as product_id,go.seller_id');
+                $goodsList  = $goodsObj->query('go.id in ('.$goodsIdStr.')','go.name,go.cost_price,go.channel_price,go.id as goods_id,go.img,go.sell_price,go.market_price,go.point,go.weight,go.store_nums,go.exp,go.goods_no,0 as product_id,go.seller_id');
+                if($userRow && $userRow['type'] == 4)
+                {
+	    		    $goodsListSelf  = $goodsObj->query('go.id in ('.$goodsIdStr.') and seller_id != '.$userRow['relate_id'],'go.name,go.cost_price,go.channel_price,go.id as goods_id,go.img,go.sell_price,go.market_price,go.point,go.weight,go.store_nums,go.exp,go.goods_no,0 as product_id,go.seller_id');
+                    $cou1 = count($goodsList);
+                    $cou2 = count($goodsListSelf);
+                    if(($cou1 > $cou2) && $cou2 > 0)
+                    {
+                        //删除购物车中自己店铺的商品
+                        $temp  = $goodsObj->query('go.id in ('.$goodsIdStr.') and seller_id = '.$userRow['relate_id'],'go.id as gid');
+                        foreach($temp as $v)
+                        {
+                            $cartObj->del($v['gid'], 'goods');
+                        }
+                        unset($temp);                        
+                        $goodsList = $goodsListSelf;
+                    }
+                    elseif(($cou1 > $cou2) && $cou2 == 0)
+                    {
+                        $cartObj->clear();
+                        $this->error .= '不能购买自己店铺的商品';
+                        return $this->error;
+                    }
+                }
 
 	    		//开始优惠情况判断
 	    		foreach($goodsList as $key => $val)
 	    		{
+                    //检查是否是自己商家的商品
+                    
 	    			//检查库存
 	    			if($buyInfo['goods']['data'][$val['goods_id']]['count'] <= 0 || $buyInfo['goods']['data'][$val['goods_id']]['count'] > $val['store_nums'])
 	    			{
@@ -196,7 +225,8 @@ class CountSum
 	    			}
 
 	    			$groupPrice                = $this->getGroupPrice($val['goods_id'],'goods');
-	    			$goodsList[$key]['reduce'] = $groupPrice === null ? 0 : $val['sell_price'] - $groupPrice;
+                    //渠道商购买使用渠道价
+	    			$goodsList[$key]['reduce'] = $userRow['type'] != 1 ? ($val['channel_price'] == 0 ? 0 : $val['sell_price'] - $val['channel_price']) :($groupPrice === null ? 0 : $val['sell_price'] - $groupPrice);
 	    			$goodsList[$key]['count']  = $buyInfo['goods']['data'][$val['goods_id']]['count'];
 	    			$current_sum_all           = $goodsList[$key]['sell_price'] * $goodsList[$key]['count'];
 	    			$current_reduce_all        = $goodsList[$key]['reduce']     * $goodsList[$key]['count'];
@@ -225,8 +255,37 @@ class CountSum
 	    		$productIdStr = join(',',$buyInfo['product']['id']);
 	    		$productObj   = new IQuery('products as pro,goods as go');
 	    		$productObj->where  = 'pro.id in ('.$productIdStr.') and go.id = pro.goods_id';
-	    		$productObj->fields = 'pro.sell_price,pro.market_price,pro.cost_price,pro.weight,pro.id as product_id,pro.spec_array,pro.goods_id,pro.store_nums,pro.products_no as goods_no,go.name,go.point,go.exp,go.img,go.seller_id';
+	    		$productObj->fields = 'pro.sell_price,pro.market_price,pro.cost_price,pro.channel_price,pro.weight,pro.id as product_id,pro.spec_array,pro.goods_id,pro.store_nums,pro.products_no as goods_no,go.name,go.point,go.exp,go.img,go.seller_id';
 	    		$productList  = $productObj->find();
+                
+                if($userRow && $userRow['type'] == 4)
+                {
+                    $productObj->where  = 'pro.id in ('.$productIdStr.') and go.id = pro.goods_id and go.seller_id != '.$userRow['relate_id'];
+                    $productObj->fields = 'pro.sell_price,pro.market_price,pro.cost_price,pro.channel_price,pro.weight,pro.id as product_id,pro.spec_array,pro.goods_id,pro.store_nums,pro.products_no as goods_no,go.name,go.point,go.exp,go.img,go.seller_id';
+                    $productListSelf  = $productObj->find();
+                    
+                    $cou1 = count($productList);
+                    $cou2 = count($productListSelf);
+                    if(($cou1 > $cou2) && $cou2 > 0)
+                    {
+                        //删除购物车中自己店铺的商品
+                        $productObj->where  = 'pro.id in ('.$productIdStr.') and go.id = pro.goods_id and go.seller_id = '.$userRow['relate_id'];
+                        $productObj->fields = 'pro.id as pid';
+                        $temp = $productObj->find();
+                        foreach($temp as $v)
+                        {
+                            $cartObj->del($v['pid'], 'product');
+                        }
+                        unset($temp);
+                        $productList = $productListSelf;
+                    }
+                    elseif(($cou1 > $cou2) && $cou2 == 0)
+                    {
+                        $cartObj->clear();
+                        $this->error .= '不能购买自己店铺的商品';
+                        return $this->error;
+                    }
+                }
 
 	    		//开始优惠情况判断
 	    		foreach($productList as $key => $val)
@@ -239,7 +298,8 @@ class CountSum
 	    			}
 
 	    			$groupPrice                  = $this->getGroupPrice($val['product_id'],'product');
-					$productList[$key]['reduce'] = $groupPrice === null ? 0 : $val['sell_price'] - $groupPrice;
+                    //渠道商购买时使用渠道价
+					$productList[$key]['reduce'] = $userRow['type'] != 1 ? ($val['channel_price'] == 0 ? 0 : $val['sell_price'] - $val['channel_price']) : ($groupPrice === null ? 0 : $val['sell_price'] - $groupPrice);
 	    			$productList[$key]['count']  = $buyInfo['product']['data'][$val['product_id']]['count'];
 	    			$current_sum_all             = $productList[$key]['sell_price']  * $productList[$key]['count'];
 	    			$current_reduce_all          = $productList[$key]['reduce']      * $productList[$key]['count'];
@@ -301,6 +361,7 @@ class CountSum
     		'tax'        => $this->tax,
     		'freeFreight'=> $this->freeFreight,
     		'seller'     => $this->seller,
+            'extendRe'   => $userRow['type'] <> 1 ? 1 : 0
     	);
 	}
 
@@ -311,11 +372,11 @@ class CountSum
 		if($id && $type)
 		{
 			$type = ($type == "goods") ? "goods" : "product";
-
+            
 			//规格必填
 			if($type == "goods")
 			{
-				$productsDB = new IModel('products');
+                $productsDB = new IModel('products');
 				if($productsDB->getObj('goods_id = '.$id))
 				{
 					$this->error .= '请先选择商品的规格';
@@ -480,26 +541,27 @@ class CountSum
 		return 0;
     }
 
-	/**
-	 * @brief 获取商户订单货款结算
-	 * @param int $seller_id 商户ID
-	 * @param datetime $start_time 订单开始时间
-	 * @param datetime $end_time 订单结束时间
-	 * @param string $is_checkout 是否已经结算 0:未结算; 1:已结算; null:不限
-	 * @param IQuery 结果集对象
-	 */
+    /**
+     * @brief 获取商户订单货款结算
+     * @param int $seller_id 商户ID
+     * @param datetime $start_time 订单开始时间
+     * @param datetime $end_time 订单结束时间
+     * @param string $is_checkout 是否已经结算 0:未结算; 1:已结算; null:不限
+     * @param IQuery 结果集对象
+     */
     public static function getSellerGoodsFeeQuery($seller_id = '',$start_time = '',$end_time = '',$is_checkout = '')
     {
-    	$where  = "status in (5,6,7) and pay_type != 0 and pay_status = 1 and distribution_status in (1,2)";
-    	$where .= $is_checkout !== '' ? " and is_checkout = ".$is_checkout : "";
-    	$where .= $seller_id          ? " and seller_id = ".$seller_id : "";
-    	$where .= $start_time         ? " and create_time >= '{$start_time}' " : "";
-    	$where .= $end_time           ? " and create_time <= '{$end_time}' "   : "";
+        $where  = "status in (5,6,7) and pay_type != 0 and pay_status = 1 and distribution_status in (1,2)";
+        $where .= $is_checkout !== '' ? " and is_checkout = ".$is_checkout : "";
+        $where .= $seller_id          ? " and seller_id = ".$seller_id : "";
+        $where .= $start_time         ? " and create_time >= '{$start_time}' " : "";
+        //可以结算所选结束日期当天完成的订单
+        $where .= $end_time           ? " and create_time <= '{$end_time} 23:59:59' "   : "";
 
-    	$orderGoodsDB = new IQuery('order');
-    	$orderGoodsDB->order = "id desc";
-    	$orderGoodsDB->where = $where;
-    	return $orderGoodsDB;
+        $orderGoodsDB = new IQuery('order');
+        $orderGoodsDB->order = "id desc";
+        $orderGoodsDB->where = $where;
+        return $orderGoodsDB;
     }
 
 	/**
@@ -595,5 +657,26 @@ class CountSum
 		$result['countFee'] = $result['orgCountFee'] - $result['commission'];
 
     	return $result;
+    }
+
+    /**
+     * @brief 获取分红商户订单
+     * @param datetime $start_time 订单开始时间
+     * @param datetime $end_time 订单结束时间
+     * @param IQuery 结果集对象
+     */
+    public static function getSellerGoodsBonusQuery($start_time = '',$end_time = '')
+    {
+        $where  = "o.status in (5,6,7) and o.pay_type != 0 and o.pay_status = 1 and o.distribution_status in (1,2)";
+        $where .= $start_time         ? " and o.create_time >= '{$start_time}' " : "";
+        //可以结算所选结束日期当天完成的订单
+        $where .= $end_time           ? " and o.create_time <= '{$end_time} 23:59:59' "   : "";
+
+        $orderGoodsDB = new IQuery('order_extend as od');
+        $orderGoodsDB->join = 'left join order as o on o.id = od.order_id';
+        $orderGoodsDB->fields = 'od.*,o.order_no,o.seller_id,o.user_id,o.create_time,o.completion_time,o.order_amount'; 
+        $orderGoodsDB->order = "o.id desc";
+        $orderGoodsDB->where = $where;
+        return $orderGoodsDB;
     }
 }

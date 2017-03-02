@@ -43,6 +43,18 @@ class SystemSeller extends IController
                 ISafe::set('seller_id',$sellerRow['id'],'session');
                 ISafe::set('seller_name',$sellerRow['seller_name'],'session');
                 ISafe::set('seller_pwd',$sellerRow['password'],'session');
+                
+                $userDB = new IModel('user');
+                if($userRow = $userDB->getObj('relate_id = '.$sellerRow['id']))
+                {
+                    //用户私密数据
+                    ISafe::set('user_id',$userRow['id'],'session');
+                    ISafe::set('username',$userRow['username'],'session');
+                    ISafe::set('user_pwd',$userRow['password'],'session');
+                    ISafe::set('head_ico',isset($userRow['head_ico']) ? $userRow['head_ico'] : '');
+                    ISafe::set('user_type',4);
+                    ISafe::set('last_login',$sellerRow['login_time']);
+                }
 
                 $this->redirect('/seller/index');
             }
@@ -272,6 +284,10 @@ class SystemSeller extends IController
 	function logout()
 	{
 		plugin::trigger('clearSeller');
+        if(ISafe::get('user_type') == 4)
+        {
+            plugin::trigger('clearUser');
+        }
     	$this->redirect('index');
 	}
 }

@@ -1,0 +1,107 @@
+{set:
+$search = IFilter::act(IReq::get('search'),'strict');
+$search['province'] = IReq::get('province');
+$search['city'] = IReq::get('city');
+$search['area'] = IReq::get('area');
+$conditon = Util::search($search);
+$where = $conditon ? " and ".$conditon : "";
+}
+{js:areaSelect}
+<div class="headbar">
+	<div class="position">
+		<span>会员</span><span>></span><span>运营中心管理</span><span>></span><span>运营中心列表</span>
+	</div>
+	<div class="operating">
+		<div class="search f_r">
+			<form name="searchoperator" action="{url:/}" method="get">
+				<input type='hidden' name='controller' value='member' />
+				<input type='hidden' name='action' value='operator_list' />
+                <select class="auto" name="province" child="city,area"></select>
+                <select class="auto" name="city" child="area"></select>
+                <select class="auto" name="area"></select>
+				<select class="auto" name="search[like]">
+					<option value="s.seller_name">登录名</option>
+					<option value="s.true_name">真实名称</option>
+					<option value="s.mobile">手机</option>
+					<option value="s.email">Email</option>
+				</select>
+				<input class="small" name="search[likeValue]" type="text" value="" />
+				<button class="btn" type="submit"><span class="sch">搜 索</span></button>
+			</form>
+		</div>
+		<a href="javascript:void(0);"><button class="operating_btn" type="button" onclick="window.location='{url:/member/operator_edit}'"><span class="addition">添加运营中心</span></button></a>
+		<a href="javascript:void(0);" onclick="selectAll('id[]')"><button class="operating_btn" type="button"><span class="sel_all">全选</span></button></a>
+		<a href="javascript:void(0);" onclick="delModel({form:'operator_list',msg:'确定要删除所选中的运营中心吗？<br />删除的运营中心可以从回收站找回。'})"><button class="operating_btn" type="button"><span class="delete">批量删除</span></button></a>
+		<a href="javascript:void(0);"><button class="operating_btn" type="button" onclick="window.location='{url:/member/operator_recycle_list}'"><span class="recycle">回收站</span></button></a>
+	</div>
+</div>
+
+<form action="{url:/member/operator_del}" method="post" name="operator_list" onsubmit="return checkboxCheck('id[]','尚未选中任何记录！')">
+	<div class="content">
+		<table class="list_table">
+			<colgroup>
+                <col width="40px" />
+                <col width="140px" />
+                <col width="140px" />
+                <col width="100px" />
+                <col width="110px" />
+                <col width="80px" />
+                <col width="80px" />
+                <col width="80px" />
+                <col width="150px"/>
+                <col width="80px" />
+            </colgroup>
+
+            <thead>
+                <tr>
+                    <th>选择</th>
+                    <th>登录用户名</th>
+                    <th>真实名称</th>
+                    <th>座机</th>
+                    <th>移动电话</th>
+                    <th>销量</th>
+                    <th>评分</th>
+                    <th>状态</th>
+                    <th>注册日期</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+
+			<tbody>
+				{set:$page=(isset($_GET['page'])&&(intval($_GET['page'])>0))?intval($_GET['page']):1;}
+				{query:name=user as u join=left join seller as s on u.relate_id eq s.id where=s.is_del eq 0 and u.type eq 4 $where order=s.sort asc,s.id desc fields=u.id as uid,s.* page=$page pagesize=20}
+				<tr>
+					<td><input name="id[]" type="checkbox" value="{$item['uid']}" /></td>
+                    <td title="{echo:htmlspecialchars($item['seller_name'])}">{$item['seller_name']}</td>
+                    <td title="{echo:htmlspecialchars($item['true_name'])}">{$item['true_name']}</td>
+                    <td title="{echo:htmlspecialchars($item['phone'])}">{$item['phone']}</td>
+                    <td title="{echo:htmlspecialchars($item['mobile'])}">{$item['mobile']}</td>
+                    <td>{echo:statistics::sellCountSeller($item['id'])} 件</td>
+                    <td>{echo:statistics::gradeSeller($item['id'])} 分</td>
+                    <td>{echo:$item['is_lock'] == 0 ? '正常': '锁定'}</td>
+                    <td title="{$item['create_time']}">{$item['create_time']}</td>
+					<td>
+						<a href="{url:/member/operator_edit/id/$item[uid]}"><img class="operator" src="{skin:images/admin/icon_edit.gif}" alt="修改" /></a>
+						<a href="javascript:void(0)" onclick="delModel({link:'{url:/member/operator_del/id/$item[uid]}'})"><img class="operator" src="{skin:images/admin/icon_del.gif}" alt="删除" /></a>
+					</td>
+				</tr>
+				{/query}
+			</tbody>
+		</table>
+	</div>
+	{$query->getPageBar()}
+</form>
+
+<script language="javascript">
+//预加载
+$(function(){
+	var searchData = {echo:JSON::encode($search)};
+	for(var index in searchData)
+	{
+		$('[name="search['+index+']"]').val(searchData[index]);
+	}
+    //地区联动插件
+    var areaInstance = new areaSelect('province');
+    areaInstance.init({echo:JSON::encode($search)});
+})
+</script>

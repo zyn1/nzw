@@ -27,7 +27,7 @@ if(!isset($_SESSION))
 class ISession
 {
 	//session前缀
-	private static $pre='iweb_';
+	private static $pre='nzw_';
 
 	//获取配置的前缀
 	private static function getPre()

@@ -263,6 +263,7 @@ class Cart extends IInterceptorBase
 	public function getMyCart()
 	{
 		$cartValue = $this->getMyCartStruct();
+        //var_dump($cartValue);
 		return $this->cartFormat($cartValue);
 	}
 

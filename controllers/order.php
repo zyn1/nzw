@@ -581,6 +581,11 @@ class Order extends IController implements adminAuthorization
 		$countSumObj  = new CountSum($dataArray['user_id']);
 		$cartObj      = new Cart();
 		$goodsResult  = $countSumObj->goodsCount($cartObj->cartFormat(array("goods" => $goodsArray,"product" => $productArray)));
+        if(is_string($goodsResult))
+        {
+            IError::show(403,$goodsResult);
+            exit;
+        }
 		$orderData   = $countSumObj->countOrderFee($goodsResult,$dataArray['province'],$dataArray['distribution'],$dataArray['pay_type'],$dataArray['invoice'],$dataArray['discount']);
 		if(is_string($orderData))
 		{

@@ -260,17 +260,54 @@ class statistics
 		return isset($dataRow['sale']) ? intval($dataRow['sale']) : 0;
 	}
 
+    /**
+     * @brief 商户的评分
+     * @param int $seller_id 商家ID
+     * @return int
+     */
+    public static function gradeSeller($seller_id)
+    {
+        $sellerDB = new IModel('seller');
+        $dataRow = $sellerDB->getObj("id = {$seller_id}",'(grade/comments) as num');
+        return isset($dataRow['num']) ? round($dataRow['num']) : 0;
+    }
+
 	/**
-	 * @brief 商户的评分
-	 * @param int $seller_id 商家ID
+	 * @brief 装修公司的评分
+	 * @param int $user_id 装修公司ID
 	 * @return int
 	 */
-	public static function gradeSeller($seller_id)
+	public static function gradeCompany($user_id)
 	{
-		$sellerDB = new IModel('seller');
-		$dataRow = $sellerDB->getObj("id = {$seller_id}",'(grade/comments) as num');
+		$companyDB = new IModel('company');
+		$dataRow = $companyDB->getObj("user_id = {$user_id}",'(grade/comments) as num');
 		return isset($dataRow['num']) ? round($dataRow['num']) : 0;
 	}
+
+    /**
+     * @brief 装修公司案例数量
+     * @param int $user_id 装修公司ID
+     * @return int
+     */
+    public static function caseCount($user_id)
+    {
+        $caseDB = new IModel('case');
+        $dataRow = $caseDB->getObj("user_id = {$user_id}",'count(id) as num');
+        return isset($dataRow['num']) ? intval($dataRow['num']) : 0;     
+    }
+
+    /**
+     * @brief 装修公司设计师数量
+     * @param int $user_id 装修公司ID
+     * @return int
+     */
+    public static function designerCount($user_id)
+    {
+        /*$designerDB = new IModel('designer');
+        $dataRow = $designerDB->getObj("user_id = {$user_id}",'count(id) as num');
+        return isset($dataRow['num']) ? intval($dataRow['num']) : 0;*/
+        return 1;
+    }
 
 	/**
 	 * @brief 统计用户待评论数据

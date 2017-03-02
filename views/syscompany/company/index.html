@@ -1,0 +1,16 @@
+{js:chart}
+<article class="module width_full">
+	<header><h3>概要信息</h3></header>
+	<div class="module_content">
+		<table class="tablesorter" cellspacing="0">
+			<thead></thead>
+			<tbody>
+				<tr>
+					<td>装修案例数量：<a href="{url:/company/case_list}">{echo:statistics::caseCount($this->company['user_id'])} 件</a></td>
+					<td>设计师数量：<a href="{url:/company/designer_list}">{echo:statistics::designerCount($this->company['user_id'])} 人</a></td>
+					<!--<td>信用评分：{echo:statistics::gradeCompany($this->company['user_id'])} 分</td>-->
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</article>

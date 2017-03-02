@@ -802,14 +802,22 @@ class Ucenter extends IController implements userAuthorization
     function info()
     {
         $user_id = $this->user['user_id'];
+        $type = $this->user['type'];
 
         $userObj       = new IModel('user');
         $where         = 'id = '.$user_id;
         $this->userRow = $userObj->getObj($where);
 
-        $memberObj       = new IModel('member');
+        if($type == 1 || $type == 4)
+        {
+            $model = new IModel('member');
+        }
+        elseif($type == 2)
+        {
+            $model = new IModel('company');
+        }
         $where           = 'user_id = '.$user_id;
-        $this->memberRow = $memberObj->getObj($where);
+        $this->dataRow = $model->getObj($where);
         $this->redirect('info');
     }
 
@@ -832,13 +840,10 @@ class Ucenter extends IController implements userAuthorization
     function info_edit_act()
     {
         $email     = IFilter::act( IReq::get('email'),'string');
-        $mobile    = IFilter::act( IReq::get('mobile'),'string');
-		$desc_info = IFilter::act( IReq::get('desc_info'),'string');
+        $mobile    = IFilter::act( IReq::get('mobile'),'string'); 
 
-    	$user_id   = $this->user['user_id'];
-    	$memberObj = new IModel('member');
-        $userObj = new IModel('user');
-    	$where     = 'user_id = '.$user_id;
+    	$user_id   = $this->user['user_id'];  
+        $userObj = new IModel('user'); 
         if($email)
         {
             $userRow = $userObj->getObj('id != '.$user_id.' and email = "'.$email.'"');
@@ -856,46 +861,90 @@ class Ucenter extends IController implements userAuthorization
                 IError::show('手机已经被注册');
             }
         }
-
-    	//地区
-    	$province = IFilter::act( IReq::get('province','post') ,'string');
-    	$city     = IFilter::act( IReq::get('city','post') ,'string' );
-    	$area     = IFilter::act( IReq::get('area','post') ,'string' );
-    	$areaArr  = array_filter(array($province,$city,$area));
-
-    	$dataArray       = array(
-    		'true_name'    => IFilter::act( IReq::get('true_name') ,'string'),
-    		'sex'          => IFilter::act( IReq::get('sex'),'int' ),
-    		'birthday'     => IFilter::act( IReq::get('birthday') ),
-    		'zip'          => IFilter::act( IReq::get('zip') ,'string' ),
-    		'qq'           => IFilter::act( IReq::get('qq') , 'string' ),
-    		'contact_addr' => IFilter::act( IReq::get('contact_addr'), 'string'),
-    		'telephone'    => IFilter::act( IReq::get('telephone'),'string'),
-    		'area'         => $areaArr ? ",".join(",",$areaArr)."," : "",
-            'desc_info'    => $desc_info
-    	);
         if(IClient::getDevice() == IClient::PC)
         {
             $data['email'] = $email;
             $data['mobile'] = $mobile;
             $userObj->setData($data);
             $userObj->update('id = '.$user_id);
-        }
-
-    	$memberObj->setData($dataArray);
-    	$memberObj->update($where);
+        }         
+        $type = $this->user['type'];
+        if($type == 1 || $type == 4)
+        {
+            $memberObj = new IModel('member');
+            
+    	    //地区
+    	    $province = IFilter::act( IReq::get('province','post') ,'string');
+    	    $city     = IFilter::act( IReq::get('city','post') ,'string' );
+    	    $area     = IFilter::act( IReq::get('area','post') ,'string' );
+    	    $areaArr  = array_filter(array($province,$city,$area));     
+    	    $dataArray       = array(
+    		    'true_name'    => IFilter::act( IReq::get('true_name') ,'string'),
+    		    'sex'          => IFilter::act( IReq::get('sex'),'int' ),
+    		    'birthday'     => IFilter::act( IReq::get('birthday') ),
+    		    'zip'          => IFilter::act( IReq::get('zip') ,'string' ),
+    		    'qq'           => IFilter::act( IReq::get('qq') , 'string' ),
+    		    'contact_addr' => IFilter::act( IReq::get('contact_addr'), 'string'),
+    		    'telephone'    => IFilter::act( IReq::get('telephone'),'string'),
+    		    'area'         => $areaArr ? ",".join(",",$areaArr)."," : "",
+                'desc_info'    => IFilter::act( IReq::get('desc_info'),'string')
+    	    );
+            $memberObj->setData($dataArray);
+            $memberObj->update('user_id = '.$user_id);
+            if($type == 4)
+            {
+                $sellerId = $userObj->getObj('id = '.$user_id, 'relate_id');
+                $sellerDB = new IModel('seller');
+                $sellerRow = array(
+                        'true_name'    => IFilter::act( IReq::get('true_name') ,'string'),
+                        'address' => IFilter::act( IReq::get('contact_addr'), 'string'),
+                        'phone'    => IFilter::act( IReq::get('telephone'),'string'),
+                        'province' => $province,
+                        'city' => $city,
+                        'area' => $area,
+                    );
+                if(IClient::getDevice() == IClient::PC)
+                {
+                    $sellerRow['email'] = $email;
+                    $sellerRow['mobile'] = $mobile;
+                }
+                $sellerDB->setData($sellerRow);
+                $sellerDB->update('id = '.$sellerId['relate_id']);
+            }
+        }    
+        elseif($type == 2)
+        {
+            $companyObj = new IModel('company');
+            $dataArray = array(
+                'contacts_name' => IFilter::act(IReq::get('contacts_name')),  
+                'phone' => IFilter::act(IReq::get('phone')),
+                'province' => IFilter::act(IReq::get('province'),'int'),
+                'city' => IFilter::act(IReq::get('city'),'int'),
+                'area' => IFilter::act(IReq::get('area'),'int'),     
+                'address' => IFilter::act(IReq::get('address'))
+            );
+            $companyObj->setData($dataArray);
+            $companyObj->update('user_id = '.$user_id);
+        }                                           
     	$this->info();
     }
 
     //[账户余额] 展示[单页]
     function withdraw()
     {
-    	$user_id   = $this->user['user_id'];
+        if($this->user['type'] == 1)
+        {
+    	    $user_id   = $this->user['user_id'];
 
-    	$memberObj = new IModel('member','balance');
-    	$where     = 'user_id = '.$user_id;
-    	$this->memberRow = $memberObj->getObj($where);
-    	$this->redirect('withdraw');
+    	    $memberObj = new IModel('member','balance');
+    	    $where     = 'user_id = '.$user_id;
+    	    $this->memberRow = $memberObj->getObj($where);
+    	    $this->redirect('withdraw');
+        }
+        else
+        {
+            $this->account_log();
+        }
     }
 
 	//[账户余额] 提现动作
@@ -1024,12 +1073,31 @@ class Ucenter extends IController implements userAuthorization
     //[余额交易记录]
     function account_log()
     {
-    	$user_id   = $this->user['user_id'];
+        $user_id   = $this->user['user_id'];
+        $type   = $this->user['type'];
+        if($type == 1 || $type == 4)
+        {
+            $model = new IModel('member');                  
+        }
+        elseif($type == 2)
+        {
+            $model = new IModel('company');
+        }
+        $where     = 'user_id = '.$user_id;
+        $this->data = $model->getObj($where, 'balance'); 
+        $this->redirect('account_log');
+    }
 
-    	$memberObj = new IModel('member');
-    	$where     = 'user_id = '.$user_id;
-    	$this->memberRow = $memberObj->getObj($where, 'balance');
-    	$this->redirect('account_log');
+    //在线充值
+    function online_recharge()
+    {                                        
+    	$type   = $this->user['type'];
+        if($type != 1)
+        {
+            $this->account_log();                  
+        }  
+         
+    	$this->redirect('online_recharge');
     }
 
     //[收藏夹]备注信息
@@ -1416,7 +1484,7 @@ class Ucenter extends IController implements userAuthorization
             }
         }
         $email_code = rand(100000,999999);
-        ISafe::set('emailValidate',array('code'=>$email_code,'email'=>$_email,'time'=>time()));
+        ISafe::set('emailValidate'.$this->user['type'],array('code'=>$email_code,'email'=>$_email,'time'=>time()));
         $content = mailTemplate::changeEmail(array("{email_code}" => $email_code));
 
         $smtp   = new SendMail();
@@ -1441,7 +1509,7 @@ class Ucenter extends IController implements userAuthorization
         $user_id = $this->user['user_id'];
         $user = new IModel('user');
         $email = $user->getObj('id = '.$user_id, 'email');
-        $checkRes = ISafe::get('emailValidate');
+        $checkRes = ISafe::get('emailValidate'.$this->user['type']);
         if($checkRes && $email['email']==$checkRes['email'] &&time()- $checkRes['time']<1800 && $code == $checkRes['code']){
             $this->redirect('changeEmail1');
         }else{
@@ -1464,12 +1532,16 @@ class Ucenter extends IController implements userAuthorization
         if(!$code){
             IError::show(403,"请填写验证码");
         }
-        $checkRes = ISafe::get('emailValidate');
+        $checkRes = ISafe::get('emailValidate'.$this->user['type']);
         if($checkRes && $newEmail==$checkRes['email'] &&time()- $checkRes['time']<1800 && $code == $checkRes['code']){
                 $user_id = $this->user['user_id'];
                 $where         = 'id = '.$user_id;
                 $user->setData(array('email'=>$newEmail));
                 if($user->update($where)){
+                    if(IValidate::email(ISafe::get('username', 'session')))
+                    {
+                        ISafe::set('username', $newEmail, 'session');
+                    }
                     ISafe::set('email',$newEmail);
                     $this->redirect('changeEmail2');
                 }else{
@@ -1509,7 +1581,7 @@ class Ucenter extends IController implements userAuthorization
     {
         $_mobile = IFilter::act(IReq::get('phone'));
         $captcha = IFilter::act(IReq::get('captcha'));
-        $_safeName = IReq::get('name') ? IReq::get('name') : 'phoneValidate';
+        $_safeName = IReq::get('name') ? IReq::get('name') : 'phoneValidate'.$this->user['type'];
         $_captcha = ISafe::get('captcha');
         $user = new IModel('user');
         if(!$_mobile)
@@ -1561,7 +1633,7 @@ class Ucenter extends IController implements userAuthorization
         $user_id = $this->user['user_id'];
         $user = new IModel('user');
         $mobile = $user->getObj('id = '.$user_id, 'mobile');
-        $checkRes = ISafe::get('phoneValidate');
+        $checkRes = ISafe::get('phoneValidate'.$this->user['type']);
         if($checkRes && $mobile['mobile']==$checkRes['mobile'] &&time()- $checkRes['time']<1800 && $code == $checkRes['code']){
             $this->redirect('changePhone1');
         }else{
@@ -1584,12 +1656,16 @@ class Ucenter extends IController implements userAuthorization
         if(!$code){
             IError::show(403,"请填写验证码");
         }
-        $checkRes = ISafe::get('phoneValidate');
+        $checkRes = ISafe::get('phoneValidate'.$this->user['type']);
         if($checkRes && $newPhone==$checkRes['mobile'] &&time()- $checkRes['time']<1800 && $code == $checkRes['code']){
                 $user_id = $this->user['user_id'];
                 $where         = 'id = '.$user_id;
                 $user->setData(array('mobile'=>$newPhone));
                 if($user->update($where)){
+                    if(IValidate::mobi(ISafe::get('username', 'session')))
+                    {
+                        ISafe::set('username', $newPhone, 'session');
+                    }
                     ISafe::set('phone',$newPhone);
                     $this->redirect('changePhone2');
                 }else{
@@ -1604,9 +1680,17 @@ class Ucenter extends IController implements userAuthorization
     public function payPass_edit()
     {
         $user_id = $this->user['user_id'];
-        $memberObj       = new IModel('member');
-        $where           = 'user_id = '.$user_id;
-        $pay_pass = $memberObj->getObj($where, 'pay_password');
+        $type = $this->user['type'];
+        if($type == 1 || $type == 4)
+        {
+            $model = new IModel('member');
+        }
+        elseif($type == 2)
+        {
+            $model = new IModel('company');
+        }
+        $where = 'user_id = '.$user_id;
+        $pay_pass = $model->getObj($where, 'pay_password');
         $this->pay_pass = $pay_pass['pay_password'];
         $this->redirect('payPass_edit');
     }
@@ -1615,9 +1699,17 @@ class Ucenter extends IController implements userAuthorization
     public function payPass_update()
     {
         $user_id = $this->user['user_id'];
-        $memberObj       = new IModel('member');
-        $where           = 'user_id = '.$user_id;
-        $pay_pass = $memberObj->getObj($where, 'pay_password');
+        $type = $this->user['type'];
+        if($type == 1 || $type == 4)
+        {
+            $model = new IModel('member');
+        }
+        elseif($type == 2)
+        {
+            $model = new IModel('company');
+        }
+        $where = 'user_id = '.$user_id;
+        $pay_pass = $model->getObj($where, 'pay_password');
         $this->pay_pass = $pay_pass['pay_password'];
         $fpassword = IReq::get('fpassword');
         $password = IReq::get('password');
@@ -1641,8 +1733,8 @@ class Ucenter extends IController implements userAuthorization
                 'pay_password' => $passwordMd5,
             );
 
-            $memberObj->setData($dataArray);
-            $result  = $memberObj->update($where);
+            $model->setData($dataArray);
+            $result  = $model->update($where);
             if($result)
             {
                 $message = '支付密码设置成功';
@@ -1671,7 +1763,7 @@ class Ucenter extends IController implements userAuthorization
         $user_id = $this->user['user_id'];
         $user = new IModel('user');
         $mobile = $user->getObj('id = '.$user_id, 'mobile');
-        $checkRes = ISafe::get('findPassPhoneValidate');
+        $checkRes = ISafe::get('findPassPhoneValidate'.$this->user['type']);
         if($checkRes && $mobile['mobile']==$checkRes['mobile'] &&time()- $checkRes['time']<1800 && $code == $checkRes['code']){
             $this->code = $code;
             $this->redirect('findPayPass2');
@@ -1684,14 +1776,22 @@ class Ucenter extends IController implements userAuthorization
     public function findPayPassUpdate()
     {
         $user_id = $this->user['user_id'];
-        $memberObj       = new IModel('member');
-        $where           = 'user_id = '.$user_id;
+        $type = $this->user['type'];
+        if($type == 1 || $type == 4)
+        {
+            $model = new IModel('member');
+        }
+        elseif($type == 2)
+        {
+            $model = new IModel('company');
+        }
+        $where = 'user_id = '.$user_id;
         $userObj = new IModel('user');
         $mobile = $userObj->getObj('id = '.$user_id, 'mobile');
         $password = IReq::get('password');
         $repassword = IReq::get('repassword');
         $code = IReq::get('code');
-        $checkRes = ISafe::get('findPassPhoneValidate');
+        $checkRes = ISafe::get('findPassPhoneValidate'.$type);
         if(!$checkRes || $mobile['mobile']!=$checkRes['mobile'] || time()- $checkRes['time']>=1800 || $code != $checkRes['code']){
             $message = '验证错误或手机验证码已过期';
         }
@@ -1710,8 +1810,8 @@ class Ucenter extends IController implements userAuthorization
                 'pay_password' => $passwordMd5,
             );
 
-            $memberObj->setData($dataArray);
-            $result  = $memberObj->update($where);
+            $model->setData($dataArray);
+            $result  = $model->update($where);
             if($result)
             {
                 $res = 1;

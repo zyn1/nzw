@@ -1000,7 +1000,7 @@ class Market extends IController implements adminAuthorization
 			//获取订单数据
 			$db        = new IQuery('order_goods as og');
 			$db->join  = "left join goods as go on go.id = og.goods_id left join products as p on p.id = og.product_id ";
-			$db->fields= "og.*,go.cost_price as go_cost,p.cost_price as p_cost";
+			$db->fields= "og.*,go.cost_price as go_cost,p.cost_price as p_cost,go.channel_price as go_channel,p.channel_price as p_channel";
 			$db->order = "og.order_id asc";
 			foreach($ids as $ctime => $idArray)
 			{
@@ -1264,5 +1264,65 @@ class Market extends IController implements adminAuthorization
         $fapiaoDB->setData(array('status' => 1));
         $fapiaoDB->update('id = '.$id);
         $this->redirect('bill_fapiao_list');
+    }
+    
+    //分红账单列表
+    public function bonus_bill_list()
+    {   
+        $siteConfigObj = new Config("site_config");
+        $site_config   = $siteConfigObj->getInfo();
+        $bonus_bill_date = isset($site_config['bonus_bill_date']) ? $site_config['bonus_bill_date'] : 5;
+        $model = new IModel('bonus_bill');
+        if(ITime::getDateTime('d') >= $bonus_bill_date)
+        {                         
+            $start_time=date('Y-m-01', strtotime('-1 month'));
+            $end_time=date('Y-m-t', strtotime('-1 month'));       
+            $create_time = ITime::getDateTime('Y-m-'.sprintf("%02d", $bonus_bill_date));  
+            if(!$model->getObj('create_time = "'.$create_time.'"', 'id'))
+            {
+                $where  = "o.status in (5,6,7) and o.pay_type != 0 and o.pay_status = 1 and o.distribution_status in (1,2)";
+                $where .= $start_time         ? " and o.create_time >= '{$start_time}' " : "";
+                //可以结算所选结束日期当天完成的订单
+                $where .= $end_time           ? " and o.create_time <= '{$end_time} 23:59:59' "   : "";
+
+                $orderGoodsDB = new IQuery('order_extend as od');
+                $orderGoodsDB->join = 'left join order as o on o.id = od.order_id';
+                $orderGoodsDB->fields = 'sum(od.bonus_amount) as amount'; 
+                $orderGoodsDB->where = $where;
+                $amount = $orderGoodsDB->find();
+                if($amount[0]['amount'] > 0)
+                {
+                    $data = array(
+                                'create_time' => $create_time,
+                                'start_time' => $start_time,
+                                'end_time' => $end_time,
+                                'amount' => $amount[0]['amount']
+                            );
+                    $model->setData($data);
+                    $model->add();
+                }
+            }
+        }              
+        $this->redirect('bonus_bill_list');
+    }
+    
+    //分红账单详情
+    public function bonus_bill_show()
+    {
+        $id = IReq::get('id');
+        if(!$id)
+        {
+            IError::show('参数错误！',403);
+        }
+        $model = new IModel('bonus_bill');
+        if($row = $model->getObj('id = '.$id))
+        {
+            $this->setRenderData($row);
+        }
+        else
+        {
+            IError::show('参数错误！',403);
+        }
+        $this->redirect('bonus_bill_show');
     }
 }

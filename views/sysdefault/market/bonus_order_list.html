@@ -1,0 +1,74 @@
+{js:my97date}
+{set:$start = IReq::get('start') ? IFilter::act(IReq::get('start')) : '';$end = IReq::get('end') ? IFilter::act(IReq::get('end')) : '';}
+
+<div class="headbar">
+	<div class="position"><span>统计</span><span>></span><span>分红数据统计</span></div>
+	<div class="operating">
+		<div class="search f_l">
+			<form name="searchOrderGoods" action="{url:/}" method="get">
+				<input type='hidden' name='controller' value='market' />
+				<input type='hidden' name='action' value='bonus_order_list' />
+				从 <input type="text" name='start' value='{$start}' class="Wdate" pattern='date' alt='' onFocus="WdatePicker()" empty/> 到 <input type="text" name='end' value='{$end}' empty pattern='date' class="Wdate" onFocus="WdatePicker()" />
+				<button class="btn" type="submit"><span class="sch">搜 索</span></button>
+			</form>
+		</div>
+	</div>
+</div>
+<div class="content">
+	<table class="list_table">
+		<colgroup>
+			<col width="140px" />
+			<col width="120px" />
+			<col width="130px" />
+			<col width="120px" />
+			<col width="120px" />
+			<col width="120px" />
+			<col width="80px" />
+			<col width="80px" />
+		</colgroup>
+
+		<thead>
+			<tr>
+				<th>订单号</th>
+                <th>商户</th>
+				<th>买方</th>
+				<th>下单时间</th>
+                <th>确认收货时间</th>
+				<th>订单金额</th>
+				<th>分红金额</th>
+				<th>操作</th>
+			</tr>
+		</thead>
+
+		<tbody>
+			{set:$where = ''}
+            {if:$start !== ""}{set:$where .= " and create_time >= '".$start."'"}{/if}
+            {if:$end !== ""}{set:$where .= " and create_time <= '".$end." 23:59:59'"}{/if}
+
+			{set:
+				$page = (isset($_GET['page'])&&(intval($_GET['page'])>0))?intval($_GET['page']):1;
+				$orderGoodsQuery = CountSum::getSellerGoodsBonusQuery();
+				$orderGoodsQuery->page  = $page;
+				$orderGoodsQuery->where = $orderGoodsQuery->getWhere().$where;
+                
+			}
+			{foreach:items  = $orderGoodsQuery->find()}
+			<tr>
+				<td>{$item['order_no']}</td>
+				<td>{query:name=seller where=id eq $item[seller_id] item=$sellerRow}{$sellerRow['true_name']}{/query}</td>
+                <td>{query:name=user where=id eq $item[user_id] fields=username,type item=$userRow}{$userRow['username']}({if:$userRow['type'] == 1}签约业主{elseif:$userRow['type'] == 2}装修公司{elseif:$userRow['type'] == 3}设计师{else:}运营中心{/if}){/query}</td>
+                <td>{$item['create_time']}</td>
+				<td>{$item['completion_time']}</td>
+				<td>￥{$item['order_amount']}</td>
+				<td>￥{$item['bonus_amount']}</td>
+				<td>
+					<a href="{url:/order/order_show/id/$item[order_id]/_tem/1}">
+						<img class="operator" src="{skin:images/admin/icon_check.gif}" alt="查看" title="查看" />
+					</a>
+				</td>
+			</tr>
+			{/foreach}
+		</tbody>
+	</table>
+</div>
+{$orderGoodsQuery->getPageBar()}
