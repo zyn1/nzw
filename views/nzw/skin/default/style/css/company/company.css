@@ -363,8 +363,8 @@ body{
 }
 .case_content .case_ul2 li a .design_img .design_bag{
 	position: absolute;
-	top:0px;
-	left: 0px;
+	top:20px;
+	left: 20px;
 	width: 131px;
 	height: 131px;
 	border-radius: 50%;
@@ -375,8 +375,8 @@ body{
 }
 .case_ul2 li a .design_img .design_num {
 	position: absolute;
-	top: 36px;
-	left: 0px;
+	top: 56px;
+	left: 20px;
 	width: 131px;
 	border-radius: 50%;
 	-moz-border-radius: 50%;
