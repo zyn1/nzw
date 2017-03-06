@@ -1327,15 +1327,23 @@ class Ucenter extends IController implements userAuthorization
 			IError::show(403,'数据校验不正确');
 		}
 
-    	$memberObj = new IModel('member');
-    	$memberRow = $memberObj->getObj('user_id = '.$user_id,'user_id,balance');
+        $user_type = $this->user['type'];
+        if($type == 1 || $type == 4)
+        {
+            $model = new IModel('member');
+        }
+    	elseif($type == 2)
+        {
+            $model = new IModel('company');
+        }
+    	$userRow = $model->getObj('user_id = '.$user_id,'user_id,balance');
 
-    	if(empty($memberRow))
+    	if(empty($userRow))
     	{
     		IError::show(403,'用户信息不存在');
     	}
 
-    	if($memberRow['balance'] < $return['total_fee'])
+    	if($userRow['balance'] < $return['total_fee'])
     	{
     		IError::show(403,'账户余额不足');
     	}
