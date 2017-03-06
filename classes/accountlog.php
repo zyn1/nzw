@@ -96,9 +96,17 @@ class AccountLog
         }
 
         //对用户余额进行更新
-        $memberDB    = new IModel('member');
-        $memberDB->setData(array("balance" => $finnalAmount));
-        $isChBalance = $memberDB->update("user_id = ".$this->user['id']);
+        $user_type = $this->user['type'];
+        if($user_type == 1 || $user_type == 4)
+        {
+            $model    = new IModel('member');
+        }
+        elseif($user_type == 2)
+        {
+            $model    = new IModel('company');
+        }
+        $model->setData(array("balance" => $finnalAmount));
+        $isChBalance = $model->update("user_id = ".$this->user['id']);
         if(!$isChBalance)
         {
             $this->error = "用户余额数据更新失败";

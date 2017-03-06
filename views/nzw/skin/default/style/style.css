@@ -2469,8 +2469,8 @@ section.count_down{margin: 13px 5px;}
 .shop_main .goods_sort li.current:before { border-color: #fafafa transparent transparent transparent; }
 .shop_main .goods_sort li.current.asc:before { border-color: transparent transparent #fafafa transparent; }
 
-.shop_main .goods_list { width: 958px; overflow: hidden; background: #fff;    border: 1px solid #e4e4e4;border-top: none;}
-.shop_main .goods_list ul { width: 1000px; }
+.shop_main .goods_list { width: 960px; overflow: hidden; background: #fff; border: 0;   border-bottom: 1px solid #e4e4e4;border-top: none;}
+.shop_main .goods_list ul { width: 958px; border: 1px solid #e4e4e4;border-top: 0;}
 .shop_main .goods_list ul li { width: 926px; float: left; padding: 16px; margin: 0; border-bottom:1px solid #e4e4e4; position: relative;}
 .shop_main .goods_list ul li a {display: inline-block;border: 1px solid #ddd;text-decoration: none;position: relative;height: auto;padding: 10px;float: left;}
 .shop_main .goods_list ul li a:hover { border: 1px solid #ddd; }
