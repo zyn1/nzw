@@ -1328,11 +1328,11 @@ class Ucenter extends IController implements userAuthorization
 		}
 
         $user_type = $this->user['type'];
-        if($type == 1 || $type == 4)
+        if($user_type == 1 || $user_type == 4)
         {
             $model = new IModel('member');
         }
-    	elseif($type == 2)
+    	elseif($user_type == 2)
         {
             $model = new IModel('company');
         }
