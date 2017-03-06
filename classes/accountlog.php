@@ -208,8 +208,17 @@ class AccountLog
 	private function setUser($user_id)
 	{
 		$user_id = intval($user_id);
+        $userDB = new IModel('user');
+        $user_type = $userDB->getObj('id = '.$user_id, 'type');
 		$query = new IQuery("user AS u");
-		$query->join = "left join member AS m ON u.id = m.user_id";
+        if($user_type['type'] == 1 || $user_type['type'] == 4)
+        {
+            $query->join = "left join member AS m ON u.id = m.user_id";
+        }
+		elseif($user_type['type'] == 2)
+        {
+            $query->join = "left join company AS c ON u.id = c.user_id";
+        }
 		$query->where = "u.id = {$user_id} ";
 
 		$user = $query->find();
