@@ -303,10 +303,9 @@ class statistics
      */
     public static function designerCount($user_id)
     {
-        /*$designerDB = new IModel('designer');
+        $designerDB = new IModel('designer');
         $dataRow = $designerDB->getObj("user_id = {$user_id}",'count(id) as num');
-        return isset($dataRow['num']) ? intval($dataRow['num']) : 0;*/
-        return 1;
+        return isset($dataRow['num']) ? intval($dataRow['num']) : 0;
     }
 
 	/**
