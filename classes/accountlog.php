@@ -96,9 +96,17 @@ class AccountLog
         }
 
         //对用户余额进行更新
-        $memberDB    = new IModel('member');
-        $memberDB->setData(array("balance" => $finnalAmount));
-        $isChBalance = $memberDB->update("user_id = ".$this->user['id']);
+        $user_type = $this->user['type'];
+        if($user_type == 1 || $user_type == 4)
+        {
+            $model    = new IModel('member');
+        }
+        elseif($user_type == 2)
+        {
+            $model    = new IModel('company');
+        }
+        $model->setData(array("balance" => $finnalAmount));
+        $isChBalance = $model->update("user_id = ".$this->user['id']);
         if(!$isChBalance)
         {
             $this->error = "用户余额数据更新失败";
@@ -208,8 +216,17 @@ class AccountLog
 	private function setUser($user_id)
 	{
 		$user_id = intval($user_id);
+        $userDB = new IModel('user');
+        $user_type = $userDB->getObj('id = '.$user_id, 'type');
 		$query = new IQuery("user AS u");
-		$query->join = "left join member AS m ON u.id = m.user_id";
+        if($user_type['type'] == 1 || $user_type['type'] == 4)
+        {
+            $query->join = "left join member AS m ON u.id = m.user_id";
+        }
+		elseif($user_type['type'] == 2)
+        {
+            $query->join = "left join company AS c ON u.id = c.user_id";
+        }
 		$query->where = "u.id = {$user_id} ";
 
 		$user = $query->find();

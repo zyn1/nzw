@@ -757,7 +757,7 @@ class Block extends IController
         {
             $model  = new IModel('member');    
         }
-        elseif($user_type == 4)
+        elseif($user_type == 2)
         {
             $model = new IModel('company');
         }        
@@ -776,7 +776,7 @@ class Block extends IController
         {
             $model  = new IModel('member');    
         }
-        elseif($user_type == 4)
+        elseif($user_type == 2)
         {
             $model = new IModel('company');
         }                                        

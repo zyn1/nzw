@@ -347,6 +347,7 @@ body{
 	border-radius: 50%;
 	-moz-border-radius: 50%; 
 	-webkit-border-radius: 50%; 
+	padding:0px;
 }
 .case_content .case_ul2 li a .design_img img{
 	width: 131px;
