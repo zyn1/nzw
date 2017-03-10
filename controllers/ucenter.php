@@ -435,7 +435,7 @@ class Ucenter extends IController implements userAuthorization
         {
             $message = "系统错误";
         }
-        $this->redirect($redirectUrl,false);
+        $this->redirect($redirectUrl);
         Util::showMessage($message);
     }
     /**
