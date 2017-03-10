@@ -1102,10 +1102,10 @@ class Member extends IController implements adminAuthorization
             {
                 $content = $is_lock == 1 ? '您在耐装网开通的装修公司未通过审核' : ($is_lock == 0 ? '您在耐装网开通的装修公司审核通过' : '');
             }
-            /*elseif($data['is_lock'] <> $is_lock)
+            elseif($data['is_lock'] <> $is_lock)
             {
                 $content = $is_lock == 1 ? '您在耐装网开通的装修公司被锁定' : '您在耐装网开通的装修公司已解锁';
-            }*/
+            }
             if($content)
             {
                 if($suggest)
