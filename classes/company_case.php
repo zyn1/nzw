@@ -1,6 +1,6 @@
 <?php
 /**                                  
- * @file company_sace.php
+ * @file company_case.php
  * @brief 装修公司管理
  * @author zyn
  * @date 2017-1-19 11:28:34

@@ -1,7 +1,7 @@
 <?php
 /**
  * @copyright (c) 2011 aircheng.com
- * @file article.php
+ * @file delivery.php
  * @brief 订单中配送方式的计算
  * @author relay
  * @date 2011-02-24
