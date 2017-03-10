@@ -129,7 +129,7 @@ a, a * { cursor: pointer; }
 	width: 500px;
 }
 textarea.invalid-text, input[type="text"].invalid-text, input[type="password"].invalid-text{margin-top: -1px;}
-.reg_content div{position: relative; height: 42px;line-height: 42px; width: 380px;border: 1px solid #dbdbdb;margin-bottom: 21px;}
+.reg_content div{position: relative; height: 42px;line-height: 42px; width: 380px;border: 1px solid #dbdbdb;margin-bottom: 25px;}
 .reg_content div input{text-indent: 1em; position: absolute;right: 0; height: 41px;line-height: 42px;border: 0 none; margin-top: 0px; width: 340px; border: none; vertical-align: middle;outline: none;box-shadow: none;}
 .reg_content div.setPass input{width: 207px;}
 .reg_content div input.first{width: 300px;}
@@ -211,3 +211,8 @@ textarea.invalid-text, input[type="text"].invalid-text, input[type="password"].i
 .tab_main .button .next_but{display: block;width: 100px;height: 40px;line-height: 40px;text-align: center;background: #6bb945;border: 0;color: #fff;margin-left: 40px;margin-top: 30px;}
 
 .indenti_cont h1{color: #666;line-height: 100px;font-weight: normal;}
+
+
+/*注册页下拉菜单样式*/
+.setAddress .input_select{padding:12px 5px;width:111px;}
+.setAddress .select_pro{width: 112px;}
