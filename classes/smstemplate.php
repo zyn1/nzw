@@ -80,13 +80,23 @@ class smsTemplate
 		return strtr($templateString,$data);
 	}
 
+    /**
+     * @brief 商户处理结果
+     * @param array $data 替换的数据
+     */
+    public static function sellerCheck($data = null)
+    {
+        $templateString = "您申请的加盟商状态已经被修改为:{result}状态,请登录您的商户后台查看具体的详情";
+        return strtr($templateString,$data);
+    }
+
 	/**
-	 * @brief 商户处理结果
+	 * @brief 装修公司处理结果
 	 * @param array $data 替换的数据
 	 */
-	public static function sellerCheck($data = null)
+	public static function companyCheck($data = null)
 	{
-		$templateString = "您申请的加盟商状态已经被修改为:{result}状态,请登录您的商户后台查看具体的详情";
+		$templateString = "您申请的装修公司状态已经被修改为:{result}状态，如有疑问请联系管理员";
 		return strtr($templateString,$data);
 	}
 

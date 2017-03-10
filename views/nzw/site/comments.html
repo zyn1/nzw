@@ -137,7 +137,7 @@
 		<div class="bar_box">
 			<h3 class="bar_box_head">促销活动</h3>
 			<ul class="bar_nav">
-				 {foreach:items=Api::run('getProrule',1)}
+				 {foreach:items=Api::run('getProrule',$this->goods['seller_id'])}
 				<li>{$item['info']}</li>
 				{/foreach} 
 			</ul>

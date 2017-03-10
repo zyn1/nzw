@@ -1197,7 +1197,7 @@ class Member extends IController implements adminAuthorization
         if(isset($userRow['mobile']) && $userRow['mobile'])
         {
             $result = $lock == 0 ? "正常" : "锁定";
-            $content = smsTemplate::sellerCheck(array('{result}' => $result));
+            $content = smsTemplate::companyCheck(array('{result}' => $result));
             $result = Hsms::send($userRow['mobile'],$content,0);
         }
     }
