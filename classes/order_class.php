@@ -1446,8 +1446,7 @@ class Order_Class
 	{
 		$orderGoodsDB= new IModel('order_goods');
 		$refundDB    = new IModel('refundment_doc');
-		$goodsDB     = new IModel('goods');
-		$memberDB    = new IModel('member');
+		$goodsDB     = new IModel('goods');  
 		$tb_order    = new IModel('order');
 
 		$where = 'id = '.$refundId;
@@ -1478,13 +1477,23 @@ class Order_Class
 		$user_id  = $refundsRow['user_id'];
         $orderRow = $tb_order->getObj('id = '.$order_id);
         
+        $userDB = new IModel('user');
+        $userRow = $userDB->getObj('id = '.$user_id);
+        if($userRow['type'] == 1 || $userRow['type'] == 4)
+        {
+            $model    = new IModel('member');
+        }
+        elseif($userRow['type'] == 2)
+        {
+             $model    = new IModel('company');
+        }
         if($orderRow['pay_type'] == 1 && $way == 'origin')
         {
             $way = 'balance';
         }
 
 		//获取用户信息
-		$memberObj = $memberDB->getObj('user_id = '.$user_id,'exp,point');
+		$memberObj = $model->getObj('user_id = '.$user_id,'exp,point');
 		if($way == 'balance' && !$memberObj)
 		{
 			return "退款到余额的用户不存在";
@@ -1594,8 +1603,8 @@ class Order_Class
 		if($memberObj)
 		{
 			$exp = $memberObj['exp'] - $orderRow['exp'];
-			$memberDB->setData(array('exp' => $exp   <= 0 ? 0 : $exp));
-			$memberDB->update('user_id = '.$user_id);
+			$model->setData(array('exp' => $exp   <= 0 ? 0 : $exp));
+			$model->update('user_id = '.$user_id);
 		}
 
 		//积分记录日志
