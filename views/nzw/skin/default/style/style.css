@@ -1891,6 +1891,7 @@ background-image: url("../image/icon_slides.png"); background-repeat: no-repeat;
 .artice_goods li a .div_img{
 	position: relative;
 }
+.artice_goods li a .div_img img{width: 220px;height: 220px;border:0;}
 .artice_goods li a .div_img .vip_icon{
 	position: absolute;
 	width: 16px;
