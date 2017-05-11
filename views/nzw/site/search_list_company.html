@@ -49,8 +49,8 @@
 				<div class="order_head">预约装修</div>
 				<form action="{url:/ucenter/yuyue}" method='post'>
 					<div style="padding:0 100px;">
-						<input type="text" placeholder="您的姓名" class="normal" name="name">
-						<input type="text" placeholder="电话号码" class="normal" name="phone">
+						<input type="text" placeholder="您的姓名" class="normal" name="name" id="name">
+						<input type="text" placeholder="电话号码" class="normal" name="phone" id="phone">
 						<div class="city">
 							<input type="button" class="city_select" value="省/市" id="city_select1">
 							<input type="hidden" name="type">
@@ -77,8 +77,8 @@
 								<li js_data="12">长治市</li>
 							</ul>
 						</div>
-						<input type="text" placeholder="房屋面积" class="normal" name="square"><span class="area">㎡</span>
-						<input type="submit" href class="need_publish" id="mask_close" value="免费发布">
+						<input type="text" placeholder="房屋面积" class="normal" name="square" id="square"><span class="area">㎡</span>
+						<input type="submit" name="submit" class="need_publish" id="mask_close" value="免费发布">
 					</div>
 				</form>
 			</div>
@@ -243,7 +243,36 @@
 					$("#order").fadeOut(300,"swing");
 					$("#mask").fadeOut(300,"swing");
 				})
+			
 
+			});
+
+			$(function(){
+				$(".need_publish").click(function() { 
+					$('.error').hide(); 
+					$(".button").click(function() { 
+					// 验证代码 
+
+					$('.error').hide(); 
+					var name = $("input#name").val(); 
+					if (name == "") { 
+					$("label#name_error").show(); 
+					$("input#name").focus(); 
+					return false; 
+					} 
+					var phone = $("input#phone").val(); 
+					if (phone == "") { 
+					$("label#phone_error").show(); 
+					$("input#phone").focus(); 
+					return false; 
+					}  
+					var square = $("input#square").val(); 
+					if (square == "") { 
+					$("label#square_error").show(); 
+					$("input#square").focus(); 
+					return false; 
+					} 
+				}); 
 			});
 		</script> 
         <div class="ad-pic">
