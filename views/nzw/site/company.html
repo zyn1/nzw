@@ -249,18 +249,17 @@
 				</div>
 			</div>
 <!-- 预约装修 end -->
-<!--<script type="text/javascript">
+<script type="text/javascript">
 $(function(){
 	// 预约装修点击弹窗
 				$(".nav_icon").click(function(){
-					$("#order").show();
-					$("#order").css("top","20%");
-					$("#mask").show();
-				});
-				$("#mask").click(function(){
-					$("#order").hide();
-					$("#mask").hide();
-				});
+					$("#order").fadeIn(300,"swing");
+					$("#mask").fadeIn(300,"swing");
+				})
+				$("#mask_close,#mask").click(function(){
+					$("#order").fadeOut(300,"swing");
+					$("#mask").fadeOut(300,"swing");
+				})
 
 	// 切换星星
 	$(".star_box .review_uls ").on('click', 'li', function(){
@@ -347,4 +346,4 @@ $(function(){
             return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
         };
     })();
-</script>-->
+</script>
